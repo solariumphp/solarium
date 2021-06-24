@@ -10,7 +10,7 @@ Please see the [docs](http://solarium.readthedocs.io/en/stable/) for a more deta
 
 ## Requirements
 
-Solarium 6.x only supports PHP 7.2 and up.
+Solarium 6.x only supports PHP 7.3 and up.
 
 It's highly recommended to have cURL enabled in your PHP environment. However if you don't have cURL available you can
 switch from using cURL (the default) to a pure PHP based HTTP client adapter which works for the essential stuff but
@@ -27,6 +27,31 @@ Example:
 ```
 composer require solarium/solarium
 ```
+
+### Pitfall when using PHP versions prior to PHP 8.0
+
+If you are using a PHP version prior to PHP 8.0 *and* a locale that uses a decimal separator that's different
+from a decimal point, float values are sent in a way that Solr doesn't understand. This is due to the string
+representation of floats in those PHP versions.
+
+You can work around this by setting the `'C'` locale before creating and sending requests to Solr. Don't forget
+to set it back to the original value if your application is locale-dependent.
+
+```php
+// make sure floats use "." as decimal separator
+$currentLocale = setlocale(LC_NUMERIC, 0);
+setlocale(LC_NUMERIC, 'C');
+
+/*
+ * Create and send the requests you want Solarium to send.
+ */
+
+// restore the locale
+setlocale(LC_NUMERIC, $currentLocale);
+```
+
+PHP 8.0 has made the float to string conversion locale-independent and will always use the `.` decimal separator.
+The workaround is no longer necessary with PHP versions ≥ 8.0.
 
 ### Pitfall when upgrading from 3.x or 4.x or 5.x
 
@@ -82,6 +107,9 @@ some special configuration.
 Have a look at `.github/workflows/run-tests.yml` to see how to start a well configured Solr docker container locally.
 If you just want to run the unit tests, just ensure that there's no other Solr server listening on the standard port
 8983 and the integration tests will be skipped.
+
+You can run the tests in a Windows environment. For all of them to pass, you must make sure to
+[checkout with `LF` line endings](https://docs.github.com/en/github/using-git/configuring-git-to-handle-line-endings).
 
 ## More information
 

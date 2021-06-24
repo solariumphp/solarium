@@ -5,7 +5,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [unreleased]
+## [6.1.3]
+### Added
+- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
+- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
+- Query a single term in a Managed Resource
+
+### Fixed
+- possible exception in Debug\Detail::__toString() when sub details are missing
+- HEAD requests could lead to timeouts with cURL adapter
+
+
+## [6.1.2]
+### Added
+- MoreLikeThis::setMaximumDocumentFrequency()
+- MoreLikeThis::setMaximumDocumentFrequencyPercentage()
+- getInterestingTerms() of MoreLikeThis Component results
+
+### Fixed
+- Debug\Detail return value types
+- Debug\Document return value types
+
+### Deprecated
+- Support for `mlt.match.include` and `mlt.match.offset` in MoreLikeThis Component (they only work in MLT queries)
+
+
+## [6.1.1]
+
+### Fixed
+- Set Client::VERSION to '6.1.1'. Release 6.1.0 accidentally declared itself as 6.0.4.
+
+
+## [6.1.0]
 ### Added
 - Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
@@ -18,14 +49,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
 - PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
 - PrefetchIterator::rewind() no longer results in duplicate documents when invoked mid-set
-- fixed incorrect median function
-- HEAD requests could lead to timeouts with cURL adapter
+- Fixed incorrect median function
+- Fix for maxScore being returned as "NaN" when group.query doesn't match any docs (SOLR-13839)
 
 ### Changed
 - Exception message for invalid/unavailable file in Extract query now contains filename
 - Helper::rangeQuery() detects point values without parameter to turn off escaping
 
 ### Removed
+- PHP 7.2 support
 
 
 ## [6.0.4]

@@ -24,6 +24,13 @@ Adapters support authentication. To use this set the authentication on the reque
 Setting a timeout for the HTTP request handling is the responsibility of the adapters. The two built-in adapters `CurlAdapter` and `HttpAdapter` are implementing `TimeoutAwareInterface` and expose a `setTimeout` method to give you control over the timeout value that is used.
 
 If you are using any other adapter like the built-in `Psr18Adapter` you need to take care of handling the timeouts yourself and configure the HTTP client properly that is used to perform the requests.
+See the [PSR-18 adapter](#psr-18-adapter) section below for an example that configures a custom timeout.
+
+### Reusing HTTP connections
+
+If your application does many Solr requests during a single PHP process, reusing an HTTP connection for multiple requests can significantly improve the performance.
+
+See the [PSR-18 adapter](#psr-18-adapter) section below for an example that leverages the [Symphony PSR-18 HTTP Client](https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17) to reuse HTTP connections.
 
 Endpoints
 ---------
@@ -108,6 +115,43 @@ htmlFooter();
 
 ```
 
+If your application does many Solr requests during a single PHP process, consider leveraging the [Symphony PSR-18 HTTP Client](https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17) to reuses HTTP connections, which can significantly improve performance.
+
+Below example registers such a PSR-18 Client with a timeout of 120 seconds.
+
+```sh
+composer require psr/http-client
+composer require nyholm/psr7
+composer require symfony/http-client
+```
+
+```php
+<?php
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Solarium\Core\Client\Adapter\Psr18Adapter;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\Psr18Client;
+
+$config = [ 'endpoint' => [
+    'localhost' => [
+        'host' => '127.0.0.1',
+        'port' => 8983,
+        'path' => '/',
+        'core' => 'techproducts',
+    ]
+]];
+
+$httpClient = new Psr18Client(HttpClient::create([ 'timeout' => 120 ]));
+$factory = new Psr17Factory();
+$adapter = new Psr18Adapter($httpClient, $factory, $factory);
+
+$client = new Client($adapter, new EventDispatcher, $config);
+```
+
+**Note:** If you don't reuse your created client instance, you might end up with many open HTTP connection handles, which can lead to **"too many open files"**.
+This can especially happen in unit testing setups that generally don't reuse variables across tests.
+A workaround is to increase the limit for open file handles e.g. via `ulimit -n 1000` (unix).
 
 Custom adapter
 ==============

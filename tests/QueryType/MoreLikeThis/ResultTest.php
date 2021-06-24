@@ -28,6 +28,7 @@ class ResultTest extends TestCase
 
         $result = new Result($query, $response);
         $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('interestingterms is none');
         $result->getInterestingTerms();
     }
 

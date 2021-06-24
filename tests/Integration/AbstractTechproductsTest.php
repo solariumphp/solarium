@@ -14,6 +14,7 @@ use Solarium\Component\Result\Terms\Result as TermsResult;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Exception\RuntimeException;
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
@@ -239,9 +240,28 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
 
+        // MA147LL/A was manufactured on 2005-10-12T08:00:00Z, F8V7067-APL-KIT on 2005-08-01T16:30:25Z
+        $select->setFields('id,manufacturedate_dt');
+        $select->addSort('manufacturedate_dt', $select::SORT_DESC);
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('manufacturedate_dt', '2005-01-01T00:00:00Z', '2005-12-31T23:59:59Z')
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'MA147LL/A',
+            'manufacturedate_dt' => '2005-10-12T08:00:00Z',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'F8V7067-APL-KIT',
+            'manufacturedate_dt' => '2005-08-01T16:30:25Z',
+        ], $iterator->current()->getFields());
+
         // VS1GB400C3 costs 74.99, SP2514N costs 92.0, 0579B002 costs 179.99
         $select->setFields('id,price');
-        $select->addSort('price', $select::SORT_ASC);
+        $select->clearSorts()->addSort('price', $select::SORT_ASC);
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, true])
         );
@@ -425,6 +445,7 @@ abstract class AbstractTechproductsTest extends TestCase
         /** @var ValueGroup $valueGroup */
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('A-DATA Technology Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         /** @var Document $doc */
@@ -434,6 +455,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('ASUS Computer Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -442,6 +464,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('Apache Software Foundation', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -450,6 +473,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('Canon Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -458,6 +482,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $groupIterator->next();
         $valueGroup = $groupIterator->current();
         $this->assertSame(2, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
         $this->assertSame('Corsair Microsystems Inc.', $valueGroup->getValue());
         $docIterator = $valueGroup->getIterator();
         $doc = $docIterator->current();
@@ -479,6 +504,8 @@ abstract class AbstractTechproductsTest extends TestCase
         /** @var QueryGroup $queryGroup */
         $queryGroup = $groupingComponentResult->getGroup('price:[0 TO 99.99]');
         $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertSame(1, $queryGroup->getNumFound());
+        $this->assertSame(0, $queryGroup->getStart());
         $this->assertCount(1, $queryGroup);
         $docIterator = $queryGroup->getIterator();
         $doc = $docIterator->current();
@@ -489,6 +516,8 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $queryGroup = $groupingComponentResult->getGroup('price:[100 TO *]');
         $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertSame(0, $queryGroup->getStart());
         $this->assertCount(3, $queryGroup);
         $docIterator = $queryGroup->getIterator();
         $doc = $docIterator->current();
@@ -508,6 +537,249 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => '0579B002',
             'price' => 179.99,
         ], $doc->getFields());
+    }
+
+    /**
+     * Test fix for maxScore being returned as "NaN" when group.query doesn't match any docs.
+     *
+     * Skipped for SolrCloud because maxScore is included in distributed search results even if score is not requested (SOLR-6612).
+     * This makes the test fail on SolrCloud for queries that don't fetch a score and thus aren't affected by SOLR-13839.
+     *
+     * @group skip_for_solr_cloud
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-13839
+     * @see https://issues.apache.org/jira/browse/SOLR-6612
+     */
+    public function testGroupingComponentFixForSolr13839()
+    {
+        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        /** @var GroupingTestQuery $select */
+        $select = self::$client->createQuery('grouping');
+        // without score in the fl parameter, result groups don't have a maxScore
+        $select->setFields('id');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            'cat:memory',
+            'cat:no-such-cat',
+        ]);
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var QueryGroup $queryGroup */
+        $queryGroup = $groupingComponentResult->getGroup('cat:memory');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:no-such-cat');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(0, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+
+        // with score in the fl parameter, result groups have a maxScore
+        $select->setFields('id,score');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            'cat:memory',
+            'cat:no-such-cat',
+        ]);
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:memory');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertNotNull($queryGroup->getMaximumScore());
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:no-such-cat');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(0, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+    }
+
+    public function testMoreLikeThisComponent()
+    {
+        $select = self::$client->createSelect();
+        $select->setQuery('apache');
+        $select->setSorts(['id' => SelectQuery::SORT_ASC]);
+
+        $moreLikeThis = $select->getMoreLikeThis();
+        $moreLikeThis->setFields('manu,cat');
+        $moreLikeThis->setMinimumDocumentFrequency(1);
+        $moreLikeThis->setMinimumTermFrequency(1);
+        $moreLikeThis->setInterestingTerms('details');
+
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+
+        $iterator = $result->getIterator();
+        $mlt = $result->getMoreLikeThis();
+
+        $document = $iterator->current();
+        $this->assertSame('SOLR1000', $document->id);
+        $mltResult = $mlt->getResult($document->id);
+        // actual max. score isn't consistent across Solr 7 and 8, server and cloud
+        // but it must always be a float
+        $this->assertIsFloat($mltResult->getMaximumScore());
+        $this->assertSame(1, $mltResult->getNumFound());
+        $mltDoc = $mltResult->getIterator()->current();
+        $this->assertSame('UTF8TEST', $mltDoc->id);
+
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('UTF8TEST', $document->id);
+        $mltResult = $mlt->getResult($document->id);
+        $this->assertIsFloat($mltResult->getMaximumScore());
+        $this->assertSame(1, $mltResult->getNumFound());
+        $mltDoc = $mltResult->getIterator()->current();
+        $this->assertSame('SOLR1000', $mltDoc->id);
+
+        // Solr 7 doesn't support mlt.interestingTerms for MoreLikeThisComponent
+        // Solr 8: "To use this parameter with the search component, the query cannot be distributed."
+        // https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
+            // with 'details', interesting terms are an associative array of terms and their boost values
+            $interestingTerms = $mlt->getInterestingTerm($document->id);
+            $this->assertSame('cat:search', key($interestingTerms));
+            $this->assertSame(1.0, current($interestingTerms));
+
+            $moreLikeThis->setInterestingTerms('list');
+            $result = self::$client->select($select);
+            $document = $result->getIterator()->current();
+            $mlt = $result->getMoreLikeThis();
+
+            // with 'list', interesting terms are a numeric array of strings
+            $interestingTerms = $mlt->getInterestingTerm($document->id);
+            $this->assertSame(0, key($interestingTerms));
+            $this->assertSame('cat:search', current($interestingTerms));
+
+            $moreLikeThis->setInterestingTerms('none');
+            $result = self::$client->select($select);
+            $document = $result->getIterator()->current();
+            $mlt = $result->getMoreLikeThis();
+
+            // with 'none', interesting terms aren't available for the MLT result
+            $this->expectException(UnexpectedValueException::class);
+            $this->expectExceptionMessage('interestingterms is none');
+            $mlt->getInterestingTerm($document->id);
+        }
+    }
+
+    /**
+     * There are a number of open issues that show MoreLikeThisHandler doesn't work as expected in SolrCloud mode.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-4414
+     * @see https://issues.apache.org/jira/browse/SOLR-5480
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testMoreLikeThisQuery()
+    {
+        $query = self::$client->createMoreLikethis();
+
+        // the document we query to get similar documents for
+        $query->setQuery('id:SP2514N');
+        $query->setMltFields('manu,cat');
+        $query->setMinimumDocumentFrequency(1);
+        $query->setMinimumTermFrequency(1);
+        $query->setInterestingTerms('details');
+        // ensures we can consistently test for boost=1.0
+        $query->setBoost(false);
+        $query->setMatchInclude(true);
+        $query->createFilterQuery('stock')->setQuery('inStock:true');
+
+        $resultset = self::$client->moreLikeThis($query);
+        $this->assertSame(7, $resultset->getNumFound());
+
+        $iterator = $resultset->getIterator();
+        $document = $iterator->current();
+        $this->assertSame('6H500F0', $document->id);
+
+        $matchDocument = $resultset->getMatch();
+        $this->assertSame('SP2514N', $matchDocument->id);
+
+        // with 'details', interesting terms are an associative array of terms and their boost values
+        $interestingTerms = $resultset->getInterestingTerms();
+        $this->assertSame('cat:electronics', key($interestingTerms));
+        $this->assertSame(1.0, current($interestingTerms));
+
+        $query->setInterestingTerms('list');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'list', interesting terms are a numeric array of strings
+        $interestingTerms = $resultset->getInterestingTerms();
+        $this->assertSame(0, key($interestingTerms));
+        $this->assertSame('electronics', current($interestingTerms));
+
+        $query->setInterestingTerms('none');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'none', interesting terms aren't available for the result set
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('interestingterms is none');
+        $resultset->getInterestingTerms();
+    }
+
+    /**
+     * There are a number of open issues that show MoreLikeThisHandler doesn't work as expected in SolrCloud mode.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-4414
+     * @see https://issues.apache.org/jira/browse/SOLR-5480
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testMoreLikeThisStream()
+    {
+        $query = self::$client->createMoreLikethis();
+
+        // the supplied text we want similar documents for
+        $text = <<<EOT
+            Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133
+            7200RPM, 8MB cache, IDE Ultra ATA-133, NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor
+            EOT;
+
+        $query->setQuery($text);
+        $query->setQueryStream(true);
+        $query->setMltFields('name,features');
+        $query->setMinimumDocumentFrequency(1);
+        $query->setMinimumTermFrequency(1);
+        $query->setInterestingTerms('details');
+        // ensures we can consistently test for boost=1.0
+        $query->setBoost(false);
+        $query->setMatchInclude(true);
+        $query->createFilterQuery('stock')->setQuery('inStock:true');
+
+        $resultset = self::$client->moreLikeThis($query);
+        $this->assertSame(3, $resultset->getNumFound());
+
+        $iterator = $resultset->getIterator();
+        $document = $iterator->current();
+        $this->assertSame('SP2514N', $document->id);
+
+        // there is no match document to return, even with matchinclude true
+        $this->assertNull($resultset->getMatch());
+
+        // with 'details', interesting terms are an associative array of terms and their boost values
+        $interestingTerms = $resultset->getInterestingTerms();
+        // which term comes first differs between Solr 7 and 8, but it must always be a string
+        $this->assertIsString(key($interestingTerms));
+        $this->assertSame(1.0, current($interestingTerms));
+
+        $query->setInterestingTerms('list');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'list', interesting terms are a numeric array of strings
+        $interestingTerms = $resultset->getInterestingTerms();
+        $this->assertSame(0, key($interestingTerms));
+        $this->assertIsString(current($interestingTerms));
+
+        $query->setInterestingTerms('none');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'none', interesting terms aren't available for the result set
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('interestingterms is none');
+        $resultset->getInterestingTerms();
     }
 
     public function testQueryElevation()
@@ -1968,9 +2240,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
-        $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
 
-        // now cleanup the document the have the initial index state
+        // now cleanup the document to have the initial index state
         $update = self::$client->createUpdate();
         $update->addDeleteQuery('cat:extract-test');
         $update->addCommit(true, true);
@@ -1993,8 +2265,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
 
         $response = self::$client->extract($query);
-        $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
-        $this->assertRegExp('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
     }
 
     public function testExtractOnlyXml()

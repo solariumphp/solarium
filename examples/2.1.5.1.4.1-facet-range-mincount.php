@@ -9,13 +9,21 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 // get a select query instance
 $query = $client->createSelect();
 
+// filter on documents that have a price field
+$query->createFilterQuery('price')->setQuery('price:*');
+
 // get the facetset component
 $facetSet = $query->getFacetSet();
 
-// create a facet interval instance and set options
-$facet = $facetSet->createFacetInterval('price');
+// create a facet range instance and set options
+$facet = $facetSet->createFacetRange('priceranges');
 $facet->setField('price');
-$facet->setSet(array('1-9' => '[1,10)', '10-49' => '[10,50)', '49>' => '[50,*)'));
+$facet->setStart(1);
+$facet->setGap(100);
+$facet->setEnd(1000);
+
+// only include ranges that have at least 1 document
+$facet->setMinCount(1);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -24,10 +32,10 @@ $resultset = $client->select($query);
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
-echo '<hr/>Facet intervals:<br/>';
-$facet = $resultset->getFacetSet()->getFacet('price');
-foreach ($facet as $interval => $count) {
-    echo $interval . ' [' . $count . ']<br/>';
+echo '<hr/>Facet ranges:<br/>';
+$facet = $resultset->getFacetSet()->getFacet('priceranges');
+foreach ($facet as $range => $count) {
+    echo $range . ' to ' . ($range + 100) . ' [' . $count . ']<br/>';
 }
 
 // show documents using the resultset iterator

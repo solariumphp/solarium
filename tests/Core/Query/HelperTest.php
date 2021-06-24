@@ -32,6 +32,11 @@ class HelperTest extends TestCase
             $this->helper->rangeQuery('field', 1, 2)
         );
 
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5)
+        );
+
         $this->assertSame(
             'store:[45,-94 TO 46,-93]',
             $this->helper->rangeQuery('store', '45,-94', '46,-93')
@@ -48,6 +53,11 @@ class HelperTest extends TestCase
         $this->assertEquals(
             'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2, true)
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, true)
         );
 
         $this->assertSame(
@@ -69,6 +79,11 @@ class HelperTest extends TestCase
         );
 
         $this->assertSame(
+            'field:{1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, false)
+        );
+
+        $this->assertSame(
             'store:{45,-94 TO 46,-93}',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', false)
         );
@@ -84,6 +99,11 @@ class HelperTest extends TestCase
         $this->assertEquals(
             'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2, [true, true])
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [true, true])
         );
 
         $this->assertSame(
@@ -104,6 +124,11 @@ class HelperTest extends TestCase
             $this->helper->rangeQuery('field', 1, 2, [true, false])
         );
 
+        $this->assertEquals(
+            'field:[1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [true, false])
+        );
+
         $this->assertSame(
             'store:[45,-94 TO 46,-93}',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', [true, false])
@@ -122,6 +147,11 @@ class HelperTest extends TestCase
             $this->helper->rangeQuery('field', 1, 2, [false, true])
         );
 
+        $this->assertEquals(
+            'field:{1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [false, true])
+        );
+
         $this->assertSame(
             'store:{45,-94 TO 46,-93]',
             $this->helper->rangeQuery('store', '45,-94', '46,-93', [false, true])
@@ -138,6 +168,11 @@ class HelperTest extends TestCase
         $this->assertEquals(
             'field:{1 TO 2}',
             $this->helper->rangeQuery('field', 1, 2, [false, false])
+        );
+
+        $this->assertEquals(
+            'field:{1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [false, false])
         );
 
         $this->assertSame(

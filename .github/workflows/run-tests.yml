@@ -14,7 +14,7 @@ jobs:
 
         strategy:
             matrix:
-                php: [7.2, 7.3, 7.4, 8.0]
+                php: [7.3, 7.4, 8.0]
                 solr: [7, 8]
                 mode: [cloud, server]
 
@@ -45,12 +45,12 @@ jobs:
                 ref: branch_7_7
                 path: lucene-solr
 
-            - name: Checkout solr 8.5
+            - name: Checkout solr 8.9
               if: matrix.solr == 8
               uses: actions/checkout@v2
               with:
                 repository: apache/lucene-solr
-                ref: branch_8_5
+                ref: branch_8_9
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode

@@ -482,10 +482,11 @@ authentication: Array
 resource: /myHandler?param1=1&param2=test+content
 resource urldecoded: /myHandler?param1=1&param2=test content
 raw data: post data
-EOF;
-        $request .= PHP_EOL.'file upload: '.__FILE__.PHP_EOL;
+file upload: %s
 
-        $this->assertSame($request, (string) $this->request);
+EOF;
+
+        $this->assertSame(sprintf($request, __FILE__), (string) $this->request);
     }
 
     public function testGetAndSetAuthentication()

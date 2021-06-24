@@ -9,6 +9,7 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
+use Solarium\Exception\InvalidArgumentException;
 
 class CurlTest extends TestCase
 {
@@ -19,7 +20,7 @@ class CurlTest extends TestCase
 
     public function setUp(): void
     {
-        if (!function_exists('curl_init')) {
+        if (!\function_exists('curl_init')) {
             $this->markTestSkipped('cURL not available, skipping cURL adapter tests.');
         }
 
@@ -78,8 +79,7 @@ class CurlTest extends TestCase
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
-        $curlAdapter = new Curl();
-        $handler = $curlAdapter->createHandle($request, $endpoint);
+        $handler = $this->adapter->createHandle($request, $endpoint);
 
         if (class_exists(\CurlHandle::class)) {
             $this->assertInstanceOf(\CurlHandle::class, $handler);
@@ -98,5 +98,19 @@ class CurlTest extends TestCase
             [Request::METHOD_DELETE],
             [Request::METHOD_PUT],
         ];
+    }
+
+    public function testCreateHandleWithUnknownMethod()
+    {
+        $request = new Request();
+        $request->setMethod('PSOT');
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('unsupported method: PSOT');
+        $handler = $this->adapter->createHandle($request, $endpoint);
+
+        curl_close($handler);
     }
 }
