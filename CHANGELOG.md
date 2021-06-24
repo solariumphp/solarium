@@ -41,9 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Indexing labelled nested child documents through pseudo-fields
 - Extract query now supports extractFormat
 - Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
-- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
-- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
-- Query a single term in a Managed Resource
 
 ### Fixed
 - PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
