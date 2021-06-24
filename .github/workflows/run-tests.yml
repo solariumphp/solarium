@@ -14,9 +14,9 @@ jobs:
 
         strategy:
             matrix:
-                php: [7.3, 7.4, 8.0]
-                solr: [7, 8]
-                mode: [cloud, server]
+                php: [7.3]
+                solr: [7]
+                mode: [cloud]
 
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
@@ -95,7 +95,7 @@ jobs:
                 ls -l PHP*/clover*.xml
 
             - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@master
+              uses: codecov/codecov-action@v1
               with:
                   files: PHP*/clover*.xml
                   flags: unittests
