@@ -16,7 +16,7 @@ jobs:
             matrix:
                 php: [7.3]
                 solr: [7]
-                mode: [cloud]
+                mode: [cloud, server]
 
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
