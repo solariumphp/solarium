@@ -1,3 +1,5 @@
 codecov:
-    fixes:
-        - "/home/runner/work/solarium/solarium::"
+    require_ci_to_pass: yes
+
+fixes:
+    - "/home/runner/work/solarium/solarium::"
