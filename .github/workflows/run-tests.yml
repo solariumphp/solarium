@@ -21,7 +21,7 @@ jobs:
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
         env:
-            PHP: ${{ matrix.os }}
+            PHP: ${{ matrix.php }}
             SOLR: ${{ matrix.solr }}${{ matrix.mode }}
             COMPOSER_MEMORY_LIMIT: -1
 
@@ -79,8 +79,9 @@ jobs:
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@master
               with:
-                file: build/logs/clover.xml
+                files: build/logs/clover.xml
                 flags: unittests
                 env_vars: PHP,SOLR
                 name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
                 fail_ci_if_error: false
+                verbose: true
