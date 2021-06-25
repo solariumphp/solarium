@@ -87,6 +87,9 @@ jobs:
         needs: [run-tests]
 
         steps:
+            - name: Checkout solarium
+              uses: actions/checkout@v2
+
             - name: Download coverage reports from tests
               uses: actions/download-artifact@v2
 
