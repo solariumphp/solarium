@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
+- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
+- Query a single term in a Managed Resource
 
 ### Fixed
+- HEAD requests could lead to timeouts with cURL adapter
 
 ### Changed
 
@@ -18,14 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [6.1.3]
-### Added
-- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
-- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
-- Query a single term in a Managed Resource
-
 ### Fixed
 - possible exception in Debug\Detail::__toString() when sub details are missing
-- HEAD requests could lead to timeouts with cURL adapter
 
 
 ## [6.1.2]
