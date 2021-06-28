@@ -192,10 +192,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     {
         $request->addParam(
             'facet.query',
-                $this->renderLocalParams(
-                    $facet->getQuery(),
-                    $facet->getLocalParameters()->getParameters()
-                )
+            $this->renderLocalParams(
+                $facet->getQuery(),
+                $facet->getLocalParameters()->getParameters()
+            )
         );
     }
 

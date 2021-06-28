@@ -42,8 +42,12 @@ class Resource extends AbstractRequestBuilder
             $request->addHeader('Content-Type: application/json; charset=utf-8');
             $this->buildCommand($request, $query->getCommand());
         } else {
-            // Lists all items.
+            // Lists one or all items.
             $request->setMethod(Request::METHOD_GET);
+
+            if (null !== $term = $query->getTerm()) {
+                $request->setHandler($request->getHandler().'/'.$term);
+            }
         }
 
         return $request;
@@ -53,6 +57,8 @@ class Resource extends AbstractRequestBuilder
      * @param \Solarium\Core\Client\Request                              $request
      * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
      *
+     * @throws \Solarium\Exception\RuntimeException
+     *
      * @return self
      */
     protected function buildCommand(Request $request, AbstractCommand $command): self
@@ -61,19 +67,33 @@ class Resource extends AbstractRequestBuilder
 
         switch ($command->getType()) {
             case BaseQuery::COMMAND_ADD:
-                $request->setRawData($command->getRawData());
+                if (null === $rawData = $command->getRawData()) {
+                    throw new RuntimeException('Missing data for ADD command.');
+                }
+                $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_CONFIG:
-                $request->setRawData($command->getRawData());
+                if (null === $rawData = $command->getRawData()) {
+                    throw new RuntimeException('Missing initArgs for CONFIG command.');
+                }
+                $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_CREATE:
-                $request->setRawData($command->getRawData());
+                if (null === $rawData = $command->getRawData()) {
+                    throw new RuntimeException('Missing class for CREATE command.');
+                }
+                $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_DELETE:
-                $request->setHandler($request->getHandler().'/'.$command->getTerm());
+                if (null === $term = $command->getTerm()) {
+                    throw new RuntimeException('Missing term for DELETE command.');
+                }
+                $request->setHandler($request->getHandler().'/'.$term);
                 break;
             case BaseQuery::COMMAND_EXISTS:
-                $request->setHandler($request->getHandler().'/'.$command->getTerm());
+                if (null !== $term = $command->getTerm()) {
+                    $request->setHandler($request->getHandler().'/'.$term);
+                }
                 break;
             case BaseQuery::COMMAND_REMOVE:
                 break;
