@@ -10,6 +10,7 @@
 namespace Solarium\Core\Query;
 
 use Solarium\Exception\InvalidArgumentException;
+use Solarium\Support\Utility;
 
 /**
  * Query helper.
@@ -63,8 +64,8 @@ class Helper
      * A term is a single word.
      * All characters that have a special meaning in a Solr query are escaped.
      *
-     * If you want to use the input as a phrase please use the {@link phrase()}
-     * method, because a phrase requires much less escaping.\
+     * If you want to use the input as a phrase please use the {@link escapePhrase()}
+     * method, because a phrase requires much less escaping.
      *
      * @see https://lucene.apache.org/solr/guide/the-standard-query-parser.html#escaping-special-characters
      *
@@ -101,14 +102,15 @@ class Helper
     }
 
     /**
-     * Format a date to the expected formatting used in SOLR.
+     * Format a date to the expected formatting used in Solr.
      *
-     * This format was derived to be standards compliant (ISO 8601)
-     * A date field shall be of the form 1995-12-31T23:59:59Z The trailing "Z" designates UTC time and is mandatory
+     * This format was derived to be standards compliant (ISO 8601).
+     * A date field shall be of the form 1995-12-31T23:59:59Z.
+     * The trailing "Z" designates UTC time and is mandatory.
      *
      * @see https://lucene.apache.org/solr/guide/working-with-dates.html#date-formatting
      *
-     * @param int|string|\DateTimeInterface $input accepted formats: timestamp, date string, DateTime or
+     * @param int|string|\DateTimeInterface $input Accepted formats: timestamp, date string, DateTime or
      *                                             DateTimeImmutable
      *
      * @return string|bool false is returned in case of invalid input
@@ -167,41 +169,44 @@ class Helper
      * From and to can be any type of data. For instance int, string or point.
      * If they are null, then '*' will be used.
      *
-     * Example: rangeQuery('store', '45,-94', '46,-93', true, false)
+     * Example: rangeQuery('store', '45,-94', '46,-93')
      * Returns: store:[45,-94 TO 46,-93]
      *
-     * Example: rangeQuery('store', '5', '*', false)
-     * Returns: store:{"5" TO *}
+     * Example: rangeQuery('store', 5, null, false)
+     * Returns: store:{5 TO *}
      *
-     * @param string      $field
-     * @param string|null $from
-     * @param string|null $to
-     * @param bool        $inclusive TRUE if the the range should include the boundaries, FALSE otherwise
-     * @param bool        $escape    Whether the values should be escaped as phrase or not. Default is TRUE because
-     *                               escaping is correct for security reasons. But for location searches (point values),
-     *                               escaping would break the functionality
+     * Example: rangeQuery('price', 0, 10, [true, false])
+     * Returns: price:[0 TO 10}
+     *
+     * @param string                $field
+     * @param int|float|string|null $from
+     * @param int|float|string|null $to
+     * @param bool|bool[]           $inclusive TRUE or [TRUE, TRUE] for inclusive, FALSE or [FALSE, FALSE] for exclusive,
+     *                                         [TRUE, FALSE] for left-inclusive only, [FALSE, TRUE] for right-inclusive only
      *
      * @return string
      */
-    public function rangeQuery(string $field, ?string $from, ?string $to, bool $inclusive = true, bool $escape = true): string
+    public function rangeQuery(string $field, $from, $to, $inclusive = true): string
     {
         if (null === $from) {
             $from = '*';
-        } elseif ($escape) {
+        } elseif (!\is_int($from) && !\is_float($from) && !Utility::isPointValue($from)) {
             $from = $this->escapePhrase($from);
         }
 
         if (null === $to) {
             $to = '*';
-        } elseif ($escape) {
+        } elseif (!\is_int($to) && !\is_float($to) && !Utility::isPointValue($to)) {
             $to = $this->escapePhrase($to);
         }
 
-        if ($inclusive) {
-            return $field.':['.$from.' TO '.$to.']';
+        if (\is_array($inclusive)) {
+            list($leftInclusive, $rightInclusive) = $inclusive;
+        } else {
+            $leftInclusive = $rightInclusive = $inclusive;
         }
 
-        return $field.':{'.$from.' TO '.$to.'}';
+        return sprintf('%s:%s%s TO %s%s', $field, $leftInclusive ? '[' : '{', $from, $to, $rightInclusive ? ']' : '}');
     }
 
     /**
@@ -358,7 +363,7 @@ class Helper
      * %T4% = term-escaped
      *
      * Numbering starts at 1, so number 1 refers to the first entry
-     * of $parts (which has array key 0)
+     * of $parts (which has array key 0).
      * You can use the same part multiple times, even in multiple modes.
      * The mode letters are not case sensitive.
      *

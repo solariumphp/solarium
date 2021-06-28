@@ -32,7 +32,7 @@ for ($i = 1; $i <= 8; $i++) {
     echo 'Server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
 }
 
-// force a server for a query (normally solr 3 is extremely unlikely based on its weight)
+// force a server for a query (normally 'local3' is extremely unlikely based on its weight)
 $loadbalancer->setForcedEndpointForNextQuery('local3');
 
 $resultset = $client->select($query);

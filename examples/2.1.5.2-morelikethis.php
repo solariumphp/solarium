@@ -14,13 +14,14 @@ $query->setQuery('apache')
       ->getMoreLikeThis()
       ->setFields('manu,cat')
       ->setMinimumDocumentFrequency(1)
-      ->setMinimumTermFrequency(1);
+      ->setMinimumTermFrequency(1)
+      ->setInterestingTerms('list');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
 $mlt = $resultset->getMoreLikeThis();
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
@@ -40,7 +41,7 @@ foreach ($resultset as $document) {
 
     echo '</table><br/><b>MLT results:</b><br/>';
 
-    // mlt results can be fetched by document id (the field defined as uniquekey in this schema)
+    // MLT results can be fetched by document id (the field defined as uniquekey in this schema)
     $mltResult = $mlt->getResult($document->id);
     if ($mltResult) {
         echo 'Max score: '.$mltResult->getMaximumScore().'<br/>';
@@ -48,6 +49,10 @@ foreach ($resultset as $document) {
         echo 'Num. fetched: '.count($mltResult).'<br/>';
         foreach ($mltResult as $mltDoc) {
             echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
+        }
+        // available since Solr 8.2 if the query wasn't distributed
+        if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
+            echo 'MLT interesting terms: '.implode(', ', $interestingTerms).'<br/>';
         }
     } else {
         echo 'No MLT results';

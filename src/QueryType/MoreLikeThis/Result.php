@@ -16,15 +16,15 @@ use Solarium\QueryType\Select\Result\Result as SelectResult;
 /**
  * MoreLikeThis query result.
  *
- * This is the standard resulttype for a moreLikeThis query. Example usage:
+ * This is the standard resulttype for a MoreLikeThis query. Example usage:
  * <code>
- * // total solr mlt results
+ * // total Solr MLT results
  * $result->getNumFound();
  *
  * // results fetched
  * count($result);
  *
- * // iterate over fetched mlt docs
+ * // iterate over fetched MLT docs
  * foreach ($result as $doc) {
  *    ....
  * }
@@ -45,10 +45,17 @@ class Result extends SelectResult
     /**
      * Get MLT interesting terms.
      *
-     * this will show what "interesting" terms are used for the MoreLikeThis
-     * query. These are the top tf/idf terms. NOTE: if you select 'details',
+     * This will show what "interesting" terms are used for the MoreLikeThis
+     * query. These are the top TF/IDF terms.
+     *
+     * If mlt.interestingTerms was 'list', a flat list is returned.
+     *
+     * If mlt.interestingTerms was 'details',
      * this shows you the term and boost used for each term. Unless
-     * mlt.boost=true all terms will have boost=1.0
+     * mlt.boost was true all terms will have boost=1.0.
+     *
+     * If mlt.interestingTerms was 'none', the terms aren't available
+     * and an exception is thrown.
      *
      * @throws UnexpectedValueException
      *

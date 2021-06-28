@@ -23,7 +23,7 @@ class Delete extends AbstractCommand
      *
      * @var string
      */
-    protected $term = '';
+    protected $term;
 
     /**
      * Returns command type, for use in adapters.
@@ -46,21 +46,11 @@ class Delete extends AbstractCommand
     }
 
     /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getRawData(): string
-    {
-        return '';
-    }
-
-    /**
      * Returns the term to be deleted.
      *
-     * @return string
+     * @return string|null
      */
-    public function getTerm(): string
+    public function getTerm(): ?string
     {
         return $this->term;
     }

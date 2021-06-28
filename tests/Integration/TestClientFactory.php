@@ -2,7 +2,7 @@
 
 namespace Solarium\Tests\Integration;
 
-use Http\Adapter\Guzzle6\Client as GuzzlePsrClient;
+use Http\Adapter\Guzzle7\Client as GuzzlePsrClient;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Solarium\Client;
 use Solarium\Core\Client\Adapter\Curl;

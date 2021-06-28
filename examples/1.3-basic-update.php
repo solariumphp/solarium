@@ -4,7 +4,7 @@ require_once(__DIR__.'/init.php');
 htmlHeader();
 
 if ($_POST) {
-    // if data is posted add it to solr
+    // if data is posted add it to Solr
 
     // create a client instance
     $client = new Solarium\Client($adapter, $eventDispatcher, $config);

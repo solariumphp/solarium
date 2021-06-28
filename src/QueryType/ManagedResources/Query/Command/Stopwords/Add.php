@@ -26,9 +26,9 @@ class Add extends AbstractAdd
     /**
      * Get stopwords.
      *
-     * @return array
+     * @return array|null
      */
-    public function getStopwords(): array
+    public function getStopwords(): ?array
     {
         return $this->stopwords;
     }
@@ -50,10 +50,14 @@ class Add extends AbstractAdd
     /**
      * Returns the raw data to be sent to Solr.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRawData(): string
+    public function getRawData(): ?string
     {
-        return json_encode($this->stopwords);
+        if (!empty($this->stopwords)) {
+            return json_encode($this->stopwords);
+        }
+
+        return null;
     }
 }

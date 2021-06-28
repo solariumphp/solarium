@@ -136,11 +136,13 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(
             '<add>'.
             '<doc>'.
+            '<field name="id">'.
             '<doc>'.
             '<field name="nested_id">42</field>'.
             '<field name="customer_ids">15</field>'.
             '<field name="customer_ids">16</field>'.
             '</doc>'.
+            '</field>'.
             '<field name="id">2</field>'.
             '<field name="id">foo</field>'.
             '<field name="text">test &lt; 123 &gt; test</field>'.

@@ -9,6 +9,7 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
+use Solarium\Exception\InvalidArgumentException;
 
 class CurlTest extends TestCase
 {
@@ -19,8 +20,8 @@ class CurlTest extends TestCase
 
     public function setUp(): void
     {
-        if (!function_exists('curl_init')) {
-            $this->markTestSkipped('Curl not available, skipping Curl adapter tests');
+        if (!\function_exists('curl_init')) {
+            $this->markTestSkipped('cURL not available, skipping cURL adapter tests.');
         }
 
         $this->adapter = new Curl();
@@ -68,17 +69,48 @@ class CurlTest extends TestCase
         $this->assertSame($data, $response);
     }
 
-    public function testCanCreateHandleForDeleteRequest()
+    /**
+     * @dataProvider methodProvider
+     */
+    public function testCreateHandleForRequestMethod(string $method)
     {
         $request = new Request();
-        $request->setMethod(Request::METHOD_DELETE);
+        $request->setMethod($method);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
-        $curlAdapter = new Curl();
-        $handler = $curlAdapter->createHandle($request, $endpoint);
+        $handler = $this->adapter->createHandle($request, $endpoint);
 
-        $this->assertIsResource($handler);
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handler);
+        } else {
+            $this->assertIsResource($handler);
+        }
+        curl_close($handler);
+    }
+
+    public function methodProvider(): array
+    {
+        return [
+            [Request::METHOD_GET],
+            [Request::METHOD_POST],
+            [Request::METHOD_HEAD],
+            [Request::METHOD_DELETE],
+            [Request::METHOD_PUT],
+        ];
+    }
+
+    public function testCreateHandleWithUnknownMethod()
+    {
+        $request = new Request();
+        $request->setMethod('PSOT');
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('unsupported method: PSOT');
+        $handler = $this->adapter->createHandle($request, $endpoint);
+
         curl_close($handler);
     }
 }

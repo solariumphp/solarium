@@ -59,3 +59,4 @@ $analytics
 // this executes the query and returns the result
 $result = $client->select($query);
 $analytics = $result->getAnalytics();
+```

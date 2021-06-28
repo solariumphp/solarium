@@ -32,7 +32,7 @@ $facetSet->createFacetField('stock')->setField('inStock');
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
@@ -84,7 +84,7 @@ $facetSet->createFacetQuery('stock')->setQuery('inStock: true');
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet query count
@@ -137,7 +137,7 @@ $facet->createQuery('nostock_pricecat2', 'inStock:false AND price:[300 TO *]');
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
@@ -183,7 +183,7 @@ $query = $client->createSelect();
 // get the facetset component
 $facetSet = $query->getFacetSet();
 
-// create a facet field instance and set options
+// create a facet range instance and set options
 $facet = $facetSet->createFacetRange('priceranges');
 $facet->setField('price');
 $facet->setStart(1);
@@ -193,7 +193,7 @@ $facet->setEnd(1000);
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts

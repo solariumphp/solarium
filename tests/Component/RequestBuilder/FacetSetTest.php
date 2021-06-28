@@ -487,6 +487,26 @@ class FacetSetTest extends TestCase
             urldecode($request->getUri())
         );
     }
+
+    public function testBuildWithQueryFacetWithQparser()
+    {
+        $facet = new FacetQuery(
+            [
+                'local_key' => 'f1',
+                'query' => '{!frange l=100 u=200}price',
+            ]
+        );
+
+        $this->component->addFacet($facet);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?facet.query={!frange l=100 u=200 key=f1}price&facet=true',
+            urldecode($request->getUri())
+        );
+    }
 }
 
 class UnknownFacet extends FacetField

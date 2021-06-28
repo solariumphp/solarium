@@ -7,7 +7,7 @@ Two special types of helper methods are
 Helper methods for general use
 ------------------------------
 
--   rangeQuery($field, $from, $to, $inclusive = true, $escape = true)
+-   rangeQuery($field, $from, $to, $inclusive = true)
 -   qparser($name, $params = array())
 -   functionCall($name, $params = array())
 -   join($from, $to, $dereferenced = false)
@@ -49,12 +49,12 @@ $helper = $query->getHelper();
 $query->createFilterQuery('price')->setQuery($helper->rangeQuery('price', 10, 300));
 
 // add a filterquery to find products in a range of 5km, using the helper to generate the 'geofilt' filter
-$query->createFilterQuery('region')->setQuery($helper->geofilt(45.15, -93.85, 'store', 5));
+$query->createFilterQuery('region')->setQuery($helper->geofilt('store', 45.15, -93.85, 5));
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator

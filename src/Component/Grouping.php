@@ -553,7 +553,7 @@ class Grouping extends AbstractComponent
     {
         $this->setOption('resultvaluegroupclass', $value);
 
-        return  $this;
+        return $this;
     }
 
     /**

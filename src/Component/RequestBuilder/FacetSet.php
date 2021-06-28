@@ -187,9 +187,18 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
      */
     public function addFacetQuery($request, $facet): void
     {
+        $localParams = $facet->getLocalParameters()->render();
+        $query = $facet->getQuery();
+
+        // add local params to those already present in the query, e.g. a qparser
+        if (null !== $localParams && null !== $query && 0 === strpos($query, '{!')) {
+            $localParams = strstr($query, '}', true).' '.substr($localParams, 2);
+            $query = substr($query, strpos($query, '}') + 1);
+        }
+
         $request->addParam(
             'facet.query',
-            sprintf('%s%s', $facet->getLocalParameters()->render(), $facet->getQuery())
+            sprintf('%s%s', $localParams, $query)
         );
     }
 
@@ -256,7 +265,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         if (\count($stats) > 0) {
             $key = ['stats' => implode('', $stats)];
 
-            // when specifying stats, solr sets the field as key
+            // when specifying stats, Solr sets the field as key
             $facet->setKey(implode(',', $facet->getFields()));
         } else {
             $key = ['key' => $facet->getKey()];

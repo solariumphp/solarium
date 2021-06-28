@@ -74,7 +74,7 @@ class Field extends AbstractQuery
     {
         $this->setOption('fieldvalue', $value);
 
-        return  $this;
+        return $this;
     }
 
     /**

@@ -191,7 +191,7 @@ class Request extends Configurable implements RequestParamsInterface
     public function setFileUpload($filename): self
     {
         if (!is_file($filename) || !is_readable($filename)) {
-            throw new RuntimeException("Unable to read file '{$filename}' for upload");
+            throw new RuntimeException(sprintf("Unable to read file '%s' for upload", $filename));
         }
 
         $this->setOption('file', $filename);
@@ -348,7 +348,7 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
-     * Execute a request outside of the core context in the global solr context.
+     * Execute a request outside of the core context in the global Solr context.
      *
      * @param bool $isServerRequest
      *
