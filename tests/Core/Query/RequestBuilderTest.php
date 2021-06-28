@@ -4,6 +4,7 @@ namespace Solarium\Tests\Core\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractRequestBuilder;
+use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class RequestBuilderTest extends TestCase
@@ -164,6 +165,36 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testRenderLocalParamsWithEmptyValue()
+    {
+        $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];
+
+        $this->assertSame(
+            '{!tag=mytag ex=exclude1,exclude2}',
+            $this->builder->renderLocalParams('', $myParams)
+        );
+    }
+
+    public function testRenderLocalParamsWithEmptyParams()
+    {
+        $myParams = ['tag' => 'mytag', 'ex' => [], 'empty' => '', 'null' => null];
+
+        $this->assertSame(
+            '{!tag=mytag}myValue',
+            $this->builder->renderLocalParams('myValue', $myParams)
+        );
+    }
+
+    public function testRenderLocalParamsWithParamBlockInValue()
+    {
+        $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];
+
+        $this->assertSame(
+            '{!frange u=100 tag=mytag ex=exclude1,exclude2}myValue',
+            $this->builder->renderLocalParams('{!frange u=100}myValue', $myParams)
+        );
+    }
+
     public function testBoolAttribWithNull()
     {
         $this->assertSame(
@@ -202,6 +233,14 @@ class RequestBuilderTest extends TestCase
             ' myattrib="myvalue"',
             $this->builder->attrib('myattrib', 'myvalue')
         );
+    }
+
+    public function testGetHelper()
+    {
+        $helper = $this->builder->getHelper();
+
+        $this->assertInstanceOf(Helper::class, $helper);
+        $this->assertSame($helper, $this->builder->getHelper());
     }
 }
 

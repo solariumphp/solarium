@@ -28,6 +28,20 @@ class LocalParameters implements \ArrayAccess
     private $parameters = [];
 
     /**
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        $params = array_filter(array_map('strval', $this->parameters));
+
+        foreach ($params as $key => &$value) {
+            $value = substr($value, \strlen($key) + 1);
+        }
+
+        return $params;
+    }
+
+    /**
      * @return string|null
      */
     public function render(): ?string
