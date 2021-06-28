@@ -12,10 +12,12 @@ namespace Solarium\QueryType\ManagedResources\Query;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
+use Solarium\Core\Query\Status4xxNoExceptionInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
+use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
-abstract class AbstractQuery extends BaseQuery
+abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionInterface
 {
     /**
      * Command add.
@@ -55,11 +57,25 @@ abstract class AbstractQuery extends BaseQuery
     protected $commandTypes;
 
     /**
-     * Name of the managed resource.
+     * Name of the managed resource to query.
      *
      * @var string
      */
     protected $name = '';
+
+    /**
+     * Name of the child resource to query.
+     *
+     * @var string|null
+     */
+    protected $term = null;
+
+    /**
+     * Default result class if no command is set.
+     *
+     * @var string
+     */
+    protected $defaultResultClass;
 
     /**
      * Command.
@@ -117,6 +133,42 @@ abstract class AbstractQuery extends BaseQuery
     }
 
     /**
+     * Get the name of the child resource to query.
+     *
+     * @return string|null
+     */
+    public function getTerm(): ?string
+    {
+        return $this->term;
+    }
+
+    /**
+     * Set the name of the child resource to query.
+     *
+     * @param string $term
+     *
+     * @return self
+     */
+    public function setTerm(string $term): self
+    {
+        $this->term = $term;
+
+        return $this;
+    }
+
+    /**
+     * Remove the name of the child resource. This reverts to querying the entire managed resource.
+     *
+     * @return self
+     */
+    public function removeTerm(): self
+    {
+        $this->term = null;
+
+        return $this;
+    }
+
+    /**
      * Create a command instance.
      *
      * @param string $type
@@ -159,6 +211,7 @@ abstract class AbstractQuery extends BaseQuery
     public function setCommand(AbstractCommand $command): self
     {
         $this->command = $command;
+        $this->options['resultclass'] = CommandResult::class;
 
         return $this;
     }
@@ -171,6 +224,7 @@ abstract class AbstractQuery extends BaseQuery
     public function removeCommand(): self
     {
         $this->command = null;
+        $this->options['resultclass'] = $this->defaultResultClass;
 
         return $this;
     }

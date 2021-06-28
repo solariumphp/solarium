@@ -14,7 +14,10 @@ use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create;
 use Solarium\QueryType\ManagedResources\Query\Stopwords;
 use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
-use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as ResponeParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopword as StopwordResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as StopwordsResponseParser;
 
 class StopwordsTest extends TestCase
 {
@@ -37,7 +40,54 @@ class StopwordsTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
+        $this->assertInstanceOf(StopwordsResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithTerm()
+    {
+        $this->query->setTerm('test');
+        $this->assertInstanceOf(StopwordResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithCommand()
+    {
+        $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(CommandResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithExistsCommand()
+    {
+        $command = $this->query->createCommand(Stopwords::COMMAND_EXISTS);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(ExistsResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserAfterRemovingCommand()
+    {
+        $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
+        $this->query->setCommand($command);
+        $this->query->removeCommand();
+        $this->assertInstanceOf(StopwordsResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testSetAndGetName()
+    {
+        $this->query->setName('test');
+        $this->assertSame('test', $this->query->getName());
+    }
+
+    public function testSetAndGetTerm()
+    {
+        $this->query->setTerm('test');
+        $this->assertSame('test', $this->query->getTerm());
+    }
+
+    public function testRemoveTerm()
+    {
+        $this->query->setTerm('test');
+        $this->query->removeTerm();
+        $this->assertNull($this->query->getTerm());
     }
 
     public function testCommand()
@@ -100,30 +150,8 @@ class StopwordsTest extends TestCase
 
     public function testCreateInitArgsWithArgs()
     {
-        $args = ['ignoreCase' => true];
-        $initArgs = $this->query->createInitArgs($args);
+        $initArgs = $this->query->createInitArgs(['ignoreCase' => true]);
         $this->assertInstanceOf(InitArgs::class, $initArgs);
-        $this->assertEquals($args, $initArgs->getInitArgs());
-    }
-
-    public function testInitArgs()
-    {
-        $initArgs = new InitArgs();
-        $this->assertEquals([], $initArgs->getInitArgs());
-    }
-
-    public function testInitArgsIgnoreCase()
-    {
-        $initArgs = new InitArgs();
-        $initArgs->setIgnoreCase(true);
-        $this->assertTrue($initArgs->getIgnoreCase());
-    }
-
-    public function testInitArgsSet()
-    {
-        $args = ['ignoreCase' => true];
-        $initArgs = new InitArgs();
-        $initArgs->setInitArgs($args);
-        $this->assertEquals($args, $initArgs->getInitArgs());
+        $this->assertEquals(['ignoreCase' => true], $initArgs->getInitArgs());
     }
 }

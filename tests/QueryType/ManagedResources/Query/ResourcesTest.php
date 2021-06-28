@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\ManagedResources\Query\Resources as Query;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as RequestBuilder;
-use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponeParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponseParser;
 
 class ResourcesTest extends TestCase
 {
@@ -34,6 +34,6 @@ class ResourcesTest extends TestCase
 
     public function testGetResponseParser()
     {
-        $this->assertInstanceOf(ResponeParser::class, $this->query->getResponseParser());
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 }
