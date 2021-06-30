@@ -23,7 +23,7 @@ use Solarium\Exception\RuntimeException;
  * While it is possible to use this document type for a select, alter it and use
  * it in an update query (effectively the 'edit' that Solr doesn't have) this
  * is not recommended. Most Solr indexes have fields that are indexed and not
- * stored. You will loose that data because it is impossible to retrieve it from
+ * stored. You will lose that data because it is impossible to retrieve it from
  * Solr. Always update from the original data source.
  *
  * Atomic updates are also support, using the field modifiers.
