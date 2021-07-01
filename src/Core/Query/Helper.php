@@ -326,6 +326,9 @@ class Helper
                 if (\is_array($value)) {
                     $value = implode(',', $value);
                 }
+                elseif (\is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                }
 
                 $output .= ' '.$key.'='.$value;
             }

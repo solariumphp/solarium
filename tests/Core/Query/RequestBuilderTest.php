@@ -149,10 +149,10 @@ class RequestBuilderTest extends TestCase
 
     public function testRenderLocalParams()
     {
-        $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];
+        $myParams = ['l' => 0, 'u' => 1, 'tag' => 'mytag', 'ex' => ['exclude1', 'exclude2'], 'yes' => true, 'no' => false];
 
         $this->assertSame(
-            '{!tag=mytag ex=exclude1,exclude2}myValue',
+            '{!l=0 u=1 tag=mytag ex=exclude1,exclude2 yes=true no=false}myValue',
             $this->builder->renderLocalParams('myValue', $myParams)
         );
     }

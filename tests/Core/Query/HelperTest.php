@@ -351,8 +351,8 @@ class HelperTest extends TestCase
     public function testQparser()
     {
         $this->assertSame(
-            '{!parser a=1 b=test c=tag1,tag2}',
-            $this->helper->qparser('parser', ['a' => 1, 'b' => 'test', 'c' => ['tag1', 'tag2']])
+            '{!parser a=1 b=0 c=test d=tag1,tag2 e=true f=false}',
+            $this->helper->qparser('parser', ['a' => 1, 'b' => 0, 'c' => 'test', 'd' => ['tag1', 'tag2'], 'e' => true, 'f' => false])
         );
     }
 

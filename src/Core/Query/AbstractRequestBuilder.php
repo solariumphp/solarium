@@ -77,12 +77,15 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         }
 
         foreach ($localParams as $paramName => $paramValue) {
-            if (empty($paramValue)) {
+            if (null === $paramValue || '' === $paramValue || [] === $paramValue) {
                 continue;
             }
 
             if (\is_array($paramValue)) {
                 $paramValue = implode(',', $paramValue);
+            }
+            elseif (\is_bool($paramValue)) {
+                $paramValue = $paramValue ? 'true' : 'false';
             }
 
             $params .= $paramName.'='.$paramValue.' ';
