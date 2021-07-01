@@ -83,8 +83,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
 
             if (\is_array($paramValue)) {
                 $paramValue = implode(',', $paramValue);
-            }
-            elseif (\is_bool($paramValue)) {
+            } elseif (\is_bool($paramValue)) {
                 $paramValue = $paramValue ? 'true' : 'false';
             }
 

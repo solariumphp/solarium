@@ -325,8 +325,7 @@ class Helper
             if (!$dereferenced || $forceKeys || \is_int($key)) {
                 if (\is_array($value)) {
                     $value = implode(',', $value);
-                }
-                elseif (\is_bool($value)) {
+                } elseif (\is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 }
 
