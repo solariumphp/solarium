@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Server\CoreAdmin\Query;
 
 use Solarium\Core\Client\Client;
@@ -23,7 +30,7 @@ use Solarium\QueryType\Server\Query\RequestBuilder;
 /**
  * CoreAdmin query.
  *
- * Can be used to perform an action on the core admin endpoint
+ * Can be used to perform an action on the admin/cores endpoint
  */
 class Query extends AbstractServerQuery
 {
@@ -179,7 +186,7 @@ class Query extends AbstractServerQuery
      *
      * @return RequestRecovery|ActionInterface
      */
-    public function createRequestRecovery($options = [])
+    public function createRequestRecovery($options = []): RequestRecovery
     {
         return $this->createAction(self::ACTION_REQUEST_RECOVERY, $options);
     }

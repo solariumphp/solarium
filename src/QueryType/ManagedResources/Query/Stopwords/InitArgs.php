@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Stopwords;
 
 use Solarium\QueryType\ManagedResources\Query\InitArgsInterface;
 
+/**
+ * InitArgs.
+ */
 class InitArgs implements InitArgsInterface
 {
     /**
@@ -12,6 +22,18 @@ class InitArgs implements InitArgsInterface
      * @var bool
      */
     protected $ignoreCase;
+
+    /**
+     * Constructor.
+     *
+     * @param array $initArgs
+     */
+    public function __construct(array $initArgs = null)
+    {
+        if (null !== $initArgs) {
+            $this->setInitArgs($initArgs);
+        }
+    }
 
     /**
      * Set ignore case.
@@ -23,6 +45,7 @@ class InitArgs implements InitArgsInterface
     public function setIgnoreCase(bool $ignoreCase): InitArgsInterface
     {
         $this->ignoreCase = $ignoreCase;
+
         return $this;
     }
 

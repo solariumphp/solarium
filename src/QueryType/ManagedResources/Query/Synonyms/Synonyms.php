@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query\Synonyms;
 
 /**
@@ -8,9 +15,9 @@ namespace Solarium\QueryType\ManagedResources\Query\Synonyms;
 class Synonyms
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected $term = '';
+    protected $term = null;
 
     /**
      * @var array
@@ -20,15 +27,15 @@ class Synonyms
     /**
      * Get the term.
      *
-     * @return string
+     * @return string|null
      */
-    public function getTerm(): string
+    public function getTerm(): ?string
     {
         return $this->term;
     }
 
     /**
-     * Set the term.
+     * Set the term for a single mapping.
      *
      * @param string $term
      *
@@ -37,6 +44,19 @@ class Synonyms
     public function setTerm(string $term): self
     {
         $this->term = $term;
+
+        return $this;
+    }
+
+    /**
+     * Remove the term. This reverts to symmetrical synonyms.
+     *
+     * @return self
+     */
+    public function removeTerm(): self
+    {
+        $this->term = null;
+
         return $this;
     }
 
@@ -58,6 +78,7 @@ class Synonyms
     public function setSynonyms(array $synonyms): self
     {
         $this->synonyms = $synonyms;
+
         return $this;
     }
 }

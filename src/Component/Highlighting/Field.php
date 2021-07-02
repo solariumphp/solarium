@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Highlighting;
 
 use Solarium\Core\Configurable;
@@ -26,7 +33,7 @@ class Field extends Configurable
      *
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getOption('name');
     }
@@ -41,6 +48,7 @@ class Field extends Configurable
     public function setName(string $name): self
     {
         $this->setOption('name', $name);
+
         return $this;
     }
 
@@ -56,6 +64,7 @@ class Field extends Configurable
     public function setSnippets(int $maximum): self
     {
         $this->setOption('snippets', $maximum);
+
         return $this;
     }
 
@@ -81,6 +90,7 @@ class Field extends Configurable
     public function setFragSize(int $size): self
     {
         $this->setOption('fragsize', $size);
+
         return $this;
     }
 
@@ -106,6 +116,7 @@ class Field extends Configurable
     public function setMergeContiguous(bool $merge): self
     {
         $this->setOption('mergecontiguous', $merge);
+
         return $this;
     }
 
@@ -129,6 +140,7 @@ class Field extends Configurable
     public function setAlternateField(string $field): self
     {
         $this->setOption('alternatefield', $field);
+
         return $this;
     }
 
@@ -152,6 +164,7 @@ class Field extends Configurable
     public function setPreserveMulti(bool $preservemulti): self
     {
         $this->setOption('preservemulti', $preservemulti);
+
         return $this;
     }
 
@@ -175,6 +188,7 @@ class Field extends Configurable
     public function setFormatter(string $formatter = 'simple'): self
     {
         $this->setOption('formatter', $formatter);
+
         return $this;
     }
 
@@ -200,6 +214,7 @@ class Field extends Configurable
     public function setSimplePrefix(string $prefix): self
     {
         $this->setOption('simpleprefix', $prefix);
+
         return $this;
     }
 
@@ -227,6 +242,7 @@ class Field extends Configurable
     public function setSimplePostfix(string $postfix): self
     {
         $this->setOption('simplepostfix', $postfix);
+
         return $this;
     }
 
@@ -254,6 +270,7 @@ class Field extends Configurable
     public function setFragmenter(string $fragmenter): self
     {
         $this->setOption('fragmenter', $fragmenter);
+
         return $this;
     }
 
@@ -277,6 +294,7 @@ class Field extends Configurable
     public function setUseFastVectorHighlighter(bool $use): self
     {
         $this->setOption('usefastvectorhighlighter', $use);
+
         return $this;
     }
 

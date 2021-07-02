@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\MinimumScoreFilter;
 
 use Solarium\Component\AbstractComponent;
@@ -50,6 +57,7 @@ class Query extends SelectQuery
     public function setFilterMode(string $mode): self
     {
         $this->setOption('filter_mode', $mode);
+
         return $this;
     }
 
@@ -75,6 +83,7 @@ class Query extends SelectQuery
     public function setFilterRatio(float $value): self
     {
         $this->setOption('filterratio', $value);
+
         return $this;
     }
 
@@ -96,7 +105,7 @@ class Query extends SelectQuery
     public function getFields(): array
     {
         $fields = parent::getFields();
-        if (!in_array('score', $fields, true)) {
+        if (!\in_array('score', $fields, true)) {
             $fields[] = 'score';
         }
 

@@ -1,5 +1,12 @@
 <?php
 
+$header = <<<'EOF'
+This file is part of the Solarium package.
+
+For the full copyright and license information, please view the COPYING
+file that was distributed with this source code.
+EOF;
+
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
@@ -9,9 +16,9 @@ return PhpCsFixer\Config::create()
        'array_syntax' => ['syntax' => 'short'],
        'class_attributes_separation' => ['elements' => ['const', 'method', 'property']],
        'combine_consecutive_unsets' => true,
-        // one should use PHPUnit methods to set up expected exception instead of annotations
        'general_phpdoc_annotation_remove' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp'],
        'heredoc_to_nowdoc' => true,
+       'header_comment' => ['header' => $header],
        'list_syntax' => ['syntax' => 'long'],
        'method_argument_space' => ['keep_multiple_spaces_after_comma' => false],
        'no_extra_consecutive_blank_lines' => ['break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block'],
@@ -21,12 +28,9 @@ return PhpCsFixer\Config::create()
        'no_useless_return' => true,
        'ordered_class_elements' => true,
        'ordered_imports' => true,
-       // 'php_unit_strict' => true,
-       // 'php_unit_test_class_requires_covers' => true,
        'phpdoc_add_missing_param_annotation' => true,
        'phpdoc_order' => true,
        'semicolon_after_instruction' => true,
-       // 'strict_comparison' => true,
        'strict_param' => true,
        'implode_call' => true,
        'no_superfluous_phpdoc_tags' => false,
@@ -35,6 +39,5 @@ return PhpCsFixer\Config::create()
         PhpCsFixer\Finder::create()
             ->exclude('vendor/')
             ->in('src')
-            ->in('tests')
     )
 ;

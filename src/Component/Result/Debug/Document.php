@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Result\Debug;
 
 /**
@@ -17,7 +24,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     /**
      * Details.
      *
-     * @var array
+     * @var \Solarium\Component\Result\Debug\Detail[]
      */
     protected $details;
 
@@ -50,7 +57,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     /**
      * Get details.
      *
-     * @return array
+     * @return \Solarium\Component\Result\Debug\Detail[]
      */
     public function getDetails(): array
     {
@@ -74,6 +81,16 @@ class Document extends Detail implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return count($this->details);
+        return \count($this->details);
+    }
+
+    public function __toString()
+    {
+        $string = '';
+        foreach ($this->getDetails() as $detail) {
+            $string .= '  '.$detail.PHP_EOL;
+        }
+
+        return $string;
     }
 }

@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client\State;
 
 /**
@@ -7,24 +14,6 @@ namespace Solarium\Core\Client\State;
  */
 class ReplicaState extends AbstractState
 {
-    /** @var string Name of the replica */
-    protected $name = '';
-
-    /** @var string Name of the core */
-    protected $core = '';
-
-    /** @var string Base uri of shard replica */
-    protected $baseUri = '';
-
-    /** @var string */
-    protected $nodeName = '';
-
-    /** @var bool Whether or not this replica is a shard leader */
-    protected $leader = false;
-
-    /** @var string Replica state, one of the following: active, down, recovering or recovery_failed */
-    protected $state;
-
     /**
      * The replica is ready to receive updates and queries.
      */
@@ -44,6 +33,36 @@ class ReplicaState extends AbstractState
      * Recovery attempts have not worked, something is not right.
      */
     const RECOVERY_FAILED = 'recovery_failed';
+
+    /**
+     * @var string Name of the replica
+     */
+    protected $name = '';
+
+    /**
+     * @var string Name of the core
+     */
+    protected $core = '';
+
+    /**
+     * @var string Base uri of shard replica
+     */
+    protected $baseUri = '';
+
+    /**
+     * @var string
+     */
+    protected $nodeName = '';
+
+    /**
+     * @var bool Whether or not this replica is a shard leader
+     */
+    protected $leader = false;
+
+    /**
+     * @var string Replica state, one of the following: active, down, recovering or recovery_failed
+     */
+    protected $state;
 
     /**
      * @return string
@@ -103,6 +122,9 @@ class ReplicaState extends AbstractState
         return self::ACTIVE === $this->state;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function init()
     {
         $this->name = key($this->stateRaw);

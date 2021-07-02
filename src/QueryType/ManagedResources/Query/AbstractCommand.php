@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Configurable;
@@ -22,18 +29,4 @@ abstract class AbstractCommand extends Configurable
      * @return string
      */
     abstract public function getRequestMethod(): string;
-
-    /**
-     * Returns the data to be sent to Solr.
-     *
-     * @return string
-     */
-    abstract public function getRawData(): string;
-
-    /**
-     * Returns the term to be sent to Solr.
-     *
-     * @return string
-     */
-    abstract public function getTerm(): string;
 }

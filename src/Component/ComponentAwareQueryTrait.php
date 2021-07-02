@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Exception\OutOfBoundsException;
@@ -28,7 +35,7 @@ trait ComponentAwareQueryTrait
      *
      * @return array
      */
-    public function getComponentTypes()
+    public function getComponentTypes(): array
     {
         return $this->componentTypes;
     }
@@ -41,7 +48,7 @@ trait ComponentAwareQueryTrait
      *
      * @return self Provides fluent interface
      */
-    public function registerComponentType(string $key, string $component): ComponentAwareQueryInterface
+    public function registerComponentType(string $key, string $component)
     {
         $this->componentTypes[$key] = $component;
 
@@ -64,7 +71,6 @@ trait ComponentAwareQueryTrait
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
-     *
      * @param string      $key      Use one of the constants
      * @param string|bool $autoload Class to autoload if component needs to be created
      * @param array|null  $config   Configuration to use for autoload
@@ -81,7 +87,7 @@ trait ComponentAwareQueryTrait
 
         if (true === $autoload) {
             if (!isset($this->componentTypes[$key])) {
-                throw new OutOfBoundsException('Cannot autoload unknown component: '.$key);
+                throw new OutOfBoundsException(sprintf('Cannot autoload unknown component: %s', $key));
             }
 
             $className = $this->componentTypes[$key];
@@ -124,7 +130,7 @@ trait ComponentAwareQueryTrait
      */
     public function removeComponent($component): ComponentAwareQueryInterface
     {
-        if (is_object($component)) {
+        if (\is_object($component)) {
             foreach ($this->components as $key => $instance) {
                 if ($instance === $component) {
                     unset($this->components[$key]);

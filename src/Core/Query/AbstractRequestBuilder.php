@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Client\Request;
@@ -38,7 +45,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
 
         $request->addParam('wt', $query->getResponseWriter());
         if ($query::WT_JSON === $query->getResponseWriter()) {
-            // Only flat JSON format is supported. Other JSON formats are easier to handle but might loose information.
+            // Only flat JSON format is supported. Other JSON formats are easier to handle but might lose information.
             $request->addParam('json.nl', 'flat');
         }
 
@@ -68,7 +75,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
                 continue;
             }
 
-            if (is_array($paramValue)) {
+            if (\is_array($paramValue)) {
                 $paramValue = implode(',', $paramValue);
             }
 

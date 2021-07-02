@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -34,6 +41,8 @@ abstract class AbstractComponent extends Configurable
 
     /**
      * This component has no response parser...
+     *
+     * @return \Solarium\Component\ResponseParser\ComponentParserInterface|null
      */
     public function getResponseParser(): ?ComponentParserInterface
     {

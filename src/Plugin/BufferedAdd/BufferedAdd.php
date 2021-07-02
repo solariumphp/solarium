@@ -1,15 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin\BufferedAdd;
 
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\Core\Query\DocumentInterface;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 
@@ -54,6 +61,7 @@ class BufferedAdd extends AbstractPlugin
     public function setEndpoint(Endpoint $endpoint): self
     {
         $this->setOption('endpoint', $endpoint);
+
         return $this;
     }
 
@@ -77,6 +85,7 @@ class BufferedAdd extends AbstractPlugin
     public function setBufferSize(int $size): self
     {
         $this->setOption('buffersize', $size);
+
         return $this;
     }
 
@@ -100,6 +109,7 @@ class BufferedAdd extends AbstractPlugin
     public function setCommitWithin(int $time): self
     {
         $this->setOption('commitwithin', $time);
+
         return $this;
     }
 
@@ -123,6 +133,7 @@ class BufferedAdd extends AbstractPlugin
     public function setOverwrite(bool $value): self
     {
         $this->setOption('overwrite', $value);
+
         return $this;
     }
 
@@ -166,7 +177,7 @@ class BufferedAdd extends AbstractPlugin
         $event = new AddDocumentEvent($document);
         $this->client->getEventDispatcher()->dispatch($event);
 
-        if (count($this->buffer) == $this->options['buffersize']) {
+        if (\count($this->buffer) === $this->options['buffersize']) {
             $this->flush();
         }
 
@@ -224,7 +235,7 @@ class BufferedAdd extends AbstractPlugin
      */
     public function flush(?bool $overwrite = null, ?int $commitWithin = null)
     {
-        if (0 == count($this->buffer)) {
+        if (0 === \count($this->buffer)) {
             // nothing to do
             return false;
         }
@@ -257,7 +268,7 @@ class BufferedAdd extends AbstractPlugin
      *
      * @return UpdateResult
      */
-    public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null)
+    public function commit(?bool $overwrite = null, ?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null): UpdateResult
     {
         $overwrite = $overwrite ?? $this->getOverwrite();
 
@@ -281,7 +292,7 @@ class BufferedAdd extends AbstractPlugin
      * This is an extension point for plugin implementations.
      * Will be called as soon as $this->client and options have been set.
      */
-    protected function initPluginType()
+    protected function initPluginType(): void
     {
         $this->updateQuery = $this->client->createUpdate();
     }

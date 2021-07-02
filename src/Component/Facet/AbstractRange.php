@@ -1,6 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\Facet;
+
+use Solarium\Core\Configurable;
 
 /**
  * Facet range.
@@ -265,7 +274,7 @@ abstract class AbstractRange extends AbstractFacet
      *
      * @return \Solarium\Core\Configurable
      */
-    public function setPivot($pivot)
+    public function setPivot($pivot): Configurable
     {
         return $this->setOption('pivot', $pivot);
     }

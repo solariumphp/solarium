@@ -32,6 +32,8 @@ class FieldTest extends TestCase
             'method' => 'enum',
             'contains' => 'foobar',
             'containsignorecase' => true,
+            'excludeTerms' => 'foo,bar',
+            'matches' => '^foo.*',
         ];
 
         $this->facet->setOptions($options);
@@ -47,6 +49,8 @@ class FieldTest extends TestCase
         $this->assertSame($options['method'], $this->facet->getMethod());
         $this->assertSame($options['contains'], $this->facet->getContains());
         $this->assertTrue($this->facet->getContainsIgnoreCase());
+        $this->assertSame($options['excludeTerms'], $this->facet->getExcludeTerms());
+        $this->assertSame($options['matches'], $this->facet->getMatches());
     }
 
     public function testGetType()
@@ -115,5 +119,17 @@ class FieldTest extends TestCase
     {
         $this->facet->setContainsIgnoreCase(true);
         $this->assertTrue($this->facet->getContainsIgnoreCase());
+    }
+
+    public function testSetAndGetExcludeTerms()
+    {
+        $this->facet->setExcludeTerms('foo,bar');
+        $this->assertSame('foo,bar', $this->facet->getExcludeTerms());
+    }
+
+    public function testSetAndGetMatches()
+    {
+        $this->facet->setMatches('^foo.*');
+        $this->assertSame('^foo.*', $this->facet->getMatches());
     }
 }

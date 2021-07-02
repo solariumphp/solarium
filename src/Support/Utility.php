@@ -1,7 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Support;
 
+/**
+ * Utility.
+ */
 class Utility
 {
     /**
@@ -19,12 +29,12 @@ class Utility
 
         if (false !== $xml) {
             // discard UTF-8 Byte Order Mark
-            if (pack('CCC', 0xEF, 0xBB, 0xBF) === substr($xml, 0, 3)) {
+            if (0 === strpos($xml, pack('CCC', 0xEF, 0xBB, 0xBF))) {
                 $xml = substr($xml, 3);
             }
 
             // detect XML declaration
-            if ('<?xml' === substr($xml, 0, 5)) {
+            if (0 === strpos($xml, '<?xml')) {
                 $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
 
                 // detect encoding attribute
@@ -35,5 +45,21 @@ class Utility
         }
 
         return $encoding;
+    }
+
+    /**
+     * Check whether a value is a valid point value for spatial search.
+     *
+     * Example: '45.15,-93.85' (geodetic & non-geodetic PointType)
+     *
+     * Example: '45.15 -93.85' (non-geodetic RPT)
+     *
+     * @param string $value
+     *
+     * @return bool
+     */
+    public static function isPointValue(string $value): bool
+    {
+        return (bool) preg_match('/^-?\d+(?:\.\d+)?[, ]-?\d+(?:\.\d+)?$/', $value);
     }
 }

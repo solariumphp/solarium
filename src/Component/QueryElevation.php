@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -73,7 +80,7 @@ class QueryElevation extends AbstractComponent
      */
     public function addTransformers($transformers): self
     {
-        if (is_string($transformers)) {
+        if (\is_string($transformers)) {
             $transformers = explode(',', $transformers);
             $transformers = array_map('trim', $transformers);
         }
@@ -150,6 +157,7 @@ class QueryElevation extends AbstractComponent
     public function setEnableElevation(bool $enable): self
     {
         $this->setOption('enableElevation', $enable);
+
         return $this;
     }
 
@@ -173,6 +181,7 @@ class QueryElevation extends AbstractComponent
     public function setForceElevation(bool $force): self
     {
         $this->setOption('forceElevation', $force);
+
         return $this;
     }
 
@@ -196,6 +205,7 @@ class QueryElevation extends AbstractComponent
     public function setExclusive(bool $exclusive): self
     {
         $this->setOption('exclusive', $exclusive);
+
         return $this;
     }
 
@@ -219,6 +229,7 @@ class QueryElevation extends AbstractComponent
     public function setUseConfiguredElevatedOrder(bool $useConfiguredElevatedOrder): self
     {
         $this->setOption('useConfiguredElevatedOrder', $useConfiguredElevatedOrder);
+
         return $this;
     }
 
@@ -248,6 +259,7 @@ class QueryElevation extends AbstractComponent
         }
 
         $this->setOption('markExcludes', $mark);
+
         return $this;
     }
 
@@ -270,12 +282,13 @@ class QueryElevation extends AbstractComponent
      */
     public function setElevateIds($ids): self
     {
-        if (is_string($ids)) {
+        if (\is_string($ids)) {
             $ids = explode(',', $ids);
             $ids = array_map('trim', $ids);
         }
 
         $this->setOption('elevateIds', $ids);
+
         return $this;
     }
 
@@ -298,12 +311,13 @@ class QueryElevation extends AbstractComponent
      */
     public function setExcludeIds($ids): self
     {
-        if (is_string($ids)) {
+        if (\is_string($ids)) {
             $ids = explode(',', $ids);
             $ids = array_map('trim', $ids);
         }
 
         $this->setOption('excludeIds', $ids);
+
         return $this;
     }
 

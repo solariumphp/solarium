@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\Highlighting\Field as HighlightingField;
@@ -26,7 +33,7 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl', 'true');
 
         // set global highlighting params
-        if (count($component->getFields()) > 0) {
+        if (\count($component->getFields()) > 0) {
             $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
         }
         $request->addParam('hl.snippets', $component->getSnippets());
@@ -59,6 +66,7 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl.bs.type', $component->getBoundaryScannerType());
         $request->addParam('hl.bs.language', $component->getBoundaryScannerLanguage());
         $request->addParam('hl.bs.country', $component->getBoundaryScannerCountry());
+        $request->addParam('h1.method', $component->getMethod());
 
         // set per-field highlighting params
         foreach ($component->getFields() as $field) {

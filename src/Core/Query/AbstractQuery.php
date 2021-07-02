@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Configurable;
@@ -72,7 +79,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         $this->setOption('resultclass', $classname);
 
-        return  $this;
+        return $this;
     }
 
     /**
@@ -170,7 +177,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Removes a param that was previously added by addParam.
      *
-     * Note: This can not be used to remove known default parameters of the solarium api.
+     * Note: This can not be used to remove known default parameters of the Solarium API.
      *
      * @param string $name
      *

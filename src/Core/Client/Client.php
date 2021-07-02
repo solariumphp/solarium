@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -385,7 +392,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         if (!isset($this->endpoints[$key])) {
-            throw new OutOfBoundsException('Endpoint '.$key.' not available');
+            throw new OutOfBoundsException(sprintf('Endpoint %s not available', $key));
         }
 
         return $this->endpoints[$key];
@@ -404,7 +411,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Remove a single endpoint.
      *
-     * You can remove a endpoint by passing it's key, or by passing the endpoint instance
+     * You can remove a endpoint by passing its key, or by passing the endpoint instance
      *
      * @param string|Endpoint $endpoint
      *
@@ -471,7 +478,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         if (!isset($this->endpoints[$endpoint])) {
-            throw new OutOfBoundsException('Unknown endpoint '.$endpoint.' cannot be set as default');
+            throw new OutOfBoundsException(sprintf('Unknown endpoint %s cannot be set as default', $endpoint));
         }
 
         $this->defaultEndpoint = $endpoint;
@@ -670,7 +677,7 @@ class Client extends Configurable implements ClientInterface
                 return $this->pluginInstances[$key];
             }
 
-            throw new OutOfBoundsException('Cannot autoload plugin of unknown type: '.$key);
+            throw new OutOfBoundsException(sprintf('Cannot autoload plugin of unknown type: %s', $key));
         }
 
         return null;
@@ -722,7 +729,7 @@ class Client extends Configurable implements ClientInterface
 
         $requestBuilder = $query->getRequestBuilder();
         if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
-            throw new UnexpectedValueException('No requestbuilder returned by query type: '.$query->getType());
+            throw new UnexpectedValueException(sprintf('No requestbuilder returned by query type: %s', $query->getType()));
         }
 
         $request = $requestBuilder->build($query);
@@ -1061,7 +1068,7 @@ class Client extends Configurable implements ClientInterface
         }
 
         if (!isset($this->queryTypes[$type])) {
-            throw new InvalidArgumentException('Unknown query type: '.$type);
+            throw new InvalidArgumentException(sprintf('Unknown query type: %s', $type));
         }
 
         $class = $this->queryTypes[$type];

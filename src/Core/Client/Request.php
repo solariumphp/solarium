@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Component\RequestBuilder\RequestParamsInterface;
@@ -81,7 +88,7 @@ class Request extends Configurable implements RequestParamsInterface
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), 1).'authentication: '.print_r($this->getAuthentication(), 1).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
+        $output = __CLASS__.'::__toString'."\n".'method: '.$this->getMethod()."\n".'header: '.print_r($this->getHeaders(), true).'authentication: '.print_r($this->getAuthentication(), true).'resource: '.$this->getUri()."\n".'resource urldecoded: '.urldecode($this->getUri())."\n".'raw data: '.$this->getRawData()."\n".'file upload: '.$this->getFileUpload()."\n";
 
         return $output;
     }
@@ -175,7 +182,6 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set the file to upload via "multipart/form-data" POST request.
      *
-     *
      * @param string $filename Name of file to upload
      *
      * @throws RuntimeException
@@ -185,7 +191,7 @@ class Request extends Configurable implements RequestParamsInterface
     public function setFileUpload($filename): self
     {
         if (!is_file($filename) || !is_readable($filename)) {
-            throw new RuntimeException("Unable to read file '{$filename}' for upload");
+            throw new RuntimeException(sprintf("Unable to read file '%s' for upload", $filename));
         }
 
         $this->setOption('file', $filename);
@@ -201,6 +207,24 @@ class Request extends Configurable implements RequestParamsInterface
     public function getHeaders(): array
     {
         return array_unique($this->headers);
+    }
+
+    /**
+     * @param string $headerName
+     *
+     * @return string|null
+     */
+    public function getHeader(string $headerName): ?string
+    {
+        foreach ($this->headers as $header) {
+            list($name) = explode(':', $header);
+
+            if ($name === $headerName) {
+                return $header;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -228,6 +252,28 @@ class Request extends Configurable implements RequestParamsInterface
     public function addHeader($value): self
     {
         $this->headers[] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Replace header if previously set else add it.
+     *
+     * @param string $header
+     *
+     * @return $this
+     */
+    public function replaceOrAddHeader(string $header): self
+    {
+        list($name) = explode(':', $header);
+
+        if ((null !== $current = $this->getHeader($name)) &&
+            false !== $key = array_search($current, $this->headers, true)
+        ) {
+            $this->headers[$key] = $header;
+        } else {
+            $this->headers[] = $header;
+        }
 
         return $this;
     }
@@ -302,7 +348,7 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
-     * Execute a request outside of the core context in the global solr context.
+     * Execute a request outside of the core context in the global Solr context.
      *
      * @param bool $isServerRequest
      *
@@ -351,6 +397,14 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return spl_object_hash($this);
+    }
+
+    /**
      * Initialization hook.
      */
     protected function init()
@@ -375,13 +429,5 @@ class Request extends Configurable implements RequestParamsInterface
                     }
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getHash(): string
-    {
-        return spl_object_hash($this);
     }
 }

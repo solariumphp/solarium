@@ -63,4 +63,11 @@ class DocumentTest extends TestCase
     {
         $this->assertCount(count($this->details), $this->result);
     }
+
+    public function testToString()
+    {
+        $expected = '  dummy1'.PHP_EOL.'  dummy2'.PHP_EOL;
+
+        $this->assertSame($expected, (string) $this->result);
+    }
 }

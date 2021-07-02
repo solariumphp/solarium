@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
@@ -23,7 +30,7 @@ use Solarium\QueryType\Update\Result;
 /**
  * Update query.
  *
- * Can be used to send multiple update commands to solr, e.g. add, delete,
+ * Can be used to send multiple update commands to Solr, e.g. add, delete,
  * rollback, commit, optimize.
  * Multiple commands of any type can be combined into a single update query.
  */
@@ -140,7 +147,7 @@ class Query extends BaseQuery
         $type = strtolower($type);
 
         if (!isset($this->commandTypes[$type])) {
-            throw new InvalidArgumentException('Update commandtype unknown: '.$type);
+            throw new InvalidArgumentException(sprintf('Update commandtype unknown: %s', $type));
         }
 
         $class = $this->commandTypes[$type];
@@ -519,7 +526,7 @@ class Query extends BaseQuery
      *
      * @throws RuntimeException
      */
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 
@@ -527,7 +534,7 @@ class Query extends BaseQuery
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];
 
-                if (self::COMMAND_ADD == $type) {
+                if (self::COMMAND_ADD === $type) {
                     throw new RuntimeException('Adding documents is not supported in configuration, use the API for this');
                 }
 

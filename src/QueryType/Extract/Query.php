@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Client\Client;
@@ -21,6 +28,16 @@ use Solarium\QueryType\Update\ResponseParser as UpdateResponseParser;
  */
 class Query extends BaseQuery
 {
+    /**
+     * Extract format 'text'.
+     */
+    const EXTRACT_FORMAT_TEXT = 'text';
+
+    /**
+     * Extract format 'xml'.
+     */
+    const EXTRACT_FORMAT_XML = 'xml';
+
     /**
      * Default options.
      *
@@ -158,7 +175,7 @@ class Query extends BaseQuery
     {
         $this->setOption('defaultField', $defaultField);
 
-        return  $this;
+        return $this;
     }
 
     /**
@@ -361,7 +378,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * Set the ExtractOnly parameter of SOLR Extraction Handler.
+     * Set the extractOnly parameter of the ExtractingRequestHandler.
      *
      * @param bool $value
      *
@@ -375,13 +392,41 @@ class Query extends BaseQuery
     }
 
     /**
-     * Get the ExtractOnly parameter of SOLR Extraction Handler.
+     * Get the extractOnly parameter of the ExtractingRequestHandler.
      *
      * @return bool|null
      */
     public function getExtractOnly(): ?bool
     {
         return $this->getOption('extractonly');
+    }
+
+    /**
+     * Set the extractFormat parameter of the ExtractingRequestHandler.
+     *
+     * This parameter is valid only if 'extractonly' is set to true.
+     *
+     * @param string $format Use one of the EXTRACT_FORMAT_* constants
+     *
+     * @return self Provides fluent interface
+     *
+     * @see setExtractOnly()
+     */
+    public function setExtractFormat(string $format): self
+    {
+        $this->setOption('extractformat', $format);
+
+        return $this;
+    }
+
+    /**
+     * Get the extractFormat parameter of the ExtractingRequestHandler.
+     *
+     * @return string|null
+     */
+    public function getExtractFormat(): ?string
+    {
+        return $this->getOption('extractformat');
     }
 
     /**

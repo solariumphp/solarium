@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Plugin;
 
 use Solarium\Core\Client\Request;
@@ -38,6 +45,7 @@ class PostBigRequest extends AbstractPlugin
     public function setMaxQueryStringLength(int $value): self
     {
         $this->setOption('maxquerystringlength', $value);
+
         return $this;
     }
 
@@ -60,13 +68,13 @@ class PostBigRequest extends AbstractPlugin
      */
     public function preExecuteRequest($event): self
     {
-        // We need to accept event proxies or decoraters.
+        // We need to accept event proxies or decorators.
         /* @var PreExecuteRequest $event */
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
 
-        if (Request::METHOD_GET == $request->getMethod() &&
-            strlen($queryString) > $this->getMaxQueryStringLength()) {
+        if (Request::METHOD_GET === $request->getMethod() &&
+            \strlen($queryString) > $this->getMaxQueryStringLength()) {
             $charset = $request->getParam('ie') ?? 'utf-8';
 
             $request->setMethod(Request::METHOD_POST);
@@ -74,6 +82,7 @@ class PostBigRequest extends AbstractPlugin
             $request->clearParams();
             $request->addHeader('Content-Type: application/x-www-form-urlencoded; charset='.$charset);
         }
+
         return $this;
     }
 

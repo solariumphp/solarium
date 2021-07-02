@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Core\Client;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -113,7 +120,7 @@ interface ClientInterface
     /**
      * Remove a single endpoint.
      *
-     * You can remove a endpoint by passing it's key, or by passing the endpoint instance
+     * You can remove a endpoint by passing its key, or by passing the endpoint instance
      *
      * @param string|Endpoint $endpoint
      *

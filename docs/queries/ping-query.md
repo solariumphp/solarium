@@ -35,7 +35,7 @@ Example
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-// check solarium version available
+// check Solarium version available
 echo 'Solarium library version: ' . Solarium\Client::VERSION . ' - ';
 
 // create a client instance

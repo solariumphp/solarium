@@ -1,29 +1,43 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\ResponseParser;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 
+/**
+ * Stopwords.
+ */
 class Stopwords extends ResponseParserAbstract implements ResponseParserInterface
 {
     /**
      * Parse response data.
      *
-     * @param ResultInterface $result
+     * @param \Solarium\Core\Query\Result\ResultInterface $result
      *
      * @return array
      */
     public function parse(ResultInterface $result): array
     {
-        $data = $result->getData();
         $wordSet = null;
-        if (isset($data['wordSet'])) {
-            $wordSet = $data['wordSet'];
-        }
+        $data = [];
+        $parsed = ['items' => []];
+        $parsed = $this->parseStatus($parsed, $result);
 
-        $parsed = [];
+        if ($parsed['wasSuccessful']) {
+            $data = $result->getData();
+            if (isset($data['wordSet'])) {
+                $wordSet = $data['wordSet'];
+            }
+        }
 
         if (null !== $wordSet && !empty($wordSet)) {
             $parsed['items'] = $wordSet['managedList'];
@@ -38,7 +52,7 @@ class Stopwords extends ResponseParserAbstract implements ResponseParserInterfac
             }
         }
 
-        $this->addHeaderInfo($data, $parsed);
+        $parsed = $this->addHeaderInfo($data, $parsed);
 
         return $parsed;
     }

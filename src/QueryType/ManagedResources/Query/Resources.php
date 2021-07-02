@@ -1,24 +1,27 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\QueryType\ManagedResources\Query;
 
 use Solarium\Core\Client\Client;
+use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponseParser;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
 
-class Resources extends AbstractQuery
+/**
+ * Resources.
+ */
+class Resources extends BaseQuery
 {
-    /**
-     * Fixed name for resources.
-     *
-     * @var string
-     */
-    private $name = 'resources';
-
     /**
      * Default options.
      *
@@ -29,6 +32,13 @@ class Resources extends AbstractQuery
         'resultclass' => ResourceList::class,
         'omitheader' => true,
     ];
+
+    /**
+     * Fixed name for resources.
+     *
+     * @var string
+     */
+    private $name = 'resources';
 
     /**
      * Get the name of resources.
@@ -53,7 +63,7 @@ class Resources extends AbstractQuery
     /**
      * Get the request builder class for this query.
      *
-     * @return RequestBuilder
+     * @return \Solarium\QueryType\ManagedResources\RequestBuilder\Resources
      */
     public function getRequestBuilder(): RequestBuilderInterface
     {
@@ -63,7 +73,7 @@ class Resources extends AbstractQuery
     /**
      * Get the response parser class for this query.
      *
-     * @return ResponseParser
+     * @return \Solarium\QueryType\ManagedResources\ResponseParser\Resources
      */
     public function getResponseParser(): ResponseParserInterface
     {

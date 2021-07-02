@@ -12,7 +12,7 @@ $query = $client->createSelect();
 // get the facetset component
 $facetSet = $query->getFacetSet();
 
-// create a facet field instance and set options
+// create a facet interval instance and set options
 $facet = $facetSet->createFacetInterval('price');
 $facet->setField('price');
 $facet->setSet(array('1-9' => '[1,10)', '10-49' => '[10,50)', '49>' => '[50,*)'));
@@ -20,7 +20,7 @@ $facet->setSet(array('1-9' => '[1,10)', '10-49' => '[10,50)', '49>' => '[50,*)')
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts

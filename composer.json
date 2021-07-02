@@ -8,25 +8,26 @@
     "authors": [
         {
             "name": "See GitHub contributors",
-            "homepage": "https://github.com/basdenooijer/solarium/contributors"
+            "homepage": "https://github.com/solariumphp/solarium/contributors"
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.3 || ^8.0",
         "ext-json": "*",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "symfony/contracts": "^1.0 || ^2.0"
+        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.5",
+        "escapestudios/symfony2-coding-standard": "^3.11",
+        "guzzlehttp/guzzle": "^7.2",
         "nyholm/psr7": "^1.2",
-        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/guzzle7-adapter": "^0.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
-        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "symfony/event-dispatcher": "^4.3 || ^5.0"
     },
