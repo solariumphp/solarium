@@ -201,30 +201,27 @@ class StopwordsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
+    /**
+     * Reserved characters per RFC 3986 in a REST resource name need to be percent-encoded;
+     * + the percent character that serves as the indicator for percent-encoded octets;
+     * + the space character that mustn't be confused with embedded whitespace.
+     *
+     * When talking with Solr, these characters actually need to be encoded twice to make it
+     * through the servlet, effectively encoding every octet indicator again (SOLR-6853).
+     *
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-2
+     * @see https://issues.apache.org/jira/browse/SOLR-6853
+     */
     public function testReservedCharacters()
     {
-        // reserved characters in a REST resource name need to be encoded twice to make it through the servlet
-        $encoded = '%253A%252F%253F%2523%255B%255D%2540';
+        $unencoded = ':/?#[]@% ';
+        $encoded = '%253A%252F%253F%2523%255B%255D%2540%2525%2520';
         $command = new ExistsCommand();
-        $command->setTerm(':/?#[]@');
-        $this->query->setName('dutch');
+        $command->setTerm($unencoded);
+        $this->query->setName($unencoded);
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
-        $this->assertStringEndsWith($encoded, $request->getHandler());
-    }
-
-    public function testSpace()
-    {
-        $command = new ExistsCommand();
-        $command->setTerm(' ');
-        $this->query->setName('dutch');
-        $this->query->setCommand($command);
-        $request = $this->builder->build($this->query);
-        // SPACE works single or double encoded, but not unencoded
-        $this->assertThat($request->getHandler(), $this->logicalOr(
-            $this->stringEndsWith('%20'),
-            $this->stringEndsWith('%2520')
-        ));
+        $this->assertStringEndsWith($encoded.'/'.$encoded, $request->getHandler());
     }
 
     public function testRemove()

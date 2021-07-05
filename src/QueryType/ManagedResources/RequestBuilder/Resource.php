@@ -37,7 +37,8 @@ class Resource extends AbstractRequestBuilder
         }
 
         $request = parent::build($query);
-        $request->setHandler($query->getHandler().$query->getName());
+        // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
+        $request->setHandler($query->getHandler().rawurlencode(rawurlencode($query->getName())));
         if (null !== $query->getCommand()) {
             $request->addHeader('Content-Type: application/json; charset=utf-8');
             $this->buildCommand($request, $query->getCommand());
@@ -46,7 +47,8 @@ class Resource extends AbstractRequestBuilder
             $request->setMethod(Request::METHOD_GET);
 
             if (null !== $term = $query->getTerm()) {
-                $request->setHandler($request->getHandler().'/'.$term);
+                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
+                $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($term)));
             }
         }
 
@@ -88,12 +90,12 @@ class Resource extends AbstractRequestBuilder
                 if (null === $term = $command->getTerm()) {
                     throw new RuntimeException('Missing term for DELETE command.');
                 }
-                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet
+                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
                 $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 break;
             case BaseQuery::COMMAND_EXISTS:
                 if (null !== $term = $command->getTerm()) {
-                    // reserved characters in a REST resource name need to be encoded twice to make it through the servlet
+                    // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
                     $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 }
                 break;

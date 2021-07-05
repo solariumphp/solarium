@@ -13,6 +13,7 @@ use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
@@ -22,9 +23,12 @@ use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
 use Solarium\Plugin\PrefetchIterator;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as AbstractManagedResourceQuery;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd as AbstractAddCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as ResourceRequestBuilder;
 use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResultItem;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResultItem;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -2540,12 +2544,15 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame([], $result->getItems());
     }
 
-    public function testManagedStopwordsCreation()
+    /**
+     * @testWith ["testlist", "managed_stopword_test"]
+     *           ["list res-chars :/?#[]@%", "term res-chars :?#[]@%"]
+     */
+    public function testManagedStopwordsCreation(string $name, string $term)
     {
         /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
-        $query->setName(uniqid());
-        $term = 'managed_stopword_test';
+        $query->setName($name.uniqid());
 
         // Check that stopword list doesn't exist
         $exists = $query->createCommand($query::COMMAND_EXISTS);
@@ -2699,12 +2706,15 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame([], $result->getItems());
     }
 
-    public function testManagedSynonymsCreation()
+    /**
+     * @testWith ["testmap", "managed_synonyms_test"]
+     *           ["map res-chars :/?#[]@%", "term res-chars :?#[]@%"]
+     */
+    public function testManagedSynonymsCreation(string $name, string $term)
     {
         /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
-        $query->setName(uniqid());
-        $term = 'managed_synonyms_test';
+        $query->setName($name.uniqid());
 
         // Check that synonym map doesn't exist
         $exists = $query->createCommand($query::COMMAND_EXISTS);
@@ -2816,6 +2826,168 @@ abstract class AbstractTechproductsTest extends TestCase
         // both resources must be present in the results
         $this->assertSame(2, $n);
     }
+
+    /**
+     * Compare our fix for Solr requiring special characters be doubly percent-encoded
+     * with an RFC 3986 compliant implementation that uses single percent-encoding.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-6853
+     *
+     * @dataProvider managedResourcesSolr6853Provider
+     */
+    public function testManagedResourcesSolr6853(string $resourceType, AbstractManagedResourceQuery $query, AbstractAddCommand $add)
+    {
+        // unique name is necessary for Stopwords to avoid running into SOLR-14268
+        $uniqid = uniqid();
+        $name = $uniqid.'test-:/?#[]@% ';
+
+        // unlike name, term can't contain a slash (SOLR-6853)
+        $term = 'test-:?#[]@% ';
+
+        $nameSingleEncoded = $uniqid.'test-%3A%2F%3F%23%5B%5D%40%25%20';
+        $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
+
+        $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
+        $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
+
+        $compliantRequestBuilder = new CompliantManagedResourceRequestBuilder();
+        $actualRequestBuilder = new ResourceRequestBuilder();
+
+        $query->setName($name);
+
+        // Create a new managed resource with reserved characters in the name
+        $create = $query->createCommand($query::COMMAND_CREATE);
+        $query->setCommand($create);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        $query->removeCommand();
+
+        // Getting the resource with a compliant request builder doesn't work
+        $request = $compliantRequestBuilder->build($query);
+        $this->assertStringEndsWith('/'.$nameSingleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Since Solr 8.7, this returns an error message in JSON, earlier versions return an HTML page
+        $expectedErrorMsg = sprintf('No REST managed resource registered for path /schema/analysis/%s/%stest-', $resourceType, $uniqid);
+        if (8 === self::$solrVersion) {
+            $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg);
+        }
+        else {
+            $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody());
+        }
+
+        // Getting the resource with our actual request builder does work
+        $request = $actualRequestBuilder->build($query);
+        $this->assertStringEndsWith('/'.$nameDoubleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Removing the resource with a compliant request builder doesn't work
+        $remove = $query->createCommand($query::COMMAND_REMOVE);
+        $query->setCommand($remove);
+        $request = $compliantRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // The resource still exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Removing the resource with our actual request builder does work
+        $query->setCommand($remove);
+        $request = $actualRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // The resource is gone
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Add a term with reserved characters to a resource
+        $query->setName('english');
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        $query->removeCommand()->setTerm($term);
+
+        // Getting the term with a compliant request builder doesn't work
+        $request = $compliantRequestBuilder->build($query);
+        $this->assertStringEndsWith('/english/'.$termSingleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful());
+
+        $expectedErrorMsg = sprintf('test- not found in /schema/analysis/%s/english', $resourceType);
+        $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg);
+
+        // Getting the term with our actual request builder does work
+        $request = $actualRequestBuilder->build($query);
+        $this->assertStringEndsWith('/english/'.$termDoubleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Deleting the resource with a compliant request builder doesn't work
+        $delete = $query->createCommand($query::COMMAND_DELETE);
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $request = $compliantRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // The term still exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Deleting the resource with our actual request builder doesn't work
+        $query->setCommand($delete);
+        $request = $actualRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // The term is gone
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+    }
+
+    public function managedResourcesSolr6853Provider(): array
+    {
+        $term = 'test-:?#[]@% ';
+        $data = [];
+
+        $query = new StopwordsQuery();
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $add->setStopwords([$term]);
+
+        $data['stopwords'] = ['stopwords', $query, $add];
+
+        $query = new SynonymsQuery();
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['foo', 'bar']);
+        $add->setSynonyms($synonyms);
+
+        $data['synonyms'] = ['synonyms', $query, $add];
+
+        return $data;
+    }
 }
 
 class GroupingTestQuery extends SelectQuery
@@ -2833,5 +3005,30 @@ class TermsTestQuery extends SelectQuery
         $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';
         // Unfortunately the terms request Handler is the only one containing a terms component.
         $this->setHandler('terms');
+    }
+}
+
+/**
+ * Request builder for a managed resource that percent-encodes the list/map name
+ * and term once, in compliance wiht RFC 3986.
+ *
+ * It doesn't apply the double percent-encoding required to work around SOLR-6853
+ *
+ * @see https://issues.apache.org/jira/browse/SOLR-6853
+ */
+class CompliantManagedResourceRequestBuilder extends ResourceRequestBuilder
+{
+    public function build(AbstractQuery $query): Request
+    {
+        $request = parent::build($query);
+
+        // Undo the double percent-encoding to end up with single encoding
+        $handlerSegments = explode('/', $request->getHandler());
+        foreach ($handlerSegments as &$segment) {
+            $segment = rawurldecode($segment);
+        }
+        $request->setHandler(implode('/', $handlerSegments));
+
+        return $request;
     }
 }
