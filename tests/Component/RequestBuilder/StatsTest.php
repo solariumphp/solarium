@@ -17,6 +17,8 @@ class StatsTest extends TestCase
         $component = new Component();
         $component->createField('fieldA')->addFacet('fieldFacetA');
         $component->createField('fieldB');
+        $component->createField('fieldC')->addPivots(['piv1', 'piv2']);
+        $component->createField('{!mean=true}fieldD')->addPivots(['piv1', 'piv2']);
         $component->addFacets(['facetA', 'facetB']);
 
         $request = $builder->buildComponent($component, $request);
@@ -31,6 +33,8 @@ class StatsTest extends TestCase
                 'stats.field' => [
                     'fieldA',
                     'fieldB',
+                    '{!tag=piv1,piv2}fieldC',
+                    '{!mean=true tag=piv1,piv2}fieldD',
                 ],
                 'f.fieldA.stats.facet' => 'fieldFacetA',
             ],
