@@ -39,12 +39,9 @@ abstract class AbstractCreate extends AbstractCommand
     }
 
     /**
-     * Empty.
+     * Returns the data to be sent to Solr.
      *
      * @return string
      */
-    public function getTerm(): string
-    {
-        return '';
-    }
+    abstract public function getRawData(): string;
 }

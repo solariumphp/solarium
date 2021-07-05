@@ -10,7 +10,7 @@ Please see the [docs](http://solarium.readthedocs.io/en/stable/) for a more deta
 
 ## Requirements
 
-Solarium 6.x only supports PHP 7.3 and up.
+Solarium 6.1.x only supports PHP 7.3 and up.
 
 It's highly recommended to have cURL enabled in your PHP environment. However if you don't have cURL available you can
 switch from using cURL (the default) to a pure PHP based HTTP client adapter which works for the essential stuff but

@@ -49,9 +49,9 @@ class Config extends AbstractCommand
     /**
      * Returns configuration parameters.
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
+     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface|null
      */
-    public function getInitArgs(): InitArgsInterface
+    public function getInitArgs(): ?InitArgsInterface
     {
         return $this->initArgs;
     }
@@ -73,24 +73,14 @@ class Config extends AbstractCommand
     /**
      * Returns the raw data to be sent to Solr.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRawData(): string
+    public function getRawData(): ?string
     {
         if (null !== $this->getInitArgs() && !empty($this->getInitArgs()->getInitArgs())) {
             return json_encode(['initArgs' => $this->getInitArgs()->getInitArgs()]);
         }
 
-        return '';
-    }
-
-    /**
-     * Empty.
-     *
-     * @return string
-     */
-    public function getTerm(): string
-    {
-        return '';
+        return null;
     }
 }

@@ -136,7 +136,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         } elseif (Request::METHOD_GET === $method) {
             curl_setopt($handler, CURLOPT_HTTPGET, true);
         } elseif (Request::METHOD_HEAD === $method) {
-            curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'HEAD');
+            curl_setopt($handler, CURLOPT_NOBODY, true);
         } elseif (Request::METHOD_DELETE === $method) {
             curl_setopt($handler, CURLOPT_CUSTOMREQUEST, 'DELETE');
         } elseif (Request::METHOD_PUT === $method) {

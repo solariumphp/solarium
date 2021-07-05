@@ -21,8 +21,6 @@ jobs:
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
         env:
-            PHP: ${{ matrix.os }}
-            SOLR: ${{ matrix.solr }}${{ matrix.mode }}
             COMPOSER_MEMORY_LIMIT: -1
 
         steps:
@@ -45,12 +43,12 @@ jobs:
                 ref: branch_7_7
                 path: lucene-solr
 
-            - name: Checkout solr 8.5
+            - name: Checkout solr 8.9
               if: matrix.solr == 8
               uses: actions/checkout@v2
               with:
                 repository: apache/lucene-solr
-                ref: branch_8_5
+                ref: branch_8_9
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
@@ -76,11 +74,34 @@ jobs:
                 cd examples
                 php execute_all.php
 
-            - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@master
+            - uses: actions/upload-artifact@v2
               with:
-                file: build/logs/clover.xml
-                flags: unittests
-                env_vars: PHP,SOLR
                 name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
-                fail_ci_if_error: false
+                path: build/logs
+
+    coverage:
+        runs-on: ubuntu-latest
+
+        name: Upload coverage to codecov.io
+
+        needs: [run-tests]
+
+        steps:
+            - name: Checkout solarium
+              uses: actions/checkout@v2
+
+            - name: Download coverage reports from tests
+              uses: actions/download-artifact@v2
+
+            - name: List report files
+              run: |
+                ls -l PHP*/clover*.xml
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v1
+              with:
+                  files: PHP*/clover*.xml
+                  flags: unittests
+                  name: solarium
+                  fail_ci_if_error: false
+                  verbose: false

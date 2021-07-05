@@ -27,9 +27,9 @@ class Add extends AbstractAdd
     /**
      * Get synonyms.
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms
+     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms|null
      */
-    public function getSynonyms(): SynonymsData
+    public function getSynonyms(): ?SynonymsData
     {
         return $this->synonyms;
     }
@@ -51,18 +51,18 @@ class Add extends AbstractAdd
     /**
      * Returns the raw data to be sent to Solr.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRawData(): string
+    public function getRawData(): ?string
     {
         if (null !== $this->getSynonyms() && !empty($this->getSynonyms()->getSynonyms())) {
-            if ('' !== trim($this->getSynonyms()->getTerm())) {
+            if (null !== $this->getSynonyms()->getTerm() && '' !== trim($this->getSynonyms()->getTerm())) {
                 return json_encode([$this->getSynonyms()->getTerm() => $this->getSynonyms()->getSynonyms()]);
             }
 
             return json_encode($this->getSynonyms()->getSynonyms());
         }
 
-        return '';
+        return null;
     }
 }

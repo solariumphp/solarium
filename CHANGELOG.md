@@ -7,15 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
+- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
+- Query a single term in a Managed Resource
+
+### Fixed
+- Syntax error in request with facet queries that contain local parameters
+- HEAD requests could lead to timeouts with cURL adapter
+
+### Changed
+
+### Removed
+
+### Deprecated
+
+
+## [6.1.3]
+### Fixed
+- possible exception in Debug\Detail::__toString() when sub details are missing
+
+
+## [6.1.2]
+### Added
 - MoreLikeThis::setMaximumDocumentFrequency()
 - MoreLikeThis::setMaximumDocumentFrequencyPercentage()
 - getInterestingTerms() of MoreLikeThis Component results
 
 ### Fixed
-
-### Changed
-
-### Removed
+- Debug\Detail return value types
+- Debug\Document return value types
 
 ### Deprecated
 - Support for `mlt.match.include` and `mlt.match.offset` in MoreLikeThis Component (they only work in MLT queries)

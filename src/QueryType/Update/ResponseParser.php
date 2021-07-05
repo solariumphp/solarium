@@ -21,7 +21,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Parse response data.
      *
-     * @param Result| ResultInterface $result
+     * @param Result|ResultInterface $result
      *
      * @return array
      */
