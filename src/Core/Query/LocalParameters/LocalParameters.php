@@ -28,18 +28,6 @@ class LocalParameters implements \ArrayAccess
     private $parameters = [];
 
     /**
-     * @return string|null
-     */
-    public function render(): ?string
-    {
-        if ('' === $value = implode(' ', array_filter(array_map('strval', $this->parameters)))) {
-            return null;
-        }
-
-        return sprintf('{!%s}', $value);
-    }
-
-    /**
      * @param string $key
      *
      * @throws OutOfBoundsException
@@ -1023,5 +1011,22 @@ class LocalParameters implements \ArrayAccess
         }
 
         return $this->parameters[$type];
+    }
+
+    /**
+     * Get all local parameters in a key => value format.
+     *
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        $params = [];
+
+        /** @var LocalParameterInterface $parameter */
+        foreach ($this->parameters as $parameter) {
+            $params[$parameter->getType()] = $parameter->getValues();
+        }
+
+        return $params;
     }
 }
