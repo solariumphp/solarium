@@ -103,6 +103,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                 ],
             ],
             stream_context_get_options($context)
@@ -133,6 +134,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                     'header' => $header1."\r\n".$header2,
                 ],
             ],
@@ -162,6 +164,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                     'content' => $data,
                     'header' => 'Content-Type: text/xml; charset=utf-8',
                 ],
@@ -196,6 +199,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                 ],
             ],
             $stream_context_get_options
@@ -224,6 +228,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                     'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
                 ],
             ],
@@ -251,6 +256,7 @@ class HttpTest extends TestCase
                     'timeout' => $timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                 ],
             ],
             stream_context_get_options($context)

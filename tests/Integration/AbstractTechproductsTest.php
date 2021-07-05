@@ -2816,6 +2816,19 @@ abstract class AbstractTechproductsTest extends TestCase
         // both resources must be present in the results
         $this->assertSame(2, $n);
     }
+
+    public function testGetBodyOnHttpError()
+    {
+        /** @var \Solarium\Core\Query\Status4xxNoExceptionInterface $query */
+        $query = self::$client->createManagedSynonyms();
+        $query->setName('english');
+        $query->setTerm('foo');
+
+        $result = self::$client->execute($query);
+
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertNotSame('', $result->getResponse()->getBody());
+    }
 }
 
 class GroupingTestQuery extends SelectQuery
