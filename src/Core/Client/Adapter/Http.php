@@ -77,6 +77,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
                     'timeout' => $this->timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                 ],
             ]
         );
