@@ -19,6 +19,16 @@ use Solarium\Exception\OutOfBoundsException;
 class LocalParametersTest extends TestCase
 {
     /**
+     * @var LocalParameters
+     */
+    protected $parameters;
+
+    public function setUp(): void
+    {
+        $this->parameters = new LocalParameters();
+    }
+
+    /**
      * @throws \PHPUnit\Framework\Exception
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\OutOfBoundsException
@@ -40,6 +50,8 @@ class LocalParametersTest extends TestCase
             'local_mean' => '',
             'local_min' => '',
             'local_value' => '',
+            'local_cache' => true,
+            'local_cost' => 0,
         ];
 
         $query = new DummyQuery($options);
@@ -60,6 +72,8 @@ class LocalParametersTest extends TestCase
         $this->assertArrayHasKey(LocalParameter::TYPE_MAX, $parameters);
         $this->assertArrayHasKey(LocalParameter::TYPE_MIN, $parameters);
         $this->assertArrayHasKey(LocalParameter::TYPE_VALUE, $parameters);
+        $this->assertArrayHasKey(LocalParameter::TYPE_CACHE, $parameters);
+        $this->assertArrayHasKey(LocalParameter::TYPE_COST, $parameters);
 
         $keys = $parameters[LocalParameter::TYPE_KEY];
         $this->assertInstanceOf(LocalParameter::class, $keys);
@@ -88,31 +102,17 @@ class LocalParametersTest extends TestCase
      */
     public function testKey(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setKey('key');
+        $this->parameters->setKey('key');
+        $this->assertSame(['key'], $this->parameters->getKeys());
 
-        $this->assertSame('{!key=key}', $parameters->render());
+        $this->parameters->clearKeys();
+        $this->assertEmpty($this->parameters->getKeys());
 
-        $parameters->clearKeys();
-        $parameters->addKeys(['key1', 'key2']);
+        $this->parameters->addKeys(['key1', 'key2']);
+        $this->assertSame(['key1', 'key2'], $this->parameters->getKeys());
 
-        $this->assertSame('{!key=key1,key2}', $parameters->render());
-
-        $parameters->removeKey('key1');
-        $this->assertSame('{!key=key2}', $parameters->render());
-        $this->assertSame(['key2'], $parameters->getKeys());
-    }
-
-    /**
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \Solarium\Exception\OutOfBoundsException
-     */
-    public function testEmptyValue(): void
-    {
-        $parameters = new LocalParameters();
-        $parameters->setKey('');
-
-        $this->assertNull($parameters->render());
+        $this->parameters->removeKey('key1');
+        $this->assertSame(['key2'], $this->parameters->getKeys());
     }
 
     /**
@@ -121,19 +121,17 @@ class LocalParametersTest extends TestCase
      */
     public function testExclude(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setExclude('exclude');
+        $this->parameters->setExclude('exclude');
+        $this->assertSame(['exclude'], $this->parameters->getExcludes());
 
-        $this->assertSame('{!ex=exclude}', $parameters->render());
+        $this->parameters->clearExcludes();
+        $this->assertEmpty($this->parameters->getExcludes());
 
-        $parameters->clearExcludes();
-        $parameters->addExcludes(['excludeOne', 'excludeTwo']);
+        $this->parameters->addExcludes(['excludeOne', 'excludeTwo']);
+        $this->assertSame(['excludeOne', 'excludeTwo'], $this->parameters->getExcludes());
 
-        $this->assertSame('{!ex=excludeOne,excludeTwo}', $parameters->render());
-
-        $parameters->removeExclude('excludeOne');
-        $this->assertSame('{!ex=excludeTwo}', $parameters->render());
-        $this->assertSame(['excludeTwo'], $parameters->getExcludes());
+        $this->parameters->removeExclude('excludeOne');
+        $this->assertSame(['excludeTwo'], $this->parameters->getExcludes());
     }
 
     /**
@@ -142,11 +140,11 @@ class LocalParametersTest extends TestCase
      */
     public function testReplaceExcludes(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setExcludes(['exclude1', 'exclude2']);
-        $parameters->setExcludes(['excludeOne', 'excludeTwo']);
+        $this->parameters->setExcludes(['exclude1', 'exclude2']);
+        $this->assertSame(['exclude1', 'exclude2'], $this->parameters->getExcludes());
 
-        $this->assertSame('{!ex=excludeOne,excludeTwo}', $parameters->render());
+        $this->parameters->setExcludes(['excludeOne', 'excludeTwo']);
+        $this->assertSame(['excludeOne', 'excludeTwo'], $this->parameters->getExcludes());
     }
 
     /**
@@ -155,19 +153,17 @@ class LocalParametersTest extends TestCase
      */
     public function testRange(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setRange('range');
+        $this->parameters->setRange('range');
+        $this->assertSame(['range'], $this->parameters->getRanges());
 
-        $this->assertSame('{!range=range}', $parameters->render());
+        $this->parameters->clearRanges();
+        $this->assertEmpty($this->parameters->getRanges());
 
-        $parameters->clearRanges();
-        $parameters->addRanges(['rangeOne', 'rangeTwo']);
+        $this->parameters->addRanges(['rangeOne', 'rangeTwo']);
+        $this->assertSame(['rangeOne', 'rangeTwo'], $this->parameters->getRanges());
 
-        $this->assertSame('{!range=rangeOne,rangeTwo}', $parameters->render());
-
-        $parameters->removeRange('rangeOne');
-        $this->assertSame('{!range=rangeTwo}', $parameters->render());
-        $this->assertSame(['rangeTwo'], $parameters->getRanges());
+        $this->parameters->removeRange('rangeOne');
+        $this->assertSame(['rangeTwo'], $this->parameters->getRanges());
     }
 
     /**
@@ -176,12 +172,11 @@ class LocalParametersTest extends TestCase
      */
     public function testReplaceRange(): void
     {
-        $parameters = new LocalParameters();
+        $this->parameters->setRanges(['range1', 'range2']);
+        $this->assertSame(['range1', 'range2'], $this->parameters->getRanges());
 
-        $parameters->setRanges(['range1', 'range2']);
-        $parameters->setRanges(['rangeOne', 'rangeTwo']);
-
-        $this->assertSame('{!range=rangeOne,rangeTwo}', $parameters->render());
+        $this->parameters->setRanges(['rangeOne', 'rangeTwo']);
+        $this->assertSame(['rangeOne', 'rangeTwo'], $this->parameters->getRanges());
     }
 
     /**
@@ -190,19 +185,17 @@ class LocalParametersTest extends TestCase
      */
     public function testTag(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setTag('tag');
+        $this->parameters->setTag('tag');
+        $this->assertSame(['tag'], $this->parameters->getTags());
 
-        $this->assertSame('{!tag=tag}', $parameters->render());
+        $this->parameters->clearTags();
+        $this->assertEmpty($this->parameters->getTags());
 
-        $parameters->clearTags();
-        $parameters->addTags(['tagOne', 'tagTwo']);
+        $this->parameters->addTags(['tagOne', 'tagTwo']);
+        $this->assertSame(['tagOne', 'tagTwo'], $this->parameters->getTags());
 
-        $this->assertSame('{!tag=tagOne,tagTwo}', $parameters->render());
-
-        $parameters->removeTag('tagOne');
-        $this->assertSame('{!tag=tagTwo}', $parameters->render());
-        $this->assertSame(['tagTwo'], $parameters->getTags());
+        $this->parameters->removeTag('tagOne');
+        $this->assertSame(['tagTwo'], $this->parameters->getTags());
     }
 
     /**
@@ -211,11 +204,11 @@ class LocalParametersTest extends TestCase
      */
     public function testReplaceTags(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setTags(['tag1', 'tag2']);
-        $parameters->setTags(['tagOne', 'tagTwo']);
+        $this->parameters->setTags(['tag1', 'tag2']);
+        $this->assertSame(['tag1', 'tag2'], $this->parameters->getTags());
 
-        $this->assertSame('{!tag=tagOne,tagTwo}', $parameters->render());
+        $this->parameters->setTags(['tagOne', 'tagTwo']);
+        $this->assertSame(['tagOne', 'tagTwo'], $this->parameters->getTags());
     }
 
     /**
@@ -224,33 +217,30 @@ class LocalParametersTest extends TestCase
      */
     public function testTerms(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setTerm('terms');
+        $this->parameters->setTerm('terms');
+        $this->assertSame(['terms'], $this->parameters->getTerms());
 
-        $this->assertSame('{!terms=terms}', $parameters->render());
+        $this->parameters->clearTerms();
+        $this->assertEmpty($this->parameters->getTerms());
 
-        $parameters->clearTerms();
-        $parameters->addTerms(['termsOne', 'termsTwo']);
+        $this->parameters->addTerms(['termsOne', 'termsTwo']);
+        $this->assertSame(['termsOne', 'termsTwo'], $this->parameters->getTerms());
 
-        $this->assertSame('{!terms=termsOne,termsTwo}', $parameters->render());
-
-        $parameters->removeTerms('termsOne');
-        $this->assertSame('{!terms=termsTwo}', $parameters->render());
-        $this->assertSame(['termsTwo'], $parameters->getTerms());
+        $this->parameters->removeTerms('termsOne');
+        $this->assertSame(['termsTwo'], $this->parameters->getTerms());
     }
 
     /**
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \Solarium\Exception\OutOfBoundsException
      */
-    public function testReplaceRanges(): void
+    public function testReplaceTerms(): void
     {
-        $parameters = new LocalParameters();
+        $this->parameters->setTerms(['terms1', 'terms2']);
+        $this->assertSame(['terms1', 'terms2'], $this->parameters->getTerms());
 
-        $parameters->setTerms(['terms1', 'terms2']);
-        $parameters->setTerms(['termsOne', 'termsTwo']);
-
-        $this->assertSame('{!terms=termsOne,termsTwo}', $parameters->render());
+        $this->parameters->setTerms(['termsOne', 'termsTwo']);
+        $this->assertSame(['termsOne', 'termsTwo'], $this->parameters->getTerms());
     }
 
     /**
@@ -259,19 +249,17 @@ class LocalParametersTest extends TestCase
      */
     public function testQuery(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setQuery('query');
+        $this->parameters->setQuery('query');
+        $this->assertSame(['query'], $this->parameters->getQueries());
 
-        $this->assertSame('{!query=query}', $parameters->render());
+        $this->parameters->clearQueries();
+        $this->assertEmpty($this->parameters->getQueries());
 
-        $parameters->clearQueries();
-        $parameters->addQueries(['queryOne', 'queryTwo']);
+        $this->parameters->addQueries(['queryOne', 'queryTwo']);
+        $this->assertSame(['queryOne', 'queryTwo'], $this->parameters->getQueries());
 
-        $this->assertSame('{!query=queryOne,queryTwo}', $parameters->render());
-
-        $parameters->removeQuery('queryOne');
-        $this->assertSame('{!query=queryTwo}', $parameters->render());
-        $this->assertSame(['queryTwo'], $parameters->getQueries());
+        $this->parameters->removeQuery('queryOne');
+        $this->assertSame(['queryTwo'], $this->parameters->getQueries());
     }
 
     /**
@@ -280,12 +268,11 @@ class LocalParametersTest extends TestCase
      */
     public function testReplaceQueries(): void
     {
-        $parameters = new LocalParameters();
+        $this->parameters->setQueries(['query1', 'query2']);
+        $this->assertSame(['query1', 'query2'], $this->parameters->getQueries());
 
-        $parameters->setQueries(['query1', 'query2']);
-        $parameters->setQueries(['queryOne', 'queryTwo']);
-
-        $this->assertSame('{!query=queryOne,queryTwo}', $parameters->render());
+        $this->parameters->setQueries(['queryOne', 'queryTwo']);
+        $this->assertSame(['queryOne', 'queryTwo'], $this->parameters->getQueries());
     }
 
     /**
@@ -294,19 +281,30 @@ class LocalParametersTest extends TestCase
      */
     public function testStats(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setStat('stats');
+        $this->parameters->setStat('stats');
+        $this->assertSame(['stats'], $this->parameters->getStats());
 
-        $this->assertSame('{!stats=stats}', $parameters->render());
+        $this->parameters->clearStats();
+        $this->assertEmpty($this->parameters->getStats());
 
-        $parameters->clearStats();
-        $parameters->addStats(['statsOne', 'statsTwo']);
+        $this->parameters->addStats(['statsOne', 'statsTwo']);
+        $this->assertSame(['statsOne', 'statsTwo'], $this->parameters->getStats());
 
-        $this->assertSame('{!stats=statsOne,statsTwo}', $parameters->render());
+        $this->parameters->removeStat('statsOne');
+        $this->assertSame(['statsTwo'], $this->parameters->getStats());
+    }
 
-        $parameters->removeStat('statsOne');
-        $this->assertSame('{!stats=statsTwo}', $parameters->render());
-        $this->assertSame(['statsTwo'], $parameters->getStats());
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
+    public function testReplaceStats(): void
+    {
+        $this->parameters->setStats(['stats1', 'stats2']);
+        $this->assertSame(['stats1', 'stats2'], $this->parameters->getStats());
+
+        $this->parameters->setStats(['statsOne', 'statsTwo']);
+        $this->assertSame(['statsOne', 'statsTwo'], $this->parameters->getStats());
     }
 
     /**
@@ -315,14 +313,11 @@ class LocalParametersTest extends TestCase
      */
     public function testMin(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setMin('min');
+        $this->parameters->setMin('min');
+        $this->assertSame(['min'], $this->parameters->getMin());
 
-        $this->assertSame('{!min=min}', $parameters->render());
-
-        $parameters->clearMin();
-
-        $this->assertEmpty($parameters->getMin());
+        $this->parameters->clearMin();
+        $this->assertEmpty($this->parameters->getMin());
     }
 
     /**
@@ -331,14 +326,11 @@ class LocalParametersTest extends TestCase
      */
     public function testMax(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setMax('max');
+        $this->parameters->setMax('max');
+        $this->assertSame(['max'], $this->parameters->getMax());
 
-        $this->assertSame('{!max=max}', $parameters->render());
-
-        $parameters->clearMax();
-
-        $this->assertEmpty($parameters->getMax());
+        $this->parameters->clearMax();
+        $this->assertEmpty($this->parameters->getMax());
     }
 
     /**
@@ -347,14 +339,11 @@ class LocalParametersTest extends TestCase
      */
     public function testMean(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setMean('mean');
+        $this->parameters->setMean('mean');
+        $this->assertSame(['mean'], $this->parameters->getMean());
 
-        $this->assertSame('{!mean=mean}', $parameters->render());
-
-        $parameters->clearMean();
-
-        $this->assertEmpty($parameters->getMean());
+        $this->parameters->clearMean();
+        $this->assertEmpty($this->parameters->getMean());
     }
 
     /**
@@ -363,19 +352,17 @@ class LocalParametersTest extends TestCase
      */
     public function testDefaultField(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setDefaultField('defaultField');
+        $this->parameters->setDefaultField('defaultField');
+        $this->assertSame(['defaultField'], $this->parameters->getDefaultFields());
 
-        $this->assertSame('{!df=defaultField}', $parameters->render());
+        $this->parameters->clearDefaultFields();
+        $this->assertEmpty($this->parameters->getDefaultFields());
 
-        $parameters->clearDefaultFields();
-        $parameters->addDefaultFields(['defaultFieldOne', 'defaultFieldTwo']);
+        $this->parameters->addDefaultFields(['defaultFieldOne', 'defaultFieldTwo']);
+        $this->assertSame(['defaultFieldOne', 'defaultFieldTwo'], $this->parameters->getDefaultFields());
 
-        $this->assertSame('{!df=defaultFieldOne,defaultFieldTwo}', $parameters->render());
-
-        $parameters->removeDefaultField('defaultFieldOne');
-        $this->assertSame('{!df=defaultFieldTwo}', $parameters->render());
-        $this->assertSame(['defaultFieldTwo'], $parameters->getDefaultFields());
+        $this->parameters->removeDefaultField('defaultFieldOne');
+        $this->assertSame(['defaultFieldTwo'], $this->parameters->getDefaultFields());
     }
 
     /**
@@ -384,19 +371,17 @@ class LocalParametersTest extends TestCase
      */
     public function testQueryField(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setQueryField('queryField');
+        $this->parameters->setQueryField('queryField');
+        $this->assertSame(['queryField'], $this->parameters->getQueryFields());
 
-        $this->assertSame('{!qf=queryField}', $parameters->render());
+        $this->parameters->clearQueryFields();
+        $this->assertEmpty($this->parameters->getQueryFields());
 
-        $parameters->clearQueryFields();
-        $parameters->addQueryFields(['queryFieldOne', 'queryFieldTwo']);
+        $this->parameters->addQueryFields(['queryFieldOne', 'queryFieldTwo']);
+        $this->assertSame(['queryFieldOne', 'queryFieldTwo'], $this->parameters->getQueryFields());
 
-        $this->assertSame('{!qf=queryFieldOne,queryFieldTwo}', $parameters->render());
-
-        $parameters->removeQueryField('queryFieldOne');
-        $this->assertSame('{!qf=queryFieldTwo}', $parameters->render());
-        $this->assertSame(['queryFieldTwo'], $parameters->getQueryFields());
+        $this->parameters->removeQueryField('queryFieldOne');
+        $this->assertSame(['queryFieldTwo'], $this->parameters->getQueryFields());
     }
 
     /**
@@ -405,19 +390,17 @@ class LocalParametersTest extends TestCase
      */
     public function testType(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setType('type');
+        $this->parameters->setType('type');
+        $this->assertSame(['type'], $this->parameters->getTypes());
 
-        $this->assertSame('{!type=type}', $parameters->render());
+        $this->parameters->clearTypes();
+        $this->assertEmpty($this->parameters->getTypes());
 
-        $parameters->clearTypes();
-        $parameters->addTypes(['typeOne', 'typeTwo']);
+        $this->parameters->addTypes(['typeOne', 'typeTwo']);
+        $this->assertSame(['typeOne', 'typeTwo'], $this->parameters->getTypes());
 
-        $this->assertSame('{!type=typeOne,typeTwo}', $parameters->render());
-
-        $parameters->removeType('typeOne');
-        $this->assertSame('{!type=typeTwo}', $parameters->render());
-        $this->assertSame(['typeTwo'], $parameters->getTypes());
+        $this->parameters->removeType('typeOne');
+        $this->assertSame(['typeTwo'], $this->parameters->getTypes());
     }
 
     /**
@@ -426,19 +409,62 @@ class LocalParametersTest extends TestCase
      */
     public function testLocalValue(): void
     {
-        $parameters = new LocalParameters();
-        $parameters->setLocalValue('value');
+        $this->parameters->setLocalValue('value');
+        $this->assertSame(['value'], $this->parameters->getLocalValues());
 
-        $this->assertSame('{!v=value}', $parameters->render());
+        $this->parameters->clearLocalValues();
+        $this->assertEmpty($this->parameters->getLocalValues());
 
-        $parameters->clearLocalValues();
-        $parameters->addLocalValues(['valueOne', 'valueTwo']);
+        $this->parameters->addLocalValues(['valueOne', 'valueTwo']);
+        $this->assertSame(['valueOne', 'valueTwo'], $this->parameters->getLocalValues());
 
-        $this->assertSame('{!v=valueOne,valueTwo}', $parameters->render());
+        $this->parameters->removeLocalValue('valueOne');
+        $this->assertSame(['valueTwo'], $this->parameters->getLocalValues());
+    }
 
-        $parameters->removeLocalValue('valueOne');
-        $this->assertSame('{!v=valueTwo}', $parameters->render());
-        $this->assertSame(['valueTwo'], $parameters->getLocalValues());
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
+    public function testCache(): void
+    {
+        $this->parameters->setCache(true);
+        $this->assertSame(['true'], $this->parameters->getCache());
+
+        $this->parameters->setCache(false);
+        $this->assertSame(['false'], $this->parameters->getCache());
+
+        $this->parameters->clearCache();
+        $this->assertEmpty($this->parameters->getCache());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     */
+    public function testCost(): void
+    {
+        $this->parameters->setCost(1);
+        $this->assertSame([1], $this->parameters->getCost());
+
+        $this->parameters->clearCost();
+        $this->assertEmpty($this->parameters->getCost());
+    }
+
+    public function testGetParameters(): void
+    {
+        $this->parameters->setKey('key1');
+        $this->parameters->setExcludes(['exclude1', 'exclude2']);
+        $this->parameters->setCache(true);
+        $this->parameters->setCost(1);
+
+        $expected = [
+            'key' => ['key1'],
+            'ex' => ['exclude1', 'exclude2'],
+            'cache' => ['true'],
+            'cost' => [1],
+        ];
+        $this->assertSame($expected, $this->parameters->getParameters());
     }
 }
 

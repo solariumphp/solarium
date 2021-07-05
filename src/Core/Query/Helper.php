@@ -323,6 +323,12 @@ class Helper
         $output = '{!'.$name;
         foreach ($params as $key => $value) {
             if (!$dereferenced || $forceKeys || \is_int($key)) {
+                if (\is_array($value)) {
+                    $value = implode(',', $value);
+                } elseif (\is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                }
+
                 $output .= ' '.$key.'='.$value;
             }
         }
