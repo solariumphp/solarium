@@ -2874,8 +2874,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $expectedErrorMsg = sprintf('No REST managed resource registered for path /schema/analysis/%s/%stest-', $resourceType, $uniqid);
         if (8 === self::$solrVersion) {
             $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg);
-        }
-        else {
+        } else {
             $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody());
         }
 
