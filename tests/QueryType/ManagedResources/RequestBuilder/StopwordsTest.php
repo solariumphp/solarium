@@ -221,7 +221,7 @@ class StopwordsTest extends TestCase
         $this->query->setName($unencoded);
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
-        $this->assertStringEndsWith($encoded.'/'.$encoded, $request->getHandler());
+        $this->assertStringEndsWith('/'.$encoded.'/'.$encoded, $request->getHandler());
     }
 
     public function testRemove()
