@@ -12,11 +12,12 @@ namespace Solarium\Component\RequestBuilder;
 use Solarium\Component\Stats\Stats as StatsComponent;
 use Solarium\Core\Client\Request;
 use Solarium\Core\ConfigurableInterface;
+use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 
 /**
  * Add select component stats to the request.
  */
-class Stats implements ComponentRequestBuilderInterface
+class Stats extends BaseRequestBuilder implements ComponentRequestBuilderInterface
 {
     /**
      * Add request settings for the stats component.
@@ -33,10 +34,14 @@ class Stats implements ComponentRequestBuilderInterface
 
         // add fields
         foreach ($component->getFields() as $field) {
+            $statsField = $field->getKey();
             $pivots = $field->getPivots();
 
-            $prefix = (\count($pivots) > 0) ? '{!tag='.implode(',', $pivots).'}' : '';
-            $request->addParam('stats.field', $prefix.$field->getKey());
+            if (0 !== \count($pivots)) {
+                $statsField = $this->renderLocalParams($statsField, ['tag' => $pivots]);
+            }
+
+            $request->addParam('stats.field', $statsField);
 
             // add field specific facet stats
             foreach ($field->getFacets() as $facet) {
