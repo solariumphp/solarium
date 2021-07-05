@@ -25,7 +25,6 @@ use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
-use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as ResourceRequestBuilder;
 use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResultItem;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResultItem;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -2825,13 +2824,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setName('english');
         $query->setTerm('foo');
 
-        $requestBuilder = new ResourceRequestBuilder();
-        $request = $requestBuilder->build($query);
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
+        $result = self::$client->execute($query);
 
         $this->assertFalse($result->getWasSuccessful());
-        $this->assertNotSame('', $response->getBody());
+        $this->assertNotSame('', $result->getResponse()->getBody());
     }
 }
 
