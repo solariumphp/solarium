@@ -2831,7 +2831,12 @@ abstract class AbstractTechproductsTest extends TestCase
      * Compare our fix for Solr requiring special characters be doubly percent-encoded
      * with an RFC 3986 compliant implementation that uses single percent-encoding.
      *
+     * If this test fails, Solr has probably fixed SOLR-6853 on their side. If that is
+     * the case, we'll have to re-evaluate what to do about the workaround. As long as
+     * no other tests fail, they're still supporting the workaround for BC.
+     *
      * @see https://issues.apache.org/jira/browse/SOLR-6853
+     * @see https://github.com/solariumphp/solarium/pull/742
      *
      * @dataProvider managedResourcesSolr6853Provider
      */
@@ -2868,14 +2873,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertStringEndsWith('/'.$nameSingleEncoded, $request->getHandler());
         $response = self::$client->executeRequest($request);
         $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful());
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
 
         // Since Solr 8.7, this returns an error message in JSON, earlier versions return an HTML page
         $expectedErrorMsg = sprintf('No REST managed resource registered for path /schema/analysis/%s/%stest-', $resourceType, $uniqid);
         if (8 === self::$solrVersion) {
-            $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg);
+            $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
         } else {
-            $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody());
+            $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody(), 'Check if SOLR-6853 is fixed.');
         }
 
         // Getting the resource with our actual request builder does work
@@ -2891,7 +2896,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $request = $compliantRequestBuilder->build($query);
         $response = self::$client->executeRequest($request);
         $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful());
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
 
         // The resource still exists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
@@ -2924,10 +2929,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertStringEndsWith('/english/'.$termSingleEncoded, $request->getHandler());
         $response = self::$client->executeRequest($request);
         $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful());
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
 
         $expectedErrorMsg = sprintf('test- not found in /schema/analysis/%s/english', $resourceType);
-        $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg);
+        $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
 
         // Getting the term with our actual request builder does work
         $request = $actualRequestBuilder->build($query);
@@ -2943,7 +2948,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $request = $compliantRequestBuilder->build($query);
         $response = self::$client->executeRequest($request);
         $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful());
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
 
         // The term still exists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
