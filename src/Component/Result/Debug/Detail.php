@@ -95,8 +95,7 @@ class Detail implements \ArrayAccess
         foreach ($subDetails as $subDetail) {
             if ($subDetail instanceof Detail) {
                 $this->subDetails[] = $subDetail;
-            }
-            else {
+            } else {
                 $this->subDetails[] = new Detail($subDetail['match'], $subDetail['value'], $subDetail['description']);
             }
         }
