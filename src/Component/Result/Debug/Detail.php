@@ -93,7 +93,11 @@ class Detail implements \ArrayAccess
     {
         $this->subDetails = [];
         foreach ($subDetails as $subDetail) {
-            $this->subDetails[] = new Detail($subDetail['match'], $subDetail['value'], $subDetail['description']);
+            if ($subDetail instanceof Detail) {
+                $this->subDetails[] = $subDetail;
+            } else {
+                $this->subDetails[] = new Detail($subDetail['match'], $subDetail['value'], $subDetail['description']);
+            }
         }
 
         return $this;
@@ -127,18 +131,23 @@ class Detail implements \ArrayAccess
         // Details are immutable.
     }
 
-    public function __toString()
+    public function debugDump(int $depth = 0): string
     {
         $string = '';
         if ($this->match) {
-            $string .= sprintf('%f', $this->value).' <= '.$this->description.PHP_EOL;
+            $string .= str_repeat('... ', $depth).sprintf('%f', $this->value).' <= '.$this->description.PHP_EOL;
             foreach ($this->getSubDetails() ?? [] as $subDetail) {
                 if ($subDetail->getMatch()) {
-                    $string .= '... '.$subDetail;
+                    $string .= $subDetail->debugDump($depth + 1);
                 }
             }
         }
 
         return $string;
+    }
+
+    public function __toString()
+    {
+        return $this->debugDump();
     }
 }

@@ -108,18 +108,7 @@ class Debug implements ComponentParserInterface
         foreach ($data as $key => $documentData) {
             $details = [];
             if (isset($documentData['details']) && \is_array($documentData['details'])) {
-                foreach ($documentData['details'] as $detailData) {
-                    $detail = new Detail(
-                        $detailData['match'],
-                        $detailData['value'],
-                        $detailData['description']
-                    );
-
-                    if (isset($detailData['details']) && \is_array($detailData['details'])) {
-                        $detail->setSubDetails($detailData['details']);
-                    }
-                    $details[] = $detail;
-                }
+                $details = $this->parseDetails($documentData['details']);
             }
 
             $docs[$key] = new Document(
@@ -132,6 +121,32 @@ class Debug implements ComponentParserInterface
         }
 
         return new DocumentSet($docs);
+    }
+
+    /**
+     * Parse details.
+     *
+     * @param array $data
+     *
+     * @return Detail[]
+     */
+    protected function parseDetails(array $data): array
+    {
+        $details = [];
+        foreach ($data as $key => $detailData) {
+            $detail = new Detail(
+                $detailData['match'],
+                $detailData['value'],
+                $detailData['description']
+            );
+
+            if (isset($detailData['details']) && \is_array($detailData['details'])) {
+                $detail->setSubDetails($this->parseDetails($detailData['details']));
+            }
+            $details[] = $detail;
+        }
+
+        return $details;
     }
 
     /**

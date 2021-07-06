@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Syntax error in request with facet queries that contain local parameters
 - HEAD requests could lead to timeouts with cURL adapter
 - Fix for reserved characters in managed resources (SOLR-6853)
+- Parsing nested details in debug response
 
 ### Changed
 
