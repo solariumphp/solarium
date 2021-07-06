@@ -157,7 +157,7 @@ class Result
      *
      * @return string|array|null
      */
-    protected function getValue($name)
+    public function getValue($name)
     {
         return $this->stats[$name] ?? null;
     }
