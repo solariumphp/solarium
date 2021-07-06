@@ -16,6 +16,7 @@ use Solarium\QueryType\ManagedResources\Query\Stopwords\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Remove as RemoveResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopword as StopwordResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as StopwordsResponseParser;
 
@@ -61,6 +62,13 @@ class StopwordsTest extends TestCase
         $command = $this->query->createCommand(Stopwords::COMMAND_EXISTS);
         $this->query->setCommand($command);
         $this->assertInstanceOf(ExistsResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithRemoveCommand()
+    {
+        $command = $this->query->createCommand(Stopwords::COMMAND_REMOVE);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(RemoveResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testGetResponseParserAfterRemovingCommand()
