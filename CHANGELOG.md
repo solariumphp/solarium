@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [unreleased]
+## [6.1.4]
 ### Added
 - Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
 - Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
@@ -18,10 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Parsing nested details in debug response
 
 ### Changed
-
-### Removed
-
-### Deprecated
+- Solarium\Component/Result/Stats/Result::getValue() is now public
 
 
 ## [6.1.3]
