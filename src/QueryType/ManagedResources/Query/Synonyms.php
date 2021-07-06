@@ -20,6 +20,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Remove as RemoveResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonym as SynonymResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as SynonymsResponseParser;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
@@ -86,6 +87,8 @@ class Synonyms extends AbstractQuery
             }
         } elseif (self::COMMAND_EXISTS === $this->command->getType()) {
             $parser = new ExistsResponseParser();
+        } elseif (self::COMMAND_REMOVE === $this->command->getType()) {
+            $parser = new RemoveResponseParser();
         } else {
             $parser = new CommandResponseParser();
         }
