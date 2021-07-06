@@ -1,0 +1,24 @@
+diff --git a/solr/server/solr/configsets/sample_techproducts_configs/conf/solrconfig.xml b/solr/server/solr/configsets/sample_techproducts_configs/conf/solrconfig.xml
+index 06ac9b3d2e6..087287d2339 100644
+--- a/solr/server/solr/configsets/sample_techproducts_configs/conf/solrconfig.xml
++++ b/solr/server/solr/configsets/sample_techproducts_configs/conf/solrconfig.xml
+@@ -86,6 +86,8 @@
+   <lib dir="${solr.install.dir:../../../..}/contrib/velocity/lib" regex=".*\.jar" />
+   <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-velocity-\d.*\.jar" />
+ 
++  <lib dir="${solr.install.dir:../../../..}/dist"/>
++
+   <!-- an exact 'path' can be used instead of a 'dir' to specify a
+        specific jar file.  This will cause a serious error to be logged
+        if it can't be loaded.
+@@ -1008,6 +1010,10 @@
+ 
+      -->
+ 
++  <!-- A request handler for MLT queries.
++    -->
++  <requestHandler name="/mlt" class="solr.MoreLikeThisHandler" />
++
+    <!-- Spell Check
+ 
+         The spell check component can return a list of alternative spelling

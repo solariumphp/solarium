@@ -26,7 +26,7 @@ abstract class AbstractServerTest extends AbstractTechproductsTest
         // create core with unique name using the techproducts configset
         $createAction = $coreAdminQuery->createCreate();
         $createAction->setCore(self::$name)
-            ->setConfigSet('sample_techproducts_configs');
+            ->setConfigSet('solarium');
         $coreAdminQuery->setAction($createAction);
         $response = self::$client->coreAdmin($coreAdminQuery);
         static::assertTrue($response->getWasSuccessful());

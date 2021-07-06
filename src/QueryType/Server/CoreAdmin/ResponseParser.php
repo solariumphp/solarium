@@ -18,7 +18,7 @@ use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 use Solarium\QueryType\Server\CoreAdmin\Result\StatusResult;
 
 /**
- * Parse Core Admin response data.
+ * Parse CoreAdmin response data.
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
@@ -41,14 +41,14 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     }
 
     /**
-     * @param array  $data
-     * @param Result $result
+     * @param array                  $data
+     * @param Result|ResultInterface $result
      *
      * @throws \Exception
      *
      * @return array
      */
-    protected function parseStatus(array $data, Result $result): array
+    protected function parseStatus(array $data, ResultInterface $result): array
     {
         /** @var Query $query */
         $query = $result->getQuery();
@@ -56,8 +56,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $action = $query->getAction();
         $type = $action->getType();
 
-        $data['wasSuccessful'] = 200 === $result->getResponse()->getStatusCode();
-        $data['statusMessage'] = $result->getResponse()->getStatusMessage();
+        $data = parent::parseStatus($data, $result);
 
         if (Query::ACTION_STATUS !== $type) {
             return $data;

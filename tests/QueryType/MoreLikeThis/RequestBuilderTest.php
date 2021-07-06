@@ -27,36 +27,40 @@ class RequestBuilderTest extends TestCase
 
     public function testBuildParams()
     {
-        $this->query->setInterestingTerms('test');
-        $this->query->setMatchInclude(true);
         $this->query->setStart(12);
-        $this->query->setMatchOffset(15);
         $this->query->setMltFields('description,name');
         $this->query->setMinimumTermFrequency(1);
         $this->query->setMinimumDocumentFrequency(3);
+        $this->query->setMaximumDocumentFrequency(6);
+        $this->query->setMaximumDocumentFrequencyPercentage(75);
         $this->query->setMinimumWordLength(2);
         $this->query->setMaximumWordLength(15);
         $this->query->setMaximumQueryTerms(4);
         $this->query->setMaximumNumberOfTokens(5);
         $this->query->setBoost(true);
         $this->query->setQueryFields('description');
+        $this->query->setMatchInclude(true);
+        $this->query->setMatchOffset(15);
+        $this->query->setInterestingTerms('test');
 
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
             [
-                'mlt.interestingTerms' => 'test',
-                'mlt.match.include' => 'true',
-                'mlt.match.offset' => 15,
                 'mlt.fl' => 'description,name',
                 'mlt.mintf' => 1,
                 'mlt.mindf' => 3,
+                'mlt.maxdf' => 6,
+                'mlt.maxdfpct' => 75,
                 'mlt.minwl' => 2,
                 'mlt.maxwl' => 15,
                 'mlt.maxqt' => 4,
                 'mlt.maxntp' => 5,
                 'mlt.boost' => 'true',
                 'mlt.qf' => ['description'],
+                'mlt.match.include' => 'true',
+                'mlt.match.offset' => 15,
+                'mlt.interestingTerms' => 'test',
                 'q' => '*:*',
                 'fl' => '*,score',
                 'rows' => 10,

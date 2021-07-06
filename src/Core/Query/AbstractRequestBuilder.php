@@ -45,7 +45,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
 
         $request->addParam('wt', $query->getResponseWriter());
         if ($query::WT_JSON === $query->getResponseWriter()) {
-            // Only flat JSON format is supported. Other JSON formats are easier to handle but might loose information.
+            // Only flat JSON format is supported. Other JSON formats are easier to handle but might lose information.
             $request->addParam('json.nl', 'flat');
         }
 
@@ -70,20 +70,28 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     public function renderLocalParams(string $value, array $localParams = []): string
     {
         $params = '';
+
+        if (0 === strpos($value, '{!')) {
+            $params = substr($value, 2, strpos($value, '}') - 2).' ';
+            $value = substr($value, strpos($value, '}') + 1);
+        }
+
         foreach ($localParams as $paramName => $paramValue) {
-            if (empty($paramValue)) {
+            if (null === $paramValue || '' === $paramValue || [] === $paramValue) {
                 continue;
             }
 
             if (\is_array($paramValue)) {
                 $paramValue = implode(',', $paramValue);
+            } elseif (\is_bool($paramValue)) {
+                $paramValue = $paramValue ? 'true' : 'false';
             }
 
             $params .= $paramName.'='.$paramValue.' ';
         }
 
-        if ('' !== $params) {
-            $value = '{!'.trim($params).'}'.$value;
+        if ('' !== $params = trim($params)) {
+            $value = sprintf('{!%s}%s', $params, $value);
         }
 
         return $value;

@@ -95,12 +95,13 @@ Overview of Solarium exceptions
 
 ### Logic exceptions
 
-Logic exceptions represent errors in the program logic. You should fix them in your code.
+Logic exceptions represent errors in the program logic. You should prevent them from happening with proper input validation in your code.
 
-Solarium can throw one type of logic exception. It extends its SPL counterpart to implement `Solarium\Exception\ExceptionInterface` and `Solarium\Exception\LogicExceptionInterface`.
+Solarium can throw two types of logic exceptions. Both extend their SPL counterpart to implement `Solarium\Exception\ExceptionInterface` and `Solarium\Exception\LogicExceptionInterface`.
 
 | Exception                                     | Extends                    |
 | --------------------------------------------- | -------------------------- |
+| `Solarium\Exception\DomainException`          | `DomainException`          |
 | `Solarium\Exception\InvalidArgumentException` | `InvalidArgumentException` |
 
 
@@ -128,4 +129,4 @@ This exception indicates that a problem occurred in the communication with the S
 
 #### `StreamException`
 
-This exception indicates that a problem occurred with a streaming expression. You should catch this (or a more generic exception) for every streaming exception request that is executed.
+This exception indicates that a problem occurred with a streaming expression. You should catch this (or a more generic exception) for every streaming expression request that is executed.

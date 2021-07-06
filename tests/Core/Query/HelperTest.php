@@ -25,55 +25,255 @@ class HelperTest extends TestCase
         $this->helper = new Helper($this->query);
     }
 
-    public function testRangeQueryInclusive()
+    public function testRangeQuery()
     {
         $this->assertEquals(
-            'field:["1" TO "2"]',
+            'field:[1 TO 2]',
             $this->helper->rangeQuery('field', 1, 2)
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5)
         );
 
         $this->assertSame(
             'store:[45,-94 TO 46,-93]',
-            $this->helper->rangeQuery('store', '45,-94', '46,-93', true, false)
+            $this->helper->rangeQuery('store', '45,-94', '46,-93')
+        );
+
+        $this->assertEquals(
+            'field:["A" TO "M"]',
+            $this->helper->rangeQuery('field', 'A', 'M')
+        );
+    }
+
+    public function testRangeQueryInclusive()
+    {
+        $this->assertEquals(
+            'field:[1 TO 2]',
+            $this->helper->rangeQuery('field', 1, 2, true)
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, true)
+        );
+
+        $this->assertSame(
+            'store:[45,-94 TO 46,-93]',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', true)
+        );
+
+        $this->assertEquals(
+            'field:["A" TO "M"]',
+            $this->helper->rangeQuery('field', 'A', 'M', true)
         );
     }
 
     public function testRangeQueryExclusive()
     {
         $this->assertSame(
-            'field:{"1" TO "2"}',
+            'field:{1 TO 2}',
             $this->helper->rangeQuery('field', 1, 2, false)
         );
 
         $this->assertSame(
+            'field:{1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, false)
+        );
+
+        $this->assertSame(
             'store:{45,-94 TO 46,-93}',
-            $this->helper->rangeQuery('store', '45,-94', '46,-93', false, false)
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', false)
+        );
+
+        $this->assertEquals(
+            'field:{"A" TO "M"}',
+            $this->helper->rangeQuery('field', 'A', 'M', false)
+        );
+    }
+
+    public function testRangeQueryLeftInclusiveRightInclusive()
+    {
+        $this->assertEquals(
+            'field:[1 TO 2]',
+            $this->helper->rangeQuery('field', 1, 2, [true, true])
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [true, true])
+        );
+
+        $this->assertSame(
+            'store:[45,-94 TO 46,-93]',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', [true, true])
+        );
+
+        $this->assertEquals(
+            'field:["A" TO "M"]',
+            $this->helper->rangeQuery('field', 'A', 'M', [true, true])
+        );
+    }
+
+    public function testRangeQueryLeftInclusiveRightExclusive()
+    {
+        $this->assertEquals(
+            'field:[1 TO 2}',
+            $this->helper->rangeQuery('field', 1, 2, [true, false])
+        );
+
+        $this->assertEquals(
+            'field:[1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [true, false])
+        );
+
+        $this->assertSame(
+            'store:[45,-94 TO 46,-93}',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', [true, false])
+        );
+
+        $this->assertEquals(
+            'field:["A" TO "M"}',
+            $this->helper->rangeQuery('field', 'A', 'M', [true, false])
+        );
+    }
+
+    public function testRangeQueryLeftExclusiveRightInclusive()
+    {
+        $this->assertEquals(
+            'field:{1 TO 2]',
+            $this->helper->rangeQuery('field', 1, 2, [false, true])
+        );
+
+        $this->assertEquals(
+            'field:{1.5 TO 2.5]',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [false, true])
+        );
+
+        $this->assertSame(
+            'store:{45,-94 TO 46,-93]',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', [false, true])
+        );
+
+        $this->assertEquals(
+            'field:{"A" TO "M"]',
+            $this->helper->rangeQuery('field', 'A', 'M', [false, true])
+        );
+    }
+
+    public function testRangeQueryLeftExclusiveRightExclusive()
+    {
+        $this->assertEquals(
+            'field:{1 TO 2}',
+            $this->helper->rangeQuery('field', 1, 2, [false, false])
+        );
+
+        $this->assertEquals(
+            'field:{1.5 TO 2.5}',
+            $this->helper->rangeQuery('field', 1.5, 2.5, [false, false])
+        );
+
+        $this->assertSame(
+            'store:{45,-94 TO 46,-93}',
+            $this->helper->rangeQuery('store', '45,-94', '46,-93', [false, false])
+        );
+
+        $this->assertEquals(
+            'field:{"A" TO "M"}',
+            $this->helper->rangeQuery('field', 'A', 'M', [false, false])
+        );
+    }
+
+    public function testRangeQueryNullValues()
+    {
+        $this->assertSame(
+            'field:[1 TO *]',
+            $this->helper->rangeQuery('field', 1, null)
+        );
+
+        $this->assertSame(
+            'store:[* TO 46,-93]',
+            $this->helper->rangeQuery('store', null, '46,-93')
         );
     }
 
     public function testRangeQueryInclusiveNullValues()
     {
         $this->assertSame(
-            'field:["1" TO *]',
-            $this->helper->rangeQuery('field', 1, null)
+            'field:[1 TO *]',
+            $this->helper->rangeQuery('field', 1, null, true)
         );
 
         $this->assertSame(
             'store:[* TO 46,-93]',
-            $this->helper->rangeQuery('store', null, '46,-93', true, false)
+            $this->helper->rangeQuery('store', null, '46,-93', true)
         );
     }
 
     public function testRangeQueryExclusiveNullValues()
     {
         $this->assertSame(
-            'field:{"1" TO *}',
+            'field:{1 TO *}',
             $this->helper->rangeQuery('field', 1, null, false)
         );
 
         $this->assertSame(
             'store:{* TO 46,-93}',
-            $this->helper->rangeQuery('store', null, '46,-93', false, false)
+            $this->helper->rangeQuery('store', null, '46,-93', false)
+        );
+    }
+
+    public function testRangeQueryLeftInclusiveRightInclusiveNullValues()
+    {
+        $this->assertSame(
+            'field:[1 TO *]',
+            $this->helper->rangeQuery('field', 1, null, [true, true])
+        );
+
+        $this->assertSame(
+            'store:[* TO 46,-93]',
+            $this->helper->rangeQuery('store', null, '46,-93', [true, true])
+        );
+    }
+
+    public function testRangeQueryLeftInclusiveRightExclusiveNullValues()
+    {
+        $this->assertSame(
+            'field:[1 TO *}',
+            $this->helper->rangeQuery('field', 1, null, [true, false])
+        );
+
+        $this->assertSame(
+            'store:[* TO 46,-93}',
+            $this->helper->rangeQuery('store', null, '46,-93', [true, false])
+        );
+    }
+
+    public function testRangeQueryLeftExclusiveRightInclusiveNullValues()
+    {
+        $this->assertSame(
+            'field:{1 TO *]',
+            $this->helper->rangeQuery('field', 1, null, [false, true])
+        );
+
+        $this->assertSame(
+            'store:{* TO 46,-93]',
+            $this->helper->rangeQuery('store', null, '46,-93', [false, true])
+        );
+    }
+
+    public function testRangeQueryLeftExclusiveRightExclusiveNullValues()
+    {
+        $this->assertSame(
+            'field:{1 TO *}',
+            $this->helper->rangeQuery('field', 1, null, [false, false])
+        );
+
+        $this->assertSame(
+            'store:{* TO 46,-93}',
+            $this->helper->rangeQuery('store', null, '46,-93', [false, false])
         );
     }
 
@@ -151,8 +351,8 @@ class HelperTest extends TestCase
     public function testQparser()
     {
         $this->assertSame(
-            '{!parser a=1 b=test}',
-            $this->helper->qparser('parser', ['a' => 1, 'b' => 'test'])
+            '{!parser a=1 b=0 c=test d=tag1,tag2 e=true f=false}',
+            $this->helper->qparser('parser', ['a' => 1, 'b' => 0, 'c' => 'test', 'd' => ['tag1', 'tag2'], 'e' => true, 'f' => false])
         );
     }
 

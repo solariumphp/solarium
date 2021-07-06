@@ -77,6 +77,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface
                     'timeout' => $this->timeout,
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
                 ],
             ]
         );
@@ -160,6 +161,6 @@ class Http implements AdapterInterface, TimeoutAwareInterface
         $data = @file_get_contents($uri, false, $context);
 
         // @ see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
-        return [$data, $http_response_header];
+        return [$data, $http_response_header ?? []];
     }
 }

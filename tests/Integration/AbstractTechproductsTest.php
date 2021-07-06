@@ -4,14 +4,36 @@ namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
-use Solarium\Component\Result\Terms\Result;
+use Solarium\Component\Result\Grouping\FieldGroup;
+use Solarium\Component\Result\Grouping\QueryGroup;
+use Solarium\Component\Result\Grouping\Result as GroupingResult;
+use Solarium\Component\Result\Grouping\ValueGroup;
+use Solarium\Component\Result\Terms\Result as TermsResult;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
-use Solarium\Exception\HttpException;
+use Solarium\Core\Query\AbstractQuery;
+use Solarium\Exception\RuntimeException;
+use Solarium\Exception\UnexpectedValueException;
+use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
+use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
+use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
+use Solarium\Plugin\PrefetchIterator;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as AbstractManagedResourceQuery;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd as AbstractAddCommand;
+use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
+use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
+use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as ResourceRequestBuilder;
+use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResultItem;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResultItem;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Support\Utility;
 
 abstract class AbstractTechproductsTest extends TestCase
@@ -52,7 +74,8 @@ abstract class AbstractTechproductsTest extends TestCase
             'handler' => 'admin/info/system',
         ]);
         $response = self::$client->execute($query);
-        self::$solrVersion = $response->getData()['lucene']['solr-spec-version'];
+        $solrSpecVersion = $response->getData()['lucene']['solr-spec-version'];
+        self::$solrVersion = (int) strstr($solrSpecVersion, '.', true);
 
         // disable automatic commits for update tests
         $query = self::$client->createApi([
@@ -90,7 +113,14 @@ abstract class AbstractTechproductsTest extends TestCase
 
         try {
             // index techproducts sample data
-            foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts'.DIRECTORY_SEPARATOR.'*.xml') as $file) {
+            $dataDir = __DIR__.
+                DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR.'lucene-solr'.
+                DIRECTORY_SEPARATOR.'solr'.
+                DIRECTORY_SEPARATOR.'example'.
+                DIRECTORY_SEPARATOR.'exampledocs';
+            foreach (glob($dataDir.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
 
                 if (null !== $encoding = Utility::getXmlEncoding($file)) {
@@ -201,18 +231,104 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(10, $result);
 
         $select->setQuery(
-            $select->getHelper()->rangeQuery('store', '-90,-90', '90,90', true, false)
+            $select->getHelper()->rangeQuery('store', '-90,-90', '90,90')
         );
         $result = self::$client->select($select);
         $this->assertSame(2, $result->getNumFound());
         $this->assertCount(2, $result);
 
         $select->setQuery(
-            $select->getHelper()->rangeQuery('store', '-90,-180', '90,180', true, false)
+            $select->getHelper()->rangeQuery('store', '-90,-180', '90,180')
         );
         $result = self::$client->select($select);
         $this->assertSame(14, $result->getNumFound());
         $this->assertCount(10, $result);
+
+        // MA147LL/A was manufactured on 2005-10-12T08:00:00Z, F8V7067-APL-KIT on 2005-08-01T16:30:25Z
+        $select->setFields('id,manufacturedate_dt');
+        $select->addSort('manufacturedate_dt', $select::SORT_DESC);
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('manufacturedate_dt', '2005-01-01T00:00:00Z', '2005-12-31T23:59:59Z')
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'MA147LL/A',
+            'manufacturedate_dt' => '2005-10-12T08:00:00Z',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'F8V7067-APL-KIT',
+            'manufacturedate_dt' => '2005-08-01T16:30:25Z',
+        ], $iterator->current()->getFields());
+
+        // VS1GB400C3 costs 74.99, SP2514N costs 92.0, 0579B002 costs 179.99
+        $select->setFields('id,price');
+        $select->clearSorts()->addSort('price', $select::SORT_ASC);
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, true])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(3, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'VS1GB400C3',
+            'price' => 74.99,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => '0579B002',
+            'price' => 179.99,
+        ], $iterator->current()->getFields());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, false])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'VS1GB400C3',
+            'price' => 74.99,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [false, true])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => '0579B002',
+            'price' => 179.99,
+        ], $iterator->current()->getFields());
+
+        $select->setQuery(
+            $select->getHelper()->rangeQuery('price', 74.99, 179.99, [false, false])
+        );
+        $result = self::$client->select($select);
+        $this->assertSame(1, $result->getNumFound());
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'SP2514N',
+            'price' => 92.0,
+        ], $iterator->current()->getFields());
     }
 
     public function testFacetHighlightSpellcheckComponent()
@@ -300,6 +416,374 @@ abstract class AbstractTechproductsTest extends TestCase
             // The power cord is not in stock! In the techproducts example that is reflected by the string 'false'.
             $this->assertSame(1, $facetField->getValues()['false']);
         }
+    }
+
+    /**
+     * The Grouping feature only works if groups are in the same shard. You must use the custom sharding feature to use the Grouping feature.
+     *
+     * @see https://cwiki.apache.org/confluence/display/solr/SolrCloud%20/#SolrCloud-KnownLimitations
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testGroupingComponent()
+    {
+        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        /** @var GroupingTestQuery $select */
+        $select = self::$client->createQuery('grouping');
+        $select->setQuery('solr memory');
+        $select->setFields('id');
+        $select->addSort('manu_exact', SelectQuery::SORT_ASC);
+        $grouping = $select->getGrouping();
+        $grouping->setFields('manu_exact');
+        $grouping->setSort('price asc');
+        $result = self::$client->select($select);
+        /** @var GroupingResult $groupingComponentResult */
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var FieldGroup $fieldGroup */
+        $fieldGroup = $groupingComponentResult->getGroup('manu_exact');
+        $this->assertSame(6, $fieldGroup->getMatches());
+        $this->assertCount(5, $fieldGroup);
+        $groupIterator = $fieldGroup->getIterator();
+
+        /** @var ValueGroup $valueGroup */
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
+        $this->assertSame('A-DATA Technology Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        /** @var Document $doc */
+        $doc = $docIterator->current();
+        $this->assertSame('VDBDB1A16', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
+        $this->assertSame('ASUS Computer Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('EN7800GTX/2DHTV/256M', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
+        $this->assertSame('Apache Software Foundation', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('SOLR1000', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(1, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
+        $this->assertSame('Canon Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('0579B002', $doc->getFields()['id']);
+
+        $groupIterator->next();
+        $valueGroup = $groupIterator->current();
+        $this->assertSame(2, $valueGroup->getNumFound());
+        $this->assertSame(0, $valueGroup->getStart());
+        $this->assertSame('Corsair Microsystems Inc.', $valueGroup->getValue());
+        $docIterator = $valueGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame('VS1GB400C3', $doc->getFields()['id']);
+
+        $select = self::$client->createQuery('grouping');
+        $select->setQuery('memory');
+        $select->setFields('id,price');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            $select->getHelper()->rangeQuery('price', 0, 99.99),
+            $select->getHelper()->rangeQuery('price', 100, null),
+        ]);
+        $grouping->setLimit(3);
+        $grouping->setSort('price desc');
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var QueryGroup $queryGroup */
+        $queryGroup = $groupingComponentResult->getGroup('price:[0 TO 99.99]');
+        $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertSame(1, $queryGroup->getNumFound());
+        $this->assertSame(0, $queryGroup->getStart());
+        $this->assertCount(1, $queryGroup);
+        $docIterator = $queryGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => 'VS1GB400C3',
+            'price' => 74.99,
+        ], $doc->getFields());
+
+        $queryGroup = $groupingComponentResult->getGroup('price:[100 TO *]');
+        $this->assertSame(5, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertSame(0, $queryGroup->getStart());
+        $this->assertCount(3, $queryGroup);
+        $docIterator = $queryGroup->getIterator();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => 'EN7800GTX/2DHTV/256M',
+            'price' => 479.95,
+        ], $doc->getFields());
+        $docIterator->next();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => 'TWINX2048-3200PRO',
+            'price' => 185.0,
+        ], $doc->getFields());
+        $docIterator->next();
+        $doc = $docIterator->current();
+        $this->assertSame([
+            'id' => '0579B002',
+            'price' => 179.99,
+        ], $doc->getFields());
+    }
+
+    /**
+     * Test fix for maxScore being returned as "NaN" when group.query doesn't match any docs.
+     *
+     * Skipped for SolrCloud because maxScore is included in distributed search results even if score is not requested (SOLR-6612).
+     * This makes the test fail on SolrCloud for queries that don't fetch a score and thus aren't affected by SOLR-13839.
+     *
+     * @group skip_for_solr_cloud
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-13839
+     * @see https://issues.apache.org/jira/browse/SOLR-6612
+     */
+    public function testGroupingComponentFixForSolr13839()
+    {
+        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        /** @var GroupingTestQuery $select */
+        $select = self::$client->createQuery('grouping');
+        // without score in the fl parameter, result groups don't have a maxScore
+        $select->setFields('id');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            'cat:memory',
+            'cat:no-such-cat',
+        ]);
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        /** @var QueryGroup $queryGroup */
+        $queryGroup = $groupingComponentResult->getGroup('cat:memory');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:no-such-cat');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(0, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+
+        // with score in the fl parameter, result groups have a maxScore
+        $select->setFields('id,score');
+        $grouping = $select->getGrouping();
+        $grouping->addQueries([
+            'cat:memory',
+            'cat:no-such-cat',
+        ]);
+        $result = self::$client->select($select);
+        $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:memory');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(3, $queryGroup->getNumFound());
+        $this->assertNotNull($queryGroup->getMaximumScore());
+
+        $queryGroup = $groupingComponentResult->getGroup('cat:no-such-cat');
+        $this->assertSame(32, $queryGroup->getMatches());
+        $this->assertSame(0, $queryGroup->getNumFound());
+        $this->assertNull($queryGroup->getMaximumScore());
+    }
+
+    public function testMoreLikeThisComponent()
+    {
+        $select = self::$client->createSelect();
+        $select->setQuery('apache');
+        $select->setSorts(['id' => SelectQuery::SORT_ASC]);
+
+        $moreLikeThis = $select->getMoreLikeThis();
+        $moreLikeThis->setFields('manu,cat');
+        $moreLikeThis->setMinimumDocumentFrequency(1);
+        $moreLikeThis->setMinimumTermFrequency(1);
+        $moreLikeThis->setInterestingTerms('details');
+
+        $result = self::$client->select($select);
+        $this->assertSame(2, $result->getNumFound());
+
+        $iterator = $result->getIterator();
+        $mlt = $result->getMoreLikeThis();
+
+        $document = $iterator->current();
+        $this->assertSame('SOLR1000', $document->id);
+        $mltResult = $mlt->getResult($document->id);
+        // actual max. score isn't consistent across Solr 7 and 8, server and cloud
+        // but it must always be a float
+        $this->assertIsFloat($mltResult->getMaximumScore());
+        $this->assertSame(1, $mltResult->getNumFound());
+        $mltDoc = $mltResult->getIterator()->current();
+        $this->assertSame('UTF8TEST', $mltDoc->id);
+
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('UTF8TEST', $document->id);
+        $mltResult = $mlt->getResult($document->id);
+        $this->assertIsFloat($mltResult->getMaximumScore());
+        $this->assertSame(1, $mltResult->getNumFound());
+        $mltDoc = $mltResult->getIterator()->current();
+        $this->assertSame('SOLR1000', $mltDoc->id);
+
+        // Solr 7 doesn't support mlt.interestingTerms for MoreLikeThisComponent
+        // Solr 8: "To use this parameter with the search component, the query cannot be distributed."
+        // https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
+            // with 'details', interesting terms are an associative array of terms and their boost values
+            $interestingTerms = $mlt->getInterestingTerm($document->id);
+            $this->assertSame('cat:search', key($interestingTerms));
+            $this->assertSame(1.0, current($interestingTerms));
+
+            $moreLikeThis->setInterestingTerms('list');
+            $result = self::$client->select($select);
+            $document = $result->getIterator()->current();
+            $mlt = $result->getMoreLikeThis();
+
+            // with 'list', interesting terms are a numeric array of strings
+            $interestingTerms = $mlt->getInterestingTerm($document->id);
+            $this->assertSame(0, key($interestingTerms));
+            $this->assertSame('cat:search', current($interestingTerms));
+
+            $moreLikeThis->setInterestingTerms('none');
+            $result = self::$client->select($select);
+            $document = $result->getIterator()->current();
+            $mlt = $result->getMoreLikeThis();
+
+            // with 'none', interesting terms aren't available for the MLT result
+            $this->expectException(UnexpectedValueException::class);
+            $this->expectExceptionMessage('interestingterms is none');
+            $mlt->getInterestingTerm($document->id);
+        }
+    }
+
+    /**
+     * There are a number of open issues that show MoreLikeThisHandler doesn't work as expected in SolrCloud mode.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-4414
+     * @see https://issues.apache.org/jira/browse/SOLR-5480
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testMoreLikeThisQuery()
+    {
+        $query = self::$client->createMoreLikethis();
+
+        // the document we query to get similar documents for
+        $query->setQuery('id:SP2514N');
+        $query->setMltFields('manu,cat');
+        $query->setMinimumDocumentFrequency(1);
+        $query->setMinimumTermFrequency(1);
+        $query->setInterestingTerms('details');
+        // ensures we can consistently test for boost=1.0
+        $query->setBoost(false);
+        $query->setMatchInclude(true);
+        $query->createFilterQuery('stock')->setQuery('inStock:true');
+
+        $resultset = self::$client->moreLikeThis($query);
+        $this->assertSame(7, $resultset->getNumFound());
+
+        $iterator = $resultset->getIterator();
+        $document = $iterator->current();
+        $this->assertSame('6H500F0', $document->id);
+
+        $matchDocument = $resultset->getMatch();
+        $this->assertSame('SP2514N', $matchDocument->id);
+
+        // with 'details', interesting terms are an associative array of terms and their boost values
+        $interestingTerms = $resultset->getInterestingTerms();
+        $this->assertSame('cat:electronics', key($interestingTerms));
+        $this->assertSame(1.0, current($interestingTerms));
+
+        $query->setInterestingTerms('list');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'list', interesting terms are a numeric array of strings
+        $interestingTerms = $resultset->getInterestingTerms();
+        $this->assertSame(0, key($interestingTerms));
+        $this->assertSame('electronics', current($interestingTerms));
+
+        $query->setInterestingTerms('none');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'none', interesting terms aren't available for the result set
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('interestingterms is none');
+        $resultset->getInterestingTerms();
+    }
+
+    /**
+     * There are a number of open issues that show MoreLikeThisHandler doesn't work as expected in SolrCloud mode.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-4414
+     * @see https://issues.apache.org/jira/browse/SOLR-5480
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testMoreLikeThisStream()
+    {
+        $query = self::$client->createMoreLikethis();
+
+        // the supplied text we want similar documents for
+        $text = <<<EOT
+            Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133
+            7200RPM, 8MB cache, IDE Ultra ATA-133, NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor
+            EOT;
+
+        $query->setQuery($text);
+        $query->setQueryStream(true);
+        $query->setMltFields('name,features');
+        $query->setMinimumDocumentFrequency(1);
+        $query->setMinimumTermFrequency(1);
+        $query->setInterestingTerms('details');
+        // ensures we can consistently test for boost=1.0
+        $query->setBoost(false);
+        $query->setMatchInclude(true);
+        $query->createFilterQuery('stock')->setQuery('inStock:true');
+
+        $resultset = self::$client->moreLikeThis($query);
+        $this->assertSame(3, $resultset->getNumFound());
+
+        $iterator = $resultset->getIterator();
+        $document = $iterator->current();
+        $this->assertSame('SP2514N', $document->id);
+
+        // there is no match document to return, even with matchinclude true
+        $this->assertNull($resultset->getMatch());
+
+        // with 'details', interesting terms are an associative array of terms and their boost values
+        $interestingTerms = $resultset->getInterestingTerms();
+        // which term comes first differs between Solr 7 and 8, but it must always be a string
+        $this->assertIsString(key($interestingTerms));
+        $this->assertSame(1.0, current($interestingTerms));
+
+        $query->setInterestingTerms('list');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'list', interesting terms are a numeric array of strings
+        $interestingTerms = $resultset->getInterestingTerms();
+        $this->assertSame(0, key($interestingTerms));
+        $this->assertIsString(current($interestingTerms));
+
+        $query->setInterestingTerms('none');
+        $resultset = self::$client->moreLikeThis($query);
+
+        // with 'none', interesting terms aren't available for the result set
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('interestingterms is none');
+        $resultset->getInterestingTerms();
     }
 
     public function testQueryElevation()
@@ -426,7 +910,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testTermsComponent()
     {
-        self::$client->registerQueryType('test', '\Solarium\Tests\Integration\TestQuery');
+        self::$client->registerQueryType('test', '\Solarium\Tests\Integration\TermsTestQuery');
         $select = self::$client->createQuery('test');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
@@ -437,7 +921,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $terms = $select->getTerms();
         $terms->setFields('name');
         $result = self::$client->select($select);
-        /** @var Result $termsComponentResult */
+        /** @var TermsResult $termsComponentResult */
         $termsComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMS);
 
         $this->assertEquals([
@@ -781,7 +1265,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getIterator()->current()->getFields());
 
         // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
-        if ('7' === strstr(self::$solrVersion, '.', true) && $this instanceof AbstractCloudTest) {
+        if (7 === self::$solrVersion && $this instanceof AbstractCloudTest) {
             // we still have to emulate a successful atomic update for the remainder of this test to pass
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-test');
@@ -939,6 +1423,482 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    public function testNestedDocuments()
+    {
+        $data = [
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+            'cat' => ['solarium-nested-document', 'parent'],
+            'children' => [
+                [
+                    'id' => 'solarium-child-1',
+                    'name' => 'Solarium Nested Document Child 1',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 1.0,
+                    'grandchildren' => [
+                        [
+                            'id' => 'solarium-grandchild-1-1',
+                            'name' => 'Solarium Nested Document Grandchild 1.1',
+                            'cat' => ['solarium-nested-document', 'grandchild'],
+                            'price' => 1.1,
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                    'name' => 'Solarium Nested Document Child 2',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 2.0,
+                    'grandchildren' => [
+                        [
+                            'id' => 'solarium-grandchild-2-1',
+                            'name' => 'Solarium Nested Document Grandchild 2.1',
+                            'cat' => ['solarium-nested-document', 'grandchild'],
+                            'price' => 2.1,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument($data);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        // get all documents (parents and descendants) as a flat list
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id,name,price');
+        $result = self::$client->select($select);
+        $this->assertCount(5, $result);
+
+        // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-1-1',
+            'name' => 'Solarium Nested Document Grandchild 1.1',
+            'price' => 1.1,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+            'name' => 'Solarium Nested Document Child 1',
+            'price' => 1.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-2-1',
+            'name' => 'Solarium Nested Document Grandchild 2.1',
+            'price' => 2.1,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+            'name' => 'Solarium Nested Document Child 2',
+            'price' => 2.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+        ], $iterator->current()->getFields());
+
+        // in Solr 7, the [child] transformer returns all descendant documents in a flat list, this is covered in testAnonymouslyNestedDocuments()
+        if (8 <= self::$solrVersion) {
+            // get parent document with nested children as pseudo-fields
+            $select->setQuery('id:solarium-parent');
+            // 'id,[child]' is not enough, either * or the explicit names of the pseudo-fields are needed to actually include them
+            $select->setFields('id,children,grandchildren,[child]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-1-1',
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-2-1',
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only get descendant documents that match a filter
+            $select->setFields('id,price,children,grandchildren,[child childFilter=price:2.1]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-2',
+                        'price' => 2.0,
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-2-1',
+                                'price' => 2.1,
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // limit nested path of child documents to be returned
+            $select->setFields('id,children,grandchildren,[child childFilter=/children/*:*]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // limit number of child documents to be returned
+            $select->setFields('id,children,grandchildren,[child limit=1]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-1-1',
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only return a subset of the top level fl parameter for the child documents
+            $select->setFields('id,name,price,children,grandchildren,[child fl=id,price]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'children' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'price' => 1.0,
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-1-1',
+                                'price' => 1.1,
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                        'price' => 2.0,
+                        'grandchildren' => [
+                            [
+                                'id' => 'solarium-grandchild-2-1',
+                                'price' => 2.1,
+                            ],
+                        ],
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+        }
+
+        // parent query parser
+        $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+        ], $iterator->current()->getFields());
+
+        // child query parser
+        $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(4, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-1-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-grandchild-2-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+        ], $iterator->current()->getFields());
+
+        // in Solr 7, atomic updates of child documents aren't possible
+        if (8 <= self::$solrVersion) {
+            // atomic update: removing all child documents
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-parent');
+            $doc->setField('cat', 'updated');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $doc->setField('children', []);
+            $doc->setFieldModifier('children', $doc::MODIFIER_SET);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,name,cat,price,children,grandchildren,[child]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'cat' => [
+                    'solarium-nested-document',
+                    'parent',
+                    'updated',
+                ],
+            ], $iterator->current()->getFields());
+
+            // other atomic updates (replacing, adding, removing child documents) can't be executed through XML (SOLR-12677)
+        }
+
+        // cleanup
+        $update = self::$client->createUpdate();
+        // in Solr 7, the whole block of parent-children documents must be deleted together
+        if (7 === self::$solrVersion) {
+            $update->addDeleteQuery('cat:solarium-nested-document');
+        }
+        // in Solr 8, you can simply delete-by-ID using the id of the root document
+        else {
+            $update->addDeleteById('solarium-parent');
+        }
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
+    public function testAnonymouslyNestedDocuments()
+    {
+        $data = [
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+            'cat' => ['solarium-nested-document', 'parent'],
+            '_childDocuments_' => [
+                [
+                    'id' => 'solarium-child-1',
+                    'name' => 'Solarium Nested Document Child 1',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 1.0,
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                    'name' => 'Solarium Nested Document Child 2',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 2.0,
+                ],
+            ],
+        ];
+
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument($data);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        // get all documents (parents and descendants) as a flat list
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id,name,price');
+        $result = self::$client->select($select);
+        $this->assertCount(3, $result);
+
+        // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+            'name' => 'Solarium Nested Document Child 1',
+            'price' => 1.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+            'name' => 'Solarium Nested Document Child 2',
+            'price' => 2.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+            'name' => 'Solarium Nested Document Parent',
+        ], $iterator->current()->getFields());
+
+        // parent query parser
+        $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+        ], $iterator->current()->getFields());
+
+        // child query parser
+        $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(2, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-child-1',
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-child-2',
+        ], $iterator->current()->getFields());
+
+        // [child] transformer doesn't work for anonymous children when the schema includes a _nest_path_ in Solr 8
+        if (7 === self::$solrVersion) {
+            // get all child documents nested inside the parent document
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,[child parentFilter=cat:parent fl=id]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                '_childDocuments_' => [
+                    ['id' => 'solarium-child-1'],
+                    ['id' => 'solarium-child-2'],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only get child documents that match a filter
+            $select->setFields('id,[child parentFilter=cat:parent childFilter="price:[1.5 TO 2.5]" fl=id]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                '_childDocuments_' => [
+                    ['id' => 'solarium-child-2'],
+                ],
+            ], $iterator->current()->getFields());
+
+            // limit number of child documents to be returned
+            $select->setFields('id,[child parentFilter=cat:parent limit=1 fl=id]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                '_childDocuments_' => [
+                    ['id' => 'solarium-child-1'],
+                ],
+            ], $iterator->current()->getFields());
+
+            // only return a subset of the top level fl parameter for the child documents
+            $select->setFields('id,name,price,[child parentFilter=cat:parent fl=id,price]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                '_childDocuments_' => [
+                    [
+                        'id' => 'solarium-child-1',
+                        'price' => 1.0,
+                    ],
+                    [
+                        'id' => 'solarium-child-2',
+                        'price' => 2.0,
+                    ],
+                ],
+            ], $iterator->current()->getFields());
+        }
+
+        // in Solr 7, atomic updates of child documents aren't possible
+        // in SolrCloud mode, this fails more often with "Async exception during distributed update" than it succeeds
+        // @todo get this sorted for distributed search when #908 is resolved
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
+            // atomic update: removing all child documents
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-parent');
+            $doc->setField('cat', 'updated');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $doc->setField('_childDocuments_', []);
+            $doc->setFieldModifier('_childDocuments_', $doc::MODIFIER_SET);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+            // ensure the update was atomic ('name' must be unchanged, 'cat' must be updated)
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,name,cat');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'cat' => [
+                    'solarium-nested-document',
+                    'parent',
+                    'updated',
+                ],
+            ], $iterator->current()->getFields());
+            // ensure child documents have been replaced (with nothing)
+            $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
+            $select->setFields('id');
+            $result = self::$client->select($select);
+            $this->assertCount(0, $result);
+        }
+
+        // cleanup
+        $update = self::$client->createUpdate();
+        // in Solr 7, the whole block of parent-children documents must be deleted together
+        if (7 === self::$solrVersion) {
+            $update->addDeleteQuery('cat:solarium-nested-document');
+        }
+        // in Solr 8, you can simply delete-by-ID using the id of the root document
+        else {
+            $update->addDeleteById('solarium-parent');
+        }
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('cat:solarium-nested-document');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
     public function testReRankQuery()
     {
         $select = self::$client->createSelect();
@@ -973,18 +1933,188 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $rerankedids);
     }
 
+    public function testBufferedAdd()
+    {
+        $bufferSize = 10;
+        $totalDocs = 25;
+
+        $buffer = self::$client->getPlugin('bufferedadd');
+        $buffer->setBufferSize($bufferSize);
+
+        $update = self::$client->createUpdate();
+
+        // can't be null at this point because phpstan analyses the ADD_DOCUMENT listener with this value even though it's never executed with it
+        $document = $update->createDocument();
+        $weight = 0;
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::ADD_DOCUMENT,
+            function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
+                $this->assertSame($document, $event->getDocument());
+                $document->setField('weight', ++$weight);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::PRE_FLUSH,
+            function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
+                static $i = 0;
+
+                $buffer = $event->getBuffer();
+                $this->assertCount($bufferSize, $buffer);
+                $this->assertSame($document, end($buffer));
+
+                $data = [
+                    'id' => 'solarium-bufferedadd-preflush-'.++$i,
+                    'cat' => 'solarium-bufferedadd',
+                    'weight' => ++$weight,
+                ];
+                $buffer[] = self::$client->createUpdate()->createDocument($data);
+                $event->setBuffer($buffer);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::POST_FLUSH,
+            function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
+                $result = $event->getResult();
+                $this->assertSame(0, $result->getStatus());
+
+                $query = $result->getQuery();
+                $commands = $query->getCommands();
+                $this->assertCount(1, $commands);
+                $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                // we added 1 document to the full buffer in PRE_FLUSH
+                $this->assertCount($bufferSize + 1, $commands[0]->getDocuments());
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::PRE_COMMIT,
+            function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
+                static $i = 0;
+
+                $buffer = $event->getBuffer();
+                $this->assertCount($totalDocs % $bufferSize, $event->getBuffer());
+                $this->assertSame($document, end($buffer));
+
+                $data = [
+                    'id' => 'solarium-bufferedadd-precommit-'.++$i,
+                    'cat' => 'solarium-bufferedadd',
+                    'weight' => ++$weight,
+                ];
+                $buffer[] = self::$client->createUpdate()->createDocument($data);
+                $event->setBuffer($buffer);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::POST_COMMIT,
+            function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
+                $result = $event->getResult();
+                $this->assertSame(0, $result->getStatus());
+
+                $query = $result->getQuery();
+                $commands = $query->getCommands();
+                $this->assertCount(2, $commands);
+                $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                $this->assertSame(UpdateQuery::COMMAND_COMMIT, $commands[1]->getType());
+                // we added 1 document to the remaining buffer in PRE_COMMIT
+                $this->assertCount(($totalDocs % $bufferSize) + 1, $commands[0]->getDocuments());
+            }
+        );
+
+        $data = [
+            'id' => 'solarium-bufferedadd-0',
+            'cat' => 'solarium-bufferedadd',
+        ];
+        $document = $update->createDocument($data);
+        $buffer->addDocument($document);
+        $this->assertCount(1, $buffer->getDocuments());
+        $buffer->clear();
+        $this->assertCount(0, $buffer->getDocuments());
+
+        for ($i = 1; $i <= $totalDocs; ++$i) {
+            $data = [
+                'id' => 'solarium-bufferedadd-'.$i,
+                'cat' => 'solarium-bufferedadd',
+            ];
+            $document = $update->createDocument($data);
+            $buffer->addDocument($document);
+        }
+
+        $buffer->commit(null, true, true);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-bufferedadd');
+        $select->addSort('weight', $select::SORT_ASC);
+        $select->setFields('id');
+        $select->setRows(28);
+        $result = self::$client->select($select);
+        $this->assertSame(28, $result->getNumFound());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $this->assertEquals([
+            'solarium-bufferedadd-1',
+            'solarium-bufferedadd-2',
+            'solarium-bufferedadd-3',
+            'solarium-bufferedadd-4',
+            'solarium-bufferedadd-5',
+            'solarium-bufferedadd-6',
+            'solarium-bufferedadd-7',
+            'solarium-bufferedadd-8',
+            'solarium-bufferedadd-9',
+            'solarium-bufferedadd-10',
+            'solarium-bufferedadd-preflush-1',
+            'solarium-bufferedadd-11',
+            'solarium-bufferedadd-12',
+            'solarium-bufferedadd-13',
+            'solarium-bufferedadd-14',
+            'solarium-bufferedadd-15',
+            'solarium-bufferedadd-16',
+            'solarium-bufferedadd-17',
+            'solarium-bufferedadd-18',
+            'solarium-bufferedadd-19',
+            'solarium-bufferedadd-20',
+            'solarium-bufferedadd-preflush-2',
+            'solarium-bufferedadd-21',
+            'solarium-bufferedadd-22',
+            'solarium-bufferedadd-23',
+            'solarium-bufferedadd-24',
+            'solarium-bufferedadd-25',
+            'solarium-bufferedadd-precommit-1',
+            ], $ids);
+
+        // cleanup
+        $update->addDeleteQuery('cat:solarium-bufferedadd');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertSame(0, $result->getNumFound());
+    }
+
     public function testPrefetchIterator()
     {
         $select = self::$client->createSelect();
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
-        // count() uses getNumFound() on the result set and wouldn't actually test if all results are iterated
-        for ($i = 0; $prefetch->valid(); ++$i) {
-            $prefetch->next();
-        }
+        // check upfront that all results are found
+        $this->assertCount(32, $prefetch);
 
+        // verify that each result is iterated in order
+        $id = '';
+        for ($i = 0; $prefetch->valid(); $prefetch->next(), ++$i) {
+            $this->assertLessThan(0, strcmp($id, $id = $prefetch->current()->id));
+        }
         $this->assertSame(32, $i);
     }
 
@@ -993,15 +2123,19 @@ abstract class AbstractTechproductsTest extends TestCase
         $select = self::$client->createSelect();
         $select->setCursormark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
 
-        // count() uses getNumFound() on the result set and wouldn't actually test if all results are iterated
-        for ($i = 0; $prefetch->valid(); ++$i) {
-            $prefetch->next();
-        }
+        // check upfront that all results are found
+        $this->assertCount(32, $prefetch);
 
+        // verify that each result is iterated in order
+        $id = '';
+        for ($i = 0; $prefetch->valid(); $prefetch->next(), ++$i) {
+            $this->assertLessThan(0, strcmp($id, $id = $prefetch->current()->id));
+        }
         $this->assertSame(32, $i);
     }
 
@@ -1009,6 +2143,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $select = self::$client->createSelect();
         $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
         $prefetch->setPrefetch(2);
         $prefetch->setQuery($select);
@@ -1031,54 +2166,214 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame($without, $with);
     }
 
+    public function testPrefetchIteratorManualRewind()
+    {
+        $select = self::$client->createSelect();
+        $select->addSort('id', SelectQuery::SORT_ASC);
+        /** @var PrefetchIterator $prefetch */
+        $prefetch = self::$client->getPlugin('prefetchiterator');
+        $prefetch->setPrefetch(5);
+        $prefetch->setQuery($select);
+
+        // check if valid (this will fetch the first set of documents)
+        $this->assertTrue($prefetch->valid());
+        // check that we're at position 0
+        $this->assertSame(0, $prefetch->key());
+        // current document is the one with lowest alphabetical id in techproducts
+        $this->assertSame('0579B002', $prefetch->current()->id);
+
+        // move to an arbitrary point past the first set of fetched documents
+        while (12 > $prefetch->key()) {
+            $prefetch->next();
+            // this ensures the next set will be fetched when we've passed the end of a set
+            $this->assertTrue($prefetch->valid());
+        }
+
+        // check that we've reached the expected document at position 12
+        $this->assertSame(12, $prefetch->key());
+        $this->assertSame('NOK', $prefetch->current()->id);
+
+        // this resets the position and clears the last fetched result
+        $prefetch->rewind();
+
+        // check if valid (this will re-fetch the first set of documents)
+        $this->assertTrue($prefetch->valid());
+        // check that we're back at position 0
+        $this->assertSame(0, $prefetch->key());
+        // current document is once again the one with lowest alphabetical id in techproducts
+        $this->assertSame('0579B002', $prefetch->current()->id);
+    }
+
     public function testExtractIntoDocument()
     {
         $extract = self::$client->createExtract();
         $extract->setUprefix('attr_');
-        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
         $extract->setCommit(true);
         $extract->setCommitWithin(0);
         $extract->setOmitHeader(false);
 
-        // add document
+        // add PDF document
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
         $doc = $extract->createDocument();
-        $doc->id = 'extract-test';
+        $doc->id = 'extract-test-1-pdf';
+        $doc->cat = ['extract-test'];
         $extract->setDocument($doc);
-
         self::$client->extract($extract);
 
-        // now get the document and check the content
+        // add HTML document
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-test-2-html';
+        $doc->cat = ['extract-test'];
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        // now get the documents and check the contents
         $select = self::$client->createSelect();
-        $select->setQuery('id:extract-test');
+        $select->setQuery('cat:extract-test');
+        $select->addSort('id', $select::SORT_ASC);
         $selectResult = self::$client->select($select);
+        $this->assertCount(2, $selectResult);
         $iterator = $selectResult->getIterator();
 
         /** @var Document $document */
         $document = $iterator->current();
+        $this->assertSame('application/pdf', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('PDF Test', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
+        $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
 
-        // now cleanup the document the have the initial index state
+        // now cleanup the document to have the initial index state
         $update = self::$client->createUpdate();
-        $update->addDeleteById('extract-test');
+        $update->addDeleteQuery('cat:extract-test');
         $update->addCommit(true, true);
         self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
     }
 
-    public function testExtractTextOnly()
+    public function testExtractOnlyText()
     {
         $query = self::$client->createExtract();
-        $fileName = 'testpdf.pdf';
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.$fileName);
         $query->setExtractOnly(true);
-        $query->addParam('extractFormat', 'text');
+        $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
 
         $response = self::$client->extract($query);
-        $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the file');
+        $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the PDF file');
+        $this->assertSame('PDF Test', trim($response->getData()['file']), 'Can not extract the plain content from the PDF file');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
+
+        $response = self::$client->extract($query);
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
+    }
+
+    public function testExtractOnlyXml()
+    {
+        $query = self::$client->createExtract();
+        $query->setExtractOnly(true);
+        $query->setExtractFormat($query::EXTRACT_FORMAT_XML);
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
+
+        $response = self::$client->extract($query);
+        $this->assertSame(0, strpos($response->getData()['testpdf.pdf'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
+        $this->assertSame(0, strpos($response->getData()['file'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
+        $this->assertNotFalse(strpos($response->getData()['testpdf.pdf'], '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['file'], '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
+
+        $response = self::$client->extract($query);
+        $this->assertSame(0, strpos($response->getData()['testhtml.html'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
+        $this->assertSame(0, strpos($response->getData()['file'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
+        $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['file'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getData()['file'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+    }
+
+    /**
+     * Test extraction from files that contain special characters in both filename and content.
+     */
+    public function testExtractSpecialCharacters()
+    {
+        $query = self::$client->createExtract();
+        $query->setExtractOnly(true);
+        $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt');
+
+        // the file contains all 128 codepoints of the full 7-bit US-ASCII table, but we only test for printable characters
+        $printableASCII = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+
+        $response = self::$client->extract($query);
+        $this->assertNotFalse(strpos($response->getData()['test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt'], $printableASCII), 'Can not extract from file with US-ASCII characters');
+        $this->assertNotFalse(strpos($response->getData()['file'], $printableASCII), 'Can not extract from file with US-ASCII characters');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 αβγ абв אԱა.txt');
+
+        // the file contains some example text from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
+        $sampleUTF8 = '£©µÀÆÖÞßéöÿ ΑΒΓΔΩαβγδω АБВГДабвгд ﬁ�⑀₂ἠḂӥẄɐː⍎אԱა';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($sampleUTF8, trim($response->getData()['test utf-8 αβγ абв אԱა.txt']), 'Can not extract from file with UTF-8 characters');
+        $this->assertSame($sampleUTF8, trim($response->getData()['file']), 'Can not extract from file with UTF-8 characters');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 fəˈnɛtık.txt');
+
+        // the file contains a phonetic example from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
+        $samplePhonetic = 'ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($samplePhonetic, trim($response->getData()['test utf-8 fəˈnɛtık.txt']), 'Can not extract from file with phonetic characters');
+        $this->assertSame($samplePhonetic, trim($response->getData()['file']), 'Can not extract from file with phonetic characters');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 コンニチハ.txt');
+
+        // the file contains a Katakana example from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
+        $sampleKatakana = 'コンニチハ';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($sampleKatakana, trim($response->getData()['test utf-8 コンニチハ.txt']), 'Can not extract from file with Katakana characters');
+        $this->assertSame($sampleKatakana, trim($response->getData()['file']), 'Can not extract from file with Katakana characters');
+
+        // test with a file that specifies the encoding, Tika has a hard time telling ISO-8859-* and Windows-* sets apart on plain text with this little data
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml');
+
+        // the file contains the printable characters from ISO-8859-1
+        $printableISO88591 = ' ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($printableISO88591, trim($response->getData()['test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml']), 'Can not extract from file with ISO-8859-1 encoding');
+        $this->assertSame($printableISO88591, trim($response->getData()['file']), 'Can not extract from file with ISO-8859-1 encoding');
+
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test gb18030 这份文件是很有光泽.txt');
+
+        // the file contains a GB18030 example from the techproducts sample set
+        $sampleGB18030 = '这份文件是很有光泽';
+
+        $response = self::$client->extract($query);
+        $this->assertSame($sampleGB18030, trim($response->getData()['test gb18030 这份文件是很有光泽.txt']), 'Can not extract from file with GB18030 encoding');
+        $this->assertSame($sampleGB18030, trim($response->getData()['file']), 'Can not extract from file with GB18030 encoding');
+    }
+
+    public function testExtractInvalidFile()
+    {
+        $extract = self::$client->createExtract();
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
+        self::$client->extract($extract);
     }
 
     public function testV2Api()
     {
-        if (version_compare(self::$solrVersion, '7', '>=')) {
+        if (7 <= self::$solrVersion) {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
                 'handler' => 'node/system',
@@ -1188,119 +2483,163 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testManagedStopwords()
     {
+        /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
         $query->setName('english');
         $term = 'managed_stopword_test';
+
+        // Check that stopword list exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
         // Add stopwords
         $add = $query->createCommand($query::COMMAND_ADD);
         $add->setStopwords([$term]);
         $query->setCommand($add);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
-        // Check if single stopword exists
+        // Check that added stopword exists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
         // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
 
         // List stopwords
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
-        $items = $result->getItems();
-        $this->assertContains($term, $items);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertContains('managed_stopword_test', $result->getItems());
 
-        // Delete stopword
+        // List added stopword only
+        $query->setTerm($term);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertSame(['managed_stopword_test'], $result->getItems());
+
+        // Delete added stopword
         $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
-        // Check if stopword is gone
-        $this->expectException(HttpException::class);
+        // Check that added stopword is gone
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
-        self::$client->execute($query);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // List no longer added stopword
+        $query->setTerm($term);
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
-    public function testManagedStopwordsCreation()
+    /**
+     * @testWith ["testlist", "managed_stopword_test"]
+     *           ["list res-chars :/?#[]@%", "term res-chars :?#[]@%"]
+     */
+    public function testManagedStopwordsCreation(string $name, string $term)
     {
+        /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
-        $query->setName(uniqid());
-        $term = 'managed_stopword_test';
+        $query->setName($name.uniqid());
+
+        // Check that stopword list doesn't exist
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
 
         // Create a new stopword list
         $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
-        // Whatever happens next ...
-        try {
-            // Configure the new list to be case sensitive
-            $initArgs = $query->createInitArgs();
-            $initArgs->setIgnoreCase(false);
-            $config = $query->createCommand($query::COMMAND_CONFIG);
-            $config->setInitArgs($initArgs);
-            $query->setCommand($config);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Configure the new list to be case sensitive
+        $initArgs = $query->createInitArgs();
+        $initArgs->setIgnoreCase(false);
+        $config = $query->createCommand($query::COMMAND_CONFIG);
+        $config->setInitArgs($initArgs);
+        $query->setCommand($config);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check the configuration
-            $query->removeCommand();
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
-            $this->assertFalse($result->isIgnoreCase());
+        // Check that stopword list was created
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if we can add to it
-            $add = $query->createCommand($query::COMMAND_ADD);
-            $add->setStopwords([$term]);
-            $query->setCommand($add);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Check the configuration
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertFalse($result->isIgnoreCase());
 
-            // Check if stopword exists in its original lowercase form
-            $exists = $query->createCommand($query::COMMAND_EXISTS);
-            $exists->setTerm($term);
-            $query->setCommand($exists);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Check that we can add to it
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $add->setStopwords([$term]);
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if stopword DOESN'T exist in uppercase form
-            $this->expectException(HttpException::class);
-            $exists->setTerm(strtoupper($term));
-            $query->setCommand($exists);
-            self::$client->execute($query);
-        }
-        // ... we have to remove the created resource!
-        finally {
-            // Remove the stopword list
-            $remove = $query->createCommand($query::COMMAND_REMOVE);
-            $query->setCommand($remove);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Check that added stopword exists in its original lowercase form
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if stopword list is gone
-            $this->expectException(HttpException::class);
-            $query->removeCommand();
-            self::$client->execute($query);
-        }
+        // Check that added stopword DOESN'T exist in uppercase form
+        $exists->setTerm(strtoupper($term));
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Remove the stopword list
+        $remove = $query->createCommand($query::COMMAND_REMOVE);
+        $query->setCommand($remove);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Check that stopword list is gone
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Check that list can no longer be listed
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
     public function testManagedSynonyms()
     {
+        /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName('english');
         $term = 'managed_synonyms_test';
 
-        // Add synonyms
+        // Check that synonym map exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Add synonym mapping
         $add = $query->createCommand($query::COMMAND_ADD);
         $synonyms = new Synonyms();
         $synonyms->setTerm($term);
@@ -1308,130 +2647,372 @@ abstract class AbstractTechproductsTest extends TestCase
         $add->setSynonyms($synonyms);
         $query->setCommand($add);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
-        // Check if single synonym exists
+        // Check that added synonym mapping exsists
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
-        $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
+        $this->assertTrue($result->getWasSuccessful());
 
         // We need to remove the current command in order to have no command. Having no command lists the items.
         $query->removeCommand();
 
         // List synonyms
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
         $items = $result->getItems();
+        $this->assertTrue($result->getWasSuccessful());
         $success = false;
+        /** @var SynonymsResultItem $item */
         foreach ($items as $item) {
             if ('managed_synonyms_test' === $item->getTerm()) {
                 $success = true;
+                $this->assertSame(['managed_synonym', 'synonym_test'], $item->getSynonyms());
             }
         }
         if (!$success) {
             $this->fail('Couldn\'t find synonym.');
         }
 
-        // Delete synonyms
+        // List added synonym mapping only
+        $query->setTerm($term);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertEquals(
+            [new SynonymsResultItem('managed_synonyms_test', ['managed_synonym', 'synonym_test'])],
+            $result->getItems()
+        );
+
+        // Delete added synonym mapping
         $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
-        // Check if synonyms are gone
-        $this->expectException(HttpException::class);
+        // Check that added synonym mapping is gone
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
         $query->setCommand($exists);
-        self::$client->execute($query);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // List no longer added synonym mapping
+        $query->setTerm($term);
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
-    public function testManagedSynonymsCreation()
+    /**
+     * @testWith ["testmap", "managed_synonyms_test"]
+     *           ["map res-chars :/?#[]@%", "term res-chars :?#[]@%"]
+     */
+    public function testManagedSynonymsCreation(string $name, string $term)
     {
+        /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
-        $query->setName(uniqid());
-        $term = 'managed_synonyms_test';
+        $query->setName($name.uniqid());
+
+        // Check that synonym map doesn't exist
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
 
         // Create a new synonym map
         $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
         $result = self::$client->execute($query);
-        $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        $this->assertTrue($result->getWasSuccessful());
 
-        // Whatever happens next ...
-        try {
-            // Configure the new map to be case sensitive and use the 'solr' format
-            $initArgs = $query->createInitArgs();
-            $initArgs->setIgnoreCase(false);
-            $initArgs->setFormat($initArgs::FORMAT_SOLR);
-            $config = $query->createCommand($query::COMMAND_CONFIG);
-            $config->setInitArgs($initArgs);
-            $query->setCommand($config);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Configure the new map to be case sensitive and use the 'solr' format
+        $initArgs = $query->createInitArgs();
+        $initArgs->setIgnoreCase(false);
+        $initArgs->setFormat($initArgs::FORMAT_SOLR);
+        $config = $query->createCommand($query::COMMAND_CONFIG);
+        $config->setInitArgs($initArgs);
+        $query->setCommand($config);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check the configuration
-            $query->removeCommand();
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
-            $this->assertFalse($result->isIgnoreCase());
-            $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
+        // Check that synonym map was created
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if we can add to it
-            $add = $query->createCommand($query::COMMAND_ADD);
-            $synonyms = new Synonyms();
-            $synonyms->setTerm($term);
-            $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
-            $add->setSynonyms($synonyms);
-            $query->setCommand($add);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Check the configuration
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertFalse($result->isIgnoreCase());
+        $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
 
-            // Check if synonym exists in its original lowercase form
-            $exists = $query->createCommand($query::COMMAND_EXISTS);
-            $exists->setTerm($term);
-            $query->setCommand($exists);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
-            $this->assertSame(['managed_synonyms_test' => ['managed_synonym', 'synonym_test']], $result->getData());
+        // Check that we can add to it
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
+        $add->setSynonyms($synonyms);
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if synonym DOESN'T exist in uppercase form
-            $this->expectException(HttpException::class);
-            $exists->setTerm(strtoupper($term));
-            $query->setCommand($exists);
-            self::$client->execute($query);
-        }
-        // ... we have to remove the created resource!
-        finally {
-            // Remove the synonym map
-            $remove = $query->createCommand($query::COMMAND_REMOVE);
-            $query->setCommand($remove);
-            $result = self::$client->execute($query);
-            $this->assertEquals(200, $result->getResponse()->getStatusCode());
+        // Check that synonym exists in its original lowercase form
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
 
-            // Check if synonym map is gone
-            $this->expectException(HttpException::class);
-            $query->removeCommand();
-            self::$client->execute($query);
-        }
+        // Check that synonym DOESN'T exist in uppercase form
+        $exists->setTerm(strtoupper($term));
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Remove the synonym map
+        $remove = $query->createCommand($query::COMMAND_REMOVE);
+        $query->setCommand($remove);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Check that synonym map is gone
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Check that map can no longer be listed
+        $query->removeCommand();
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertSame([], $result->getItems());
     }
 
     public function testManagedResources()
     {
-        // Check if we can find the 2 default managed resources
-        // (and account for additional resources we might have created while testing)
         $query = self::$client->createManagedResources();
         $result = self::$client->execute($query);
         $items = $result->getItems();
-        $this->assertGreaterThanOrEqual(2, count($items));
+
+        /*
+         * Solr can also return resources that were created in previous tests, even if they were actually successfully removed.
+         * Those resources never had any registered observers. We can use this fact to filter out the two default resources that
+         * come with techproducts and check only those. We tally them because we can't count on numFound with the surplus resources.
+         */
+
+        $n = 0;
+        /** @var ResourceResultItem $item */
+        foreach ($items as $item) {
+            if (0 !== $item->getNumObservers()) {
+                ++$n;
+                switch ($item->getType()) {
+                    case ResourceResultItem::TYPE_STOPWORDS:
+                        $this->assertSame('/schema/analysis/stopwords/english', $item->getResourceId());
+                        $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedWordSetResource', $item->getClass());
+                        break;
+                    case ResourceResultItem::TYPE_SYNONYMS:
+                        $this->assertSame('/schema/analysis/synonyms/english', $item->getResourceId());
+                        $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager', $item->getClass());
+                        break;
+                }
+            }
+        }
+
+        // both resources must be present in the results
+        $this->assertSame(2, $n);
+    }
+
+    /**
+     * Compare our fix for Solr requiring special characters be doubly percent-encoded
+     * with an RFC 3986 compliant implementation that uses single percent-encoding.
+     *
+     * If this test fails, Solr has probably fixed SOLR-6853 on their side. If that is
+     * the case, we'll have to re-evaluate what to do about the workaround. As long as
+     * no other tests fail, they're still supporting the workaround for BC.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-6853
+     * @see https://github.com/solariumphp/solarium/pull/742
+     *
+     * @dataProvider managedResourcesSolr6853Provider
+     */
+    public function testManagedResourcesSolr6853(string $resourceType, AbstractManagedResourceQuery $query, AbstractAddCommand $add)
+    {
+        // unique name is necessary for Stopwords to avoid running into SOLR-14268
+        $uniqid = uniqid();
+        $name = $uniqid.'test-:/?#[]@% ';
+
+        // unlike name, term can't contain a slash (SOLR-6853)
+        $term = 'test-:?#[]@% ';
+
+        $nameSingleEncoded = $uniqid.'test-%3A%2F%3F%23%5B%5D%40%25%20';
+        $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
+
+        $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
+        $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
+
+        $compliantRequestBuilder = new CompliantManagedResourceRequestBuilder();
+        $actualRequestBuilder = new ResourceRequestBuilder();
+
+        $query->setName($name);
+
+        // Create a new managed resource with reserved characters in the name
+        $create = $query->createCommand($query::COMMAND_CREATE);
+        $query->setCommand($create);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        $query->removeCommand();
+
+        // Getting the resource with a compliant request builder doesn't work
+        $request = $compliantRequestBuilder->build($query);
+        $this->assertStringEndsWith('/'.$nameSingleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
+
+        // Since Solr 8.7, this returns an error message in JSON, earlier versions return an HTML page
+        $expectedErrorMsg = sprintf('No REST managed resource registered for path /schema/analysis/%s/%stest-', $resourceType, $uniqid);
+        if (8 === self::$solrVersion) {
+            $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
+        } else {
+            $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody(), 'Check if SOLR-6853 is fixed.');
+        }
+
+        // Getting the resource with our actual request builder does work
+        $request = $actualRequestBuilder->build($query);
+        $this->assertStringEndsWith('/'.$nameDoubleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Removing the resource with a compliant request builder doesn't work
+        $remove = $query->createCommand($query::COMMAND_REMOVE);
+        $query->setCommand($remove);
+        $request = $compliantRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
+
+        // The resource still exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Removing the resource with our actual request builder does work
+        $query->setCommand($remove);
+        $request = $actualRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // The resource is gone
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+
+        // Add a term with reserved characters to a resource
+        $query->setName('english');
+        $query->setCommand($add);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        $query->removeCommand()->setTerm($term);
+
+        // Getting the term with a compliant request builder doesn't work
+        $request = $compliantRequestBuilder->build($query);
+        $this->assertStringEndsWith('/english/'.$termSingleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
+
+        $expectedErrorMsg = sprintf('test- not found in /schema/analysis/%s/english', $resourceType);
+        $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
+
+        // Getting the term with our actual request builder does work
+        $request = $actualRequestBuilder->build($query);
+        $this->assertStringEndsWith('/english/'.$termDoubleEncoded, $request->getHandler());
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Deleting the resource with a compliant request builder doesn't work
+        $delete = $query->createCommand($query::COMMAND_DELETE);
+        $delete->setTerm($term);
+        $query->setCommand($delete);
+        $request = $compliantRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
+
+        // The term still exists
+        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists->setTerm($term);
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // Deleting the resource with our actual request builder doesn't work
+        $query->setCommand($delete);
+        $request = $actualRequestBuilder->build($query);
+        $response = self::$client->executeRequest($request);
+        $result = self::$client->createResult($query, $response);
+        $this->assertTrue($result->getWasSuccessful());
+
+        // The term is gone
+        $query->setCommand($exists);
+        $result = self::$client->execute($query);
+        $this->assertFalse($result->getWasSuccessful());
+    }
+
+    public function managedResourcesSolr6853Provider(): array
+    {
+        $term = 'test-:?#[]@% ';
+        $data = [];
+
+        $query = new StopwordsQuery();
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $add->setStopwords([$term]);
+
+        $data['stopwords'] = ['stopwords', $query, $add];
+
+        $query = new SynonymsQuery();
+        $add = $query->createCommand($query::COMMAND_ADD);
+        $synonyms = new Synonyms();
+        $synonyms->setTerm($term);
+        $synonyms->setSynonyms(['foo', 'bar']);
+        $add->setSynonyms($synonyms);
+
+        $data['synonyms'] = ['synonyms', $query, $add];
+
+        return $data;
+    }
+
+    public function testGetBodyOnHttpError()
+    {
+        /** @var \Solarium\Core\Query\Status4xxNoExceptionInterface $query */
+        $query = self::$client->createManagedSynonyms();
+        $query->setName('english');
+        $query->setTerm('foo');
+
+        $result = self::$client->execute($query);
+
+        $this->assertFalse($result->getWasSuccessful());
+        $this->assertNotSame('', $result->getResponse()->getBody());
     }
 }
 
-class TestQuery extends SelectQuery
+class GroupingTestQuery extends SelectQuery
+{
+    use GroupingTrait;
+}
+
+class TermsTestQuery extends SelectQuery
 {
     use TermsTrait;
 
@@ -1441,5 +3022,30 @@ class TestQuery extends SelectQuery
         $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';
         // Unfortunately the terms request Handler is the only one containing a terms component.
         $this->setHandler('terms');
+    }
+}
+
+/**
+ * Request builder for a managed resource that percent-encodes the list/map name
+ * and term once, in compliance wiht RFC 3986.
+ *
+ * It doesn't apply the double percent-encoding required to work around SOLR-6853
+ *
+ * @see https://issues.apache.org/jira/browse/SOLR-6853
+ */
+class CompliantManagedResourceRequestBuilder extends ResourceRequestBuilder
+{
+    public function build(AbstractQuery $query): Request
+    {
+        $request = parent::build($query);
+
+        // Undo the double percent-encoding to end up with single encoding
+        $handlerSegments = explode('/', $request->getHandler());
+        foreach ($handlerSegments as &$segment) {
+            $segment = rawurldecode($segment);
+        }
+        $request->setHandler(implode('/', $handlerSegments));
+
+        return $request;
     }
 }

@@ -79,7 +79,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     {
         $this->setOption('resultclass', $classname);
 
-        return  $this;
+        return $this;
     }
 
     /**
@@ -177,7 +177,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Removes a param that was previously added by addParam.
      *
-     * Note: This can not be used to remove known default parameters of the solarium api.
+     * Note: This can not be used to remove known default parameters of the Solarium API.
      *
      * @param string $name
      *

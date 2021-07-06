@@ -1,10 +1,102 @@
 # CHANGELOG
-All notable changes to the solarium library will be documented in this file.
+All notable changes to the Solarium library will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 
 ## [unreleased]
+### Added
+
+### Fixed
+
+### Changed
+
+### Removed
+
+### Deprecated
+
+
+## [6.1.4]
+### Added
+- Solarium\QueryType\ManagedResources\Result\Command::getWasSuccessful()
+- Solarium\QueryType\ManagedResources\Result\Command::getStatusMessage()
+- Query a single term in a Managed Resource
+
+### Fixed
+- Syntax error in request with facet queries that contain local parameters
+- HEAD requests could lead to timeouts with cURL adapter
+- Fix for reserved characters in managed resources (SOLR-6853)
+- Parsing nested details in debug response
+
+### Changed
+- Solarium\Component/Result/Stats/Result::getValue() is now public
+
+
+## [6.1.3]
+### Fixed
+- possible exception in Debug\Detail::__toString() when sub details are missing
+
+
+## [6.1.2]
+### Added
+- MoreLikeThis::setMaximumDocumentFrequency()
+- MoreLikeThis::setMaximumDocumentFrequencyPercentage()
+- getInterestingTerms() of MoreLikeThis Component results
+
+### Fixed
+- Debug\Detail return value types
+- Debug\Document return value types
+
+### Deprecated
+- Support for `mlt.match.include` and `mlt.match.offset` in MoreLikeThis Component (they only work in MLT queries)
+
+
+## [6.1.1]
+
+### Fixed
+- Set Client::VERSION to '6.1.1'. Release 6.1.0 accidentally declared itself as 6.0.4.
+
+
+## [6.1.0]
+### Added
+- Indexing labelled nested child documents through pseudo-fields
+- Extract query now supports extractFormat
+- Helper::rangeQuery() now supports left-inclusive only and right-inclusive only queries
+
+### Fixed
+- PrefetchIterator::key() should return 0 instead of NULL on a fresh PrefetchIterator
+- PrefetchIterator::next() shouldn't skip fetched results after PrefetchIterator::count() on a fresh PrefetchIterator
+- PrefetchIterator::rewind() no longer results in duplicate documents when invoked mid-set
+- Fixed incorrect median function
+- Fix for maxScore being returned as "NaN" when group.query doesn't match any docs (SOLR-13839)
+
+### Changed
+- Exception message for invalid/unavailable file in Extract query now contains filename
+- Helper::rangeQuery() detects point values without parameter to turn off escaping
+
+### Removed
+- PHP 7.2 support
+
+
+## [6.0.4]
+### Added
+- PHP 8 support
+
+### Fixed
+- Avoid Notice: Undefined variable: http_response_header
+
+
+## [6.0.3]
+### Fixed
+- Tika based file extraction with Solr 8.6
+- Avoid TypeError if ClusterState contains no collections
+
+### Changed
+- Require specific symfony/event-dispatcher-contracts package instead of the generic symfony/contracts
+
+
+## [6.0.2]
 ### Added
 - Support for the analytics component
 - Function builder
@@ -15,12 +107,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Solarium\Component\Facet\Field::setExcludeTerms()
 - Solarium\Component\Highlighting\Highlighting::setMethod()
 
-### Fixed
-
 ### Changed
 - Refactored Managed Resources code: use `createCommand()` and `createInitArgs()` to issue commands
-
-### Removed
 
 
 ## [6.0.1]
@@ -46,7 +134,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - \Solarium\Support\Utility::getXmlEncoding()
 
 ### Fixed
-- MoreLikeThis result parsing fails on Solr Cloud
+- MoreLikeThis result parsing fails on SolrCloud
 - MinimumScoreFilter plugin might fail on Solr 7 in cloud mode
 
 
@@ -136,7 +224,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.1.3]
 ### Fixed
-- Solarium\Component\ResponseParser\Debug fails on Solr Cloud 6.x during extracting timing phases
+- Solarium\Component\ResponseParser\Debug fails on SolrCloud 6.x during extracting timing phases
 
 
 ## [5.1.2]
@@ -383,7 +471,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [4.0.0-rc.1]
 ### Added
-- Basic support for Solr Cloud streaming expressions
+- Basic support for SolrCloud streaming expressions
 
 
 ## [4.0.0-beta.1]
@@ -398,7 +486,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - More integration tests
 
 ### Removed
-- Outdated symfony versions on test environment
+- Outdated Symfony versions on test environment
 
 ### Fixed
 - Don't escape the '*' in range queries

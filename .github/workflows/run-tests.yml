@@ -14,15 +14,13 @@ jobs:
 
         strategy:
             matrix:
-                php: [7.2, 7.3, 7.4]
+                php: [7.3, 7.4, 8.0]
                 solr: [7, 8]
                 mode: [cloud, server]
 
         name: PHP ${{ matrix.php }}, Solr ${{ matrix.solr }} ${{ matrix.mode }}
 
         env:
-            PHP: ${{ matrix.os }}
-            SOLR: ${{ matrix.solr }}${{ matrix.mode }}
             COMPOSER_MEMORY_LIMIT: -1
 
         steps:
@@ -30,27 +28,45 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                 php-version: ${{ matrix.php }}
-                extensions: dom, curl, libxml, mbstring, zip, intl, iconv, json, simplexml
+                extensions: dom, curl, libxml, mbstring, zip, iconv, json, simplexml
                 ini-values: memory_limit=256M,post_max_size=256M
                 coverage: pcov
 
             - name: Checkout solarium
               uses: actions/checkout@v2
 
+            - name: Checkout solr 7.7
+              if: matrix.solr == 7
+              uses: actions/checkout@v2
+              with:
+                repository: apache/lucene-solr
+                ref: branch_7_7
+                path: lucene-solr
+
+            - name: Checkout solr 8.9
+              if: matrix.solr == 8
+              uses: actions/checkout@v2
+              with:
+                repository: apache/lucene-solr
+                ref: branch_8_9
+                path: lucene-solr
+
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
-                cd tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
+                chmod -R a+w lucene-solr
+                cd lucene-solr
+                patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
+                patch -p1 < ../tests/Integration/Fixtures/schema${{ matrix.solr }}.patch
+                cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 
             - name: Install dependencies
               run: |
-                composer global require hirak/prestissimo
-                composer require phpstan/phpstan:0.12.25
                 composer update
 
             - name: Run tests
               run: |
-                vendor/bin/phpstan analyze src/ tests/ --level=1
+                vendor/bin/phpstan analyze src/ tests/ --level=1 --memory-limit=1G
                 vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
 
             - name: Execute examples
@@ -58,11 +74,34 @@ jobs:
                 cd examples
                 php execute_all.php
 
-            - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@master
+            - uses: actions/upload-artifact@v2
               with:
-                file: build/logs/clover.xml
-                flags: unittests
-                env_vars: PHP,SOLR
                 name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
-                fail_ci_if_error: false
+                path: build/logs
+
+    coverage:
+        runs-on: ubuntu-latest
+
+        name: Upload coverage to codecov.io
+
+        needs: [run-tests]
+
+        steps:
+            - name: Checkout solarium
+              uses: actions/checkout@v2
+
+            - name: Download coverage reports from tests
+              uses: actions/download-artifact@v2
+
+            - name: List report files
+              run: |
+                ls -l PHP*/clover*.xml
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v1
+              with:
+                  files: PHP*/clover*.xml
+                  flags: unittests
+                  name: solarium
+                  fail_ci_if_error: false
+                  verbose: false

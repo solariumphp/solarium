@@ -34,16 +34,16 @@ $customizer->createCustomization('id')
 // create a basic query to execute
 $query = $client->createSelect();
 
-// execute query (you should be able to see the extra params in the solr log file)
+// execute query (you should be able to see the extra params in the Solr log file)
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound() . '<br/>';
 
 // execute the same query again (this time the 'id' param should no longer show up in the logs)
 $resultset = $client->select($query);
 
-// display the total number of documents found by solr
+// display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 htmlFooter();

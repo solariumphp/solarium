@@ -162,7 +162,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         } else {
             $request->addParam(
                 'facet.field',
-                sprintf('%s%s', $facet->getLocalParameters()->render(), $field)
+                $this->renderLocalParams(
+                    $field,
+                    $facet->getLocalParameters()->getParameters()
+                )
             );
 
             $request->addParam("f.$field.facet.limit", $facet->getLimit());
@@ -189,7 +192,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     {
         $request->addParam(
             'facet.query',
-            sprintf('%s%s', $facet->getLocalParameters()->render(), $facet->getQuery())
+            $this->renderLocalParams(
+                $facet->getQuery(),
+                $facet->getLocalParameters()->getParameters()
+            )
         );
     }
 
@@ -218,7 +224,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         $request->addParam(
             'facet.range',
-            sprintf('%s%s', $facet->getLocalParameters()->render(), $field)
+            $this->renderLocalParams(
+                $field,
+                $facet->getLocalParameters()->getParameters()
+            )
         );
 
         $request->addParam("f.$field.facet.range.start", $facet->getStart());
@@ -238,7 +247,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         if (null !== $pivot = $facet->getPivot()) {
             $request->addParam(
                 'facet.pivot',
-                sprintf('%s%s', $pivot->getLocalParameters()->render(), implode(',', $pivot->getFields()))
+                $this->renderLocalParams(
+                    implode(',', $pivot->getFields()),
+                    $pivot->getLocalParameters()->getParameters()
+                )
             );
         }
     }
@@ -256,7 +268,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         if (\count($stats) > 0) {
             $key = ['stats' => implode('', $stats)];
 
-            // when specifying stats, solr sets the field as key
+            // when specifying stats, Solr sets the field as key
             $facet->setKey(implode(',', $facet->getFields()));
         } else {
             $key = ['key' => $facet->getKey()];
@@ -264,7 +276,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         $request->addParam(
             'facet.pivot',
-            sprintf('%s%s', $facet->getLocalParameters()->render(), implode(',', $facet->getFields()))
+            $this->renderLocalParams(
+                implode(',', $facet->getFields()),
+                $facet->getLocalParameters()->getParameters()
+            )
         );
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
         $request->addParam('facet.pivot.limit', $facet->getLimit(), true);
@@ -282,12 +297,15 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
 
         $request->addParam(
             'facet.interval',
-            sprintf('%s%s', $facet->getLocalParameters()->render(), $field)
+            $this->renderLocalParams(
+                $field,
+                $facet->getLocalParameters()->getParameters()
+            )
         );
 
         foreach ($facet->getSet() as $key => $setValue) {
             if (\is_string($key)) {
-                $setValue = '{!key="'.$key.'"}'.$setValue;
+                $setValue = $this->renderLocalParams($setValue, ['key' => '"'.$key.'"']);
             }
             $request->addParam("f.$field.facet.interval.set", $setValue);
         }

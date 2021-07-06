@@ -250,7 +250,7 @@ class FunctionBuilderTest extends TestCase
         $builder = FunctionBuilder::create()
             ->where(FunctionBuilder::expr()->median('foo', 'bar'));
 
-        $this->assertSame('med(foo,bar)', (string) $builder->getFunction());
+        $this->assertSame('median(foo,bar)', (string) $builder->getFunction());
     }
 
     /**

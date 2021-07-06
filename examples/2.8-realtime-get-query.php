@@ -15,7 +15,7 @@ $doc1 = $update->createDocument();
 $doc1->id = $id;
 $doc1->name = 'realtime-get-test-'.date('Y-m-d H:i:s');
 
-// set a very long commitWithin time and add it to solr
+// set a very long commitWithin time and add it to Solr
 $update->addDocument($doc1, null, 1000000);
 $client->update($update);
 
