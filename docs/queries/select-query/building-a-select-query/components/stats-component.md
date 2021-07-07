@@ -69,3 +69,41 @@ foreach ($statsResult as $field) {
 htmlFooter();
 
 ```
+
+Local parameters can be used to request a subset of the supported statistics.
+
+```php
+$stats->createField('{!min=true max=true mean=true}popularity');
+```
+
+Some statistics are not computed by default in Solr. You can request them
+via local parameters.
+
+```php
+/* Percentiles */
+$stats->createField('{!percentiles="99,99.9,99.99"}popularity');
+// ...
+$field->getPercentiles();
+
+/* The set of all distinct values */
+$stats->createField('{!distinctValues=true}popularity');
+// ...
+$field->getDistinctValues();
+
+/* The exact number of distinct values */
+$stats->createField('{!countDistinct=true}popularity');
+// ...
+$field->getCountDistinct();
+
+/* A statistical approximation of the number of distinct values */
+$stats->createField('{!cardinality=0.3}popularity');
+// ...
+$field->getCardinality();
+```
+
+This overrides the default set of statistics. Explicitly add any of the default
+statistics you also want computed.
+
+```php
+$stats->createField('{!min=true max=true percentiles="99,99.9,99.99"}popularity');
+```

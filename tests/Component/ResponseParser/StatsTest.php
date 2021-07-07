@@ -4,6 +4,8 @@ namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Stats as Parser;
+use Solarium\Exception\InvalidArgumentException;
+use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends TestCase
 {
@@ -12,9 +14,15 @@ class StatsTest extends TestCase
      */
     protected $parser;
 
+    /**
+     * @var Query
+     */
+    protected $query;
+
     public function setUp(): void
     {
         $this->parser = new Parser();
+        $this->query = new Query();
     }
 
     public function testParse()
@@ -23,14 +31,28 @@ class StatsTest extends TestCase
             'stats' => [
                 'stats_fields' => [
                     'fieldA' => [
-                        'min' => 3,
+                        'min' => 3.0,
+                        'mean' => 'NaN',
+                        'percentiles' => [
+                            '50.0',
+                            3.14,
+                            '90.0',
+                            42.0,
+                        ],
                     ],
                     'fieldB' => [
-                        'min' => 4,
+                        'min' => 4.0,
                         'facets' => [
                             'fieldC' => [
                                 'value1' => [
-                                    'min' => 5,
+                                    'min' => 5.0,
+                                    'mean' => 'NaN',
+                                    'percentiles' => [
+                                        '99.0',
+                                        20.5,
+                                        '99.9',
+                                        20.9,
+                                    ],
                                 ],
                             ],
                         ],
@@ -39,18 +61,39 @@ class StatsTest extends TestCase
             ],
         ];
 
-        $result = $this->parser->parse(null, null, $data);
+        $result = $this->parser->parse($this->query, null, $data);
 
-        $this->assertEquals(3, $result->getResult('fieldA')->getMin());
-        $this->assertEquals(4, $result->getResult('fieldB')->getMin());
+        $this->assertEquals(3.0, $result->getResult('fieldA')->getMin());
+        $this->assertEquals(4.0, $result->getResult('fieldB')->getMin());
+        $this->assertNan($result->getResult('fieldA')->getMean());
+
+        $expectedPercentiles = [
+            '50.0' => 3.14,
+            '90.0' => 42.0,
+        ];
+        $this->assertSame($expectedPercentiles, $result->getResult('fieldA')->getPercentiles());
 
         $facets = $result->getResult('fieldB')->getFacets();
-        $this->assertEquals(5, $facets['fieldC']['value1']->getMin());
+        $this->assertEquals(5.0, $facets['fieldC']['value1']->getMin());
+        $this->assertNan($facets['fieldC']['value1']->getMean());
+
+        $expectedPercentiles = [
+            '99.0' => 20.5,
+            '99.9' => 20.9,
+        ];
+        $this->assertSame($expectedPercentiles, $facets['fieldC']['value1']->getPercentiles());
     }
 
     public function testParseNoData()
     {
-        $result = $this->parser->parse(null, null, []);
+        $result = $this->parser->parse($this->query, null, []);
         $this->assertCount(0, $result);
+    }
+
+    public function testParseNoQuery()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('A valid query object needs to be provided.');
+        $this->parser->parse(null, null, []);
     }
 }
