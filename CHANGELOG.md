@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component\Result\Stats\FacetValue::getDistinctValues()
 - Component\Result\Stats\FacetValue::getCountDistinct()
 - Component\Result\Stats\FacetValue::getCardinality()
+- Component\Result\Stats\FacetValue::getStatValue()
 
 ### Fixed
 - Component\Result\Stats\Result::getPercentiles() returns percentiles as an associative array
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Component\Result\Stats\Result::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
 - Component\Result\Stats\FacetValue::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
+- Component\Result\Stats\Result::getValue() is renamed to getStatValue()
 
 ### Removed
 
@@ -41,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Parsing nested details in debug response
 
 ### Changed
-- Solarium\Component/Result/Stats/Result::getValue() is now public
+- Solarium\Component\Result\Stats\Result::getValue() is now public
 
 
 ## [6.1.3]
