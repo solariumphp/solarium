@@ -16,6 +16,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
 use Solarium\QueryType\ManagedResources\ResponseParser\Command as CommandResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Exists as ExistsResponseParser;
+use Solarium\QueryType\ManagedResources\ResponseParser\Remove as RemoveResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonym as SynonymResponseParser;
 use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as SynonymsResponseParser;
 
@@ -61,6 +62,13 @@ class SynonymsTest extends TestCase
         $command = $this->query->createCommand(Synonyms::COMMAND_EXISTS);
         $this->query->setCommand($command);
         $this->assertInstanceOf(ExistsResponseParser::class, $this->query->getResponseParser());
+    }
+
+    public function testGetResponseParserWithRemoveCommand()
+    {
+        $command = $this->query->createCommand(Synonyms::COMMAND_REMOVE);
+        $this->query->setCommand($command);
+        $this->assertInstanceOf(RemoveResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testGetResponseParserAfterRemovingCommand()
