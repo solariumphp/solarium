@@ -110,7 +110,7 @@ class FacetValueTest extends TestCase
     }
 
     /**
-     * @deprecated Will be removed in Solarium 7.
+     * @deprecated Will be removed in Solarium 7
      */
     public function testGetFacets()
     {

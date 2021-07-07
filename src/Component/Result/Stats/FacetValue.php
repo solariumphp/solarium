@@ -50,7 +50,7 @@ class FacetValue
      *
      * @return array|null
      *
-     * @deprecated Will be removed in Solarium 7.
+     * @deprecated Will be removed in Solarium 7
      */
     public function getFacets(): ?array
     {
