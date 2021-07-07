@@ -124,4 +124,20 @@ class ResultTest extends TestCase
     {
         $this->assertNull($this->result->getStatValue('unknown'));
     }
+
+    /**
+     * @deprecated
+     */
+    public function testGetValue()
+    {
+        $this->assertSame($this->stats['dummy'], $this->result->getValue('dummy'));
+    }
+
+    /**
+     * @deprecated
+     */
+    public function testGetValueUnknown()
+    {
+        $this->assertNull($this->result->getValue('unknown'));
+    }
 }
