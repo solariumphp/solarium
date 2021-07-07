@@ -20,15 +20,26 @@ class ResultTest extends TestCase
     {
         $this->field = 'myfield';
         $this->stats = [
-            'min' => 'dummyMin',
-            'max' => 'dummyMax',
-            'sum' => 'dummySum',
+            'min' => 0.0,
+            'max' => 1.0,
+            'sum' => 4.2,
             'count' => -1,
-            'missing' => 'dummyMissing',
-            'sumOfSquares' => 'dummySos',
-            'mean' => 'dummyMean',
-            'stddev' => 'dummyStddev',
+            'missing' => 0,
+            'sumOfSquares' => 1.41,
+            'mean' => 3.14,
+            'stddev' => 0.2,
+            'percentiles' => [
+                '50.0' => 3.14,
+                '90.0' => 42.0,
+            ],
+            'distinctValues' => [
+                'dummy1',
+                'dummy2',
+            ],
+            'countDistinct' => 3,
+            'cardinality' => 2,
             'facets' => ['dummyFacets'],
+            'dummy' => 'test',
         ];
 
         $this->result = new Result($this->field, $this->stats);
@@ -79,8 +90,38 @@ class ResultTest extends TestCase
         $this->assertSame($this->stats['stddev'], $this->result->getStddev());
     }
 
+    public function testGetPercentiles()
+    {
+        $this->assertSame($this->stats['percentiles'], $this->result->getPercentiles());
+    }
+
+    public function testGetDistinctValues()
+    {
+        $this->assertSame($this->stats['distinctValues'], $this->result->getDistinctValues());
+    }
+
+    public function testGetCountDistinct()
+    {
+        $this->assertSame($this->stats['countDistinct'], $this->result->getCountDistinct());
+    }
+
+    public function testGetCardinality()
+    {
+        $this->assertSame($this->stats['cardinality'], $this->result->getCardinality());
+    }
+
     public function testGetFacets()
     {
         $this->assertSame($this->stats['facets'], $this->result->getFacets());
+    }
+
+    public function testGetStatValue()
+    {
+        $this->assertSame($this->stats['dummy'], $this->result->getStatValue('dummy'));
+    }
+
+    public function testGetStatValueUnknown()
+    {
+        $this->assertNull($this->result->getStatValue('unknown'));
     }
 }

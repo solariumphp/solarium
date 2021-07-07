@@ -7,14 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+- Component\Result\Stats\Result::getDistinctValues()
+- Component\Result\Stats\Result::getCountDistinct()
+- Component\Result\Stats\Result::getCardinality()
+- Component\Result\Stats\FacetValue::getPercentiles()
+- Component\Result\Stats\FacetValue::getDistinctValues()
+- Component\Result\Stats\FacetValue::getCountDistinct()
+- Component\Result\Stats\FacetValue::getCardinality()
 
 ### Fixed
+- Component\Result\Stats\Result::getPercentiles() returns percentiles as an associative array
 
 ### Changed
+- Component\Result\Stats\Result::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
+- Component\Result\Stats\FacetValue::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
 
 ### Removed
 
 ### Deprecated
+- Component\Result\Stats\FacetValue::getFacets()
 
 
 ## [6.1.4]
