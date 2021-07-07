@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - Component\Result\Stats\FacetValue::getFacets()
+- Component\Result\Stats\Result::getValue()
 
 
 ## [6.1.4]
