@@ -7,3 +7,5 @@
 /.php_cs.cache
 /.phpcs-cache
 .DS_Store
+/nbproject/private/
+/nbproject
