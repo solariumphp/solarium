@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
 namespace Solarium\Tests\Plugin;
 
 use PHPUnit\Framework\TestCase;
@@ -40,11 +47,11 @@ class PostBigExtractRequestTest extends TestCase
         $this->plugin->setMaxQueryStringLength(512);
         $this->assertSame(512, $this->plugin->getMaxQueryStringLength());
     }
-    
+
     public function testSetAndGetCharset()
     {
-        $this->plugin->setCharset( 'iso-8859-1' );
-        $this->assertSame( 'iso-8859-1',  $this->plugin->getCharset());
+        $this->plugin->setCharset('iso-8859-1');
+        $this->assertSame('iso-8859-1', $this->plugin->getCharset());
     }
 
     public function testPostCreateRequest()
@@ -55,21 +62,21 @@ class PostBigExtractRequestTest extends TestCase
             $field_name = "field_{$i}";
             $document->$field_name = "value $i";
         }
-        $this->query->setDocument( $document );
+        $this->query->setDocument($document);
         $this->query->setFile(__FILE__);
-        
+
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
         $event = new PostCreateRequest($this->query, $requestOutput);
         $this->plugin->postCreateRequest($event);
 
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
-        $nl_pattern = "(?:\\r\\n|\\r|\\n)";
-        foreach ( explode('&', urldecode( $requestInput->getQueryString() ) ) as $qs_parameter ){
-            $qs_parameter_arr = explode( '=', $qs_parameter );
+        $nl_pattern = '(?:\\r\\n|\\r|\\n)';
+        foreach (explode('&', urldecode($requestInput->getQueryString())) as $qs_parameter) {
+            $qs_parameter_arr = explode('=', $qs_parameter);
             $qs_parameter_name = $qs_parameter_arr[0];
             $qs_parameter_value = $qs_parameter_arr[1];
-            $pattern = "/^-{2}.*?$nl_pattern+^Content-Disposition: form-data; name=\"" . preg_quote( $qs_parameter_name ) . "\"$nl_pattern+Content-Type:.*?$nl_pattern+" . preg_quote( $qs_parameter_value ). "/m";
+            $pattern = "/^-{2}.*?$nl_pattern+^Content-Disposition: form-data; name=\"".preg_quote($qs_parameter_name)."\"$nl_pattern+Content-Type:.*?$nl_pattern+".preg_quote($qs_parameter_value).'/m';
             $this->assertMatchesRegularExpression($pattern, $requestOutput->getRawData());
         }
         $this->assertSame('', $requestOutput->getQueryString());
@@ -104,16 +111,15 @@ class PostBigExtractRequestTest extends TestCase
         $client = TestClientFactory::createWithCurlAdapter();
         $client->registerPlugin('testplugin', $this->plugin);
         $this->plugin->setMaxQueryStringLength(1); // this forces literals moved from query string for even the smallest queries
-        
 
         $query = $this->client->createExtract();
         $query->setCommit(true);
         $document = $query->createDocument();
-        $document["field"] = "Ipse dixit.";
-        $query->setDocument( $document );
-        $query->setFile( __FILE__ );
+        $document['field'] = 'Ipse dixit.';
+        $query->setDocument($document);
+        $query->setFile(__FILE__);
         $query->setOmitHeader(false);
-        
+
         $request = $client->createRequest($query);
         $adapter = $this->createMock(AdapterInterface::class);
         $client->setAdapter($adapter);
@@ -121,6 +127,5 @@ class PostBigExtractRequestTest extends TestCase
 
         // default extract method is POST
         $this->assertSame(Request::METHOD_POST, $request->getMethod());
-        
     }
 }
