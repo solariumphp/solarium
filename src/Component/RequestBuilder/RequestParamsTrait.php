@@ -29,7 +29,7 @@ trait RequestParamsTrait
      *
      * @param string $key
      *
-     * @return string|array
+     * @return string|array|null
      */
     public function getParam(string $key)
     {
