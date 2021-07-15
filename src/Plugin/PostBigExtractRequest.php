@@ -13,8 +13,7 @@ use Solarium\Core\Client\Adapter\AdapterHelper;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
-
-//use Solarium\Core\Client\Request;
+use Solarium\QueryType\Extract\Query as ExtractQuery;
 
 /**
  * PostBigExtractRequest plugin.
@@ -35,7 +34,6 @@ class PostBigExtractRequest extends AbstractPlugin
      */
     protected $options = [
         'maxquerystringlength' => 1024,
-        'charset' => 'UTF-8',
     ];
 
     /**
@@ -63,30 +61,6 @@ class PostBigExtractRequest extends AbstractPlugin
     }
 
     /**
-     * Set charset enabled option.
-     *
-     * @param string $value
-     *
-     * @return self Provides fluent interface
-     */
-    public function setCharset(string $value): self
-    {
-        $this->setOption('charset', $value);
-
-        return $this;
-    }
-
-    /**
-     * Get charset option.
-     *
-     * @return string|null
-     */
-    public function getCharset(): ?string
-    {
-        return $this->getOption('charset');
-    }
-
-    /**
      * Event hook to adjust client settings just before query execution.
      *
      * @param PostCreateRequestEvent $event
@@ -97,40 +71,39 @@ class PostBigExtractRequest extends AbstractPlugin
     {
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
-        if ('update/extract' == $request->getHandler() && \strlen($queryString) > $this->getMaxQueryStringLength()) {
+        $query = $event->getQuery();
+        if ($query instanceof ExtractQuery && \strlen($queryString) > $this->getMaxQueryStringLength()) {
+            $charset = $request->getParam('ie') ?? 'UTF-8';
             if ($request->getFileUpload()) {
                 $body = '';
 
-                $params = $request->getParams();
-                if (!empty($params) && \count($params) > 0) {
-                    foreach ($params as $key => $value) {
-                        if (is_countable($value)) {
-                            foreach ($value as $array_key => $array_val) {
-                                if (\is_string($array_val)) {
-                                    $additional_body_header = "\r\nContent-Type: text/plain;charset=".$this->getCharset(); //$value = urlencode($value);
-                                } else {
-                                    $additional_body_header = '';
-                                }
-                                $body .= "--{$request->getHash()}\r\n";
-                                $body .= 'Content-Disposition: form-data; name="'.$key.'"';
-                                $body .= $additional_body_header;
-                                $body .= "\r\n\r\n";
-                                $body .= $array_val;
-                                $body .= "\r\n";
-                            }
-                        } else {
-                            if (\is_string($value)) {
-                                $additional_body_header = "\r\nContent-Type: text/plain;charset=".$this->getCharset(); //$value = urlencode($value);
+                foreach ($request->getParams() as $key => $value) {
+                    if (is_iterable($value)) {
+                        foreach ($value as $array_key => $array_val) {
+                            if (\is_string($array_val)) {
+                                $additional_body_header = "\r\nContent-Type: text/plain;charset={$charset}";
                             } else {
                                 $additional_body_header = '';
                             }
                             $body .= "--{$request->getHash()}\r\n";
-                            $body .= 'Content-Disposition: form-data; name="'.$key.'"';
+                            $body .= "Content-Disposition: form-data; name=\"{$key}\"";
                             $body .= $additional_body_header;
                             $body .= "\r\n\r\n";
-                            $body .= $value;
+                            $body .= $array_val;
                             $body .= "\r\n";
                         }
+                    } else {
+                        if (\is_string($value)) {
+                            $additional_body_header = "\r\nContent-Type: text/plain;charset={$charset}";
+                        } else {
+                            $additional_body_header = '';
+                        }
+                        $body .= "--{$request->getHash()}\r\n";
+                        $body .= "Content-Disposition: form-data; name=\"{$key}\"";
+                        $body .= $additional_body_header;
+                        $body .= "\r\n\r\n";
+                        $body .= $value;
+                        $body .= "\r\n";
                     }
                 }
 
@@ -139,7 +112,6 @@ class PostBigExtractRequest extends AbstractPlugin
                 $request->setRawData($body);
                 $request->setOption('file', null); // this prevent solarium from call AdapterHelper::buildUploadBodyFromRequest for setting body request
                 $request->clearParams();
-                //$request->setMethod(Request::METHOD_POST);
             }
         }
 

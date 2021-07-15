@@ -643,28 +643,34 @@ If you use complex Solr extract queries with lots of literals to define your cus
 
 This plugin can automatically move all parameters from querystring to the multipart body content of the request if the querystring exceeds a length limit.
 
-For instance, in Jetty the default ‘headerBufferSize’ is 4kB. Tomcat has a similar setting ‘maxHttpHeaderSize’, also 4kB by default. This limit applies to all the combined headers of a request, so it’s not just the querystring. In comparison, the default for POST data in tomcat (‘maxPostSize’) is 4MB. Jetty uses a ‘maxFormContentSize’ setting with a lower default value of 200kB, but still way higher than the header limit and well above the length of even the most complex queries.
+For instance, in Jetty the default ‘headerBufferSize’ is 4KiB. Tomcat 10 has a similar setting ‘maxHttpHeaderSize’, 8KiB by default. This limit applies to all the combined headers of a request, so it’s not just the querystring. In comparison, the default for POST data in tomcat (‘maxPostSize’) is 2MiB. Jetty uses a ‘maxFormContentSize’ setting with a lower default value of 200kB, but still way higher than the header limit and well above the length of even the most complex queries.
 
-The plugin only uses the length of the querystring to determine the parameters relocation. Other headers are not included in the length calculation so your limit should be somewhat lower than the limit of the servlet container to allow for room for other headers. This was done to keep the length calculation simple and fast because the exact headers used can vary for the various client adapters available in Solarium. You can alter the maxquerystringlength by using a config setting or the API. Only **update/extract** requests are computed, other types of queries are not altered.
+The plugin only uses the length of the querystring to determine the parameters relocation. Other headers are not included in the length calculation so your limit should be somewhat lower than the limit of the servlet container to allow for room for other headers. This was done to keep the length calculation simple and fast because the exact headers used can vary for the various client adapters available in Solarium. You can alter the `maxquerystringlength` by using a config setting or the API. Only `Extract` queries are affected, other types of queries are not altered.
 
 ### Example usage
 
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+/*
+ * This file is part of the Solarium package.
+ *
+ * For the full copyright and license information, please view the COPYING
+ * file that was distributed with this source code.
+ */
+
+require_once __DIR__.'/init.php';
 htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
-$plugin_PostBigExtractRequest = $client->getPlugin('postbigextractrequest');
-$plugin_PostBigExtractRequest->setCharset( "UTF-8" );  //deafult value
-$plugin_PostBigExtractRequest->setMaxQueryStringLength(1024); //deafult value
-
-                        
+$postBigExtractRequest = $client->getPlugin('postbigextractrequest');
+// set the maximum length to a value appropriate for your servlet container
+$postBigExtractRequest->setMaxQueryStringLength(1024);
 
 // get an extract query instance and add settings
 $query = $client->createExtract();
+$query->setInputEncoding('UTF-8');
 $query->addFieldMapping('content', 'text');
 $query->setUprefix('attr_');
 $query->setFile(__DIR__.'/index.html');
@@ -686,9 +692,8 @@ $query->setDocument($doc);
 $result = $client->extract($query);
 
 echo '<b>Extract query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
-
 ```

@@ -48,12 +48,6 @@ class PostBigExtractRequestTest extends TestCase
         $this->assertSame(512, $this->plugin->getMaxQueryStringLength());
     }
 
-    public function testSetAndGetCharset()
-    {
-        $this->plugin->setCharset('iso-8859-1');
-        $this->assertSame('iso-8859-1', $this->plugin->getCharset());
-    }
-
     public function testPostCreateRequest()
     {
         $document = $this->query->createDocument();
