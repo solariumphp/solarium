@@ -51,26 +51,29 @@ class PostBigExtractRequestTest extends TestCase
     public function testPostCreateRequest()
     {
         $document = $this->query->createDocument();
-        // create a very long list of literals
-        for ($i = 1; $i <= 100; ++$i) {
+        // create some literals
+        $literalsAsList = [];
+        for ($i = 1; $i <= 3; ++$i) {
             $field_name = "field_{$i}";
-            $document->$field_name = "value $i";
+            $document->$field_name = "The number of the literal is #$i.";
+            $literalsAsList[] = $document->$field_name;
         }
+        $document['literalsAsList'] = $literalsAsList;
         $this->query->setDocument($document);
         $this->query->setFile(__FILE__);
 
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
         $event = new PostCreateRequest($this->query, $requestOutput);
-        $this->plugin->postCreateRequest($event);
+        $this->plugin->setMaxQueryStringLength(1)->postCreateRequest($event);
 
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
-        $nl_pattern = '(?:\\r\\n|\\r|\\n)';
+        $nlPattern = '(?:\\r\\n|\\r|\\n)';
         foreach (explode('&', urldecode($requestInput->getQueryString())) as $qs_parameter) {
-            $qs_parameter_arr = explode('=', $qs_parameter);
-            $qs_parameter_name = $qs_parameter_arr[0];
-            $qs_parameter_value = $qs_parameter_arr[1];
-            $pattern = "/^-{2}.*?$nl_pattern+^Content-Disposition: form-data; name=\"".preg_quote($qs_parameter_name)."\"$nl_pattern+Content-Type:.*?$nl_pattern+".preg_quote($qs_parameter_value).'/m';
+            $qsParameterArr = explode('=', $qs_parameter);
+            $qsParameterName = $qsParameterArr[0];
+            $qsParameterValue = $qsParameterArr[1];
+            $pattern = "/^-{2}.*?$nlPattern+^Content-Disposition: form-data; name=\"".preg_quote($qsParameterName)."\"$nlPattern+Content-Type:.*?$nlPattern+".preg_quote($qsParameterValue).'/m';
             $this->assertMatchesRegularExpression($pattern, $requestOutput->getRawData());
         }
         $this->assertSame('', $requestOutput->getQueryString());
