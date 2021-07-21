@@ -48,7 +48,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @param string $key
      *
-     * @return FieldGroup|QueryGroup
+     * @return FieldGroup|QueryGroup|null
      */
     public function getGroup(string $key)
     {
