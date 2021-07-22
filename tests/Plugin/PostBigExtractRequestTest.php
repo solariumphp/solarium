@@ -51,32 +51,160 @@ class PostBigExtractRequestTest extends TestCase
     public function testPostCreateRequest()
     {
         $document = $this->query->createDocument();
-        // create some literals
-        $literalsAsList = [];
-        for ($i = 1; $i <= 3; ++$i) {
-            $field_name = "field_{$i}";
-            $document->$field_name = "The number of the literal is #$i.";
-            $literalsAsList[] = $document->$field_name;
-        }
-        $document['literalsAsList'] = $literalsAsList;
+        $document->field_1 = "Field 1";
+        $document->field_2 = 0;
+        $document->field_3 = ['Field 3 a', 'Field 3 b'];
+        $document->field_4 = [1, 2];
         $this->query->setDocument($document);
-        $this->query->setFile(__FILE__);
+
+        $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
+        file_put_contents($tmpfname, 'Test file contents');
+        $this->query->setFile($tmpfname);
 
         $requestOutput = $this->client->createRequest($this->query);
-        $requestInput = clone $requestOutput;
         $event = new PostCreateRequest($this->query, $requestOutput);
         $this->plugin->setMaxQueryStringLength(1)->postCreateRequest($event);
 
+        $expectedRawDataRegex = <<<'REGEX'
+~^--([[:xdigit:]]{32})\r\n
+Content-Disposition:\ form-data;\ name="omitHeader"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+true\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="wt"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+json\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="json\.nl"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+flat\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="extractOnly"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+false\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_1"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+Field\ 1\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_2"\r\n
+\r\n
+0\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_3"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+Field\ 3\ a\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_3"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+Field\ 3\ b\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_4"\r\n
+\r\n
+1\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_4"\r\n
+\r\n
+2\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="resource\.name"\r\n
+Content-Type:\ text/plain;charset=UTF-8\r\n
+\r\n
+(tst.+?)\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="file";\ filename="\2"\r\n
+Content-Type:\ application/octet-stream\r\n
+\r\n
+Test\ file\ contents\r\n
+--\1--\r\n
+$~xD
+REGEX;
+
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
-        $nlPattern = '(?:\\r\\n|\\r|\\n)';
-        foreach (explode('&', urldecode($requestInput->getQueryString())) as $qs_parameter) {
-            $qsParameterArr = explode('=', $qs_parameter);
-            $qsParameterName = $qsParameterArr[0];
-            $qsParameterValue = $qsParameterArr[1];
-            $pattern = "/^-{2}.*?$nlPattern+^Content-Disposition: form-data; name=\"".preg_quote($qsParameterName)."\"$nlPattern+Content-Type:.*?$nlPattern+".preg_quote($qsParameterValue).'/m';
-            $this->assertMatchesRegularExpression($pattern, $requestOutput->getRawData());
-        }
         $this->assertSame('', $requestOutput->getQueryString());
+        $this->assertMatchesRegularExpression($expectedRawDataRegex, $requestOutput->getRawData());
+
+        unlink($tmpfname);
+    }
+
+    public function testPostCreateRequestInputEncoding()
+    {
+        $this->query->setInputEncoding('ascii');
+
+        $document = $this->query->createDocument();
+        $document->field_1 = "Field 1";
+        $document->field_2 = 0;
+        $this->query->setDocument($document);
+
+        $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
+        file_put_contents($tmpfname, 'Test file contents');
+        $this->query->setFile($tmpfname);
+
+        $requestOutput = $this->client->createRequest($this->query);
+        $event = new PostCreateRequest($this->query, $requestOutput);
+        $this->plugin->setMaxQueryStringLength(1)->postCreateRequest($event);
+
+        $expectedRawDataRegex = <<<'REGEX'
+~^--([[:xdigit:]]{32})\r\n
+Content-Disposition:\ form-data;\ name="omitHeader"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+true\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="ie"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+ascii\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="wt"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+json\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="json\.nl"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+flat\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="extractOnly"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+false\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_1"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+Field\ 1\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="literal\.field_2"\r\n
+\r\n
+0\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="resource\.name"\r\n
+Content-Type:\ text/plain;charset=ascii\r\n
+\r\n
+(tst.+?)\r\n
+--\1\r\n
+Content-Disposition:\ form-data;\ name="file";\ filename="\2"\r\n
+Content-Type:\ application/octet-stream\r\n
+\r\n
+Test\ file\ contents\r\n
+--\1--\r\n
+$~xD
+REGEX;
+
+        $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
+        $this->assertSame('', $requestOutput->getQueryString());
+        $this->assertMatchesRegularExpression($expectedRawDataRegex, $requestOutput->getRawData());
+
+        unlink($tmpfname);
     }
 
     public function testPostCreateRequestUnalteredSmallRequest()
