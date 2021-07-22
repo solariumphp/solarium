@@ -51,7 +51,7 @@ class PostBigExtractRequestTest extends TestCase
     public function testPostCreateRequest()
     {
         $document = $this->query->createDocument();
-        $document->field_1 = "Field 1";
+        $document->field_1 = 'Field 1';
         $document->field_2 = 0;
         $document->field_3 = ['Field 3 a', 'Field 3 b'];
         $document->field_4 = [1, 2];
@@ -139,7 +139,7 @@ REGEX;
         $this->query->setInputEncoding('ascii');
 
         $document = $this->query->createDocument();
-        $document->field_1 = "Field 1";
+        $document->field_1 = 'Field 1';
         $document->field_2 = 0;
         $this->query->setDocument($document);
 
