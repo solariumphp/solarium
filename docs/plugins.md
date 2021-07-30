@@ -635,3 +635,58 @@ We avoid calling `valid()` on the first iteration of the inner loop by using `do
 position on the outer `while`. Using an inner `while` instead is functionally equivalent, but calling `valid()` twice in
 succession would cause the same documents to be fetched twice from Solr (although still processed once by the script) on common
 multiples of the chunk size and prefetch size.
+
+PostBigExtractRequest plugin
+---------------------
+
+If you use complex Solr extract queries with lots of literals to define your custom metadata the total length of your querystring can exceed the default limits of servlet containers. One solution is to alter your servlet container configuration to raise this limit. But if this is not possible or desired this plugin is another way to solve the problem.
+
+This plugin can automatically move all parameters from querystring to the multipart body content of the request if the querystring exceeds a length limit.
+
+For instance, in Jetty the default ‘headerBufferSize’ is 4KiB. Tomcat 10 has a similar setting ‘maxHttpHeaderSize’, 8KiB by default. This limit applies to all the combined headers of a request, so it’s not just the querystring. In comparison, the default for POST data in tomcat (‘maxPostSize’) is 2MiB. Jetty uses a ‘maxFormContentSize’ setting with a lower default value of 200kB, but still way higher than the header limit and well above the length of even the most complex queries.
+
+The plugin only uses the length of the querystring to determine the parameters relocation. Other headers are not included in the length calculation so your limit should be somewhat lower than the limit of the servlet container to allow for room for other headers. This was done to keep the length calculation simple and fast because the exact headers used can vary for the various client adapters available in Solarium. You can alter the `maxquerystringlength` by using a config setting or the API. Only `Extract` queries are affected, other types of queries are not altered.
+
+### Example usage
+
+```php
+<?php
+
+require_once __DIR__.'/init.php';
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+$postBigExtractRequest = $client->getPlugin('postbigextractrequest');
+// set the maximum length to a value appropriate for your servlet container
+$postBigExtractRequest->setMaxQueryStringLength(1024);
+
+// get an extract query instance and add settings
+$query = $client->createExtract();
+$query->setInputEncoding('UTF-8');
+$query->addFieldMapping('content', 'text');
+$query->setUprefix('attr_');
+$query->setFile(__DIR__.'/index.html');
+$query->setCommit(true);
+$query->setOmitHeader(false);
+
+// add document
+$doc = $query->createDocument();
+$doc->id = 'extract-test';
+$doc->some = 'more fields';
+// create a very long list of literals
+for ($i = 1; $i <= 500; ++$i) {
+    $field_name = "field_{$i}";
+    $doc->$field_name = "value $i";
+}
+$query->setDocument($doc);
+
+// this executes the query and returns the result
+$result = $client->extract($query);
+
+echo '<b>Extract query executed</b><br/>';
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
+
+htmlFooter();
+```

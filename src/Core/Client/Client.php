@@ -34,6 +34,7 @@ use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
+use Solarium\Plugin\PostBigExtractRequest;
 use Solarium\Plugin\PostBigRequest;
 use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\Analysis\Query\Document as AnalysisQueryDocument;
@@ -224,6 +225,7 @@ class Client extends Configurable implements ClientInterface
     protected $pluginTypes = [
         'loadbalancer' => Loadbalancer::class,
         'postbigrequest' => PostBigRequest::class,
+        'postbigextractrequest' => PostBigExtractRequest::class,
         'customizerequest' => CustomizeRequest::class,
         'parallelexecution' => ParallelExecution::class,
         'bufferedadd' => BufferedAdd::class,
