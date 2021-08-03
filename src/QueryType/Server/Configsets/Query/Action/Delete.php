@@ -7,30 +7,30 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Server\Collections\Query\Action;
+namespace Solarium\QueryType\Server\Configssets\Query\Action;
 
-use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
-use Solarium\QueryType\Server\Collections\Result\DeleteResult;
-use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
+use Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult;
+use Solarium\QueryType\Server\Query\Action\AbstractAction;
 use Solarium\QueryType\Server\Query\Action\NameParameterTrait;
 
 /**
- * Class Delete.
+ * Class Create.
  *
- * @see https://lucene.apache.org/solr/guide/collection-management.html#delete
+ * @see https://solr.apache.org/guide/configsets-api.html#configsets-create
  */
-class Delete extends AbstractAsyncAction
+class Delete extends AbstractAction
 {
     use NameParameterTrait;
 
     /**
-     * Returns the action type of the Collections API action.
+     * Returns the action type of the Configsets API action.
      *
      * @return string
      */
     public function getType(): string
     {
-        return CollectionsQuery::ACTION_DELETE;
+        return ConfigsetsQuery::ACTION_DELETE;
     }
 
     /**
@@ -40,6 +40,6 @@ class Delete extends AbstractAsyncAction
      */
     public function getResultClass(): string
     {
-        return DeleteResult::class;
+        return ConfigsetsResult::class;
     }
 }

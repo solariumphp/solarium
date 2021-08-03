@@ -91,4 +91,15 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertCount(1, $clusterState->getCollections());
         $this->assertTrue($clusterState->collectionExists(self::$name));
     }
+
+    public function testListConfigsets()
+    {
+        $configsetsQuery = self::$client->createConfigsets();
+
+        $action = $configsetsQuery->createList();
+        $configsetsQuery->setAction($action);
+        $result = self::$client->configsets($configsetsQuery);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertEquals([], $result->getConfigSets());
+    }
 }

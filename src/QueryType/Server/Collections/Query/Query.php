@@ -17,9 +17,9 @@ use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Action\Create;
 use Solarium\QueryType\Server\Collections\Query\Action\Delete;
 use Solarium\QueryType\Server\Collections\Query\Action\Reload;
-use Solarium\QueryType\Server\Collections\ResponseParser;
 use Solarium\QueryType\Server\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Query\RequestBuilder;
+use Solarium\QueryType\Server\Query\ResponseParser;
 
 /**
  * Collections query.
