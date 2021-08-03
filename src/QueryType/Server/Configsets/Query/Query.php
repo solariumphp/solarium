@@ -14,10 +14,10 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\Collections\Query\Action\Delete;
-use Solarium\QueryType\Server\Configssets\Query\Action\Create;
-use Solarium\QueryType\Server\Configssets\Query\Action\ListConfigsets;
-use Solarium\QueryType\Server\Configssets\Query\Action\Upload;
-use Solarium\QueryType\Server\Configssets\RequestBuilder;
+use Solarium\QueryType\Server\Configsets\Query\Action\Create;
+use Solarium\QueryType\Server\Configsets\Query\Action\ListConfigsets;
+use Solarium\QueryType\Server\Configsets\Query\Action\Upload;
+use Solarium\QueryType\Server\Configsets\RequestBuilder;
 use Solarium\QueryType\Server\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Query\ResponseParser;
 

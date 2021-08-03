@@ -7,13 +7,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Server\Configssets;
+namespace Solarium\QueryType\Server\Configsets;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\QueryType\Server\Configssets\Query\Action\Upload;
+use Solarium\QueryType\Server\Configsets\Query\Action\Upload;
 use Solarium\QueryType\Server\Query\RequestBuilder as ServerRequestBuilder;
-use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
  * Build an Configsets API request.

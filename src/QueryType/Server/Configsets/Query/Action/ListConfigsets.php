@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Server\Configssets\Query\Action;
+namespace Solarium\QueryType\Server\Configsets\Query\Action;
 
 use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
 use Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult;
