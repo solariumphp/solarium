@@ -100,11 +100,9 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
         $this->assertTrue($result->getWasSuccessful());
-        $this->assertEquals([
-            '_default',
-            'test.AUTOCREATED',
-            'techproducts',
-        ], $result->getConfigSets());
+        $this->assertContains('_default', $result->getConfigSets());
+        $this->assertContains('techproducts', $result->getConfigSets());
+        $this->assertNotContains('techproducts.COPY', $result->getConfigSets());
 
         $action = $configsetsQuery->createCreate();
         $action->setName('techproducts.COPY')->setBaseConfigSet('techproducts');
@@ -116,11 +114,8 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
         $this->assertTrue($result->getWasSuccessful());
-        $this->assertEquals([
-            '_default',
-            'test.AUTOCREATED',
-            'techproducts',
-            'techproducts.COPY'
-        ], $result->getConfigSets());
+        $this->assertContains('_default', $result->getConfigSets());
+        $this->assertContains('techproducts', $result->getConfigSets());
+        $this->assertContains('techproducts.COPY', $result->getConfigSets());
     }
 }
