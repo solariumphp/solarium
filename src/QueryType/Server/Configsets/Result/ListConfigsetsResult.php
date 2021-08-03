@@ -25,5 +25,4 @@ class ListConfigsetsResult extends AbstractResult
 
         return $this->data['configSets'] ?? [];
     }
-
 }

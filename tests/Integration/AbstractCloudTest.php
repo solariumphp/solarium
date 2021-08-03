@@ -92,7 +92,7 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertTrue($clusterState->collectionExists(self::$name));
     }
 
-    public function testListConfigsets()
+    public function testConfigsetsApi()
     {
         $configsetsQuery = self::$client->createConfigsets();
 
@@ -104,6 +104,23 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
             '_default',
             'test.AUTOCREATED',
             'techproducts',
+        ], $result->getConfigSets());
+
+        $action = $configsetsQuery->createCreate();
+        $action->setName('techproducts.COPY')->setBaseConfigSet('techproducts');
+        $configsetsQuery->setAction($action);
+        $result = self::$client->configsets($configsetsQuery);
+        $this->assertTrue($result->getWasSuccessful());
+
+        $action = $configsetsQuery->createList();
+        $configsetsQuery->setAction($action);
+        $result = self::$client->configsets($configsetsQuery);
+        $this->assertTrue($result->getWasSuccessful());
+        $this->assertEquals([
+            '_default',
+            'test.AUTOCREATED',
+            'techproducts',
+            'techproducts.COPY'
         ], $result->getConfigSets());
     }
 }

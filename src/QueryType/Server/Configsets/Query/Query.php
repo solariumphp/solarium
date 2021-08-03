@@ -48,7 +48,6 @@ class Query extends AbstractServerQuery
      */
     const ACTION_DELETE = 'DELETE';
 
-
     /**
      * Action types.
      *

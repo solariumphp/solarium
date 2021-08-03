@@ -10,7 +10,7 @@
 namespace Solarium\QueryType\Server\Query\Action;
 
 /**
- * Handling the name parameter which is essential for various actions
+ * Handling the name parameter which is essential for various actions.
  */
 trait NameParameterTrait
 {

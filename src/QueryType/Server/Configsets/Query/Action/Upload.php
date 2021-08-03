@@ -26,7 +26,8 @@ class Upload extends AbstractAction
 
     /**
      * The File to be uploaded, a zipped configset or a non-zipped single file of a configset.
-     * @var string $file
+     *
+     * @var string
      */
     protected $file;
 
@@ -53,8 +54,7 @@ class Upload extends AbstractAction
     {
         if (!file_exists($file)) {
             throw new InvalidArgumentException(sprintf('File %s does not exist.', $file));
-        }
-        elseif (!is_readable($file)) {
+        } elseif (!is_readable($file)) {
             throw new InvalidArgumentException(sprintf('File %s is not readable.', $file));
         }
 

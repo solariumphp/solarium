@@ -14,7 +14,7 @@ use Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult;
 use Solarium\QueryType\Server\Query\Action\AbstractAction;
 
 /**
- * Class ListConfigsets. (Name "List" is reserved.)
+ * Class ListConfigsets (name "List" is reserved).
  *
  * @see https://solr.apache.org/guide/configsets-api.html#configsets-list
  */

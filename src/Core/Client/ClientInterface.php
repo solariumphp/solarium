@@ -511,7 +511,7 @@ interface ClientInterface
      *  execute method, thus allowing for an easy to use and clean API
      *
      * @param QueryInterface|\Solarium\QueryType\Server\Configsets\Query\Query $query
-     * @param Endpoint|string|null                                              $endpoint
+     * @param Endpoint|string|null                                             $endpoint
      *
      * @return ResultInterface|\Solarium\QueryType\Server\Configssets\Result\ListConfigsetsResult
      */
