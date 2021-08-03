@@ -46,6 +46,15 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $collectionsQuery->setAction($deleteAction);
         $response = self::$client->collections($collectionsQuery);
         static::assertTrue($response->getWasSuccessful());
+
+        $configsetsQuery = self::$client->createConfigsets();
+
+        $action = $configsetsQuery->createDelete();
+        $action->setName('copy_of_tp');
+        $configsetsQuery->setAction($action);
+        $result = self::$client->configsets($configsetsQuery);
+        static::assertTrue($result->getWasSuccessful());
+
     }
 
     public function testCreateDelete()
@@ -102,11 +111,10 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertTrue($result->getWasSuccessful());
         $this->assertContains('_default', $result->getConfigSets());
         $this->assertContains('techproducts', $result->getConfigSets());
-        var_dump($result->getConfigSets());
-        $this->assertNotContains('copy_of_tp', $result->getConfigSets());
+        $this->assertNotContains('copy_of_techproducts', $result->getConfigSets());
 
         $action = $configsetsQuery->createCreate();
-        $action->setName('copy_of_tp')->setBaseConfigSet('techproducts');
+        $action->setName('copy_of_techproducts')->setBaseConfigSet('techproducts');
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
         $this->assertTrue($result->getWasSuccessful());
@@ -117,6 +125,6 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertTrue($result->getWasSuccessful());
         $this->assertContains('_default', $result->getConfigSets());
         $this->assertContains('techproducts', $result->getConfigSets());
-        $this->assertContains('copy_of_tp', $result->getConfigSets());
+        $this->assertContains('copy_of_techproducts', $result->getConfigSets());
     }
 }
