@@ -100,6 +100,10 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
         $this->assertTrue($result->getWasSuccessful());
-        $this->assertEquals([], $result->getConfigSets());
+        $this->assertEquals([
+            '_default',
+            'test.AUTOCREATED',
+            'techproducts',
+        ], $result->getConfigSets());
     }
 }
