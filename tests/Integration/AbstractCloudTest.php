@@ -50,7 +50,7 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $configsetsQuery = self::$client->createConfigsets();
 
         $action = $configsetsQuery->createDelete();
-        $action->setName('copy_of_tp');
+        $action->setName('copy_of_techproducts');
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
         static::assertTrue($result->getWasSuccessful());
