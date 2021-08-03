@@ -102,6 +102,7 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertTrue($result->getWasSuccessful());
         $this->assertContains('_default', $result->getConfigSets());
         $this->assertContains('techproducts', $result->getConfigSets());
+        var_dump($result->getConfigSets());
         $this->assertNotContains('copy_of_tp', $result->getConfigSets());
 
         $action = $configsetsQuery->createCreate();
