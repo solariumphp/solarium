@@ -13,8 +13,8 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Server\AbstractServerQuery;
-use Solarium\QueryType\Server\Collections\Query\Action\Delete;
 use Solarium\QueryType\Server\Configsets\Query\Action\Create;
+use Solarium\QueryType\Server\Configsets\Query\Action\Delete;
 use Solarium\QueryType\Server\Configsets\Query\Action\ListConfigsets;
 use Solarium\QueryType\Server\Configsets\Query\Action\Upload;
 use Solarium\QueryType\Server\Configsets\RequestBuilder;
@@ -105,7 +105,7 @@ class Query extends AbstractServerQuery
      *
      * @return ListConfigsets|ActionInterface
      */
-    public function createList(array $options = []): Delete
+    public function createList(array $options = []): ListConfigsets
     {
         return $this->createAction(self::ACTION_LIST, $options);
     }
@@ -115,7 +115,7 @@ class Query extends AbstractServerQuery
      *
      * @return Upload|ActionInterface
      */
-    public function createUpload(array $options = []): Delete
+    public function createUpload(array $options = []): Upload
     {
         return $this->createAction(self::ACTION_UPLOAD, $options);
     }
@@ -123,7 +123,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return CREATE|ActionInterface
+     * @return Create|ActionInterface
      */
     public function createCreate(array $options = []): Create
     {
