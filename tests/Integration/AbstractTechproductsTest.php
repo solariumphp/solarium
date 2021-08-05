@@ -1423,7 +1423,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function _testNestedDocuments()
+    public function testNestedDocuments()
     {
         $data = [
             'id' => 'solarium-parent',
