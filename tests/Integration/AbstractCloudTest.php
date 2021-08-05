@@ -142,5 +142,4 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertCount(1, $clusterState->getCollections());
         $this->assertTrue($clusterState->collectionExists(self::$name));
     }
-
 }
