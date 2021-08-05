@@ -8,3 +8,4 @@
 /.phpcs-cache
 .DS_Store
 /nbproject
+/tests/Integration/Fixtures/techproducts.zip

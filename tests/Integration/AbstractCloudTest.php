@@ -138,7 +138,7 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertTrue($result->getWasSuccessful());
         $clusterState = $result->getClusterState();
         $this->assertSame(ClusterState::class, get_class($clusterState));
-        $this->assertCount(2, $clusterState->getLiveNodes());
+        $this->assertCount(3, $clusterState->getLiveNodes());
         $this->assertCount(1, $clusterState->getCollections());
         $this->assertTrue($clusterState->collectionExists(self::$name));
     }
