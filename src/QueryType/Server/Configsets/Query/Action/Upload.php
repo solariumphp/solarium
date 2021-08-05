@@ -38,7 +38,7 @@ class Upload extends AbstractAction
      */
     public function getType(): string
     {
-        return ConfigsetsQuery::ACTION_CREATE;
+        return ConfigsetsQuery::ACTION_UPLOAD;
     }
 
     /**
@@ -52,12 +52,6 @@ class Upload extends AbstractAction
      */
     public function setFile(string $file): self
     {
-        if (!file_exists($file)) {
-            throw new InvalidArgumentException(sprintf('File %s does not exist.', $file));
-        } elseif (!is_readable($file)) {
-            throw new InvalidArgumentException(sprintf('File %s is not readable.', $file));
-        }
-
         $this->file = $file;
 
         return $this;
@@ -70,7 +64,7 @@ class Upload extends AbstractAction
      */
     public function getFile(): ?string
     {
-        return $this->getOption('overwrite');
+        return $this->file;
     }
 
     /**
