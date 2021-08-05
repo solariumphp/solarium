@@ -42,7 +42,7 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $createAction = $collectionsQuery->createCreate();
         $createAction->setName(self::$name)
             ->setCollectionConfigName('techproducts')
-            ->setNumShards(2);
+            ->setNumShards(3);
         $collectionsQuery->setAction($createAction);
         $response = self::$client->collections($collectionsQuery);
         static::assertTrue($response->getWasSuccessful());
