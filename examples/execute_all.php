@@ -23,12 +23,23 @@ try {
     if ('solrcloud' === $data['mode']) {
         $config['endpoint']['localhost']['collection'] = $config['endpoint']['localhost']['core'];
         unset($config['endpoint']['localhost']['core']);
+        $config['endpoint']['localhost']['username'] = 'solr';
+        $config['endpoint']['localhost']['password'] = 'SolrRocks';
         // adjust the client instance
         $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
-        $collectionsQuery = $client->createCollections();
+        // upload the techproducts configset
+        $configsetsQuery = $client->createConfigsets();
+        $UploadAction = $configsetsQuery->createUpload();
+        $UploadAction
+            ->setFile(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts.zip')
+            ->setName('techproducts')
+            ->setOverwrite(true);
+        $configsetsQuery->setAction($UploadAction);
+        $client->configsets($configsetsQuery);
 
         // create core with unique name using the techproducts configset
+        $collectionsQuery = $client->createCollections();
         $createAction = $collectionsQuery->createCreate();
         $createAction->setName($collection_or_core_name)
             ->setCollectionConfigName('techproducts')
@@ -146,6 +157,12 @@ try {
         $deleteAction->setName($collection_or_core_name);
         $collectionsQuery->setAction($deleteAction);
         $client->collections($collectionsQuery);
+
+        $configsetsQuery = $client->createConfigsets();
+        $action = $configsetsQuery->createDelete();
+        $action->setName('techproducts');
+        $configsetsQuery->setAction($action);
+        $client->configsets($configsetsQuery);
     } else {
         $coreAdminQuery = $client->createCoreAdmin();
         $unloadAction = $coreAdminQuery->createUnload();
