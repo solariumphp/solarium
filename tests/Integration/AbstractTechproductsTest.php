@@ -1423,7 +1423,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testNestedDocuments()
+    public function _testNestedDocuments()
     {
         $data = [
             'id' => 'solarium-parent',
@@ -2528,7 +2528,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setCommand($delete);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
-
+var_dump($result);
         // Check that added stopword is gone
         $exists = $query->createCommand($query::COMMAND_EXISTS);
         $exists->setTerm($term);
