@@ -32,7 +32,7 @@ try {
         $configsetsQuery = $client->createConfigsets();
         $UploadAction = $configsetsQuery->createUpload();
         $UploadAction
-            ->setFile(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts.zip')
+            ->setFile(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Integration'.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'techproducts.zip')
             ->setName('techproducts')
             ->setOverwrite(true);
         $configsetsQuery->setAction($UploadAction);
