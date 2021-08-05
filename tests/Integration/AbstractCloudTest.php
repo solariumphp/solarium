@@ -85,7 +85,7 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $this->assertNotContains('copy_of_techproducts', $result->getConfigSets());
 
         $action = $configsetsQuery->createCreate();
-        $action->setName('copy_of_techproducts');//->setBaseConfigSet('techproducts');
+        $action->setName('copy_of_techproducts')->setBaseConfigSet('techproducts');
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
         $this->assertTrue($result->getWasSuccessful());

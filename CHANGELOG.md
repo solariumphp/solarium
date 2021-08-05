@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component\Result\Stats\FacetValue::getCardinality()
 - Component\Result\Stats\FacetValue::getStatValue()
 - Plugin PostBigExtractRequest
+- Support for Configset API
 
 ### Fixed
 - Component\Result\Stats\Result::getPercentiles() returns percentiles as an associative array

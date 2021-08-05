@@ -20,7 +20,6 @@ use Solarium\QueryType\Server\Query\Action\AbstractAction;
  */
 class ListConfigsets extends AbstractAction
 {
-
     /**
      * Returns the action type of the Configsets API action.
      *
