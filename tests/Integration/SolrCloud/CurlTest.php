@@ -8,7 +8,6 @@ use Solarium\Tests\Integration\AbstractCloudTest;
 /**
  * @group integration
  * @group skip_for_solr_server
- * @coversNothing
  */
 class CurlTest extends AbstractCloudTest
 {
