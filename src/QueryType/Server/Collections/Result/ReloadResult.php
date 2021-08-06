@@ -9,6 +9,8 @@
 
 namespace Solarium\QueryType\Server\Collections\Result;
 
+use Solarium\QueryType\Server\Query\AbstractResult;
+
 /**
  * ReloadResult.
  */

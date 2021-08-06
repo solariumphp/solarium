@@ -10,8 +10,8 @@
 namespace Solarium\QueryType\Server\Collections\ResponseParser;
 
 use Solarium\Core\Query\Result\ResultInterface;
-use Solarium\QueryType\Server\Collections\ResponseParser;
 use Solarium\QueryType\Server\Collections\Result\AbstractResult;
+use Solarium\QueryType\Server\Query\ResponseParser;
 
 /**
  * Parse Collections API response data.

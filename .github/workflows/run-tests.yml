@@ -57,6 +57,10 @@ jobs:
                 cd lucene-solr
                 patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
                 patch -p1 < ../tests/Integration/Fixtures/schema${{ matrix.solr }}.patch
+                cd solr/server/solr/configsets/sample_techproducts_configs/conf
+                zip -r techproducts.zip *
+                cd -
+                mv solr/server/solr/configsets/sample_techproducts_configs/conf/techproducts.zip ../tests/Integration/Fixtures/
                 cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
                 docker-compose up -d
 

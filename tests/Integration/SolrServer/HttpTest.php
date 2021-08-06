@@ -8,7 +8,6 @@ use Solarium\Tests\Integration\AbstractServerTest;
 /**
  * @group integration
  * @group skip_for_solr_cloud
- * @coversNothing
  */
 class HttpTest extends AbstractServerTest
 {
