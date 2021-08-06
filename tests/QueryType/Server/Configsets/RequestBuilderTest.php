@@ -52,6 +52,7 @@ class RequestBuilderTest extends TestCase
         $create = $this->query->createCreate();
         $create->setName('someconfigset');
         $create->setBaseConfigSet('anotherconfigset');
+        $create->setProperty('foo', 'bar');
         $this->query->setAction($create);
 
         $request = $this->builder->build($this->query);
@@ -59,7 +60,8 @@ class RequestBuilderTest extends TestCase
         $expectedUri = 'admin/configs?wt=json&json.nl=flat'.
             '&action=CREATE'.
             '&name=someconfigset'.
-            '&baseConfigSet=anotherconfigset';
+            '&baseConfigSet=anotherconfigset'.
+            '&configSetProp.foo=bar';
         $this->assertSame($expectedUri, $request->getUri());
     }
 

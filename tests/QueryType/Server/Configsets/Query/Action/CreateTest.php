@@ -33,4 +33,10 @@ class CreateTest extends TestCase
         $this->action->setBaseConfigSet('test');
         $this->assertSame('test', $this->action->getBaseConfigSet());
     }
+
+    public function testSetProperty()
+    {
+        $this->action->setProperty('foo', 'bar');
+        $this->assertSame('bar', $this->action->getProperty('foo'));
+    }
 }
