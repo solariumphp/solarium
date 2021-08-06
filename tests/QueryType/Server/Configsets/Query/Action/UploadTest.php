@@ -43,16 +43,16 @@ class UploadTest extends TestCase
     public function testSetBaseConfigSet()
     {
         $this->action->setOverwrite(true);
-        $this->assertSame(true, $this->action->getOverwrite());
+        $this->assertTrue($this->action->getOverwrite());
         $this->action->setOverwrite(false);
-        $this->assertSame(false, $this->action->getOverwrite());
+        $this->assertFalse($this->action->getOverwrite());
     }
 
     public function testSetCleanup()
     {
         $this->action->setCleanup(true);
-        $this->assertSame(true, $this->action->getCleanup());
+        $this->assertTrue($this->action->getCleanup());
         $this->action->setCleanup(false);
-        $this->assertSame(false, $this->action->getCleanup());
+        $this->assertFalse($this->action->getCleanup());
     }
 }
