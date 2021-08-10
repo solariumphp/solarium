@@ -15,14 +15,14 @@ namespace Solarium\Core\Client\Adapter;
 trait ConnectionTimeoutAwareTrait
 {
     /**
-     * @var int
+     * @var int|null
      */
-    private $connectionTimeout = ConnectionTimeoutAwareInterface::DEFAULT_CONNECTION_TIMEOUT;
+    private $connectionTimeout;
 
     /**
      * {@inheritdoc}
      */
-    public function setConnectionTimeout(int $connectionTimeout): void
+    public function setConnectionTimeout(?int $connectionTimeout): void
     {
         $this->connectionTimeout = $connectionTimeout;
     }
@@ -30,7 +30,7 @@ trait ConnectionTimeoutAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function getConnectionTimeout(): int
+    public function getConnectionTimeout(): ?int
     {
         return $this->connectionTimeout;
     }

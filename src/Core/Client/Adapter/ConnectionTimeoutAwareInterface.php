@@ -15,17 +15,12 @@ namespace Solarium\Core\Client\Adapter;
 interface ConnectionTimeoutAwareInterface
 {
     /**
-     * default connection timeout that should be respected by adapters implementing this interface.
+     * @param int|null $timeoutInSeconds
      */
-    public const DEFAULT_CONNECTION_TIMEOUT = 5;
+    public function setConnectionTimeout(?int $timeoutInSeconds): void;
 
     /**
-     * @param int $timeoutInSeconds
+     * @return int|null
      */
-    public function setConnectionTimeout(int $timeoutInSeconds): void;
-
-    /**
-     * @return int
-     */
-    public function getConnectionTimeout(): int;
+    public function getConnectionTimeout(): ?int;
 }
