@@ -22,6 +22,7 @@ class CurlTest extends AbstractServerTest
         // Set it to the PHP default of 13s.
         $adapter = new Curl();
         $adapter->setTimeout(CURLOPT_TIMEOUT);
+        $adapter->setConnectionTimeout(CURLOPT_CONNECTTIMEOUT);
         self::$client->setAdapter($adapter);
     }
 }
