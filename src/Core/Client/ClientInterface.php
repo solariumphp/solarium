@@ -31,6 +31,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Server\Api\Query as ApiQuery;
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result as CoreAdminResult;
 use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
@@ -504,6 +505,19 @@ interface ClientInterface
     public function collections(QueryInterface $query, $endpoint = null): ResultInterface;
 
     /**
+     * Execute a Configsets API query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|\Solarium\QueryType\Server\Configsets\Query\Query $query
+     * @param Endpoint|string|null                                             $endpoint
+     *
+     * @return ResultInterface|\Solarium\QueryType\Server\Configssets\Result\ListConfigsetsResult
+     */
+    public function configsets(QueryInterface $query, $endpoint = null): ResultInterface;
+
+    /**
      * Execute a CoreAdmin query.
      *
      * @internal this is a convenience method that forwards the query to the
@@ -640,6 +654,13 @@ interface ClientInterface
      * @return \Solarium\QueryType\Server\Collections\Query\Query
      */
     public function createCollections(array $options = null): CollectionsQuery;
+
+    /**
+     * @param array $options
+     *
+     * @return \Solarium\QueryType\Server\Configssets\Query\Query
+     */
+    public function createConfigsets(array $options = null): ConfigsetsQuery;
 
     /**
      * @param array $options

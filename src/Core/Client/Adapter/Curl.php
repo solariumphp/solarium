@@ -22,9 +22,10 @@ use Solarium\Exception\RuntimeException;
  *
  * @author Intervals <info@myintervals.com>
  */
-class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterface
+class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterface, ConnectionTimeoutAwareInterface
 {
     use TimeoutAwareTrait;
+    use ConnectionTimeoutAwareTrait;
 
     /**
      * Execute a Solr request using the cURL Http.
@@ -89,7 +90,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         }
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
-        curl_setopt($handler, CURLOPT_CONNECTTIMEOUT, $options['timeout']);
+        curl_setopt($handler, CURLOPT_CONNECTTIMEOUT, $options['connection_timeout']);
 
         if (null !== ($proxy = $this->getOption('proxy'))) {
             curl_setopt($handler, CURLOPT_PROXY, $proxy);
@@ -217,6 +218,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     {
         $options = [
             'timeout' => $this->timeout,
+            'connection_timeout' => $this->connectionTimeout ?? $this->timeout,
         ];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);

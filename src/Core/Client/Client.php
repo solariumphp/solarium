@@ -55,6 +55,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Server\Api\Query as ApiQuery;
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result as CoreAdminResult;
 use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
@@ -160,6 +161,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_COLLECTIONS = 'collections';
 
     /**
+     * Querytype configsets.
+     */
+    const QUERY_CONFIGSETS = 'configsets';
+
+    /**
      * Querytype API.
      */
     const QUERY_API = 'api';
@@ -211,6 +217,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_REALTIME_GET => RealtimeGetQuery::class,
         self::QUERY_CORE_ADMIN => CoreAdminQuery::class,
         self::QUERY_COLLECTIONS => CollectionsQuery::class,
+        self::QUERY_CONFIGSETS => ConfigsetsQuery::class,
         self::QUERY_API => ApiQuery::class,
         self::QUERY_MANAGED_RESOURCES => Resources::class,
         self::QUERY_MANAGED_STOPWORDS => Stopwords::class,
@@ -1050,6 +1057,22 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Execute a Configsets API query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|\Solarium\QueryType\Server\Configsets\Query\Query $query
+     * @param Endpoint|string|null                                             $endpoint
+     *
+     * @return ResultInterface|\Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult
+     */
+    public function configsets(QueryInterface $query, $endpoint = null): ResultInterface
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance.
      *
      * @param string $type
@@ -1308,6 +1331,18 @@ class Client extends Configurable implements ClientInterface
     public function createCollections(array $options = null): CollectionsQuery
     {
         return $this->createQuery(self::QUERY_COLLECTIONS, $options);
+    }
+
+    /**
+     * Create a Configsets API query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Configsets\Query\Query
+     */
+    public function createConfigsets(array $options = null): ConfigsetsQuery
+    {
+        return $this->createQuery(self::QUERY_CONFIGSETS, $options);
     }
 
     /**

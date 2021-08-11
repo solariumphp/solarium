@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Server\Collections\Result;
+namespace Solarium\QueryType\Server\Query;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 

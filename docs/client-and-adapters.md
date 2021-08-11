@@ -23,6 +23,8 @@ Adapters support authentication. To use this set the authentication on the reque
 
 Setting a timeout for the HTTP request handling is the responsibility of the adapters. The two built-in adapters `CurlAdapter` and `HttpAdapter` are implementing `TimeoutAwareInterface` and expose a `setTimeout` method to give you control over the timeout value that is used.
 
+`CurlAdapter` also implements `ConnectionTimeoutAwareInterface` and exposes a `setConnectionTimeout` method to set a different value for the connection timeout, otherwise the timeout value is used.
+
 If you are using any other adapter like the built-in `Psr18Adapter` you need to take care of handling the timeouts yourself and configure the HTTP client properly that is used to perform the requests.
 See the [PSR-18 adapter](#psr-18-adapter) section below for an example that configures a custom timeout.
 

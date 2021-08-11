@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Server\Collections;
+namespace Solarium\QueryType\Server\Query;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
