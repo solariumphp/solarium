@@ -2204,8 +2204,22 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('0579B002', $prefetch->current()->id);
     }
 
-    public function testExtractIntoDocument()
+    /**
+     * @testWith [false]
+     *           [true]
+     */
+    public function testExtractIntoDocument(bool $usePostBigExtractRequestPlugin)
     {
+        if ($usePostBigExtractRequestPlugin) {
+            $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
+            // make sure the GET parameters will be converted to POST
+            $postBigExtractRequest->setMaxQueryStringLength(1);
+
+            $this->assertArrayHasKey('postbigextractrequest', self::$client->getPlugins());
+        } else {
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
+
         $extract = self::$client->createExtract();
         $extract->setUprefix('attr_');
         $extract->setCommit(true);
@@ -2246,17 +2260,36 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
         $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
 
-        // now cleanup the document to have the initial index state
+        // now cleanup the documents to have the initial index state
         $update = self::$client->createUpdate();
         $update->addDeleteQuery('cat:extract-test');
         $update->addCommit(true, true);
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(0, $result);
+
+        if ($usePostBigExtractRequestPlugin) {
+            self::$client->removePlugin('postbigextractrequest');
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
     }
 
-    public function testExtractOnlyText()
+    /**
+     * @testWith [false]
+     *           [true]
+     */
+    public function testExtractOnlyText(bool $usePostBigExtractRequestPlugin)
     {
+        if ($usePostBigExtractRequestPlugin) {
+            $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
+            // make sure the GET parameters will be converted to POST
+            $postBigExtractRequest->setMaxQueryStringLength(1);
+
+            $this->assertArrayHasKey('postbigextractrequest', self::$client->getPlugins());
+        } else {
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
+
         $query = self::$client->createExtract();
         $query->setExtractOnly(true);
         $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
@@ -2271,10 +2304,29 @@ abstract class AbstractTechproductsTest extends TestCase
         $response = self::$client->extract($query);
         $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
         $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
+
+        if ($usePostBigExtractRequestPlugin) {
+            self::$client->removePlugin('postbigextractrequest');
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
     }
 
-    public function testExtractOnlyXml()
+    /**
+     * @testWith [false]
+     *           [true]
+     */
+    public function testExtractOnlyXml(bool $usePostBigExtractRequestPlugin)
     {
+        if ($usePostBigExtractRequestPlugin) {
+            $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
+            // make sure the GET parameters will be converted to POST
+            $postBigExtractRequest->setMaxQueryStringLength(1);
+
+            $this->assertArrayHasKey('postbigextractrequest', self::$client->getPlugins());
+        } else {
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
+
         $query = self::$client->createExtract();
         $query->setExtractOnly(true);
         $query->setExtractFormat($query::EXTRACT_FORMAT_XML);
@@ -2295,80 +2347,194 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertNotFalse(strpos($response->getData()['file'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
         $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
         $this->assertNotFalse(strpos($response->getData()['file'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+
+        if ($usePostBigExtractRequestPlugin) {
+            self::$client->removePlugin('postbigextractrequest');
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
     }
 
     /**
-     * Test extraction from files that contain special characters in both filename and content.
+     * Test different input encodings for Extract queries.
+     *
+     * This method tests two technically distinct applications of encoding.
+     *
+     * The encoding set on the query tells Solr how the query parameters are
+     * encoded. It doesn't mean anything for the content of the file.
+     *
+     * The encoding of the file content is detected by Tika and isn't influenced
+     * by the encoding of the query parameters.
+     *
+     * @testWith [false]
+     *           [true]
      */
-    public function testExtractSpecialCharacters()
+    public function testExtractInputEncoding(bool $usePostBigExtractRequestPlugin)
     {
-        $query = self::$client->createExtract();
-        $query->setExtractOnly(true);
-        $query->setExtractFormat($query::EXTRACT_FORMAT_TEXT);
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt');
+        if ($usePostBigExtractRequestPlugin) {
+            $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
+            // make sure the GET parameters will be converted to POST
+            $postBigExtractRequest->setMaxQueryStringLength(1);
 
+            $this->assertArrayHasKey('postbigextractrequest', self::$client->getPlugins());
+        } else {
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
+
+        $extract = self::$client->createExtract();
+        $extract->setUprefix('attr_');
+        $extract->setCommit(true);
+        $extract->setCommitWithin(0);
+
+        $extract->setInputEncoding('us-ascii');
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt');
+
+        $doc = $extract->createDocument();
+        $doc->id = iconv('UTF-8', 'US-ASCII', 'extract-ie-test-1-us-ascii');
+        $doc->cat = [iconv('UTF-8', 'US-ASCII', 'extract-ie-test')];
+        $doc->name = iconv('UTF-8', 'US-ASCII', 'test us-ascii !#$%&\'()+,-.;=@[]^_`{}~');
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        $extract->setInputEncoding('utf-8');
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 αβγ абв אԱა.txt');
+
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-ie-test-2-utf-8';
+        $doc->cat = ['extract-ie-test'];
+        $doc->name = 'test utf-8 αβγ абв אԱა';
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 fəˈnɛtık.txt');
+
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-ie-test-3-utf-8-phonetic';
+        $doc->cat = ['extract-ie-test'];
+        $doc->name = 'test utf-8 fəˈnɛtık';
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 コンニチハ.txt');
+
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-ie-test-4-utf-8-katakana';
+        $doc->cat = ['extract-ie-test'];
+        $doc->name = 'test utf-8 コンニチハ';
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        $extract->setInputEncoding('iso-8859-1');
+        // test with a file that specifies the encoding, Tika has a hard time telling ISO-8859-* and Windows-* sets apart on plain text with this little data
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml');
+
+        $doc = $extract->createDocument();
+        $doc->id = iconv('UTF-8', 'ISO-8859-1', 'extract-ie-test-5-iso-8859-1');
+        $doc->cat = [iconv('UTF-8', 'ISO-8859-1', 'extract-ie-test')];
+        $doc->name = iconv('UTF-8', 'ISO-8859-1', 'test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬');
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        $extract->setInputEncoding('gb18030');
+        $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test gb18030 这份文件是很有光泽.txt');
+
+        $doc = $extract->createDocument();
+        $doc->id = iconv('UTF-8', 'GB18030', 'extract-ie-test-6-gb18030');
+        $doc->cat = [iconv('UTF-8', 'GB18030', 'extract-ie-test')];
+        $doc->name = iconv('UTF-8', 'GB18030', 'test gb18030 这份文件是很有光泽');
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+
+        // now get the documents and check the contents
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:extract-ie-test');
+        $select->addSort('id', $select::SORT_ASC);
+        $selectResult = self::$client->select($select);
+        $this->assertCount(6, $selectResult);
+        $iterator = $selectResult->getIterator();
+
+        /** @var Document $document */
+        $document = $iterator->current();
+        $this->assertSame('test us-ascii !#$%&\'()+,-.;=@[]^_`{}~', $document->name);
         // the file contains all 128 codepoints of the full 7-bit US-ASCII table, but we only test for printable characters
         $printableASCII = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+        $this->assertStringContainsString($printableASCII, $document['content'][0], 'Could not extract from file with US-ASCII characters');
 
-        $response = self::$client->extract($query);
-        $this->assertNotFalse(strpos($response->getData()['test us-ascii !#$%&\'()+,-.;=@[]^_`{}~.txt'], $printableASCII), 'Can not extract from file with US-ASCII characters');
-        $this->assertNotFalse(strpos($response->getData()['file'], $printableASCII), 'Can not extract from file with US-ASCII characters');
-
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 αβγ абв אԱა.txt');
-
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('test utf-8 αβγ абв אԱა', $document->name);
         // the file contains some example text from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
         $sampleUTF8 = '£©µÀÆÖÞßéöÿ ΑΒΓΔΩαβγδω АБВГДабвгд ﬁ�⑀₂ἠḂӥẄɐː⍎אԱა';
+        $this->assertSame($sampleUTF8, trim($document['content'][0]), 'Could not extract from file with UTF-8 characters');
 
-        $response = self::$client->extract($query);
-        $this->assertSame($sampleUTF8, trim($response->getData()['test utf-8 αβγ абв אԱა.txt']), 'Can not extract from file with UTF-8 characters');
-        $this->assertSame($sampleUTF8, trim($response->getData()['file']), 'Can not extract from file with UTF-8 characters');
-
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 fəˈnɛtık.txt');
-
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('test utf-8 fəˈnɛtık', $document->name);
         // the file contains a phonetic example from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
         $samplePhonetic = 'ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn';
+        $this->assertSame($samplePhonetic, trim($document['content'][0]), 'Could not extract from file with UTF-8 phonetic characters');
 
-        $response = self::$client->extract($query);
-        $this->assertSame($samplePhonetic, trim($response->getData()['test utf-8 fəˈnɛtık.txt']), 'Can not extract from file with phonetic characters');
-        $this->assertSame($samplePhonetic, trim($response->getData()['file']), 'Can not extract from file with phonetic characters');
-
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test utf-8 コンニチハ.txt');
-
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('test utf-8 コンニチハ', $document->name);
         // the file contains a Katakana example from https://www.w3.org/2001/06/utf-8-test/UTF-8-demo.html
         $sampleKatakana = 'コンニチハ';
+        $this->assertSame($sampleKatakana, trim($document['content'][0]), 'Could not extract from file with UTF-8 Katakana characters');
 
-        $response = self::$client->extract($query);
-        $this->assertSame($sampleKatakana, trim($response->getData()['test utf-8 コンニチハ.txt']), 'Can not extract from file with Katakana characters');
-        $this->assertSame($sampleKatakana, trim($response->getData()['file']), 'Can not extract from file with Katakana characters');
-
-        // test with a file that specifies the encoding, Tika has a hard time telling ISO-8859-* and Windows-* sets apart on plain text with this little data
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml');
-
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬', $document->name);
         // the file contains the printable characters from ISO-8859-1
         $printableISO88591 = ' ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ';
+        $this->assertSame($printableISO88591, trim($document['content'][0]), 'Could not extract from file with ISO-8859-1 characters');
 
-        $response = self::$client->extract($query);
-        $this->assertSame($printableISO88591, trim($response->getData()['test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml']), 'Can not extract from file with ISO-8859-1 encoding');
-        $this->assertSame($printableISO88591, trim($response->getData()['file']), 'Can not extract from file with ISO-8859-1 encoding');
-
-        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test gb18030 这份文件是很有光泽.txt');
-
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('test gb18030 这份文件是很有光泽', $document->name);
         // the file contains a GB18030 example from the techproducts sample set
         $sampleGB18030 = '这份文件是很有光泽';
+        $this->assertSame($sampleGB18030, trim($document['content'][0]), 'Could not extract from file with GB18030 characters');
 
-        $response = self::$client->extract($query);
-        $this->assertSame($sampleGB18030, trim($response->getData()['test gb18030 这份文件是很有光泽.txt']), 'Can not extract from file with GB18030 encoding');
-        $this->assertSame($sampleGB18030, trim($response->getData()['file']), 'Can not extract from file with GB18030 encoding');
+        // now cleanup the documents to have the initial index state
+        $update = self::$client->createUpdate();
+        $update->addDeleteQuery('cat:extract-ie-test');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+
+        if ($usePostBigExtractRequestPlugin) {
+            self::$client->removePlugin('postbigextractrequest');
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
     }
 
-    public function testExtractInvalidFile()
+    /**
+     * @testWith [false]
+     *           [true]
+     */
+    public function testExtractInvalidFile(bool $usePostBigExtractRequestPlugin)
     {
+        if ($usePostBigExtractRequestPlugin) {
+            $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
+            // make sure the GET parameters will be converted to POST
+            $postBigExtractRequest->setMaxQueryStringLength(1);
+
+            $this->assertArrayHasKey('postbigextractrequest', self::$client->getPlugins());
+        } else {
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
+
         $extract = self::$client->createExtract();
         $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
         self::$client->extract($extract);
+
+        if ($usePostBigExtractRequestPlugin) {
+            self::$client->removePlugin('postbigextractrequest');
+            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
+        }
     }
 
     public function testV2Api()
