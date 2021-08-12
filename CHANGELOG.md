@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [unreleased]
+## [6.1.5]
 ### Added
 - Component\Result\Stats\Result::getDistinctValues()
 - Component\Result\Stats\Result::getCountDistinct()
@@ -26,8 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component\Result\Stats\Result::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
 - Component\Result\Stats\FacetValue::getMean() returns `NAN` instead of `'NaN'` if mean is NaN
 - Component\Result\Stats\Result::getValue() is renamed to getStatValue()
-
-### Removed
 
 ### Deprecated
 - Component\Result\Stats\FacetValue::getFacets()
