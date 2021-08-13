@@ -18,7 +18,7 @@ Only the facet-type specific options are listed. See [Facetset component](V3:Fac
 | offset             | int     | null          | Show facet count starting from this offset.                                                                                                          |
 | mincount           | int     | null          | Minimal term count to be included in facet count results.                                                                                            |
 | missing            | boolean | null          | Also make a count of all document that have no value for the facet field.                                                                            |
-| method             | string  | null          | Use one of the class constants as value. See <https://lucene.apache.org/solr/guide/faceting.html#field-value-faceting-parameters> for details.       |
+| method             | string  | null          | Use one of the class constants as value. See <https://solr.apache.org/guide/faceting.html#field-value-faceting-parameters> for details.              |
 ||
 
 Example

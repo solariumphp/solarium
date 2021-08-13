@@ -15,7 +15,7 @@ use Solarium\Component\RequestBuilder\Spatial as RequestBuilder;
 /**
  * Spatial component.
  *
- * @see https://lucene.apache.org/solr/guide/spatial-search.html
+ * @see https://solr.apache.org/guide/spatial-search.html
  */
 class Spatial extends AbstractComponent
 {

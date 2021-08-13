@@ -2,7 +2,7 @@ A ping query can be used to check the connection to the Solr server and the heal
 
 *It's not advisable to check Solr with a ping before every request, this can have a big performance impact. You are better of using the ping query with intervals, or as a check after a query error to see if the query was faulty or if Solr has problems.*
 
-The search executed by a ping is configured with the Request Parameters API. For more info see <https://lucene.apache.org/solr/guide/ping.html>
+The search executed by a ping is configured with the Request Parameters API. For more info see <https://solr.apache.org/guide/ping.html>.
 
 Creating a ping query
 ---------------------

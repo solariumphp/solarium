@@ -16,7 +16,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query add command.
  *
- * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#adding-documents
+ * @see https://solr.apache.org/guide/uploading-data-with-index-handlers.html#adding-documents
  */
 class Add extends AbstractCommand
 {

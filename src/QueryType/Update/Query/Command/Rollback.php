@@ -14,7 +14,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query rollback command.
  *
- * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#rollback-operations
+ * @see https://solr.apache.org/guide/uploading-data-with-index-handlers.html#rollback-operations
  */
 class Rollback extends AbstractCommand
 {

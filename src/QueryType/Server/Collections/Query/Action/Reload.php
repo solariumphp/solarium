@@ -17,7 +17,7 @@ use Solarium\QueryType\Server\Query\Action\NameParameterTrait;
 /**
  * Class Reload for reloading a collection.
  *
- * @see https://lucene.apache.org/solr/guide/collection-management.html#reload
+ * @see https://solr.apache.org/guide/collection-management.html#reload
  */
 class Reload extends AbstractAsyncAction
 {

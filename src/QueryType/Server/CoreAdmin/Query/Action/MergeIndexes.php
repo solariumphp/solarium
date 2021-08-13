@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class MergeIndexes.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-mergeindexes
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-mergeindexes
  */
 class MergeIndexes extends AbstractAsyncAction implements CoreActionInterface
 {

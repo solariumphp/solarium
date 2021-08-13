@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class Split.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-split
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-split
  */
 class Split extends AbstractAsyncAction implements CoreActionInterface
 {

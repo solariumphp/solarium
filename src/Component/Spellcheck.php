@@ -18,7 +18,7 @@ use Solarium\Component\ResponseParser\Spellcheck as ResponseParser;
 /**
  * Spellcheck component.
  *
- * @see https://lucene.apache.org/solr/guide/spell-checking.html
+ * @see https://solr.apache.org/guide/spell-checking.html
  */
 class Spellcheck extends AbstractComponent implements SpellcheckInterface, QueryInterface
 {

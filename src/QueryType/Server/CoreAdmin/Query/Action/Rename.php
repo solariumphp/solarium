@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class Rename.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-rename
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-rename
  */
 class Rename extends AbstractAsyncAction implements CoreActionInterface
 {

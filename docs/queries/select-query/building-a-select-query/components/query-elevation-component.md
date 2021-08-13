@@ -1,4 +1,4 @@
-Query Elevation is a Solr component that lets you configure the top results for a given query regardless of the normal Lucene scoring. Elevated query results can be configured in an external XML file or at request time. For more info see <https://lucene.apache.org/solr/guide/the-query-elevation-component.html>.
+Query Elevation is a Solr component that lets you configure the top results for a given query regardless of the normal Lucene scoring. Elevated query results can be configured in an external XML file or at request time. For more info see <https://solr.apache.org/guide/the-query-elevation-component.html>.
 
 Options
 -------

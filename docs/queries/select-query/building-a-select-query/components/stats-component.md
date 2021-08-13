@@ -1,4 +1,4 @@
-For a description of the Solr StatsComponent see <https://lucene.apache.org/solr/guide/the-stats-component.html>.
+For a description of the Solr StatsComponent see <https://solr.apache.org/guide/the-stats-component.html>.
 
 Options
 -------

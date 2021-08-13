@@ -16,7 +16,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class ClusterStatus.
  *
- * @see https://lucene.apache.org/solr/guide/cluster-node-management.html#clusterstatus
+ * @see https://solr.apache.org/guide/cluster-node-management.html#clusterstatus
  */
 class ClusterStatus extends AbstractAsyncAction
 {

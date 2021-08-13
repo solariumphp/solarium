@@ -17,7 +17,7 @@ use Solarium\QueryType\Server\Query\Action\NameParameterTrait;
 /**
  * Class Delete.
  *
- * @see https://lucene.apache.org/solr/guide/collection-management.html#delete
+ * @see https://solr.apache.org/guide/collection-management.html#delete
  */
 class Delete extends AbstractAsyncAction
 {

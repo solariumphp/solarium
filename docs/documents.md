@@ -183,7 +183,7 @@ foreach ($resultset as $document) {
 htmlFooter();
 ```
 
-Your schema has to meet certain criteria for this to work. For more info on Solr atomic updates please read the manual: <https://lucene.apache.org/solr/guide/updating-parts-of-documents.html#atomic-updates>
+Your schema has to meet certain criteria for this to work. For more info on Solr atomic updates please read the manual: <https://solr.apache.org/guide/updating-parts-of-documents.html#atomic-updates>.
 
 Versioning
 ----------

@@ -23,4 +23,4 @@ If you are uncertain about any part or need help please feel free to ask for hel
 * Solarium follows the Symfony2 code standards: http://symfony.com/doc/current/contributing/code/standards.html
 * Each PR will be checked for code standards violations. Of course anything other than a 'green' status needs to be fixed before a PR can be merged.
 * Each PR will be checked by the CI environment automatically. Of course anything other than a 'green' status needs to be fixed before a PR can be merged.
-* If you link to the Solr reference guide in a comment or the docs, use a 'versionless' URL (e.g. <https://lucene.apache.org/solr/guide/getting-started.html>). This will always redirect to the latest release.
+* If you link to the Solr reference guide in a comment or the docs, use a 'versionless' URL (e.g. <https://solr.apache.org/guide/getting-started.html>). This will always redirect to the latest release.

@@ -1,4 +1,4 @@
-CoreAdmin queries can be used to [administrate cores on your Solr server](https://lucene.apache.org/solr/guide/coreadmin-api.html).
+CoreAdmin queries can be used to [administrate cores on your Solr server](https://solr.apache.org/guide/coreadmin-api.html).
 
 The CoreAdmin API on the Apache Solr server has several "actions" available and every action can have a set of arguments.
 
@@ -133,7 +133,7 @@ Split
 
 Use to split a core.
 
-See also: https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-split
+See also: <https://solr.apache.org/guide/coreadmin-api.html#coreadmin-split>.
 
 **Available action methods**:
 

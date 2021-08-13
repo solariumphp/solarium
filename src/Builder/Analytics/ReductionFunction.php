@@ -24,72 +24,72 @@ use Solarium\Exception\RuntimeException;
 class ReductionFunction implements FunctionInterface, ExpressionInterface
 {
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#count
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#count
      */
     public const COUNT = 'count';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#doc-count
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#doc-count
      */
     public const DOC_COUNT = 'doc_count';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#missing
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#missing
      */
     public const MISSING = 'missing';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#analytics-unique
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#analytics-unique
      */
     public const UNIQUE = 'unique';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#sum
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#sum
      */
     public const SUM = 'sum';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#variance
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#variance
      */
     public const VARIANCE = 'variance';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#standard-deviation
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#standard-deviation
      */
     public const STANDARD_DEVIATION = 'stddev';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#mean
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#mean
      */
     public const MEAN = 'mean';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#weighted-mean
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#weighted-mean
      */
     public const WEIGHTED_MEAN = 'wmean';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#minimum
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#minimum
      */
     public const MINIMUM = 'min';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#maximum
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#maximum
      */
     public const MAXIMUM = 'max';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#median
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#median
      */
     public const MEDIAN = 'median';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#percentile
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#percentile
      */
     public const PERCENTILE = 'percentile';
 
     /**
-     * @see https://lucene.apache.org/solr/guide/analytics-reduction-functions.html#ordinal
+     * @see https://solr.apache.org/guide/analytics-reduction-functions.html#ordinal
      */
     public const ORDINAL = 'ordinal';
 

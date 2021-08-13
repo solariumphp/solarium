@@ -18,7 +18,7 @@ use Solarium\QueryType\Server\Query\Action\NameParameterTrait;
 /**
  * Class Create.
  *
- * @see https://lucene.apache.org/solr/guide/collection-management.html#create
+ * @see https://solr.apache.org/guide/collection-management.html#create
  */
 class Create extends AbstractAsyncAction
 {

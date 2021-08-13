@@ -1,4 +1,4 @@
-The facet class supports the Solr range facet: <https://lucene.apache.org/solr/guide/faceting.html#range-faceting>.
+The facet class supports the Solr range facet: <https://solr.apache.org/guide/faceting.html#range-faceting>.
 
 Options
 -------

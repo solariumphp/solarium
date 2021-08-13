@@ -15,8 +15,8 @@ use Solarium\Component\RequestBuilder\DistributedSearch as RequestBuilder;
 /**
  * Distributed Search (sharding) component.
  *
- * @see https://lucene.apache.org/solr/guide/distributed-search-with-index-sharding.html
- * @see https://lucene.apache.org/solr/guide/solrcloud.html
+ * @see https://solr.apache.org/guide/distributed-search-with-index-sharding.html
+ * @see https://solr.apache.org/guide/solrcloud.html
  */
 class DistributedSearch extends AbstractComponent
 {
@@ -69,7 +69,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @see https://lucene.apache.org/solr/guide/distributed-search-with-index-sharding.html
+     * @see https://solr.apache.org/guide/distributed-search-with-index-sharding.html
      */
     public function addShard(string $key, string $shard): self
     {
@@ -206,7 +206,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @see https://lucene.apache.org/solr/guide/solrcloud.html
+     * @see https://solr.apache.org/guide/solrcloud.html
      */
     public function addCollection(string $key, string $collection): self
     {
@@ -294,7 +294,7 @@ class DistributedSearch extends AbstractComponent
      *
      * @return self Provides fluent interface
      *
-     * @see https://lucene.apache.org/solr/guide/distributed-requests.html
+     * @see https://solr.apache.org/guide/distributed-requests.html
      */
     public function addReplica(string $key, string $replica): self
     {

@@ -18,7 +18,7 @@ use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
 /**
  * MoreLikeThis component.
  *
- * @see https://lucene.apache.org/solr/guide/morelikethis.html
+ * @see https://solr.apache.org/guide/morelikethis.html
  */
 class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
 {
@@ -62,7 +62,7 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      *
      * When using string input you can separate multiple fields with commas.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param string|array $fields
      *
@@ -100,7 +100,7 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      *
      * The number of similar documents to return for each result.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethiscomponent
+     * @see https://solr.apache.org/guide/morelikethis.html#search-component-parameters
      *
      * @param int $count
      *
@@ -129,7 +129,7 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      * This doesn't actually do anything for the MoreLikeThisComponent as
      * this parameter is only for the MoreLikeThisHandler.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
+     * @see https://solr.apache.org/guide/morelikethis.html#request-handler-parameters
      *
      * @param bool $include
      *
@@ -163,7 +163,7 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      * This doesn't actually do anything for the MoreLikeThisComponent as
      * this parameter is only for the MoreLikeThisHandler.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
+     * @see https://solr.apache.org/guide/morelikethis.html#request-handler-parameters
      *
      * @param int $offset
      *

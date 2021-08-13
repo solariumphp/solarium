@@ -1,4 +1,4 @@
-For a description of the Solr AnalyticsComponent see the [Solr Ref Guide](https://lucene.apache.org/solr/guide/analytics.html).
+For a description of the Solr Analytics Component see the [Solr Ref Guide](https://solr.apache.org/guide/analytics.html).
 
 Options
 -------

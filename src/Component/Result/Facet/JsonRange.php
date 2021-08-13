@@ -16,7 +16,7 @@ namespace Solarium\Component\Result\Facet;
  * value and its count. You can access the values as an array using
  * {@link getValues()} or iterate this object.
  * The additional properties of before, after, and between are only avilable if the initial request has the 'other' param set.
- * See https://lucene.apache.org/solr/guide/json-facet-api.html#range-facet-parameters
+ * See https://solr.apache.org/guide/json-facet-api.html#range-facet-parameters
  */
 class JsonRange extends Buckets
 {

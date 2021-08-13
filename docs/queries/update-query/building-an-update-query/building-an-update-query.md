@@ -1,4 +1,4 @@
-An update query has options and commands. These commands and options are instructions for the client classes to build and execute a request and return the correct result. In the following sections both the options and commands will be discussed in detail. You can also take a look at <https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates> for more information about the underlying Solr update handler XML request format.
+An update query has options and commands. These commands and options are instructions for the client classes to build and execute a request and return the correct result. In the following sections both the options and commands will be discussed in detail. You can also take a look at <https://solr.apache.org/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates> for more information about the underlying Solr update handler XML request format.
 
 Options
 -------

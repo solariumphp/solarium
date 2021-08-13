@@ -14,7 +14,7 @@ use Solarium\Core\Configurable;
 /**
  * Highlighting per-field settings.
  *
- * @see https://lucene.apache.org/solr/guide/highlighting.html
+ * @see https://solr.apache.org/guide/highlighting.html
  */
 class Field extends Configurable
 {
