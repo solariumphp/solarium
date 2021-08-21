@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAction;
 /**
  * Class RequestRecovery.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-requestrecovery
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-requestrecovery
  */
 class RequestRecovery extends AbstractAction implements CoreActionInterface
 {

@@ -1,4 +1,4 @@
-For a description of Solr spellcheck (also referred to as 'query suggest') see <https://lucene.apache.org/solr/guide/spell-checking.html>.
+For a description of Solr spellcheck (also referred to as 'query suggest') see <https://solr.apache.org/guide/spell-checking.html>.
 
 The `setQuery()` method of this component supports [placeholders](V3:Placeholders "wikilink").
 
@@ -25,7 +25,7 @@ Options
 Collate params
 --------------
 
-Using the API method setCollateParam($param, $value) you can set any collate params you need. For more info see <https://lucene.apache.org/solr/guide/spell-checking.html#spell-check-parameters>.
+Using the API method setCollateParam($param, $value) you can set any collate params you need. For more info see <https://solr.apache.org/guide/spell-checking.html#spell-check-parameters>.
 
 Example
 -------

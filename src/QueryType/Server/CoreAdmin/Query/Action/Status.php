@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAction;
 /**
  * Class Status.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-status
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-status
  */
 class Status extends AbstractAction implements CoreActionInterface
 {

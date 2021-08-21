@@ -14,7 +14,7 @@ use Solarium\Core\Configurable;
 /**
  * Facet range.
  *
- * @see https://lucene.apache.org/solr/guide/faceting.html#range-faceting
+ * @see https://solr.apache.org/guide/faceting.html#range-faceting
  */
 abstract class AbstractRange extends AbstractFacet
 {

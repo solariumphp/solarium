@@ -14,7 +14,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query delete command.
  *
- * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#delete-operations
+ * @see https://solr.apache.org/guide/uploading-data-with-index-handlers.html#delete-operations
  */
 class Delete extends AbstractCommand
 {

@@ -12,7 +12,7 @@ namespace Solarium\Component\Facet;
 /**
  * Facet query.
  *
- * @see https://lucene.apache.org/solr/guide/faceting.html#field-value-faceting-parameters
+ * @see https://solr.apache.org/guide/faceting.html#field-value-faceting-parameters
  */
 abstract class AbstractField extends AbstractFacet
 {

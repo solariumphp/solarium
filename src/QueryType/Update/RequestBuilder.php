@@ -262,7 +262,7 @@ class RequestBuilder extends BaseRequestBuilder
         $xml = '';
 
         // Remove the values if 'null' or empty list is specified as the new value
-        // @see https://lucene.apache.org/solr/guide/updating-parts-of-documents.html#atomic-updates
+        // @see https://solr.apache.org/guide/updating-parts-of-documents.html#atomic-updates
         if (Document::MODIFIER_SET === $modifier && \is_array($value) && empty($value)) {
             $value = null;
         }

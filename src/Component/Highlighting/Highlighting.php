@@ -22,7 +22,7 @@ use Solarium\Exception\InvalidArgumentException;
 /**
  * Highlighting component.
  *
- * @see https://lucene.apache.org/solr/guide/highlighting.html
+ * @see https://solr.apache.org/guide/highlighting.html
  */
 class Highlighting extends AbstractComponent implements QueryInterface
 {

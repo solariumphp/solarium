@@ -1,4 +1,4 @@
-A suggester query is a fast way to create an autocomplete feature. For more info on the Solr suggester component see: <https://lucene.apache.org/solr/guide/suggester.html>.
+A suggester query is a fast way to create an autocomplete feature. For more info on the Solr SuggestComponent see: <https://solr.apache.org/guide/suggester.html>.
 
 Building a suggester query
 --------------------------
@@ -10,7 +10,7 @@ See the example code below.
 | Name            | Type             | Default value | Description                                                                            |
 |-----------------|------------------|---------------|----------------------------------------------------------------------------------------|
 | query           | string           | null          | Query to spellcheck                                                                    |
-| dictionary      | string or array  | null          | The name(s) of the dictionary or dictionaries to use                                                      |
+| dictionary      | string or array  | null          | The name(s) of the dictionary or dictionaries to use                                   |
 | onlymorepopular | boolean          | null          | Only return suggestions that result in more hits for the query than the existing query |
 | collate         | boolean          | null          |                                                                                        |
 ||

@@ -23,7 +23,7 @@ trait MoreLikeThisTrait
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $minimum
      *
@@ -52,7 +52,7 @@ trait MoreLikeThisTrait
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $minimum
      *
@@ -81,7 +81,7 @@ trait MoreLikeThisTrait
      * Maximum Document Frequency - the frequency at which words will be
      * ignored which occur in more than this many docs.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -110,7 +110,7 @@ trait MoreLikeThisTrait
      * Maximum Document Frequency Percentage - a relative ratio at which words will be
      * ignored which occur in more than this percentage of the docs in the index.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximumpercentage A percentage between 0 and 100
      *
@@ -144,7 +144,7 @@ trait MoreLikeThisTrait
      *
      * Minimum word length below which words will be ignored.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $minimum
      *
@@ -172,7 +172,7 @@ trait MoreLikeThisTrait
      *
      * Maximum word length above which words will be ignored.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -201,7 +201,7 @@ trait MoreLikeThisTrait
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -230,7 +230,7 @@ trait MoreLikeThisTrait
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -258,7 +258,7 @@ trait MoreLikeThisTrait
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param bool $boost
      *
@@ -289,7 +289,7 @@ trait MoreLikeThisTrait
      *
      * Separate multiple fields with commas if you use string input.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param string|array $queryFields
      *
@@ -327,7 +327,7 @@ trait MoreLikeThisTrait
      *
      * Controls how the component presents the "interesting" terms.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param string $setting
      *

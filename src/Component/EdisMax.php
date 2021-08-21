@@ -15,7 +15,7 @@ use Solarium\Component\RequestBuilder\EdisMax as RequestBuilder;
 /**
  * EdisMax component.
  *
- * @see https://lucene.apache.org/solr/guide/the-extended-dismax-query-parser.html
+ * @see https://solr.apache.org/guide/the-extended-dismax-query-parser.html
  */
 class EdisMax extends DisMax
 {

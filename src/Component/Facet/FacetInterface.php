@@ -12,7 +12,7 @@ namespace Solarium\Component\Facet;
 /**
  * Facet interface.
  *
- * @see https://lucene.apache.org/solr/guide/faceting.html
+ * @see https://solr.apache.org/guide/faceting.html
  */
 interface FacetInterface
 {

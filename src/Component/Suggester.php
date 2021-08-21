@@ -18,7 +18,7 @@ use Solarium\Component\ResponseParser\Suggester as ResponseParser;
 /**
  * Spellcheck component.
  *
- * @see https://lucene.apache.org/solr/guide/suggester.html
+ * @see https://solr.apache.org/guide/suggester.html
  */
 class Suggester extends AbstractComponent implements SuggesterInterface, QueryInterface
 {

@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAction;
 /**
  * Class Reload.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-reload
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-reload
  */
 class Reload extends AbstractAction implements CoreActionInterface
 {

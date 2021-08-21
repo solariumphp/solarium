@@ -17,7 +17,7 @@ use Solarium\Core\Query\Helper;
 /**
  * Facet query.
  *
- * @see https://lucene.apache.org/solr/guide/faceting.html#general-facet-parameters
+ * @see https://solr.apache.org/guide/faceting.html#general-facet-parameters
  */
 class Query extends AbstractFacet implements QueryInterface
 {

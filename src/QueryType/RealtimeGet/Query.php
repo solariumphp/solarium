@@ -21,7 +21,7 @@ use Solarium\QueryType\Select\Result\Document;
  *
  * Realtime Get query for one or multiple document IDs
  *
- * @see https://lucene.apache.org/solr/guide/realtime-get.html
+ * @see https://solr.apache.org/guide/realtime-get.html
  */
 class Query extends BaseQuery
 {

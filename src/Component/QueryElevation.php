@@ -15,7 +15,7 @@ use Solarium\Component\RequestBuilder\QueryElevation as RequestBuilder;
 /**
  * QueryElevation component.
  *
- * @see https://lucene.apache.org/solr/guide/the-query-elevation-component.html
+ * @see https://solr.apache.org/guide/the-query-elevation-component.html
  */
 class QueryElevation extends AbstractComponent
 {

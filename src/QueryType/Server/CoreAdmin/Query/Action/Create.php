@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class Create.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-create
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-create
  */
 class Create extends AbstractAsyncAction implements CoreActionInterface
 {

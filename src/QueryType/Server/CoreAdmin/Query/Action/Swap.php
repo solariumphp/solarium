@@ -15,7 +15,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAsyncAction;
 /**
  * Class Swap.
  *
- * @see https://lucene.apache.org/solr/guide/coreadmin-api.html#coreadmin-swap
+ * @see https://solr.apache.org/guide/coreadmin-api.html#coreadmin-swap
  */
 class Swap extends AbstractAsyncAction implements CoreActionInterface
 {

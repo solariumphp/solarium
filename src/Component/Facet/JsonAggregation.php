@@ -14,8 +14,8 @@ use Solarium\Component\FacetSetInterface;
 /**
  * JSON facet aggregation.
  *
- * @see https://lucene.apache.org/solr/guide/json-facet-api.html#stat-facet-example
- * @see https://lucene.apache.org/solr/guide/json-facet-api.html#stat-facet-functions
+ * @see https://solr.apache.org/guide/json-facet-api.html#stat-facet-example
+ * @see https://solr.apache.org/guide/json-facet-api.html#stat-facet-functions
  */
 class JsonAggregation extends AbstractFacet implements JsonFacetInterface
 {

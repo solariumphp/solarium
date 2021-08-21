@@ -22,7 +22,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      * Minimum Term Frequency - the frequency below which terms will be ignored
      * in the source doc.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $minimum
      *
@@ -43,7 +43,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      * Minimum Document Frequency - the frequency at which words will be
      * ignored which do not occur in at least this many docs.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $minimum
      *
@@ -64,7 +64,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      * Maximum Document Frequency - the frequency at which words will be
      * ignored which occur in more than this many docs.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -85,7 +85,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      * Maximum Document Frequency Percentage - a relative ratio at which words will be
      * ignored which occur in more than this percentage of the docs in the index.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximumpercentage A percentage between 0 and 100
      *
@@ -107,7 +107,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      *
      * Minimum word length below which words will be ignored.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $minimum
      *
@@ -127,7 +127,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      *
      * Maximum word length above which words will be ignored.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -148,7 +148,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      * Maximum number of query terms that will be included in any generated
      * query.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -169,7 +169,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      * Maximum number of tokens to parse in each example doc field that is not
      * stored with TermVector support.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param int $maximum
      *
@@ -189,7 +189,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      *
      * If true the query will be boosted by the interesting term relevance.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param bool $boost
      *
@@ -212,7 +212,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      *
      * Separate multiple fields with commas if you use string input.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param string|array $queryFields
      *
@@ -230,7 +230,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
     /**
      * Set the interestingTerms parameter. Must be one of: none, list, details.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param string $term
      *

@@ -24,7 +24,7 @@ use Solarium\QueryType\Select\Result\Document;
  * lots of options and there are many Solarium subclasses for it.
  * See the Solr documentation and the relevant Solarium classes for more info.
  *
- * @see https://lucene.apache.org/solr/guide/other-parsers.html#more-like-this-query-parser
+ * @see https://solr.apache.org/guide/other-parsers.html#more-like-this-query-parser
  */
 class Query extends SelectQuery implements MoreLikeThisInterface
 {
@@ -85,7 +85,7 @@ class Query extends SelectQuery implements MoreLikeThisInterface
      *
      * Set to true to post query content instead of using the URL param
      *
-     * @see https://lucene.apache.org/solr/guide/content-streams.html
+     * @see https://solr.apache.org/guide/content-streams.html
      *
      * @param bool $stream
      *
@@ -116,7 +116,7 @@ class Query extends SelectQuery implements MoreLikeThisInterface
      *
      * Separate multiple fields with commas if you use string input.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#common-parameters-for-morelikethis
+     * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
      * @param string|array $fields
      *
@@ -152,7 +152,7 @@ class Query extends SelectQuery implements MoreLikeThisInterface
     /**
      * Set the match.include parameter, which is either 'true' or 'false'.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
+     * @see https://solr.apache.org/guide/morelikethis.html#request-handler-parameters
      *
      * @param bool $include
      *
@@ -179,7 +179,7 @@ class Query extends SelectQuery implements MoreLikeThisInterface
      * Set the mlt.match.offset parameter, which determines on which result from the query MLT should operate.
      * For paging of MLT use setStart / setRows.
      *
-     * @see https://lucene.apache.org/solr/guide/morelikethis.html#parameters-for-the-morelikethishandler
+     * @see https://solr.apache.org/guide/morelikethis.html#request-handler-parameters
      *
      * @param int $offset
      *

@@ -12,7 +12,7 @@ namespace Solarium\Component\Facet;
 /**
  * JSON facets.
  *
- * @see https://lucene.apache.org/solr/guide/json-facet-api.html
+ * @see https://solr.apache.org/guide/json-facet-api.html
  */
 interface JsonFacetInterface
 {

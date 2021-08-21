@@ -14,7 +14,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 /**
  * Update query commit command.
  *
- * @see https://lucene.apache.org/solr/guide/uploading-data-with-index-handlers.html#commit-and-optimize-during-updates
+ * @see https://solr.apache.org/guide/uploading-data-with-index-handlers.html#commit-and-optimize-during-updates
  */
 class Commit extends AbstractCommand
 {

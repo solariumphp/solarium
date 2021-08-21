@@ -14,7 +14,7 @@ use Solarium\Component\FacetSetInterface;
 /**
  * Facet query.
  *
- * @see https://lucene.apache.org/solr/guide/json-facet-api.html#terms-facet
+ * @see https://solr.apache.org/guide/json-facet-api.html#terms-facet
  */
 class JsonTerms extends AbstractField implements JsonFacetInterface, FacetSetInterface
 {

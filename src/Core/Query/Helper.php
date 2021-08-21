@@ -67,7 +67,7 @@ class Helper
      * If you want to use the input as a phrase please use the {@link escapePhrase()}
      * method, because a phrase requires much less escaping.
      *
-     * @see https://lucene.apache.org/solr/guide/the-standard-query-parser.html#escaping-special-characters
+     * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
      *
      * @param string $input
      *
@@ -108,7 +108,7 @@ class Helper
      * A date field shall be of the form 1995-12-31T23:59:59Z.
      * The trailing "Z" designates UTC time and is mandatory.
      *
-     * @see https://lucene.apache.org/solr/guide/working-with-dates.html#date-formatting
+     * @see https://solr.apache.org/guide/working-with-dates.html#date-formatting
      *
      * @param int|string|\DateTimeInterface $input Accepted formats: timestamp, date string, DateTime or
      *                                             DateTimeImmutable
@@ -397,7 +397,7 @@ class Helper
     /**
      * Render join localparams syntax.
      *
-     * @see https://lucene.apache.org/solr/guide/other-parsers.html#join-query-parser
+     * @see https://solr.apache.org/guide/other-parsers.html#join-query-parser
      *
      * @param string $from
      * @param string $to
@@ -418,7 +418,7 @@ class Helper
      *
      * This is a Solr 3.2+ feature.
      *
-     * @see https://lucene.apache.org/solr/guide/other-parsers.html#term-query-parser
+     * @see https://solr.apache.org/guide/other-parsers.html#term-query-parser
      *
      * @param string $field
      * @param float  $weight
@@ -435,7 +435,7 @@ class Helper
      *
      * This is a Solr 3.4+ feature.
      *
-     * @see https://lucene.apache.org/solr/guide/common-query-parameters.html#cache-parameter
+     * @see https://solr.apache.org/guide/common-query-parameters.html#cache-parameter
      *
      * @param bool       $useCache
      * @param float|null $cost

@@ -1,4 +1,4 @@
-A terms query provides access to the indexed terms in a field. For details see: <https://lucene.apache.org/solr/guide/the-terms-component.html>.
+A terms query provides access to the indexed terms in a field. For details see: <https://solr.apache.org/guide/the-terms-component.html>.
 
 Building a terms query
 ----------------------

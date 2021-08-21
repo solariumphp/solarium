@@ -14,7 +14,7 @@ use Solarium\Component\FacetSetInterface;
 /**
  * Facet range.
  *
- * @see https://lucene.apache.org/solr/guide/faceting.html#range-faceting
+ * @see https://solr.apache.org/guide/faceting.html#range-faceting
  */
 class Range extends AbstractRange
 {

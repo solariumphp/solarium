@@ -14,7 +14,7 @@ use Solarium\Component\FacetSetInterface;
 /**
  * Facet range.
  *
- * @see https://lucene.apache.org/solr/guide/json-facet-api.html#range-facet
+ * @see https://solr.apache.org/guide/json-facet-api.html#range-facet
  */
 class JsonRange extends AbstractRange implements JsonFacetInterface, FacetSetInterface
 {

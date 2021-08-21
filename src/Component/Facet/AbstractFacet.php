@@ -15,7 +15,7 @@ use Solarium\Core\Query\LocalParameters\LocalParametersTrait;
 /**
  * Facet base class.
  *
- * @see https://lucene.apache.org/solr/guide/faceting.html
+ * @see https://solr.apache.org/guide/faceting.html
  */
 abstract class AbstractFacet extends Configurable implements FacetInterface
 {

@@ -2,7 +2,7 @@ Query Re-Ranking allows you to run a simple query (A) for matching documents and
 
 Since the more costly ranking from query B is only applied to the top N documents, it will have less impact on performance then just using the complex query B by itself. The trade off is that documents which score very low using the simple query A may not be considered during the re-ranking phase, even if they would score very highly using query B.
 
-For more info see <https://lucene.apache.org/solr/guide/query-re-ranking.html>.
+For more info see <https://solr.apache.org/guide/query-re-ranking.html>.
 
 Options
 -------

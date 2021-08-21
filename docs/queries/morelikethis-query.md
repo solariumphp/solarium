@@ -1,6 +1,6 @@
 A MoreLikeThis (MLT) query is designed to generate information about "similar" documents using the MoreLikeThis functionality provided by Lucene. It supports faceting, paging, and filtering using CommonQueryParameters.
 
-This query uses the [Solr MoreLikeThis Handler](https://lucene.apache.org/solr/guide/morelikethis.html) that specifically returns MLT results. Alternatively you can use the [MLT component](select-query/building-a-select-query/components/morelikethis-component.md) for the select query.
+This query uses the [Solr MoreLikeThis Handler](https://solr.apache.org/guide/morelikethis.html) that specifically returns MLT results. Alternatively you can use the [MLT component](select-query/building-a-select-query/components/morelikethis-component.md) for the select query.
 
 Building a MLT query
 --------------------

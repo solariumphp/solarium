@@ -18,7 +18,7 @@ $facetSet = $query->getFacetSet();
 // create a json range instance and set options
 // Set the 'other' parameter to retrieve counts for before, after, between, or all three.
 // Possible values are : JsonRange::OTHER_BEFORE, JsonRange::OTHER_AFTER, JsonRange::OTHER_BETWEEN, JsonRange::OTHER_ALL
-// See https://lucene.apache.org/solr/guide/json-facet-api.html#range-facet-parameters
+// See https://solr.apache.org/guide/json-facet-api.html#range-facet-parameters
 $priceranges = new JsonRange(['local_key' => 'priceranges', 'field' => 'price', 'start'=>1 ,'end'=>300,'gap'=>100, 'other'=>JsonRange::OTHER_ALL]);
 
 // add json range instance to the facetSet

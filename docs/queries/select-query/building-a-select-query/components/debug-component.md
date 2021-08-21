@@ -1,4 +1,4 @@
-For a description of Solr debugging see <https://lucene.apache.org/solr/guide/common-query-parameters.html#debug-parameter>.
+For a description of Solr debugging see <https://solr.apache.org/guide/common-query-parameters.html#debug-parameter>.
 
 Options
 -------
