@@ -157,9 +157,7 @@ class Document extends AbstractDocument
      */
     public function __construct(array $fields = [], array $boosts = [], array $modifiers = [])
     {
-        $this->fields = $fields;
-        $this->fieldBoosts = $boosts;
-        $this->modifiers = $modifiers;
+        $this->setFields($fields, $boosts, $modifiers);
     }
 
     /**
@@ -234,9 +232,9 @@ class Document extends AbstractDocument
     /**
      * Set a field value.
      *
-     * If a field already has a value it will be overwritten. You cannot use
-     * this method for a multivalue field.
      * If you supply NULL as the value the field will be removed
+     * If you supply an array a multivalue field will be created.
+     * In all cases any existing (multi)value will be overwritten.
      *
      * @param string      $key
      * @param mixed       $value
@@ -250,17 +248,49 @@ class Document extends AbstractDocument
         if (null === $value && null === $modifier) {
             $this->removeField($key);
         } else {
-            if ($this->filterControlCharacters && \is_string($value)) {
-                $value = $this->getHelper()->filterControlCharacters($value);
+            if (\is_array($value)) {
+                $this->fields[$key] = [];
+
+                foreach ($value as $v) {
+                    $this->addField($key, $v);
+                }
+            } else {
+                if ($this->filterControlCharacters && \is_string($value)) {
+                    $value = $this->getHelper()->filterControlCharacters($value);
+                }
+
+                $this->fields[$key] = $value;
             }
 
-            $this->fields[$key] = $value;
             if (null !== $boost) {
                 $this->setFieldBoost($key, $boost);
             }
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets all field values.
+     *
+     * All previously set fields will be overwritten, even if they're not
+     * included in the new field list.
+     *
+     * @param array $fields
+     * @param array $boosts
+     * @param array $modifiers
+     *
+     * @return self Provides fluent interface
+     */
+    public function setFields(array $fields = [], array $boosts = [], array $modifiers = []): self
+    {
+        $this->clear();
+
+        foreach ($fields as $key => $value) {
+            $this->setField($key, $value, $boosts[$key] ?? null, $modifiers[$key] ?? null);
         }
 
         return $this;
@@ -281,6 +311,10 @@ class Document extends AbstractDocument
 
         if (isset($this->fieldBoosts[$key])) {
             unset($this->fieldBoosts[$key]);
+        }
+
+        if (isset($this->modifiers[$key])) {
+            unset($this->modifiers[$key]);
         }
 
         return $this;
