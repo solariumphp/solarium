@@ -191,7 +191,7 @@ class DocumentTest extends TestCase
         $fields = ['id' => 1, 'name' => 'testname', 'categories' => [4, 5]];
         $boosts = ['name' => 2.7];
         $modifiers = ['categories' => Document::MODIFIER_SET];
-        
+
         $this->doc->setKey('id');
         $this->doc->setFields($fields, $boosts, $modifiers);
 
