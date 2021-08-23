@@ -77,6 +77,20 @@ class DocumentTest extends TestCase
             2.3,
             $this->doc->getFieldBoost('myfield')
         );
+
+        $this->doc->addField('myfield', 'myvalue2', 2.7);
+
+        $expectedFields['myfield'] = ['myvalue', 'myvalue2'];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+
+        $this->assertSame(
+            2.7,
+            $this->doc->getFieldBoost('myfield')
+        );
     }
 
     public function testAddFieldMultivalue()
@@ -105,7 +119,18 @@ class DocumentTest extends TestCase
     {
         $this->doc->clear();
         $this->doc->setKey('id', 1);
-        $this->doc->addField('myfield', 'myvalue', null, Document::MODIFIER_ADD);
+        $this->doc->addField('myfield', 'myvalue', null, Document::MODIFIER_SET);
+
+        $this->assertSame(
+            ['id' => 1, 'myfield' => 'myvalue'],
+            $this->doc->getFields()
+        );
+
+        $this->assertSame(
+            Document::MODIFIER_SET,
+            $this->doc->getFieldModifier('myfield')
+        );
+
         $this->doc->addField('myfield', 'myvalue2', null, Document::MODIFIER_ADD);
 
         $this->assertSame(
