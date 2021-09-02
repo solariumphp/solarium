@@ -127,7 +127,7 @@ class QueryTest extends TestCase
     public function testCreateDocument($query)
     {
         $fields = ['key1' => 'value1', 'key2' => 'value2'];
-        $boosts = ['key1' => 1, 'key2' => 2];
+        $boosts = ['key1' => 1.0, 'key2' => 2.0];
         $document = $query->createDocument($fields, $boosts);
 
         $this->assertInstanceOf('Solarium\Tests\QueryType\Extract\MyCustomDoc', $document);
