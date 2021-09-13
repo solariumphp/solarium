@@ -57,6 +57,10 @@ class StatsTest extends TestCase
                             ],
                         ],
                     ],
+                    'fieldD' => [
+                        'min' => '2005-08-01T16:30:25Z',
+                        'mean' => '2006-01-15T12:49:38.727Z',
+                    ],
                 ],
             ],
         ];
@@ -82,6 +86,9 @@ class StatsTest extends TestCase
             '99.9' => 20.9,
         ];
         $this->assertSame($expectedPercentiles, $facets['fieldC']['value1']->getPercentiles());
+
+        $this->assertEquals('2005-08-01T16:30:25Z', $result->getResult('fieldD')->getMin());
+        $this->assertEquals('2006-01-15T12:49:38.727Z', $result->getResult('fieldD')->getMean());
     }
 
     public function testParseNoData()
