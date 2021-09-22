@@ -1298,7 +1298,7 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
-     * Create a managed resources query instance.
+     * Create a managed stopwords query instance.
      *
      * @param mixed $options
      *
@@ -1310,7 +1310,7 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
-     * Create a managed resources query instance.
+     * Create a managed synonyms query instance.
      *
      * @param mixed $options
      *
