@@ -130,6 +130,8 @@ try {
     $skipForCloud = [
         '2.1.5.7-grouping-by-query.php',
         '2.2.5-rollback.php',
+        '2.10.2-managedresources-stopwords.php',
+        '2.10.3-managedresources-synonyms.php',
         '7.1-plugin-loadbalancer.php',
     ];
 

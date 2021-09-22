@@ -37,7 +37,7 @@ class Resource extends AbstractRequestBuilder
         }
 
         $request = parent::build($query);
-        // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
+        // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-6853)
         $request->setHandler($query->getHandler().rawurlencode(rawurlencode($query->getName())));
         if (null !== $query->getCommand()) {
             $request->addHeader('Content-Type: application/json; charset=utf-8');
@@ -47,7 +47,7 @@ class Resource extends AbstractRequestBuilder
             $request->setMethod(Request::METHOD_GET);
 
             if (null !== $term = $query->getTerm()) {
-                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
+                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-6853)
                 $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($term)));
             }
         }
@@ -90,12 +90,12 @@ class Resource extends AbstractRequestBuilder
                 if (null === $term = $command->getTerm()) {
                     throw new RuntimeException('Missing term for DELETE command.');
                 }
-                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
+                // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-6853)
                 $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 break;
             case BaseQuery::COMMAND_EXISTS:
                 if (null !== $term = $command->getTerm()) {
-                    // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-SOLR-6853)
+                    // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-6853)
                     $request->setHandler($request->getHandler().'/'.rawurlencode(rawurlencode($command->getTerm())));
                 }
                 break;
