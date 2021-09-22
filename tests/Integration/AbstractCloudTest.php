@@ -43,8 +43,8 @@ abstract class AbstractCloudTest extends AbstractTechproductsTest
         $createAction->setName(self::$name)
             ->setCollectionConfigName('techproducts')
             // @todo if we set a lower number of shards compared to the number of nodes we get random test failures for
-            //       the manged resources tests. (Managed resources are deprecated in Solr 8 anyway.) These failures
-            //       only happen with the HttpAdapter and Ps18Adapter. The CurlAdapter has a higher timeout especially
+            //       the managed resources tests. (Managed resources are deprecated in Solr 8 anyway.) These failures
+            //       only happen with the HttpAdapter and Psr18Adapter. The CurlAdapter has a higher timeout especially
             //       for the integration tests which might be the reason.
             ->setNumShards(3);
         $collectionsQuery->setAction($createAction);
