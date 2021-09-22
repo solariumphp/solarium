@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Always respect automatic filtering of control characters in field values in QueryType\Update\Query\Document
 - Remove the field modifier along with the value(s) and boost in QueryType\Update\Query\Document::removeField()
+- Allow string to be returned for `min`, `max` and `mean` statistics in Component\Result\Stats\ResultTrait
 
 
 ## [6.1.5]

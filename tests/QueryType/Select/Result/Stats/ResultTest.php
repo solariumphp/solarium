@@ -126,6 +126,40 @@ class ResultTest extends TestCase
     }
 
     /**
+     * Test stats that return a string value for string fields.
+     */
+    public function testStringStats()
+    {
+        $this->stats = [
+            'min' => 'aaa',
+            'max' => 'zzz',
+        ];
+
+        $this->result = new Result($this->field, $this->stats);
+
+        $this->assertSame($this->stats['min'], $this->result->getMin());
+        $this->assertSame($this->stats['max'], $this->result->getMax());
+    }
+
+    /**
+     * Test stats that return a string value for date fields.
+     */
+    public function testDateStats()
+    {
+        $this->stats = [
+            'min' => '2005-08-01T16:30:25Z',
+            'max' => '2006-02-14T23:55:59Z',
+            'mean' => '2006-01-15T12:49:38.727Z',
+        ];
+
+        $this->result = new Result($this->field, $this->stats);
+
+        $this->assertSame($this->stats['min'], $this->result->getMin());
+        $this->assertSame($this->stats['max'], $this->result->getMax());
+        $this->assertSame($this->stats['mean'], $this->result->getMean());
+    }
+
+    /**
      * @deprecated
      */
     public function testGetValue()

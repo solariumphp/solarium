@@ -24,9 +24,9 @@ trait ResultTrait
     /**
      * Get min value.
      *
-     * @return float|null
+     * @return float|string|null
      */
-    public function getMin(): ?float
+    public function getMin()
     {
         return $this->getStatValue('min');
     }
@@ -34,9 +34,9 @@ trait ResultTrait
     /**
      * Get max value.
      *
-     * @return float|null
+     * @return float|string|null
      */
-    public function getMax(): ?float
+    public function getMax()
     {
         return $this->getStatValue('max');
     }
@@ -84,9 +84,9 @@ trait ResultTrait
     /**
      * Get mean value.
      *
-     * @return float|null
+     * @return float|string|null
      */
-    public function getMean(): ?float
+    public function getMean()
     {
         return $this->getStatValue('mean');
     }
