@@ -111,7 +111,7 @@ class Detail implements \ArrayAccess
         return $this->subDetails;
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return \in_array($offset, ['match', 'value', 'description']);
     }
@@ -121,12 +121,12 @@ class Detail implements \ArrayAccess
         return $this->{$offset};
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         // Details are immutable.
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         // Details are immutable.
     }

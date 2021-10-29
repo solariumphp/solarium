@@ -894,9 +894,9 @@ class LocalParameters implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->parameters[$offset] = $value;
+        $this->parameters[$offset] = $value;
     }
 
     /**
