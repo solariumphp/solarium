@@ -883,6 +883,7 @@ class LocalParameters implements \ArrayAccess
         return isset($this->parameters[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
