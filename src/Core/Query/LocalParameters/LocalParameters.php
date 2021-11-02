@@ -883,6 +883,7 @@ class LocalParameters implements \ArrayAccess
         return isset($this->parameters[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
@@ -894,9 +895,9 @@ class LocalParameters implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->parameters[$offset] = $value;
+        $this->parameters[$offset] = $value;
     }
 
     /**

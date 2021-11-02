@@ -120,12 +120,13 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
         $this->__set($offset, null);
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
      * @param mixed $offset
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function offsetGet($offset)
     {
