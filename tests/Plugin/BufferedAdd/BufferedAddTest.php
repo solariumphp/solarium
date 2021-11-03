@@ -90,7 +90,7 @@ class BufferedAddTest extends TestCase
         $updateQuery->expects($this->exactly(2))
             ->method('addDocuments');
 
-        $mockResult = $this->createMock(Result:: class);
+        $mockResult = $this->createMock(Result::class);
 
         $client = $this->getClient();
 
@@ -144,7 +144,7 @@ class BufferedAddTest extends TestCase
             ->method('addDocuments')
             ->with($this->equalTo([$doc]), $this->equalTo(true), $this->equalTo(12));
 
-        $mockResult = $this->createMock(Result:: class);
+        $mockResult = $this->createMock(Result::class);
 
         $mockClient = $this->getClient();
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
