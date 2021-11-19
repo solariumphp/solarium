@@ -24,16 +24,22 @@ class FieldTest extends TestCase
             'local_key' => 'myKey',
             'local_exclude' => ['e1', 'e2'],
             'field' => 'text',
+            'prefix' => 'xyz',
+            'contains' => 'foobar',
+            'containsignorecase' => true,
+            'matches' => '^foo.*',
             'sort' => 'index',
             'limit' => 10,
             'offset' => 20,
             'mincount' => 5,
             'missing' => true,
             'method' => 'enum',
-            'contains' => 'foobar',
-            'containsignorecase' => true,
+            'enum.cache.minDf' => 15,
+            'exists' => true,
             'excludeTerms' => 'foo,bar',
-            'matches' => '^foo.*',
+            'overrequest.count' => 20,
+            'overrequest.ratio' => 2.5,
+            'threads' => 42,
         ];
 
         $this->facet->setOptions($options);
@@ -41,16 +47,22 @@ class FieldTest extends TestCase
         $this->assertSame($options['local_key'], $this->facet->getKey());
         $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
         $this->assertSame($options['field'], $this->facet->getField());
+        $this->assertSame($options['prefix'], $this->facet->getPrefix());
+        $this->assertSame($options['contains'], $this->facet->getContains());
+        $this->assertTrue($this->facet->getContainsIgnoreCase());
+        $this->assertSame($options['matches'], $this->facet->getMatches());
         $this->assertSame($options['sort'], $this->facet->getSort());
         $this->assertSame($options['limit'], $this->facet->getLimit());
         $this->assertSame($options['offset'], $this->facet->getOffset());
         $this->assertSame($options['mincount'], $this->facet->getMinCount());
         $this->assertTrue($this->facet->getMissing());
         $this->assertSame($options['method'], $this->facet->getMethod());
-        $this->assertSame($options['contains'], $this->facet->getContains());
-        $this->assertTrue($this->facet->getContainsIgnoreCase());
+        $this->assertSame($options['enum.cache.minDf'], $this->facet->getEnumCacheMinimumDocumentFrequency());
+        $this->assertTrue($this->facet->getExists());
         $this->assertSame($options['excludeTerms'], $this->facet->getExcludeTerms());
-        $this->assertSame($options['matches'], $this->facet->getMatches());
+        $this->assertSame($options['overrequest.count'], $this->facet->getOverrequestCount());
+        $this->assertSame($options['overrequest.ratio'], $this->facet->getOverrequestRatio());
+        $this->assertSame($options['threads'], $this->facet->getThreads());
     }
 
     public function testGetType()
@@ -67,16 +79,34 @@ class FieldTest extends TestCase
         $this->assertSame('category', $this->facet->getField());
     }
 
-    public function testSetAndGetSort()
-    {
-        $this->facet->setSort('index');
-        $this->assertSame('index', $this->facet->getSort());
-    }
-
     public function testSetAndGetPrefix()
     {
         $this->facet->setPrefix('xyz');
         $this->assertSame('xyz', $this->facet->getPrefix());
+    }
+
+    public function testSetAndGetContains()
+    {
+        $this->facet->setContains('foobar');
+        $this->assertSame('foobar', $this->facet->getContains());
+    }
+
+    public function testSetAndGetContainsIgnoreCase()
+    {
+        $this->facet->setContainsIgnoreCase(true);
+        $this->assertTrue($this->facet->getContainsIgnoreCase());
+    }
+
+    public function testSetAndGetMatches()
+    {
+        $this->facet->setMatches('^foo.*');
+        $this->assertSame('^foo.*', $this->facet->getMatches());
+    }
+
+    public function testSetAndGetSort()
+    {
+        $this->facet->setSort('index');
+        $this->assertSame('index', $this->facet->getSort());
     }
 
     public function testSetAndGetLimit()
@@ -109,16 +139,16 @@ class FieldTest extends TestCase
         $this->assertSame('enum', $this->facet->getMethod());
     }
 
-    public function testSetAndGetContains()
+    public function testSetAndGetEnumCacheMinimmumDocumentFrequency()
     {
-        $this->facet->setContains('foobar');
-        $this->assertSame('foobar', $this->facet->getContains());
+        $this->facet->setEnumCacheMinimumDocumentFrequency(15);
+        $this->assertSame(15, $this->facet->getEnumCacheMinimumDocumentFrequency());
     }
 
-    public function testSetAndGetContainsIgnoreCase()
+    public function testSetAndGetExists()
     {
-        $this->facet->setContainsIgnoreCase(true);
-        $this->assertTrue($this->facet->getContainsIgnoreCase());
+        $this->facet->setExists(true);
+        $this->assertTrue($this->facet->getExists());
     }
 
     public function testSetAndGetExcludeTerms()
@@ -127,9 +157,21 @@ class FieldTest extends TestCase
         $this->assertSame('foo,bar', $this->facet->getExcludeTerms());
     }
 
-    public function testSetAndGetMatches()
+    public function testSetAndGetOverrequestCount()
     {
-        $this->facet->setMatches('^foo.*');
-        $this->assertSame('^foo.*', $this->facet->getMatches());
+        $this->facet->setOverrequestCount(20);
+        $this->assertSame(20, $this->facet->getOverrequestCount());
+    }
+
+    public function testSetAndGetOverrequestRatio()
+    {
+        $this->facet->setOverrequestRatio(2.5);
+        $this->assertSame(2.5, $this->facet->getOverrequestRatio());
+    }
+
+    public function testSetAndGetThreads()
+    {
+        $this->facet->setThreads(42);
+        $this->assertSame(42, $this->facet->getThreads());
     }
 }

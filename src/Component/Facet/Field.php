@@ -16,17 +16,18 @@ use Solarium\Component\FacetSetInterface;
  *
  * @see https://solr.apache.org/guide/faceting.html#field-value-faceting-parameters
  */
-class Field extends AbstractField
+class Field extends AbstractFacet implements FieldValueParametersInterface
 {
-    /**
-     * Facet method enum.
-     */
-    const METHOD_ENUM = 'enum';
+    use FieldValueParametersTrait;
 
     /**
-     * Facet method fc.
+     * Default options.
+     *
+     * @var array
      */
-    const METHOD_FC = 'fc';
+    protected $options = [
+        'field' => 'id',
+    ];
 
     /**
      * Get the facet type.
@@ -39,98 +40,26 @@ class Field extends AbstractField
     }
 
     /**
-     * Limit the terms for faceting by a string they must contain. Since Solr 5.1.
+     * Set the name of the field that should be treated as a facet.
      *
-     * @param string $contains
+     * @param string $field
      *
      * @return self Provides fluent interface
      */
-    public function setContains(string $contains): self
+    public function setField(string $field): self
     {
-        $this->setOption('contains', $contains);
+        $this->setOption('field', $field);
 
         return $this;
     }
 
     /**
-     * Get the facet contains.
+     * Get the field name.
      *
      * @return string|null
      */
-    public function getContains(): ?string
+    public function getField(): ?string
     {
-        return $this->getOption('contains');
-    }
-
-    /**
-     * Case sensitivity of matching string that facet terms must contain. Since Solr 5.1.
-     *
-     * @param bool $containsIgnoreCase
-     *
-     * @return self Provides fluent interface
-     */
-    public function setContainsIgnoreCase($containsIgnoreCase): self
-    {
-        $this->setOption('containsignorecase', $containsIgnoreCase);
-
-        return $this;
-    }
-
-    /**
-     * Get the case sensitivity of facet contains.
-     *
-     * @return bool|null
-     */
-    public function getContainsIgnoreCase(): ?bool
-    {
-        return $this->getOption('containsignorecase');
-    }
-
-    /**
-     * Limit facet terms to those matching this regular expression. Since Solr 7.2.
-     *
-     * @param string $matches
-     *
-     * @return self Provides fluent interface
-     */
-    public function setMatches(string $matches): self
-    {
-        $this->setOption('matches', $matches);
-
-        return $this;
-    }
-
-    /**
-     * Get the regular expression string that facets must match.
-     *
-     * @return string|null
-     */
-    public function getMatches(): ?string
-    {
-        return $this->getOption('matches');
-    }
-
-    /**
-     * Exclude these terms, comma separated list. Use \, for literal comma. Since Solr 6.5.
-     *
-     * @param string $exclude
-     *
-     * @return self Provides fluent interface
-     */
-    public function setExcludeTerms(string $exclude): self
-    {
-        $this->setOption('excludeTerms', $exclude);
-
-        return $this;
-    }
-
-    /**
-     * Get terms that should be excluded from the facet.
-     *
-     * @return string|null
-     */
-    public function getExcludeTerms(): ?string
-    {
-        return $this->getOption('excludeTerms');
+        return $this->getOption('field');
     }
 }

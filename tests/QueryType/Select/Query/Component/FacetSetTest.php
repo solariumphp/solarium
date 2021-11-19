@@ -36,30 +36,48 @@ class FacetSetTest extends TestCase
                 ['type' => 'query', 'local_key' => 'f1', 'query' => 'category:1'],
                 'f2' => ['type' => 'query', 'query' => 'category:2'],
             ],
-            'prefix' => 'pr',
-            'sort' => 'index',
-            'mincount' => 10,
-            'missing' => true,
             'extractfromresponse' => true,
+            'prefix' => 'xyz',
             'contains' => 'foobar',
             'containsignorecase' => true,
-            'excludeTerms' => 'foo,bar',
             'matches' => '^foo.*',
+            'sort' => 'index',
+            'limit' => 10,
+            'offset' => 20,
+            'mincount' => 5,
+            'missing' => true,
+            'method' => 'enum',
+            'enum.cache.minDf' => 15,
+            'exists' => true,
+            'excludeTerms' => 'foo,bar',
+            'overrequest.count' => 20,
+            'overrequest.ratio' => 2.5,
+            'threads' => 42,
+            'pivot.mincount' => 12,
         ];
 
         $this->facetSet->setOptions($options);
         $facets = $this->facetSet->getFacets();
 
         $this->assertCount(2, $facets);
-        $this->assertSame($options['prefix'], $this->facetSet->getPrefix());
-        $this->assertSame($options['sort'], $this->facetSet->getSort());
-        $this->assertSame($options['mincount'], $this->facetSet->getMinCount());
-        $this->assertTrue($this->facetSet->getMissing());
         $this->assertTrue($this->facetSet->getExtractFromResponse());
+        $this->assertSame($options['prefix'], $this->facetSet->getPrefix());
         $this->assertSame($options['contains'], $this->facetSet->getContains());
         $this->assertTrue($this->facetSet->getContainsIgnoreCase());
-        $this->assertSame($options['excludeTerms'], $this->facetSet->getExcludeTerms());
         $this->assertSame($options['matches'], $this->facetSet->getMatches());
+        $this->assertSame($options['sort'], $this->facetSet->getSort());
+        $this->assertSame($options['limit'], $this->facetSet->getLimit());
+        $this->assertSame($options['offset'], $this->facetSet->getOffset());
+        $this->assertSame($options['mincount'], $this->facetSet->getMinCount());
+        $this->assertTrue($this->facetSet->getMissing());
+        $this->assertSame($options['method'], $this->facetSet->getMethod());
+        $this->assertSame($options['enum.cache.minDf'], $this->facetSet->getEnumCacheMinimumDocumentFrequency());
+        $this->assertTrue($this->facetSet->getExists());
+        $this->assertSame($options['excludeTerms'], $this->facetSet->getExcludeTerms());
+        $this->assertSame($options['overrequest.count'], $this->facetSet->getOverrequestCount());
+        $this->assertSame($options['overrequest.ratio'], $this->facetSet->getOverrequestRatio());
+        $this->assertSame($options['threads'], $this->facetSet->getThreads());
+        $this->assertSame($options['pivot.mincount'], $this->facetSet->getPivotMinCount());
     }
 
     public function testGetType()
@@ -83,34 +101,10 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testSetAndGetSort()
-    {
-        $this->facetSet->setSort('index');
-        $this->assertSame('index', $this->facetSet->getSort());
-    }
-
     public function testSetAndGetPrefix()
     {
         $this->facetSet->setPrefix('xyz');
         $this->assertSame('xyz', $this->facetSet->getPrefix());
-    }
-
-    public function testSetAndGetLimit()
-    {
-        $this->facetSet->setLimit(12);
-        $this->assertSame(12, $this->facetSet->getLimit());
-    }
-
-    public function testSetAndGetMinCount()
-    {
-        $this->facetSet->setMinCount(100);
-        $this->assertSame(100, $this->facetSet->getMinCount());
-    }
-
-    public function testSetAndGetMissing()
-    {
-        $this->facetSet->setMissing(true);
-        $this->assertTrue($this->facetSet->getMissing());
     }
 
     public function testSetAndGetContains()
@@ -125,16 +119,88 @@ class FacetSetTest extends TestCase
         $this->assertTrue($this->facetSet->getContainsIgnoreCase());
     }
 
+    public function testSetAndGetMatches()
+    {
+        $this->facetSet->setMatches('^foo.*');
+        $this->assertSame('^foo.*', $this->facetSet->getMatches());
+    }
+
+    public function testSetAndGetSort()
+    {
+        $this->facetSet->setSort('index');
+        $this->assertSame('index', $this->facetSet->getSort());
+    }
+
+    public function testSetAndGetLimit()
+    {
+        $this->facetSet->setLimit(12);
+        $this->assertSame(12, $this->facetSet->getLimit());
+    }
+
+    public function testSetAndGetOffset()
+    {
+        $this->facetSet->setOffset(40);
+        $this->assertSame(40, $this->facetSet->getOffset());
+    }
+
+    public function testSetAndGetMinCount()
+    {
+        $this->facetSet->setMinCount(100);
+        $this->assertSame(100, $this->facetSet->getMinCount());
+    }
+
+    public function testSetAndGetMissing()
+    {
+        $this->facetSet->setMissing(true);
+        $this->assertTrue($this->facetSet->getMissing());
+    }
+
+    public function testSetAndGetMethod()
+    {
+        $this->facetSet->setMethod('enum');
+        $this->assertSame('enum', $this->facetSet->getMethod());
+    }
+
+    public function testSetAndGetEnumCacheMinimmumDocumentFrequency()
+    {
+        $this->facetSet->setEnumCacheMinimumDocumentFrequency(15);
+        $this->assertSame(15, $this->facetSet->getEnumCacheMinimumDocumentFrequency());
+    }
+
+    public function testSetAndGetExists()
+    {
+        $this->facetSet->setExists(true);
+        $this->assertTrue($this->facetSet->getExists());
+    }
+
     public function testSetAndGetExcludeTerms()
     {
         $this->facetSet->setExcludeTerms('foo,bar');
         $this->assertSame('foo,bar', $this->facetSet->getExcludeTerms());
     }
 
-    public function testSetAndGetMatches()
+    public function testSetAndGetOverrequestCount()
     {
-        $this->facetSet->setMatches('^foo.*');
-        $this->assertSame('^foo.*', $this->facetSet->getMatches());
+        $this->facetSet->setOverrequestCount(20);
+        $this->assertSame(20, $this->facetSet->getOverrequestCount());
+    }
+
+    public function testSetAndGetOverrequestRatio()
+    {
+        $this->facetSet->setOverrequestRatio(2.5);
+        $this->assertSame(2.5, $this->facetSet->getOverrequestRatio());
+    }
+
+    public function testSetAndGetThreads()
+    {
+        $this->facetSet->setThreads(42);
+        $this->assertSame(42, $this->facetSet->getThreads());
+    }
+
+    public function testSetAndGetPivotMinCount()
+    {
+        $this->facetSet->setPivotMinCount(5);
+        $this->assertSame(5, $this->facetSet->getPivotMinCount());
     }
 
     public function testAddAndGetFacet()
