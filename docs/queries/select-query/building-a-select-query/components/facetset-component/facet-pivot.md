@@ -8,7 +8,7 @@ The options below can be set as query option values, but also by using the set/g
 | Name              | Type   | Default value | Description                                                                                      |
 |-------------------|--------|---------------|--------------------------------------------------------------------------------------------------|
 | fields            | string | null          | Fields to pivot on, separated by commas.                                                         |
-| mincount          | int    | null          | Minimum number of documents that need to match in order for the facet to be included in results. |
+| pivot.mincount    | int    | null          | Minimum number of documents that need to match in order for the facet to be included in results. |
 | limit             | int    | null          | Limit the facet counts.                                                                          |
 | offset            | int    | null          | Show facet count starting from this offset.                                                      |
 | sort              | string | null          | Sort order (sorted by count or index). Use one of the class constants.                           |
