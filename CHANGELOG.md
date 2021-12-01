@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 ### Added
 - Component\FacetSet::setOffset()
-- Component\FacetSet::setMethod() and Component\FacetSet::{METHOD_ENUM,METHOD_FC,METHOD_FCS}
+- Component\FacetSet::setMethod() and Component\FacetSet::{METHOD_ENUM,METHOD_FC,METHOD_FCS,METHOD_UIF}
 - Component\FacetSet::setEnumCacheMinimumDocumentFrequency()
 - Component\FacetSet::setExists()
 - Component\FacetSet::setOverrequestCount()
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Component\Facet\Pivot::setOverrequestCount()
 - Component\Facet\Pivot::setOverrequestRatio()
 - Component\Facet\Field::METHOD_FCS for per-segment field faceting for single-valued string fields
+- Component\Facet\Field::METHOD_UIF for UnInvertedField faceting
 - Component\Facet\Field::setEnumCacheMinimumDocumentFrequency()
 - Component\Facet\Field::setExists()
 - Component\Facet\Field::setOverrequestCount()

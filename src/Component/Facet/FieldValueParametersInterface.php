@@ -23,6 +23,11 @@ interface FieldValueParametersInterface
     public const METHOD_FCS = 'fcs';
 
     /**
+     * Facet method uif.
+     */
+    public const METHOD_UIF = 'uif';
+
+    /**
      * Facet sort type count.
      */
     public const SORT_COUNT = 'count';
