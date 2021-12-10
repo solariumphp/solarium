@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
+
+### Fixed
+
+## [6.1.6]
+### Added
 - PHP 8.1 support
 - QueryType\Update\Query\Document::setFields() to set all fields on a Document
 
