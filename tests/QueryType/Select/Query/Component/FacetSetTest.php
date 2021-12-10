@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Select\Query\Component;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\Interval;
 use Solarium\Component\Facet\JsonAggregation;
 use Solarium\Component\Facet\JsonQuery;
 use Solarium\Component\Facet\JsonRange;
@@ -451,6 +452,8 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
      */
     public function testCreateFacetQuery(bool $add)
     {
@@ -472,6 +475,8 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
      */
     public function testCreateFacetMultiQuery(bool $add)
     {
@@ -492,6 +497,8 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
      */
     public function testCreateFacetRange(bool $add)
     {
@@ -512,6 +519,8 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
      */
     public function testCreateFacetPivot(bool $add)
     {
@@ -525,6 +534,28 @@ class FacetSetTest extends TestCase
 
         if ($add) {
             $this->assertInstanceOf(Pivot::class, $facetSet->getFacet('key'));
+        } else {
+            $this->assertEmpty($facetSet->getFacet('key'));
+        }
+    }
+
+    /**
+     * @dataProvider createFacetAddProvider
+     *
+     * @param bool $add
+     */
+    public function testCreateFacetInterval(bool $add)
+    {
+        $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
+        $facetSet = new FacetSet([]);
+        $result = $facetSet->createFacetInterval($options, $add);
+
+        $this->assertInstanceOf(Interval::class, $result);
+        $this->assertSame(1, $result->getOption('optionA'));
+        $this->assertSame(2, $result->getOption('optionB'));
+
+        if ($add) {
+            $this->assertInstanceOf(Interval::class, $facetSet->getFacet('key'));
         } else {
             $this->assertEmpty($facetSet->getFacet('key'));
         }
