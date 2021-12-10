@@ -33,7 +33,9 @@ use Solarium\Component\ResponseParser\FacetSet as ResponseParser;
  */
 class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValueParametersInterface
 {
-    use FacetSetTrait, FieldValueParametersTrait, PivotMinCountTrait;
+    use FacetSetTrait;
+    use FieldValueParametersTrait;
+    use PivotMinCountTrait;
 
     /**
      * Facet type mapping.

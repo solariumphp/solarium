@@ -61,32 +61,32 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
             foreach ($facets as $key => $facet) {
                 switch ($facet->getType()) {
                     case FacetSetInterface::FACET_FIELD:
-                        /** @var FacetField $facet */
+                        /* @var FacetField $facet */
                         $this->addFacetField($request, $facet, (1 < $facetFields[$facet->getField()]));
                         $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_QUERY:
-                        /** @var FacetQuery $facet */
+                        /* @var FacetQuery $facet */
                         $this->addFacetQuery($request, $facet);
                         $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_MULTIQUERY:
-                        /** @var FacetMultiQuery $facet */
+                        /* @var FacetMultiQuery $facet */
                         $this->addFacetMultiQuery($request, $facet);
                         $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_RANGE:
-                        /** @var FacetRange $facet */
+                        /* @var FacetRange $facet */
                         $this->addFacetRange($request, $facet);
                         $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_PIVOT:
-                        /** @var FacetPivot $facet */
+                        /* @var FacetPivot $facet */
                         $this->addFacetPivot($request, $facet);
                         $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_INTERVAL:
-                        /** @var FacetInterval $facet */
+                        /* @var FacetInterval $facet */
                         $this->addFacetInterval($request, $facet);
                         $nonJson = true;
                         break;
@@ -94,7 +94,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                     case FacetSetInterface::JSON_FACET_QUERY:
                     case FacetSetInterface::JSON_FACET_RANGE:
                     case FacetSetInterface::JSON_FACET_AGGREGATION:
-                        /** @var JsonFacetInterface $facet */
+                        /* @var JsonFacetInterface $facet */
                         $jsonFacets[$key] = $facet->serialize();
                         break;
                     default:

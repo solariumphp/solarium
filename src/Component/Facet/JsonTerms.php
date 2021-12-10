@@ -51,32 +51,32 @@ class JsonTerms extends AbstractFacet implements JsonFacetInterface, FacetSetInt
     const METHOD_SMART = 'smart';
 
     /**
-     * @deprecated Use {@link SORT_COUNT_ASC} or {@link SORT_COUNT_DESC}.
+     * @deprecated Use {@link SORT_COUNT_ASC} or {@link SORT_COUNT_DESC}
      */
     const SORT_COUNT = 'count';
 
     /**
-     * Sort buckets by 'count asc'
+     * Sort buckets by 'count asc'.
      */
     const SORT_COUNT_ASC = 'count asc';
 
     /**
-     * Sort buckets by 'count desc'
+     * Sort buckets by 'count desc'.
      */
     const SORT_COUNT_DESC = 'count desc';
 
     /**
-     * @deprecated Use {@link SORT_INDEX_ASC} or {@link SORT_INDEX_DESC}.
+     * @deprecated Use {@link SORT_INDEX_ASC} or {@link SORT_INDEX_DESC}
      */
     const SORT_INDEX = 'index';
 
     /**
-     * Sort buckets by 'index asc'
+     * Sort buckets by 'index asc'.
      */
     const SORT_INDEX_ASC = 'index asc';
 
     /**
-     * Sort buckets by 'index desc'
+     * Sort buckets by 'index desc'.
      */
     const SORT_INDEX_DESC = 'index desc';
 
