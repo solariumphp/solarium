@@ -109,7 +109,7 @@ Some users of Solarium have been nice enough to create easy ways of integrating 
 -   Wordpress <https://github.com/pantheon-systems/solr-for-wordpress>
 -   SilverStripe <https://github.com/firesphere/silverstripe-solr-search>
 
-If you know of any other integrations please let it know!
+If you know of any other integrations please let us know!
 
 
 Basic usage
