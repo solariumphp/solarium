@@ -99,7 +99,7 @@ has to be changed to something like
 Some users of Solarium have been nice enough to create easy ways of integrating Solarium:
 
 -   A Solarium bundle for Symfony2 <https://github.com/nelmio/NelmioSolariumBundle>
--   Zend Framework 2 module <https://zfmodules.com/Ewgo/SolariumModule>
+-   Zend Framework 2 module <https://github.com/Ewgo/SolariumModule>
 -   Lithium <https://github.com/joseym/li3_solr>
 -   Fuel PHP <https://github.com/bgrimes/fuelphp-solarium>
 -   Yii <https://github.com/estahn/YiiSolarium>
