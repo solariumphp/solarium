@@ -11,6 +11,8 @@ namespace Solarium\Component;
 
 use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
+use Solarium\Component\Facet\FieldValueParametersInterface;
+use Solarium\Component\Facet\FieldValueParametersTrait;
 use Solarium\Component\Facet\Interval;
 use Solarium\Component\Facet\JsonAggregation;
 use Solarium\Component\Facet\JsonQuery;
@@ -18,6 +20,7 @@ use Solarium\Component\Facet\JsonRange;
 use Solarium\Component\Facet\JsonTerms;
 use Solarium\Component\Facet\MultiQuery;
 use Solarium\Component\Facet\Pivot;
+use Solarium\Component\Facet\PivotMinCountTrait;
 use Solarium\Component\Facet\Query;
 use Solarium\Component\Facet\Range;
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
@@ -28,9 +31,11 @@ use Solarium\Component\ResponseParser\FacetSet as ResponseParser;
 /**
  * FacetSet component.
  */
-class FacetSet extends AbstractComponent implements FacetSetInterface
+class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValueParametersInterface
 {
     use FacetSetTrait;
+    use FieldValueParametersTrait;
+    use PivotMinCountTrait;
 
     /**
      * Facet type mapping.
@@ -103,262 +108,6 @@ class FacetSet extends AbstractComponent implements FacetSetInterface
     public function getExtractFromResponse(): ?bool
     {
         return $this->getOption('extractfromresponse');
-    }
-
-    /**
-     * Limit the terms for faceting by a prefix.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param string $prefix
-     *
-     * @return self Provides fluent interface
-     */
-    public function setPrefix(string $prefix): self
-    {
-        $this->setOption('prefix', $prefix);
-
-        return $this;
-    }
-
-    /**
-     * Get the facet prefix.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return string|null
-     */
-    public function getPrefix(): ?string
-    {
-        return $this->getOption('prefix');
-    }
-
-    /**
-     * Limit the terms for faceting by a string they must contain. Since Solr 5.1.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param string $contains
-     *
-     * @return self Provides fluent interface
-     */
-    public function setContains(string $contains): self
-    {
-        $this->setOption('contains', $contains);
-
-        return $this;
-    }
-
-    /**
-     * Get the facet contains.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return string|null
-     */
-    public function getContains(): ?string
-    {
-        return $this->getOption('contains');
-    }
-
-    /**
-     * Case sensitivity of matching string that facet terms must contain. Since Solr 5.1.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param bool $containsIgnoreCase
-     *
-     * @return self Provides fluent interface
-     */
-    public function setContainsIgnoreCase(bool $containsIgnoreCase): self
-    {
-        $this->setOption('containsignorecase', $containsIgnoreCase);
-
-        return $this;
-    }
-
-    /**
-     * Get the case sensitivity of facet contains.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return bool|null
-     */
-    public function getContainsIgnoreCase(): ?bool
-    {
-        return $this->getOption('containsignorecase');
-    }
-
-    /**
-     * Limit facet terms to those matching this regular expression. Since Solr 7.2.
-     *
-     * This is a global value for all facets in this facetset
-     * It is overriden by an individual field's matches value
-     *
-     * @param string $matches
-     *
-     * @return self Provides fluent interface
-     */
-    public function setMatches(string $matches): self
-    {
-        $this->setOption('matches', $matches);
-
-        return $this;
-    }
-
-    /**
-     * Get the regular expression string that facets must match.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return string|null
-     */
-    public function getMatches(): ?string
-    {
-        return $this->getOption('matches');
-    }
-
-    /**
-     * Exclude these terms, comma separated list. Use \, for literal comma. Since Solr 6.5.
-     *
-     * This is a global value for all facets in this facetset
-     * It is overriden by an individual field's excludeTerms list
-     *
-     * @param string $exclude
-     *
-     * @return self Provides fluent interface
-     */
-    public function setExcludeTerms(string $exclude): self
-    {
-        $this->setOption('excludeTerms', $exclude);
-
-        return $this;
-    }
-
-    /**
-     * Get terms that should be excluded from the facet.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return string|null
-     */
-    public function getExcludeTerms(): ?string
-    {
-        return $this->getOption('excludeTerms');
-    }
-
-    /**
-     * Set the facet sort order.
-     *
-     * Use one of the SORT_* constants as the value
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param string $sort
-     *
-     * @return self Provides fluent interface
-     */
-    public function setSort(string $sort): self
-    {
-        $this->setOption('sort', $sort);
-
-        return $this;
-    }
-
-    /**
-     * Get the facet sort order.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return string|null
-     */
-    public function getSort(): ?string
-    {
-        return $this->getOption('sort');
-    }
-
-    /**
-     * Set the facet limit.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param int $limit
-     *
-     * @return self Provides fluent interface
-     */
-    public function setLimit(int $limit): self
-    {
-        $this->setOption('limit', $limit);
-
-        return $this;
-    }
-
-    /**
-     * Get the facet limit.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return int|null
-     */
-    public function getLimit(): ?int
-    {
-        return $this->getOption('limit');
-    }
-
-    /**
-     * Set the facet mincount.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param int $minCount
-     *
-     * @return self Provides fluent interface
-     */
-    public function setMinCount(int $minCount): self
-    {
-        $this->setOption('mincount', $minCount);
-
-        return $this;
-    }
-
-    /**
-     * Get the facet mincount.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return int|null
-     */
-    public function getMinCount(): ?int
-    {
-        return $this->getOption('mincount');
-    }
-
-    /**
-     * Set the missing count option.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @param bool $missing
-     *
-     * @return self Provides fluent interface
-     */
-    public function setMissing(bool $missing): self
-    {
-        $this->setOption('missing', $missing);
-
-        return $this;
-    }
-
-    /**
-     * Get the facet missing option.
-     *
-     * This is a global value for all facets in this facetset
-     *
-     * @return bool|null
-     */
-    public function getMissing(): ?bool
-    {
-        return $this->getOption('missing');
     }
 
     /**

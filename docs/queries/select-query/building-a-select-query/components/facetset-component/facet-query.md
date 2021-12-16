@@ -5,7 +5,7 @@ Options
 
 The options below can be set as query option values, but also by using the set/get methods. See the API docs for all available methods.
 
-Only the facet-type specific options are listed. See [Facetset component](V3:Facetset_component "wikilink") for the option shared by all facet types.
+Only the facet-type specific options are listed. See [FacetSet component](facetset-component.md) for the options shared by all facet types.
 
 | Name  | Type   | Default value | Description                     |
 |-------|--------|---------------|---------------------------------|
