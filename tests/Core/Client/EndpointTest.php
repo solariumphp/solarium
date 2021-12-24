@@ -25,6 +25,7 @@ class EndpointTest extends TestCase
             'host' => '192.168.0.1',
             'port' => 123,
             'path' => '/mysolr/',
+            'context' => '/lunr/',
             'collection' => null,
             'core' => 'mycore',
             'leader' => false,
@@ -34,6 +35,7 @@ class EndpointTest extends TestCase
         $this->endpoint->setOptions($options);
 
         $options['path'] = '/mysolr'; //expected trimming of trailing slash
+        $options['context'] = 'lunr'; //expected trimming of leading and trailing slash
 
         $this->assertSame($options, $this->endpoint->getOptions());
     }
@@ -62,6 +64,18 @@ class EndpointTest extends TestCase
         $this->assertSame('/mysolr', $this->endpoint->getPath());
     }
 
+    /**
+     * @testWith ["lunr"]
+     *           ["lunr/"]
+     *           ["/lunr"]
+     *           ["/lunr/"]
+     */
+    public function testSetAndGetContext(string $context)
+    {
+        $this->endpoint->setContext($context);
+        $this->assertSame('lunr', $this->endpoint->getContext());
+    }
+
     public function testSetAndGetCollection()
     {
         $this->endpoint->setCollection('collection1');
@@ -82,58 +96,126 @@ class EndpointTest extends TestCase
 
     public function testGetCollectionBaseUri()
     {
-        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
-        $this->expectException(UnexpectedValueException::class);
-        $this->assertSame('http://myserver:123/mypath/solr/collection1/', $this->endpoint->getCollectionBaseUri());
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
+        $this->assertSame('http://myserver:123/mypath/lunr/collection1/', $this->endpoint->getCollectionBaseUri());
+    }
 
-        $this->endpoint->setCollection('collection1');
-        $this->assertSame('http://myserver:123/mypath/solr/collection1/', $this->endpoint->getCollectionBaseUri());
+    public function testGetCollectionBaseUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
+
+        $this->assertSame('https://myserver:123/mypath/lunr/collection1/', $this->endpoint->getCollectionBaseUri());
+    }
+
+    public function testGetCollectionBaseUriException()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+        $this->expectException(UnexpectedValueException::class);
+        $this->endpoint->getCollectionBaseUri();
     }
 
     public function testGetCoreBaseUri()
     {
-        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
-        $this->expectException(UnexpectedValueException::class);
-        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getCoreBaseUri());
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
+        $this->assertSame('http://myserver:123/mypath/lunr/core1/', $this->endpoint->getCoreBaseUri());
+    }
 
-        $this->endpoint->setCore('core1');
-        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getCoreBaseUri());
+    public function testGetCoreBaseUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
+
+        $this->assertSame('https://myserver:123/mypath/lunr/core1/', $this->endpoint->getCoreBaseUri());
+    }
+
+    public function testGetCoreBaseUriException()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+        $this->expectException(UnexpectedValueException::class);
+        $this->endpoint->getCoreBaseUri();
     }
 
     public function testGetBaseUri()
     {
-        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
-        $this->expectException(UnexpectedValueException::class);
-        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getBaseUri());
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
 
         $this->endpoint->setCore('core1');
-        $this->assertSame('http://myserver:123/mypath/solr/core1/', $this->endpoint->getBaseUri());
+        $this->assertSame('http://myserver:123/mypath/lunr/core1/', $this->endpoint->getBaseUri());
 
         $this->endpoint->setCollection('collection1');
-        $this->assertSame('http://myserver:123/mypath/solr/collection1/', $this->endpoint->getBaseUri());
+        $this->assertSame('http://myserver:123/mypath/lunr/collection1/', $this->endpoint->getBaseUri());
+    }
+
+    public function testGetBaseUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+
+        $this->endpoint->setCore('core1');
+        $this->assertSame('https://myserver:123/mypath/lunr/core1/', $this->endpoint->getBaseUri());
+
+        $this->endpoint->setCollection('collection1');
+        $this->assertSame('https://myserver:123/mypath/lunr/collection1/', $this->endpoint->getBaseUri());
+    }
+
+    public function testGetBaseUriException()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+        $this->expectException(UnexpectedValueException::class);
+        $this->endpoint->getBaseUri();
+    }
+
+    public function testGetV1BaseUri()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+        $this->assertSame('http://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
+    }
+
+    public function testGetV1BaseUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+        $this->assertSame('https://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
+    }
+
+    public function testV1BaseUriDoesNotContainCollectionSegment()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
+        $this->assertSame('http://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
+    }
+
+    public function testV1BaseUriDoesNotContainCoreSegment()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
+        $this->assertSame('http://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
     }
 
     public function testGetV2BaseUri()
     {
-        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
+    }
 
-        $this->endpoint->setCollection('collection1');
+    public function testGetV2BaseUriWithHttps()
+    {
+        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
+        $this->assertSame('https://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
+    }
+
+    public function testV2BaseUriDoesNotContainCollectionSegment()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
+        $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
+    }
+
+    public function testV2BaseUriDoesNotContainCoreSegment()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
         $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
     }
 
     public function testGetServerUri()
     {
-        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123);
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
 
         $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
-    }
-
-    public function testGetCoreBaseUriWithHttps()
-    {
-        $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('core1');
-
-        $this->assertSame('https://myserver:123/mypath/solr/core1/', $this->endpoint->getCoreBaseUri());
     }
 
     public function testGetServerUriWithHttps()
@@ -141,6 +223,13 @@ class EndpointTest extends TestCase
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
 
         $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getServerUri());
+    }
+
+    public function testServerUriDoesNotContainContextSegment()
+    {
+        $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setContext('lunr');
+
+        $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
     public function testServerUriDoesNotContainCollectionSegment()
@@ -179,6 +268,7 @@ class EndpointTest extends TestCase
             'host' => '192.168.0.1',
             'port' => 123,
             'path' => '/mysolr/',
+            'context' => 'lunr',
             'core' => 'mycore',
             'username' => 'x',
             'password' => 'y',
@@ -190,6 +280,7 @@ Solarium\Core\Client\Endpoint::__toString
 host: 192.168.0.1
 port: 123
 path: /mysolr
+context: lunr
 collection: 
 core: mycore
 authentication: Array
