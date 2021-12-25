@@ -93,7 +93,7 @@ has to be changed to something like
 'collection' => 'xxxx',
 ```
 
-This led to a problem if the endpoint _isn't_ the default `solr`. Since 6.3, a different context can be configured.
+This led to a problem if the endpoint _isn't_ the default `solr`. Since 6.2.1, a different context can be configured.
 
 An old settings like
 ```
