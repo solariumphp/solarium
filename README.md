@@ -79,7 +79,7 @@ See https://solr.apache.org/guide/local-parameters-in-queries.html for an introd
 
 ### Pitfall when upgrading from 3.x or 4.x
 
-In the past, the V1 API endpoint **_solr_** was not added automatically, so most users set it as path on the endpoint.
+In the past, the V1 API endpoint `solr` was not added automatically, so most users set it as path on the endpoint.
 This bug was discovered with the addition of V2 API support. In almost every setup, the path has to be set to `/`
 instead of `/solr` with this release!
 
@@ -94,6 +94,21 @@ has to be changed to something like
 'path' => '/',
 'collection' => 'xxxx',
 ```
+
+This led to a problem if the endpoint _isn't_ the default `solr`. Since 6.2.1, a different context can be configured.
+
+An old settings like
+```
+'path' => '/index/xxxx/'
+```
+can be changed to something like
+```
+'path' => '/',
+'context' => 'index',
+'collection' => 'xxxx',
+```
+
+This works for SolrCloud instances with a non-default `hostContext` and Solr instances behind a reverse proxy.
 
 ## Run the examples
 
