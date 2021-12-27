@@ -17,6 +17,9 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
 use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
+/**
+ * Query base class.
+ */
 abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionInterface
 {
     /**

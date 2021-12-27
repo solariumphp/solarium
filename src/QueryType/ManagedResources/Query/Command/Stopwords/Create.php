@@ -18,6 +18,8 @@ class Create extends AbstractCreate
 {
     /**
      * Returns the raw data to be sent to Solr.
+     *
+     * @return string
      */
     public function getRawData(): string
     {
