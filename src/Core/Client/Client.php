@@ -345,7 +345,7 @@ class Client extends Configurable implements ClientInterface
 
         $key = $endpoint->getKey();
 
-        if (0 === \strlen($key)) {
+        if (null === $key || 0 === \strlen($key)) {
             throw new InvalidArgumentException('An endpoint must have a key value');
         }
 

@@ -81,7 +81,7 @@ class CustomizeRequest extends AbstractPlugin
         $key = $customization->getKey();
 
         // check for non-empty key
-        if (0 === \strlen($key)) {
+        if (null === $key || 0 === \strlen($key)) {
             throw new InvalidArgumentException('A Customization must have a key value');
         }
 

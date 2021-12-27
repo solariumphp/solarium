@@ -313,7 +313,7 @@ class DisMax extends AbstractComponent
 
         $key = $boostQuery->getKey();
 
-        if (0 === \strlen($key)) {
+        if (null === $key || 0 === \strlen($key)) {
             throw new InvalidArgumentException('A boostquery must have a key value');
         }
 

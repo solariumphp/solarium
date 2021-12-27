@@ -87,7 +87,7 @@ class MultiQuery extends AbstractFacet
 
         $key = $facetQuery->getKey();
 
-        if (0 === \strlen($key)) {
+        if (null === $key || 0 === \strlen($key)) {
             throw new InvalidArgumentException('A facetquery must have a key value');
         }
 
