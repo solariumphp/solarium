@@ -70,7 +70,7 @@ class FacetSet implements \IteratorAggregate, \Countable, FacetResultInterface
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return \count($this->facets);
     }
