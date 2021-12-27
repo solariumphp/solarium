@@ -909,6 +909,23 @@ class LocalParameters implements \ArrayAccess
     }
 
     /**
+     * Get all local parameters in a key => value format.
+     *
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        $params = [];
+
+        /** @var LocalParameterInterface $parameter */
+        foreach ($this->parameters as $parameter) {
+            $params[$parameter->getType()] = $parameter->getValues();
+        }
+
+        return $params;
+    }
+
+    /**
      * @param string $type
      * @param mixed  $value
      *
@@ -1012,22 +1029,5 @@ class LocalParameters implements \ArrayAccess
         }
 
         return $this->parameters[$type];
-    }
-
-    /**
-     * Get all local parameters in a key => value format.
-     *
-     * @return array
-     */
-    public function getParameters(): array
-    {
-        $params = [];
-
-        /** @var LocalParameterInterface $parameter */
-        foreach ($this->parameters as $parameter) {
-            $params[$parameter->getType()] = $parameter->getValues();
-        }
-
-        return $params;
     }
 }

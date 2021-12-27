@@ -111,27 +111,59 @@ class Detail implements \ArrayAccess
         return $this->subDetails;
     }
 
+    /**
+     * ArrayAccess implementation.
+     *
+     * @param mixed $offset
+     *
+     * @return bool
+     */
     public function offsetExists($offset): bool
     {
         return \in_array($offset, ['match', 'value', 'description']);
     }
 
     #[\ReturnTypeWillChange]
+    /**
+     * ArrayAccess implementation.
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
         return $this->{$offset};
     }
 
+    /**
+     * ArrayAccess implementation.
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value): void
     {
         // Details are immutable.
     }
 
+    /**
+     * ArrayAccess implementation.
+     *
+     * @param mixed $offset
+     */
     public function offsetUnset($offset): void
     {
         // Details are immutable.
     }
 
+    /**
+     * Get a recursive dump of the debug details.
+     *
+     * @param int $depth
+     *
+     * @return string
+     */
     public function debugDump(int $depth = 0): string
     {
         $string = '';
@@ -147,6 +179,9 @@ class Detail implements \ArrayAccess
         return $string;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
         return $this->debugDump();

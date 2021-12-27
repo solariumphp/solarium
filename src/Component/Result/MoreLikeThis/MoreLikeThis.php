@@ -104,11 +104,9 @@ class MoreLikeThis implements \IteratorAggregate, \Countable
      *
      * @see getInterestingTerm() for a description of how the terms will be returned for each document key
      *
-     * @return array
-     *
      * @throws UnexpectedValueException
      *
-     * @return array[]
+     * @return array
      */
     public function getInterestingTerms(): array
     {

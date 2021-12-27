@@ -439,13 +439,13 @@ class JsonTerms extends AbstractFacet implements JsonFacetInterface, FacetSetInt
      *
      * @see setSort() For the possible sort values.
      *
-     * @param string $prelim_sort
+     * @param string $prelimSort
      *
      * @return self Provides fluent interface
      */
-    public function setPrelimSort(string $prelim_sort): self
+    public function setPrelimSort(string $prelimSort): self
     {
-        $this->setOption('prelim_sort', $prelim_sort);
+        $this->setOption('prelim_sort', $prelimSort);
 
         return $this;
     }

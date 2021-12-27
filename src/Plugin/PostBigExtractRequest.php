@@ -79,28 +79,28 @@ class PostBigExtractRequest extends AbstractPlugin
 
                 foreach ($request->getParams() as $key => $value) {
                     if (is_iterable($value)) {
-                        foreach ($value as $array_key => $array_val) {
-                            if (\is_string($array_val)) {
-                                $additional_body_header = "\r\nContent-Type: text/plain;charset={$charset}";
+                        foreach ($value as $arrayVal) {
+                            if (\is_string($arrayVal)) {
+                                $additionalBodyHeader = "\r\nContent-Type: text/plain;charset={$charset}";
                             } else {
-                                $additional_body_header = '';
+                                $additionalBodyHeader = '';
                             }
                             $body .= "--{$request->getHash()}\r\n";
                             $body .= "Content-Disposition: form-data; name=\"{$key}\"";
-                            $body .= $additional_body_header;
+                            $body .= $additionalBodyHeader;
                             $body .= "\r\n\r\n";
-                            $body .= $array_val;
+                            $body .= $arrayVal;
                             $body .= "\r\n";
                         }
                     } else {
                         if (\is_string($value)) {
-                            $additional_body_header = "\r\nContent-Type: text/plain;charset={$charset}";
+                            $additionalBodyHeader = "\r\nContent-Type: text/plain;charset={$charset}";
                         } else {
-                            $additional_body_header = '';
+                            $additionalBodyHeader = '';
                         }
                         $body .= "--{$request->getHash()}\r\n";
                         $body .= "Content-Disposition: form-data; name=\"{$key}\"";
-                        $body .= $additional_body_header;
+                        $body .= $additionalBodyHeader;
                         $body .= "\r\n\r\n";
                         $body .= $value;
                         $body .= "\r\n";
