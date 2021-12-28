@@ -256,6 +256,15 @@ class QueryTest extends TestCase
         $this->query->addFilterQuery($fq);
     }
 
+    public function testAddFilterQueryWithEmptyKey()
+    {
+        $fq = new FilterQuery();
+        $fq->setKey('')->setQuery('category:1');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->query->addFilterQuery($fq);
+    }
+
     public function testAddFilterQueryWithUsedKey()
     {
         $fq1 = new FilterQuery();
