@@ -233,6 +233,12 @@ class ClientTest extends TestCase
         $this->client->addEndpoint($endpoint);
     }
 
+    public function testAddEndpointWithEmptyKey()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->client->createEndpoint('');
+    }
+
     public function testAddEndpointWithDuplicateKey()
     {
         $this->client->createEndpoint('s1');

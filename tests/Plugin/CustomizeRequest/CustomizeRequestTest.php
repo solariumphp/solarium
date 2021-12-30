@@ -143,6 +143,15 @@ class CustomizeRequestTest extends TestCase
         $this->plugin->addCustomization($customization);
     }
 
+    public function testAddCustomizationWithEmptyKey()
+    {
+        $customization = new Customization();
+        $customization->setKey('');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->plugin->addCustomization($customization);
+    }
+
     public function testAddCustomizationWithUsedKey()
     {
         $customization1 = new Customization();

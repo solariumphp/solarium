@@ -133,6 +133,15 @@ class StatsTest extends TestCase
         $this->stats->addField($fld);
     }
 
+    public function testAddFieldWithEmptyKey()
+    {
+        $fld = new Field();
+        $fld->setKey('');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->stats->addField($fld);
+    }
+
     public function testAddFieldWithUsedKey()
     {
         $f1 = new Field();
