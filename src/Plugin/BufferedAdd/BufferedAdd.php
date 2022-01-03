@@ -384,8 +384,8 @@ class BufferedAdd extends AbstractPlugin
      * Add all documents and deletes from a buffer as commands to the update query.
      *
      * @param (DocumentInterface|AbstractDelete)[] $buffer
-     * @param bool|null                            $overwrite
-     * @param int|null                             $commitWithin
+     * @param bool|null $overwrite
+     * @param int|null  $commitWithin
      */
     protected function addBufferToQuery(array $buffer, ?bool $overwrite = null, ?int $commitWithin = null): void
     {

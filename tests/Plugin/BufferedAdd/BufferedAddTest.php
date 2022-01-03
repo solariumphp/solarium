@@ -106,8 +106,8 @@ class BufferedAddTest extends TestCase
         $updateQuery->expects($this->exactly(2))
             ->method('add')
             ->withConsecutive(
-                [null, (new AddCommand)->addDocument($doc1)],
-                [null, (new AddCommand)->addDocument($doc2)],
+                [null, (new AddCommand())->addDocument($doc1)],
+                [null, (new AddCommand())->addDocument($doc2)],
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -158,8 +158,8 @@ class BufferedAddTest extends TestCase
         $updateQuery->expects($this->exactly(2))
             ->method('add')
             ->withConsecutive(
-                [null, (new DeleteCommand)->addId(123)],
-                [null, (new DeleteCommand)->addId('abc')],
+                [null, (new DeleteCommand())->addId(123)],
+                [null, (new DeleteCommand())->addId('abc')],
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -248,9 +248,9 @@ class BufferedAddTest extends TestCase
         $mockUpdate->expects($this->exactly(3))
             ->method('add')
             ->withConsecutive(
-                [null, (new AddCommand)->setOverwrite(true)->setCommitWithin(12)->addDocuments([$doc1, $doc2])],
-                [null, (new DeleteCommand)->addId('abc')->addQuery('cat:def')],
-                [null, (new AddCommand)->setOverwrite(true)->setCommitWithin(12)->addDocument($doc3)],
+                [null, (new AddCommand())->setOverwrite(true)->setCommitWithin(12)->addDocuments([$doc1, $doc2])],
+                [null, (new DeleteCommand())->addId('abc')->addQuery('cat:def')],
+                [null, (new AddCommand())->setOverwrite(true)->setCommitWithin(12)->addDocument($doc3)],
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -302,9 +302,9 @@ class BufferedAddTest extends TestCase
         $mockUpdate->expects($this->exactly(3))
             ->method('add')
             ->withConsecutive(
-                [null, (new AddCommand)->setOverwrite(true)->addDocuments([$doc1, $doc2])],
-                [null, (new DeleteCommand)->addId('abc')->addQuery('cat:def')],
-                [null, (new AddCommand)->setOverwrite(true)->addDocument($doc3)],
+                [null, (new AddCommand())->setOverwrite(true)->addDocuments([$doc1, $doc2])],
+                [null, (new DeleteCommand())->addId('abc')->addQuery('cat:def')],
+                [null, (new AddCommand())->setOverwrite(true)->addDocument($doc3)],
             );
         $mockUpdate->expects($this->once())
             ->method('addCommit')
@@ -337,9 +337,9 @@ class BufferedAddTest extends TestCase
         $mockUpdate->expects($this->exactly(3))
             ->method('add')
             ->withConsecutive(
-                [null, (new AddCommand)->setOverwrite(true)->addDocuments([$doc1, $doc2])],
-                [null, (new DeleteCommand)->addId('abc')->addQuery('cat:def')],
-                [null, (new AddCommand)->setOverwrite(true)->addDocument($doc3)],
+                [null, (new AddCommand())->setOverwrite(true)->addDocuments([$doc1, $doc2])],
+                [null, (new DeleteCommand())->addId('abc')->addQuery('cat:def')],
+                [null, (new AddCommand())->setOverwrite(true)->addDocument($doc3)],
             );
         $mockUpdate->expects($this->once())
             ->method('addCommit')

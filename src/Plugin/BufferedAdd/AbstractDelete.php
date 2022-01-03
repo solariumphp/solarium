@@ -31,8 +31,5 @@ abstract class AbstractDelete
      */
     abstract public function getType(): string;
 
-    /**
-     * {@inheritdoc}
-     */
     abstract public function __toString(): string;
 }

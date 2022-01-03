@@ -33,7 +33,7 @@ class Query extends AbstractDelete
         $this->query = $query;
     }
 
-   /**
+    /**
      * {@inheritdoc}
      */
     public function getType(): string

@@ -33,7 +33,7 @@ class Id extends AbstractDelete
         $this->id = $id;
     }
 
-   /**
+    /**
      * {@inheritdoc}
      */
     public function getType(): string
