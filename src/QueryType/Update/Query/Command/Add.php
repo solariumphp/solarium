@@ -92,6 +92,18 @@ class Add extends AbstractCommand
     }
 
     /**
+     * Clear all documents.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clear(): self
+    {
+        $this->documents = [];
+
+        return $this;
+    }
+
+    /**
      * Set overwrite option.
      *
      * @param bool $overwrite

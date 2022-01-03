@@ -16,6 +16,8 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\Plugin\BufferedAdd\Event\AddDeleteById as BufferedAddAddDeleteByIdEvent;
+use Solarium\Plugin\BufferedAdd\Event\AddDeleteQuery as BufferedAddAddDeleteQueryEvent;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
@@ -1949,7 +1951,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::ADD_DOCUMENT,
-            function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
+            $addDocument = function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
                 $this->assertSame($document, $event->getDocument());
                 $document->setField('weight', ++$weight);
             }
@@ -1957,7 +1959,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::PRE_FLUSH,
-            function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
+            $preFlush = function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
                 static $i = 0;
 
                 $buffer = $event->getBuffer();
@@ -1976,7 +1978,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::POST_FLUSH,
-            function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
+            $postFlush = function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
                 $result = $event->getResult();
                 $this->assertSame(0, $result->getStatus());
 
@@ -1991,7 +1993,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::PRE_COMMIT,
-            function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
+            $preCommit = function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
                 static $i = 0;
 
                 $buffer = $event->getBuffer();
@@ -2010,7 +2012,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         self::$client->getEventDispatcher()->addListener(
             BufferedAddEvents::POST_COMMIT,
-            function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
+            $postCommit = function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
                 $result = $event->getResult();
                 $this->assertSame(0, $result->getStatus());
 
@@ -2090,10 +2092,86 @@ abstract class AbstractTechproductsTest extends TestCase
             'solarium-bufferedadd-precommit-1',
             ], $ids);
 
+        // the assertions in these listeners are no longer valid for the remainder of this test
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_FLUSH, $preFlush);
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_FLUSH, $postFlush);
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_COMMIT, $preCommit);
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_COMMIT, $postCommit);
+
+        // can't be null at this point because phpstan analyses the ADD_DELETE_* listeners with these values even though they're never executed with them
+        $id = '';
+        $query = '';
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::ADD_DELETE_BY_ID,
+            $addDeleteById = function (BufferedAddAddDeleteByIdEvent $event) use (&$id) {
+                $this->assertSame($id, $event->getId());
+
+                $event->setId('solarium-bufferedadd-'.$id);
+            }
+        );
+
+        self::$client->getEventDispatcher()->addListener(
+            BufferedAddEvents::ADD_DELETE_QUERY,
+            $addDeleteQuery = function (BufferedAddAddDeleteQueryEvent $event) use (&$query) {
+                $this->assertSame($query, $event->getQuery());
+
+                // other documents in techproducts must never be deleted by this test
+                $event->setQuery('cat:solarium-bufferedadd AND '.$query);
+            }
+        );
+
+        $buffer->addDeleteById($id = '24');
+        $buffer->addDeleteById($id = 'precommit-1');
+
+        foreach (range('a', 'c') as $i) {
+            $data = [
+                'id' => 'solarium-bufferedadd-'.$i,
+                'cat' => 'solarium-bufferedadd',
+            ];
+            $document = $update->createDocument($data);
+            $buffer->addDocument($document);
+        }
+
+        $buffer->addDeleteQuery($query = 'weight:[* TO 25]');
+        $buffer->addDeleteById($id = 'b');
+
+        foreach (range('d', 'e') as $i) {
+            $data = [
+                'id' => 'solarium-bufferedadd-'.$i,
+                'cat' => 'solarium-bufferedadd',
+            ];
+            $document = $update->createDocument($data);
+            $buffer->addDocument($document);
+        }
+
+        $buffer->addDeleteById($id = 'd');
+
+        $buffer->commit(null, true, true);
+
+        $result = self::$client->select($select);
+        $this->assertSame(5, $result->getNumFound());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $this->assertEquals([
+            'solarium-bufferedadd-23',
+            'solarium-bufferedadd-25',
+            'solarium-bufferedadd-a',
+            'solarium-bufferedadd-c',
+            'solarium-bufferedadd-e',
+            ], $ids);
+
         // cleanup
-        $update->addDeleteQuery('cat:solarium-bufferedadd');
-        $update->addCommit(true, true);
-        self::$client->update($update);
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::ADD_DOCUMENT, $addDocument);
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::ADD_DELETE_BY_ID, $addDeleteById);
+        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::ADD_DELETE_QUERY, $addDeleteQuery);
+        $buffer->addDeleteQuery('cat:solarium-bufferedadd');
+        $buffer->commit(null, true, true);
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
     }

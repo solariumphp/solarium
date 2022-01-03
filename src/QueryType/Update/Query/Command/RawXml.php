@@ -107,6 +107,18 @@ class RawXml extends AbstractCommand
     }
 
     /**
+     * Clear all XML command strings.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clear(): self
+    {
+        $this->commands = [];
+
+        return $this;
+    }
+
+    /**
      * Build XML command strings based on options.
      */
     protected function init(): void

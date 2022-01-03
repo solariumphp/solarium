@@ -19,9 +19,36 @@ namespace Solarium\Plugin\BufferedAdd\Event;
 class Events
 {
     /**
+     * This event is called when a new document is added to the buffer.
+     *
+     * The event listener receives the Document.
+     *
+     * @var string
+     */
+    public const ADD_DOCUMENT = AddDocument::class;
+
+    /**
+     * This event is called when a new document id to delete is added to the buffer.
+     *
+     * The event listener receives the Id.
+     *
+     * @var string
+     */
+    public const ADD_DELETE_BY_ID = AddDeleteById::class;
+
+    /**
+     * This event is called when a new query to delete matching documents is added to the buffer.
+     *
+     * The event listener receives the Query.
+     *
+     * @var string
+     */
+    public const ADD_DELETE_QUERY = AddDeleteQuery::class;
+
+    /**
      * This event is called before a buffer flush.
      *
-     * The event listener receives the buffer (array) .
+     * The event listener receives the buffer (array).
      *
      * @var string
      */
@@ -30,7 +57,7 @@ class Events
     /**
      * This event is called after a buffer flush.
      *
-     * The event listener receives the Result
+     * The event listener receives the Result.
      *
      * @var string
      */
@@ -39,7 +66,7 @@ class Events
     /**
      * This event is called before a buffer commit.
      *
-     * The event listener receives the buffer (array) .
+     * The event listener receives the buffer (array).
      *
      * @var string
      */
@@ -48,20 +75,11 @@ class Events
     /**
      * This event is called after a buffer commit.
      *
-     * The event listener receives the Result
+     * The event listener receives the Result.
      *
      * @var string
      */
     public const POST_COMMIT = PostCommit::class;
-
-    /**
-     * This event is called when a new document is added.
-     *
-     * The event listener receives the Document
-     *
-     * @var string
-     */
-    public const ADD_DOCUMENT = AddDocument::class;
 
     /**
      * Not instantiable.

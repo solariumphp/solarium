@@ -120,6 +120,16 @@ class AddTest extends TestCase
         );
     }
 
+    public function testClear()
+    {
+        $doc1 = new Document(['id' => 1]);
+        $doc2 = new Document(['id' => 2]);
+        $this->command->addDocuments([$doc1, $doc2]);
+        $this->assertCount(2, $this->command->getDocuments());
+        $this->command->clear();
+        $this->assertCount(0, $this->command->getDocuments());
+    }
+
     public function testGetAndSetOverwrite()
     {
         $this->command->setOverwrite(false);

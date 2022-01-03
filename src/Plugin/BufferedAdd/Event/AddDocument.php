@@ -35,7 +35,7 @@ class AddDocument extends Event
     }
 
     /**
-     * Get the result for this event.
+     * Get the document for this event.
      *
      * @return DocumentInterface
      */
