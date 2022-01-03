@@ -116,12 +116,18 @@ class MultiQueryTest extends TestCase
 
     public function testAddQueryNoKey()
     {
-        $query = 'category:1';
-        $excludes = ['fq1', 'fq2'];
-
         $facetQuery = new Query();
-        $facetQuery->setQuery($query);
-        $facetQuery->getLocalParameters()->addExcludes($excludes);
+        $facetQuery->setQuery('category:1');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->facet->addQuery($facetQuery);
+    }
+
+    public function testAddQueryEmptyKey()
+    {
+        $facetQuery = new Query();
+        $facetQuery->setKey('');
+        $facetQuery->setQuery('category:1');
 
         $this->expectException(InvalidArgumentException::class);
         $this->facet->addQuery($facetQuery);

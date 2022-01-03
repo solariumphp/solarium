@@ -190,6 +190,15 @@ class DisMaxTest extends TestCase
         $this->disMax->addBoostQuery($bq);
     }
 
+    public function testAddBoostQueryWithEmptyKey()
+    {
+        $bq = new BoostQuery();
+        $bq->setKey('')->setQuery('category:1');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->disMax->addBoostQuery($bq);
+    }
+
     public function testAddBoostQueryWithUsedKey()
     {
         $bq1 = new BoostQuery();

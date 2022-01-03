@@ -225,6 +225,15 @@ class FacetSetTest extends TestCase
         $this->facetSet->addFacet($fq);
     }
 
+    public function testAddFacetWithEmptyKey()
+    {
+        $fq = new FacetQuery();
+        $fq->setKey('')->setQuery('category:1');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->facetSet->addFacet($fq);
+    }
+
     public function testAddFacetWithUsedKey()
     {
         $fq1 = new FacetQuery();
