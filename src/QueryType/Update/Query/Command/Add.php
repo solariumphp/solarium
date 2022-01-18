@@ -82,6 +82,22 @@ class Add extends AbstractCommand
     }
 
     /**
+     * Set documents.
+     *
+     * This overwrite any previously added documents.
+     *
+     * @param DocumentInterface[] $documents
+     *
+     * @return self Provides fluent interface
+     */
+    public function setDocuments(array $documents): self
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    /**
      * Get all documents.
      *
      * @return DocumentInterface[]

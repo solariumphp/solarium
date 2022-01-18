@@ -168,7 +168,18 @@ class BufferedAdd extends AbstractBufferedUpdate
         $event = new PreFlushEvent($this->buffer, $overwrite, $commitWithin);
         $this->client->getEventDispatcher()->dispatch($event);
 
-        $this->addBufferToQuery($event->getBuffer(), $event->getOverwrite(), $event->getCommitWithin());
+        $command = new AddCommand();
+        $command->setDocuments($event->getBuffer());
+
+        if (null !== $overwrite = $event->getOverwrite()) {
+            $command->setOverwrite($overwrite);
+        }
+
+        if (null !== $commitWithin = $event->getCommitWithin()) {
+            $command->setCommitWithin($commitWithin);
+        }
+
+        $this->updateQuery->add(null, $command);
         $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 
@@ -197,7 +208,14 @@ class BufferedAdd extends AbstractBufferedUpdate
         $event = new PreCommitEvent($this->buffer, $overwrite, $softCommit, $waitSearcher, $expungeDeletes);
         $this->client->getEventDispatcher()->dispatch($event);
 
-        $this->addBufferToQuery($event->getBuffer(), $event->getOverwrite());
+        $command = new AddCommand();
+        $command->setDocuments($event->getBuffer());
+
+        if (null !== $overwrite = $event->getOverwrite()) {
+            $command->setOverwrite($overwrite);
+        }
+
+        $this->updateQuery->add(null, $command);
         $this->updateQuery->addCommit($event->getSoftCommit(), $event->getWaitSearcher(), $event->getExpungeDeletes());
         $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
@@ -206,34 +224,5 @@ class BufferedAdd extends AbstractBufferedUpdate
         $this->client->getEventDispatcher()->dispatch($event);
 
         return $result;
-    }
-
-    /**
-     * Add all documents from the buffer as commands to the update query.
-     *
-     * @param DocumentInterface[] $buffer
-     * @param bool|null           $overwrite
-     * @param int|null            $commitWithin
-     */
-    protected function addBufferToQuery(array $buffer, ?bool $overwrite = null, ?int $commitWithin = null): void
-    {
-        $it = new \ArrayIterator($buffer);
-
-        $command = new AddCommand();
-
-        if (null !== $overwrite) {
-            $command->setOverwrite($overwrite);
-        }
-
-        if (null !== $commitWithin) {
-            $command->setCommitWithin($commitWithin);
-        }
-
-        while ($it->valid()) {
-            $command->addDocument($it->current());
-            $it->next();
-        }
-
-        $this->updateQuery->add(null, $command);
     }
 }

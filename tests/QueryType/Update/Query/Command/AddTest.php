@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\Update\Query\Command;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
@@ -117,6 +118,26 @@ class AddTest extends TestCase
         $this->assertSame(
             [$doc1, $doc2, $doc3],
             $command_documents
+        );
+    }
+
+    public function testAddDocumentsException()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Documents must implement DocumentInterface.');
+        $this->command->addDocuments([new \stdClass()]);
+    }
+
+    public function testSetDocuments()
+    {
+        $doc1 = new Document(['id' => 1]);
+        $doc2 = new Document(['id' => 2]);
+        $doc3 = new Document(['id' => 3]);
+        $this->command->addDocument($doc1);
+        $this->command->setDocuments([$doc2, $doc3]);
+        $this->assertSame(
+            [$doc2, $doc3],
+            $this->command->getDocuments()
         );
     }
 

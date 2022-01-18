@@ -143,11 +143,4 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
     {
         $this->updateQuery = $this->client->createUpdate();
     }
-
-    /**
-     * Add the content of the buffer as commands to the update query.
-     *
-     * @param array $buffer
-     */
-    abstract protected function addBufferToQuery(array $buffer): void;
 }
