@@ -231,12 +231,9 @@ class BufferedAdd extends AbstractBufferedUpdate
 
         while ($it->valid()) {
             $command->addDocument($it->current());
-
             $it->next();
-
-            if (!$it->valid()) {
-                $this->updateQuery->add(null, $command);
-            }
         }
+
+        $this->updateQuery->add(null, $command);
     }
 }

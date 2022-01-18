@@ -209,10 +209,8 @@ class BufferedDelete extends AbstractBufferedUpdate
             }
 
             $it->next();
-
-            if (!$it->valid()) {
-                $this->updateQuery->add(null, $command);
-            }
         }
+
+        $this->updateQuery->add(null, $command);
     }
 }
