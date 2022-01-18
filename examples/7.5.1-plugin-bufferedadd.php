@@ -15,7 +15,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
     function (PreFlushEvent $event) {
-        echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs/deletes)<br/>';
+        echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
     }
 );
 
@@ -32,10 +32,6 @@ for ($i=1; $i<=25; $i++) {
 
     // alternatively you could create document instances yourself and use the addDocument(s) method
 }
-
-// deletes can also be buffered
-$buffer->addDeleteById('delete_me');
-$buffer->addDeleteQuery('cat:delete');
 
 // At this point two flushes will already have been done by the buffer automatically (at the 10th and 20th doc), now
 // manually flush the remainder. Alternatively you can use the commit method if you want to include a commit command.

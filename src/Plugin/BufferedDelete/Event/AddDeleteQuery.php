@@ -9,13 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd\Event;
+namespace Solarium\Plugin\BufferedDelete\Event;
 
-use Solarium\Plugin\BufferedAdd\Delete\Query;
+use Solarium\Plugin\BufferedDelete\Delete\Query;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * AddDeleteQuery event, see Events for details.
+ * AddDeleteQuery event, see {@see Events} for details.
  */
 class AddDeleteQuery extends Event
 {

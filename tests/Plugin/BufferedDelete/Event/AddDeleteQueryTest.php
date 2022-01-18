@@ -1,10 +1,10 @@
 <?php
 
-namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+namespace Solarium\Tests\Plugin\BufferedDelete\Event;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Plugin\BufferedAdd\Delete\Query;
-use Solarium\Plugin\BufferedAdd\Event\AddDeleteQuery;
+use Solarium\Plugin\BufferedDelete\Delete\Query;
+use Solarium\Plugin\BufferedDelete\Event\AddDeleteQuery;
 
 class AddDeleteQueryTest extends TestCase
 {

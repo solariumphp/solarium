@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd\Delete;
+namespace Solarium\Plugin\BufferedDelete\Delete;
 
-use Solarium\Plugin\BufferedAdd\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\AbstractDelete;
 
 /**
  * Wrapper class for a query to delete matching documents.

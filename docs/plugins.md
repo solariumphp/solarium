@@ -7,18 +7,18 @@ Solarium offers a plugin system to allow for easy extension by users. But plugin
 BufferedAdd plugin
 ------------------
 
-When you need to do a lot of document inserts, updates or deletes, for instance a bulk update or initial indexing, it’s most efficient to do this in batches. This makes a lot more difference than you might think, for some benchmarks see [this_blog post](http://www.raspberry.nl/2011/04/08/solr-update-performance/).
+When you need to do a lot of document inserts or updates, for instance a bulk update or initial indexing, it’s most efficient to do this in batches. This makes a lot more difference than you might think, for some benchmarks see [this archived blog post](https://web.archive.org/web/20170418205443/http://www.raspberry.nl/2011/04/08/solr-update-performance/).
 
-This can be done very easily with this plugin, you can simply keep feeding documents and deletes, it will automatically create batch update queries for you.
+This can be done very easily with this plugin, you can simply keep feeding documents, it will automatically create batch update queries for you.
 
 ### Some notes
 
 -   You can set a custom buffer size. The default is 100 documents, a safe value. By increasing this you can get even better performance, but depending on your document size at some level you will run into memory or request limits. A value of 1000 has been successfully used for indexing 200k documents.
 -   You can use the createDocument method with array input, but you can also manually create document instance and use the addDocument(s) method.
--   With buffer size X an update request with be sent to Solr for each X docs and/or deletes. You can just keep feeding docs and deletes. These buffer flushes don’t include a commit. This is done on purpose. You can add a commit when you’re done, or you can use the Solr auto commit feature.
--   When you are done with feeding the buffer you need to manually flush it one time. This is because there might still be some docs and deletes in the buffer that haven’t been flushed yet.
--   Alternatively you can end with a commit call. This will also flush the docs and deletes, and adds a commit command.
--   The buffer also has a clear method to reset the buffer contents. However documents and deletes that have already been flushed cannot be cleared.
+-   With buffer size X an update request with be sent to Solr for each X docs. You can just keep feeding docs. These buffer flushes don’t include a commit. This is done on purpose. You can add a commit when you’re done, or you can use the Solr auto commit feature.
+-   When you are done with feeding the buffer you need to manually flush it one time. This is because there might still be some docs in the buffer that haven’t been flushed yet.
+-   Alternatively you can end with a commit call. This will also flush the docs, and adds a commit command.
+-   The buffer also has a clear method to reset the buffer contents. However documents that have already been flushed cannot be cleared.
 -   Using the 'setEndpoint' method you can select which endpoint should be used. If you don't set a specific endpoint, the default endpoint of the client instance will be used.
 
 ### Events
@@ -26,14 +26,6 @@ This can be done very easily with this plugin, you can simply keep feeding docum
 #### solarium.bufferedAdd.addDocument
 
 For each document that is added an 'AddDocument' event is triggered. This event has access to the document being added.
-
-#### solarium.bufferedAdd.addDeleteById
-
-For each delete by id that is added an 'AddDeleteById' event is triggered. This event has access to the document id to delete.
-
-#### solarium.bufferedAdd.addDeleteQuery
-
-For each delete query that is added an 'AddDeleteQuery' event is triggered. This event has access to the query that will be used to delete matching documents.
 
 #### solarium.bufferedAdd.preFlush
 
@@ -71,7 +63,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
     function (PreFlushEvent $event) {
-        echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs/deletes)<br/>';
+        echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
     }
 );
 
@@ -89,9 +81,81 @@ for ($i=1; $i<=25; $i++) {
     // alternatively you could create document instances yourself and use the addDocument(s) method
 }
 
-// deletes can also be buffered
-$buffer->addDeleteById('delete_me');
-$buffer->addDeleteQuery('cat:delete');
+// At this point two flushes will already have been done by the buffer automatically (at the 10th and 20th doc), now
+// manually flush the remainder. Alternatively you can use the commit method if you want to include a commit command.
+$buffer->flush();
+
+// In total 3 flushes (requests) have been sent to Solr. This should be visible in the output of the event hook.
+
+htmlFooter();
+
+```
+
+BufferedDelete plugin
+---------------------
+
+When you need to delete a lot of documents, this can also be done in batches.
+
+You can feed the IDs of the documents to delete, queries to delete matching documents, or both.
+
+### Events
+
+#### solarium.bufferedDelete.addDeleteById
+
+For each delete by ID that is added an 'AddDeleteById' event is triggered. This event has access to the document ID to delete.
+
+#### solarium.bufferedDelete.addDeleteQuery
+
+For each delete query that is added an 'AddDeleteQuery' event is triggered. This event has access to the query that will be used to delete matching documents.
+
+#### solarium.bufferedDelete.preFlush
+
+Triggered just before a flush. Has access to the delete buffer.
+
+#### solarium.bufferedDelete.postFlush
+
+Triggered just after a flush. Has access to the flush (update query) result.
+
+#### solarium.bufferedDelete.preCommit
+
+Triggered just before a commit. Has access to the delete buffer and all commit settings.
+
+#### solarium.bufferedDelete.postCommit
+
+Triggered just after a commit. Has access to the commit (update query) result.
+
+### Example usage
+
+```php
+<?php
+require_once(__DIR__.'/init.php');
+
+use Solarium\Plugin\BufferedDelete\Event\Events;
+use Solarium\Plugin\BufferedDelete\Event\PreFlush as PreFlushEvent;
+
+htmlHeader();
+
+// create a client instance and autoload the buffered delete plugin
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+$buffer = $client->getPlugin('buffereddelete');
+$buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
+
+// also register an event hook to display what is happening
+$client->getEventDispatcher()->addListener(
+    Events::PRE_FLUSH,
+    function (PreFlushEvent $event) {
+        echo 'Flushing buffer (' . count($event->getBuffer()) . ' deletes)<br/>';
+    }
+);
+
+// let's delete 25 docs
+for ($i=1; $i<=25; $i++) {
+    $buffer->addDeleteById($i);
+}
+
+// you can also delete documents matching a query
+$buffer->addDeleteQuery('cat:discontinued');
+$buffer->addDeleteQuery('manu_id_s:acme');
 
 // At this point two flushes will already have been done by the buffer automatically (at the 10th and 20th doc), now
 // manually flush the remainder. Alternatively you can use the commit method if you want to include a commit command.

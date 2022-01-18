@@ -7,8 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
-- Plugin\BufferedAdd\BufferedAdd::addDeleteById() and addDeleteByIds()
-- Plugin\BufferedAdd\BufferedAdd::addDeleteQuery() and addDeleteQueries()
+- Plugin\BufferedDelete
 
 
 ## [6.2.1]

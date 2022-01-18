@@ -1,10 +1,10 @@
 <?php
 
-namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+namespace Solarium\Tests\Plugin\BufferedDelete\Event;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Plugin\BufferedAdd\Delete\Id;
-use Solarium\Plugin\BufferedAdd\Event\AddDeleteById;
+use Solarium\Plugin\BufferedDelete\Delete\Id;
+use Solarium\Plugin\BufferedDelete\Event\AddDeleteById;
 
 class AddDeleteByIdTest extends TestCase
 {

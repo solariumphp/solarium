@@ -38,11 +38,10 @@ class PreFlushTest extends TestCase
      *
      * @param PreFlush $event
      */
-    public function testSetAndGetCommitWithin($event)
+    public function testSetAndGetOverwrite($event)
     {
-        $commitWithin = 321;
-        $event->setCommitWithin($commitWithin);
-        $this->assertSame($commitWithin, $event->getCommitWithin());
+        $event->setOverwrite(false);
+        $this->assertFalse($event->getOverwrite());
     }
 
     /**
@@ -50,9 +49,10 @@ class PreFlushTest extends TestCase
      *
      * @param PreFlush $event
      */
-    public function testSetAndGetOverwrite($event)
+    public function testSetAndGetCommitWithin($event)
     {
-        $event->setOverwrite(false);
-        $this->assertFalse($event->getOverwrite());
+        $commitWithin = 321;
+        $event->setCommitWithin($commitWithin);
+        $this->assertSame($commitWithin, $event->getCommitWithin());
     }
 }

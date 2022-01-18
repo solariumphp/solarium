@@ -9,13 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd\Event;
+namespace Solarium\Plugin\BufferedDelete\Event;
 
-use Solarium\Plugin\BufferedAdd\Delete\Id;
+use Solarium\Plugin\BufferedDelete\Delete\Id;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * AddDeleteById event, see Events for details.
+ * AddDeleteById event, see {@see Events} for details.
  */
 class AddDeleteById extends Event
 {

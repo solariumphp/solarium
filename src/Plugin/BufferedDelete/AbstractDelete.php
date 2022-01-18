@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd;
+namespace Solarium\Plugin\BufferedDelete;
 
 /**
  * Delete base class.

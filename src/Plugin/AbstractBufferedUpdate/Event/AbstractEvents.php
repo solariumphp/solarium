@@ -9,26 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd\Event;
-
-use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractEvents;
+namespace Solarium\Plugin\AbstractBufferedUpdate\Event;
 
 /**
- * Event definitions.
+ * Event definitions base class.
  *
  * @codeCoverageIgnore
  */
-class Events extends AbstractEvents
+abstract class AbstractEvents
 {
-    /**
-     * This event is called when a new document is added to the buffer.
-     *
-     * The event listener receives the Document.
-     *
-     * @var string
-     */
-    public const ADD_DOCUMENT = AddDocument::class;
-
     /**
      * This event is called before a buffer flush.
      *
@@ -36,7 +25,7 @@ class Events extends AbstractEvents
      *
      * @var string
      */
-    public const PRE_FLUSH = PreFlush::class;
+    public const PRE_FLUSH = AbstractPreFlush::class;
 
     /**
      * This event is called after a buffer flush.
@@ -45,7 +34,7 @@ class Events extends AbstractEvents
      *
      * @var string
      */
-    public const POST_FLUSH = PostFlush::class;
+    public const POST_FLUSH = AbstractPostFlush::class;
 
     /**
      * This event is called before a buffer commit.
@@ -54,7 +43,7 @@ class Events extends AbstractEvents
      *
      * @var string
      */
-    public const PRE_COMMIT = PreCommit::class;
+    public const PRE_COMMIT = AbstractPreCommit::class;
 
     /**
      * This event is called after a buffer commit.
@@ -63,5 +52,12 @@ class Events extends AbstractEvents
      *
      * @var string
      */
-    public const POST_COMMIT = PostCommit::class;
+    public const POST_COMMIT = AbstractPostCommit::class;
+
+    /**
+     * Not instantiable.
+     */
+    final private function __construct()
+    {
+    }
 }

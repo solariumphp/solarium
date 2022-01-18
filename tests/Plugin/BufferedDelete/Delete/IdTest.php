@@ -1,10 +1,10 @@
 <?php
 
-namespace Solarium\Tests\Plugin\BufferedAdd\Delete;
+namespace Solarium\Tests\Plugin\BufferedDelete\Delete;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Plugin\BufferedAdd\AbstractDelete;
-use Solarium\Plugin\BufferedAdd\Delete\Id;
+use Solarium\Plugin\BufferedDelete\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\Delete\Id;
 
 class IdTest extends TestCase
 {
