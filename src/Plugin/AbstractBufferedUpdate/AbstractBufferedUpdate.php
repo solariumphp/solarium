@@ -11,10 +11,6 @@ namespace Solarium\Plugin\AbstractBufferedUpdate;
 
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
-use Solarium\Plugin\BufferedAdd\Event\PostCommit as PostCommitEvent;
-use Solarium\Plugin\BufferedAdd\Event\PostFlush as PostFlushEvent;
-use Solarium\Plugin\BufferedAdd\Event\PreCommit as PreCommitEvent;
-use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 
