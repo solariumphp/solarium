@@ -153,7 +153,7 @@ class BufferedAdd extends AbstractBufferedUpdate
      * @param bool|null $overwrite
      * @param int|null  $commitWithin
      *
-     * @return bool|UpdateResult
+     * @return UpdateResult|false
      */
     public function flush(?bool $overwrite = null, ?int $commitWithin = null)
     {

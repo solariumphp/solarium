@@ -120,7 +120,7 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
     /**
      * Flush the buffer to Solr.
      *
-     * @return bool|UpdateResult
+     * @return UpdateResult|false
      */
     abstract public function flush();
 

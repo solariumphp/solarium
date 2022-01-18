@@ -117,7 +117,7 @@ class BufferedDelete extends AbstractBufferedUpdate
     /**
      * Flush any buffered deletes to Solr.
      *
-     * @return bool|UpdateResult
+     * @return UpdateResult|false
      */
     public function flush()
     {
