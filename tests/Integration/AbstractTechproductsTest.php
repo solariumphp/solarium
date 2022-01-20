@@ -54,9 +54,20 @@ abstract class AbstractTechproductsTest extends TestCase
     protected static $config;
 
     /**
+     * Major Solr version.
+     *
      * @var int
      */
     protected static $solrVersion;
+
+    /**
+     * Solr running on Windows?
+     *
+     * SOLR-15895 has to be avoided when testing against Solr on Windows.
+     *
+     * @var bool
+     */
+    protected static $isSolrOnWindows;
 
     abstract protected static function createTechproducts(): void;
 
@@ -74,8 +85,13 @@ abstract class AbstractTechproductsTest extends TestCase
             'handler' => 'admin/info/system',
         ]);
         $response = self::$client->execute($query);
-        $solrSpecVersion = $response->getData()['lucene']['solr-spec-version'];
+        $system = $response->getData();
+
+        $solrSpecVersion = $system['lucene']['solr-spec-version'];
         self::$solrVersion = (int) strstr($solrSpecVersion, '.', true);
+
+        $systemName = $system['system']['name'];
+        self::$isSolrOnWindows = 0 === strpos($systemName, 'Windows');
 
         // disable automatic commits for update tests
         $query = self::$client->createApi([
@@ -2766,6 +2782,11 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     public function testManagedStopwordsCreation(string $name, string $term)
     {
+        // don't use invalid filename characters in list name on Windows to avoid running into SOLR-15895
+        if (self::$isSolrOnWindows) {
+            $name = str_replace([':', '/', '?'], '', $name);
+        }
+
         /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
         $query->setName($name.uniqid());
@@ -2928,6 +2949,11 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     public function testManagedSynonymsCreation(string $name, string $term)
     {
+        // don't use invalid filename characters in map name on Windows to avoid running into SOLR-15895
+        if (self::$isSolrOnWindows) {
+            $name = str_replace([':', '/', '?'], '', $name);
+        }
+
         /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName($name.uniqid());
@@ -3060,15 +3086,21 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         // unique name is necessary for Stopwords to avoid running into SOLR-14268
         $uniqid = uniqid();
-        $name = $uniqid.'test-:/?#[]@% ';
+
+        // don't use invalid filename characters in resource name on Windows to avoid running into SOLR-15895
+        if (self::$isSolrOnWindows) {
+            $name = $uniqid.'test-#[]@% ';
+            $nameSingleEncoded = $uniqid.'test-%23%5B%5D%40%25%20';
+            $nameDoubleEncoded = $uniqid.'test-%2523%255B%255D%2540%2525%2520';
+        } else {
+            $name = $uniqid.'test-:/?#[]@% ';
+            $nameSingleEncoded = $uniqid.'test-%3A%2F%3F%23%5B%5D%40%25%20';
+            $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
+        }
 
         // unlike name, term can't contain a slash (SOLR-6853)
         $term = 'test-:?#[]@% ';
-
-        $nameSingleEncoded = $uniqid.'test-%3A%2F%3F%23%5B%5D%40%25%20';
         $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
-
-        $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
         $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
 
         $compliantRequestBuilder = new CompliantManagedResourceRequestBuilder();
