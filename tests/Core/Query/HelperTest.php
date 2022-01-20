@@ -398,10 +398,44 @@ class HelperTest extends TestCase
         $this->assertSame('sum(1,2)', $this->helper->functionCall('sum', [1, 2]));
     }
 
-    public function testEscapeTerm()
+    /**
+     * @dataProvider escapeTermProvider
+     */
+    public function testEscapeTerm(string $term, string $expected)
     {
-        $this->assertSame('a\\+b\/c', $this->helper->escapeTerm('a+b/c'));
-        $this->assertSame('a\ b', $this->helper->escapeTerm('a b'));
+        $this->assertSame(
+            $expected,
+            $this->helper->escapeTerm($term)
+        );
+    }
+
+    /**
+     * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
+     */
+    public function escapeTermProvider(): array
+    {
+        return [
+            ' ' => ['a b', 'a\\ b'],
+            '+' => ['a+b', 'a\\+b'],
+            '-' => ['a-b', 'a\\-b'],
+            '&&' => ['a&&b', 'a\\&&b'],
+            '||' => ['a||b', 'a\\||b'],
+            '!' => ['a!b', 'a\\!b'],
+            '(' => ['a(b', 'a\\(b'],
+            ')' => ['a)b', 'a\\)b'],
+            '{' => ['a{b', 'a\\{b'],
+            '}' => ['a}b', 'a\\}b'],
+            '[' => ['a[b', 'a\\[b'],
+            ']' => ['a]b', 'a\\]b'],
+            '^' => ['a^b', 'a\\^b'],
+            '"' => ['a"b', 'a\\"b'],
+            '~' => ['a~b', 'a\\~b'],
+            '*' => ['a*b', 'a\\*b'],
+            '?' => ['a?b', 'a\\?b'],
+            ':' => ['a:b', 'a\\:b'],
+            '/' => ['a/b', 'a\\/b'],
+            '\\' => ['a\b', 'a\\\b'],
+        ];
     }
 
     public function testEscapeTermNoEscape()
@@ -412,12 +446,23 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testEscapePhrase()
+    /**
+     * @dataProvider escapePhraseProvider
+     */
+    public function testEscapePhrase(string $phrase, string $expected)
     {
         $this->assertSame(
-            '"a+\\"b"',
-            $this->helper->escapePhrase('a+"b')
+            $expected,
+            $this->helper->escapePhrase($phrase)
         );
+    }
+
+    public function escapePhraseProvider(): array
+    {
+        return [
+            '"' => ['a+"b', '"a+\\"b"'],
+            '\\' => ['a+\b', '"a+\\\b"'],
+        ];
     }
 
     public function testEscapePhraseNoEscape()
