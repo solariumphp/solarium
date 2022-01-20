@@ -200,6 +200,56 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $ids);
     }
 
+    /**
+     * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
+     */
+    public function testEscapes()
+    {
+        $escapeChars = [' ', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', '\\'];
+        $cat = [implode('', $escapeChars)];
+
+        foreach ($escapeChars as $char) {
+            $cat[] = 'a'.$char.'b';
+        }
+
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument();
+        $doc->setField('id', 'solarium-test-escapes');
+        $doc->setField('name', 'Solarium Test Escapes');
+        $doc->setField('cat', $cat);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('id:%T1%', ['solarium-test-escapes']);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame($cat, $result->getIterator()->current()->getFields()['cat']);
+
+        foreach ($escapeChars as $char) {
+            // as term
+            $select->setQuery('cat:%T1%', ['a'.$char.'b']);
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result, $msg = sprintf('Failure with term containing \'%s\'.', $char));
+            $this->assertSame('solarium-test-escapes', $result->getIterator()->current()->getFields()['id'], $msg);
+
+            // as phrase
+            $select->setQuery('cat:%P1%', ['a'.$char.'b']);
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result, $msg = sprintf('Failure with phrase containing \'%s\'.', $char));
+            $this->assertSame('solarium-test-escapes', $result->getIterator()->current()->getFields()['id'], $msg);
+        }
+
+        // cleanup
+        $update->addDeleteQuery('cat:%T1%', [$cat[0]]);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('id:solarium-test-escapes');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
     public function testRangeQueries()
     {
         $select = self::$client->createSelect();
