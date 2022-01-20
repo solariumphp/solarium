@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plugin\BufferedDelete
 
 
+## [6.2.2]
+### Added
+- PHP 8.1 support
+
+
 ## [6.2.1]
 ### Added
 - Possibility to set the context on an endpoint for SolrCloud instances with a non-default `hostContext` or Solr instances behind a reverse proxy, defaults to `solr` if omitted
