@@ -70,6 +70,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     public function renderLocalParams(string $value, array $localParams = []): string
     {
         $params = '';
+        $helper = $this->getHelper();
 
         if (0 === strpos($value, '{!')) {
             $params = substr($value, 2, strpos($value, '}') - 2).' ';
@@ -87,7 +88,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
                 $paramValue = $paramValue ? 'true' : 'false';
             }
 
-            $params .= $paramName.'='.$paramValue.' ';
+            $params .= $paramName.'='.$helper->escapeLocalParamValue($paramValue).' ';
         }
 
         if ('' !== $params = trim($params)) {

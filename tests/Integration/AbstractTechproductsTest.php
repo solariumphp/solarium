@@ -263,6 +263,73 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    /**
+     * @see https://github.com/solariumphp/solarium/issues/974
+     * @see https://solr.apache.org/guide/local-parameters-in-queries.html#basic-syntax-of-local-parameters
+     */
+    public function testLocalParamValueEscapes()
+    {
+        $categories = [
+            'solarium-test-localparamvalue-escapes',
+            'space: the final frontier',
+            "'single-quote",
+            '"double-quote',
+            'escaped backslash \\',
+            'right-curly-bracket}',
+            // \ in and of itself and {! don't need escaping
+            'unescaped-backslash-\\',
+            '{!left-curly-bracket',
+        ];
+
+        $update = self::$client->createUpdate();
+        $doc = $update->createDocument();
+        $doc->setField('id', 'solarium-test-localparamvalue-escapes');
+        $doc->setField('name', 'Solarium Test Local Param Value Escapes');
+        $doc->setField('cat', $categories);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        $select = self::$client->createSelect();
+        $select->setRows(0);
+        $facetSet = $select->getFacetSet();
+
+        // without escaping, ' " } cause an error
+        foreach ($categories as $cat) {
+            $facetSet->createFacetField($cat)->setField('cat')->setContains($cat);
+        }
+
+        // without escaping, 'electronics and computer' would match 3 values that contain 'electronics' in techproducts
+        $facetSet->createFacetField('electronics')->setField('cat')->setContains('electronics and computer');
+
+        // without escaping, a space can be abused for Local Parameter Injection
+        $facetSet->createFacetField('ELECTRONICS')->setField('cat')->setContains('ELECTRONICS')->setContainsIgnoreCase(true);
+        $facetSet->createFacetField('ELECTRONICS_LPI')->setField('cat')->setContains('ELECTRONICS facet.contains.ignoreCase=true');
+
+        $result = self::$client->select($select);
+
+        foreach ($categories as $cat) {
+            $facet = $result->getFacetSet()->getFacet($cat);
+            $this->assertEquals([$cat => 1], $facet->getValues());
+        }
+
+        $facet = $result->getFacetSet()->getFacet('electronics');
+        $this->assertEquals(['electronics and computer1' => 1], $facet->getValues());
+
+        $facet = $result->getFacetSet()->getFacet('ELECTRONICS');
+        $this->assertCount(3, $facet);
+        $facet = $result->getFacetSet()->getFacet('ELECTRONICS_LPI');
+        $this->assertCount(0, $facet);
+
+        // cleanup
+        $update->addDeleteById('solarium-test-localparamvalue-escapes');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('id:solarium-test-localparamvalue-escapes');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
     public function testRangeQueries()
     {
         $select = self::$client->createSelect();

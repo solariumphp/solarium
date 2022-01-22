@@ -157,6 +157,24 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testRenderLocalParamsWithEscapes()
+    {
+        $myParams = [
+            'as.is' => 'as-is',
+            'space' => 'the final frontier',
+            'single.quote' => "'60s",
+            'double.quote' => '"so-called"',
+            'backslash' => ' \ ',
+            'curly' => '{x}',
+            'list' => ['wax on', 'wax off'],
+        ];
+
+        $this->assertSame(
+            "{!as.is=as-is space='the final frontier' single.quote='\\'60s' double.quote='\"so-called\"' backslash=' \\\\ ' curly='{x}' list='wax on,wax off'}myValue",
+            $this->builder->renderLocalParams('myValue', $myParams)
+        );
+    }
+
     public function testRenderLocalParamsWithoutParams()
     {
         $this->assertSame(
