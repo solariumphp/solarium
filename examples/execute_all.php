@@ -124,6 +124,7 @@ try {
     // examples that can't be run against techproducts
     $skipAltogether = [
         '2.1.5.8-distributed-search.php',
+        '7.5.3-plugin-bufferedupdate-benchmarks.php', // takes too long for a workflow, can be run manually
     ];
 
     // examples that can't be run in cloud mode
