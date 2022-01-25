@@ -91,6 +91,15 @@ htmlFooter();
 
 ```
 
+BufferedAddLite plugin
+----------------------
+
+A slightly faster version of `BufferedAdd` that doesn't trigger events.
+
+```php
+$buffer = $client->getPlugin('bufferedaddlite');
+```
+
 BufferedDelete plugin
 ---------------------
 
@@ -165,6 +174,15 @@ $buffer->flush();
 
 htmlFooter();
 
+```
+
+BufferedDeleteLite plugin
+----------------------
+
+A slightly faster version of `BufferedDelete` that doesn't trigger events.
+
+```php
+$buffer = $client->getPlugin('buffereddeletelite');
 ```
 
 CustomizeRequest plugin

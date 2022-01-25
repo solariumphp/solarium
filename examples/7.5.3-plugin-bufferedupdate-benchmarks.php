@@ -13,12 +13,8 @@ htmlHeader();
 
 echo '<h2>Note: These benchmarks can take some time to run!</h2>';
 
-// create a client instance and autoload the buffered add and delete plugins
+// create a client instance and don't let the adapter timeout
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
-$addBuffer = $client->getPlugin('bufferedadd');
-$delBuffer = $client->getPlugin('buffereddelete');
-
-// don't timeout
 $adapter = $client->getAdapter();
 if ($adapter instanceof TimeoutAwareInterface) {
     $adapter->setTimeout(0);
@@ -41,46 +37,57 @@ $query = $client->createApi([
 ]);
 $client->execute($query);
 
-echo '<table><thead>';
-echo '<tr><th>add buffer size</th><th>add time</th><th>delete buffer size</th><th>delete time</th></tr>';
-echo '</thead><tbody style="text-align:right">';
+foreach (['', 'lite'] as $weight) {
+    // autoload the buffered add and delete plugins
+    $addBuffer = $client->getPlugin($addPlugin = 'bufferedadd'.$weight);
+    $delBuffer = $client->getPlugin($delPlugin = 'buffereddelete'.$weight);
 
-foreach ([60, 600, 6000, 60000, 600000] as $bufferSize) {
-    echo '<tr><td>'.$bufferSize.'</td>';
+    echo '<h3>'.$addPlugin.' / '.$delPlugin.'</h3>';
+    echo '<table><thead>';
+    echo '<tr><th>add buffer size</th><th>add time</th><th>delete buffer size</th><th>delete time</th></tr>';
+    echo '</thead><tbody style="text-align:right">';
 
-    $addBuffer->setBufferSize($bufferSize);
-    $delBuffer->setBufferSize($bufferSize * 4);
+    $docs = 1200000;
+    foreach ([2000, 200, 20, 2] as $flushes) {
+        $addBufferSize = $docs / $flushes;
+        $delBufferSize = min(($docs / $flushes) * 4, $docs);
 
-    $start = hrtime(true);
+        $addBuffer->setBufferSize($addBufferSize);
+        $delBuffer->setBufferSize($delBufferSize);
 
-    for ($i = 0; $i < 1200000; ++$i) {
-        $data = [
-            'id' => sprintf('test-%08d', $i),
-            'name' => 'test for buffered add',
-            'cat' => ['solarium-test', 'solarium-test-bufferedadd'],
-        ];
-        $addBuffer->createDocument($data);
+        echo '<tr><td>'.$addBufferSize.'</td>';
+
+        $start = hrtime(true);
+
+        for ($i = 0; $i < $docs; ++$i) {
+            $data = [
+                'id' => sprintf('test-%08d', $i),
+                'name' => 'test for buffered add',
+                'cat' => ['solarium-test', 'solarium-test-bufferedadd'],
+            ];
+            $addBuffer->createDocument($data);
+        }
+
+        $addTime = (hrtime(true) - $start) / 1000000;
+        echo '<td>'.(int) $addTime.' ms</td>';
+
+        $addBuffer->commit(null, true);
+
+        echo '<td>'.$delBufferSize.'</td>';
+
+        $start = hrtime(true);
+
+        for ($i = 0; $i < $docs; ++$i) {
+            $delBuffer->addDeleteById(sprintf('test-%08d', $i));
+        }
+
+        $delTime = (hrtime(true) - $start) / 1000000;
+        echo '<td>'.(int) $delTime.' ms</td></tr>';
+
+        $delBuffer->commit(null, true);
     }
 
-    $addTime = (hrtime(true) - $start) / 1000000;
-    echo '<td>'.(int) $addTime.' ms</td>';
-
-    $addBuffer->commit(null, true);
-
-    echo '<td>'.($bufferSize * 4).'</td>';
-
-    $start = hrtime(true);
-
-    for ($i = 0; $i < 1200000; ++$i) {
-        $delBuffer->addDeleteById(sprintf('test-%08d', $i));
-    }
-
-    $delTime = (hrtime(true) - $start) / 1000000;
-    echo '<td>'.(int) $delTime.' ms</td></tr>';
-
-    $delBuffer->commit(null, true);
+    echo '</tbody></table>';
 }
-
-echo '</tbody></table>';
 
 htmlFooter();

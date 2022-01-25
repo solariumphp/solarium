@@ -9,8 +9,6 @@
 
 namespace Solarium\Plugin\BufferedDelete;
 
-use Solarium\Exception\RuntimeException;
-use Solarium\Plugin\AbstractBufferedUpdate\AbstractBufferedUpdate;
 use Solarium\Plugin\BufferedDelete\Delete\Id as DeleteById;
 use Solarium\Plugin\BufferedDelete\Delete\Query as DeleteQuery;
 use Solarium\Plugin\BufferedDelete\Event\AddDeleteById as AddDeleteByIdEvent;
@@ -19,25 +17,18 @@ use Solarium\Plugin\BufferedDelete\Event\PostCommit as PostCommitEvent;
 use Solarium\Plugin\BufferedDelete\Event\PostFlush as PostFlushEvent;
 use Solarium\Plugin\BufferedDelete\Event\PreCommit as PreCommitEvent;
 use Solarium\Plugin\BufferedDelete\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Result as UpdateResult;
-use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Buffered delete plugin.
  *
  * If you need to delete a big number of documents in Solr it's much more efficient to do so in batches.
  * This plugin makes this as easy as possible.
+ *
+ * You can use the lightweight {@see BufferedDeleteLite} if you don't need the plugin to dispatch events.
  */
-class BufferedDelete extends AbstractBufferedUpdate
+class BufferedDelete extends BufferedDeleteLite
 {
-    /**
-     * Buffered document ids and/or queries to delete.
-     *
-     * @var AbstractDelete[]
-     */
-    protected $buffer = [];
-
     /**
      * Add a document id to delete.
      *
@@ -48,23 +39,13 @@ class BufferedDelete extends AbstractBufferedUpdate
     public function addDeleteById($id): self
     {
         $delete = new DeleteById($id);
+        $this->buffer[] = $delete;
+
         $event = new AddDeleteByIdEvent($delete);
-        $this->addToBuffer($delete, $event);
+        $this->client->getEventDispatcher()->dispatch($event);
 
-        return $this;
-    }
-
-    /**
-     * Add multiple document ids to delete.
-     *
-     * @param (int|string)[] $ids
-     *
-     * @return self Provides fluent interface
-     */
-    public function addDeleteByIds(array $ids): self
-    {
-        foreach ($ids as $id) {
-            $this->addDeleteById($id);
+        if (\count($this->buffer) === $this->options['buffersize']) {
+            $this->flush();
         }
 
         return $this;
@@ -80,38 +61,16 @@ class BufferedDelete extends AbstractBufferedUpdate
     public function addDeleteQuery(string $query): self
     {
         $delete = new DeleteQuery($query);
+        $this->buffer[] = $delete;
+
         $event = new AddDeleteQueryEvent($delete);
-        $this->addToBuffer($delete, $event);
+        $this->client->getEventDispatcher()->dispatch($event);
 
-        return $this;
-    }
-
-    /**
-     * Add multiple queries to delete matching documents.
-     *
-     * @param string[] $queries
-     *
-     * @return self Provides fluent interface
-     */
-    public function addDeleteQueries(array $queries): self
-    {
-        foreach ($queries as $query) {
-            $this->addDeleteQuery($query);
+        if (\count($this->buffer) === $this->options['buffersize']) {
+            $this->flush();
         }
 
         return $this;
-    }
-
-    /**
-     * Get all deletes currently in the buffer.
-     *
-     * Any previously flushed deletes will not be included!
-     *
-     * @return AbstractDelete[]
-     */
-    public function getDeletes(): array
-    {
-        return $this->buffer;
     }
 
     /**
@@ -164,53 +123,5 @@ class BufferedDelete extends AbstractBufferedUpdate
         $this->client->getEventDispatcher()->dispatch($event);
 
         return $result;
-    }
-
-    /**
-     * Add a delete to the buffer and determine if the buffer needs to be flushed.
-     *
-     * @param AbstractDelete $delete   Delete to add
-     * @param Event          $addEvent Event to trigger
-     */
-    protected function addToBuffer($delete, Event $addEvent): void
-    {
-        $this->buffer[] = $delete;
-
-        $this->client->getEventDispatcher()->dispatch($addEvent);
-
-        if (\count($this->buffer) === $this->options['buffersize']) {
-            $this->flush();
-        }
-    }
-
-    /**
-     * Add all deletes from the buffer as commands to the update query.
-     *
-     * @param AbstractDelete[] $buffer
-     */
-    protected function addBufferToQuery(array $buffer): void
-    {
-        $it = new \ArrayIterator($buffer);
-
-        $command = new DeleteCommand();
-
-        while ($it->valid()) {
-            $delete = $it->current();
-
-            switch ($delete->getType()) {
-                case AbstractDelete::TYPE_ID:
-                    $command->addId($delete->getId());
-                    break;
-                case AbstractDelete::TYPE_QUERY:
-                    $command->addQuery($delete->getQuery());
-                    break;
-                default:
-                    throw new RuntimeException('Unsupported delete type in buffer');
-            }
-
-            $it->next();
-        }
-
-        $this->updateQuery->add(null, $command);
     }
 }
