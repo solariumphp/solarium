@@ -35,7 +35,7 @@ class BufferedAdd extends BufferedAddLite
      *
      * @return self Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document): self
+    public function addDocument(DocumentInterface $document)
     {
         $this->buffer[] = $document;
 
