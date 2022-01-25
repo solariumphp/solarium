@@ -83,7 +83,8 @@ class BufferedDeleteLiteTest extends TestCase
             ->method('update')
             ->willReturn($mockResult);
 
-        $plugin = new (\get_class($this->plugin));
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
         $plugin->addDeleteByIds([123, 'abc']);
@@ -133,7 +134,8 @@ class BufferedDeleteLiteTest extends TestCase
             ->method('update')
             ->willReturn($mockResult);
 
-        $plugin = new (\get_class($this->plugin));
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
         $plugin->addDeleteQueries(['cat:abc', 'cat:def']);
@@ -181,7 +183,8 @@ class BufferedDeleteLiteTest extends TestCase
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
         $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
-        $plugin = new (\get_class($this->plugin));
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
         $plugin->addDeleteById('abc');
         $plugin->addDeleteQuery('cat:def');
@@ -219,7 +222,8 @@ class BufferedDeleteLiteTest extends TestCase
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
         $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
-        $plugin = new (\get_class($this->plugin));
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
         $plugin->addDeleteById('abc');
         $plugin->addDeleteQuery('cat:def');
