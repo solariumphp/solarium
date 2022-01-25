@@ -113,7 +113,7 @@ class BufferedAddLiteTest extends TestCase
             ->method('update')
             ->willReturn($mockResult);
 
-        $plugin = new ($this->plugin::class);
+        $plugin = new (\get_class($this->plugin));
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
         $plugin->addDocuments([$doc1, $doc2]);
@@ -167,7 +167,7 @@ class BufferedAddLiteTest extends TestCase
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
         $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
-        $plugin = new ($this->plugin::class);
+        $plugin = new (\get_class($this->plugin));
         $plugin->initPlugin($mockClient, []);
         $plugin->addDocuments([$doc1, $doc2]);
         $plugin->addDocument($doc3);
@@ -198,7 +198,7 @@ class BufferedAddLiteTest extends TestCase
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
         $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
-        $plugin = new ($this->plugin::class);
+        $plugin = new (\get_class($this->plugin));
         $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc1);
         $plugin->addDocuments([$doc2, $doc3]);
@@ -228,7 +228,7 @@ class BufferedAddLiteTest extends TestCase
         $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
         $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
 
-        $plugin = new ($this->plugin::class);
+        $plugin = new (\get_class($this->plugin));
         $plugin->initPlugin($mockClient, []);
         $plugin->addDocument($doc1);
         $plugin->addDocument($doc2);

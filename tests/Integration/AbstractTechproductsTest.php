@@ -2358,7 +2358,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $totalDocs = 25;
 
         $failListener = function (Event $event) {
-            $this->fail(sprintf('BufferedAddLite isn\'t supposed to trigger %s', $event::class));
+            $this->fail(sprintf('BufferedAddLite isn\'t supposed to trigger %s', \get_class($event)));
         };
 
         self::$client->getEventDispatcher()->addListener(BufferedAddEvents::ADD_DOCUMENT, $failListener);
@@ -2445,7 +2445,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $bufferSize = 20;
 
         $failListener = function (Event $event) {
-            $this->fail(sprintf('BufferedDeleteLite isn\'t supposed to trigger %s', $event::class));
+            $this->fail(sprintf('BufferedDeleteLite isn\'t supposed to trigger %s', \get_class($event)));
         };
 
         self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $failListener);
