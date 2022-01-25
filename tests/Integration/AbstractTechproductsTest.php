@@ -2462,6 +2462,9 @@ abstract class AbstractTechproductsTest extends TestCase
             $buffer->addDeleteById('solarium-bufferedaddlite-'.$i);
         }
 
+        // doesn't match anything, just making sure it doesn't trigger an event
+        $buffer->addDeleteQuery('cat:solarium-buffereddeletelite');
+
         $buffer->commit(null, true, true);
 
         $select = self::$client->createSelect();
