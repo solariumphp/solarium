@@ -67,7 +67,7 @@ class HttpException extends \RuntimeException implements RuntimeExceptionInterfa
             $message .= "\n".$body;
         }
 
-        parent::__construct($message, $code);
+        parent::__construct($message, $code ?? 0);
     }
 
     /**
