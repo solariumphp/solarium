@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Added
-- Plugin\BufferedDelete
+- Plugin\BufferedAddLite (BufferedAdd without event dispatching)
+- Plugin\BufferedDelete and Plugin\BufferedDeleteLite
 
 
 ## [6.2.2]
