@@ -1,10 +1,10 @@
 <?php
 
-namespace Solarium\Tests\Plugin\BufferedAdd\Event;
+namespace Solarium\Tests\Plugin\BufferedDelete\Event;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Response;
-use Solarium\Plugin\BufferedAdd\Event\PostFlush;
+use Solarium\Plugin\BufferedDelete\Event\PostFlush;
 use Solarium\QueryType\Update\Result;
 use Solarium\Tests\Integration\TestClientFactory;
 

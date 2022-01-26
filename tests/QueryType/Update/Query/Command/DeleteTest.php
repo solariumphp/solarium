@@ -100,4 +100,15 @@ class DeleteTest extends TestCase
             $this->command->getQueries()
         );
     }
+
+    public function testClear()
+    {
+        $this->command->addIds([1, 2]);
+        $this->command->addQueries(['id:1', 'id:2']);
+        $this->assertCount(2, $this->command->getIds());
+        $this->assertCount(2, $this->command->getQueries());
+        $this->command->clear();
+        $this->assertCount(0, $this->command->getIds());
+        $this->assertCount(0, $this->command->getQueries());
+    }
 }

@@ -12,12 +12,12 @@ declare(strict_types=1);
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Solarium\Core\Query\DocumentInterface;
-use Symfony\Contracts\EventDispatcher\Event;
+use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractPreCommit;
 
 /**
- * PreCommit event, see Events for details.
+ * PreCommit event, see {@see Events} for details.
  */
-class PreCommit extends Event
+class PreCommit extends AbstractPreCommit
 {
     /**
      * @var DocumentInterface[]
@@ -30,21 +30,6 @@ class PreCommit extends Event
     protected $overwrite;
 
     /**
-     * @var bool|null
-     */
-    protected $softCommit;
-
-    /**
-     * @var bool|null
-     */
-    protected $waitSearcher;
-
-    /**
-     * @var bool|null
-     */
-    protected $expungeDeletes;
-
-    /**
      * Event constructor.
      *
      * @param DocumentInterface[] $buffer
@@ -55,57 +40,9 @@ class PreCommit extends Event
      */
     public function __construct(array $buffer, ?bool $overwrite, ?bool $softCommit, ?bool $waitSearcher, ?bool $expungeDeletes)
     {
-        $this->buffer = $buffer;
+        parent::__construct($buffer, $softCommit, $waitSearcher, $expungeDeletes);
+
         $this->overwrite = $overwrite;
-        $this->softCommit = $softCommit;
-        $this->waitSearcher = $waitSearcher;
-        $this->expungeDeletes = $expungeDeletes;
-    }
-
-    /**
-     * Get the buffer for this event.
-     *
-     * @return DocumentInterface[]
-     */
-    public function getBuffer(): array
-    {
-        return $this->buffer;
-    }
-
-    /**
-     * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr.
-     *
-     * @param DocumentInterface[] $buffer
-     *
-     * @return self Provides fluent interface
-     */
-    public function setBuffer(array $buffer): self
-    {
-        $this->buffer = $buffer;
-
-        return $this;
-    }
-
-    /**
-     * Optionally override the value.
-     *
-     * @param bool|null $expungeDeletes
-     *
-     * @return self Provides fluent interface
-     */
-    public function setExpungeDeletes(?bool $expungeDeletes): self
-    {
-        $this->expungeDeletes = $expungeDeletes;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getExpungeDeletes(): ?bool
-    {
-        return $this->expungeDeletes;
     }
 
     /**
@@ -128,49 +65,5 @@ class PreCommit extends Event
     public function getOverwrite(): ?bool
     {
         return $this->overwrite;
-    }
-
-    /**
-     * Optionally override the value.
-     *
-     * @param bool|null $softCommit
-     *
-     * @return self Provides fluent interface
-     */
-    public function setSoftCommit(?bool $softCommit): self
-    {
-        $this->softCommit = $softCommit;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSoftCommit(): ?bool
-    {
-        return $this->softCommit;
-    }
-
-    /**
-     * Optionally override the value.
-     *
-     * @param bool|null $waitSearcher
-     *
-     * @return self Provides fluent interface
-     */
-    public function setWaitSearcher(?bool $waitSearcher): self
-    {
-        $this->waitSearcher = $waitSearcher;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getWaitSearcher(): ?bool
-    {
-        return $this->waitSearcher;
     }
 }

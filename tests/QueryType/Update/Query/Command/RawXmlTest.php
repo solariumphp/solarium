@@ -136,4 +136,12 @@ class RawXmlTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->command->addCommandFromFile('nonexistent.xml');
     }
+
+    public function testClear()
+    {
+        $this->command->addCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
+        $this->assertCount(2, $this->command->getCommands());
+        $this->command->clear();
+        $this->assertCount(0, $this->command->getCommands());
+    }
 }

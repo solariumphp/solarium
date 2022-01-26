@@ -9,13 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd\Event;
+namespace Solarium\Plugin\BufferedDelete\Event;
 
-use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractPostCommit;
+use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractPostFlush;
 
 /**
- * PostCommit event, see {@see Events} for details.
+ * PostFlush event, see {@see Events} for details.
  */
-class PostCommit extends AbstractPostCommit
+class PostFlush extends AbstractPostFlush
 {
 }

@@ -30,6 +30,9 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
+use Solarium\Plugin\BufferedAdd\BufferedAddLite;
+use Solarium\Plugin\BufferedDelete\BufferedDelete;
+use Solarium\Plugin\BufferedDelete\BufferedDeleteLite;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter;
@@ -236,6 +239,9 @@ class Client extends Configurable implements ClientInterface
         'customizerequest' => CustomizeRequest::class,
         'parallelexecution' => ParallelExecution::class,
         'bufferedadd' => BufferedAdd::class,
+        'bufferedaddlite' => BufferedAddLite::class,
+        'buffereddelete' => BufferedDelete::class,
+        'buffereddeletelite' => BufferedDeleteLite::class,
         'prefetchiterator' => PrefetchIterator::class,
         'minimumscorefilter' => MinimumScoreFilter::class,
     ];

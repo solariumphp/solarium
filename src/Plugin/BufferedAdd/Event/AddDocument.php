@@ -15,7 +15,7 @@ use Solarium\Core\Query\DocumentInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * AddDocument event, see Events for details.
+ * AddDocument event, see {@see Events} for details.
  */
 class AddDocument extends Event
 {
@@ -35,7 +35,7 @@ class AddDocument extends Event
     }
 
     /**
-     * Get the result for this event.
+     * Get the document for this event.
      *
      * @return DocumentInterface
      */

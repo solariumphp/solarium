@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Plugin\BufferedAdd\Event;
+namespace Solarium\Plugin\BufferedDelete\Event;
 
 use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractEvents;
 
@@ -21,13 +21,22 @@ use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractEvents;
 class Events extends AbstractEvents
 {
     /**
-     * This event is called when a new document is added to the buffer.
+     * This event is called when a new document id to delete is added to the buffer.
      *
-     * The event listener receives the Document.
+     * The event listener receives the Id.
      *
      * @var string
      */
-    public const ADD_DOCUMENT = AddDocument::class;
+    public const ADD_DELETE_BY_ID = AddDeleteById::class;
+
+    /**
+     * This event is called when a new query to delete matching documents is added to the buffer.
+     *
+     * The event listener receives the Query.
+     *
+     * @var string
+     */
+    public const ADD_DELETE_QUERY = AddDeleteQuery::class;
 
     /**
      * This event is called before a buffer flush.

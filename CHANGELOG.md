@@ -9,9 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Local parameter values are now escaped automatically when necessary
 
 
+## [unreleased]
+### Added
+- Plugin\BufferedAddLite (BufferedAdd without event dispatching)
+- Plugin\BufferedDelete and Plugin\BufferedDeleteLite
+
+
 ## [6.2.2]
 ### Added
 - PHP 8.1 support
+
 
 ## [6.2.1]
 ### Added

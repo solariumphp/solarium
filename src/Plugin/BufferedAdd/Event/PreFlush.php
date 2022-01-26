@@ -12,12 +12,12 @@ declare(strict_types=1);
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Solarium\Core\Query\DocumentInterface;
-use Symfony\Contracts\EventDispatcher\Event;
+use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractPreFlush;
 
 /**
- * PreFlush event, see Events for details.
+ * PreFlush event, see {@see Events} for details.
  */
-class PreFlush extends Event
+class PreFlush extends AbstractPreFlush
 {
     /**
      * @var DocumentInterface[]
@@ -43,33 +43,10 @@ class PreFlush extends Event
      */
     public function __construct(array $buffer, ?bool $overwrite, ?int $commitWithin)
     {
-        $this->buffer = $buffer;
+        parent::__construct($buffer);
+
         $this->overwrite = $overwrite;
         $this->commitWithin = $commitWithin;
-    }
-
-    /**
-     * Get the buffer for this event.
-     *
-     * @return DocumentInterface[]
-     */
-    public function getBuffer(): array
-    {
-        return $this->buffer;
-    }
-
-    /**
-     * Set the buffer for this event, this way you can alter the buffer before it is committed to Solr.
-     *
-     * @param DocumentInterface[] $buffer
-     *
-     * @return self Provides fluent interface
-     */
-    public function setBuffer(array $buffer): self
-    {
-        $this->buffer = $buffer;
-
-        return $this;
     }
 
     /**
