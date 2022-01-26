@@ -166,7 +166,7 @@ for ($i=1; $i<=25; $i++) {
 $buffer->addDeleteQuery('cat:discontinued');
 $buffer->addDeleteQuery('manu_id_s:acme');
 
-// At this point two flushes will already have been done by the buffer automatically (at the 10th and 20th doc), now
+// At this point two flushes will already have been done by the buffer automatically (at the 10th and 20th delete), now
 // manually flush the remainder. Alternatively you can use the commit method if you want to include a commit command.
 $buffer->flush();
 
@@ -177,7 +177,7 @@ htmlFooter();
 ```
 
 BufferedDeleteLite plugin
-----------------------
+-------------------------
 
 A slightly faster version of `BufferedDelete` that doesn't trigger events.
 
