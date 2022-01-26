@@ -102,6 +102,30 @@ class Helper
     }
 
     /**
+     * Escape a local parameter value.
+     *
+     * This method wraps the value in single quotes if it contains a space,
+     * a single quote, a double quote, or a right curly bracket. It backslash
+     * escapes single quotes and backslashes within that quoted string.
+     *
+     * A value that doesn't require quoting is returned as is.
+     *
+     * @see https://solr.apache.org/guide/local-parameters-in-queries.html#basic-syntax-of-local-parameters
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function escapeLocalParamValue(string $value): string
+    {
+        if (preg_match('/[ \'"}]/', $value)) {
+            $value = "'".preg_replace("/('|\\\\)/", '\\\$1', $value)."'";
+        }
+
+        return $value;
+    }
+
+    /**
      * Format a date to the expected formatting used in Solr.
      *
      * This format was derived to be standards compliant (ISO 8601).
@@ -329,7 +353,7 @@ class Helper
                     $value = $value ? 'true' : 'false';
                 }
 
-                $output .= ' '.$key.'='.$value;
+                $output .= ' '.$key.'='.$this->escapeLocalParamValue($value);
             }
         }
         $output .= '}';

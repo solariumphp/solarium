@@ -738,7 +738,7 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
 
         $this->assertEquals(
-            '?facet.interval={!key=f1}cat&f.cat.facet.interval.set=int1&f.cat.facet.interval.set={!key="one"}int2&facet=true',
+            '?facet.interval={!key=f1}cat&f.cat.facet.interval.set=int1&f.cat.facet.interval.set={!key=one}int2&facet=true',
             urldecode($request->getUri())
         );
     }

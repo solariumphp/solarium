@@ -473,6 +473,42 @@ class HelperTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider escapeLocalParamValueProvider
+     */
+    public function testEscapeLocalParamValue(string $value, string $expected)
+    {
+        $this->assertSame(
+            $expected,
+            $this->helper->escapeLocalParamValue($value)
+        );
+    }
+
+    public function escapeLocalParamValueProvider(): array
+    {
+        return [
+            'space' => ['a b', "'a b'"],
+            "'" => ["a'b", "'a\\'b'"],
+            '"' => ['a"b', "'a\"b'"],
+            "\\'" => ["a\\'b", "'a\\\\\\'b'"],
+            '\\"' => ['a\\"b', "'a\\\\\"b'"],
+            '}' => ['ab}', "'ab}'"],
+        ];
+    }
+
+    /**
+     * @testWith ["ab"]
+     *           ["a\\b"]
+     *           ["{!ab"]
+     */
+    public function testEscapeLocalParamValueNoEscape(string $value)
+    {
+        $this->assertSame(
+            $value,
+            $this->helper->escapeLocalParamValue($value)
+        );
+    }
+
     public function testFormatDateInputTimestamp()
     {
         $this->assertFalse(
