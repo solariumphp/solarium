@@ -4,7 +4,7 @@ All notable changes to the Solarium library will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [6.2.3]
 ### Added
 - Plugin\BufferedAddLite (BufferedAdd without event dispatching)
 - Plugin\BufferedDelete and Plugin\BufferedDeleteLite
