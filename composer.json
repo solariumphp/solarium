@@ -17,7 +17,7 @@
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0"
+        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0"
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^3.11",
@@ -29,7 +29,7 @@
         "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
-        "symfony/event-dispatcher": "^4.3 || ^5.0"
+        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
     },
     "prefer-stable": true,
     "config": {
