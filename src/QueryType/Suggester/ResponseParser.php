@@ -10,7 +10,7 @@
 namespace Solarium\QueryType\Suggester;
 
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
-use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
+use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Suggester\Result\Result;
 

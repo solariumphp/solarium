@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Event\PostCreateRequest as PostCreateRequest;
+use Solarium\Core\Event\PostCreateRequest;
 use Solarium\Plugin\PostBigExtractRequest;
 use Solarium\Tests\Integration\TestClientFactory;
 

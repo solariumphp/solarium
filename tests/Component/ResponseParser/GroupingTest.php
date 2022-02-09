@@ -7,7 +7,7 @@ use Solarium\Component\Grouping as Component;
 use Solarium\Component\ResponseParser\Grouping as Parser;
 use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\QueryGroup;
-use Solarium\Component\Result\Grouping\Result as Result;
+use Solarium\Component\Result\Grouping\Result;
 use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends TestCase

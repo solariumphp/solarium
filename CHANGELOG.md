@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Symfony 6 support
 
+### Removed
+- Solarium\QueryType\Stream\Expression, use Solarium\QueryType\Stream\ExpressionBuilder instead
+
 ## [6.2.3]
 ### Added
 - Plugin\BufferedAddLite (BufferedAdd without event dispatching)

@@ -5,7 +5,7 @@ namespace Solarium\Tests\Component\ResponseParser;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\FacetInterface;
 use Solarium\Component\Facet\Field;
-use Solarium\Component\Facet\JsonRange as JsonRange;
+use Solarium\Component\Facet\JsonRange;
 use Solarium\Component\FacetSet;
 use Solarium\Component\ResponseParser\FacetSet as Parser;
 use Solarium\Component\Result\Stats\Result;

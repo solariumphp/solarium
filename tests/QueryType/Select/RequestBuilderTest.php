@@ -9,7 +9,7 @@ use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Select\Query\FilterQuery;
 use Solarium\QueryType\Select\Query\Query;
-use Solarium\QueryType\Select\RequestBuilder as RequestBuilder;
+use Solarium\QueryType\Select\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
@@ -186,6 +186,7 @@ class TestDummyComponent extends AbstractComponent
 
     public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
+        // @phpstan-ignore-next-line
         return null;
     }
 
