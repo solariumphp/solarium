@@ -186,7 +186,6 @@ class TestDummyComponent extends AbstractComponent
 
     public function getRequestBuilder(): ComponentRequestBuilderInterface
     {
-        // @phpstan-ignore-next-line
         return null;
     }
 
