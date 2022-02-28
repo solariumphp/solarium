@@ -68,7 +68,7 @@ class ConnectionReuseTest extends TestCase
         $result = self::$client->execute($query);
         $connectionLogger = array_values(array_filter(
             $result->getData()['loggers'],
-            function(array $logger): bool {
+            function (array $logger): bool {
                 return 'org.eclipse.jetty.io.AbstractConnection' === $logger['name'];
             }
         ))[0];
