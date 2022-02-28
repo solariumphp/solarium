@@ -30,13 +30,15 @@ abstract class AbstractResultTest extends TestCase
 
     protected $grouping;
 
+    protected $spellcheck;
+
+    protected $suggester;
+
     protected $stats;
 
     protected $debug;
 
     protected $analytics;
-
-    protected $spellcheck;
 
     public function setUp(): void
     {
@@ -54,6 +56,7 @@ abstract class AbstractResultTest extends TestCase
         $this->highlighting = null;
         $this->grouping = null;
         $this->spellcheck = null;
+        $this->suggester = null;
         $this->stats = null;
         $this->debug = null;
         $this->analytics = null;
@@ -64,6 +67,7 @@ abstract class AbstractResultTest extends TestCase
             ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING => $this->highlighting,
             ComponentAwareQueryInterface::COMPONENT_GROUPING => $this->grouping,
             ComponentAwareQueryInterface::COMPONENT_SPELLCHECK => $this->spellcheck,
+            ComponentAwareQueryInterface::COMPONENT_SUGGESTER => $this->suggester,
             ComponentAwareQueryInterface::COMPONENT_STATS => $this->stats,
             ComponentAwareQueryInterface::COMPONENT_DEBUG => $this->debug,
             ComponentAwareQueryInterface::COMPONENT_ANALYTICS => $this->analytics,
@@ -146,6 +150,14 @@ abstract class AbstractResultTest extends TestCase
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_SPELLCHECK],
             $this->result->getSpellcheck()
+        );
+    }
+
+    public function testGetSuggester()
+    {
+        $this->assertSame(
+            $this->components[ComponentAwareQueryInterface::COMPONENT_SUGGESTER],
+            $this->result->getSuggester()
         );
     }
 
