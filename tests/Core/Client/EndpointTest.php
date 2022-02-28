@@ -34,8 +34,8 @@ class EndpointTest extends TestCase
         ];
         $this->endpoint->setOptions($options);
 
-        $options['path'] = '/mysolr'; //expected trimming of trailing slash
-        $options['context'] = 'lunr'; //expected trimming of leading and trailing slash
+        $options['path'] = '/mysolr'; // expected trimming of trailing slash
+        $options['context'] = 'lunr'; // expected trimming of leading and trailing slash
 
         $this->assertSame($options, $this->endpoint->getOptions());
     }
