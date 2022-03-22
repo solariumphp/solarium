@@ -537,7 +537,7 @@ PrefetchIterator plugin
 
 This plugin can be used for iterating a big resultset. It has an `\Iterator` interface and will fetch the results from Solr when needed, in batches of a configurable size (sequential prefetching). You can even iterate all the documents in a Solr index.
 
-It's very easy to use. You configure a query like you normally would and pass it to the plugin. See the [example code](#example-usage_6) below.
+It's very easy to use. You configure a query like you normally would and pass it to the plugin. See the [example code](#example-usage_7) below.
 
 ### When to use PrefetchIterator
 
