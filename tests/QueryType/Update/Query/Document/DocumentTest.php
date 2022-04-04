@@ -299,7 +299,7 @@ class DocumentTest extends TestCase
 
     public function testRemoveInvalidField()
     {
-        $this->doc->removeField('invalidname'); //should silently continue...
+        $this->doc->removeField('invalidname'); // should silently continue...
 
         $this->assertSame(
             $this->fields,

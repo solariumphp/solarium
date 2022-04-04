@@ -516,13 +516,13 @@ class HelperTest extends TestCase
             'Expects invalid strtotime/timestamp input (false) not to be accepted'
         );
 
-        //allow negative dates.
+        // allow negative dates.
         $this->assertNotFalse(
             $this->helper->formatDate(strtotime('2011-10-01')),
             'Expects negative timestamp input to be accepted'
         );
 
-        //@todo find out if we need to any test for php versions / platforms which do not support negative timestamp
+        // @todo find out if we need to any test for php versions / platforms which do not support negative timestamp
 
         $this->assertFalse(
             $this->helper->formatDate(strtotime('2010-31-02')),
@@ -585,7 +585,7 @@ class HelperTest extends TestCase
     public function testFormatDate()
     {
         $timestamp = time();
-        //check if timezone is stripped
+        // check if timezone is stripped
         $expected = strtoupper('Z');
         $actual = substr($this->helper->formatDate($timestamp), 19, 20);
         $this->assertSame($expected, $actual, 'Expects last charachter to be uppercased Z');

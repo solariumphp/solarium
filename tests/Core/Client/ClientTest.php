@@ -249,10 +249,10 @@ class ClientTest extends TestCase
     public function testAddAndGetEndpoints()
     {
         $options = [
-            //use array key
+            // use array key
             's1' => ['host' => 's1.local'],
 
-            //use key array entry
+            // use key array entry
             ['key' => 's2', 'host' => 's2.local'],
         ];
 

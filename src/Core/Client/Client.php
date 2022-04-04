@@ -355,7 +355,7 @@ class Client extends Configurable implements ClientInterface
             throw new InvalidArgumentException('An endpoint must have a key value');
         }
 
-        //double add calls for the same endpoint are ignored, but non-unique keys cause an exception
+        // double add calls for the same endpoint are ignored, but non-unique keys cause an exception
         if (\array_key_exists($key, $this->endpoints) && $this->endpoints[$key] !== $endpoint) {
             throw new InvalidArgumentException('An endpoint must have a unique key');
         }
@@ -830,7 +830,7 @@ class Client extends Configurable implements ClientInterface
         $event = new PreExecuteRequestEvent($request, $endpoint);
         $this->eventDispatcher->dispatch($event);
         if (null !== $event->getResponse()) {
-            $response = $event->getResponse(); //a plugin result overrules the standard execution result
+            $response = $event->getResponse(); // a plugin result overrules the standard execution result
         } else {
             $response = $this->getAdapter()->execute($request, $endpoint);
         }

@@ -242,7 +242,7 @@ class CustomizeRequestTest extends TestCase
         $customizations = ['id1' => $customization1, 'id2' => $customization2];
 
         $this->plugin->addCustomizations($customizations);
-        $this->plugin->removeCustomization('id3'); //continue silently
+        $this->plugin->removeCustomization('id3'); // continue silently
         $this->assertSame(
             $customizations,
             $this->plugin->getCustomizations()
