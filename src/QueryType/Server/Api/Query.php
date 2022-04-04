@@ -14,7 +14,6 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
-use Solarium\Core\Query\Result\QueryType;
 
 /**
  * V2 API query.
@@ -29,7 +28,7 @@ class Query extends AbstractQuery
     protected $options = [
         'version' => Request::API_V1,
         'method' => Request::METHOD_GET,
-        'resultclass' => QueryType::class,
+        'resultclass' => Result::class,
     ];
 
     /**
