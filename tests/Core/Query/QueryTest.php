@@ -39,7 +39,7 @@ class QueryTest extends TestCase
         $query = new TestQuery();
         $query->addParam('p1', 'v1');
         $query->addParam('p2', 'v2');
-        $query->addParam('p2', 'v3'); //should overwrite previous value
+        $query->addParam('p2', 'v3'); // should overwrite previous value
 
         $this->assertSame(
             ['p1' => 'v1', 'p2' => 'v3'],

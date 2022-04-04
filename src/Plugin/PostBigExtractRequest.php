@@ -107,7 +107,7 @@ class PostBigExtractRequest extends AbstractPlugin
                     }
                 }
 
-                $body .= AdapterHelper::buildUploadBodyFromRequest($request); //must be the last automatically include closing boundary
+                $body .= AdapterHelper::buildUploadBodyFromRequest($request); // must be the last automatically include closing boundary
 
                 $request->setRawData($body);
                 $request->setOption('file', null); // this prevent solarium from call AdapterHelper::buildUploadBodyFromRequest for setting body request

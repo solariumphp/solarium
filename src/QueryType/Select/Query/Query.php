@@ -560,7 +560,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
             throw new InvalidArgumentException('A filterquery must have a key value');
         }
 
-        //double add calls for the same FQ are ignored, but non-unique keys cause an exception
+        // double add calls for the same FQ are ignored, but non-unique keys cause an exception
         if (\array_key_exists($key, $this->filterQueries) && $this->filterQueries[$key] !== $filterQuery) {
             throw new InvalidArgumentException('A filterquery must have a unique key value within a query');
         }

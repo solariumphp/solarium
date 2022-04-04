@@ -184,7 +184,7 @@ abstract class AbstractQueryTest extends TestCase
         ];
 
         $this->query->addSorts($sorts);
-        $this->query->removeSort('invalidfield'); //continue silently
+        $this->query->removeSort('invalidfield'); // continue silently
         $this->assertSame(
             $sorts,
             $this->query->getSorts()
@@ -353,7 +353,7 @@ abstract class AbstractQueryTest extends TestCase
         $filterQueries = ['fq1' => $fq1, 'fq2' => $fq2];
 
         $this->query->addFilterQueries($filterQueries);
-        $this->query->removeFilterQuery('fq3'); //continue silently
+        $this->query->removeFilterQuery('fq3'); // continue silently
         $this->assertSame(
             $filterQueries,
             $this->query->getFilterQueries()
