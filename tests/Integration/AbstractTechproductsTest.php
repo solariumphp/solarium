@@ -485,6 +485,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
+        $this->assertFalse($result->getSpellcheck()->getCorrectlySpelled());
 
         $this->assertSame(
             [
@@ -508,6 +509,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
+        $this->assertFalse($result->getSpellcheck()->getCorrectlySpelled());
 
         $this->assertSame(
             [
@@ -553,6 +555,65 @@ abstract class AbstractTechproductsTest extends TestCase
             // The power cord is not in stock! In the techproducts example that is reflected by the string 'false'.
             $this->assertSame(1, $facetField->getValues()['false']);
         }
+    }
+
+    /**
+     * @see https://github.com/solariumphp/solarium/issues/184
+     */
+    public function testSpellCheckComponentWithSameWordMisspelledMultipleTimes()
+    {
+        $select = self::$client->createSelect();
+        // The "browse" request handler has a spellcheck component.
+        $select->setHandler('browse');
+        $select->setQuery('power cort cort');
+
+        $spellcheck = $select->getSpellcheck();
+        // Some spellcheck dictionaries need to be built first, but not on every request!
+        $spellcheck->setBuild(true);
+        // Order of suggestions is wrong on SolrCloud with spellcheck.extendedResults=false (SOLR-9060)
+        $spellcheck->setExtendedResults(true);
+
+        $result = self::$client->select($select);
+        $this->assertSame(0, $result->getNumFound());
+        $this->assertFalse($result->getSpellcheck()->getCorrectlySpelled());
+
+        $this->assertSame(
+            [
+                'power' => 'power',
+                'cort' => [
+                    'cord',
+                    'cord',
+                ],
+            ],
+            $result->getSpellcheck()->getCollations()[0]->getCorrections()
+        );
+
+        $words = [];
+        foreach ($result->getSpellcheck()->getSuggestions()[0]->getWords() as $suggestion) {
+            $words[] = $suggestion['word'];
+        }
+        $this->assertEquals([
+            'corp',
+            'cord',
+            'card',
+        ], $words);
+
+        $spellcheck->setDictionary(['default', 'wordbreak']);
+
+        $result = self::$client->select($select);
+        $this->assertSame(0, $result->getNumFound());
+        $this->assertFalse($result->getSpellcheck()->getCorrectlySpelled());
+
+        $this->assertSame(
+            [
+                'power' => 'power',
+                'cort' => [
+                    'cord',
+                    'cord',
+                ],
+            ],
+            $result->getSpellcheck()->getCollations()[0]->getCorrections()
+        );
     }
 
     /**
@@ -978,7 +1039,7 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $spellcheck = self::$client->createSpellcheck();
         $spellcheck->setQuery('power cort');
-        // Some spellcheck dictionaries needs to build first, but not on every request!
+        // Some spellcheck dictionaries need to be built first, but not on every request!
         $spellcheck->setBuild(true);
         $result = self::$client->spellcheck($spellcheck);
         $words = [];
@@ -992,7 +1053,24 @@ abstract class AbstractTechproductsTest extends TestCase
             'corp',
             'cord',
             'card',
-            ], $words);
+        ], $words);
+
+        $spellcheck->setQuery('power cort cort');
+        // Already built on the previous request.
+        $spellcheck->setBuild(false);
+        $result = self::$client->spellcheck($spellcheck);
+        $words = [];
+        foreach ($result as $term => $suggestions) {
+            $this->assertSame('cort', $term);
+            foreach ($suggestions as $suggestion) {
+                $words[] = $suggestion['word'];
+            }
+        }
+        $this->assertEquals([
+            'corp',
+            'cord',
+            'card',
+        ], $words);
     }
 
     public function testSuggester()

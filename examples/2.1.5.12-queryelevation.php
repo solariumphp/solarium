@@ -46,6 +46,7 @@ foreach ($resultset as $document) {
         echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
     }
 
+    echo '</table>';
 }
 
 htmlFooter();

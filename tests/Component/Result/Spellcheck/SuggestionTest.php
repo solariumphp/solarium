@@ -24,6 +24,8 @@ class SuggestionTest extends TestCase
 
     protected $frequency;
 
+    protected $originalTerm;
+
     public function setUp(): void
     {
         $this->numFound = 1;
@@ -40,13 +42,15 @@ class SuggestionTest extends TestCase
                 'freq' => 1,
             ],
         ];
+        $this->originalTerm = 'wrongword';
 
         $this->result = new Suggestion(
             $this->numFound,
             $this->startOffset,
             $this->endOffset,
             $this->originalFrequency,
-            $this->words
+            $this->words,
+            $this->originalTerm,
         );
     }
 
@@ -83,5 +87,10 @@ class SuggestionTest extends TestCase
     public function testGetWords()
     {
         $this->assertEquals($this->words, $this->result->getWords());
+    }
+
+    public function testGetOriginalTerm()
+    {
+        $this->assertEquals($this->originalTerm, $this->result->getOriginalTerm());
     }
 }
