@@ -177,7 +177,7 @@ class GroupingTest extends TestCase
 
     public function testParseMissingGroupField()
     {
-        //data does not contain 'fieldA'
+        // data does not contain 'fieldA'
         $data = [
             'grouped' => [
                 'functionF' => [

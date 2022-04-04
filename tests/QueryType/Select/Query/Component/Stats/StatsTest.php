@@ -239,7 +239,7 @@ class StatsTest extends TestCase
         $fields = ['f1' => $f1, 'f2' => $f2];
 
         $this->stats->addFields($fields);
-        $this->stats->removeField('f3'); //continue silently
+        $this->stats->removeField('f3'); // continue silently
         $this->assertSame(
             $fields,
             $this->stats->getFields()

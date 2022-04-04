@@ -177,7 +177,7 @@ class Helper
             // Solr seems to require the format PHP erroneously declares as ISO8601.
             /** @noinspection DateTimeConstantsUsageInspection */
             $iso8601 = $input->format(\DateTimeInterface::ISO8601);
-            $iso8601 = strstr($iso8601, '+', true); //strip timezone
+            $iso8601 = strstr($iso8601, '+', true); // strip timezone
             $iso8601 .= 'Z';
 
             return $iso8601;

@@ -4,7 +4,7 @@ Client and adapters
 Client
 ------
 
-The client (class `Solarium\Client`) is the main interface of Solarium, a sort of gateway. It holds config settings and has method to access all Solarium functionality. It controls the calling of many underlying Solarium classes but has very little built-in functionality itself.
+The client (class `Solarium\Client`) is the main interface of Solarium, a sort of gateway. It holds config settings and has methods to access all Solarium functionality. It controls the calling of many underlying Solarium classes but has very little built-in functionality itself.
 
 This allows for a lightweight class, so that you can have it available at all times at very little cost. The Solarium\\Client class uses lazy loading where possible. By having all functionality implemented in subclasses you can also easily customize behaviour by altering the mapping to these subclasses, while still maintaining the same client API.
 
@@ -49,7 +49,7 @@ Endpoints support authentication. To use this set the authentication on the endp
 cURL adapter
 ============
 
-This is the standard Solarium adapter. It supports the most features (for instance concurrent requests) and doesn't suffer from memory issues (like `HttpAdapter` in some cases). The only downside is that it depends on the PHP cURL extension, however most PHP environment have this extension. If cURL is not available and installing is not an option you should use one of the other adapters.
+This is the standard Solarium adapter. It supports the most features (for instance concurrent requests) and doesn't suffer from memory issues (like `HttpAdapter` in some cases). The only downside is that it depends on the PHP cURL extension, however most PHP environments have this extension. If cURL is not available and installing is not an option you should use one of the other adapters.
 
 ```php
 <?php
@@ -69,7 +69,7 @@ htmlFooter();
 
 ### Proxy support
 
-The cURL adapter support the use of a proxy. Use the adapter option `proxy` to enable this.
+The cURL adapter supports the use of a proxy. Use the adapter option `proxy` to enable this.
 
 
 HTTP adapter
@@ -117,7 +117,7 @@ htmlFooter();
 
 ```
 
-If your application does many Solr requests during a single PHP process, consider leveraging the [Symphony PSR-18 HTTP Client](https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17) to reuses HTTP connections, which can significantly improve performance.
+If your application does many Solr requests during a single PHP process, consider leveraging the [Symphony PSR-18 HTTP Client](https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17) to reuse HTTP connections, which can significantly improve performance.
 
 Below example registers such a PSR-18 Client with a timeout of 120 seconds.
 

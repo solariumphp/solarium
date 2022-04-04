@@ -330,7 +330,7 @@ class FacetSetTest extends TestCase
         $facets = ['f1' => $fq1, 'f2' => $fq2];
 
         $this->facetSet->addFacets($facets);
-        $this->facetSet->removeFacet('f3'); //continue silently
+        $this->facetSet->removeFacet('f3'); // continue silently
         $this->assertSame(
             $facets,
             $this->facetSet->getFacets()

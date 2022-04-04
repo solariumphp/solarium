@@ -195,7 +195,7 @@ class QueryTest extends TestCase
         $commit = new Commit();
         $this->query->add('cm', $commit);
 
-        $this->query->remove('invalidkey'); //should silently ignore
+        $this->query->remove('invalidkey'); // should silently ignore
 
         $this->assertSame(
             ['rb' => $rollback, 'cm' => $commit],

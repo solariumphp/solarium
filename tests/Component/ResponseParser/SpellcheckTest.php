@@ -44,6 +44,16 @@ class SpellcheckTest extends TestCase
         $collations = $result->getCollations();
         $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
         $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
+        $this->assertEquals(
+            [
+                'delll' => 'dell',
+                'ultrashar' => [
+                    'ultrasharp',
+                    'ultrasharp',
+                ],
+            ],
+            $collations[0]->getCorrections()
+        );
     }
 
     public function providerParseExtended()
@@ -106,6 +116,8 @@ class SpellcheckTest extends TestCase
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
+                                    4 => 'ultrashar',
+                                    5 => 'ultrasharp',
                                 ],
                             ],
                             'collation',
@@ -120,6 +132,8 @@ class SpellcheckTest extends TestCase
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
+                                    4 => 'ultrashar',
+                                    5 => 'ultrasharp',
                                 ],
                             ],
                         ],
@@ -170,8 +184,7 @@ class SpellcheckTest extends TestCase
                                 ],
                             ],
                         ],
-                        'correctlySpelled',
-                        false,
+                        'correctlySpelled' => false,
                         'collations' => [
                             'collation',
                             [
@@ -182,6 +195,8 @@ class SpellcheckTest extends TestCase
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
+                                    4 => 'ultrashar',
+                                    5 => 'ultrasharp',
                                 ],
                             ],
                             'collation',
@@ -193,6 +208,8 @@ class SpellcheckTest extends TestCase
                                     1 => 'dell',
                                     2 => 'ultrashar',
                                     3 => 'ultrasharp',
+                                    4 => 'ultrashar',
+                                    5 => 'ultrasharp',
                                 ],
                             ],
                         ],
@@ -288,8 +305,7 @@ class SpellcheckTest extends TestCase
                                 ],
                             ],
                         ],
-                        'correctlySpelled',
-                        false,
+                        'correctlySpelled' => false,
                         'collations' => [
                             'collation',
                             'dell ultrasharp',
@@ -391,8 +407,7 @@ class SpellcheckTest extends TestCase
                                 ],
                             ],
                         ],
-                        'correctlySpelled',
-                        false,
+                        'correctlySpelled' => false,
                         'collations' => [
                             'collation',
                             'dell ultrasharp',
