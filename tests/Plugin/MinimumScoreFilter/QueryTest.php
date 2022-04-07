@@ -2,7 +2,10 @@
 
 namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
+use Solarium\Component\Grouping;
 use Solarium\Plugin\MinimumScoreFilter\Query;
+use Solarium\Plugin\MinimumScoreFilter\QueryGroupResult;
+use Solarium\Plugin\MinimumScoreFilter\ValueGroupResult;
 use Solarium\Tests\QueryType\Select\Query\AbstractQueryTest;
 
 class QueryTest extends AbstractQueryTest
@@ -65,5 +68,23 @@ class QueryTest extends AbstractQueryTest
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
         $this->assertSame(['field1', 'field2', 'score'], $this->query->getFields());
+    }
+
+    public function testGetComponentsWithGrouping()
+    {
+        /** @var Grouping|MockObject $mockComponent */
+        $mock = $this->getMockBuilder(Grouping::class)
+            ->onlyMethods(['setOption'])
+            ->getMock();
+
+        $mock->expects($this->exactly(2))
+            ->method('setOption')
+            ->withConsecutive(
+                ['resultquerygroupclass', QueryGroupResult::class],
+                ['resultvaluegroupclass', ValueGroupResult::class],
+            );
+
+        $this->query->setComponent(Query::COMPONENT_GROUPING, $mock);
+        $this->query->getComponents();
     }
 }

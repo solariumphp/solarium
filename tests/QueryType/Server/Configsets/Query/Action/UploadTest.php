@@ -4,6 +4,8 @@ namespace Solarium\Tests\QueryType\Server\Configsets\Query\Action;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Server\Configsets\Query\Action\Upload;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
+use Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult;
 
 class UploadTest extends TestCase
 {
@@ -19,7 +21,7 @@ class UploadTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertSame('UPLOAD', $this->action->getType());
+        $this->assertSame(ConfigsetsQuery::ACTION_UPLOAD, $this->action->getType());
     }
 
     public function testSetName()
@@ -54,5 +56,10 @@ class UploadTest extends TestCase
         $this->assertTrue($this->action->getCleanup());
         $this->action->setCleanup(false);
         $this->assertFalse($this->action->getCleanup());
+    }
+
+    public function testGetResultClass()
+    {
+        $this->assertSame(ConfigsetsResult::class, $this->action->getResultClass());
     }
 }

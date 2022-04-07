@@ -30,7 +30,7 @@ class PreCreateResultTest extends TestCase
      *
      * @param PreCreateResult $event
      */
-    public function testSetAndGetQuery($event)
+    public function testSetAndGetResult($event)
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();

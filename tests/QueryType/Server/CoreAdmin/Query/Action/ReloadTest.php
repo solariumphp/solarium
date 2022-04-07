@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Server\CoreAdmin\Query\Action;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Reload;
+use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class ReloadTest extends TestCase
 {
@@ -19,6 +20,12 @@ class ReloadTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertSame('RELOAD', $this->action->getType());
+        $this->assertSame(CoreAdminQuery::ACTION_RELOAD, $this->action->getType());
+    }
+
+    public function testSetCore()
+    {
+        $this->action->setCore('test');
+        $this->assertSame('test', $this->action->getCore());
     }
 }

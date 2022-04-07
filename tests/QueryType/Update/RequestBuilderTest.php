@@ -4,6 +4,8 @@ namespace Solarium\Tests\QueryType\Update;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
+use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Update\Query\Command\AbstractCommand;
 use Solarium\QueryType\Update\Query\Command\Add as AddCommand;
 use Solarium\QueryType\Update\Query\Command\Commit as CommitCommand;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
@@ -47,6 +49,15 @@ class RequestBuilderTest extends TestCase
             'update?omitHeader=false&wt=json&json.nl=flat',
             $request->getUri()
         );
+    }
+
+    public function testBuildWithUnsupportedCommandType()
+    {
+        $this->query->add(null, new UnsupportedCommand());
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unsupported command type');
+        $this->builder->build($this->query);
     }
 
     public function testBuildAddXmlNoParamsSingleDocument()
@@ -146,6 +157,50 @@ class RequestBuilderTest extends TestCase
             '<field name="id">2</field>'.
             '<field name="id">foo</field>'.
             '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithAnonymouslyNestedDocuments()
+    {
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(
+                [
+                    'id' => 1701,
+                    'cat' => ['A', 'D'],
+                    'text' => ':=._,<^>',
+                    '_childDocuments_' => [
+                        [
+                            'id' => '1701-A',
+                            'cat' => ['A'],
+                        ],
+                        [
+                            'id' => '1701-D',
+                            'cat' => ['D'],
+                        ],
+                    ],
+                ]
+            )
+        );
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1701</field>'.
+            '<field name="cat">A</field>'.
+            '<field name="cat">D</field>'.
+            '<field name="text">:=._,&lt;^&gt;</field>'.
+            '<doc>'.
+            '<field name="id">1701-A</field>'.
+            '<field name="cat">A</field>'.
+            '</doc>'.
+            '<doc>'.
+            '<field name="id">1701-D</field>'.
+            '<field name="cat">D</field>'.
+            '</doc>'.
             '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
@@ -514,5 +569,16 @@ class RequestBuilderTest extends TestCase
             .'</update>',
             $this->builder->getRawData($this->query)
         );
+    }
+}
+
+class UnsupportedCommand extends AbstractCommand
+{
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'unsupported';
     }
 }

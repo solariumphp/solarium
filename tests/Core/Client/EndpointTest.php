@@ -262,6 +262,12 @@ class EndpointTest extends TestCase
         );
     }
 
+    public function testIsAndSetLeader()
+    {
+        $this->endpoint->setLeader(true);
+        $this->assertTrue($this->endpoint->isLeader());
+    }
+
     public function testToString()
     {
         $options = [

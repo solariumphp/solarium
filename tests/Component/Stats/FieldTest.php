@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component\Stats;
+namespace Solarium\Tests\Component\Stats;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Stats\Field;

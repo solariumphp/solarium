@@ -2,9 +2,11 @@
 
 namespace Solarium\Tests\Core\Client\State;
 
-use Solarium\Core\Client\State\ClusterState;
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\State\ClusterState;
 use Solarium\Core\Client\State\CollectionState;
+use Solarium\Core\Client\State\ShardState;
+use Solarium\Exception\RuntimeException;
 
 class ClusterStateTest extends TestCase
 {
@@ -62,6 +64,7 @@ class ClusterStateTest extends TestCase
           "name": "compositeId"
         },
         "replicationFactor": "1",
+        "tlogReplicas":"0",
         "znodeVersion": 11,
         "autoCreated": "true",
         "configName": "my_config",
@@ -107,6 +110,11 @@ class ClusterStateTest extends TestCase
         self::assertSame('my_config', $collectionState->getConfigName());
         self::assertSame('collection1', $collectionState->getName());
         self::assertSame(1, $collectionState->getMaxShardsPerNode());
+        $shardLeadersBaseUris = [
+            'shard1' => 'http://127.0.1.1:8983/solr',
+            'shard2' => 'http://127.0.1.1:7574/solr',
+        ];
+        self::assertSame($shardLeadersBaseUris, $collectionState->getShardLeadersBaseUris());
         $nodeBaseUris = [
             '127.0.1.1:8983_solr' => 'http://127.0.1.1:8983/solr',
             '127.0.1.1:8900_solr' => 'http://127.0.1.1:8900/solr',
@@ -118,7 +126,123 @@ class ClusterStateTest extends TestCase
         self::assertSame('compositeId', $collectionState->getRouterName());
         self::assertFalse($collectionState->isAutoAddReplicas());
         self::assertTrue($collectionState->isAutoCreated());
+        self::assertSame('0', $collectionState->getTlogReplicas());
         self::assertSame('11', $collectionState->getZnodeVersion());
+    }
+
+    public function testCollectionStateToString()
+    {
+        $collectionState = $this->clusterState->getCollectionState('collection1');
+        $expectedString = <<<'EOT'
+Solarium\Core\Client\State\CollectionState::__toString
+Array
+(
+    [collection1] => Array
+        (
+            [shards] => Array
+                (
+                    [shard1] => Array
+                        (
+                            [range] => 80000000-ffffffff
+                            [state] => active
+                            [replicas] => Array
+                                (
+                                    [core_node1] => Array
+                                        (
+                                            [state] => active
+                                            [core] => collection1
+                                            [node_name] => 127.0.1.1:8983_solr
+                                            [base_url] => http://127.0.1.1:8983/solr
+                                            [leader] => true
+                                        )
+
+                                    [core_node3] => Array
+                                        (
+                                            [state] => active
+                                            [core] => collection1
+                                            [node_name] => 127.0.1.1:8900_solr
+                                            [base_url] => http://127.0.1.1:8900/solr
+                                        )
+
+                                )
+
+                        )
+
+                    [shard2] => Array
+                        (
+                            [range] => 0-7fffffff
+                            [state] => active
+                            [replicas] => Array
+                                (
+                                    [core_node2] => Array
+                                        (
+                                            [state] => active
+                                            [core] => collection1
+                                            [node_name] => 127.0.1.1:7574_solr
+                                            [base_url] => http://127.0.1.1:7574/solr
+                                            [leader] => true
+                                        )
+
+                                    [core_node4] => Array
+                                        (
+                                            [state] => active
+                                            [core] => collection1
+                                            [node_name] => 127.0.1.1:7500_solr
+                                            [base_url] => http://127.0.1.1:7500/solr
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [maxShardsPerNode] => 1
+            [router] => Array
+                (
+                    [name] => compositeId
+                )
+
+            [replicationFactor] => 1
+            [tlogReplicas] => 0
+            [znodeVersion] => 11
+            [autoCreated] => true
+            [configName] => my_config
+            [aliases] => Array
+                (
+                    [0] => both_collections
+                )
+
+        )
+
+)
+
+EOT;
+
+        self::assertSame($expectedString, (string) $collectionState);
+    }
+
+    public function testCollectionStateWithNoActiveShards()
+    {
+        $state = json_decode($this->json, true);
+
+        foreach ($state['cluster']['collections']['collection1']['shards'] as &$shard) {
+            $shard['state'] = ShardState::INACTIVE;
+        }
+
+        $clusterState = new ClusterState($state['cluster']);
+        $collectionState = $clusterState->getCollectionState('collection1');
+
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('No Solr nodes are available for this collection.');
+        $collectionState->getNodesBaseUris();
+    }
+
+    public function testCollectionStateWithNonExistentCollection()
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage("Collection 'collection0' does not exist.");
+        $this->clusterState->getCollectionState('collection0');
     }
 
     public function testCollections()
@@ -193,5 +317,16 @@ class ClusterStateTest extends TestCase
         self::assertTrue($shard2_replica4->isActive());
         self::assertTrue($shard2_replica2->isLeader());
         self::assertFalse($shard2_replica4->isLeader());
+    }
+
+    public function testRoles()
+    {
+        $expectedRoles = [
+            'overseer' => [
+              '127.0.1.1:8983_solr',
+              '127.0.1.1:7574_solr',
+            ],
+        ];
+        self::assertSame($expectedRoles, $this->clusterState->getRoles());
     }
 }

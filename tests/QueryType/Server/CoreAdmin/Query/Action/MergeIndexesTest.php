@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Server\CoreAdmin\Query\Action;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\MergeIndexes;
+use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class MergeIndexesTest extends TestCase
 {
@@ -17,10 +18,21 @@ class MergeIndexesTest extends TestCase
         $this->action = new MergeIndexes();
     }
 
-    public function testSetSrcCore()
+    public function testGetType()
     {
-        $this->action->setSrcCore(['coreA', 'coreB']);
-        $this->assertSame(['coreA', 'coreB'], $this->action->getSrcCore());
+        $this->assertSame(CoreAdminQuery::ACTION_MERGE_INDEXES, $this->action->getType());
+    }
+
+    public function testSetCore()
+    {
+        $this->action->setCore('test');
+        $this->assertSame('test', $this->action->getCore());
+    }
+
+    public function testSetAsync()
+    {
+        $this->action->setAsync('fooXyz');
+        $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
     public function testSetIndexDir()
@@ -29,8 +41,9 @@ class MergeIndexesTest extends TestCase
         $this->assertSame(['/dirA', '/dirB'], $this->action->getIndexDir());
     }
 
-    public function testGetType()
+    public function testSetSrcCore()
     {
-        $this->assertSame('MERGEINDEXES', $this->action->getType());
+        $this->action->setSrcCore(['coreA', 'coreB']);
+        $this->assertSame(['coreA', 'coreB'], $this->action->getSrcCore());
     }
 }

@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Server\CoreAdmin\Query\Action;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\RequestStatus;
+use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class RequestStatusTest extends TestCase
 {
@@ -17,14 +18,14 @@ class RequestStatusTest extends TestCase
         $this->action = new RequestStatus();
     }
 
+    public function testGetType()
+    {
+        $this->assertSame(CoreAdminQuery::ACTION_REQUEST_STATUS, $this->action->getType());
+    }
+
     public function testSetRequestId()
     {
         $this->action->setRequestId('myAsyncId');
         $this->assertSame('myAsyncId', $this->action->getRequestId());
-    }
-
-    public function testGetType()
-    {
-        $this->assertSame('REQUESTSTATUS', $this->action->getType());
     }
 }

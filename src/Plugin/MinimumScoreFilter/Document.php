@@ -60,7 +60,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
     }
 
     /**
-     * Forward all other calls to the original document.
+     * Forward get call to the original document.
      *
      * @param string $name
      *

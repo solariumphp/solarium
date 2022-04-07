@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Analysis\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
+use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Analysis\Query\Document;
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 
@@ -59,5 +60,14 @@ class DocumentTest extends TestCase
             [$doc1, $doc2],
             $this->query->getDocuments()
         );
+    }
+
+    public function testAddInvalidDocument()
+    {
+        $doc1 = new ReadOnlyDocument(['id' => 1]);
+        $doc2 = ['id' => 2];
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Document must implement DocumentInterface.');
+        $this->query->addDocuments([$doc1, $doc2]);
     }
 }

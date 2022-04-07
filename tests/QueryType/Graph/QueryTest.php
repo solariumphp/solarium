@@ -3,7 +3,9 @@
 namespace Solarium\Tests\QueryType\Graph;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\QueryType\Graph\Query;
+use Solarium\QueryType\Stream\RequestBuilder;
 
 class QueryTest extends TestCase
 {
@@ -15,6 +17,21 @@ class QueryTest extends TestCase
     public function setUp(): void
     {
         $this->query = new Query();
+    }
+
+    public function testGetType()
+    {
+        $this->assertSame(Client::QUERY_GRAPH, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertNull($this->query->getResponseParser());
     }
 
     public function testConfigMode()
