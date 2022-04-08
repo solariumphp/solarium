@@ -502,7 +502,7 @@ class Helper
      */
     public function filterControlCharacters(string $data): string
     {
-        return preg_replace('/(?:
+        return preg_replace('/
           [\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F] # U+0000 to U+0008, U+000B, U+000C, U+000E to U+001F and U+007F
         |
           \\xC2[\\x80-\\x84\\x86\\x9F] # U+0080 to U+0084, U+0086 to U+009F
@@ -514,7 +514,7 @@ class Helper
           \\xEF\\xBF[\\xBE\\xBF] # U+FFFE and U+FFFF
         |
           [\\xF0-\\xF4][\\x8F-\\xBF]\\xBF[\\xBE\\xBF] # U+nFFFE and U+nFFFF (1 <= n <= 10_{16})
-        )/x', ' ', $data);
+        /x', ' ', $data);
     }
 
     /**
