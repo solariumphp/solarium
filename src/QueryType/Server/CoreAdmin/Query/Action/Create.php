@@ -30,7 +30,7 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     }
 
     /**
-     * Set the core name that should be reloaded.
+     * Set the core name that should be created.
      *
      * @param string $core
      *
@@ -45,7 +45,7 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     }
 
     /**
-     * Get the related core name.
+     * Get the core name that should be created.
      *
      * @return string|null
      */

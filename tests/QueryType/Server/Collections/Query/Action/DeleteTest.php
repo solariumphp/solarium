@@ -3,25 +3,25 @@
 namespace Solarium\Tests\QueryType\Server\Collections\Query\Action;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\QueryType\Server\Collections\Query\Action\Reload;
+use Solarium\QueryType\Server\Collections\Query\Action\Delete;
 use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
-use Solarium\QueryType\Server\Collections\Result\ReloadResult;
+use Solarium\QueryType\Server\Collections\Result\DeleteResult;
 
-class ReloadTest extends TestCase
+class DeleteTest extends TestCase
 {
     /**
-     * @var Reload
+     * @var Delete
      */
     protected $action;
 
     public function setUp(): void
     {
-        $this->action = new Reload();
+        $this->action = new Delete();
     }
 
     public function testGetType()
     {
-        $this->assertSame(CollectionsQuery::ACTION_RELOAD, $this->action->getType());
+        $this->assertSame(CollectionsQuery::ACTION_DELETE, $this->action->getType());
     }
 
     public function testSetName()
@@ -38,6 +38,6 @@ class ReloadTest extends TestCase
 
     public function testGetResultClass()
     {
-        $this->assertSame(ReloadResult::class, $this->action->getResultClass());
+        $this->assertSame(DeleteResult::class, $this->action->getResultClass());
     }
 }

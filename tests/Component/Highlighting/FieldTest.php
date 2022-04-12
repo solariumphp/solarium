@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component\Highlighting;
+namespace Solarium\Tests\Component\Highlighting;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Highlighting\Field;

@@ -15,6 +15,8 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Action\Status;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Swap;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Unload;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query;
+use Solarium\QueryType\Server\CoreAdmin\ResponseParser;
+use Solarium\QueryType\Server\Query\RequestBuilder;
 
 class QueryTest extends TestCase
 {
@@ -31,6 +33,16 @@ class QueryTest extends TestCase
     public function testGetType()
     {
         $this->assertSame(Client::QUERY_CORE_ADMIN, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testCreateCreate()

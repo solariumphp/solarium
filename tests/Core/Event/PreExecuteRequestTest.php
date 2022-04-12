@@ -30,7 +30,21 @@ class PreExecuteRequestTest extends TestCase
      *
      * @param PreExecuteRequest $event
      */
-    public function testSetAndGetQuery($event)
+    public function testSetAndGetRequest($event)
+    {
+        $request = new Request();
+        $request->addParam('newparam', 'new value');
+
+        $event->setRequest($request);
+        $this->assertSame($request, $event->getRequest());
+    }
+
+    /**
+     * @depends testConstructorAndGetters
+     *
+     * @param PreExecuteRequest $event
+     */
+    public function testSetAndGetResponse($event)
     {
         $response = new Response('', ['HTTP 1.0 200 OK']);
         $event->setResponse($response);

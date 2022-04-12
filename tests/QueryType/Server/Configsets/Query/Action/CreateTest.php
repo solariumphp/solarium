@@ -4,6 +4,8 @@ namespace Solarium\Tests\QueryType\Server\Configsets\Query\Action;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Server\Configsets\Query\Action\Create;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
+use Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult;
 
 class CreateTest extends TestCase
 {
@@ -19,7 +21,7 @@ class CreateTest extends TestCase
 
     public function testGetType()
     {
-        $this->assertSame('CREATE', $this->action->getType());
+        $this->assertSame(ConfigsetsQuery::ACTION_CREATE, $this->action->getType());
     }
 
     public function testSetName()
@@ -38,5 +40,10 @@ class CreateTest extends TestCase
     {
         $this->action->setProperty('foo', 'bar');
         $this->assertSame('bar', $this->action->getProperty('foo'));
+    }
+
+    public function testGetResultClass()
+    {
+        $this->assertSame(ConfigsetsResult::class, $this->action->getResultClass());
     }
 }

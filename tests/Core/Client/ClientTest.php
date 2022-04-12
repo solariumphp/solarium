@@ -28,9 +28,20 @@ use Solarium\Exception\UnexpectedValueException;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
+use Solarium\QueryType\Graph\Query as GraphQuery;
+use Solarium\QueryType\ManagedResources\Query\Resources as ManagedResourcesQuery;
+use Solarium\QueryType\ManagedResources\Query\Stopwords as ManagedStopwordsQuery;
+use Solarium\QueryType\ManagedResources\Query\Synonyms as ManagedSynonymsQuery;
 use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\QueryType\Ping\Query as PingQuery;
+use Solarium\QueryType\RealtimeGet\Query as RealtimeGetQuery;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
+use Solarium\QueryType\Server\Api\Query as ApiQuery;
+use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
+use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
+use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
+use Solarium\QueryType\Stream\Query as StreamQuery;
 use Solarium\QueryType\Suggester\Query as SuggesterQuery;
 use Solarium\QueryType\Terms\Query as TermsQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -674,6 +685,17 @@ class ClientTest extends TestCase
         );
     }
 
+    public function testCreateResultWithInvalidResultClass()
+    {
+        $query = new SelectQuery();
+        $query->setResultClass(\stdClass::class);
+        $response = new Response('', ['HTTP 1.0 200 OK']);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Result class must implement the ResultInterface');
+        $this->client->createResult($query, $response);
+    }
+
     public function testExecute()
     {
         $query = new PingQuery();
@@ -1032,6 +1054,22 @@ class ClientTest extends TestCase
         $observer->terms($query);
     }
 
+    public function testSpellcheck()
+    {
+        $query = new SpellcheckQuery();
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query))
+                 ->willReturn(new \Solarium\QueryType\Spellcheck\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+
+        $observer->spellcheck($query);
+    }
+
     public function testSuggester()
     {
         $query = new SuggesterQuery();
@@ -1062,6 +1100,70 @@ class ClientTest extends TestCase
             ->willReturn(new \Solarium\QueryType\Extract\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->extract($query);
+    }
+
+    public function testRealtimeGet()
+    {
+        $query = new RealtimeGetQuery();
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\RealtimeGet\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+
+        $observer->realtimeGet($query);
+    }
+
+    public function testCoreAdmin()
+    {
+        $query = new CoreAdminQuery();
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\Server\CoreAdmin\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+
+        $observer->coreAdmin($query);
+    }
+
+    public function testCollections()
+    {
+        $query = new CollectionsQuery();
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\Server\Collections\Result\ClusterStatusResult($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+
+        $observer->collections($query);
+    }
+
+    public function testConfigsets()
+    {
+        $query = new ConfigsetsQuery();
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+
+        $observer->configsets($query);
     }
 
     public function testCreateQuery()
@@ -1283,6 +1385,22 @@ class ClientTest extends TestCase
         $observer->createTerms($options);
     }
 
+    public function testCreateSpellcheck()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_SPELLCHECK), $this->equalTo($options))
+                 ->willReturn(new SpellcheckQuery());
+
+        $observer->createSpellcheck($options);
+    }
+
     public function testCreateSuggester()
     {
         $options = ['optionA' => 1, 'optionB' => 2];
@@ -1313,6 +1431,166 @@ class ClientTest extends TestCase
                  ->willReturn(new ExtractQuery());
 
         $observer->createExtract($options);
+    }
+
+    public function testCreateStream()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_STREAM), $this->equalTo($options))
+                 ->willReturn(new StreamQuery());
+
+        $observer->createStream($options);
+    }
+
+    public function testCreateGraph()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_GRAPH), $this->equalTo($options))
+                 ->willReturn(new GraphQuery());
+
+        $observer->createGraph($options);
+    }
+
+    public function testCreateRealtimeGet()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_REALTIME_GET), $this->equalTo($options))
+                 ->willReturn(new RealtimeGetQuery());
+
+        $observer->createRealtimeGet($options);
+    }
+
+    public function testCreateCoreAdmin()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_CORE_ADMIN), $this->equalTo($options))
+                 ->willReturn(new CoreAdminQuery());
+
+        $observer->createCoreAdmin($options);
+    }
+
+    public function testCreateCollections()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_COLLECTIONS), $this->equalTo($options))
+                 ->willReturn(new CollectionsQuery());
+
+        $observer->createCollections($options);
+    }
+
+    public function testCreateConfigsets()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_CONFIGSETS), $this->equalTo($options))
+                 ->willReturn(new ConfigsetsQuery());
+
+        $observer->createConfigsets($options);
+    }
+
+    public function testCreateApi()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_API), $this->equalTo($options))
+                 ->willReturn(new ApiQuery());
+
+        $observer->createApi($options);
+    }
+
+    public function testCreateManagedResources()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_MANAGED_RESOURCES), $this->equalTo($options))
+                 ->willReturn(new ManagedResourcesQuery());
+
+        $observer->createManagedResources($options);
+    }
+
+    public function testCreateManagedStopwords()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_MANAGED_STOPWORDS), $this->equalTo($options))
+                 ->willReturn(new ManagedStopwordsQuery());
+
+        $observer->createManagedStopwords($options);
+    }
+
+    public function testCreateManagedSynonyms()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_MANAGED_SYNONYMS), $this->equalTo($options))
+                 ->willReturn(new ManagedSynonymsQuery());
+
+        $observer->createManagedSynonyms($options);
     }
 }
 

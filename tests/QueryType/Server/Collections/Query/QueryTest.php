@@ -8,6 +8,8 @@ use Solarium\QueryType\Server\Collections\Query\Action\Create;
 use Solarium\QueryType\Server\Collections\Query\Action\Reload;
 use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Query;
+use Solarium\QueryType\Server\Query\RequestBuilder;
+use Solarium\QueryType\Server\Query\ResponseParser;
 
 class QueryTest extends TestCase
 {
@@ -24,6 +26,16 @@ class QueryTest extends TestCase
     public function testGetType()
     {
         $this->assertSame(Client::QUERY_COLLECTIONS, $this->query->getType());
+    }
+
+    public function testGetRequestBuilder()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testCreateCreate()
