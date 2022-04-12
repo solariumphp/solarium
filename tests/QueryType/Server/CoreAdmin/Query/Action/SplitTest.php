@@ -4,6 +4,7 @@ namespace Solarium\Tests\QueryType\Server\CoreAdmin\Query\Action;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Split;
+use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class SplitTest extends TestCase
 {
@@ -15,6 +16,23 @@ class SplitTest extends TestCase
     public function setUp(): void
     {
         $this->action = new Split();
+    }
+
+    public function testGetType()
+    {
+        $this->assertSame(CoreAdminQuery::ACTION_SPLIT, $this->action->getType());
+    }
+
+    public function testSetCore()
+    {
+        $this->action->setCore('test');
+        $this->assertSame('test', $this->action->getCore());
+    }
+
+    public function testSetAsync()
+    {
+        $this->action->setAsync('fooXyz');
+        $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
     public function testSetPath()
@@ -39,10 +57,5 @@ class SplitTest extends TestCase
     {
         $this->action->setSplitKey('A!');
         $this->assertSame('A!', $this->action->getSplitKey());
-    }
-
-    public function testGetType()
-    {
-        $this->assertSame('SPLIT', $this->action->getType());
     }
 }

@@ -84,6 +84,81 @@ class Psr18AdapterTest extends TestCase
         $this->assertSame('some nice body', $response->getBody());
     }
 
+    public function testExecutePostRequestWithFileUpload(): void
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
+        file_put_contents($tmpfname, 'Test file contents');
+
+        $expectedBodyRegex = <<<'REGEX'
+~^--([[:xdigit:]]{32})\r\n
+Content-Disposition:\ form-data;\ name="file";\ filename="tst.+?"\r\n
+Content-Type:\ application/octet-stream\r\n
+\r\n
+Test\ file\ contents\r\n
+--\1--\r\n
+$~xD
+REGEX;
+
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (RequestInterface $request) use ($expectedBodyRegex) {
+                $this->assertSame(Request::METHOD_POST, $request->getMethod());
+                $this->assertMatchesRegularExpression($expectedBodyRegex, (string) $request->getBody());
+                $this->assertSame([
+                    'Host' => ['127.0.0.1:8983'],
+                    'Content-Type' => ['application/xml; charset=utf-8'],
+                ], $request->getHeaders());
+
+                return true;
+            }))
+            ->willReturn(new Response(400, [], 'some nice body'))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setFileUpload($tmpfname);
+        $request->setIsServerRequest(true);
+
+        $response = $adapter->execute($request, new Endpoint());
+        $this->assertSame(400, $response->getStatusCode());
+        $this->assertSame('some nice body', $response->getBody());
+    }
+
+    public function testExecutePutRequest(): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (RequestInterface $request) {
+                $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+                $this->assertSame('some data', (string) $request->getBody());
+                $this->assertSame([
+                    'Host' => ['127.0.0.1:8983'],
+                    'Content-Type' => ['application/xml; charset=utf-8'],
+                ], $request->getHeaders());
+
+                return true;
+            }))
+            ->willReturn(new Response(400, [], 'some nice body'))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_PUT);
+        $request->setRawData('some data');
+        $request->setIsServerRequest(true);
+
+        $response = $adapter->execute($request, new Endpoint());
+        $this->assertSame(400, $response->getStatusCode());
+        $this->assertSame('some nice body', $response->getBody());
+    }
+
     /**
      * @testWith [true]
      *           [false]

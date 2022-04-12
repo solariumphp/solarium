@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component;
+namespace Solarium\Tests\Component;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\Field;

@@ -1292,42 +1292,6 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
-     * Create a managed resources query instance.
-     *
-     * @param mixed $options
-     *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Resources
-     */
-    public function createManagedResources(array $options = null)
-    {
-        return $this->createQuery(self::QUERY_MANAGED_RESOURCES, $options);
-    }
-
-    /**
-     * Create a managed stopwords query instance.
-     *
-     * @param mixed $options
-     *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Stopwords
-     */
-    public function createManagedStopwords(array $options = null)
-    {
-        return $this->createQuery(self::QUERY_MANAGED_STOPWORDS, $options);
-    }
-
-    /**
-     * Create a managed synonyms query instance.
-     *
-     * @param mixed $options
-     *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Synonyms
-     */
-    public function createManagedSynonyms(array $options = null)
-    {
-        return $this->createQuery(self::QUERY_MANAGED_SYNONYMS, $options);
-    }
-
-    /**
      * Create a Collections API query instance.
      *
      * @param mixed $options
@@ -1361,6 +1325,42 @@ class Client extends Configurable implements ClientInterface
     public function createApi(array $options = null): ApiQuery
     {
         return $this->createQuery(self::QUERY_API, $options);
+    }
+
+    /**
+     * Create a managed resources query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Resources
+     */
+    public function createManagedResources(array $options = null)
+    {
+        return $this->createQuery(self::QUERY_MANAGED_RESOURCES, $options);
+    }
+
+    /**
+     * Create a managed stopwords query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Stopwords
+     */
+    public function createManagedStopwords(array $options = null)
+    {
+        return $this->createQuery(self::QUERY_MANAGED_STOPWORDS, $options);
+    }
+
+    /**
+     * Create a managed synonyms query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Synonyms
+     */
+    public function createManagedSynonyms(array $options = null)
+    {
+        return $this->createQuery(self::QUERY_MANAGED_SYNONYMS, $options);
     }
 
     /**

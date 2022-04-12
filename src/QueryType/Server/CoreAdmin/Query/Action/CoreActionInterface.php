@@ -17,7 +17,7 @@ use Solarium\QueryType\Server\Query\Action\ActionInterface;
 interface CoreActionInterface extends ActionInterface
 {
     /**
-     * Set the core name that should be reloaded.
+     * Set the core name for the action.
      *
      * @param string $core
      *

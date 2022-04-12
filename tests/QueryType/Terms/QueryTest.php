@@ -45,6 +45,12 @@ class QueryTest extends TestCase
         $this->assertSame(['fieldA', 'fieldB'], $this->query->getFields());
     }
 
+    public function testGetFieldsAlwaysReturnsArray()
+    {
+        $this->query->setFields(null);
+        $this->assertSame([], $this->query->getFields());
+    }
+
     public function testSetAndGetLowerbound()
     {
         $this->query->setLowerbound('f');
@@ -91,6 +97,12 @@ class QueryTest extends TestCase
     {
         $this->query->setRegexFlags(['case_insensitive', 'comments']);
         $this->assertSame(['case_insensitive', 'comments'], $this->query->getRegexFlags());
+    }
+
+    public function testGetRegexFlagsAlwaysReturnsArray()
+    {
+        $this->query->setRegexFlags(null);
+        $this->assertSame([], $this->query->getRegexFlags());
     }
 
     public function testSetAndGetLimit()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component\Facet;
+namespace Solarium\Tests\Component\Facet;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Facet\JsonQuery;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Select\Query\Component\DisMax;
+namespace Solarium\Tests\Component\DisMax;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\DisMax\BoostQuery;

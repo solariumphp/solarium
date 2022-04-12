@@ -97,11 +97,11 @@ class ClusterStatus extends AbstractAsyncAction
     /**
      * Get route.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRoute(): string
+    public function getRoute(): ?string
     {
-        return $this->getOption('route');
+        return $this->getOption('_route_');
     }
 
     /**
