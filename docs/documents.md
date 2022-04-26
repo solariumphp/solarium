@@ -74,17 +74,59 @@ htmlFooter();
 Read-write document
 ===================
 
-This document type can be used for update queries. It extends the Read-Only document and adds the ability to add, set or remove field values and boosts.
+This document type can be used for update queries. It extends the Read-Only document and adds the ability to add, set or remove field values, modifiers for atomic updates, and boosts.
 
-Any fields you set must exactly match the field names in your Solr schema, or you will get an exception when you try to add them.
+Any fields you set must match a field name or a wildcard in your Solr schema, or you will get an exception when you try to add them to your index.
 
 You can set field values in multiple ways:
 
--   as object property
--   as array entry
+-   as an object property
+-   as a name ⇒ value array through the constructor or `setFields` method
 -   by using the `setField` and `addField` methods
 
 See the API docs for details and the example code below for examples.
+
+Example usage
+-------------
+
+```php
+<?php
+
+require_once(__DIR__.'/init.php');
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+// get an update query instance
+$update = $client->createUpdate();
+
+// create a new document for the data
+$doc1 = $update->createDocument();
+$doc1->id = 123;
+$doc1->name = 'testdoc-1';
+$doc1->price = 364;
+
+// and a second one
+$doc2 = $update->createDocument();
+$doc2->id = 124;
+$doc2->name = 'testdoc-2';
+$doc2->price = 340;
+
+// add the documents and a commit command to the update query
+$update->addDocuments(array($doc1, $doc2));
+$update->addCommit();
+
+// this executes the query and returns the result
+$result = $client->update($update);
+
+echo '<b>Update query executed</b><br/>';
+echo 'Query status: ' . $result->getStatus(). '<br/>';
+echo 'Query time: ' . $result->getQueryTime();
+
+htmlFooter();
+
+```
 
 Multivalue fields
 -----------------
@@ -96,7 +138,74 @@ If you want to add an extra value to an existing field, without overwriting, you
 Dates
 -----
 
-If you have a date in your Solr schema you can set this in the document as a string in the Solr date format. However, you can also set a PHP DateTime object as the field value in your document. In that case Solarium will automatically convert it to a datetime string in the correct format.
+If you have a date in your Solr schema you can set this in the document as a string in the Solr date format. However, you can also set a PHP `\DateTime` object as the field value in your document. In that case Solarium will automatically convert it to a datetime string in the correct format.
+
+Nested child documents
+----------------------
+
+If you add name ⇒ value arrays as field values, they will get indexed as nested child documents.
+
+```php
+<?php
+
+require_once(__DIR__.'/init.php');
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+// get an update query instance
+$update = $client->createUpdate();
+
+// create a document and set nested child documents
+$doc1 = $update->createDocument();
+$doc1->id = 123;
+$doc1->name = 'testdoc-1';
+$doc1->childdocs = array(
+    array(
+        'id' => 1230,
+        'name' => 'childdoc-1-1',
+        'price' => 465,
+    ),
+    array(
+        'id' => 1231,
+        'name' => 'childdoc-1-2',
+        'price' => 545,
+    ),
+);
+
+// and a second one where child documents are added one by one
+$doc2 = $update->createDocument();
+$doc2->setField('id', 124);
+$doc2->setField('name', 'testdoc-2');
+$doc2->addField('childdocs', array(
+    'id' => 1240,
+    'name' => 'childdoc-2-1',
+    'price' => 360,
+));
+$doc2->addField('childdocs', array(
+    'id' => 1241,
+    'name' => 'childdoc-2-2',
+    'price' => 398,
+));
+
+// add the documents and a commit command to the update query
+$update->addDocuments(array($doc1, $doc2));
+$update->addCommit();
+
+// this executes the query and returns the result
+$result = $client->update($update);
+
+echo '<b>Update query executed</b><br/>';
+echo 'Query status: ' . $result->getStatus(). '<br/>';
+echo 'Query time: ' . $result->getQueryTime();
+
+htmlFooter();
+```
+
+If you use `_childDocuments_` as the field name, the child documents are indexed anonymously. This is not recommended by Solr.
+
+Your schema has to meet certain criteria for this to work. For more info on indexing nested child documents please read the manual: <https://solr.apache.org/guide/indexing-nested-documents.html>.
 
 Atomic updates
 --------------
@@ -206,48 +315,6 @@ There are two types of boosts: a document boost and a per-field boost. See Solr 
 You can set the document boost with the `setBoost` method.
 
 Field boosts can be set with the `setFieldBoost` method, or with optional parameters of the `setField` and `addField` methods. See the API docs for details.
-
-Example usage
--------------
-
-```php
-<?php
-
-require_once(__DIR__.'/init.php');
-htmlHeader();
-
-// create a client instance
-$client = new Solarium\Client($adapter, $eventDispatcher, $config);
-
-// get an update query instance
-$update = $client->createUpdate();
-
-// create a new document for the data
-$doc1 = $update->createDocument();
-$doc1->id = 123;
-$doc1->name = 'testdoc-1';
-$doc1->price = 364;
-
-// and a second one
-$doc2 = $update->createDocument();
-$doc2->id = 124;
-$doc2->name = 'testdoc-2';
-$doc2->price = 340;
-
-// add the documents and a commit command to the update query
-$update->addDocuments(array($doc1, $doc2));
-$update->addCommit();
-
-// this executes the query and returns the result
-$result = $client->update($update);
-
-echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
-
-htmlFooter();
-
-```
 
 
 Custom document

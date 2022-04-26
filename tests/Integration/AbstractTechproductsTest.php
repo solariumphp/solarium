@@ -14,6 +14,9 @@ use Solarium\Component\Result\Terms\Result as TermsResult;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\Helper;
+use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
@@ -37,6 +40,7 @@ use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResu
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
+use Solarium\QueryType\Update\RequestBuilder as UpdateRequestBuilder;
 use Solarium\Support\Utility;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -1644,6 +1648,13 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => 'solarium-parent',
             'name' => 'Solarium Nested Document Parent',
             'cat' => ['solarium-nested-document', 'parent'],
+            // Solr has no "single nested document", but it works in Solarium on this level
+            'single_child' => [
+                'id' => 'solarium-single-child',
+                'name' => 'Solarium Nested Document Single Child',
+                'cat' => ['solarium-nested-document', 'child'],
+                'price' => 0.0,
+            ],
             'children' => [
                 [
                     'id' => 'solarium-child-1',
@@ -1687,10 +1698,16 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('cat:solarium-nested-document');
         $select->setFields('id,name,price');
         $result = self::$client->select($select);
-        $this->assertCount(5, $result);
+        $this->assertCount(6, $result);
 
         // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
         $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-single-child',
+            'name' => 'Solarium Nested Document Single Child',
+            'price' => 0.0,
+        ], $iterator->current()->getFields());
+        $iterator->next();
         $this->assertSame([
             'id' => 'solarium-grandchild-1-1',
             'name' => 'Solarium Nested Document Grandchild 1.1',
@@ -1725,12 +1742,17 @@ abstract class AbstractTechproductsTest extends TestCase
             // get parent document with nested children as pseudo-fields
             $select->setQuery('id:solarium-parent');
             // 'id,[child]' is not enough, either * or the explicit names of the pseudo-fields are needed to actually include them
-            $select->setFields('id,children,grandchildren,[child]');
+            $select->setFields('id,single_child,children,grandchildren,[child]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
             $this->assertSame([
                 'id' => 'solarium-parent',
+                'single_child' => [
+                    [
+                        'id' => 'solarium-single-child',
+                    ],
+                ],
                 'children' => [
                     [
                         'id' => 'solarium-child-1',
@@ -1752,7 +1774,7 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $iterator->current()->getFields());
 
             // only get descendant documents that match a filter
-            $select->setFields('id,price,children,grandchildren,[child childFilter=price:2.1]');
+            $select->setFields('id,single_child,price,children,grandchildren,[child childFilter=price:2.1]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
@@ -1773,7 +1795,7 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $iterator->current()->getFields());
 
             // limit nested path of child documents to be returned
-            $select->setFields('id,children,grandchildren,[child childFilter=/children/*:*]');
+            $select->setFields('id,single_child,children,grandchildren,[child childFilter=/children/*:*]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
@@ -1790,12 +1812,17 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $iterator->current()->getFields());
 
             // limit number of child documents to be returned
-            $select->setFields('id,children,grandchildren,[child limit=1]');
+            $select->setFields('id,single_child,children,grandchildren,[child limit=2]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
             $this->assertSame([
                 'id' => 'solarium-parent',
+                'single_child' => [
+                    [
+                        'id' => 'solarium-single-child',
+                    ],
+                ],
                 'children' => [
                     [
                         'id' => 'solarium-child-1',
@@ -1809,13 +1836,19 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $iterator->current()->getFields());
 
             // only return a subset of the top level fl parameter for the child documents
-            $select->setFields('id,name,price,children,grandchildren,[child fl=id,price]');
+            $select->setFields('id,name,price,single_child,children,grandchildren,[child fl=id,price]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
             $this->assertSame([
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
+                'single_child' => [
+                    [
+                        'id' => 'solarium-single-child',
+                        'price' => 0.0,
+                    ],
+                ],
                 'children' => [
                     [
                         'id' => 'solarium-child-1',
@@ -1855,8 +1888,12 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
         $select->setFields('id');
         $result = self::$client->select($select);
-        $this->assertCount(4, $result);
+        $this->assertCount(5, $result);
         $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-single-child',
+        ], $iterator->current()->getFields());
+        $iterator->next();
         $this->assertSame([
             'id' => 'solarium-grandchild-1-1',
         ], $iterator->current()->getFields());
@@ -1875,18 +1912,32 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // in Solr 7, atomic updates of child documents aren't possible
         if (8 <= self::$solrVersion) {
-            // atomic update: removing all child documents
+            // atomic update: replacing all child documents
+            $newChildren = [
+                [
+                    'id' => 'solarium-child-3',
+                    'name' => 'Solarium Nested Document Child 3',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 3.0,
+                ],
+                [
+                    'id' => 'solarium-child-4',
+                    'name' => 'Solarium Nested Document Child 4',
+                    'cat' => ['solarium-nested-document', 'child'],
+                    'price' => 4.0,
+                ],
+            ];
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-parent');
-            $doc->setField('cat', 'updated');
+            $doc->setField('cat', 'updated-1');
             $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
-            $doc->setField('children', []);
+            $doc->setField('children', $newChildren);
             $doc->setFieldModifier('children', $doc::MODIFIER_SET);
             $update->addDocument($doc);
             $update->addCommit(true, true);
             self::$client->update($update);
             $select->setQuery('id:solarium-parent');
-            $select->setFields('id,name,cat,price,children,grandchildren,[child]');
+            $select->setFields('id,name,cat,price,single_child,children,grandchildren,[child]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
@@ -1896,11 +1947,61 @@ abstract class AbstractTechproductsTest extends TestCase
                 'cat' => [
                     'solarium-nested-document',
                     'parent',
-                    'updated',
+                    'updated-1',
+                ],
+                'single_child' => [
+                    [
+                        'id' => 'solarium-single-child',
+                        'name' => 'Solarium Nested Document Single Child',
+                        'cat' => ['solarium-nested-document', 'child'],
+                        'price' => 0.0,
+                    ],
+                ],
+                'children' => [
+                    [
+                        'id' => 'solarium-child-3',
+                        'name' => 'Solarium Nested Document Child 3',
+                        'cat' => ['solarium-nested-document', 'child'],
+                        'price' => 3.0,
+                    ],
+                    [
+                        'id' => 'solarium-child-4',
+                        'name' => 'Solarium Nested Document Child 4',
+                        'cat' => ['solarium-nested-document', 'child'],
+                        'price' => 4.0,
+                    ],
                 ],
             ], $iterator->current()->getFields());
 
-            // other atomic updates (replacing, adding, removing child documents) can't be executed through XML (SOLR-12677)
+            // atomic update: removing all child documents
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-parent');
+            $doc->setField('cat', 'updated-2');
+            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $doc->setField('single_child', []);
+            $doc->setFieldModifier('single_child', $doc::MODIFIER_SET);
+            $doc->setField('children', []);
+            $doc->setFieldModifier('children', $doc::MODIFIER_SET);
+            $update->addDocument($doc);
+            $update->addCommit(true, true);
+            self::$client->update($update);
+            $select->setQuery('id:solarium-parent');
+            $select->setFields('id,name,cat,price,single_child,children,grandchildren,[child]');
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-parent',
+                'name' => 'Solarium Nested Document Parent',
+                'cat' => [
+                    'solarium-nested-document',
+                    'parent',
+                    'updated-1',
+                    'updated-2',
+                ],
+            ], $iterator->current()->getFields());
+
+            // other atomic updates can't be executed through XML (SOLR-12677)
         }
 
         // cleanup
@@ -2112,6 +2213,25 @@ abstract class AbstractTechproductsTest extends TestCase
         $select->setFields('id');
         $result = self::$client->select($select);
         $this->assertCount(0, $result);
+    }
+
+    public function testUpdateWithoutControlCharacterFiltering()
+    {
+        $data = [
+            'id' => 'solarium-unfiltered-control-chars',
+            'name' => 'Solarium Document With Control Characters',
+            'cat' => [
+                'Backspace: '.chr(8),
+                'Shift In: '.chr(15),
+            ],
+        ];
+
+        $update = new NonControlCharFilteringUpdateQuery();
+        $doc = $update->createDocument($data);
+        $update->addDocument($doc);
+
+        $this->expectException(HttpException::class);
+        self::$client->update($update);
     }
 
     public function testReRankQuery()
@@ -3732,6 +3852,44 @@ class TermsTestQuery extends SelectQuery
         $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';
         // Unfortunately the terms request Handler is the only one containing a terms component.
         $this->setHandler('terms');
+    }
+}
+
+class NonControlCharFilteringHelper extends Helper
+{
+    public function filterControlCharacters(string $data): string
+    {
+        return $data;
+    }
+}
+
+class NonControlCharFilteringUpdateQuery extends UpdateQuery
+{
+    /**
+     * Get a requestbuilder that doesn't filter control characters.
+     *
+     * @return UpdateRequestBuilder
+     */
+    public function getRequestBuilder(): RequestBuilderInterface
+    {
+        return new NonControlCharFilteringUpdateRequestBuilder();
+    }
+}
+
+class NonControlCharFilteringUpdateRequestBuilder extends UpdateRequestBuilder
+{
+    /**
+     * Get a custom helper instance that doesn't filter control characters.
+     *
+     * @return Helper
+     */
+    public function getHelper(): Helper
+    {
+        if (null === $this->helper) {
+            $this->helper = new NonControlCharFilteringHelper();
+        }
+
+        return $this->helper;
     }
 }
 

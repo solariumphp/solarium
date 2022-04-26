@@ -42,7 +42,10 @@ class DocumentTest extends TestCase
         // this doc tests a multivalue field
         $doc2 = new InputDocument(['id' => 2, 'name' => 'doc2', 'cat' => [1, 2, 3]]);
 
-        $this->query->addDocuments([$doc1, $doc2]);
+        // this doc tests control character filtering
+        $doc3 = new InputDocument(['id' => 3, 'name' => 'doc3'.chr(22), 'cat' => [chr(14).'cat', 'cat'.chr(15).chr(8)]]);
+
+        $this->query->addDocuments([$doc1, $doc2, $doc3]);
 
         $this->assertSame(
             '<docs>'.
@@ -57,6 +60,12 @@ class DocumentTest extends TestCase
             '<field name="cat">1</field>'.
             '<field name="cat">2</field>'.
             '<field name="cat">3</field>'.
+            '</doc>'.
+            '<doc>'.
+            '<field name="id">3</field>'.
+            '<field name="name">doc3 </field>'.
+            '<field name="cat"> cat</field>'.
+            '<field name="cat">cat  </field>'.
             '</doc>'.
             '</docs>',
             $this->builder->getRawData($this->query)

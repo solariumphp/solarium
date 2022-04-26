@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Query\AbstractDocument;
-use Solarium\Core\Query\Helper;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -26,7 +25,7 @@ use Solarium\Exception\RuntimeException;
  * stored. You will lose that data because it is impossible to retrieve it from
  * Solr. Always update from the original data source.
  *
- * Atomic updates are also support, using the field modifiers.
+ * Atomic updates are also supported, using the field modifiers.
  */
 class Document extends AbstractDocument
 {
@@ -140,15 +139,6 @@ class Document extends AbstractDocument
     protected $version;
 
     /**
-     * Helper instance.
-     *
-     * @var Helper
-     */
-    protected $helper;
-
-    protected $filterControlCharacters = true;
-
-    /**
      * Constructor.
      *
      * @param array $fields
@@ -167,8 +157,8 @@ class Document extends AbstractDocument
      * object, by field name.
      *
      * If you supply NULL as the value the field will be removed
-     * If you supply an array a multivalue field will be created.
-     * In all cases any existing (multi)value will be overwritten.
+     * If you supply an array a multivalue field or an array of child documents will be created.
+     * In all cases any existing (multi)value or child documents will be overwritten.
      *
      * @param string $name
      * @param mixed  $value
@@ -213,14 +203,12 @@ class Document extends AbstractDocument
                 $this->fields[$key] = [$this->fields[$key]];
             }
 
-            if ($this->filterControlCharacters && \is_string($value)) {
-                $value = $this->getHelper()->filterControlCharacters($value);
-            }
-
             $this->fields[$key][] = $value;
+
             if (null !== $boost) {
                 $this->setFieldBoost($key, $boost);
             }
+
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
@@ -233,8 +221,8 @@ class Document extends AbstractDocument
      * Set a field value.
      *
      * If you supply NULL as the value the field will be removed
-     * If you supply an array a multivalue field will be created.
-     * In all cases any existing (multi)value will be overwritten.
+     * If you supply an array a multivalue field or an array of child documents will be created.
+     * In all cases any existing (multi)value or child documents will be overwritten.
      *
      * @param string      $key
      * @param mixed       $value
@@ -248,23 +236,17 @@ class Document extends AbstractDocument
         if (null === $value && null === $modifier) {
             $this->removeField($key);
         } else {
-            if (\is_array($value)) {
-                $this->fields[$key] = [];
-
-                foreach ($value as $v) {
-                    $this->addField($key, $v);
-                }
-            } else {
-                if ($this->filterControlCharacters && \is_string($value)) {
-                    $value = $this->getHelper()->filterControlCharacters($value);
-                }
-
-                $this->fields[$key] = $value;
+            // are we dealing with a child document?
+            if (\is_array($value) && [] !== $value && !is_numeric(array_key_first($value))) {
+                $value = [$value];
             }
+
+            $this->fields[$key] = $value;
 
             if (null !== $boost) {
                 $this->setFieldBoost($key, $boost);
             }
+
             if (null !== $modifier) {
                 $this->setFieldModifier($key, $modifier);
             }
@@ -492,45 +474,5 @@ class Document extends AbstractDocument
     public function getVersion(): ?int
     {
         return $this->version;
-    }
-
-    /**
-     * Get a helper instance.
-     *
-     * Uses lazy loading: the helper is instantiated on first use
-     *
-     * @return Helper
-     */
-    public function getHelper(): Helper
-    {
-        if (null === $this->helper) {
-            $this->helper = new Helper();
-        }
-
-        return $this->helper;
-    }
-
-    /**
-     * Whether values should be filtered for control characters automatically.
-     *
-     * @param bool $filterControlCharacters
-     *
-     * @return self
-     */
-    public function setFilterControlCharacters(bool $filterControlCharacters): self
-    {
-        $this->filterControlCharacters = $filterControlCharacters;
-
-        return $this;
-    }
-
-    /**
-     * Returns whether values should be filtered automatically or control characters.
-     *
-     * @return bool
-     */
-    public function getFilterControlCharacters(): bool
-    {
-        return $this->filterControlCharacters;
     }
 }

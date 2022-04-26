@@ -111,8 +111,7 @@ class RequestBuilder extends BaseRequestBuilder
                 $xml .= $this->buildFieldsXml($name, $boost, $value, $modifier);
             }
 
-            $version = $doc->getVersion();
-            if (null !== $version) {
+            if (null !== $version = $doc->getVersion()) {
                 $xml .= $this->buildFieldXml('_version_', null, $version);
             }
 
@@ -204,7 +203,7 @@ class RequestBuilder extends BaseRequestBuilder
 
         foreach ($command->getCommands() as $raw) {
             // unwrap grouped commands, they must be consolidated in a single <update>
-            if (false !== ($pos = strpos($raw, '<update'))) {
+            if (false !== $pos = strpos($raw, '<update')) {
                 $start = strpos($raw, '>', $pos) + 1;
                 $raw = substr($raw, $start, strrpos($raw, '</update>') - $start);
             }
@@ -229,6 +228,8 @@ class RequestBuilder extends BaseRequestBuilder
      */
     protected function buildFieldXml(string $name, ?float $boost, $value, ?string $modifier = null): string
     {
+        $helper = $this->getHelper();
+
         $xml = '<field name="'.$name.'"';
         $xml .= $this->attrib('boost', $boost);
         $xml .= $this->attrib('update', $modifier);
@@ -239,9 +240,9 @@ class RequestBuilder extends BaseRequestBuilder
         } elseif (true === $value) {
             $value = 'true';
         } elseif ($value instanceof \DateTimeInterface) {
-            $value = $this->getHelper()->formatDate($value);
+            $value = $helper->formatDate($value);
         } else {
-            $value = $this->getHelper()->escapeXMLCharacterData($value);
+            $value = $helper->escapeXMLCharacterData($helper->filterControlCharacters($value));
         }
 
         $xml .= '>'.$value.'</field>';
@@ -269,6 +270,7 @@ class RequestBuilder extends BaseRequestBuilder
 
         if (\is_array($value)) {
             $nestedXml = '';
+
             foreach ($value as $multival) {
                 if (\is_array($multival) && '_childDocuments_' === $key) {
                     $xml .= '<doc>';
@@ -292,6 +294,7 @@ class RequestBuilder extends BaseRequestBuilder
                     $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                 }
             }
+
             if (!empty($nestedXml) && '_childDocuments_' !== $key) {
                 $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
             }
