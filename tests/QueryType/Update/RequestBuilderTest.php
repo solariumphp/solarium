@@ -134,6 +134,41 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlWithSingleNestedDocument()
+    {
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(
+                [
+                    'id' => [
+                        'nested_id' => 42,
+                        'customer_ids' => [
+                            15,
+                            16,
+                        ],
+                    ],
+                    'text' => 'test < 123 > test',
+                ]
+            )
+        );
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id">'.
+            '<doc>'.
+            '<field name="nested_id">42</field>'.
+            '<field name="customer_ids">15</field>'.
+            '<field name="customer_ids">16</field>'.
+            '</doc>'.
+            '</field>'.
+            '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithNestedDocuments()
     {
         $command = new AddCommand();

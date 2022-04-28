@@ -1648,7 +1648,6 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => 'solarium-parent',
             'name' => 'Solarium Nested Document Parent',
             'cat' => ['solarium-nested-document', 'parent'],
-            // Solr has no "single nested document", but it works in Solarium on this level
             'single_child' => [
                 'id' => 'solarium-single-child',
                 'name' => 'Solarium Nested Document Single Child',
@@ -1661,13 +1660,12 @@ abstract class AbstractTechproductsTest extends TestCase
                     'name' => 'Solarium Nested Document Child 1',
                     'cat' => ['solarium-nested-document', 'child'],
                     'price' => 1.0,
+                    // as a single nested document
                     'grandchildren' => [
-                        [
-                            'id' => 'solarium-grandchild-1-1',
-                            'name' => 'Solarium Nested Document Grandchild 1.1',
-                            'cat' => ['solarium-nested-document', 'grandchild'],
-                            'price' => 1.1,
-                        ],
+                        'id' => 'solarium-grandchild-1-1',
+                        'name' => 'Solarium Nested Document Grandchild 1.1',
+                        'cat' => ['solarium-nested-document', 'grandchild'],
+                        'price' => 1.1,
                     ],
                 ],
                 [
@@ -1675,6 +1673,7 @@ abstract class AbstractTechproductsTest extends TestCase
                     'name' => 'Solarium Nested Document Child 2',
                     'cat' => ['solarium-nested-document', 'child'],
                     'price' => 2.0,
+                    // as an array of nested documents
                     'grandchildren' => [
                         [
                             'id' => 'solarium-grandchild-2-1',
@@ -1875,6 +1874,14 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         // parent query parser
+        $select->setQuery('{!parent which="cat:parent"}id:solarium-single-child');
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-parent',
+        ], $iterator->current()->getFields());
         $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
         $select->setFields('id');
         $result = self::$client->select($select);
@@ -1913,6 +1920,12 @@ abstract class AbstractTechproductsTest extends TestCase
         // in Solr 7, atomic updates of child documents aren't possible
         if (8 <= self::$solrVersion) {
             // atomic update: replacing all child documents
+            $newSingleChild = [
+                'id' => 'solarium-new-single-child',
+                'name' => 'Solarium Nested Document New Single Child',
+                'cat' => ['solarium-nested-document', 'child'],
+                'price' => 0.5,
+            ];
             $newChildren = [
                 [
                     'id' => 'solarium-child-3',
@@ -1931,6 +1944,8 @@ abstract class AbstractTechproductsTest extends TestCase
             $doc->setKey('id', 'solarium-parent');
             $doc->setField('cat', 'updated-1');
             $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+            $doc->setField('single_child', $newSingleChild);
+            $doc->setFieldModifier('single_child', $doc::MODIFIER_SET);
             $doc->setField('children', $newChildren);
             $doc->setFieldModifier('children', $doc::MODIFIER_SET);
             $update->addDocument($doc);
@@ -1951,10 +1966,10 @@ abstract class AbstractTechproductsTest extends TestCase
                 ],
                 'single_child' => [
                     [
-                        'id' => 'solarium-single-child',
-                        'name' => 'Solarium Nested Document Single Child',
+                        'id' => 'solarium-new-single-child',
+                        'name' => 'Solarium Nested Document New Single Child',
                         'cat' => ['solarium-nested-document', 'child'],
-                        'price' => 0.0,
+                        'price' => 0.5,
                     ],
                 ],
                 'children' => [

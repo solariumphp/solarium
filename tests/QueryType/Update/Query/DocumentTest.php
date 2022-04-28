@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Update\Query\Document;
+namespace Solarium\Tests\QueryType\Update\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\RuntimeException;
@@ -23,7 +23,6 @@ class DocumentTest extends TestCase
         'id' => 'parent',
         'name' => 'Parent',
         'cat' => [1, 2],
-        // Solr has no "single nested document", but it works in Solarium on this level
         'single_child' => [
             'id' => 'single-child',
             'name' => 'Single Child',
@@ -34,18 +33,18 @@ class DocumentTest extends TestCase
                 'id' => 'child-1',
                 'name' => 'Child 1',
                 'cat' => [5, 6],
+                // as a single nested document
                 'grandchildren' => [
-                    [
-                        'id' => 'grandchild-1-1',
-                        'name' => 'Grandchild 1.1',
-                        'cat' => [7, 8],
-                    ],
+                    'id' => 'grandchild-1-1',
+                    'name' => 'Grandchild 1.1',
+                    'cat' => [7, 8],
                 ],
             ],
             [
                 'id' => 'child-2',
                 'name' => 'Child 2',
                 'cat' => [9, 10],
+                // as an array of nested documents
                 'grandchildren' => [
                     [
                         'id' => 'grandchild-2-1',
@@ -102,11 +101,8 @@ class DocumentTest extends TestCase
     {
         $doc = new Document($this->childDocumentFields);
 
-        $expectedFields = $this->childDocumentFields;
-        $expectedFields['single_child'] = [$this->childDocumentFields['single_child']];
-
         $this->assertSame(
-            $expectedFields,
+            $this->childDocumentFields,
             $doc->getFields()
         );
     }
@@ -212,7 +208,7 @@ class DocumentTest extends TestCase
         $this->doc->addField('single_child', $this->childDocumentFields['single_child']);
 
         $expectedFields = $this->fields;
-        $expectedFields['single_child'] = [$this->childDocumentFields['single_child']];
+        $expectedFields['single_child'] = $this->childDocumentFields['single_child'];
 
         $this->assertSame(
             $expectedFields,
@@ -220,7 +216,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithNestedDocumentsOneByOne()
+    public function testAddFieldWithNestedDocuments()
     {
         foreach ($this->childDocumentFields['children'] as $child) {
             $this->doc->addField('children', $child);
@@ -299,7 +295,7 @@ class DocumentTest extends TestCase
         $this->doc->setField('single_child', $this->childDocumentFields['single_child']);
 
         $expectedFields = $this->fields;
-        $expectedFields['single_child'] = [$this->childDocumentFields['single_child']];
+        $expectedFields['single_child'] = $this->childDocumentFields['single_child'];
 
         $this->assertSame(
             $expectedFields,
@@ -385,11 +381,8 @@ class DocumentTest extends TestCase
     {
         $this->doc->setFields($this->childDocumentFields);
 
-        $expectedFields = $this->childDocumentFields;
-        $expectedFields['single_child'] = [$this->childDocumentFields['single_child']];
-
         $this->assertSame(
-            $expectedFields,
+            $this->childDocumentFields,
             $this->doc->getFields()
         );
     }
@@ -540,7 +533,7 @@ class DocumentTest extends TestCase
         $this->doc->single_child = $this->childDocumentFields['single_child'];
 
         $this->assertSame(
-            [$this->childDocumentFields['single_child']],
+            $this->childDocumentFields['single_child'],
             $this->doc->single_child
         );
     }

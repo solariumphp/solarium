@@ -271,28 +271,38 @@ class RequestBuilder extends BaseRequestBuilder
         if (\is_array($value)) {
             $nestedXml = '';
 
-            foreach ($value as $multival) {
-                if (\is_array($multival) && '_childDocuments_' === $key) {
-                    $xml .= '<doc>';
-                    foreach ($multival as $k => $v) {
-                        $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier);
+            if (is_numeric(array_key_first($value))) {
+                foreach ($value as $multival) {
+                    if (\is_array($multival) && '_childDocuments_' === $key) {
+                        $xml .= '<doc>';
+                        foreach ($multival as $k => $v) {
+                            $xml .= $this->buildFieldsXml($k, $boost, $v, $modifier);
+                        }
+                        $xml .= '</doc>';
+                    } elseif (\is_array($multival)) {
+                        $nestedXml .= '<doc';
+                        $nestedXml .= $this->attrib('update', $modifier);
+                        $nestedXml .= '>';
+                        foreach ($multival as $k => $v) {
+                            $nestedXml .= $this->buildFieldsXml($k, $boost, $v, null);
+                        }
+                        $nestedXml .= '</doc>';
+                    } else {
+                        if (!empty($nestedXml)) {
+                            $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
+                            $nestedXml = '';
+                        }
+                        $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                     }
-                    $xml .= '</doc>';
-                } elseif (\is_array($multival)) {
-                    $nestedXml .= '<doc';
-                    $nestedXml .= $this->attrib('update', $modifier);
-                    $nestedXml .= '>';
-                    foreach ($multival as $k => $v) {
-                        $nestedXml .= $this->buildFieldsXml($k, $boost, $v, null);
-                    }
-                    $nestedXml .= '</doc>';
-                } else {
-                    if (!empty($nestedXml)) {
-                        $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
-                        $nestedXml = '';
-                    }
-                    $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                 }
+            } else {
+                $nestedXml .= '<doc';
+                $nestedXml .= $this->attrib('update', $modifier);
+                $nestedXml .= '>';
+                foreach ($value as $k => $v) {
+                    $nestedXml .= $this->buildFieldsXml($k, $boost, $v, null);
+                }
+                $nestedXml .= '</doc>';
             }
 
             if (!empty($nestedXml) && '_childDocuments_' !== $key) {

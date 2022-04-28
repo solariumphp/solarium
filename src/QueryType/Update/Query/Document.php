@@ -198,8 +198,8 @@ class Document extends AbstractDocument
         if (!isset($this->fields[$key])) {
             $this->setField($key, $value, $boost, $modifier);
         } else {
-            // convert single value to array if needed
-            if (!\is_array($this->fields[$key])) {
+            // convert single value or single nested document to array if needed
+            if (!\is_array($this->fields[$key]) || !is_numeric(array_key_first($this->fields[$key]))) {
                 $this->fields[$key] = [$this->fields[$key]];
             }
 
@@ -236,11 +236,6 @@ class Document extends AbstractDocument
         if (null === $value && null === $modifier) {
             $this->removeField($key);
         } else {
-            // are we dealing with a child document?
-            if (\is_array($value) && [] !== $value && !is_numeric(array_key_first($value))) {
-                $value = [$value];
-            }
-
             $this->fields[$key] = $value;
 
             if (null !== $boost) {
