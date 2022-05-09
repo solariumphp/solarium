@@ -1,15 +1,15 @@
-The result of an update query is an instance of `Solarium_Result_Select`
+The result of a [select query](../select-query.md) is an instance of `Solarium\QueryType\Select\Result\Result`.
 
 Data
 ----
 
 ### Status
 
-Solr status code. This is not the HTTP status code! The normal value for success is 0. In case of an error an exception will be thrown. Only available if your Solr server sends headers (omitHeader=false)
+Solr status code. This is not the HTTP status code! The normal value for success is 0. In case of an error an exception will be thrown. Only available if your Solr server sends headers (`omitHeader=false`).
 
 ### Querytime
 
-Solr index query time. This doesn't include things like the HTTP response time. Only available if your Solr server sends headers (omitHeader=false)
+Solr index query time. This doesn't include things like the HTTP response time. Only available if your Solr server sends headers (`omitHeader=false`).
 
 ### NumFound
 
@@ -26,9 +26,9 @@ For component results see the next sections of this manual.
 Interfaces
 ----------
 
-This resultclass implements the `Iterator` and `Countable` interfaces.
+This resultclass implements the `\Traversable` and `\Countable` interfaces.
 
-The iterator iterates the documentset. So you can easily loop all documents by using a `foreach`.
+The traversable interface makes the resultset iterable. So you can easily loop all documents by using a `foreach`.
 
 The countable interface returns the number of documents in this resultset. This is only the number of fetched documents! If you want the query result count you must use the numFound value.
 

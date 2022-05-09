@@ -11,7 +11,7 @@ In the following sections the usage of both document types and the use of custom
 Read-only document
 ==================
 
-This is the default document type for a select query result. This is an immutable object that allows access to the field values by name or by iterating over the document. This object implements the `Iterator`, `Countable` and `ArrayAccess` interfaces. You can use the document in multiple ways:
+This is the default document type for a [select query result](queries/select-query/result-of-a-select-query/result-of-a-select-query.md). This is an immutable object that allows access to the field values by name or by iterating over the document. This object implements the `Iterator`, `Countable` and `ArrayAccess` interfaces. You can use the document in multiple ways:
 
 -   access fields as object vars (fieldname as varname)
 -   access fields as array entries (fieldname as key)
@@ -74,7 +74,7 @@ htmlFooter();
 Read-write document
 ===================
 
-This document type can be used for update queries. It extends the Read-Only document and adds the ability to add, set or remove field values, modifiers for atomic updates, and boosts.
+This document type can be used for [update queries](queries/update-query/update-query.md). It extends the Read-Only document and adds the ability to add, set or remove field values, modifiers for atomic updates, and boosts.
 
 Any fields you set must match a field name or a wildcard in your Solr schema, or you will get an exception when you try to add them to your index.
 
@@ -145,6 +145,8 @@ Nested child documents
 
 If you add name ⇒ value arrays as field values, they will get indexed as nested child documents.
 
+Your schema has to meet certain criteria for this to work. For more info on indexing nested child documents please read the manual: <https://solr.apache.org/guide/indexing-nested-documents.html>.
+
 ```php
 <?php
 
@@ -203,9 +205,39 @@ echo 'Query time: ' . $result->getQueryTime();
 htmlFooter();
 ```
 
+### Single value vs multivalue
+
+While nested child documents are handled like fields in Solarium, they are actually pseudo-fields in Solr. They aren't
+defined as single value or multivalue in the schema. A list that happens to contain just one nested child can only be
+distinguished from a single nested child at index time by placing it in array.
+
+Unlike for regular values, `addField` puts a child document in an array immediately upon the first call. You can safely
+use this method even if lists of child documents might contain just one of them.
+
+```php
+foreach ($topic->getReactions() as $reaction) {
+    $doc->addField('reactions', $reaction);
+}
+```
+
+If you do want a single nested child document, you have to set it as an object property or with the `setField` method instead.
+
+```php
+$doc->reaction = $reaction;
+
+$doc->setField('reaction', $reaction);
+```
+
+**Note:** Solarium can't index this single nested child correctly at the moment. For more info see [known limitations](#known-limitations).
+
+### Anonymous children
+
 If you use `_childDocuments_` as the field name, the child documents are indexed anonymously. This is not recommended by Solr.
 
-Your schema has to meet certain criteria for this to work. For more info on indexing nested child documents please read the manual: <https://solr.apache.org/guide/indexing-nested-documents.html>.
+### Known limitations
+
+- It's currently impossible to index a labelled single nested child document with Solarium because of [SOLR-16183](https://issues.apache.org/jira/browse/SOLR-16183). Any child document you index this way will end up as an anonymous nested child.
+- Atomic updates of child documents aren't fully supported in Solarium because of [SOLR-12677](https://issues.apache.org/jira/browse/SOLR-12677).
 
 Atomic updates
 --------------

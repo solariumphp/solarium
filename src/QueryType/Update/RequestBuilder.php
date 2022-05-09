@@ -269,9 +269,9 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         if (\is_array($value)) {
-            $nestedXml = '';
-
             if (is_numeric(array_key_first($value))) {
+                $nestedXml = '';
+
                 foreach ($value as $multival) {
                     if (\is_array($multival) && '_childDocuments_' === $key) {
                         $xml .= '<doc>';
@@ -295,18 +295,22 @@ class RequestBuilder extends BaseRequestBuilder
                         $xml .= $this->buildFieldXml($key, $boost, $multival, $modifier);
                     }
                 }
-            } else {
-                $nestedXml .= '<doc';
-                $nestedXml .= $this->attrib('update', $modifier);
-                $nestedXml .= '>';
-                foreach ($value as $k => $v) {
-                    $nestedXml .= $this->buildFieldsXml($k, $boost, $v, null);
-                }
-                $nestedXml .= '</doc>';
-            }
 
-            if (!empty($nestedXml) && '_childDocuments_' !== $key) {
-                $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
+                if (!empty($nestedXml) && '_childDocuments_' !== $key) {
+                    $xml .= '<field name="'.$key.'">'.$nestedXml.'</field>';
+                }
+            } else {
+                $xml .= '<doc';
+                if ('_childDocuments_' !== $key) {
+                    // labelled single nested child documents can't be indexed in XML, but
+                    // we aim for forward compatibility with the proposed syntax in SOLR-16183
+                    $xml .= ' name="'.$key.'"';
+                }
+                $xml .= '>';
+                foreach ($value as $k => $v) {
+                    $xml .= $this->buildFieldsXml($k, $boost, $v, null);
+                }
+                $xml .= '</doc>';
             }
         } else {
             $xml .= $this->buildFieldXml($key, $boost, $value, $modifier);

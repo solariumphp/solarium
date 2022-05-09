@@ -186,6 +186,9 @@ class Document extends AbstractDocument
      * If a field already has a value it will be converted
      * to a multivalue field.
      *
+     * If the value is a nested child document, the field will
+     * always be converted to a multivalue field.
+     *
      * @param string      $key
      * @param mixed       $value
      * @param float|null  $boost
@@ -196,9 +199,14 @@ class Document extends AbstractDocument
     public function addField(string $key, $value, ?float $boost = null, ?string $modifier = null): self
     {
         if (!isset($this->fields[$key])) {
+            // convert nested child document to array
+            if (\is_array($value) && !is_numeric(array_key_first($value))) {
+                $value = [$value];
+            }
+
             $this->setField($key, $value, $boost, $modifier);
         } else {
-            // convert single value or single nested document to array if needed
+            // convert single value to array if needed
             if (!\is_array($this->fields[$key]) || !is_numeric(array_key_first($this->fields[$key]))) {
                 $this->fields[$key] = [$this->fields[$key]];
             }

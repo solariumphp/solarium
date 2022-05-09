@@ -105,6 +105,16 @@ class DocumentTest extends TestCase
             $this->childDocumentFields,
             $doc->getFields()
         );
+
+        $childDocumentFieldsWithSingleAnon = $this->childDocumentFields;
+        $childDocumentFieldsWithSingleAnon['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'][0];
+
+        $doc = new Document($childDocumentFieldsWithSingleAnon);
+
+        $this->assertSame(
+            $childDocumentFieldsWithSingleAnon,
+            $doc->getFields()
+        );
     }
 
     public function testAddFieldNoBoost()
@@ -208,7 +218,7 @@ class DocumentTest extends TestCase
         $this->doc->addField('single_child', $this->childDocumentFields['single_child']);
 
         $expectedFields = $this->fields;
-        $expectedFields['single_child'] = $this->childDocumentFields['single_child'];
+        $expectedFields['single_child'] = [$this->childDocumentFields['single_child']];
 
         $this->assertSame(
             $expectedFields,
@@ -224,6 +234,19 @@ class DocumentTest extends TestCase
 
         $expectedFields = $this->fields;
         $expectedFields['children'] = $this->childDocumentFields['children'];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testAddFieldWithSingleAnonymousNestedDocument()
+    {
+        $this->doc->addField('_childDocuments_', $this->childDocumentFields['_childDocuments_'][0]);
+
+        $expectedFields = $this->fields;
+        $expectedFields['_childDocuments_'] = [$this->childDocumentFields['_childDocuments_'][0]];
 
         $this->assertSame(
             $expectedFields,
@@ -316,6 +339,19 @@ class DocumentTest extends TestCase
         );
     }
 
+    public function testSetFieldWithSingleAnonymousNestedDocument()
+    {
+        $this->doc->setField('_childDocuments_', $this->childDocumentFields['_childDocuments_'][0]);
+
+        $expectedFields = $this->fields;
+        $expectedFields['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'][0];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
     public function testSetFieldWithAnonymousNestedDocuments()
     {
         $this->doc->setField('_childDocuments_', $this->childDocumentFields['_childDocuments_']);
@@ -383,6 +419,16 @@ class DocumentTest extends TestCase
 
         $this->assertSame(
             $this->childDocumentFields,
+            $this->doc->getFields()
+        );
+
+        $childDocumentFieldsWithSingleAnon = $this->childDocumentFields;
+        $childDocumentFieldsWithSingleAnon['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'][0];
+
+        $this->doc->setFields($childDocumentFieldsWithSingleAnon);
+
+        $this->assertSame(
+            $childDocumentFieldsWithSingleAnon,
             $this->doc->getFields()
         );
     }
@@ -545,6 +591,16 @@ class DocumentTest extends TestCase
         $this->assertSame(
             $this->childDocumentFields['children'],
             $this->doc->children
+        );
+    }
+
+    public function testSetAndGetFieldWithSingleAnonymousNestedDocumentByProperty()
+    {
+        $this->doc->_childDocuments_ = $this->childDocumentFields['_childDocuments_'][0];
+
+        $this->assertSame(
+            $this->childDocumentFields['_childDocuments_'][0],
+            $this->doc->_childDocuments_
         );
     }
 
