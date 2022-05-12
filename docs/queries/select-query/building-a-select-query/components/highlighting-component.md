@@ -7,6 +7,8 @@ Options
 |--------------------------|---------|---------------|------------------------------------------------------------------------------------|
 | method                   | string  | null          | The highlighting implementation to use: 'unified', 'original' or 'fastVector'.     |
 | fields                   | string  | null          | Fields to generate highlighted snippets for. Separate multiple fields with commas. |
+| query                    | string  | null          | Overrides the q parameter for highlighting                                         |
+| queryparser              | string  | null          | The query parser to use if the query option is set                                 |
 | snippets                 | int     | null          | Maximum number of snippets per field                                               |
 | fragsize                 | int     | null          | The size, in characters, of fragments to consider for highlighting                 |
 | mergecontiguous          | boolean | null          | Collapse contiguous fragments into a single fragment                               |
@@ -15,8 +17,9 @@ Options
 | alternatefield           | string  | null          | Alternatefield option                                                              |
 | maxalternatefieldlength  | int     | null          | maxAlternateFieldLength option                                                     |
 | formatter                | string  | null          | formatter option                                                                   |
-| simpleprefix             | string  | null          | Solr option h1.simple.pre                                                          |
-| simplepostfix            | string  | null          | Solr option h1.simple.post                                                         |
+| simpleprefix             | string  | null          | Solr option hl.simple.pre                                                          |
+| simplepostfix            | string  | null          | Solr option hl.simple.post                                                         |
+| encoder                  | string  | null          |                                                                                    |
 | fragmenter               | string  | null          |                                                                                    |
 | fraglistbuilder          | string  | null          |                                                                                    |
 | fragmentsbuilder         | string  | null          |                                                                                    |
@@ -26,7 +29,6 @@ Options
 | regexslop                | float   | null          |                                                                                    |
 | regexpattern             | string  | null          |                                                                                    |
 | regexmaxanalyzedchars    | int     | null          |                                                                                    |
-| query                    | string  | null          | Overrides the q parameter for highlighting                                         |
 | phraselimit              | int     | null          |                                                                                    |
 | multivaluedseparatorchar | string  | null          |                                                                                    |
 | boundaryscannerchars     | string  | null          |                                                                                    |
