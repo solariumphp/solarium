@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Symfony 6 support
+- Solr 9 support
 
 ### Fixed
 - Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus::getRoute() always returned NULL even if a route was set
