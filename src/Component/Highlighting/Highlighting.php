@@ -29,6 +29,26 @@ class Highlighting extends AbstractComponent implements QueryInterface
     use QueryTrait;
 
     /**
+     * Unified Highlighter.
+     */
+    const METHOD_UNIFIED = 'unified';
+
+    /**
+     * Original Highlighter.
+     */
+    const METHOD_ORIGINAL = 'original';
+
+    /**
+     * FastVector Highlighter.
+     */
+    const METHOD_FASTVECTOR = 'fastVector';
+
+    /**
+     * HTML/XML encoder.
+     */
+    const ENCODER_HTML = 'html';
+
+    /**
      * Value for fragmenter option gap.
      */
     const FRAGMENTER_GAP = 'gap';
@@ -93,6 +113,32 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function getResponseParser(): ?ComponentParserInterface
     {
         return new ResponseParser();
+    }
+
+    /**
+     * Set highlighter method.
+     *
+     * Use one of the METHOD_* constants as value.
+     *
+     * @param string $method
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMethod(string $method): self
+    {
+        $this->setOption('method', $method);
+
+        return $this;
+    }
+
+    /**
+     * Get highlighter method.
+     *
+     * @return string|null
+     */
+    public function getMethod(): ?string
+    {
+        return $this->getOption('method');
     }
 
     /**
@@ -227,6 +273,30 @@ class Highlighting extends AbstractComponent implements QueryInterface
         $this->addFields($fields);
 
         return $this;
+    }
+
+    /**
+     * Set the query parser to use for the highlight query.
+     *
+     * @param string $parser
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQueryParser(string $parser): self
+    {
+        $this->setOption('queryparser', $parser);
+
+        return $this;
+    }
+
+    /**
+     * Get the query parser to use for the highlight query.
+     *
+     * @return string|null
+     */
+    public function getQueryParser(): ?string
+    {
+        return $this->getOption('queryparser');
     }
 
     /**
@@ -456,7 +526,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     /**
      * Set simple prefix option.
      *
-     * Solr option h1.simple.pre
+     * Solr option hl.simple.pre
      *
      * @param string $prefix
      *
@@ -484,7 +554,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     /**
      * Set simple postfix option.
      *
-     * Solr option h1.simple.post
+     * Solr option hl.simple.post
      *
      * @param string $postfix
      *
@@ -512,7 +582,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     /**
      * Set tag prefix option.
      *
-     * Solr option h1.tag.post
+     * Solr option hl.tag.post
      *
      * @param string $prefix
      *
@@ -540,7 +610,7 @@ class Highlighting extends AbstractComponent implements QueryInterface
     /**
      * Set tag postfix option.
      *
-     * Solr option h1.tag.post
+     * Solr option hl.tag.post
      *
      * @param string $postfix
      *
@@ -566,9 +636,35 @@ class Highlighting extends AbstractComponent implements QueryInterface
     }
 
     /**
+     * Set encoder option.
+     *
+     * Use one of the ENCODER_* constants as value.
+     *
+     * @param string $encoder
+     *
+     * @return self Provides fluent interface
+     */
+    public function setEncoder(string $encoder): self
+    {
+        $this->setOption('encoder', $encoder);
+
+        return $this;
+    }
+
+    /**
+     * Get encoder option.
+     *
+     * @return string|null
+     */
+    public function getEncoder(): ?string
+    {
+        return $this->getOption('encoder');
+    }
+
+    /**
      * Set fragmenter option.
      *
-     * Use one of the constants as value.
+     * Use one of the FRAGMENTER_* constants as value.
      *
      * @param string $fragmenter
      *
@@ -949,30 +1045,6 @@ class Highlighting extends AbstractComponent implements QueryInterface
     public function getBoundaryScannerCountry(): ?string
     {
         return $this->getOption('boundaryscannercountry');
-    }
-
-    /**
-     * Set method option.
-     *
-     * @param string $method
-     *
-     * @return self Provides fluent interface
-     */
-    public function setMethod(string $method): self
-    {
-        $this->setOption('method', $method);
-
-        return $this;
-    }
-
-    /**
-     * Get method option.
-     *
-     * @return string|null
-     */
-    public function getMethod(): ?string
-    {
-        return $this->getOption('method');
     }
 
     /**

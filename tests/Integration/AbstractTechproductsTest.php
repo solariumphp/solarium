@@ -4,6 +4,7 @@ namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Grouping\FieldGroup;
@@ -559,6 +560,56 @@ abstract class AbstractTechproductsTest extends TestCase
             // The power cord is not in stock! In the techproducts example that is reflected by the string 'false'.
             $this->assertSame(1, $facetField->getValues()['false']);
         }
+    }
+
+    /**
+     * @testWith ["METHOD_UNIFIED"]
+     *           ["METHOD_ORIGINAL"]
+     *           ["METHOD_FASTVECTOR"]
+     */
+    public function testHighlightingComponentMethods(string $method)
+    {
+        $select = self::$client->createSelect();
+        // The "browse" request handler has a highlighting component.
+        $select->setHandler('browse');
+        $select->setQuery('id:F8V7067-APL-KIT');
+
+        $highlighting = $select->getHighlighting();
+        $highlighting->setMethod(\constant(Highlighting::class.'::'.$method));
+        $highlighting->setFields('name, features');
+        $highlighting->getField('features')->setSimplePrefix('<u class="hl">')->setSimplePostfix('</u>');
+        $highlighting->setQuery('(power cord) OR (power adapter)');
+        $highlighting->setQueryParser('edismax');
+        $highlighting->setEncoder(Highlighting::ENCODER_HTML);
+
+        $result = self::$client->select($select);
+        $this->assertSame(1, $result->getNumFound());
+
+        foreach ($result as $document) {
+            $this->assertSame('F8V7067-APL-KIT', $document->id);
+        }
+
+        // html_entity_decode because METHOD_UNIFIED on Solr 7 encodes non-alphanumeric characters as hexadecimal entity references
+
+        $this->assertSame(
+            ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w/ Dock'],
+            array_map('html_entity_decode', $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name'))
+        );
+
+        $this->assertSame(
+            ['car <u class="hl">power</u> <u class="hl">adapter</u>, white'],
+            array_map('html_entity_decode', $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features'))
+        );
+
+        $this->assertSame(
+            ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w/ Dock'],
+            array_map('html_entity_decode', $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()['name'])
+        );
+
+        $this->assertSame(
+            ['car <u class="hl">power</u> <u class="hl">adapter</u>, white'],
+            array_map('html_entity_decode', $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()['features'])
+        );
     }
 
     /**

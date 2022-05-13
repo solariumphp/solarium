@@ -15,9 +15,11 @@ class HighlightingTest extends TestCase
         $request = new Request();
 
         $component = new Component();
+        $component->setMethod($component::METHOD_UNIFIED);
         $component->addField('fieldA');
 
         $field = $component->getField('fieldB');
+        $field->setMethod($component::METHOD_FASTVECTOR);
         $field->setSnippets(3);
         $field->setFragSize(25);
         $field->setMergeContiguous(true);
@@ -29,6 +31,8 @@ class HighlightingTest extends TestCase
         $field->setFragmenter('myFragmenter');
         $field->setUseFastVectorHighlighter(true);
 
+        $component->setQuery('text:myvalue');
+        $component->setQueryParser('myparser');
         $component->setSnippets(2);
         $component->setFragSize(3);
         $component->setMergeContiguous(true);
@@ -40,6 +44,7 @@ class HighlightingTest extends TestCase
         $component->setFormatter('simple');
         $component->setSimplePrefix('<b>');
         $component->setSimplePostfix('</b>');
+        $component->setEncoder($component::ENCODER_HTML);
         $component->setFragmenter('myFragmenter');
         $component->setFragListBuilder('myFragListBuilder');
         $component->setFragmentsBuilder('myFragmentsBuilder');
@@ -49,7 +54,6 @@ class HighlightingTest extends TestCase
         $component->setRegexSlop(1.3);
         $component->setRegexPattern('mypattern');
         $component->setMaxAnalyzedChars(100);
-        $component->setQuery('text:myvalue');
         $component->setPhraseLimit(40);
         $component->setTagPrefix('<i>');
         $component->setTagPostfix('</i>');
@@ -59,14 +63,16 @@ class HighlightingTest extends TestCase
         $component->setBoundaryScannerType($component::BOUNDARYSCANNER_TYPE_WORD);
         $component->setBoundaryScannerCountry('be');
         $component->setBoundaryScannerLanguage('en');
-        $component->setMethod('unified');
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             [
                 'hl' => 'true',
+                'hl.method' => 'unified',
                 'hl.fl' => 'fieldA,fieldB',
+                'hl.q' => 'text:myvalue',
+                'hl.qparser' => 'myparser',
                 'hl.snippets' => 2,
                 'hl.fragsize' => 3,
                 'hl.mergeContiguous' => 'true',
@@ -80,6 +86,7 @@ class HighlightingTest extends TestCase
                 'hl.simple.post' => '</b>',
                 'hl.tag.pre' => '<i>',
                 'hl.tag.post' => '</i>',
+                'hl.encoder' => 'html',
                 'hl.fragmenter' => 'myFragmenter',
                 'hl.fragListBuilder' => 'myFragListBuilder',
                 'hl.fragmentsBuilder' => 'myFragmentsBuilder',
@@ -88,9 +95,9 @@ class HighlightingTest extends TestCase
                 'hl.highlightMultiTerm' => 'true',
                 'hl.regex.slop' => 1.3,
                 'hl.regex.pattern' => 'mypattern',
-                'hl.q' => 'text:myvalue',
                 'hl.phraseLimit' => 40,
                 'hl.multiValuedSeparatorChar' => '|',
+                'f.fieldB.hl.method' => 'fastVector',
                 'f.fieldB.hl.snippets' => 3,
                 'f.fieldB.hl.fragsize' => 25,
                 'f.fieldB.hl.mergeContiguous' => 'true',
@@ -106,7 +113,6 @@ class HighlightingTest extends TestCase
                 'hl.bs.type' => 'WORD',
                 'hl.bs.country' => 'be',
                 'hl.bs.language' => 'en',
-                'h1.method' => 'unified',
             ],
             $request->getParams()
         );
@@ -118,6 +124,9 @@ class HighlightingTest extends TestCase
         $request = new Request();
 
         $component = new Component();
+        $component->setMethod($component::METHOD_FASTVECTOR);
+        $component->setQuery('text:myvalue');
+        $component->setQueryParser('myparser');
         $component->setSnippets(2);
         $component->setFragSize(3);
         $component->setMergeContiguous(true);
@@ -129,6 +138,7 @@ class HighlightingTest extends TestCase
         $component->setFormatter('simple');
         $component->setSimplePrefix('<b>');
         $component->setSimplePostfix('</b>');
+        $component->setEncoder($component::ENCODER_HTML);
         $component->setFragmenter('myFragmenter');
         $component->setFragListBuilder('myFragListBuilder');
         $component->setFragmentsBuilder('myFragmentsBuilder');
@@ -138,7 +148,6 @@ class HighlightingTest extends TestCase
         $component->setRegexSlop(1.3);
         $component->setRegexPattern('mypattern');
         $component->setMaxAnalyzedChars(100);
-        $component->setQuery('text:myvalue');
         $component->setPhraseLimit(40);
         $component->setTagPrefix('<i>');
         $component->setTagPostfix('</i>');
@@ -154,6 +163,9 @@ class HighlightingTest extends TestCase
         $this->assertEquals(
             [
                 'hl' => 'true',
+                'hl.method' => 'fastVector',
+                'hl.q' => 'text:myvalue',
+                'hl.qparser' => 'myparser',
                 'hl.snippets' => 2,
                 'hl.fragsize' => 3,
                 'hl.mergeContiguous' => 'true',
@@ -167,6 +179,7 @@ class HighlightingTest extends TestCase
                 'hl.simple.post' => '</b>',
                 'hl.tag.pre' => '<i>',
                 'hl.tag.post' => '</i>',
+                'hl.encoder' => 'html',
                 'hl.fragmenter' => 'myFragmenter',
                 'hl.fragListBuilder' => 'myFragListBuilder',
                 'hl.fragmentsBuilder' => 'myFragmentsBuilder',
@@ -175,7 +188,6 @@ class HighlightingTest extends TestCase
                 'hl.highlightMultiTerm' => 'true',
                 'hl.regex.slop' => 1.3,
                 'hl.regex.pattern' => 'mypattern',
-                'hl.q' => 'text:myvalue',
                 'hl.phraseLimit' => 40,
                 'hl.multiValuedSeparatorChar' => '|',
                 'hl.bs.maxScan' => 16,

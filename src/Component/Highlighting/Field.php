@@ -20,13 +20,17 @@ class Field extends Configurable
 {
     /**
      * Value for fragmenter option gap.
+     *
+     * @deprecated use Highlighting::FRAGMENTER_GAP instead
      */
-    const FRAGMENTER_GAP = 'gap';
+    const FRAGMENTER_GAP = Highlighting::FRAGMENTER_GAP;
 
     /**
      * Value for fragmenter option regex.
+     *
+     * @deprecated use Highlighting::FRAGMENTER_REGEX instead
      */
-    const FRAGMENTER_REGEX = 'regex';
+    const FRAGMENTER_REGEX = Highlighting::FRAGMENTER_REGEX;
 
     /**
      * Get name option.
@@ -50,6 +54,32 @@ class Field extends Configurable
         $this->setOption('name', $name);
 
         return $this;
+    }
+
+    /**
+     * Set highlighter method.
+     *
+     * Use one of the Highlighting::METHOD_* constants as value.
+     *
+     * @param string $method
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMethod(string $method): self
+    {
+        $this->setOption('method', $method);
+
+        return $this;
+    }
+
+    /**
+     * Get highlighter method.
+     *
+     * @return string|null
+     */
+    public function getMethod(): ?string
+    {
+        return $this->getOption('method');
     }
 
     /**
@@ -205,7 +235,7 @@ class Field extends Configurable
     /**
      * Set simple prefix option.
      *
-     * Solr option h1.simple.pre
+     * Solr option hl.simple.pre
      *
      * @param string $prefix
      *
@@ -233,7 +263,7 @@ class Field extends Configurable
     /**
      * Set simple postfix option.
      *
-     * Solr option h1.simple.post
+     * Solr option hl.simple.post
      *
      * @param string $postfix
      *
@@ -261,7 +291,7 @@ class Field extends Configurable
     /**
      * Set fragmenter option.
      *
-     * Use one of the constants as value.
+     * Use one of the Highlighting::FRAGMENTER_* constants as value.
      *
      * @param string $fragmenter
      *
