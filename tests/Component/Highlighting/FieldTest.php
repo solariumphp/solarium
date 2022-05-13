@@ -21,6 +21,7 @@ class FieldTest extends TestCase
     public function testConfigMode()
     {
         $options = [
+            'method' => 'unified',
             'snippets' => 3,
             'fragsize' => 25,
             'mergecontiguous' => true,
@@ -35,6 +36,7 @@ class FieldTest extends TestCase
 
         $this->fld->setOptions($options);
 
+        $this->assertSame('unified', $this->fld->getMethod());
         $this->assertSame(3, $this->fld->getSnippets());
         $this->assertSame(25, $this->fld->getFragSize());
         $this->assertTrue($this->fld->getMergeContiguous());
@@ -55,6 +57,17 @@ class FieldTest extends TestCase
         $this->assertSame(
             $value,
             $this->fld->getName()
+        );
+    }
+
+    public function testSetAndGetMethod()
+    {
+        $value = 'unified';
+        $this->fld->setMethod($value);
+
+        $this->assertSame(
+            $value,
+            $this->fld->getMethod()
         );
     }
 

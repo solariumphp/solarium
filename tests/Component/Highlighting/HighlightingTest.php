@@ -23,6 +23,7 @@ class HighlightingTest extends TestCase
     public function testConfigMode()
     {
         $options = [
+            'method' => 'unified',
             'field' => [
                 'fieldA' => [
                     'snippets' => 3,
@@ -30,6 +31,8 @@ class HighlightingTest extends TestCase
                 ],
                 'fieldB',
             ],
+            'query' => 'text:myvalue',
+            'queryparser' => 'myparser',
             'snippets' => 2,
             'fragsize' => 20,
             'mergecontiguous' => true,
@@ -43,6 +46,7 @@ class HighlightingTest extends TestCase
             'simplepostfix' => '</b>',
             'tagprefix' => '<i>',
             'tagpostfix' => '<\i>',
+            'encoder' => 'html',
             'fragmenter' => 'myFragmenter',
             'fraglistbuilder' => 'regex',
             'fragmentsbuilder' => 'myBuilder',
@@ -52,7 +56,6 @@ class HighlightingTest extends TestCase
             'regexslop' => .8,
             'regexpattern' => 'myPattern',
             'regexmaxanalyzedchars' => 500,
-            'query' => 'text:myvalue',
             'phraselimit' => 35,
             'multivaluedseparatorchar' => '|',
             'boundaryscannermaxscan' => 12,
@@ -64,10 +67,13 @@ class HighlightingTest extends TestCase
 
         $this->hlt->setOptions($options);
 
+        $this->assertSame($options['method'], $this->hlt->getMethod());
         $this->assertSame(['fieldA', 'fieldB'], array_keys($this->hlt->getFields()));
         $this->assertSame($options['field']['fieldA']['snippets'], $this->hlt->getField('fieldA')->getSnippets());
         $this->assertSame($options['field']['fieldA']['fragsize'], $this->hlt->getField('fieldA')->getFragSize());
         $this->assertNull($this->hlt->getField('FieldB')->getSnippets());
+        $this->assertSame($options['query'], $this->hlt->getQuery());
+        $this->assertSame($options['queryparser'], $this->hlt->getQueryParser());
         $this->assertSame($options['snippets'], $this->hlt->getSnippets());
         $this->assertSame($options['fragsize'], $this->hlt->getFragSize());
         $this->assertTrue($this->hlt->getMergeContiguous());
@@ -80,6 +86,7 @@ class HighlightingTest extends TestCase
         $this->assertSame($options['simplepostfix'], $this->hlt->getSimplePostfix());
         $this->assertSame($options['tagprefix'], $this->hlt->getTagPrefix());
         $this->assertSame($options['tagpostfix'], $this->hlt->getTagPostfix());
+        $this->assertSame($options['encoder'], $this->hlt->getEncoder());
         $this->assertSame($options['fragmenter'], $this->hlt->getFragmenter());
         $this->assertSame($options['fraglistbuilder'], $this->hlt->getFragListBuilder());
         $this->assertSame($options['fragmentsbuilder'], $this->hlt->getFragmentsBuilder());
@@ -89,7 +96,6 @@ class HighlightingTest extends TestCase
         $this->assertSame($options['regexslop'], $this->hlt->getRegexSlop());
         $this->assertSame($options['regexpattern'], $this->hlt->getRegexPattern());
         $this->assertSame($options['regexmaxanalyzedchars'], $this->hlt->getRegexMaxAnalyzedChars());
-        $this->assertSame($options['query'], $this->hlt->getQuery());
         $this->assertSame($options['phraselimit'], $this->hlt->getPhraseLimit());
         $this->assertSame($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
         $this->assertSame($options['boundaryscannermaxscan'], $this->hlt->getBoundaryScannerMaxScan());
@@ -117,6 +123,17 @@ class HighlightingTest extends TestCase
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Highlighting',
             $this->hlt->getRequestBuilder()
+        );
+    }
+
+    public function testSetAndGetMethod()
+    {
+        $value = 'unified';
+        $this->hlt->setMethod($value);
+
+        $this->assertSame(
+            $value,
+            $this->hlt->getMethod()
         );
     }
 
@@ -253,6 +270,28 @@ class HighlightingTest extends TestCase
         $this->assertSame(['test3', 'test4'], array_keys($this->hlt->getFields()));
     }
 
+    public function testSetAndGetQuery()
+    {
+        $value = 'text:myvalue';
+        $this->hlt->setQuery($value);
+
+        $this->assertSame(
+            $value,
+            $this->hlt->getQuery()
+        );
+    }
+
+    public function testSetAndGetQueryParser()
+    {
+        $value = 'myparser';
+        $this->hlt->setQueryParser($value);
+
+        $this->assertSame(
+            $value,
+            $this->hlt->getQueryParser()
+        );
+    }
+
     public function testSetAndGetSnippets()
     {
         $value = 2;
@@ -358,6 +397,17 @@ class HighlightingTest extends TestCase
         );
     }
 
+    public function testSetAndGetEncoder()
+    {
+        $value = Highlighting::ENCODER_HTML;
+        $this->hlt->setEncoder($value);
+
+        $this->assertSame(
+            $value,
+            $this->hlt->getEncoder()
+        );
+    }
+
     public function testSetAndGetFragmenter()
     {
         $value = Highlighting::FRAGMENTER_REGEX;
@@ -439,17 +489,6 @@ class HighlightingTest extends TestCase
         $this->assertSame(
             $value,
             $this->hlt->getRegexMaxAnalyzedChars()
-        );
-    }
-
-    public function testSetAndGetQuery()
-    {
-        $value = 'text:myvalue';
-        $this->hlt->setQuery($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getQuery()
         );
     }
 

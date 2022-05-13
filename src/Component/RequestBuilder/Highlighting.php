@@ -31,11 +31,14 @@ class Highlighting implements ComponentRequestBuilderInterface
     {
         // enable highlighting
         $request->addParam('hl', 'true');
+        $request->addParam('hl.method', $component->getMethod());
 
         // set global highlighting params
-        if (\count($component->getFields()) > 0) {
+        if (0 !== \count($component->getFields())) {
             $request->addParam('hl.fl', implode(',', array_keys($component->getFields())));
         }
+        $request->addParam('hl.q', $component->getQuery());
+        $request->addParam('hl.qparser', $component->getQueryParser());
         $request->addParam('hl.snippets', $component->getSnippets());
         $request->addParam('hl.fragsize', $component->getFragSize());
         $request->addParam('hl.mergeContiguous', $component->getMergeContiguous());
@@ -49,6 +52,7 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl.simple.post', $component->getSimplePostfix());
         $request->addParam('hl.tag.pre', $component->getTagPrefix());
         $request->addParam('hl.tag.post', $component->getTagPostfix());
+        $request->addParam('hl.encoder', $component->getEncoder());
         $request->addParam('hl.fragmenter', $component->getFragmenter());
         $request->addParam('hl.fragListBuilder', $component->getFragListBuilder());
         $request->addParam('hl.fragmentsBuilder', $component->getFragmentsBuilder());
@@ -58,7 +62,6 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl.regex.slop', $component->getRegexSlop());
         $request->addParam('hl.regex.pattern', $component->getRegexPattern());
         $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
-        $request->addParam('hl.q', $component->getQuery());
         $request->addParam('hl.phraseLimit', $component->getPhraseLimit());
         $request->addParam('hl.multiValuedSeparatorChar', $component->getMultiValuedSeparatorChar());
         $request->addParam('hl.bs.maxScan', $component->getBoundaryScannerMaxScan());
@@ -66,7 +69,6 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl.bs.type', $component->getBoundaryScannerType());
         $request->addParam('hl.bs.language', $component->getBoundaryScannerLanguage());
         $request->addParam('hl.bs.country', $component->getBoundaryScannerCountry());
-        $request->addParam('h1.method', $component->getMethod());
 
         // set per-field highlighting params
         foreach ($component->getFields() as $field) {
@@ -85,6 +87,7 @@ class Highlighting implements ComponentRequestBuilderInterface
     protected function addFieldParams($field, $request)
     {
         $prefix = 'f.'.$field->getName().'.hl.';
+        $request->addParam($prefix.'method', $field->getMethod());
         $request->addParam($prefix.'snippets', $field->getSnippets());
         $request->addParam($prefix.'fragsize', $field->getFragSize());
         $request->addParam($prefix.'mergeContiguous', $field->getMergeContiguous());

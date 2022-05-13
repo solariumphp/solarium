@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus::getRoute() always returned NULL even if a route was set
+- Solarium\Component\Highlighting\Highlighting::setMethod() didn't set the correct request parameter
 
 ### Removed
 - Solarium\QueryType\Stream\Expression, use Solarium\QueryType\Stream\ExpressionBuilder instead
