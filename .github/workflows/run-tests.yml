@@ -55,7 +55,7 @@ jobs:
               if: matrix.solr == 9
               uses: actions/checkout@v2
               with:
-                repository: apache/lucene-solr
+                repository: apache/solr
                 ref: branch_9_0
                 path: lucene-solr
 
