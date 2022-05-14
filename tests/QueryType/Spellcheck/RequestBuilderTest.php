@@ -32,6 +32,8 @@ class RequestBuilderTest extends TestCase
         $this->query->setDictionary('suggest');
         $this->query->setQuery('ap ip');
         $this->query->setOnlyMorePopular(true);
+        $this->query->setAlternativeTermCount(5);
+        $this->query->setExtendedResults(true);
         $this->query->setAccuracy(0.45);
 
         $request = $this->builder->build($this->query);
@@ -43,6 +45,8 @@ class RequestBuilderTest extends TestCase
                 'spellcheck.dictionary' => ['suggest'],
                 'spellcheck.count' => 13,
                 'spellcheck.onlyMorePopular' => 'true',
+                'spellcheck.alternativeTermCount' => 5,
+                'spellcheck.extendedResults' => 'true',
                 'spellcheck.collate' => 'true',
                 'spellcheck.build' => 'false',
                 'wt' => 'json',

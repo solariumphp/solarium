@@ -58,7 +58,7 @@ class ConnectionReuseTest extends TestCase
             ],
         ];
 
-        self::$client = TestClientFactory::createWithPsr18Adapter();
+        self::$client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
         // get the current log level to restore afterwards to avoid excessive logging in other testcases
         $query = self::$client->createApi([
@@ -125,7 +125,7 @@ class ConnectionReuseTest extends TestCase
         // make sure the next logged timestamp is not on the same millisecond as self::$since
         usleep(1000);
 
-        $client = TestClientFactory::$createFunction();
+        $client = TestClientFactory::$createFunction(self::$config);
 
         // the logging for 5 requests fits within the default logging watcher buffer size
         for ($i = 0; $i < 5; ++$i) {

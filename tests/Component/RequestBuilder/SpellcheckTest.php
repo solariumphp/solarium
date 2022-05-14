@@ -21,6 +21,7 @@ class SpellcheckTest extends TestCase
         $component->setDictionary('testdict');
         $component->setCount(3);
         $component->setOnlyMorePopular(false);
+        $component->setAlternativeTermCount(5);
         $component->setExtendedResults(true);
         $component->setCollate(true);
         $component->setMaxCollations(2);
@@ -41,6 +42,7 @@ class SpellcheckTest extends TestCase
                 'spellcheck.dictionary' => ['testdict'],
                 'spellcheck.count' => 3,
                 'spellcheck.onlyMorePopular' => 'false',
+                'spellcheck.alternativeTermCount' => 5,
                 'spellcheck.extendedResults' => 'true',
                 'spellcheck.collate' => 'true',
                 'spellcheck.maxCollations' => 2,
@@ -66,6 +68,7 @@ class SpellcheckTest extends TestCase
         $component->setDictionary(['dictionary', 'alt_dictionary']);
         $component->setCount(3);
         $component->setOnlyMorePopular(false);
+        $component->setAlternativeTermCount(5);
         $component->setExtendedResults(true);
         $component->setCollate(true);
         $component->setMaxCollations(2);
@@ -86,6 +89,7 @@ class SpellcheckTest extends TestCase
                 'spellcheck.dictionary' => ['dictionary', 'alt_dictionary'],
                 'spellcheck.count' => 3,
                 'spellcheck.onlyMorePopular' => 'false',
+                'spellcheck.alternativeTermCount' => 5,
                 'spellcheck.extendedResults' => 'true',
                 'spellcheck.collate' => 'true',
                 'spellcheck.maxCollations' => 2,

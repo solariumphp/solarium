@@ -13,6 +13,7 @@ Options
 | dictionary              | string  | null          | The name of the dictionary to use                                                      |
 | count                   | int     | null          | The maximum number of suggestions to return                                            |
 | onlymorepopular         | boolean | null          | Only return suggestions that result in more hits for the query than the existing query |
+| alternativetermcount    | int     | null          |                                                                                        |
 | extendedresults         | boolean | null          |                                                                                        |
 | collate                 | boolean | null          |                                                                                        |
 | maxcollations           | int     | null          |                                                                                        |
