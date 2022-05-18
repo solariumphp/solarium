@@ -37,6 +37,7 @@ class Spellcheck implements ComponentRequestBuilderInterface
         $request->addParam('spellcheck.dictionary', $component->getDictionary());
         $request->addParam('spellcheck.count', $component->getCount());
         $request->addParam('spellcheck.onlyMorePopular', $component->getOnlyMorePopular());
+        $request->addParam('spellcheck.alternativeTermCount', $component->getAlternativeTermCount());
         $request->addParam('spellcheck.extendedResults', $component->getExtendedResults());
         $request->addParam('spellcheck.collate', $component->getCollate());
         $request->addParam('spellcheck.maxCollations', $component->getMaxCollations());

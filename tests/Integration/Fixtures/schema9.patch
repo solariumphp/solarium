@@ -1,5 +1,5 @@
 diff --git a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
-index 9ddbf3879f9..6dd5b925966 100644
+index aad0c822f34..d0b272c39c2 100644
 --- a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
 +++ b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
 @@ -118,7 +118,9 @@
@@ -12,4 +12,4 @@ index 9ddbf3879f9..6dd5b925966 100644
 +   <field name="_nest_path_" type="_nest_path_" />
  
     <!-- Only remove the "id" field if you have a very good reason to. While not strictly
-      required, it is highly recommended. A <uniqueKey> is present in almost all Solr 
+      required, it is highly recommended. A <uniqueKey> is present in almost all Solr

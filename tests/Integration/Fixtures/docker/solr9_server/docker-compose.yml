@@ -1,6 +1,6 @@
 version: '3'
 services:
-  solr8:
+  solr9:
     image: solr:9
     ports:
       - "8983:8983"
