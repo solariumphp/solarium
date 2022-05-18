@@ -113,6 +113,17 @@ class SpellcheckTest extends TestCase
         );
     }
 
+    public function testSetAndGetAlternativeTermCount()
+    {
+        $value = 5;
+        $this->spellCheck->setAlternativeTermCount($value);
+
+        $this->assertEquals(
+            $value,
+            $this->spellCheck->getAlternativeTermCount()
+        );
+    }
+
     public function testSetAndGetExtendedResults()
     {
         $value = false;
