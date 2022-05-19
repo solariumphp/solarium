@@ -4,6 +4,7 @@ namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Grouping\FieldGroup;
@@ -472,16 +473,22 @@ abstract class AbstractTechproductsTest extends TestCase
     {
         $select = self::$client->createSelect();
         // In the techproducts example, the request handler "select" doesn't neither contain a spellcheck component nor
-        // a highlighter or facets. But the "browse" request handler does.
-        $select->setHandler('browse');
+        // a highlighter or facets. But the self-defined "componentdemo" request handler does.
+        $select->setHandler('componentdemo');
         // Search for misspelled "power cort".
         $select->setQuery('power cort');
 
         $spellcheck = $select->getSpellcheck();
         // Some spellcheck dictionaries need to be built first, but not on every request!
         $spellcheck->setBuild(true);
+        $spellcheck->setCount(5);
+        $spellcheck->setAlternativeTermCount(2);
         // Order of suggestions is wrong on SolrCloud with spellcheck.extendedResults=false (SOLR-9060)
         $spellcheck->setExtendedResults(true);
+        $spellcheck->setCollate(true);
+        $spellcheck->setCollateExtendedResults(true);
+        $spellcheck->setMaxCollationTries(5);
+        $spellcheck->setMaxCollations(3);
 
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
@@ -520,8 +527,11 @@ abstract class AbstractTechproductsTest extends TestCase
         );
 
         $select->setQuery('power cord');
-        // Activate highlighting.
-        $select->getHighlighting();
+
+        $highlighting = $select->getHighlighting();
+        $highlighting->setMethod(Highlighting::METHOD_ORIGINAL);
+        $highlighting->setSimplePrefix('<b>')->setSimplePostfix('</b>');
+
         $facetSet = $select->getFacetSet();
         $facetSet->createFacetField('stock')->setField('inStock');
 
@@ -538,14 +548,14 @@ abstract class AbstractTechproductsTest extends TestCase
         );
 
         $this->assertSame(
-            ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
+            ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w/ Dock'],
             $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name')
         );
 
         $this->assertSame(
             [
                 'features' => ['car <b>power</b> adapter, white'],
-                'name' => ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w&#x2F; Dock'],
+                'name' => ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w/ Dock'],
             ],
             $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()
         );
@@ -558,13 +568,63 @@ abstract class AbstractTechproductsTest extends TestCase
     }
 
     /**
+     * @testWith ["METHOD_UNIFIED"]
+     *           ["METHOD_ORIGINAL"]
+     *           ["METHOD_FASTVECTOR"]
+     */
+    public function testHighlightingComponentMethods(string $method)
+    {
+        $select = self::$client->createSelect();
+        // The self-defined "componentdemo" request handler has a highlighting component.
+        $select->setHandler('componentdemo');
+        $select->setQuery('id:F8V7067-APL-KIT');
+
+        $highlighting = $select->getHighlighting();
+        $highlighting->setMethod(\constant(Highlighting::class.'::'.$method));
+        $highlighting->setFields('name, features');
+        $highlighting->getField('features')->setSimplePrefix('<u class="hl">')->setSimplePostfix('</u>');
+        $highlighting->setQuery('(power cord) OR (power adapter)');
+        $highlighting->setQueryParser('edismax');
+        $highlighting->setSimplePrefix('<b>')->setSimplePostfix('</b>');
+
+        // We don't set HTML encoding for ease of comparison, this can open an XSS attack vector.
+        // Make sure that you set it by default in solrconfig.xml or on every request if required!
+        // $highlighting->setEncoder(Highlighting::ENCODER_HTML);
+
+        $result = self::$client->select($select);
+        $this->assertSame(1, $result->getNumFound());
+
+        foreach ($result as $document) {
+            $this->assertSame('F8V7067-APL-KIT', $document->id);
+        }
+
+        $this->assertSame(
+            ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w/ Dock'],
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('name')
+        );
+
+        $this->assertSame(
+            ['car <u class="hl">power</u> <u class="hl">adapter</u>, white'],
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getField('features')
+        );
+
+        $this->assertSame(
+            [
+                'name' => ['Belkin Mobile <b>Power</b> <b>Cord</b> for iPod w/ Dock'],
+                'features' => ['car <u class="hl">power</u> <u class="hl">adapter</u>, white'],
+            ],
+            $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()
+        );
+    }
+
+    /**
      * @see https://github.com/solariumphp/solarium/issues/184
      */
     public function testSpellCheckComponentWithSameWordMisspelledMultipleTimes()
     {
         $select = self::$client->createSelect();
-        // The "browse" request handler has a spellcheck component.
-        $select->setHandler('browse');
+        $select->setHandler('spell');
+        $select->getEDisMax()->setMinimumMatch('100%');
         $select->setQuery('power cort cort');
 
         $spellcheck = $select->getSpellcheck();
@@ -625,7 +685,7 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     public function testGroupingComponent()
     {
-        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        self::$client->registerQueryType('grouping', GroupingTestQuery::class);
         /** @var GroupingTestQuery $select */
         $select = self::$client->createQuery('grouping');
         $select->setQuery('solr memory');
@@ -754,7 +814,7 @@ abstract class AbstractTechproductsTest extends TestCase
      */
     public function testGroupingComponentFixForSolr13839()
     {
-        self::$client->registerQueryType('grouping', '\Solarium\Tests\Integration\GroupingTestQuery');
+        self::$client->registerQueryType('grouping', GroupingTestQuery::class);
         /** @var GroupingTestQuery $select */
         $select = self::$client->createQuery('grouping');
         // without score in the fl parameter, result groups don't have a maxScore
@@ -837,7 +897,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('SOLR1000', $mltDoc->id);
 
         // Solr 7 doesn't support mlt.interestingTerms for MoreLikeThisComponent
-        // Solr 8: "To use this parameter with the search component, the query cannot be distributed."
+        // Solr 8 & Solr 9: "To use this parameter with the search component, the query cannot be distributed."
         // https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
         if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
             // with 'details', interesting terms are an associative array of terms and their boost values
@@ -1125,7 +1185,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testTermsComponent()
     {
-        self::$client->registerQueryType('test', '\Solarium\Tests\Integration\TermsTestQuery');
+        self::$client->registerQueryType('test', TermsTestQuery::class);
         $select = self::$client->createQuery('test');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
@@ -1370,14 +1430,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $select = self::$client->createSelect();
         $select->setQuery('id:solarium-test');
         $select->addSort('id', $select::SORT_ASC);
-        $select->setFields('id,name,cat,price');
+        $select->setFields('id,name,cat,weight');
         $update = self::$client->createUpdate();
 
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test');
         $doc->setField('name', 'Solarium Test');
         $doc->setField('cat', 'solarium-test');
-        $doc->setField('price', 17.01);
+        $doc->setField('weight', 17.01);
         $update->addDocument($doc);
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1389,7 +1449,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'cat' => [
                 'solarium-test',
             ],
-            'price' => 17.01,
+            'weight' => 17.01,
         ], $result->getIterator()->current()->getFields());
 
         // set
@@ -1397,8 +1457,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-set');
         $doc->setFieldModifier('cat', $doc::MODIFIER_SET);
-        $doc->setField('price', 42.0);
-        $doc->setFieldModifier('price', $doc::MODIFIER_SET);
+        $doc->setField('weight', 42.0);
+        $doc->setFieldModifier('weight', $doc::MODIFIER_SET);
         $update->addDocument($doc);
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1410,7 +1470,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'cat' => [
                 'modifier-set',
             ],
-            'price' => 42.0,
+            'weight' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
         // add & inc
@@ -1418,8 +1478,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-add');
         $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
-        $doc->setField('price', 5);
-        $doc->setFieldModifier('price', $doc::MODIFIER_INC);
+        $doc->setField('weight', 5);
+        $doc->setFieldModifier('weight', $doc::MODIFIER_INC);
         $update->addDocument($doc);
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1432,7 +1492,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'modifier-set',
                 'modifier-add',
             ],
-            'price' => 47.0,
+            'weight' => 47.0,
         ], $result->getIterator()->current()->getFields());
 
         // add multiple values (non-distinct)
@@ -1454,7 +1514,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'modifier-add',
                 'modifier-add-another',
             ],
-            'price' => 47.0,
+            'weight' => 47.0,
         ], $result->getIterator()->current()->getFields());
 
         // add-distinct
@@ -1476,7 +1536,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'modifier-add',
                 'modifier-add-another',
             ],
-            'price' => 47.0,
+            'weight' => 47.0,
         ], $result->getIterator()->current()->getFields());
 
         // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
@@ -1511,7 +1571,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'modifier-add-another',
                 'modifier-add-distinct',
             ],
-            'price' => 47.0,
+            'weight' => 47.0,
         ], $result->getIterator()->current()->getFields());
 
         // remove & negative inc
@@ -1519,8 +1579,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-set');
         $doc->setFieldModifier('cat', $doc::MODIFIER_REMOVE);
-        $doc->setField('price', -5);
-        $doc->setFieldModifier('price', $doc::MODIFIER_INC);
+        $doc->setField('weight', -5);
+        $doc->setFieldModifier('weight', $doc::MODIFIER_INC);
         $update->addDocument($doc);
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1535,7 +1595,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'modifier-add-another',
                 'modifier-add-distinct',
             ],
-            'price' => 42.0,
+            'weight' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
         // remove multiple values
@@ -1555,7 +1615,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 'modifier-add',
                 'modifier-add-distinct',
             ],
-            'price' => 42.0,
+            'weight' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
         // removeregex
@@ -1574,7 +1634,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'cat' => [
                 'modifier-add-distinct',
             ],
-            'price' => 42.0,
+            'weight' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
         // set to empty list
@@ -1590,7 +1650,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
-            'price' => 42.0,
+            'weight' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
         // add to missing field
@@ -1603,11 +1663,11 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        // cat comes after price now because it was added later!
+        // cat comes after weight now because it was added later!
         $this->assertSame([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
-            'price' => 42.0,
+            'weight' => 42.0,
             'cat' => [
                 'solarium-test',
             ],
@@ -1626,7 +1686,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
-            'price' => 42.0,
+            'weight' => 42.0,
         ], $result->getIterator()->current()->getFields());
 
         // cleanup
@@ -3587,7 +3647,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // Since Solr 8.7, this returns an error message in JSON, earlier versions return an HTML page
         $expectedErrorMsg = sprintf('No REST managed resource registered for path /schema/analysis/%s/%stest-', $resourceType, $uniqid);
-        if (8 === self::$solrVersion) {
+        if (8 <= self::$solrVersion) {
             $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
         } else {
             $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody(), 'Check if SOLR-6853 is fixed.');

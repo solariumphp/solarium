@@ -114,6 +114,24 @@ interface SpellcheckInterface extends ConfigurableInterface
     public function getOnlyMorePopular(): ?bool;
 
     /**
+     * Set alternativetermcount option.
+     *
+     * The the number of suggestions to return for each query term existing in the index and/or dictionary.
+     *
+     * @param int $count
+     *
+     * @return self Provides fluent interface
+     */
+    public function setAlternativeTermCount(int $count): self;
+
+    /**
+     * Get alternativetermcount option.
+     *
+     * @return int|null
+     */
+    public function getAlternativeTermCount(): ?int;
+
+    /**
      * Set extendedResults option.
      *
      * @param bool $extendedResults

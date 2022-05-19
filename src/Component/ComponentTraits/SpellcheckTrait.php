@@ -148,6 +148,30 @@ trait SpellcheckTrait
     }
 
     /**
+     * Set alternativetermcount option.
+     *
+     * The the number of suggestions to return for each query term existing in the index and/or dictionary.
+     *
+     * @param int $count
+     *
+     * @return SpellcheckInterface Provides fluent interface
+     */
+    public function setAlternativeTermCount(int $count): SpellcheckInterface
+    {
+        return $this->setOption('alternativetermcount', $count);
+    }
+
+    /**
+     * Get alternativetermcount option.
+     *
+     * @return int|null
+     */
+    public function getAlternativeTermCount(): ?int
+    {
+        return $this->getOption('alternativetermcount');
+    }
+
+    /**
      * Set extendedResults option.
      *
      * @param bool $extendedResults

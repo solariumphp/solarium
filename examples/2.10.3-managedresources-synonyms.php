@@ -266,4 +266,24 @@ foreach (['funny', 'entertaining', 'whimiscal', 'jocular'] as $term) {
     }
 }
 
+echo '<hr/><h1>Apply changes</h1>';
+
+// create a core admin query
+$query = $client->createCoreAdmin();
+
+// create a "reload" action
+$reloadAction = $query->createReload();
+
+// set the core on the action, and set the action on the query
+$reloadAction->setCore($client->getEndpoint()->getCore());
+$query->setAction($reloadAction);
+
+// execute the query and return the result
+$result = $client->coreAdmin($query);
+
+// display the result
+if ($result->getWasSuccessful()) {
+    echo 'Core was reloaded.<br/>';
+}
+
 htmlFooter();

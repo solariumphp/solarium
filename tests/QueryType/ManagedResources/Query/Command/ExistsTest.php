@@ -28,7 +28,13 @@ class ExistsTest extends TestCase
     }
 
     /**
-     * There's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116).
+     * Test workaround for SOLR-15116.
+     *
+     * Affected: Solr 8.7 – Solr 8.11.1, Solr 9.0
+     * Fixed: Solr 8.11.2, Solr 9.1
+     *
+     * A HEAD request for a non-existing term against affected Solr versions returns "200 OK"
+     * instead of "404 Not Found". We execute a GET request if a term is set as a workaround.
      */
     public function testGetRequestMethodWithTerm()
     {
