@@ -72,6 +72,23 @@ class QueryTest extends TestCase
         $this->assertFalse($this->query->getOnlyMorePopular());
     }
 
+    public function testSetAndGetAlternativeTermCount()
+    {
+        $value = 5;
+        $this->query->setAlternativeTermCount($value);
+
+        $this->assertEquals(
+            $value,
+            $this->query->getAlternativeTermCount()
+        );
+    }
+
+    public function testSetAndGetExtendedResults()
+    {
+        $this->query->setExtendedResults(false);
+        $this->assertFalse($this->query->getExtendedResults());
+    }
+
     public function testSetAndGetCollate()
     {
         $this->query->setCollate(false);

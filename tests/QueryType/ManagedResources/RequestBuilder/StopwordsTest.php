@@ -184,7 +184,7 @@ class StopwordsTest extends TestCase
 
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
-        // there's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116)
+        // there's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116, fixed in Solr 8.11.2 and Solr 9.1)
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
         $this->assertSame('schema/analysis/stopwords/dutch/de', $request->getHandler());
         $this->assertNull($request->getRawData());
