@@ -3,44 +3,90 @@ The highlighting component can be used to highlight matches in content. For more
 Options
 -------
 
+### Common options
+
+| Name                     | Type    | Default value | Description                                                                                     |
+|--------------------------|---------|---------------|-------------------------------------------------------------------------------------------------|
+| usefastvectorhighlighter | boolean | null          | Use the FastVector Highlighter. You should set `method` to 'fastVector' instead since Solr 6.4. |
+| method                   | string  | null          | The highlighting implementation to use: 'unified', 'original' or 'fastVector'.                  |
+| fields                   | string  | null          | Fields to generate highlighted snippets for. Separate multiple fields with commas.              |
+| query                    | string  | null          | Overrides the q parameter for highlighting                                                      |
+| queryparser              | string  | null          | The query parser to use if the query option is set                                              |
+| requirefieldmatch        | boolean | null          | requireFieldMatch option                                                                        |
+| usephrasehighlighter     | boolean | null          |                                                                                                 |
+| highlightmultiterm       | boolean | null          |                                                                                                 |
+| snippets                 | int     | null          | Maximum number of snippets per field                                                            |
+| fragsize                 | int     | null          | The size, in characters, of fragments to consider for highlighting                              |
+| tagprefix                | string  | null          | Solr option hl.tag.pre                                                                          |
+| tagpostfix               | string  | null          | Solr option hl.tag.post                                                                         |
+| encoder                  | string  | null          |                                                                                                 |
+| maxanalyzedchars         | int     | null          | How many characters into a document to look for suitable snippets                               |
+||
+
+### Unified Highlighter options
+
+| Name                     | Type    | Default value | Description                                                                              |
+|--------------------------|---------|---------------|------------------------------------------------------------------------------------------|
+| offsetsource             | string  | null          | Explicitly configure the offset source                                                   |
+| fragalignratio           | float   | null          | Influences where the first highlighted text in a passage is positioned                   |
+| fragsizeisminimum        | boolean | null          | Treat `fragsize` as a (soft) minimum fragment size                                       |
+| tagellipsis              | string  | null          | Return one string with this text as the delimiter                                        |
+| defaultsummary           | boolean | null          | Use the leading portion of the text if a proper highlighted snippet can't be generated   |
+| scorek1                  | float   | null          | BM25 term frequency normalization parameter 'k1'                                         |
+| scoreb                   | float   | null          | BM25 length normalization parameter 'b'                                                  |
+| scorepivot               | int     | null          | BM25 average passage length in characters                                                |
+| boundaryscannerlanguage  | string  | null          | Boundary scanner language for dividing the document into passages                        |
+| boundaryscannercountry   | string  | null          | Boundary scanner country for dividing the document into passages                         |
+| boundaryscannervariant   | string  | null          | Boundary scanner variant for dividing the document into passages                         |
+| boundaryscannertype      | string  | null          | Boundary scanner type for dividing the document into passages                            |
+| boundaryscannerseparator | string  | null          | Which character to break the text on. Use only `boundaryscannertype` set to 'SEPARATOR'. |
+| weightmatches            | boolean | null          | Use Lucene's "Weight Matches" API instead of doing `SpanQuery` conversion                |
+||
+
+### Original Highlighter options
+
+| Name                    | Type    | Default value | Description                                                                      |
+|-------------------------|---------|---------------|----------------------------------------------------------------------------------|
+| mergecontiguous         | boolean | null          | Collapse contiguous fragments into a single fragment                             |
+| maxmultivaluedtoexamine | int     | null          | Maximum number of entries in a multi-valued field to examine before stopping     |
+| maxmultivaluedtomatch   | int     | null          | maximum number of matches in a multi-valued field that are found before stopping |
+| alternatefield          | string  | null          | alternateField option                                                            |
+| maxalternatefieldlength | int     | null          | maxAlternateFieldLength option                                                   |
+| highlightalternate      | boolean | null          | highlightAlternate option                                                        |
+| formatter               | string  | null          | formatter option                                                                 |
+| simpleprefix            | string  | null          | Solr option hl.simple.pre                                                        |
+| simplepostfix           | string  | null          | Solr option hl.simple.post                                                       |
+| fragmenter              | string  | null          |                                                                                  |
+| regexslop               | float   | null          |                                                                                  |
+| regexpattern            | string  | null          |                                                                                  |
+| regexmaxanalyzedchars   | int     | null          |                                                                                  |
+| preservemulti           | boolean | null          |                                                                                  |
+| payloads                | boolean | null          |                                                                                  |
+||
+
+### FastVector Highlighter options
+
 | Name                     | Type    | Default value | Description                                                                        |
 |--------------------------|---------|---------------|------------------------------------------------------------------------------------|
-| method                   | string  | null          | The highlighting implementation to use: 'unified', 'original' or 'fastVector'.     |
-| fields                   | string  | null          | Fields to generate highlighted snippets for. Separate multiple fields with commas. |
-| query                    | string  | null          | Overrides the q parameter for highlighting                                         |
-| queryparser              | string  | null          | The query parser to use if the query option is set                                 |
-| snippets                 | int     | null          | Maximum number of snippets per field                                               |
-| fragsize                 | int     | null          | The size, in characters, of fragments to consider for highlighting                 |
-| mergecontiguous          | boolean | null          | Collapse contiguous fragments into a single fragment                               |
-| requirefieldmatch        | boolean | null          | requireFieldMatch option                                                           |
-| maxanalyzedchars         | int     | null          | How many characters into a document to look for suitable snippets                  |
-| alternatefield           | string  | null          | Alternatefield option                                                              |
+| alternatefield           | string  | null          | alternateField option                                                              |
 | maxalternatefieldlength  | int     | null          | maxAlternateFieldLength option                                                     |
-| formatter                | string  | null          | formatter option                                                                   |
-| simpleprefix             | string  | null          | Solr option hl.simple.pre                                                          |
-| simplepostfix            | string  | null          | Solr option hl.simple.post                                                         |
-| encoder                  | string  | null          |                                                                                    |
-| fragmenter               | string  | null          |                                                                                    |
+| highlightalternate       | boolean | null          | highlightAlternate option                                                          |
 | fraglistbuilder          | string  | null          |                                                                                    |
 | fragmentsbuilder         | string  | null          |                                                                                    |
-| usefastvectorhighlighter | boolean | null          |                                                                                    |
-| usephrasehighlighter     | boolean | null          |                                                                                    |
-| highlightmultiterm       | boolean | null          |                                                                                    |
-| regexslop                | float   | null          |                                                                                    |
-| regexpattern             | string  | null          |                                                                                    |
-| regexmaxanalyzedchars    | int     | null          |                                                                                    |
-| phraselimit              | int     | null          |                                                                                    |
-| multivaluedseparatorchar | string  | null          |                                                                                    |
-| boundaryscannerchars     | string  | null          |                                                                                    |
-| boundaryscannermaxscan   | int     | null          |                                                                                    |
-| boundaryscannertype      | string  | null          |                                                                                    |
-| boundaryscannercountry   | string  | null          |                                                                                    |
+| boundaryscanner          | string  | null          | 'breakIterator' or 'simple'                                                        |
+| boundaryscannertype      | string  | null          | 'breakIterator' boundary scanner type for dividing the document into passages      |
+| boundaryscannerlanguage  | string  | null          | 'breakIterator' boundary scanner language for dividing the document into passages  |
+| boundaryscannercountry   | string  | null          | 'breakIterator' boundary scanner country for dividing the document into passages   |
+| boundaryscannermaxscan   | int     | null          | 'simple' boundary scanner maximum characters to scan                               |
+| boundaryscannerchars     | string  | null          | 'simple' boundary scanner delimiters                                               |
+| phraselimit              | int     | null          | Maximum number of phrases to analyze when searching for the highest-scoring phrase |
+| multivaluedseparatorchar | string  | null          | Text to use to separate one value from the next for a multi-valued field           |
 ||
 
 Per-field settings
 ------------------
 
-Several options can be overridden on a per-field basis. You can use the `getField` method to get a field options instance. See the example below.
+Several options can be overridden on a per-field basis. You can use the `getField()` method to get a field options instance. See the example below.
 
 Example
 -------
