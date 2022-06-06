@@ -25,8 +25,8 @@
         "nyholm/psr7": "^1.2",
         "php-http/guzzle7-adapter": "^0.1",
         "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.12",
-        "phpstan/phpstan-phpunit": "^0.12",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"

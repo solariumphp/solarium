@@ -18,13 +18,18 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class BufferedAddLiteTest extends TestCase
 {
     /**
+     * @var string
+     */
+    protected $pluginClass = BufferedAddLite::class;
+
+    /**
      * @var BufferedAddLite
      */
     protected $plugin;
 
     public function setUp(): void
     {
-        $this->plugin = new BufferedAddLite();
+        $this->plugin = new $this->pluginClass();
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
