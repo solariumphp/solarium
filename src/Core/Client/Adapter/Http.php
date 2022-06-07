@@ -160,7 +160,8 @@ class Http implements AdapterInterface, TimeoutAwareInterface
     {
         $data = @file_get_contents($uri, false, $context);
 
-        // @ see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
+        // @see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
+        // @phpstan-ignore-next-line https://github.com/phpstan/phpstan/issues/3213
         return [$data, $http_response_header ?? []];
     }
 }

@@ -11,6 +11,7 @@ namespace Solarium\Component\RequestBuilder;
 
 use Solarium\Component\Highlighting\Field as HighlightingField;
 use Solarium\Component\Highlighting\Highlighting as HighlightingComponent;
+use Solarium\Component\Highlighting\HighlightingInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\ConfigurableInterface;
 
@@ -31,6 +32,7 @@ class Highlighting implements ComponentRequestBuilderInterface
     {
         // enable highlighting
         $request->addParam('hl', 'true');
+        $request->addParam('hl.useFastVectorHighlighter', $component->getUseFastVectorHighlighter());
         $request->addParam('hl.method', $component->getMethod());
 
         // set global highlighting params
@@ -39,36 +41,8 @@ class Highlighting implements ComponentRequestBuilderInterface
         }
         $request->addParam('hl.q', $component->getQuery());
         $request->addParam('hl.qparser', $component->getQueryParser());
-        $request->addParam('hl.snippets', $component->getSnippets());
-        $request->addParam('hl.fragsize', $component->getFragSize());
-        $request->addParam('hl.mergeContiguous', $component->getMergeContiguous());
         $request->addParam('hl.requireFieldMatch', $component->getRequireFieldMatch());
-        $request->addParam('hl.maxAnalyzedChars', $component->getMaxAnalyzedChars());
-        $request->addParam('hl.alternateField', $component->getAlternateField());
-        $request->addParam('hl.maxAlternateFieldLength', $component->getMaxAlternateFieldLength());
-        $request->addParam('hl.preserveMulti', $component->getPreserveMulti());
-        $request->addParam('hl.formatter', $component->getFormatter());
-        $request->addParam('hl.simple.pre', $component->getSimplePrefix());
-        $request->addParam('hl.simple.post', $component->getSimplePostfix());
-        $request->addParam('hl.tag.pre', $component->getTagPrefix());
-        $request->addParam('hl.tag.post', $component->getTagPostfix());
-        $request->addParam('hl.encoder', $component->getEncoder());
-        $request->addParam('hl.fragmenter', $component->getFragmenter());
-        $request->addParam('hl.fragListBuilder', $component->getFragListBuilder());
-        $request->addParam('hl.fragmentsBuilder', $component->getFragmentsBuilder());
-        $request->addParam('hl.useFastVectorHighlighter', $component->getUseFastVectorHighlighter());
-        $request->addParam('hl.usePhraseHighlighter', $component->getUsePhraseHighlighter());
-        $request->addParam('hl.highlightMultiTerm', $component->getHighlightMultiTerm());
-        $request->addParam('hl.regex.slop', $component->getRegexSlop());
-        $request->addParam('hl.regex.pattern', $component->getRegexPattern());
-        $request->addParam('hl.regex.maxAnalyzedChars', $component->getRegexMaxAnalyzedChars());
-        $request->addParam('hl.phraseLimit', $component->getPhraseLimit());
-        $request->addParam('hl.multiValuedSeparatorChar', $component->getMultiValuedSeparatorChar());
-        $request->addParam('hl.bs.maxScan', $component->getBoundaryScannerMaxScan());
-        $request->addParam('hl.bs.chars', $component->getBoundaryScannerChars());
-        $request->addParam('hl.bs.type', $component->getBoundaryScannerType());
-        $request->addParam('hl.bs.language', $component->getBoundaryScannerLanguage());
-        $request->addParam('hl.bs.country', $component->getBoundaryScannerCountry());
+        $this->addHighlighterParams($component, $request);
 
         // set per-field highlighting params
         foreach ($component->getFields() as $field) {
@@ -84,19 +58,73 @@ class Highlighting implements ComponentRequestBuilderInterface
      * @param HighlightingField $field
      * @param Request           $request
      */
-    protected function addFieldParams($field, $request)
+    protected function addFieldParams(HighlightingField $field, Request $request): void
     {
-        $prefix = 'f.'.$field->getName().'.hl.';
-        $request->addParam($prefix.'method', $field->getMethod());
-        $request->addParam($prefix.'snippets', $field->getSnippets());
-        $request->addParam($prefix.'fragsize', $field->getFragSize());
-        $request->addParam($prefix.'mergeContiguous', $field->getMergeContiguous());
-        $request->addParam($prefix.'alternateField', $field->getAlternateField());
-        $request->addParam($prefix.'preserveMulti', $field->getPreserveMulti());
-        $request->addParam($prefix.'formatter', $field->getFormatter());
-        $request->addParam($prefix.'simple.pre', $field->getSimplePrefix());
-        $request->addParam($prefix.'simple.post', $field->getSimplePostfix());
-        $request->addParam($prefix.'fragmenter', $field->getFragmenter());
-        $request->addParam($prefix.'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
+        $prefix = 'f.'.$field->getName().'.';
+        $request->addParam($prefix.'hl.useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
+        $request->addParam($prefix.'hl.method', $field->getMethod());
+        $this->addHighlighterParams($field, $request, $prefix);
+    }
+
+    /**
+     * Add common and specific highlighter options to the request.
+     *
+     * @param HighlightingInterface $hlt
+     * @param Request               $request
+     * @param string                $prefix  Prefix to use for parameter names
+     */
+    protected function addHighlighterParams(HighlightingInterface $hlt, Request $request, string $prefix = ''): void
+    {
+        // common highlighter params
+        $request->addParam($prefix.'hl.usePhraseHighlighter', $hlt->getUsePhraseHighlighter());
+        $request->addParam($prefix.'hl.highlightMultiTerm', $hlt->getHighlightMultiTerm());
+        $request->addParam($prefix.'hl.snippets', $hlt->getSnippets());
+        $request->addParam($prefix.'hl.fragsize', $hlt->getFragSize());
+        $request->addParam($prefix.'hl.tag.pre', $hlt->getTagPrefix());
+        $request->addParam($prefix.'hl.tag.post', $hlt->getTagPostfix());
+        $request->addParam($prefix.'hl.encoder', $hlt->getEncoder());
+        $request->addParam($prefix.'hl.maxAnalyzedChars', $hlt->getMaxAnalyzedChars());
+
+        // unified highlighter params
+        $request->addParam($prefix.'hl.offsetSource', $hlt->getOffsetSource());
+        $request->addParam($prefix.'hl.fragAlignRatio', $hlt->getFragAlignRatio());
+        $request->addParam($prefix.'hl.fragsizeIsMinimum', $hlt->getFragsizeIsMinimum());
+        $request->addParam($prefix.'hl.tag.ellipsis', $hlt->getTagEllipsis());
+        $request->addParam($prefix.'hl.defaultSummary', $hlt->getDefaultSummary());
+        $request->addParam($prefix.'hl.score.k1', $hlt->getScoreK1());
+        $request->addParam($prefix.'hl.score.b', $hlt->getScoreB());
+        $request->addParam($prefix.'hl.score.pivot', $hlt->getScorePivot());
+        $request->addParam($prefix.'hl.bs.language', $hlt->getBoundaryScannerLanguage());
+        $request->addParam($prefix.'hl.bs.country', $hlt->getBoundaryScannerCountry());
+        $request->addParam($prefix.'hl.bs.variant', $hlt->getBoundaryScannerVariant());
+        $request->addParam($prefix.'hl.bs.type', $hlt->getBoundaryScannerType());
+        $request->addParam($prefix.'hl.bs.separator', $hlt->getBoundaryScannerSeparator());
+        $request->addParam($prefix.'hl.weightMatches', $hlt->getWeightMatches());
+
+        // original highlighter params
+        $request->addParam($prefix.'hl.mergeContiguous', $hlt->getMergeContiguous());
+        $request->addParam($prefix.'hl.maxMultiValuedToExamine', $hlt->getMaxMultiValuedToExamine());
+        $request->addParam($prefix.'hl.maxMultiValuedToMatch', $hlt->getMaxMultiValuedToMatch());
+        $request->addParam($prefix.'hl.alternateField', $hlt->getAlternateField());
+        $request->addParam($prefix.'hl.maxAlternateFieldLength', $hlt->getMaxAlternateFieldLength());
+        $request->addParam($prefix.'hl.highlightAlternate', $hlt->getHighlightAlternate());
+        $request->addParam($prefix.'hl.formatter', $hlt->getFormatter());
+        $request->addParam($prefix.'hl.simple.pre', $hlt->getSimplePrefix());
+        $request->addParam($prefix.'hl.simple.post', $hlt->getSimplePostfix());
+        $request->addParam($prefix.'hl.fragmenter', $hlt->getFragmenter());
+        $request->addParam($prefix.'hl.regex.slop', $hlt->getRegexSlop());
+        $request->addParam($prefix.'hl.regex.pattern', $hlt->getRegexPattern());
+        $request->addParam($prefix.'hl.regex.maxAnalyzedChars', $hlt->getRegexMaxAnalyzedChars());
+        $request->addParam($prefix.'hl.preserveMulti', $hlt->getPreserveMulti());
+        $request->addParam($prefix.'hl.payloads', $hlt->getPayloads());
+
+        // fastvector highlighter params
+        $request->addParam($prefix.'hl.fragListBuilder', $hlt->getFragListBuilder());
+        $request->addParam($prefix.'hl.fragmentsBuilder', $hlt->getFragmentsBuilder());
+        $request->addParam($prefix.'hl.boundaryScanner', $hlt->getBoundaryScanner());
+        $request->addParam($prefix.'hl.bs.maxScan', $hlt->getBoundaryScannerMaxScan());
+        $request->addParam($prefix.'hl.bs.chars', $hlt->getBoundaryScannerChars());
+        $request->addParam($prefix.'hl.phraseLimit', $hlt->getPhraseLimit());
+        $request->addParam($prefix.'hl.multiValuedSeparatorChar', $hlt->getMultiValuedSeparatorChar());
     }
 }
