@@ -21,13 +21,18 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class BufferedDeleteLiteTest extends TestCase
 {
     /**
+     * @var string
+     */
+    protected $pluginClass = BufferedDeleteLite::class;
+
+    /**
      * @var BufferedDeleteLite
      */
     protected $plugin;
 
     public function setUp(): void
     {
-        $this->plugin = new BufferedDeleteLite();
+        $this->plugin = new $this->pluginClass();
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 

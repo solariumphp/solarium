@@ -2,13 +2,12 @@
 
 namespace Solarium\Tests\Component\Highlighting;
 
-use PHPUnit\Framework\TestCase;
 use Solarium\Component\Highlighting\Field;
 use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
-class HighlightingTest extends TestCase
+class HighlightingTest extends AbstractHighlightingTest
 {
     /**
      * @var Highlighting
@@ -23,6 +22,7 @@ class HighlightingTest extends TestCase
     public function testConfigMode()
     {
         $options = [
+            'usefastvectorhighlighter' => true,
             'method' => 'unified',
             'field' => [
                 'fieldA' => [
@@ -33,40 +33,56 @@ class HighlightingTest extends TestCase
             ],
             'query' => 'text:myvalue',
             'queryparser' => 'myparser',
+            'requirefieldmatch' => false,
+            'usephrasehighlighter' => false,
+            'highlightmultiterm' => true,
             'snippets' => 2,
             'fragsize' => 20,
-            'mergecontiguous' => true,
-            'requirefieldmatch' => false,
-            'maxanalyzedchars' => 40,
-            'alternatefield' => 'text',
-            'maxalternatefieldlength' => 50,
-            'preservemulti' => true,
-            'formatter' => 'myFormatter',
-            'simpleprefix' => '<b>',
-            'simplepostfix' => '</b>',
             'tagprefix' => '<i>',
             'tagpostfix' => '<\i>',
             'encoder' => 'html',
+            'maxanalyzedchars' => 40,
+            'offsetsource' => 'TERM_VECTORS',
+            'fragalignratio' => .42,
+            'fragsizeisminimum' => false,
+            'tagellipsis' => '~~~',
+            'defaultsummary' => true,
+            'scorek1' => 1.6,
+            'scoreb' => .45,
+            'scorepivot' => 75,
+            'boundaryscannerlanguage' => 'nl',
+            'boundaryscannercountry' => 'NL',
+            'boundaryscannervariant' => '1995',
+            'boundaryscannertype' => 'LINE',
+            'boundaryscannerseparator' => '¦',
+            'weightmatches' => false,
+            'mergecontiguous' => true,
+            'maxmultivaluedtoexamine' => 4000,
+            'maxmultivaluedtomatch' => 2000,
+            'alternatefield' => 'text',
+            'maxalternatefieldlength' => 50,
+            'highlightalternate' => false,
+            'formatter' => 'myFormatter',
+            'simpleprefix' => '<b>',
+            'simplepostfix' => '</b>',
             'fragmenter' => 'myFragmenter',
-            'fraglistbuilder' => 'regex',
-            'fragmentsbuilder' => 'myBuilder',
-            'usefastvectorhighlighter' => true,
-            'usephrasehighlighter' => false,
-            'highlightmultiterm' => true,
             'regexslop' => .8,
             'regexpattern' => 'myPattern',
             'regexmaxanalyzedchars' => 500,
-            'phraselimit' => 35,
-            'multivaluedseparatorchar' => '|',
+            'preservemulti' => true,
+            'payloads' => false,
+            'fraglistbuilder' => 'simple',
+            'fragmentsbuilder' => 'myBuilder',
+            'boundaryscanner' => 'breakIterator',
             'boundaryscannermaxscan' => 12,
             'boundaryscannerchars' => "\t\n",
-            'boundaryscannertype' => 'LINE',
-            'boundaryscannerlanguage' => 'nl',
-            'boundaryscannercountry' => 'NL',
+            'phraselimit' => 35,
+            'multivaluedseparatorchar' => '|',
         ];
 
         $this->hlt->setOptions($options);
 
+        $this->assertTrue($this->hlt->getUseFastVectorHighlighter());
         $this->assertSame($options['method'], $this->hlt->getMethod());
         $this->assertSame(['fieldA', 'fieldB'], array_keys($this->hlt->getFields()));
         $this->assertSame($options['field']['fieldA']['snippets'], $this->hlt->getField('fieldA')->getSnippets());
@@ -74,35 +90,51 @@ class HighlightingTest extends TestCase
         $this->assertNull($this->hlt->getField('FieldB')->getSnippets());
         $this->assertSame($options['query'], $this->hlt->getQuery());
         $this->assertSame($options['queryparser'], $this->hlt->getQueryParser());
+        $this->assertFalse($this->hlt->getRequireFieldMatch());
+        $this->assertFalse($this->hlt->getUsePhraseHighlighter());
+        $this->assertTrue($this->hlt->getHighlightMultiTerm());
         $this->assertSame($options['snippets'], $this->hlt->getSnippets());
         $this->assertSame($options['fragsize'], $this->hlt->getFragSize());
-        $this->assertTrue($this->hlt->getMergeContiguous());
-        $this->assertSame($options['maxanalyzedchars'], $this->hlt->getMaxAnalyzedChars());
-        $this->assertSame($options['alternatefield'], $this->hlt->getAlternateField());
-        $this->assertSame($options['maxalternatefieldlength'], $this->hlt->getMaxAlternateFieldLength());
-        $this->assertTrue($this->hlt->getPreserveMulti());
-        $this->assertSame($options['formatter'], $this->hlt->getFormatter());
-        $this->assertSame($options['simpleprefix'], $this->hlt->getSimplePrefix());
-        $this->assertSame($options['simplepostfix'], $this->hlt->getSimplePostfix());
         $this->assertSame($options['tagprefix'], $this->hlt->getTagPrefix());
         $this->assertSame($options['tagpostfix'], $this->hlt->getTagPostfix());
         $this->assertSame($options['encoder'], $this->hlt->getEncoder());
+        $this->assertSame($options['maxanalyzedchars'], $this->hlt->getMaxAnalyzedChars());
+        $this->assertSame($options['offsetsource'], $this->hlt->getOffsetSource());
+        $this->assertSame($options['fragalignratio'], $this->hlt->getFragAlignRatio());
+        $this->assertFalse($this->hlt->getFragsizeIsMinimum());
+        $this->assertSame($options['tagellipsis'], $this->hlt->getTagEllipsis());
+        $this->assertTrue($this->hlt->getDefaultSummary());
+        $this->assertSame($options['scorek1'], $this->hlt->getScoreK1());
+        $this->assertSame($options['scoreb'], $this->hlt->getScoreB());
+        $this->assertSame($options['scorepivot'], $this->hlt->getScorePivot());
+        $this->assertSame($options['boundaryscannerlanguage'], $this->hlt->getBoundaryScannerLanguage());
+        $this->assertSame($options['boundaryscannercountry'], $this->hlt->getBoundaryScannerCountry());
+        $this->assertSame($options['boundaryscannervariant'], $this->hlt->getBoundaryScannerVariant());
+        $this->assertSame($options['boundaryscannertype'], $this->hlt->getBoundaryScannerType());
+        $this->assertSame($options['boundaryscannerseparator'], $this->hlt->getBoundaryScannerSeparator());
+        $this->assertFalse($this->hlt->getWeightMatches());
+        $this->assertTrue($this->hlt->getMergeContiguous());
+        $this->assertSame($options['maxmultivaluedtoexamine'], $this->hlt->getMaxMultiValuedToExamine());
+        $this->assertSame($options['maxmultivaluedtomatch'], $this->hlt->getMaxMultiValuedToMatch());
+        $this->assertSame($options['alternatefield'], $this->hlt->getAlternateField());
+        $this->assertSame($options['maxalternatefieldlength'], $this->hlt->getMaxAlternateFieldLength());
+        $this->assertFalse($this->hlt->getHighlightAlternate());
+        $this->assertSame($options['formatter'], $this->hlt->getFormatter());
+        $this->assertSame($options['simpleprefix'], $this->hlt->getSimplePrefix());
+        $this->assertSame($options['simplepostfix'], $this->hlt->getSimplePostfix());
         $this->assertSame($options['fragmenter'], $this->hlt->getFragmenter());
-        $this->assertSame($options['fraglistbuilder'], $this->hlt->getFragListBuilder());
-        $this->assertSame($options['fragmentsbuilder'], $this->hlt->getFragmentsBuilder());
-        $this->assertTrue($this->hlt->getUseFastVectorHighlighter());
-        $this->assertFalse($this->hlt->getUsePhraseHighlighter());
-        $this->assertTrue($this->hlt->getHighlightMultiTerm());
         $this->assertSame($options['regexslop'], $this->hlt->getRegexSlop());
         $this->assertSame($options['regexpattern'], $this->hlt->getRegexPattern());
         $this->assertSame($options['regexmaxanalyzedchars'], $this->hlt->getRegexMaxAnalyzedChars());
-        $this->assertSame($options['phraselimit'], $this->hlt->getPhraseLimit());
-        $this->assertSame($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
+        $this->assertTrue($this->hlt->getPreserveMulti());
+        $this->assertFalse($this->hlt->getPayloads());
+        $this->assertSame($options['fraglistbuilder'], $this->hlt->getFragListBuilder());
+        $this->assertSame($options['fragmentsbuilder'], $this->hlt->getFragmentsBuilder());
+        $this->assertSame($options['boundaryscannertype'], $this->hlt->getBoundaryScannerType());
         $this->assertSame($options['boundaryscannermaxscan'], $this->hlt->getBoundaryScannerMaxScan());
         $this->assertSame($options['boundaryscannerchars'], $this->hlt->getBoundaryScannerChars());
-        $this->assertSame($options['boundaryscannertype'], $this->hlt->getBoundaryScannerType());
-        $this->assertSame($options['boundaryscannerlanguage'], $this->hlt->getBoundaryScannerLanguage());
-        $this->assertSame($options['boundaryscannercountry'], $this->hlt->getBoundaryScannerCountry());
+        $this->assertSame($options['phraselimit'], $this->hlt->getPhraseLimit());
+        $this->assertSame($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
     }
 
     public function testGetType()
@@ -123,17 +155,6 @@ class HighlightingTest extends TestCase
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Highlighting',
             $this->hlt->getRequestBuilder()
-        );
-    }
-
-    public function testSetAndGetMethod()
-    {
-        $value = 'unified';
-        $this->hlt->setMethod($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getMethod()
         );
     }
 
@@ -292,302 +313,9 @@ class HighlightingTest extends TestCase
         );
     }
 
-    public function testSetAndGetSnippets()
-    {
-        $value = 2;
-        $this->hlt->setSnippets($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getSnippets()
-        );
-    }
-
-    public function testSetAndGetFragSize()
-    {
-        $value = 20;
-        $this->hlt->setFragSize($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getFragSize()
-        );
-    }
-
-    public function testSetAndGetMergeContiguous()
-    {
-        $this->hlt->setMergeContiguous(true);
-        $this->assertTrue($this->hlt->getMergeContiguous());
-    }
-
     public function testSetAndGetRequireFieldMatch()
     {
         $this->hlt->setRequireFieldMatch(true);
         $this->assertTrue($this->hlt->getRequireFieldMatch());
-    }
-
-    public function testSetAndGetMaxAnalyzedChars()
-    {
-        $value = 200;
-        $this->hlt->setMaxAnalyzedChars($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getMaxAnalyzedChars()
-        );
-    }
-
-    public function testSetAndGetAlternateField()
-    {
-        $value = 'description';
-        $this->hlt->setAlternateField($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getAlternateField()
-        );
-    }
-
-    public function testSetAndGetMaxAlternateFieldLength()
-    {
-        $value = 150;
-        $this->hlt->setMaxAlternateFieldLength($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getMaxAlternateFieldLength()
-        );
-    }
-
-    public function testSetAndGetPreserveMulti()
-    {
-        $this->hlt->setPreserveMulti(true);
-        $this->assertTrue($this->hlt->getPreserveMulti());
-    }
-
-    public function testSetAndGetFormatter()
-    {
-        $this->hlt->setFormatter();
-
-        $this->assertSame(
-            'simple',
-            $this->hlt->getFormatter()
-        );
-    }
-
-    public function testSetAndGetSimplePrefix()
-    {
-        $value = '<em>';
-        $this->hlt->setSimplePrefix($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getSimplePrefix()
-        );
-    }
-
-    public function testSetAndGetSimplePostfix()
-    {
-        $value = '</em>';
-        $this->hlt->setSimplePostfix($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getSimplePostfix()
-        );
-    }
-
-    public function testSetAndGetEncoder()
-    {
-        $value = Highlighting::ENCODER_HTML;
-        $this->hlt->setEncoder($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getEncoder()
-        );
-    }
-
-    public function testSetAndGetFragmenter()
-    {
-        $value = Highlighting::FRAGMENTER_REGEX;
-        $this->hlt->setFragmenter($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getFragmenter()
-        );
-    }
-
-    public function testSetAndGetFragListBuilder()
-    {
-        $value = 'myBuilder';
-        $this->hlt->setFragListBuilder($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getFragListBuilder()
-        );
-    }
-
-    public function testSetAndGetFragmentsBuilder()
-    {
-        $value = 'myBuilder';
-        $this->hlt->setFragmentsBuilder($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getFragmentsBuilder()
-        );
-    }
-
-    public function testSetAndGetUseFastVectorHighlighter()
-    {
-        $this->hlt->setUseFastVectorHighlighter(true);
-        $this->assertTrue($this->hlt->getUseFastVectorHighlighter());
-    }
-
-    public function testSetAndGetUsePhraseHighlighter()
-    {
-        $this->hlt->setUsePhraseHighlighter(true);
-        $this->assertTrue($this->hlt->getUsePhraseHighlighter());
-    }
-
-    public function testSetAndGetHighlightMultiTerm()
-    {
-        $this->hlt->setHighlightMultiTerm(true);
-        $this->assertTrue($this->hlt->getHighlightMultiTerm());
-    }
-
-    public function testSetAndGetRegexSlop()
-    {
-        $value = .8;
-        $this->hlt->setRegexSlop($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getRegexSlop()
-        );
-    }
-
-    public function testSetAndGetRegexPattern()
-    {
-        $value = 'myPattern';
-        $this->hlt->setRegexPattern($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getRegexPattern()
-        );
-    }
-
-    public function testSetAndGetRegexMaxAnalyzedChars()
-    {
-        $value = 500;
-        $this->hlt->setRegexMaxAnalyzedChars($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getRegexMaxAnalyzedChars()
-        );
-    }
-
-    public function testSetAndGetPhraseLimit()
-    {
-        $value = 20;
-        $this->hlt->setPhraseLimit($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getPhraseLimit()
-        );
-    }
-
-    public function testSetAndGetTagPrefix()
-    {
-        $value = '<i>';
-        $this->hlt->setTagPrefix($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getTagPrefix()
-        );
-    }
-
-    public function testSetAndGetTagPostfix()
-    {
-        $value = '</i>';
-        $this->hlt->setTagPostfix($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getTagPostfix()
-        );
-    }
-
-    public function testSetAndGetMultiValuedSeparatorChar()
-    {
-        $value = '|';
-        $this->hlt->setMultiValuedSeparatorChar($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getMultiValuedSeparatorChar()
-        );
-    }
-
-    public function testSetAndGetBoundaryScannerChars()
-    {
-        $value = "\n";
-        $this->hlt->setBoundaryScannerChars($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getBoundaryScannerChars()
-        );
-    }
-
-    public function testSetAndGetBoundaryScannerMaxScan()
-    {
-        $value = 15;
-        $this->hlt->setBoundaryScannerMaxScan($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getBoundaryScannerMaxScan()
-        );
-    }
-
-    public function testSetAndGetBoundaryScannerType()
-    {
-        $value = 'SENTENCE';
-        $this->hlt->setBoundaryScannerType($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getBoundaryScannerType()
-        );
-    }
-
-    public function testSetAndGetBoundaryScannerCountry()
-    {
-        $value = 'DE';
-        $this->hlt->setBoundaryScannerCountry($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getBoundaryScannerCountry()
-        );
-    }
-
-    public function testSetAndGetBoundaryScannerLanguage()
-    {
-        $value = 'fr';
-        $this->hlt->setBoundaryScannerLanguage($value);
-
-        $this->assertSame(
-            $value,
-            $this->hlt->getBoundaryScannerLanguage()
-        );
     }
 }
