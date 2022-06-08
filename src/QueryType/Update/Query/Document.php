@@ -157,8 +157,8 @@ class Document extends AbstractDocument
      * object, by field name.
      *
      * If you supply NULL as the value the field will be removed
-     * If you supply an array a multivalue field or an array of child documents will be created.
-     * In all cases any existing (multi)value or child documents will be overwritten.
+     * If you supply an array of values a multivalue field will be created.
+     * In all cases any existing (multi)value or child document(s) will be overwritten.
      *
      * @param string $name
      * @param mixed  $value
@@ -206,7 +206,7 @@ class Document extends AbstractDocument
 
             $this->setField($key, $value, $boost, $modifier);
         } else {
-            // convert single value to array if needed
+            // convert single value or child document to array if needed
             if (!\is_array($this->fields[$key]) || !is_numeric(array_key_first($this->fields[$key]))) {
                 $this->fields[$key] = [$this->fields[$key]];
             }
@@ -229,8 +229,8 @@ class Document extends AbstractDocument
      * Set a field value.
      *
      * If you supply NULL as the value the field will be removed
-     * If you supply an array a multivalue field or an array of child documents will be created.
-     * In all cases any existing (multi)value or child documents will be overwritten.
+     * If you supply an array of values a multivalue field will be created.
+     * In all cases any existing (multi)value or child document(s) will be overwritten.
      *
      * @param string      $key
      * @param mixed       $value

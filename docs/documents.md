@@ -24,7 +24,7 @@ To enforce the immutable state of this document type an exception will be thrown
 
 Solarium uses this document type as default for select queries for two reasons:
 
--   in most cases no update functionality is needed, so it will only be overhead
+-   in most cases no update functionality is needed, so it will only be overhead;
 -   to discourage the use of Solr as a DB, as in reading - altering - saving. Almost all schemas have index-only fields. There is no way to read the value of there fields, so this data will be lost when re-saving the document! Updates should normally be done based on your origin data (i.e. the database). If you are *really sure* you want to update Solr data, you can set a read-write document class as the document type for your select query, alter the documents and use them in an update query.
 
 Example usage
@@ -354,6 +354,6 @@ Custom document
 
 You can easily use your own 'document' types, for instance to directly map Solr results to entity models. You need to do the following:
 
--   make sure the class is available (already loaded or can be autoloaded)
--   set the 'documentclass' option of your query to your own classname
+-   make sure the class is available (already loaded or can be autoloaded);
+-   set the 'documentclass' option of your query to your own classname;
 -   the class must implement the same interface as the original document class.
