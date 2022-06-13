@@ -102,7 +102,7 @@ require_once(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 
 // this very simple plugin shows a timing for each event and display some request debug info
-class BasicDebug extends Solarium\Core\Plugin\Plugin
+class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
 {
     protected $start;
     protected $output = array();
@@ -234,7 +234,7 @@ The second example shows how to replace the built-in select querytype with a cus
 <?php
 require_once(__DIR__.'/init.php');
 use Solarium\Client;
-use Solarium\Core\Plugin\Plugin;
+use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Select\Query\Query as Select;
 
 // This is a custom query class that could have some customized logic
@@ -244,7 +244,7 @@ class MyQuery extends Select
 }
 
 // this very simple plugin that modifies the default querytype mapping
-class QueryCustomizer extends Plugin
+class QueryCustomizer extends AbstractPlugin
 {
     public function initPlugin($client, $options)
     {
