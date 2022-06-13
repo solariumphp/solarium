@@ -885,7 +885,11 @@ class LocalParameters implements \ArrayAccess
 
     #[\ReturnTypeWillChange]
     /**
-     * {@inheritdoc}
+     * ArrayAccess implementation.
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
      */
     public function offsetGet($offset)
     {
