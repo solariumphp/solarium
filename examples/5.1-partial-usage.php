@@ -18,7 +18,7 @@ $query = $client->createSelect();
 // manually create a request for the query
 $request = $client->createRequest($query);
 
-// you can now use the request object for getting an uri (ie. to use in you own code)
+// you can now use the request object for getting an uri (e.g. to use in you own code)
 // or you could modify the request object
 echo 'Request URI: ' . $request->getUri() . '<br/>';
 

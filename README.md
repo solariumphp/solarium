@@ -24,7 +24,7 @@ The preferred way to install Solarium is by using Composer. Solarium is availabl
 [Packagist](https://packagist.org/packages/solarium/solarium).
 
 Example:
-```
+```sh
 composer require solarium/solarium
 ```
 
@@ -53,11 +53,55 @@ setlocale(LC_NUMERIC, $currentLocale);
 PHP 8.0 has made the float to string conversion locale-independent and will always use the `.` decimal separator.
 The workaround is no longer necessary with PHP versions ≥ 8.0.
 
-### Pitfall when upgrading from 3.x or 4.x or 5.x
+### Pitfalls when upgrading from 3.x or 4.x or 5.x
+
+#### Setting a timeout
 
 Setting "timeout" as "option" in the HTTP Client Adapter is deprecated since Solarium 5.2.0 because not all adapters
 could handle it. The adapters which can handle it now implement the `TimeoutAwareInterface` and you need to set the
 timeout using the `setTimeout()` function after creating the adapter instance.
+
+#### `Solarium\Client()` constructor
+
+With Solarium 6 you need to pass an adapter instance and an event dispatcher instance to the `Solarium\Client()`
+constructor as the first and second parameter. An optional options array can now be passed as the third parameter.
+Previous versions used the `Curl` adapter and the Symfony EventDispatcher by default. Solarium 5.2
+already informed you about the deprecation of calling this constructor with the old signature.
+
+Solarium 5:
+```php
+$options = [
+    // ...
+];
+
+$client = new Solarium\Client($options);
+```
+
+Solarium 6:
+```php
+$adapter = new Solarium\Core\Client\Adapter\Curl();
+$eventDispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+$options = [
+    // ...
+];
+
+$client = new Solarium\Client($adapter, $eventDispatcher, $options);
+```
+
+The Symfony EventDispatcher is also no longer automatically available for autoloading.
+If you want to keep using it, you can add it to your project's `composer.json`.
+Alternatively you can use any PSR-14 compatible event dispatcher.
+
+```json
+{
+    "require": {
+        "solarium/solarium": "~6.2",
+        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
+    }
+}
+```
+
+#### Local parameter names
 
 In order to fix some issues with complex queries using local parameters Solarium 6 distinguishes between query parameters
 and local parameters to be embedded in a query. Solarium 5.2 already informed you about the deprecation of some
@@ -66,16 +110,25 @@ Local parameter names now have to be prefixed with `local_` if set as option of 
 
 Solarium 5:
 ```php
-$categoriesTerms = new Solarium\Component\Facet\JsonTerms(['key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
+$categoriesTerms = new Solarium\Component\Facet\JsonTerms([
+    'key' => 'categories',
+    'field' => 'cat',
+    'limit' => 4,
+    'numBuckets' => true,
+]);
 ```
 
 Solarium 6:
 ```php
-$categoriesTerms = new Solarium\Component\Facet\JsonTerms(['local_key' => 'categories', 'field' => 'cat', 'limit'=>4,'numBuckets'=>true]);
+$categoriesTerms = new Solarium\Component\Facet\JsonTerms([
+    'local_key' => 'categories',
+    'field' => 'cat',
+    'limit' => 4,
+    'numBuckets' => true,
+]);
 ```
 
 See https://solr.apache.org/guide/local-parameters-in-queries.html for an introduction about local parameters.
-
 
 ### Pitfall when upgrading from 3.x or 4.x
 
@@ -131,14 +184,14 @@ You can run the tests in a Windows environment. For all of them to pass, you mus
 * Docs
   http://solarium.readthedocs.io/en/stable/
 
-* Issue tracker   
+* Issue tracker
   http://github.com/solariumphp/solarium/issues
 
-* Contributors    
+* Contributors
   https://github.com/solariumphp/solarium/contributors
 
-* License   
-  See the COPYING file or view online:  
+* License
+  See the COPYING file or view online:
   https://github.com/solariumphp/solarium/blob/master/COPYING
 
 ## Continuous Integration status
