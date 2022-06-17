@@ -441,7 +441,7 @@ abstract class AbstractQueryTest extends TestCase
         $this->assertSame($config['start'], $query->getStart());
         $this->assertSame($config['documentclass'], $query->getDocumentClass());
         $this->assertSame($config['resultclass'], $query->getResultClass());
-        $this->assertSame($config['cursormark'], $query->getCursormark());
+        $this->assertSame($config['cursormark'], $query->getCursorMark());
         $this->assertFalse($query->getSplitOnWhitespace());
         $this->assertSame('published:true', $query->getFilterQuery('pub')->getQuery());
         $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
@@ -740,17 +740,17 @@ abstract class AbstractQueryTest extends TestCase
         $this->assertSame(['t3', 't4'], $this->query->getTags());
     }
 
-    public function testSetCursormark()
+    public function testSetCursorMark()
     {
-        $this->query->setCursormark('*');
-        $this->assertSame('*', $this->query->getCursormark());
+        $this->query->setCursorMark('*');
+        $this->assertSame('*', $this->query->getCursorMark());
     }
 
-    public function testClearCursormark()
+    public function testClearCursorMark()
     {
-        $this->query->setCursormark('*');
-        $this->query->clearCursormark();
-        $this->assertNull($this->query->getCursormark());
+        $this->query->setCursorMark('*');
+        $this->query->clearCursorMark();
+        $this->assertNull($this->query->getCursorMark());
     }
 
     public function testSetAndGetSplitOnWhitespace()

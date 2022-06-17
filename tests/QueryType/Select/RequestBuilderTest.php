@@ -160,9 +160,9 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('{!tag=t1,t2}cat:1', $request->getParam('q'));
     }
 
-    public function testWithCursormark()
+    public function testWithCursorMark()
     {
-        $this->query->setCursormark('*');
+        $this->query->setCursorMark('*');
         $request = $this->builder->build($this->query);
 
         $this->assertSame('*', $request->getParam('cursorMark'));
