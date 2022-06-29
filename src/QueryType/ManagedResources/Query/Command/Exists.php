@@ -19,6 +19,15 @@ use Solarium\QueryType\ManagedResources\Query\AbstractQuery as Query;
 class Exists extends AbstractCommand
 {
     /**
+     * Default options.
+     *
+     * @var array
+     */
+    protected $options = [
+        'useHeadRequest' => false,
+    ];
+
+    /**
      * Name of the child resource to be checked if exists.
      *
      * @var string|null
@@ -42,14 +51,12 @@ class Exists extends AbstractCommand
      */
     public function getRequestMethod(): string
     {
-        $method = Request::METHOD_HEAD;
-
-        // there's a bug since Solr 8.7 with HEAD requests if a term is set (SOLR-15116, fixed in Solr 8.11.2 and Solr 9.1)
-        if (null !== $this->getTerm()) {
-            $method = Request::METHOD_GET;
+        if ($this->options['useHeadRequest']) {
+            return Request::METHOD_HEAD;
         }
 
-        return $method;
+        // use GET by default to avoid SOLR-15116 and SOLR-16274
+        return Request::METHOD_GET;
     }
 
     /**
@@ -84,6 +91,35 @@ class Exists extends AbstractCommand
     public function removeTerm(): self
     {
         $this->term = null;
+
+        return $this;
+    }
+
+    /**
+     * Use a HEAD request to check if a resource or child resource exists?
+     *
+     * @return bool
+     */
+    public function getUseHeadRequest(): bool
+    {
+        return $this->getOption('useHeadRequest');
+    }
+
+    /**
+     * Use a HEAD request to check if a resource or child resource exists?
+     *
+     * Solarium defaults to GET requests because multiple Solr versions have bugs in the
+     * handling of HEAD requests. Only set this to true if you know that your Solr version
+     * isn't affected by {@link https://issues.apache.org/jira/browse/SOLR-15116 SOLR-15116}
+     * or {@link https://issues.apache.org/jira/browse/SOLR-16274 SOLR-16274}.
+     *
+     * @param bool $useHeadRequest
+     *
+     * @return self
+     */
+    public function setUseHeadRequest(bool $useHeadRequest): self
+    {
+        $this->setOption('useHeadRequest', $useHeadRequest);
 
         return $this;
     }
