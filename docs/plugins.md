@@ -47,6 +47,7 @@ Triggered just after a commit. Has access to the commit (update query) result.
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedAdd\Event\Events;
@@ -137,6 +138,7 @@ Triggered just after a commit. Has access to the commit (update query) result.
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedDelete\Event\Events;
@@ -201,6 +203,7 @@ GET params and headers by default are only applied to the next request, but opti
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -274,6 +277,7 @@ An 'EndpointFailure' event is triggered when a HTTP exception occurs on one of t
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -344,6 +348,7 @@ There are two modes of filtering, removing or just marking. In the example below
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -414,6 +419,7 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -484,6 +490,7 @@ The plugin only uses the length of the querystring to determine the switch to a 
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -606,6 +613,7 @@ $prefetch->setPrefetch($num)->setQuery($query);
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
