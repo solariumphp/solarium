@@ -1,3 +1,6 @@
+Managed Resources
+=================
+
 A Managed Resources query can be used to get metadata about all ManagedResources registered through Solr's RestManager Endpoint.
 For more info see <https://solr.apache.org/guide/managed-resources.html#restmanager-endpoint>.
 

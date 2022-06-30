@@ -1,3 +1,6 @@
+Managed Stopwords
+=================
+
 A Managed Stopwords query can be used for CRUD operations against Solr's managed resources REST API endpoint.
 For more info see <https://solr.apache.org/guide/managed-resources.html>.
 
@@ -240,4 +243,17 @@ if ($result->getWasSuccessful()) {
 
 htmlFooter();
 
+```
+
+A note on `HEAD` requests
+-------------------------
+
+The "exists" command executes `GET` requests by default because multiple Solr versions
+have bugs in the handling of `HEAD` requests. You can choose to execute `HEAD` requests
+instead if you know that your Solr version isn't affected by
+[SOLR-15116](https://issues.apache.org/jira/browse/SOLR-15116) or
+[SOLR-16274](https://issues.apache.org/jira/browse/SOLR-16274).
+
+```php
+$existsCommand = $query->createCommand($query::COMMAND_EXISTS, ['useHeadRequest' => true]);
 ```
