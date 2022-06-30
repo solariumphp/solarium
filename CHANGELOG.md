@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\Component\Highlighting\Highlighting::setMethod() didn't set the correct request parameter
 
 ### Changed
+- Solarium\QueryType\Select\Query\Query::setCursormark() and getCursormark() are now setCursorMark() and getCursorMark() with uppercase M
 - Managed resources execute GET requests for the Exists command by default to avoid SOLR-15116 and SOLR-16274. Set the 'useHeadRequest' option to `true` to execute HEAD requests instead.
 
 ### Removed

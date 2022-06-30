@@ -2706,10 +2706,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(32, $i);
     }
 
-    public function testPrefetchIteratorWithCursormark()
+    public function testPrefetchIteratorWithCursorMark()
     {
         $select = self::$client->createSelect();
-        $select->setCursormark('*');
+        $select->setCursorMark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
         /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
@@ -2727,7 +2727,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(32, $i);
     }
 
-    public function testPrefetchIteratorWithoutAndWithCursormark()
+    public function testPrefetchIteratorWithoutAndWithCursorMark()
     {
         $select = self::$client->createSelect();
         $select->addSort('id', SelectQuery::SORT_ASC);
@@ -2742,7 +2742,7 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         $select = self::$client->createSelect();
-        $select->setCursormark('*');
+        $select->setCursorMark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
         $prefetch->setQuery($select);
 
