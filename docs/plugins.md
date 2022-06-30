@@ -47,6 +47,7 @@ Triggered just after a commit. Has access to the commit (update query) result.
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedAdd\Event\Events;
@@ -137,6 +138,7 @@ Triggered just after a commit. Has access to the commit (update query) result.
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedDelete\Event\Events;
@@ -201,6 +203,7 @@ GET params and headers by default are only applied to the next request, but opti
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -274,6 +277,7 @@ An 'EndpointFailure' event is triggered when a HTTP exception occurs on one of t
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -344,6 +348,7 @@ There are two modes of filtering, removing or just marking. In the example below
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -414,6 +419,7 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -484,6 +490,7 @@ The plugin only uses the length of the querystring to determine the switch to a 
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -571,17 +578,17 @@ you tell it ‘this is where I got to, give me the next part’ by using the `ne
 
 ```php
 // first request
-$query->setSorts([...])->setRows($num)->setCursormark('*');
+$query->setSorts([...])->setRows($num)->setCursorMark('*');
 
 // subsequent requests 
-$query->setSorts([...])->setRows($num)->setCursormark($result->getNextCursorMark());
+$query->setSorts([...])->setRows($num)->setCursorMark($result->getNextCursorMark());
 ```
 
 PrefetchIterator makes it set-and-forget by handling that logic for you when repeating the query. Because it can't know whether your sort includes the `uniqueKey` field
 for your schema, you do need to set it to `*` on the query yourself in order to use a cursor instead of basic pagination.
 
 ```php
-$query->setSorts([...])->setCursormark('*');
+$query->setSorts([...])->setCursorMark('*');
 $prefetch->setPrefetch($num)->setQuery($query);
 ```
 
@@ -606,6 +613,7 @@ $prefetch->setPrefetch($num)->setQuery($query);
 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 
 htmlHeader();
@@ -618,7 +626,7 @@ $query = $client->createSelect();
 $query->setFields(array('id'));
 
 // cursor functionality can be used for efficient deep paging (since Solr 4.7)
-$query->setCursormark('*');
+$query->setCursorMark('*');
 // cursor functionality requires a sort containing a uniqueKey field as tie breaker on top of your desired sorts for the query
 $query->addSort('id', $query::SORT_ASC);
 

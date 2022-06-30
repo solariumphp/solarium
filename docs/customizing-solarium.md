@@ -19,7 +19,7 @@ What method of customization to use depends on your case:
 
 
 Partial usage
-=============
+-------------
 
 Normally you execute your query using the corresponding method in the client class. For instance for a select query you use the select($query) method. This methods map to the execute method, which executes the steps needed to get the query response. It is also possible to call these methods yourself. This way you can execute only a part of the query flow, or alter the data in between calls (but in that case a plugin might be a better choice).
 
@@ -46,7 +46,7 @@ $query = $client->createSelect();
 // manually create a request for the query
 $request = $client->createRequest($query);
 
-// you can now use the request object for getting an uri (ie. to use in you own code)
+// you can now use the request object for getting an uri (e.g. to use in your own code)
 // or you could modify the request object
 echo 'Request URI: ' . $request->getUri() . '<br/>';
 
@@ -83,7 +83,7 @@ htmlFooter();
 
 
 Plugin system
-=============
+-------------
 
 The Solarium plugin has several features:
 
@@ -93,11 +93,13 @@ The Solarium plugin has several features:
 
 By combining these options you can achieve almost any type of customization with a plugin.
 
-Solarium uses a separate library (included using Composer) for events. For more info on the Event Dispatcher take a look at [http://symfony.com/doc/2.0/components/event\_dispatcher/introduction.html the docs](http://symfony.com/doc/2.0/components/event_dispatcher/introduction.html_the_docs)
+Solarium can use any PSR-14 compatible event dispatcher for events. The included examples use the [Symfony EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html).
 
-This example shows all available events and how to use the events to create a very basic debugger: 
+This example shows all available events and how to use the events to create a very basic debugger:
+
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 
@@ -232,6 +234,7 @@ htmlFooter();
 The second example shows how to replace the built-in select querytype with a custom implementation: 
 ```php
 <?php
+
 require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
@@ -290,16 +293,15 @@ htmlFooter();
 
 ```
 
-The order of plugin executions
-------------------------------
+### The order of plugin executions
 
 Since plugins leverage events, the event dispatcher is responsible for the order they get called if two plugins register
-for the same event. In some cases that doesn't matter in other cases it is essential that Plugin A acts before Plugin B.
+for the same event. In some cases that doesn't matter. In other cases it is essential that Plugin A acts before Plugin B.
 If the order matters you need to read the documentation of the event dispatcher of choice that you inject into the
 Solarium Client's constructor.
 
 For various events `CustomizeRequest` needs to be executed before `PostBigRequest`. And `Loadbalancer` should always be
 the last plugin.
 
-If you use Symfony's event dispatcher, Solarium takes care of the order of these critical plugins and the events they
+If you use the Symfony EventDispatcher, Solarium takes care of the order of these critical plugins and the events they
 listen to. This is done by setting the "priority".

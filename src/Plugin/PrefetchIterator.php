@@ -240,14 +240,14 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      */
     protected function fetchNext(): self
     {
-        if (null === $this->cursormark && null !== $this->query->getCursormark()) {
+        if (null === $this->cursormark && null !== $this->query->getCursorMark()) {
             $this->cursormark = '*';
         }
 
         if (null === $this->cursormark) {
             $this->query->setStart($this->start)->setRows($this->getPrefetch());
         } else {
-            $this->query->setCursormark($this->cursormark)->setRows($this->getPrefetch());
+            $this->query->setCursorMark($this->cursormark)->setRows($this->getPrefetch());
         }
 
         $this->result = $this->client->execute($this->query, $this->getOption('endpoint'));

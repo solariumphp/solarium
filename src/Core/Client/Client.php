@@ -77,11 +77,12 @@ use Solarium\QueryType\Update\Result as UpdateResult;
  * The client is the main interface for usage of the Solarium library.
  * You can use it to get query instances and to execute them.
  * It also allows to register plugins and query types to customize Solarium.
+ * It gives access to the event dispatcher so that you can add listeners.
  * Finally, it also gives access to the adapter, which holds the Solr connection settings.
  *
  * Example usage with default settings:
  * <code>
- * $client = new Solarium\Client;
+ * $client = new Solarium\Client($adapter, $eventDispatcher);
  * $query = $client->createSelect();
  * $result = $client->select($query);
  * </code>

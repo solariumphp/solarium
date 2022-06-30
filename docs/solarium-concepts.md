@@ -5,7 +5,7 @@ This section explains the concepts used by Solarium. It's not necessary to know 
 
 
 Usage modes
-===========
+-----------
 
 Solarium allows for three main modes of usage of the library: programmatically, by extending or by configuration. They all have there own pros and cons, the most optimal solution depends on your use case and also your personal preference. You can even mix the different modes if you want to, for instance creating a select query based on a config and programmatically changing it.
 
@@ -17,8 +17,7 @@ The three modes apply to all Solarium classes that extend `Solarium\Core\Configu
 
 As an example the three modes are demonstrated, all creating an identical Solr client instance:
 
-API example
------------
+### API example
 
 ```php
 <?php
@@ -73,8 +72,7 @@ htmlFooter();
 
 ```
 
-Configuration example
----------------------
+### Configuration example
 
 ```php
 <?php
@@ -140,8 +138,7 @@ htmlFooter();
 
 ```
 
-Extending example
------------------
+### Extending example
 
 ```php
 <?php
@@ -219,12 +216,12 @@ htmlFooter();
 ```
 
 Structure and queryflow
-=======================
+-----------------------
 
 TODO
 
 Best practices
-==============
+--------------
 
 In the following sections of this manual various parts of Solarium are described in detail, including best practices specific for those parts. This page lists some best practices for Solarium in general.
 
@@ -250,7 +247,7 @@ So while it is still possible to create class instances manually, it is advisabl
 
 ### Customizing Solarium
 
-If you want to customize Solarium please read the docs on this first. While you can simply extend classes that's in most cases not the best way to go.
+If you want to customize Solarium please read the [docs on customizing](customizing-solarium.md) first. While you can simply extend classes that's in most cases not the best way to go.
 
 ### Response parser format
 

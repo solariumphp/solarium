@@ -786,7 +786,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @return self Provides fluent interface
      */
-    public function setCursormark(string $cursormark): self
+    public function setCursorMark(string $cursormark): self
     {
         $this->setOption('cursormark', $cursormark);
 
@@ -798,7 +798,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @return string|null
      */
-    public function getCursormark(): ?string
+    public function getCursorMark(): ?string
     {
         return $this->getOption('cursormark');
     }
@@ -808,7 +808,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * @return self Provides fluent interface
      */
-    public function clearCursormark(): self
+    public function clearCursorMark(): self
     {
         $this->setOption('cursormark', null);
 
@@ -874,9 +874,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
                     break;
                 case 'component':
                     $this->createComponents($value);
-                    break;
-                case 'cursormark':
-                    $this->setCursormark($value);
                     break;
             }
         }

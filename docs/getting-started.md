@@ -5,7 +5,7 @@ In this part the installation of Solarium is covered and a quick-start with some
 
 
 Installation
-============
+------------
 
 ### Requirements
 
@@ -17,29 +17,38 @@ There is no Solr version requirement. But it's highly recommended that you use a
 
 There are several ways to get Solarium. The preferred method is by using Composer. Alternatively you can download a prepacked release from GitHub, or use git. Only Composer is described here.
 
-First of all, if you're not familiar with Composer take a look here: [<http://getcomposer.org>](http://getcomposer.org). Composer is quickly becoming the standard for handling dependencies in PHP apps and many libraries support it. As of version 3 Solarium depends on an external library, the Symfony Event Dispatcher component. Composer automatically manages this dependency.
+First of all, if you're not familiar with Composer take a look here: [<http://getcomposer.org>](http://getcomposer.org). Composer has become the de facto standard for handling dependencies in PHP apps and many libraries support it.
 
 See [<https://packagist.org>](https://packagist.org) for other packages.
 
-- Make sure you have composer available / installed (see the getting started section on the Composer site)
+- Make sure you have Composer available / installed (see the getting started section on the Composer site).
 
-- Add Solarium to your composer.json file. It should look something like this:
+- Add Solarium to your `composer.json` file. It should look something like this:
 
 ```json
 {
     "require": {
-        "solarium/solarium": "~6.0"
+        "solarium/solarium": "~6.2"
     }
 }
 ```
 
-- Run composer install
+- Run `composer install`.
 
-- Make sure to use the composer autoloader, and Solarium should be available.
+- Make sure to use the Composer autoloader, and Solarium should be available.
 
-**Only if you don't use composer:** you need to use a PSR-0 autoloader, or the supplied autoloader.
+**Only if you don't use Composer:** you need to use a PSR-0 autoloader, or the supplied autoloader.
 
-Also you need to make sure the the Symfony Event Dispatcher component is available.
+Also you need to make sure that a PSR-14 compatible event dispatcher is available, for instance, the Symfony EventDispatcher:
+
+```json
+{
+    "require": {
+        "solarium/solarium": "~6.2",
+        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
+    }
+}
+```
 
 ### Checking the availability
 
@@ -73,6 +82,31 @@ try {
 
 htmlFooter();
 
+```
+
+### Pitfall when upgrading from earlier versions to 6.x
+
+With Solarium 6 you need to pass an adapter instance and an event dispatcher instance to the `Solarium\Client()`
+constructor as the first and second parameter. An optional options array can now be passed as the third parameter.
+
+Solarium 5:
+```php
+$options = [
+    // ...
+];
+
+$client = new Solarium\Client($options);
+```
+
+Solarium 6:
+```php
+$adapter = new Solarium\Core\Client\Adapter\Curl();
+$eventDispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+$options = [
+    // ...
+];
+
+$client = new Solarium\Client($adapter, $eventDispatcher, $options);
 ```
 
 ### Pitfall when upgrading from earlier versions to 5.x
@@ -127,7 +161,7 @@ If you know of any other integrations please let us know!
 
 
 Basic usage
-===========
+-----------
 
 All the code displayed below can be found in the /examples dir of the project, where you can also easily execute the code. For more info see [Example code](V3:Example_code "wikilink").
 
@@ -367,7 +401,7 @@ For all options (like boosting) see the docs.
 
 
 Example code
-============
+------------
 
 With Solarium a set of examples is available to demonstrate the usage and to test your Solr environment. But since the
 examples are not included in the distribution you need a git checkout of Solarium and install the dependencies:
