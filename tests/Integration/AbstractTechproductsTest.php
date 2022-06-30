@@ -3235,6 +3235,23 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    /**
+     * Get the options to use for ManagedResources Exists commands.
+     *
+     * @return array
+     */
+    public function getManagedResourcesExistsCommandOptions(): array
+    {
+        // Solr 7 can use HEAD requests because it's unaffected by SOLR-15116 and SOLR-16274
+        if (7 === self::$solrVersion) {
+            return [
+                'useHeadRequest' => true,
+            ];
+        }
+
+        return [];
+    }
+
     public function testManagedStopwords()
     {
         /** @var StopwordsQuery $query */
@@ -3243,7 +3260,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $term = 'managed_stopword_test';
 
         // Check that stopword list exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
@@ -3256,7 +3273,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -3284,7 +3301,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword is gone
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -3314,7 +3331,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setName($name.uniqid());
 
         // Check that stopword list doesn't exist
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
@@ -3335,7 +3352,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that stopword list was created
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
@@ -3354,7 +3371,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword exists in its original lowercase form
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -3373,7 +3390,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that stopword list is gone
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
@@ -3393,7 +3410,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $term = 'managed_synonyms_test';
 
         // Check that synonym map exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
@@ -3409,7 +3426,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added synonym mapping exsists
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -3451,7 +3468,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added synonym mapping is gone
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -3481,7 +3498,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setName($name.uniqid());
 
         // Check that synonym map doesn't exist
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
@@ -3503,7 +3520,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym map was created
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
@@ -3526,7 +3543,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym exists in its original lowercase form
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
@@ -3545,7 +3562,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym map is gone
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
@@ -3669,7 +3686,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
 
         // The resource still exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
@@ -3721,7 +3738,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
 
         // The term still exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS);
+        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
         $result = self::$client->execute($query);
