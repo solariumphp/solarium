@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus::getRoute() always returned NULL even if a route was set
 - Solarium\Component\Highlighting\Highlighting::setMethod() didn't set the correct request parameter
 
+### Changed
+- Managed resources execute GET requests for the Exists command by default to avoid SOLR-15116 and SOLR-16274. Set the 'useHeadRequest' option to `true` to execute HEAD requests instead.
+
 ### Removed
 - Solarium\QueryType\Stream\Expression, use Solarium\QueryType\Stream\ExpressionBuilder instead
 
