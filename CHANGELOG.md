@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Fixed
+- Adding nested child documents through `Document::setField()` and `Document::addField()`
 
 ### Changed
 
 ### Removed
+- Solarium\QueryType\Update\Query\Document::setFilterControlCharacters(), extend Update\Query\Query to use a custom request builder & helper if you don't want control characters filtered
 
 
 ## [6.2.4] 

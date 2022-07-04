@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Update\Query\Document;
+namespace Solarium\Tests\QueryType\Update\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Exception\RuntimeException;
@@ -17,6 +17,55 @@ class DocumentTest extends TestCase
         'id' => 123,
         'name' => 'Test document',
         'categories' => [1, 2, 3],
+    ];
+
+    protected $childDocumentFields = [
+        'id' => 'parent',
+        'name' => 'Parent',
+        'cat' => [1, 2],
+        'single_child' => [
+            'id' => 'single-child',
+            'name' => 'Single Child',
+            'cat' => [3, 4],
+        ],
+        'children' => [
+            [
+                'id' => 'child-1',
+                'name' => 'Child 1',
+                'cat' => [5, 6],
+                // as a single nested document
+                'grandchildren' => [
+                    'id' => 'grandchild-1-1',
+                    'name' => 'Grandchild 1.1',
+                    'cat' => [7, 8],
+                ],
+            ],
+            [
+                'id' => 'child-2',
+                'name' => 'Child 2',
+                'cat' => [9, 10],
+                // as an array of nested documents
+                'grandchildren' => [
+                    [
+                        'id' => 'grandchild-2-1',
+                        'name' => 'Grandchild 2.1',
+                        'cat' => [9, 10],
+                    ],
+                ],
+            ],
+        ],
+        '_childDocuments_' => [
+            [
+                'id' => 'anonymous-child-1',
+                'name' => 'Anonymous Child 1',
+                'cat' => [11, 12],
+            ],
+            [
+                'id' => 'anonymous-child-2',
+                'name' => 'Anonymous Child 2',
+                'cat' => [13, 14],
+            ],
+        ],
     ];
 
     public function setUp(): void
@@ -45,6 +94,26 @@ class DocumentTest extends TestCase
         $this->assertSame(
             Document::MODIFIER_SET,
             $doc->getFieldModifier('name')
+        );
+    }
+
+    public function testConstructorWithChildDocuments()
+    {
+        $doc = new Document($this->childDocumentFields);
+
+        $this->assertSame(
+            $this->childDocumentFields,
+            $doc->getFields()
+        );
+
+        $childDocumentFieldsWithSingleAnon = $this->childDocumentFields;
+        $childDocumentFieldsWithSingleAnon['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'][0];
+
+        $doc = new Document($childDocumentFieldsWithSingleAnon);
+
+        $this->assertSame(
+            $childDocumentFieldsWithSingleAnon,
+            $doc->getFields()
         );
     }
 
@@ -144,6 +213,62 @@ class DocumentTest extends TestCase
         );
     }
 
+    public function testAddFieldWithSingleNestedDocument()
+    {
+        $this->doc->addField('single_child', $this->childDocumentFields['single_child']);
+
+        $expectedFields = $this->fields;
+        $expectedFields['single_child'] = [$this->childDocumentFields['single_child']];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testAddFieldWithNestedDocuments()
+    {
+        foreach ($this->childDocumentFields['children'] as $child) {
+            $this->doc->addField('children', $child);
+        }
+
+        $expectedFields = $this->fields;
+        $expectedFields['children'] = $this->childDocumentFields['children'];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testAddFieldWithSingleAnonymousNestedDocument()
+    {
+        $this->doc->addField('_childDocuments_', $this->childDocumentFields['_childDocuments_'][0]);
+
+        $expectedFields = $this->fields;
+        $expectedFields['_childDocuments_'] = [$this->childDocumentFields['_childDocuments_'][0]];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testAddFieldWithAnonymousNestedDocuments()
+    {
+        foreach ($this->childDocumentFields['_childDocuments_'] as $child) {
+            $this->doc->addField('_childDocuments_', $child);
+        }
+
+        $expectedFields = $this->fields;
+        $expectedFields['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
     public function testSetField()
     {
         $this->doc->setField('name', 'newname');
@@ -181,6 +306,58 @@ class DocumentTest extends TestCase
 
         $expectedFields = $this->fields;
         $expectedFields['name'] = $falsy_value;
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testSetFieldWithSingleNestedDocument()
+    {
+        $this->doc->setField('single_child', $this->childDocumentFields['single_child']);
+
+        $expectedFields = $this->fields;
+        $expectedFields['single_child'] = $this->childDocumentFields['single_child'];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testSetFieldWithNestedDocuments()
+    {
+        $this->doc->setField('children', $this->childDocumentFields['children']);
+
+        $expectedFields = $this->fields;
+        $expectedFields['children'] = $this->childDocumentFields['children'];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testSetFieldWithSingleAnonymousNestedDocument()
+    {
+        $this->doc->setField('_childDocuments_', $this->childDocumentFields['_childDocuments_'][0]);
+
+        $expectedFields = $this->fields;
+        $expectedFields['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'][0];
+
+        $this->assertSame(
+            $expectedFields,
+            $this->doc->getFields()
+        );
+    }
+
+    public function testSetFieldWithAnonymousNestedDocuments()
+    {
+        $this->doc->setField('_childDocuments_', $this->childDocumentFields['_childDocuments_']);
+
+        $expectedFields = $this->fields;
+        $expectedFields['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'];
 
         $this->assertSame(
             $expectedFields,
@@ -233,6 +410,26 @@ class DocumentTest extends TestCase
         $this->assertSame(
             Document::MODIFIER_SET,
             $this->doc->getFieldModifier('categories')
+        );
+    }
+
+    public function testSetFieldsWithChildDocuments()
+    {
+        $this->doc->setFields($this->childDocumentFields);
+
+        $this->assertSame(
+            $this->childDocumentFields,
+            $this->doc->getFields()
+        );
+
+        $childDocumentFieldsWithSingleAnon = $this->childDocumentFields;
+        $childDocumentFieldsWithSingleAnon['_childDocuments_'] = $this->childDocumentFields['_childDocuments_'][0];
+
+        $this->doc->setFields($childDocumentFieldsWithSingleAnon);
+
+        $this->assertSame(
+            $childDocumentFieldsWithSingleAnon,
+            $this->doc->getFields()
         );
     }
 
@@ -377,6 +574,46 @@ class DocumentTest extends TestCase
         );
     }
 
+    public function testSetAndGetFieldWithSingleNestedDocumentByProperty()
+    {
+        $this->doc->single_child = $this->childDocumentFields['single_child'];
+
+        $this->assertSame(
+            $this->childDocumentFields['single_child'],
+            $this->doc->single_child
+        );
+    }
+
+    public function testSetAndGetFieldWithNestedDocumentsByProperty()
+    {
+        $this->doc->children = $this->childDocumentFields['children'];
+
+        $this->assertSame(
+            $this->childDocumentFields['children'],
+            $this->doc->children
+        );
+    }
+
+    public function testSetAndGetFieldWithSingleAnonymousNestedDocumentByProperty()
+    {
+        $this->doc->_childDocuments_ = $this->childDocumentFields['_childDocuments_'][0];
+
+        $this->assertSame(
+            $this->childDocumentFields['_childDocuments_'][0],
+            $this->doc->_childDocuments_
+        );
+    }
+
+    public function testSetAndGetFieldWithAnonymousNestedDocumentsByProperty()
+    {
+        $this->doc->_childDocuments_ = $this->childDocumentFields['_childDocuments_'];
+
+        $this->assertSame(
+            $this->childDocumentFields['_childDocuments_'],
+            $this->doc->_childDocuments_
+        );
+    }
+
     public function testUnsetFieldByProperty()
     {
         unset($this->doc->name);
@@ -507,104 +744,5 @@ class DocumentTest extends TestCase
             234,
             $this->doc->getVersion()
         );
-    }
-
-    public function testEscapeByDefaultConstructor()
-    {
-        $fields = [
-            'foo' => 'bar'.chr(15),
-            'foos' => ['bar'.chr(15), 'bar'.chr(15).chr(8)],
-        ];
-        $doc = new Document($fields);
-
-        $this->assertSame('bar ', $doc->foo);
-        $this->assertSame(['bar ', 'bar  '], $doc->foos);
-    }
-
-    public function testEscapeByDefaultSetByProperty()
-    {
-        $this->doc->foo = 'bar'.chr(15);
-        $this->doc->foos = ['bar'.chr(15), 'bar'.chr(15).chr(8)];
-
-        $this->assertSame('bar ', $this->doc->foo);
-        $this->assertSame(['bar ', 'bar  '], $this->doc->foos);
-    }
-
-    public function testEscapeByDefaultSetField()
-    {
-        $this->doc->setField('foo', 'bar'.chr(15));
-        $this->doc->setField('foos', ['bar'.chr(15), 'bar'.chr(15).chr(8)]);
-
-        $this->assertSame('bar ', $this->doc->foo);
-        $this->assertSame(['bar ', 'bar  '], $this->doc->foos);
-    }
-
-    public function testEscapeByDefaultSetFields()
-    {
-        $fields = [
-            'foo' => 'bar'.chr(15),
-            'foos' => ['bar'.chr(15), 'bar'.chr(15).chr(8)],
-        ];
-        $this->doc->setFields($fields);
-
-        $this->assertSame('bar ', $this->doc->foo);
-        $this->assertSame(['bar ', 'bar  '], $this->doc->foos);
-    }
-
-    public function testEscapeByDefaultAddField()
-    {
-        $this->doc->setField('foo', 'bar'.chr(15));
-        $this->doc->addField('foo', 'bar'.chr(15).chr(8));
-
-        $this->assertSame(['bar ', 'bar  '], $this->doc->foo);
-    }
-
-    public function testNoEscapeSetByProperty()
-    {
-        $this->doc->setFilterControlCharacters(false);
-        $this->doc->foo = $value = 'bar'.chr(15);
-        $this->doc->foos = $multivalue = ['bar'.chr(15), 'bar'.chr(15).chr(8)];
-
-        $this->assertSame($value, $this->doc->foo);
-        $this->assertSame($multivalue, $this->doc->foos);
-    }
-
-    public function testNoEscapeSetField()
-    {
-        $this->doc->setFilterControlCharacters(false);
-        $this->doc->setField('foo', $value = 'bar'.chr(15));
-        $this->doc->setField('foos', $multivalue = ['bar'.chr(15), 'bar'.chr(15).chr(8)]);
-
-        $this->assertSame($value, $this->doc->foo);
-        $this->assertSame($multivalue, $this->doc->foos);
-    }
-
-    public function testNoEscapeSetFields()
-    {
-        $fields = [
-            'foo' => $value = 'bar'.chr(15),
-            'foos' => $multivalue = ['bar'.chr(15), 'bar'.chr(15).chr(8)],
-        ];
-        $this->doc->setFilterControlCharacters(false);
-        $this->doc->setFields($fields);
-
-        $this->assertSame($value, $this->doc->foo);
-        $this->assertSame($multivalue, $this->doc->foos);
-    }
-
-    public function testNoEscapeAddField()
-    {
-        $this->doc->setFilterControlCharacters(false);
-        $this->doc->setField('foo', $value1 = 'bar'.chr(15));
-        $this->doc->addField('foo', $value2 = 'bar'.chr(15).chr(8));
-
-        $this->assertSame([$value1, $value2], $this->doc->foo);
-    }
-
-    public function testSetAndGetFilterControlCharacters()
-    {
-        $this->doc->setFilterControlCharacters(false);
-
-        $this->assertFalse($this->doc->getFilterControlCharacters());
     }
 }

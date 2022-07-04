@@ -93,7 +93,18 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlSpecialCharacters()
+    public function testBuildAddXmlFilterControlCharacters()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => 1, 'text' => 'test '.chr(15).' 123 '.chr(8).' test']));
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field><field name="text">test   123   test</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlEscapeCharacters()
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1, 'text' => 'test < 123 > test']));
@@ -107,7 +118,7 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlMultivalueField()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => 'test < 123 > test']));
+        $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => ['test < 123 '.chr(8).' test', 'test '.chr(15).' 123 > test']]));
 
         $this->assertSame(
             '<add>'.
@@ -115,6 +126,40 @@ class RequestBuilderTest extends TestCase
             '<field name="id">1</field>'.
             '<field name="id">2</field>'.
             '<field name="id">3</field>'.
+            '<field name="text">test &lt; 123   test</field>'.
+            '<field name="text">test   123 &gt; test</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithSingleNestedDocument()
+    {
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(
+                [
+                    'id' => [
+                        'nested_id' => 42,
+                        'customer_ids' => [
+                            15,
+                            16,
+                        ],
+                    ],
+                    'text' => 'test < 123 > test',
+                ]
+            )
+        );
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<doc name="id">'.
+            '<field name="nested_id">42</field>'.
+            '<field name="customer_ids">15</field>'.
+            '<field name="customer_ids">16</field>'.
+            '</doc>'.
             '<field name="text">test &lt; 123 &gt; test</field>'.
             '</doc>'.
             '</add>',
@@ -136,6 +181,13 @@ class RequestBuilderTest extends TestCase
                                 16,
                             ],
                         ],
+                        [
+                            'nested_id' => 'XLII',
+                            'customer_ids' => [
+                                17,
+                                18,
+                            ],
+                        ],
                         2,
                         'foo',
                     ],
@@ -153,10 +205,49 @@ class RequestBuilderTest extends TestCase
             '<field name="customer_ids">15</field>'.
             '<field name="customer_ids">16</field>'.
             '</doc>'.
+            '<doc>'.
+            '<field name="nested_id">XLII</field>'.
+            '<field name="customer_ids">17</field>'.
+            '<field name="customer_ids">18</field>'.
+            '</doc>'.
             '</field>'.
             '<field name="id">2</field>'.
             '<field name="id">foo</field>'.
             '<field name="text">test &lt; 123 &gt; test</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithSingleAnonymouslyNestedDocument()
+    {
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(
+                [
+                    'id' => 1701,
+                    'cat' => ['A', 'D'],
+                    'text' => ':=._,<^>',
+                    '_childDocuments_' => [
+                        'id' => '1701-D',
+                        'cat' => ['D'],
+                    ],
+                ]
+            )
+        );
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1701</field>'.
+            '<field name="cat">A</field>'.
+            '<field name="cat">D</field>'.
+            '<field name="text">:=._,&lt;^&gt;</field>'.
+            '<doc>'.
+            '<field name="id">1701-D</field>'.
+            '<field name="cat">D</field>'.
+            '</doc>'.
             '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)
