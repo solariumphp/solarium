@@ -39,13 +39,6 @@ class Document extends AbstractDocument
     const MODIFIER_SET = 'set';
 
     /**
-     * Directive to increment a numeric value by a specific amount. Must be specified as a single numeric value.
-     *
-     * @var string
-     */
-    const MODIFIER_INC = 'inc';
-
-    /**
      * Directive to add the specified values to a multiValued field. May be specified as a single value, or as a list.
      *
      * @var string
@@ -75,6 +68,13 @@ class Document extends AbstractDocument
      * @var string
      */
     const MODIFIER_REMOVEREGEX = 'removeregex';
+
+    /**
+     * Directive to increment a numeric value by a specific amount. Must be specified as a single numeric value.
+     *
+     * @var string
+     */
+    const MODIFIER_INC = 'inc';
 
     /**
      * This value has the same effect as not setting a version.
@@ -417,7 +417,7 @@ class Document extends AbstractDocument
      */
     public function setFieldModifier(string $key, string $modifier = null): self
     {
-        if (!\in_array($modifier, [self::MODIFIER_ADD, self::MODIFIER_ADD_DISTINCT, self::MODIFIER_REMOVE, self::MODIFIER_REMOVEREGEX, self::MODIFIER_INC, self::MODIFIER_SET], true)) {
+        if (!\in_array($modifier, [self::MODIFIER_SET, self::MODIFIER_ADD, self::MODIFIER_ADD_DISTINCT, self::MODIFIER_REMOVE, self::MODIFIER_REMOVEREGEX, self::MODIFIER_INC], true)) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');
         }
         $this->modifiers[$key] = $modifier;
@@ -477,5 +477,23 @@ class Document extends AbstractDocument
     public function getVersion(): ?int
     {
         return $this->version;
+    }
+
+    #[\ReturnTypeWillChange]
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        $fields = $this->getFields();
+
+        foreach ($this->modifiers as $key => $modifier) {
+            // isset($fields[$key]) wouldn't let you set a field to null
+            if (\array_key_exists($key, $fields)) {
+                $fields[$key] = [$modifier => $fields[$key]];
+            }
+        }
+
+        return $fields;
     }
 }

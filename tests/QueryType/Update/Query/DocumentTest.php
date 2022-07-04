@@ -717,6 +717,16 @@ class DocumentTest extends TestCase
         );
     }
 
+    public function testSetAndGetFieldsUsingModifiersWithNonExistingKey()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id');
+        $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
+
+        $this->expectException(RuntimeException::class);
+        $this->doc->getFields();
+    }
+
     public function testSetAndGetFieldsUsingModifiersWithoutKey()
     {
         $this->doc->clear();
@@ -744,5 +754,206 @@ class DocumentTest extends TestCase
             234,
             $this->doc->getVersion()
         );
+    }
+
+    public function testJsonSerialize()
+    {
+        $this->doc->clear();
+        $this->doc->setField('single_int', 1);
+        $this->doc->setField('multi_int', [2, 3]);
+        $this->doc->setField('single_float', 4.1);
+        $this->doc->setField('multi_float', [4.2, 4.3]);
+        $this->doc->setField('single_string', 'a');
+        $this->doc->setField('multi_string', ['b', 'c']);
+        $this->doc->setField('single_bool', true);
+        $this->doc->setField('multi_bool', [true, false]);
+        $this->doc->setField('empty_string', '');
+        $this->doc->setField('empty_list', []);
+        $this->doc->setField('omitted_without_modifier', null);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "single_int":1,
+                "multi_int":[2,3],
+                "single_float":4.1,
+                "multi_float":[4.2,4.3],
+                "single_string":"a",
+                "multi_string":["b","c"],
+                "single_bool":true,
+                "multi_bool":[true,false],
+                "empty_string":"",
+                "empty_list":[]}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeWithChildDocuments()
+    {
+        $this->doc->clear();
+        $this->doc->setField('id', 123);
+        $this->doc->setField('single', ['id' => 'child-1', 'cat' => [1, 2]]);
+        $this->doc->setField('multi', [['id' => 'child-2', 'cat' => [3, 4]], ['id' => 'child-3', 'cat' => [5, 6]]]);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"id":"child-1","cat":[1,2]},"multi":[{"id":"child-2","cat":[3,4]},{"id":"child-3","cat":[5,6]}]}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifiers()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('set_field', 'newvalue', null, Document::MODIFIER_SET);
+        $this->doc->setField('add_field', ['a', 'b'], null, Document::MODIFIER_ADD);
+        $this->doc->setField('remove_field', 'c', null, Document::MODIFIER_REMOVE);
+        $this->doc->setField('inc_field', 42, null, Document::MODIFIER_INC);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"set_field":{"set":"newvalue"},"add_field":{"add":["a","b"]},"remove_field":{"remove":"c"},"inc_field":{"inc":42}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierSet()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', 'newvalue', null, Document::MODIFIER_SET);
+        $this->doc->setField('multi', [4, 5], null, Document::MODIFIER_SET);
+        $this->doc->setField('null', null, null, Document::MODIFIER_SET);
+        $this->doc->setField('empty', [], null, Document::MODIFIER_SET);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"set":"newvalue"},"multi":{"set":[4,5]},"null":{"set":null},"empty":{"set":[]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierAdd()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', 4, null, Document::MODIFIER_ADD);
+        $this->doc->setField('multi', [5, 6], null, Document::MODIFIER_ADD);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"add":4},"multi":{"add":[5,6]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierAddDistinct()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', 4, null, Document::MODIFIER_ADD_DISTINCT);
+        $this->doc->setField('multi', [5, 6], null, Document::MODIFIER_ADD_DISTINCT);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"add-distinct":4},"multi":{"add-distinct":[5,6]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierRemove()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', 4, null, Document::MODIFIER_REMOVE);
+        $this->doc->setField('multi', [5, 6], null, Document::MODIFIER_REMOVE);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"remove":4},"multi":{"remove":[5,6]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierRemoveRegex()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', '^single-.+', null, Document::MODIFIER_REMOVEREGEX);
+        $this->doc->setField('multi', ['^multi-.+', '.+-multi$'], null, Document::MODIFIER_REMOVEREGEX);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"removeregex":"^single-.+"},"multi":{"removeregex":["^multi-.+",".+-multi$"]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierInc()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('zero', 0, null, Document::MODIFIER_INC);
+        $this->doc->setField('pos_int', 1, null, Document::MODIFIER_INC);
+        $this->doc->setField('neg_int', -1, null, Document::MODIFIER_INC);
+        $this->doc->setField('pos_float', 3.14, null, Document::MODIFIER_INC);
+        $this->doc->setField('neg_float', -2.72, null, Document::MODIFIER_INC);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"zero":{"inc":0},"pos_int":{"inc":1},"neg_int":{"inc":-1},"pos_float":{"inc":3.14},"neg_float":{"inc":-2.72}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierSetWithChildDocuments()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', ['id' => 'child-1', 'cat' => [1, 2]], null, Document::MODIFIER_SET);
+        $this->doc->setField('multi', [['id' => 'child-2', 'cat' => [3, 4]], ['id' => 'child-3', 'cat' => [5, 6]]], null, Document::MODIFIER_SET);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"set":{"id":"child-1","cat":[1,2]}},"multi":{"set":[{"id":"child-2","cat":[3,4]},{"id":"child-3","cat":[5,6]}]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierAddWithChildDocuments()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', ['id' => 'child-4', 'cat' => [7, 8]], null, Document::MODIFIER_ADD);
+        $this->doc->setField('multi', [['id' => 'child-5', 'cat' => [9, 10]], ['id' => 'child-6', 'cat' => [11, 12]]], null, Document::MODIFIER_ADD);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"add":{"id":"child-4","cat":[7,8]}},"multi":{"add":[{"id":"child-5","cat":[9,10]},{"id":"child-6","cat":[11,12]}]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifierRemoveWithChildDocuments()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id', 123);
+        $this->doc->setField('single', ['id' => 'child-7'], null, Document::MODIFIER_REMOVE);
+        $this->doc->setField('multi', [['id' => 'child-8'], ['id' => 'child-9']], null, Document::MODIFIER_REMOVE);
+
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"single":{"remove":{"id":"child-7"}},"multi":{"remove":[{"id":"child-8"},{"id":"child-9"}]}}',
+            json_encode($this->doc)
+        );
+    }
+
+    public function testJsonSerializeUsingModifiersWithNonExistingKey()
+    {
+        $this->doc->clear();
+        $this->doc->setKey('id');
+        $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
+
+        $this->expectException(RuntimeException::class);
+        json_encode($this->doc);
+    }
+
+    public function testJsonSerializeUsingModifiersWithoutKey()
+    {
+        $this->doc->clear();
+        $this->doc->setField('id', 1);
+        $this->doc->setField('name', 'newname', null, Document::MODIFIER_SET);
+
+        $this->expectException(RuntimeException::class);
+        json_encode($this->doc);
     }
 }

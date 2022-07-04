@@ -27,6 +27,8 @@ class ResultTest extends TestCase
 
     protected $response;
 
+    protected $data;
+
     protected $headers;
 
     public function setUp(): void
@@ -34,9 +36,9 @@ class ResultTest extends TestCase
         $this->client = TestClientFactory::createWithCurlAdapter();
         $this->query = new SelectQuery();
         $this->headers = ['HTTP/1.0 304 Not Modified'];
-        $data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},'.
+        $this->data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},'.
             '"response":{"numFound":0,"start":0,"docs":[]}}';
-        $this->response = new Response($data, $this->headers);
+        $this->response = new Response($this->data, $this->headers);
 
         $this->result = new Result($this->query, $this->response);
     }
@@ -128,5 +130,10 @@ class ResultTest extends TestCase
 
         $this->expectException(UnexpectedValueException::class);
         $this->result->getData();
+    }
+
+    public function testJsonSerialize()
+    {
+        $this->assertJsonStringEqualsJsonString($this->data, json_encode($this->result));
     }
 }

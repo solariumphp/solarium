@@ -11,7 +11,7 @@ In the following sections the usage of both document types and the use of custom
 Read-only document
 ------------------
 
-This is the default document type for a [select query result](queries/select-query/result-of-a-select-query/result-of-a-select-query.md). This is an immutable object that allows access to the field values by name or by iterating over the document. This object implements the `Iterator`, `Countable` and `ArrayAccess` interfaces. You can use the document in multiple ways:
+This is the default document type for a [select query result](queries/select-query/result-of-a-select-query/result-of-a-select-query.md). This is an immutable object that allows access to the field values by name or by iterating over the document. This object implements the `Iterator`, `Countable`, `ArrayAccess` and `JsonSerializable` interfaces. You can use the document in multiple ways:
 
 -   access fields as object vars (fieldname as varname)
 -   access fields as array entries (fieldname as key)
@@ -239,11 +239,11 @@ If you use `_childDocuments_` as the field name, the child documents are indexed
 You can create atomic updates by using the `setFieldModifier` method. Set a modifier on the field you want to update. The supported modifiers are:
 
 -   `MODIFIER_SET`
--   `MODIFIER_INC`
 -   `MODIFIER_ADD`
 -   `MODIFIER_ADD_DISTINCT`
 -   `MODIFIER_REMOVE`
 -   `MODIFIER_REMOVEREGEX`
+-   `MODIFIER_INC`
 
 The `addField` and `setField` methods also support modifiers as an optional argument. Any document that uses modifiers MUST have a key, you can set the key using the `setKey` method.
 
