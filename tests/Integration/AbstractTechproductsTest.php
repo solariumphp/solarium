@@ -40,6 +40,7 @@ use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceRes
 use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResultItem;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\RequestBuilder as UpdateRequestBuilder;
 use Solarium\Support\Utility;
@@ -195,7 +196,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $result->getStatus());
     }
 
-    public function testSelect()
+    public function testSelect(): SelectResult
     {
         $select = self::$client->createSelect();
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
@@ -204,7 +205,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(10, $result);
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -220,6 +221,26 @@ abstract class AbstractTechproductsTest extends TestCase
             'GB18030TEST',
             'GBP',
             ], $ids);
+
+        return $result;
+    }
+
+    /**
+     * @depends testSelect
+     *
+     * @param SelectResult $result
+     */
+    public function testJsonSerializeSelectResult(SelectResult $result)
+    {
+        $expectedJson = $result->getResponse()->getBody();
+
+        // this only calls SelectResult::jsonSerialize() which gets the document data from the parsed response
+        $json = json_encode($result);
+        $this->assertJsonStringEqualsJsonString($expectedJson, $json);
+
+        // this calls Document::jsonSerialize() on every document instead
+        $documents = json_encode($result->getDocuments());
+        $this->assertStringContainsString($documents, $json);
     }
 
     /**

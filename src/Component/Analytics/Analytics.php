@@ -181,6 +181,7 @@ class Analytics extends AbstractComponent implements \JsonSerializable
         return $this;
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */

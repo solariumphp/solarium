@@ -115,4 +115,12 @@ abstract class AbstractDocumentTest extends TestCase
     {
         $this->assertCount(count($this->fields), $this->doc);
     }
+
+    public function testJsonSerialize()
+    {
+        $this->assertJsonStringEqualsJsonString(
+            '{"id":123,"name":"Test document","categories":[1,2,3],"empty_field":""}',
+            json_encode($this->doc)
+        );
+    }
 }

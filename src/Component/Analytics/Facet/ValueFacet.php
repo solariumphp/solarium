@@ -80,6 +80,7 @@ class ValueFacet extends AbstractFacet
         return $this;
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */

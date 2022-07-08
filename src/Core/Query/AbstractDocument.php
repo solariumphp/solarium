@@ -12,7 +12,7 @@ namespace Solarium\Core\Query;
 /**
  * Document base functionality, used by readonly and readwrite documents.
  */
-abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate, \Countable, \ArrayAccess
+abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
      * All fields in this document.
@@ -132,4 +132,10 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
     {
         return $this->__get($offset);
     }
+
+    #[\ReturnTypeWillChange]
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function jsonSerialize();
 }

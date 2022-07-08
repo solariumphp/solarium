@@ -118,6 +118,7 @@ class Criterion extends Configurable implements \JsonSerializable
         return $this;
     }
 
+    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
