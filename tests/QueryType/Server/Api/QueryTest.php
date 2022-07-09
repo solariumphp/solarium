@@ -35,6 +35,100 @@ class QueryTest extends TestCase
         $this->assertSame(Request::API_V2, $this->query->getVersion());
     }
 
+    public function testSetGetMethod()
+    {
+        $this->assertSame(Request::METHOD_GET, $this->query->getMethod());
+
+        $this->query->setMethod(Request::METHOD_POST);
+        $this->assertSame(Request::METHOD_POST, $this->query->getMethod());
+    }
+
+    public function testSetGetAccept()
+    {
+        $this->query->setAccept('example/accept');
+        $this->assertSame('example/accept', $this->query->getAccept());
+    }
+
+    public function testSetAndGetContentType()
+    {
+        $this->query->setContentType('example/test');
+
+        $this->assertSame(
+            'example/test',
+            $this->query->getContentType()
+        );
+
+        $this->assertNull(
+            $this->query->getContentTypeParams()
+        );
+    }
+
+    public function testSetContentTypeWithParams()
+    {
+        $this->query->setContentType('example/params', ['param' => 'value']);
+
+        $this->assertSame(
+            'example/params',
+            $this->query->getContentType()
+        );
+
+        $this->assertSame(
+            ['param' => 'value'],
+            $this->query->getContentTypeParams()
+        );
+    }
+
+    public function testSetContentTypeWithParamsOverridesParams()
+    {
+        $this->query->setContentTypeParams(['param' => 'value']);
+        $this->query->setContentType('example/params', ['newparam' => 'newvalue']);
+
+        $this->assertSame(
+            'example/params',
+            $this->query->getContentType()
+        );
+
+        $this->assertSame(
+            ['newparam' => 'newvalue'],
+            $this->query->getContentTypeParams()
+        );
+    }
+
+    /**
+     * Test that we don't lose the parameters if they are set before the Content-Type.
+     */
+    public function testSetContentTypeWithoutParamsDoesntOverrideParams()
+    {
+        $this->query->setContentTypeParams(['param' => 'value']);
+        $this->query->setContentType('example/params');
+
+        $this->assertSame(
+            'example/params',
+            $this->query->getContentType()
+        );
+
+        $this->assertSame(
+            ['param' => 'value'],
+            $this->query->getContentTypeParams()
+        );
+    }
+
+    public function testSetAndGetContentTypeParams()
+    {
+        $this->query->setContentTypeParams(['param' => 'value']);
+
+        $this->assertSame(
+            ['param' => 'value'],
+            $this->query->getContentTypeParams()
+        );
+    }
+
+    public function testSetGetRawData()
+    {
+        $this->query->setRawData('raw data');
+        $this->assertSame('raw data', $this->query->getRawData());
+    }
+
     public function testGetRequestBuilder()
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());

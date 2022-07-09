@@ -97,16 +97,6 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             curl_setopt($handler, CURLOPT_PROXY, $options['proxy']);
         }
 
-        if (!isset($options['headers']['Content-Type'])) {
-            $charset = $request->getParam('ie') ?? 'utf-8';
-
-            if (Request::METHOD_GET === $method) {
-                $options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset='.$charset;
-            } else {
-                $options['headers']['Content-Type'] = 'application/xml; charset='.$charset;
-            }
-        }
-
         // Try endpoint authentication first, fallback to request for backwards compatibility
         $authData = $endpoint->getAuthentication();
         if (empty($authData['username'])) {
@@ -118,7 +108,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
 
-        if (\count($options['headers'])) {
+        if (0 !== \count($options['headers'] ?? [])) {
             $headers = [];
             foreach ($options['headers'] as $key => $value) {
                 $headers[] = $key.': '.$value;
@@ -241,7 +231,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         ];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
-            if ($header = trim($header)) {
+            if ('' !== $header = trim($header)) {
                 $options['headers'][$header] = trim($value);
             }
         }

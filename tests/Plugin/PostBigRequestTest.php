@@ -89,6 +89,7 @@ class PostBigRequestTest extends TestCase
         }
         $fq = substr($fq, 4);
         $this->query->createFilterQuery('fq')->setQuery($fq);
+        $this->query->setInputEncoding('us-ascii');
 
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
@@ -98,6 +99,8 @@ class PostBigRequestTest extends TestCase
 
         $this->assertSame(Request::METHOD_GET, $requestInput->getMethod());
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, $requestOutput->getContentType());
+        $this->assertSame(['charset' => 'us-ascii'], $requestOutput->getContentTypeParams());
         $this->assertSame($requestInput->getQueryString(), $requestOutput->getRawData());
         $this->assertSame('', $requestOutput->getQueryString());
     }

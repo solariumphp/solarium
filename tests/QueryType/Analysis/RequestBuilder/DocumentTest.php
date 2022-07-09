@@ -31,6 +31,7 @@ class DocumentTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertSame(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_XML, $request->getContentType());
         $this->assertSame($this->builder->getRawData($this->query), $request->getRawData());
     }
 

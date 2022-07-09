@@ -144,11 +144,12 @@ class HttpTest extends TestCase
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
-        $header1 = 'Content-Type: text/xml; charset=utf-8';
-        $header2 = 'X-MyHeader: dummyvalue';
+        $header1 = 'X-MyHeader-1: dummyvalue 1';
+        $header2 = 'X-MyHeader-2: dummyvalue 2';
 
         $request = new Request();
         $request->setMethod($method);
+        $request->setContentType(Request::CONTENT_TYPE_TEXT_PLAIN);
         $request->addHeader($header1);
         $request->addHeader($header2);
         $request->setIsServerRequest(true);
@@ -165,7 +166,7 @@ class HttpTest extends TestCase
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
                     'ignore_errors' => true,
-                    'header' => $header1."\r\n".$header2,
+                    'header' => $header1."\r\n".$header2."\r\n".'Content-Type: text/plain; charset=utf-8',
                 ],
             ],
             stream_context_get_options($context)
@@ -180,6 +181,8 @@ class HttpTest extends TestCase
 
         $request = new Request();
         $request->setMethod($method);
+        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_XML);
+        $request->addParam('ie', 'us-ascii', true);
         $request->setRawData($data);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
@@ -196,7 +199,7 @@ class HttpTest extends TestCase
                     'user_agent' => 'Solarium Http Adapter',
                     'ignore_errors' => true,
                     'content' => $data,
-                    'header' => 'Content-Type: text/xml; charset=utf-8',
+                    'header' => 'Content-Type: application/xml; charset=us-ascii',
                 ],
             ],
             stream_context_get_options($context)
@@ -220,7 +223,8 @@ class HttpTest extends TestCase
         // Remove content from comparison, since we can't determine the
         // random boundary string.
         $stream_context_get_options = stream_context_get_options($context);
-        unset($stream_context_get_options['http']['content'], $stream_context_get_options['http']['header']);
+        $contentLength = \strlen($stream_context_get_options['http']['content']);
+        unset($stream_context_get_options['http']['content']);
 
         $this->assertSame(
             [
@@ -230,9 +234,42 @@ class HttpTest extends TestCase
                     'protocol_version' => 1.0,
                     'user_agent' => 'Solarium Http Adapter',
                     'ignore_errors' => true,
+                    'header' => sprintf('Content-Length: %d', $contentLength),
                 ],
             ],
             $stream_context_get_options
+        );
+    }
+
+    public function testCreateContextPutRequest()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_PUT;
+        $data = 'test123';
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
+        $request->setRawData($data);
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                    'content' => $data,
+                    'header' => 'Connection: Keep-Alive'."\r\n".'Content-Type: application/json; charset=utf-8',
+                ],
+            ],
+            stream_context_get_options($context)
         );
     }
 

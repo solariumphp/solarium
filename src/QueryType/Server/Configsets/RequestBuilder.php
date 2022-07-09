@@ -34,7 +34,7 @@ class RequestBuilder extends ServerRequestBuilder
         if ($action instanceof Upload) {
             $request->setMethod(Request::METHOD_POST);
             $request->setFileUpload($action->getFile());
-            $request->addHeader('Content-Type: multipart/form-data; boundary='.$request->getHash());
+            $request->setContentType(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, ['boundary' => $request->getHash()]);
         }
 
         return $request;

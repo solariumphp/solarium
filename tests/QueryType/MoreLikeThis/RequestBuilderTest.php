@@ -84,9 +84,9 @@ class RequestBuilderTest extends TestCase
 
         $request = $this->builder->build($this->query);
 
-        $this->assertSame(Request::METHOD_POST, $request->getMethod());
         $this->assertNull($request->getParam('q'));
         $this->assertSame($content, $request->getRawData());
-        $this->assertTrue(in_array('Content-Type: text/plain; charset=utf-8', $request->getHeaders(), true));
+        $this->assertSame(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_TEXT_PLAIN, $request->getContentType());
     }
 }

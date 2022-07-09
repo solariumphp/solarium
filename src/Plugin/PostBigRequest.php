@@ -69,18 +69,20 @@ class PostBigRequest extends AbstractPlugin
     public function preExecuteRequest($event): self
     {
         // We need to accept event proxies or decorators.
-        /* @var PreExecuteRequest $event */
+        /** @var PreExecuteRequest $event */
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
 
-        if (Request::METHOD_GET === $request->getMethod() &&
-            \strlen($queryString) > $this->getMaxQueryStringLength()) {
+        if (
+            Request::METHOD_GET === $request->getMethod()
+            && \strlen($queryString) > $this->getMaxQueryStringLength()
+        ) {
             $charset = $request->getParam('ie') ?? 'utf-8';
 
             $request->setMethod(Request::METHOD_POST);
+            $request->setContentType(Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, ['charset' => $charset]);
             $request->setRawData($queryString);
             $request->clearParams();
-            $request->addHeader('Content-Type: application/x-www-form-urlencoded; charset='.$charset);
         }
 
         return $this;

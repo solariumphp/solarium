@@ -32,6 +32,7 @@ class Document extends BaseRequestBuilder
         $request = parent::build($query);
         $request->setRawData($this->getRawData($query));
         $request->setMethod(Request::METHOD_POST);
+        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_XML);
 
         return $request;
     }

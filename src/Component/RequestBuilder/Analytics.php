@@ -22,16 +22,6 @@ use Solarium\Core\ConfigurableInterface;
 class Analytics implements ComponentRequestBuilderInterface
 {
     /**
-     * Header name.
-     */
-    private const HEADER_NAME = 'Content-Type';
-
-    /**
-     * Content type.
-     */
-    private const HEADER_CONTENT = 'application/x-www-form-urlencoded';
-
-    /**
      * {@inheritdoc}
      *
      * @throws \RuntimeException
@@ -39,9 +29,10 @@ class Analytics implements ComponentRequestBuilderInterface
     public function buildComponent(ConfigurableInterface $component, Request $request): Request
     {
         $raw = sprintf('analytics=%s', json_encode($component));
-        $header = sprintf('%s: %s', self::HEADER_NAME, self::HEADER_CONTENT);
+        $header = sprintf('Content-Type: %s', Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED);
 
-        if (Request::METHOD_POST !== $request->getMethod()
+        if (
+            Request::METHOD_POST !== $request->getMethod()
             || (null === $data = $request->getRawData())
         ) {
             return $request
@@ -51,10 +42,11 @@ class Analytics implements ComponentRequestBuilderInterface
             ;
         }
 
-        if ((null !== $currentHeader = $request->getHeader(self::HEADER_NAME))
-            && false === strpos($currentHeader, self::HEADER_CONTENT)
+        if (
+            (null !== $currentHeader = $request->getHeader('Content-Type'))
+            && false === strpos($currentHeader, Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED)
         ) {
-            throw new \RuntimeException(sprintf('Unable to build analytics request. required content type is %s while current header is %s', self::HEADER_CONTENT, $header));
+            throw new \RuntimeException(sprintf('Unable to build analytics request. required content type is %s while current header is %s', Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, $currentHeader));
         }
 
         // merge raw data currently present in the request

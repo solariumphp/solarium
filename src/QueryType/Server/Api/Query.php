@@ -114,27 +114,60 @@ class Query extends AbstractQuery
     }
 
     /**
-     * Set contenttype option.
+     * Set request Content-Type.
      *
-     * @param string $contentType
+     * Use one of the Request::CONTENT_TYPE_* constants as value.
+     *
+     * Content-Type parameters can be passed in $params or set with {@see setContentTypeParams()}.
+     *
+     * @param string|null $contentType
+     * @param array|null  $params
      *
      * @return self Provides fluent interface
      */
-    public function setContentType(string $contentType): self
+    public function setContentType(?string $contentType, ?array $params = null): self
     {
         $this->setOption('contenttype', $contentType);
+
+        if (null !== $params) {
+            $this->setOption('contenttypeparams', $params);
+        }
 
         return $this;
     }
 
     /**
-     * Get contenttype option.
+     * Get request Content-Type.
      *
      * @return string|null
      */
     public function getContentType(): ?string
     {
         return $this->getOption('contenttype');
+    }
+
+    /**
+     * Set Content-Type parameters.
+     *
+     * @param array|null $params
+     *
+     * @return self Provides fluent interface
+     */
+    public function setContentTypeParams(?array $params): self
+    {
+        $this->setOption('contenttypeparams', $params);
+
+        return $this;
+    }
+
+    /**
+     * Get Content-Type parameters.
+     *
+     * @return array|null
+     */
+    public function getContentTypeParams(): ?array
+    {
+        return $this->getOption('contenttypeparams');
     }
 
     /**

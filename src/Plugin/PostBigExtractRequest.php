@@ -10,6 +10,7 @@
 namespace Solarium\Plugin;
 
 use Solarium\Core\Client\Adapter\AdapterHelper;
+use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
@@ -81,7 +82,7 @@ class PostBigExtractRequest extends AbstractPlugin
                     if (is_iterable($value)) {
                         foreach ($value as $arrayVal) {
                             if (\is_string($arrayVal)) {
-                                $additionalBodyHeader = "\r\nContent-Type: text/plain;charset={$charset}";
+                                $additionalBodyHeader = sprintf("\r\nContent-Type: %s;charset=%s", Request::CONTENT_TYPE_TEXT_PLAIN, $charset);
                             } else {
                                 $additionalBodyHeader = '';
                             }
@@ -94,7 +95,7 @@ class PostBigExtractRequest extends AbstractPlugin
                         }
                     } else {
                         if (\is_string($value)) {
-                            $additionalBodyHeader = "\r\nContent-Type: text/plain;charset={$charset}";
+                            $additionalBodyHeader = sprintf("\r\nContent-Type: %s;charset=%s", Request::CONTENT_TYPE_TEXT_PLAIN, $charset);
                         } else {
                             $additionalBodyHeader = '';
                         }

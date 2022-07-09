@@ -31,7 +31,15 @@ class AnalyticsTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertSame(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame(
+            Request::METHOD_POST,
+            $request->getMethod()
+        );
+        $this->assertSame(
+            sprintf('Content-Type: %s', Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED),
+            $request->getHeader('Content-Type')
+        );
+
         parse_str($request->getRawData(), $data);
 
         $this->assertArrayHasKey('analytics', $data);
@@ -62,7 +70,15 @@ class AnalyticsTest extends TestCase
 
         $request = $builder->buildComponent($component, $request);
 
-        $this->assertSame(Request::METHOD_POST, $request->getMethod());
+        $this->assertSame(
+            Request::METHOD_POST,
+            $request->getMethod()
+        );
+        $this->assertSame(
+            sprintf('Content-Type: %s', Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED),
+            $request->getHeader('Content-Type')
+        );
+
         parse_str($request->getRawData(), $data);
 
         $this->assertArrayHasKey('analytics', $data);
