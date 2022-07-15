@@ -84,7 +84,7 @@ class Events
     public const PRE_EXECUTE = PreExecute::class;
 
     /**
-     * The postExecute event is thrown just after a all execution is done.
+     * The postExecute event is thrown just after all execution is done.
      *
      * The event listener receives a Query instance and a Result instance.
      *

@@ -12,8 +12,11 @@ use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
+use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
+use Solarium\Core\Event\Events;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\RequestBuilderInterface;
@@ -44,6 +47,7 @@ use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\RequestBuilder as UpdateRequestBuilder;
 use Solarium\Support\Utility;
+use Solarium\Tests\Integration\Plugin\EventTimer;
 use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractTechproductsTest extends TestCase
@@ -2827,6 +2831,95 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
     }
 
+    public function testParallelExecution()
+    {
+        // ParallelExecution only works with Curl, pass tacitly for other adapters
+        if (!(self::$client->getAdapter() instanceof Curl)) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        // ParallelExecution should play nice with other plugins
+        self::$client->getPlugin('postbigrequest');
+
+        $queryInStock = self::$client->createSelect()->setQuery('inStock:true');
+        $queryLowPrice = self::$client->createSelect()->setQuery('price:[1 TO 300]');
+        $queryBigRequest = self::$client->createSelect()->setQuery('price:0 OR cat:'.str_repeat(implode('', range('a', 'z')), 1000));
+        $queryOverruleResult = self::$client->createSelect()->setQuery('id:parallel-1');
+        $queryOverruleResponse = self::$client->createSelect()->setQuery('id:parallel-2');
+        $queryError = self::$client->createSelect()->setQuery('cat:electronics OR ');
+
+        $dataOverruleResult = [
+            'response' => [
+                'docs' => [
+                    ['id' => 'parallel-1', 'name' => 'Test overrule result'],
+                ],
+                'numFound' => 1,
+                'maxScore' => 1.00,
+            ],
+        ];
+        $responseOverruleResult = new Response(json_encode($dataOverruleResult), ['HTTP 1.0 200 OK']);
+
+        $dataOverruleResponse = [
+            'response' => [
+                'docs' => [
+                    ['id' => 'parallel-2', 'name' => 'Test overrule response'],
+                ],
+                'numFound' => 1,
+                'maxScore' => 1.00,
+            ],
+        ];
+        $responseOverruleResponse = new Response(json_encode($dataOverruleResponse), ['HTTP 1.0 200 OK']);
+
+        $resultInStock = self::$client->select($queryInStock);
+        $resultLowPrice = self::$client->select($queryLowPrice);
+        $resultBigRequest = self::$client->select($queryBigRequest);
+        $resultOverruleResult = new SelectResult($queryOverruleResult, $responseOverruleResult);
+        $resultOverruleResponse = new SelectResult($queryOverruleResponse, $responseOverruleResponse);
+
+        // events should be dispatched as usual
+        self::$client->getEventDispatcher()->addListener(
+            Events::PRE_EXECUTE,
+            $overruleResult = function (Event $event) use ($resultOverruleResult) {
+                $query = $event->getQuery();
+                // if this test fails, the listener will remain active and would cause errors for other QueryTypes
+                if ($query instanceof SelectQuery && 'id:parallel-1' === $query->getQuery()) {
+                    $event->setResult($resultOverruleResult);
+                }
+            }
+        );
+        self::$client->getEventDispatcher()->addListener(
+            Events::PRE_EXECUTE_REQUEST,
+            $overruleResponse = function (Event $event) use ($responseOverruleResponse) {
+                if ('id:parallel-2' === $event->getRequest()->getParam('q')) {
+                    $event->setResponse($responseOverruleResponse);
+                }
+            }
+        );
+
+        $parallel = self::$client->getPlugin('parallelexecution');
+        $parallel->addQuery('instock', $queryInStock);
+        $parallel->addQuery('lowprice', $queryLowPrice);
+        $parallel->addQuery('bigrequest', $queryBigRequest);
+        $parallel->addQuery('overruleresult', $queryOverruleResult);
+        $parallel->addQuery('overruleresponse', $queryOverruleResponse);
+        $parallel->addQuery('error', $queryError);
+        $results = $parallel->execute();
+
+        $this->assertEquals($resultInStock, $results['instock']);
+        $this->assertEquals($resultLowPrice, $results['lowprice']);
+        $this->assertEquals($resultBigRequest, $results['bigrequest']);
+        $this->assertEquals($resultOverruleResult, $results['overruleresult']);
+        $this->assertEquals($resultOverruleResponse, $results['overruleresponse']);
+        $this->assertInstanceOf(HttpException::class, $results['error']);
+
+        // cleanup
+        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE, $overruleResult);
+        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE_REQUEST, $overruleResponse);
+        self::$client->removePlugin('parallelexecution');
+    }
+
     public function testPrefetchIterator()
     {
         $select = self::$client->createSelect();
@@ -3932,6 +4025,47 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $this->assertFalse($result->getWasSuccessful());
         $this->assertNotSame('', $result->getResponse()->getBody());
+    }
+
+    public function testEventDispatching()
+    {
+        $eventTimer = new EventTimer();
+        self::$client->registerPlugin('eventtimer', $eventTimer);
+
+        $query = self::$client->createSelect();
+        self::$client->select($query);
+
+        $expectedEvents = [
+            'preCreateQuery',
+            'postCreateQuery',
+            'preExecute',
+            'preCreateRequest',
+            'postCreateRequest',
+            'preExecuteRequest',
+            'postExecuteRequest',
+            'preCreateResult',
+            'postCreateResult',
+            'postExecute',
+        ];
+        $this->assertSame($expectedEvents, array_column($eventTimer->getLog(), 'event'));
+
+        // ParallelExecution only works with Curl
+        if (self::$client->getAdapter() instanceof Curl) {
+            $eventTimer->reset();
+
+            $parallel = self::$client->getPlugin('parallelexecution');
+            $query = self::$client->createSelect();
+            $parallel->addQuery('query', $query);
+            $parallel->execute();
+
+            array_splice($expectedEvents, 6, 0, ['parallelExecuteStart']);
+            array_splice($expectedEvents, 7, 0, ['parallelExecuteEnd']);
+            $this->assertSame($expectedEvents, array_column($eventTimer->getLog(), 'event'));
+
+            self::$client->removePlugin('parallelexecution');
+        }
+
+        self::$client->removePlugin('eventtimer');
     }
 }
 

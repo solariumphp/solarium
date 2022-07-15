@@ -200,7 +200,9 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     protected function init()
     {
         if (!\function_exists('curl_init')) {
+            // @codeCoverageIgnoreStart
             throw new RuntimeException('cURL is not available, install it to use the CurlHttp adapter');
+            // @codeCoverageIgnoreEnd
         }
 
         parent::init();

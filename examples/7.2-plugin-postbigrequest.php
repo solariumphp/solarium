@@ -12,12 +12,7 @@ $client->getPlugin('postbigrequest');
 $query = $client->createSelect();
 
 // add a huge filterquery to create a very long query string
-// note: normally you would use a range for this, it's just an easy way to create a very big querystring as a test
-$fq = '';
-for ($i = 1; $i <= 1000; $i++) {
-    $fq .= ' OR price:'.$i;
-}
-$fq = substr($fq, 4);
+$fq = 'price:0 OR cat:'.str_repeat(implode('', range('a', 'z')), 1000);
 $query->createFilterQuery('fq')->setQuery($fq);
 
 // without the plugin this query would fail as it is bigger than the default servlet container header buffer
