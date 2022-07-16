@@ -405,7 +405,8 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 
 ### Some important notes
 
--   This plugin makes use of the cURL client adapter and calls `curl_multi_exec`, so you do need to have cURL available in your PHP environment to be able to use it.
+-   This plugin makes use of the [cURL client adapter](client-and-adapters.md#curl-adapter) and calls `curl_multi_exec`, so you do need to have cURL available in your PHP environment to be able to use it.
+-   If you construct the client with a different adapter, this plugin will replace it with a cURL adapter. Construct the client with a properly configured cURL adapter if you need proxy support.
 -   Only request execution is parallel, request preparation and result parsing cannot be done parallelly. Luckily these parts cost very little time, far more time is in the requests.
 -   The execution time is limited by the slowest request. If you execute 3 queries with timings of 0.2, 0.4 and 1.2 seconds the execution time for all will be (near) 1.2 seconds.
 -   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It’s your own responsibility to check the result type.

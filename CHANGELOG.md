@@ -14,7 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adding nested child documents through `Document::setField()` and `Document::addField()`
 
 ### Changed
-- ParallelExecution respects 'timeout' and 'connectiontimeout' adapter options
+- ParallelExecution doesn't replace an existing cURL adapter on the Client. Timeout and proxy settings are honoured on parallel requests.
+- ParallelExecution sets the 'timeout' and 'connectiontimeout' options from (Connection)TimeoutAware adapters when switching to a cURL adapter
 
 ### Removed
 - Solarium\QueryType\Update\Query\Document::setFilterControlCharacters(), extend Update\Query\Query to use a custom request builder & helper if you don't want control characters filtered
