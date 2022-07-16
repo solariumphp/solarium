@@ -2846,54 +2846,54 @@ abstract class AbstractTechproductsTest extends TestCase
         $queryInStock = self::$client->createSelect()->setQuery('inStock:true');
         $queryLowPrice = self::$client->createSelect()->setQuery('price:[1 TO 300]');
         $queryBigRequest = self::$client->createSelect()->setQuery('price:0 OR cat:'.str_repeat(implode('', range('a', 'z')), 1000));
-        $queryOverruleResult = self::$client->createSelect()->setQuery('id:parallel-1');
-        $queryOverruleResponse = self::$client->createSelect()->setQuery('id:parallel-2');
+        $queryOverrideResult = self::$client->createSelect()->setQuery('id:parallel-1');
+        $queryOverrideResponse = self::$client->createSelect()->setQuery('id:parallel-2');
         $queryError = self::$client->createSelect()->setQuery('cat:electronics OR ');
 
-        $dataOverruleResult = [
+        $dataOverrideResult = [
             'response' => [
                 'docs' => [
-                    ['id' => 'parallel-1', 'name' => 'Test overrule result'],
+                    ['id' => 'parallel-1', 'name' => 'Test override result'],
                 ],
                 'numFound' => 1,
                 'maxScore' => 1.00,
             ],
         ];
-        $responseOverruleResult = new Response(json_encode($dataOverruleResult), ['HTTP 1.0 200 OK']);
+        $responseOverrideResult = new Response(json_encode($dataOverrideResult), ['HTTP 1.0 200 OK']);
 
-        $dataOverruleResponse = [
+        $dataOverrideResponse = [
             'response' => [
                 'docs' => [
-                    ['id' => 'parallel-2', 'name' => 'Test overrule response'],
+                    ['id' => 'parallel-2', 'name' => 'Test override response'],
                 ],
                 'numFound' => 1,
                 'maxScore' => 1.00,
             ],
         ];
-        $responseOverruleResponse = new Response(json_encode($dataOverruleResponse), ['HTTP 1.0 200 OK']);
+        $responseOverrideResponse = new Response(json_encode($dataOverrideResponse), ['HTTP 1.0 200 OK']);
 
         $resultInStock = self::$client->select($queryInStock);
         $resultLowPrice = self::$client->select($queryLowPrice);
         $resultBigRequest = self::$client->select($queryBigRequest);
-        $resultOverruleResult = new SelectResult($queryOverruleResult, $responseOverruleResult);
-        $resultOverruleResponse = new SelectResult($queryOverruleResponse, $responseOverruleResponse);
+        $resultOverrideResult = new SelectResult($queryOverrideResult, $responseOverrideResult);
+        $resultOverrideResponse = new SelectResult($queryOverrideResponse, $responseOverrideResponse);
 
         // events should be dispatched as usual
         self::$client->getEventDispatcher()->addListener(
             Events::PRE_EXECUTE,
-            $overruleResult = function (Event $event) use ($resultOverruleResult) {
+            $overrideResult = function (Event $event) use ($resultOverrideResult) {
                 $query = $event->getQuery();
                 // if this test fails, the listener will remain active and would cause errors for other QueryTypes
                 if ($query instanceof SelectQuery && 'id:parallel-1' === $query->getQuery()) {
-                    $event->setResult($resultOverruleResult);
+                    $event->setResult($resultOverrideResult);
                 }
             }
         );
         self::$client->getEventDispatcher()->addListener(
             Events::PRE_EXECUTE_REQUEST,
-            $overruleResponse = function (Event $event) use ($responseOverruleResponse) {
+            $overrideResponse = function (Event $event) use ($responseOverrideResponse) {
                 if ('id:parallel-2' === $event->getRequest()->getParam('q')) {
-                    $event->setResponse($responseOverruleResponse);
+                    $event->setResponse($responseOverrideResponse);
                 }
             }
         );
@@ -2902,21 +2902,32 @@ abstract class AbstractTechproductsTest extends TestCase
         $parallel->addQuery('instock', $queryInStock);
         $parallel->addQuery('lowprice', $queryLowPrice);
         $parallel->addQuery('bigrequest', $queryBigRequest);
-        $parallel->addQuery('overruleresult', $queryOverruleResult);
-        $parallel->addQuery('overruleresponse', $queryOverruleResponse);
+        $parallel->addQuery('overrideresult', $queryOverrideResult);
+        $parallel->addQuery('overrideresponse', $queryOverrideResponse);
         $parallel->addQuery('error', $queryError);
         $results = $parallel->execute();
+
+        // ensure that result keys maintain the order that the queries were added in
+        $expectedKeys = [
+            'instock',
+            'lowprice',
+            'bigrequest',
+            'overrideresult',
+            'overrideresponse',
+            'error',
+        ];
+        $this->assertSame($expectedKeys, array_keys($results));
 
         $this->assertEquals($resultInStock, $results['instock']);
         $this->assertEquals($resultLowPrice, $results['lowprice']);
         $this->assertEquals($resultBigRequest, $results['bigrequest']);
-        $this->assertEquals($resultOverruleResult, $results['overruleresult']);
-        $this->assertEquals($resultOverruleResponse, $results['overruleresponse']);
+        $this->assertEquals($resultOverrideResult, $results['overrideresult']);
+        $this->assertEquals($resultOverrideResponse, $results['overrideresponse']);
         $this->assertInstanceOf(HttpException::class, $results['error']);
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE, $overruleResult);
-        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE_REQUEST, $overruleResponse);
+        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE, $overrideResult);
+        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE_REQUEST, $overrideResponse);
         self::$client->removePlugin('parallelexecution');
     }
 
