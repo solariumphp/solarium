@@ -1,0 +1,25 @@
+name: Check Release Version
+
+on:
+    push:
+        tags:
+          # e.g. 1.2.3
+          - '[0-9]+.[0-9]+.[0-9]+'
+          # e.g. 1.2.3-alpha
+          - '[0-9]+.[0-9]+.[0-9]+-[a-z]+'
+          # e.g. 1.2.3-rc.1
+          - '[0-9]+.[0-9]+.[0-9]+-[a-z]+.[0-9]+'
+
+jobs:
+    check-version:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkout solarium
+            uses: actions/checkout@v2
+
+          - name: Check Client::VERSION
+            run: |
+                ref=${{ github.ref }}
+                version=${ref##*/}
+                grep -F "const VERSION = '$version';" src/Client.php
