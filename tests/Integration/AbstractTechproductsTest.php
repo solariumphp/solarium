@@ -2843,12 +2843,18 @@ abstract class AbstractTechproductsTest extends TestCase
         // ParallelExecution should play nice with other plugins
         self::$client->getPlugin('postbigrequest');
 
-        $queryInStock = self::$client->createSelect()->setQuery('inStock:true');
-        $queryLowPrice = self::$client->createSelect()->setQuery('price:[1 TO 300]');
-        $queryBigRequest = self::$client->createSelect()->setQuery('price:0 OR cat:'.str_repeat(implode('', range('a', 'z')), 1000));
-        $queryOverrideResult = self::$client->createSelect()->setQuery('id:parallel-1');
-        $queryOverrideResponse = self::$client->createSelect()->setQuery('id:parallel-2');
-        $queryError = self::$client->createSelect()->setQuery('cat:electronics OR ');
+        $queryInStock = self::$client->createSelect()->setQuery('inStock:true')->setOmitHeader(true);
+        $queryLowPrice = self::$client->createSelect()->setQuery('price:[1 TO 300]')->setOmitHeader(true);
+        $queryBigRequest = self::$client->createSelect()->setQuery('price:0 OR cat:'.str_repeat(implode('', range('a', 'z')), 1000))->setOmitHeader(true);
+        $queryOverrideResult = self::$client->createSelect()->setQuery('id:parallel-1')->setOmitHeader(true);
+        $queryOverrideResponse = self::$client->createSelect()->setQuery('id:parallel-2')->setOmitHeader(true);
+        $queryError = self::$client->createSelect()->setQuery('cat:electronics OR ')->setOmitHeader(true);
+
+        // all query types are supported and can be mixed in a single ParallelExecution::execute() call
+        $serverQuery = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => 'admin/info/properties',
+        ])->setOmitHeader(true);
 
         $dataOverrideResult = [
             'response' => [
@@ -2877,6 +2883,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $resultBigRequest = self::$client->select($queryBigRequest);
         $resultOverrideResult = new SelectResult($queryOverrideResult, $responseOverrideResult);
         $resultOverrideResponse = new SelectResult($queryOverrideResponse, $responseOverrideResponse);
+        $serverResult = self::$client->execute($serverQuery);
 
         // events should be dispatched as usual
         self::$client->getEventDispatcher()->addListener(
@@ -2905,6 +2912,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $parallel->addQuery('overrideresult', $queryOverrideResult);
         $parallel->addQuery('overrideresponse', $queryOverrideResponse);
         $parallel->addQuery('error', $queryError);
+        $parallel->addQuery('server', $serverQuery);
         $results = $parallel->execute();
 
         // ensure that result keys maintain the order that the queries were added in
@@ -2915,6 +2923,7 @@ abstract class AbstractTechproductsTest extends TestCase
             'overrideresult',
             'overrideresponse',
             'error',
+            'server',
         ];
         $this->assertSame($expectedKeys, array_keys($results));
 
@@ -2924,6 +2933,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertEquals($resultOverrideResult, $results['overrideresult']);
         $this->assertEquals($resultOverrideResponse, $results['overrideresponse']);
         $this->assertInstanceOf(HttpException::class, $results['error']);
+        $this->assertEquals($serverResult, $results['server']);
 
         // cleanup
         self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE, $overrideResult);

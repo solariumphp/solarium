@@ -9,7 +9,6 @@
 
 namespace Solarium\Plugin\ParallelExecution;
 
-use Solarium\Component\QueryInterface;
 use Solarium\Core\Client\Adapter\ConnectionTimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
@@ -19,6 +18,7 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
 use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
