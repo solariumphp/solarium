@@ -10,7 +10,7 @@
 namespace Solarium\Component;
 
 /**
- * Query Trait.
+ * Query Interface.
  */
 interface QueryInterface
 {

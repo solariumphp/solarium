@@ -405,12 +405,13 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 
 ### Some important notes
 
--   This plugin makes use of the cURL client adapter and calls `curl_multi_exec`, so you do need to have cURL available in your PHP environment to be able to use it.
+-   This plugin makes use of the [cURL client adapter](client-and-adapters.md#curl-adapter) and calls `curl_multi_exec`, so you do need to have cURL available in your PHP environment to be able to use it.
+-   If you construct the client with a different adapter, this plugin will replace it with a cURL adapter. Construct the client with a properly configured cURL adapter if you need proxy support.
 -   Only request execution is parallel, request preparation and result parsing cannot be done parallelly. Luckily these parts cost very little time, far more time is in the requests.
 -   The execution time is limited by the slowest request. If you execute 3 queries with timings of 0.2, 0.4 and 1.2 seconds the execution time for all will be (near) 1.2 seconds.
--   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It’s your own responsibility to check the result type.
+-   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It's your own responsibility to check the result type.
 -   All query types are supported, and you can even mix query types in the same `execute` call.
--   For testing this plugin you can use a special Solr delay component I’ve created (and used to develop the plugin). For more info see [this blog post](http://www.raspberry.nl/2012/01/04/solr-delay-component/).
+-   For testing this plugin you can use a special Solr delay component I’ve created (and used to develop the plugin). For more info see [this archived blog post](https://web.archive.org/web/20170904162800/http://www.raspberry.nl/2012/01/04/solr-delay-component/).
 -   Add queries using the `addQuery` method. Supply at least a key and a query instance. Optionally you can supply a client instance as third argument. This can be used to execute queries on different cores or even servers. If omitted the plugin will use its own client instance.
 -   It's possible to fetch multiple pages of results for the same query parallelly with basic pagination using `setStart` and `setRows`.
     It's not possible to achieve this with a `cursorMark` because its value for each but the first request depends on the returned `nextCursorMark` of a previous request.
@@ -429,9 +430,9 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $parallel = $client->getPlugin('parallelexecution');
 
 // Add a delay param to better show the effect, as an example Solr install with
-// only a dozen documents is too fast for good testing
-// This param only works with the correct Solr plugin,
-// see http://www.raspberry.nl/2012/01/04/solr-delay-component/
+// only a dozen documents is too fast for good testing.
+// This param only works with the correct Solr plugin, see
+// https://web.archive.org/web/20170904162800/http://www.raspberry.nl/2012/01/04/solr-delay-component/
 // If you don't have to plugin the example still works, just without the delay.
 $customizer = $client->getPlugin('customizerequest');
 $customizer->createCustomization(
@@ -444,27 +445,33 @@ $customizer->createCustomization(
     )
 );
 
-// create two queries to execute in an array. Keys are important for fetching the results later!
-$queryInstock = $client->createSelect()->setQuery('inStock:true');
-$queryLowprice = $client->createSelect()->setQuery('price:[1 TO 300]');
+// create two queries to execute
+$queryInStock = $client->createSelect()->setQuery('inStock:true');
+$queryLowPrice = $client->createSelect()->setQuery('price:[1 TO 30]');
 
 // first execute the queries the normal way and time it
+echo '<h1>Serial execution</h1>';
 $start = microtime(true);
-$client->execute($queryInstock);
-$client->execute($queryLowprice);
-echo 'Execution time for normal "serial" execution of two queries: ' . round(microtime(true)-$start, 3);
-
+$resultInStock = $client->execute($queryInStock);
+$resultLowPrice = $client->execute($queryLowPrice);
+echo 'Execution time for normal "serial" execution of two queries: ' . round(microtime(true)-$start, 3) . ' s';
+echo '<hr/>';
+echo 'In stock: ' . $resultInStock->getNumFound() . '<br/>';
+echo 'Low price: ' . $resultLowPrice->getNumFound() . '<br/>';
 
 echo '<hr/>';
 
-
 // now execute the two queries parallel and time it
+echo '<h1>Parallel execution</h1>';
 $start = microtime(true);
-$parallel->addQuery('instock', $queryInstock);
-$parallel->addQuery('lowprice', $queryLowprice);
+// keys for each query are important for fetching the results later!
+$parallel->addQuery('instock', $queryInStock);
+$parallel->addQuery('lowprice', $queryLowPrice);
 $results = $parallel->execute();
-echo 'Execution time for parallel execution of two queries: ' . round(microtime(true)-$start, 3);
-
+echo 'Execution time for parallel execution of two queries: ' . round(microtime(true)-$start, 3) . ' s';
+echo '<hr/>';
+echo 'In stock: ' . $results['instock']->getNumFound() . '<br/>';
+echo 'Low price: ' . $results['lowprice']->getNumFound() . '<br/>';
 
 htmlFooter();
 
@@ -503,12 +510,7 @@ $client->getPlugin('postbigrequest');
 $query = $client->createSelect();
 
 // add a huge filterquery to create a very long query string
-// note: normally you would use a range for this, it's just an easy way to create a very big querystring as a test
-$fq = '';
-for ($i = 1; $i <= 1000; $i++) {
-    $fq .= ' OR price:'.$i;
-}
-$fq = substr($fq, 4);
+$fq = 'price:0 OR cat:'.str_repeat(implode('', range('a', 'z')), 1000);
 $query->createFilterQuery('fq')->setQuery($fq);
 
 // without the plugin this query would fail as it is bigger than the default servlet container header buffer
