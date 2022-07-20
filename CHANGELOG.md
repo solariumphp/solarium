@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [6.2.5]
 ### Added
 - Results and Documents implement [JsonSerializable](https://www.php.net/manual/en/class.jsonserializable)
 - ParallelExecution dispatches PreExecute, PreExecuteRequest, PostExecuteRequest, PostExecute events. It can be combined with plugins that hook into these events (e.g. PostBigRequest).
@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - Solarium\Client::VERSION
+
 
 ## [6.2.4] 
 ### Added
