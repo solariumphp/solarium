@@ -51,7 +51,7 @@ class Client extends CoreClient
 
     /**
      * Returns the version string.
-     * 
+     *
      * @return string
      */
     public static function getVersion(): string {
