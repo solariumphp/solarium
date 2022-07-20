@@ -45,7 +45,7 @@ class Client extends CoreClient
      *
      * @var string
      *
-     * @deprecated This class constant will be removed in solarium 6.3.0. UseClient::getVersion() instead.
+     * @deprecated This class constant will be removed in Solarium 6.3.0. Use Client::getVersion() instead.
      */
     const VERSION = DEPRECATED_CONSTANT_SOLARIUM_VERSION;
 
