@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Results and Documents implement [JsonSerializable](https://www.php.net/manual/en/class.jsonserializable)
 - ParallelExecution dispatches PreExecute, PreExecuteRequest, PostExecuteRequest, PostExecute events. It can be combined with plugins that hook into these events (e.g. PostBigRequest).
 - ParallelExecution support for Server queries
+- Solarium\Client::getVersion()
 
 ### Fixed
 - Adding nested child documents through `Document::setField()` and `Document::addField()`
@@ -21,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Solarium\QueryType\Update\Query\Document::setFilterControlCharacters(), extend Update\Query\Query to use a custom request builder & helper if you don't want control characters filtered
 
+### Deprecated
+- Solarium\Client::VERSION
 
 ## [6.2.4] 
 ### Added

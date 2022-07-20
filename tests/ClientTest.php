@@ -7,23 +7,31 @@ use Solarium\Client;
 
 class ClientTest extends TestCase
 {
-    public function testVersion()
+    public function testGetVersion()
     {
-        $version = Client::VERSION;
+        $version = Client::getVersion();
         $this->assertNotNull($version);
     }
 
     public function testCheckExact()
     {
         $this->assertTrue(
-            Client::checkExact(Client::VERSION)
+            Client::checkExact(Client::getVersion())
+        );
+    }
+
+    public function test76_5_4()
+    {
+        $this->assertTrue(
+            // 76.5.4 is the version tag we use within github actions.
+            Client::checkExact('76.5.4')
         );
     }
 
     public function testCheckExactPartial()
     {
         $this->assertTrue(
-            Client::checkExact(substr(Client::VERSION, 0, 1))
+            Client::checkExact(substr(Client::getVersion(), 0, 1))
         );
     }
 
@@ -44,13 +52,13 @@ class ClientTest extends TestCase
     public function testCheckMinimal()
     {
         $this->assertTrue(
-            Client::checkMinimal(Client::VERSION)
+            Client::checkMinimal(Client::getVersion())
         );
     }
 
     public function testCheckMinimalPartial()
     {
-        $version = substr(Client::VERSION, 0, 1);
+        $version = substr(Client::getVersion(), 0, 1);
 
         $this->assertTrue(
             Client::checkMinimal($version)
