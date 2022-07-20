@@ -35,6 +35,10 @@ jobs:
             - name: Checkout solarium
               uses: actions/checkout@v2
 
+            - name: Tag solarium version
+              run: |
+                git tag 76.5.4
+
             - name: Checkout solr 7.7
               if: matrix.solr == 7
               uses: actions/checkout@v2
