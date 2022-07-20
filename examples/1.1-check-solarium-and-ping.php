@@ -4,7 +4,7 @@ require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // check Solarium version available
-echo 'Solarium library version: ' . Solarium\Client::VERSION . ' - ';
+echo 'Solarium library version: ' . Solarium\Client::getVersion() . ' - ';
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);

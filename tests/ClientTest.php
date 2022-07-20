@@ -13,6 +13,14 @@ class ClientTest extends TestCase
         $this->assertNotNull($version);
     }
 
+    /**
+     * @deprecated The class constant will be removed in Solarium 6.3.0.
+     */
+    public function testVersionConstant()
+    {
+        $this->assertSame(Client::getVersion(), Client::VERSION);
+    }
+
     public function testCheckExact()
     {
         $this->assertTrue(
