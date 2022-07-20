@@ -79,6 +79,7 @@ jobs:
             - name: Install dependencies
               run: |
                 composer update
+                cat vendor/composer/installed.php
 
             - name: Run tests
               run: |
