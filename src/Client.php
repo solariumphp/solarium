@@ -54,7 +54,8 @@ class Client extends CoreClient
      *
      * @return string
      */
-    public static function getVersion(): string {
+    public static function getVersion(): string
+    {
         static $version;
 
         if (!$version) {
