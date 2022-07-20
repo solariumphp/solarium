@@ -20,6 +20,14 @@ class ClientTest extends TestCase
         );
     }
 
+    public function test76_5_4()
+    {
+        $this->assertTrue(
+            // 76.5.4 is the version tag we use within github actions.
+            Client::checkExact('76.5.4')
+        );
+    }
+
     public function testCheckExactPartial()
     {
         $this->assertTrue(
