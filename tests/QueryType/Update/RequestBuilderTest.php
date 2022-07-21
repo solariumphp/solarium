@@ -134,6 +134,23 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlMultivalueFieldWithEmptyArray()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => []]));
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="id">2</field>'.
+            '<field name="id">3</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithSingleNestedDocument()
     {
         $command = new AddCommand();

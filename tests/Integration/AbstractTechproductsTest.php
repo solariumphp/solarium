@@ -1279,7 +1279,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select = self::$client->createSelect();
         $select->setQuery('cat:solarium-test');
         $select->addSort('id', $select::SORT_ASC);
-        $select->setFields('id,name,price');
+        $select->setFields('id,name,price,content');
 
         // add, but don't commit
         $update = self::$client->createUpdate();
@@ -1288,11 +1288,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc1->setField('name', 'Solarium Test 1');
         $doc1->setField('cat', 'solarium-test');
         $doc1->setField('price', 3.14);
+        $doc1->setField('content', ['foo', 'bar']);
         $doc2 = $update->createDocument();
         $doc2->setField('id', 'solarium-test-2');
         $doc2->setField('name', 'Solarium Test 2');
         $doc2->setField('cat', 'solarium-test');
         $doc2->setField('price', 42.0);
+        $doc2->setField('content', []);
         $update->addDocuments([$doc1, $doc2]);
         self::$client->update($update);
         $result = self::$client->select($select);
@@ -1309,6 +1311,10 @@ abstract class AbstractTechproductsTest extends TestCase
             'id' => 'solarium-test-1',
             'name' => 'Solarium Test 1',
             'price' => 3.14,
+            'content' => [
+                'foo',
+                'bar',
+            ],
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([

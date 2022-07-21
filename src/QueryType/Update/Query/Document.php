@@ -228,7 +228,7 @@ class Document extends AbstractDocument
     /**
      * Set a field value.
      *
-     * If you supply NULL as the value the field will be removed
+     * If you supply NULL as the value and no modifier the field will be removed
      * If you supply an array of values a multivalue field will be created.
      * In all cases any existing (multi)value or child document(s) will be overwritten.
      *

@@ -269,7 +269,9 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         if (\is_array($value)) {
-            if (is_numeric(array_key_first($value))) {
+            if (empty($value)) {
+                return '';
+            } elseif (is_numeric(array_key_first($value))) {
                 $nestedXml = '';
 
                 foreach ($value as $multival) {
