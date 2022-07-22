@@ -9,24 +9,22 @@ use Solarium\Client;
 class ClientTest extends TestCase
 {
     /**
-     * The version tag we use for testing within github actions.
-     *
      * @var string
      */
-    protected static $versionTag = '76.5.4';
+    protected static $installedVersion;
 
     public static function setUpBeforeClass(): void
     {
-        $installedVersion = InstalledVersions::getPrettyVersion('solarium/solarium');
+        self::$installedVersion = InstalledVersions::getPrettyVersion('solarium/solarium');
 
         // @see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
         $semverRegex =
             '/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/'
         ;
 
-        if (!preg_match($semverRegex, $installedVersion)) {
-            self::assertSame($installedVersion, Client::getVersion());
-            self::markTestSkipped(sprintf('Testing on %s, skipping tests against version tag %s.', $installedVersion, self::$versionTag));
+        if (!preg_match($semverRegex, self::$installedVersion)) {
+            self::assertSame(self::$installedVersion, Client::getVersion());
+            self::markTestSkipped(sprintf('Skipping tests against non-semantic version string %s.', self::$installedVersion));
         }
 
         parent::setUpBeforeClass();
@@ -35,7 +33,7 @@ class ClientTest extends TestCase
     public function testGetVersion()
     {
         $this->assertSame(
-            self::$versionTag,
+            self::$installedVersion,
             Client::getVersion()
         );
     }
@@ -46,7 +44,7 @@ class ClientTest extends TestCase
     public function testVersionConstant()
     {
         $this->assertSame(
-            self::$versionTag,
+            self::$installedVersion,
             Client::VERSION
         );
     }
@@ -54,14 +52,14 @@ class ClientTest extends TestCase
     public function testCheckExact()
     {
         $this->assertTrue(
-            Client::checkExact(self::$versionTag)
+            Client::checkExact(self::$installedVersion)
         );
     }
 
     public function testCheckExactPartial()
     {
         $this->assertTrue(
-            Client::checkExact(substr(self::$versionTag, 0, 1))
+            Client::checkExact(substr(self::$installedVersion, 0, 1))
         );
     }
 
@@ -82,14 +80,14 @@ class ClientTest extends TestCase
     public function testCheckMinimal()
     {
         $this->assertTrue(
-            Client::checkMinimal(self::$versionTag)
+            Client::checkMinimal(self::$installedVersion)
         );
     }
 
     public function testCheckMinimalPartial()
     {
         $this->assertTrue(
-            Client::checkMinimal(substr(self::$versionTag, 0, 1))
+            Client::checkMinimal(substr(self::$installedVersion, 0, 1))
         );
     }
 
