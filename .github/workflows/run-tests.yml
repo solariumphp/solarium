@@ -75,6 +75,7 @@ jobs:
             - name: Install dependencies
               run: |
                 composer update
+                sed -i "s/'dev-.*'/'76.5.4'/g" vendor/composer/installed.php
 
             - name: Run tests
               run: |
