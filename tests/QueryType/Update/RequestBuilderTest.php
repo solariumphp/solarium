@@ -82,6 +82,18 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlWithEmptyValues()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => 1, 'empty_string' => '', 'array_of_empty_string' => [''], 'null' => NULL]));
+
+        // Empty values must be added to the document as empty fields, NULL values are skipped.
+        $this->assertSame(
+            '<add><doc><field name="id">1</field><field name="empty_string"></field><field name="array_of_empty_string"></field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithParams()
     {
         $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
