@@ -151,6 +151,22 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlWithEmptyStrings()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => '', 'text' => ['']]));
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id"></field>'.
+            '<field name="text"></field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithSingleNestedDocument()
     {
         $command = new AddCommand();
