@@ -11,6 +11,9 @@ use Solarium\Exception\HttpException;
 
 class HttpTest extends TestCase
 {
+    use TimeoutAwareTestTrait;
+    use ProxyAwareTestTrait;
+
     /**
      * @var Http
      */
@@ -84,6 +87,33 @@ class HttpTest extends TestCase
     }
 
     public function testCreateContextGetRequest()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_GET;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
+    public function testCreateContextHeadRequest()
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -236,7 +266,39 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextForDeleteRequest()
+    public function testCreateContextWithProxy()
+    {
+        $timeout = 13;
+        $proxy = 'proxy.example.org:3456';
+        $method = Request::METHOD_HEAD;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+        $this->adapter->setTimeout($timeout);
+        $this->adapter->setProxy($proxy);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                    'proxy' => $proxy,
+                    'request_fulluri' => true,
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
+    public function testCreateContextDeleteRequest()
     {
         $timeout = 22;
         $method = Request::METHOD_DELETE;

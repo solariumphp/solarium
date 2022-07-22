@@ -13,6 +13,10 @@ use Solarium\Exception\InvalidArgumentException;
 
 class CurlTest extends TestCase
 {
+    use TimeoutAwareTestTrait;
+    use ConnectionTimeoutAwareTestTrait;
+    use ProxyAwareTestTrait;
+
     /**
      * @var Curl
      */
@@ -25,6 +29,36 @@ class CurlTest extends TestCase
         }
 
         $this->adapter = new Curl();
+    }
+
+    public function testSetProxyConstructor()
+    {
+        $adapter = @new Curl(['proxy' => 'proxy.example.org:1234']);
+        $this->assertSame('proxy.example.org:1234', $adapter->getProxy());
+
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        new Curl(['proxy' => 'proxy.example.org:1234']);
+    }
+
+    public function testSetProxyConfigMode()
+    {
+        @$this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
+        $this->assertSame('proxy.example.org:5678', $this->adapter->getProxy());
+
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
+    }
+
+    public function testSetProxyOption()
+    {
+        @$this->adapter->setOption('proxy', 'proxy.example.org:9012');
+        $this->assertSame('proxy.example.org:9012', $this->adapter->getProxy());
+
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $this->adapter->setOption('proxy', 'proxy.example.org:9012');
     }
 
     public function testCheck()

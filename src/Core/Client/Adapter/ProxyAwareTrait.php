@@ -14,19 +14,19 @@ namespace Solarium\Core\Client\Adapter;
 /**
  * @internal
  */
-trait ConnectionTimeoutAwareTrait
+trait ProxyAwareTrait
 {
     /**
-     * @var int|null
+     * @var mixed|null
      */
-    private $connectionTimeout;
+    private $proxy;
 
     /**
      * {@inheritdoc}
      */
-    public function setConnectionTimeout(?int $timeoutInSeconds)
+    public function setProxy($proxy)
     {
-        $this->connectionTimeout = $timeoutInSeconds;
+        $this->proxy = $proxy;
 
         return $this;
     }
@@ -34,8 +34,8 @@ trait ConnectionTimeoutAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function getConnectionTimeout(): ?int
+    public function getProxy()
     {
-        return $this->connectionTimeout;
+        return $this->proxy;
     }
 }
