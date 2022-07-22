@@ -85,7 +85,7 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlWithEmptyValues()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(['id' => 1, 'empty_string' => '', 'array_of_empty_string' => [''], 'null' => NULL]));
+        $command->addDocument(new Document(['id' => 1, 'empty_string' => '', 'array_of_empty_string' => [''], 'null' => null]));
 
         // Empty values must be added to the document as empty fields, NULL values are skipped.
         $this->assertSame(
