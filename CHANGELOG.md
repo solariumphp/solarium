@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Fixed
+- An empty array for a multiValued field was wrongly interpreted as an empty child document by the Update request builder in 6.2.5
 
 ### Changed
 

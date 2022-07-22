@@ -85,11 +85,11 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlWithEmptyValues()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(['id' => 1, 'empty_string' => '', 'array_of_empty_string' => [''], 'null' => null]));
+        $command->addDocument(new Document(['id' => 0, 'empty_string' => '', 'array_of_empty_string' => [''], 'null' => null]));
 
         // Empty values must be added to the document as empty fields, NULL values are skipped.
         $this->assertSame(
-            '<add><doc><field name="id">1</field><field name="empty_string"></field><field name="array_of_empty_string"></field></doc></add>',
+            '<add><doc><field name="id">0</field><field name="empty_string"></field><field name="array_of_empty_string"></field></doc></add>',
             $this->builder->buildAddXml($command)
         );
     }
@@ -140,6 +140,39 @@ class RequestBuilderTest extends TestCase
             '<field name="id">3</field>'.
             '<field name="text">test &lt; 123   test</field>'.
             '<field name="text">test   123 &gt; test</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlMultivalueFieldWithEmptyArray()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => []]));
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="id">2</field>'.
+            '<field name="id">3</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    public function testBuildAddXmlWithEmptyStrings()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => '', 'text' => ['']]));
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id"></field>'.
+            '<field name="text"></field>'.
             '</doc>'.
             '</add>',
             $this->builder->buildAddXml($command)

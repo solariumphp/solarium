@@ -128,7 +128,7 @@ htmlFooter();
 
 ### Multivalue fields
 
-If you set field values by property, array entry or by using the `setField` method you need to supply an array of values for a multivalue field. Any existing field values will be overwritten.
+If you set field values by property, array entry or by using the `setField` method you need to supply a *numerically indexed* array of values for a multivalue field. Any existing field values will be overwritten.
 
 If you want to add an extra value to an existing field, without overwriting, you should use the `addField` method. If you use this method on a field with a single value it will automatically be converted into a multivalue field, preserving the current value. You will need to call this method once for each value you want to add, it doesn't support arrays. You can also use this method for creating a new field, so you don't need to use a special method for the first field value.
 

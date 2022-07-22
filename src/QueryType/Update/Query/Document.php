@@ -157,7 +157,7 @@ class Document extends AbstractDocument
      * object, by field name.
      *
      * If you supply NULL as the value the field will be removed
-     * If you supply an array of values a multivalue field will be created.
+     * If you supply a numerically indexed array of values a multivalue field will be created.
      * In all cases any existing (multi)value or child document(s) will be overwritten.
      *
      * @param string $name
@@ -228,8 +228,8 @@ class Document extends AbstractDocument
     /**
      * Set a field value.
      *
-     * If you supply NULL as the value the field will be removed
-     * If you supply an array of values a multivalue field will be created.
+     * If you supply NULL as the value and no modifier the field will be removed
+     * If you supply a numerically indexed array of values a multivalue field will be created.
      * In all cases any existing (multi)value or child document(s) will be overwritten.
      *
      * @param string      $key
