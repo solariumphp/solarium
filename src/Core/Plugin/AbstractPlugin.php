@@ -27,7 +27,7 @@ abstract class AbstractPlugin extends Configurable implements PluginInterface
     /**
      * Initialize.
      *
-     * This method is called when the plugin is registered to a client instance
+     * This method is called when the plugin is registered to a client instance.
      *
      * @param ClientInterface $client
      * @param array           $options
@@ -47,6 +47,16 @@ abstract class AbstractPlugin extends Configurable implements PluginInterface
      * Will be called as soon as $this->client and options have been set.
      */
     protected function initPluginType()
+    {
+    }
+
+    /**
+     * Plugin cleanup function.
+     *
+     * This is an extension point for plugin implementations.
+     * This method is called if the plugin is removed from a client instance.
+     */
+    public function deinitPlugin()
     {
     }
 }

@@ -23,6 +23,14 @@ class ParallelExecutionTest extends TestCase
         $this->plugin = new ParallelExecution();
     }
 
+    public function testInitPlugin()
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('parallelexecution');
+
+        $this->assertInstanceOf(ParallelExecution::class, $plugin);
+    }
+
     public function testInitPluginTypeKeepsCurlAdapter()
     {
         $client = TestClientFactory::createWithCurlAdapter();

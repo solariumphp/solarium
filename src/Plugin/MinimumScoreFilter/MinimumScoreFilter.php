@@ -26,7 +26,7 @@ class MinimumScoreFilter extends AbstractPlugin
     /**
      * Plugin init function.
      *
-     * Register event listeners
+     * Register query type.
      */
     protected function initPluginType()
     {

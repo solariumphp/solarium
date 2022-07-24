@@ -713,12 +713,14 @@ class Client extends Configurable implements ClientInterface
         if (\is_object($plugin)) {
             foreach ($this->pluginInstances as $key => $instance) {
                 if ($instance === $plugin) {
+                    $plugin->deinitPlugin();
                     unset($this->pluginInstances[$key]);
                     break;
                 }
             }
         } else {
             if (isset($this->pluginInstances[$plugin])) {
+                $this->pluginInstances[$plugin]->deinitPlugin();
                 unset($this->pluginInstances[$plugin]);
             }
         }

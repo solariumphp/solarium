@@ -13,7 +13,7 @@ use Solarium\Core\Query\QueryInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * PostCreateQuery event, see Events for details.
+ * PostCreateQuery event, see {@see Events} for details.
  */
 class PostCreateQuery extends Event
 {

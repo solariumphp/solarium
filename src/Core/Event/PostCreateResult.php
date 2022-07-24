@@ -15,7 +15,7 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * PostCreateResult event, see Events for details.
+ * PostCreateResult event, see {@see Events} for details.
  */
 class PostCreateResult extends Event
 {

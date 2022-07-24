@@ -3,7 +3,9 @@
 namespace Solarium\Tests\Plugin\CustomizeRequest;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
@@ -64,6 +66,43 @@ class CustomizeRequestTest extends TestCase
         $this->assertSame('1234', $id->getValue());
         $this->assertFalse($id->getPersistent());
         $this->assertFalse($id->getOverwrite());
+    }
+
+    public function testInitPlugin(): Client
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('customizerequest');
+
+        $this->assertInstanceOf(CustomizeRequest::class, $plugin);
+
+        $expectedListeners = [
+            Events::POST_CREATE_REQUEST => [
+                [
+                    $plugin,
+                    'postCreateRequest',
+                ],
+            ],
+        ];
+
+        $this->assertSame(
+            $expectedListeners,
+            $client->getEventDispatcher()->getListeners()
+        );
+
+        return $client;
+    }
+
+    /**
+     * @depends testInitPlugin
+     */
+    public function testDeinitPlugin(Client $client)
+    {
+        $client->removePlugin('customizerequest');
+
+        $this->assertSame(
+            [],
+            $client->getEventDispatcher()->getListeners()
+        );
     }
 
     public function testPluginIntegration()

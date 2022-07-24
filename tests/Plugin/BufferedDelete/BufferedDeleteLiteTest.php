@@ -36,6 +36,14 @@ class BufferedDeleteLiteTest extends TestCase
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
+    public function testInitPlugin()
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('buffereddeletelite');
+
+        $this->assertInstanceOf(BufferedDeleteLite::class, $plugin);
+    }
+
     public function testSetAndGetBufferSize()
     {
         $this->plugin->setBufferSize(500);

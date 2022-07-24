@@ -458,7 +458,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testRemovePluginAndGetPluginsWithObjectInput()
+    public function testDeinitPluginAndGetPluginsWithObjectInput()
     {
         $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);

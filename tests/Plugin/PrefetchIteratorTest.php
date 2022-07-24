@@ -48,6 +48,14 @@ class PrefetchIteratorTest extends TestCase
         ];
     }
 
+    public function testInitPlugin()
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('prefetchiterator');
+
+        $this->assertInstanceOf(PrefetchIterator::class, $plugin);
+    }
+
     public function testSetAndGetPrefetch()
     {
         $this->plugin->setPrefetch(120);
