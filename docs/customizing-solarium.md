@@ -164,7 +164,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         $this->timer('postCreateRequest');
     }
 
-    // This method uses the aviable param(s) (see plugin abstract class).
+    // This method uses the available param(s) (see plugin abstract class).
     // You can access or modify data this way.
     public function preExecuteRequest($event)
     {
