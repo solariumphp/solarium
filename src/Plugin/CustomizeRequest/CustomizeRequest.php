@@ -252,13 +252,26 @@ class CustomizeRequest extends AbstractPlugin
     /**
      * Plugin init function.
      *
-     * Register event listeners
+     * Register event listeners.
      */
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
             $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        }
+    }
+
+    /**
+     * Plugin cleanup function.
+     *
+     * Unregister event listeners.
+     */
+    public function deinitPlugin()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+            $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
         }
     }
 }

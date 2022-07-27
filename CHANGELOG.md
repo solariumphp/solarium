@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Proxy support for Http adapter with Core\Client\Adapter\Http::setProxy()
 
 ### Fixed
+- Plugins unregister event listeners when removed with Client::removePlugin()
 
 ### Changed
 

@@ -12,7 +12,7 @@ namespace Solarium\Plugin\ParallelExecution\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * ExecuteEnd event, see Events for details.
+ * ExecuteEnd event, see {@see Events} for details.
  */
 class ExecuteEnd extends Event
 {

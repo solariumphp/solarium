@@ -32,6 +32,9 @@ use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
 use Solarium\Plugin\BufferedDelete\Event\AddDeleteById as BufferedDeleteAddDeleteByIdEvent;
 use Solarium\Plugin\BufferedDelete\Event\AddDeleteQuery as BufferedDeleteAddDeleteQueryEvent;
 use Solarium\Plugin\BufferedDelete\Event\Events as BufferedDeleteEvents;
+use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as LoadbalancerEndpointFailureEvent;
+use Solarium\Plugin\Loadbalancer\Event\Events as LoadbalancerEvents;
+use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\ManagedResources\Query\AbstractQuery as AbstractManagedResourceQuery;
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd as AbstractAddCommand;
@@ -2522,6 +2525,7 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_FLUSH, $postFlush);
         self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_COMMIT, $preCommit);
         self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_COMMIT, $postCommit);
+        self::$client->removePlugin('bufferedadd');
     }
 
     /**
@@ -2596,6 +2600,7 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $addDeleteQuery);
         $buffer->addDeleteQuery('cat:solarium-bufferedadd');
         $buffer->commit(null, true, true);
+        self::$client->removePlugin('buffereddelete');
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
     }
@@ -2704,6 +2709,8 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $addDeleteQuery);
         $delBuffer->addDeleteQuery('cat:solarium-bufferedadd');
         $delBuffer->commit(null, true, true);
+        self::$client->removePlugin('bufferedadd');
+        self::$client->removePlugin('buffereddelete');
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
     }
@@ -2787,6 +2794,7 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_FLUSH, $failListener);
         self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_COMMIT, $failListener);
         self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_COMMIT, $failListener);
+        self::$client->removePlugin('bufferedaddlite');
 
         return $totalDocs;
     }
@@ -2835,6 +2843,43 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::POST_FLUSH, $failListener);
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
+        self::$client->removePlugin('buffereddeletelite');
+    }
+
+    public function testLoadbalancerFailover()
+    {
+        $invalidEndpointConfig = self::$config['endpoint']['localhost'];
+        $invalidEndpointConfig['host'] = 'server.invalid';
+        $invalidEndpointConfig['key'] = 'invalid';
+        $invalidEndpoint = self::$client->createEndpoint($invalidEndpointConfig);
+
+        /** @var Loadbalancer $loadbalancer */
+        $loadbalancer = self::$client->getPlugin('loadbalancer');
+        $loadbalancer->setFailoverEnabled(true);
+        $loadbalancer->addEndpoint('invalid');
+        $loadbalancer->addEndpoint('localhost');
+        $loadbalancer->setForcedEndpointForNextQuery('invalid');
+
+        $invalidEndpointListenerCalled = 0;
+        self::$client->getEventDispatcher()->addListener(
+            LoadbalancerEvents::ENDPOINT_FAILURE,
+            $invalidEndpointListener = function (LoadbalancerEndpointFailureEvent $event) use (&$invalidEndpoint, &$invalidEndpointListenerCalled) {
+                ++$invalidEndpointListenerCalled;
+                $this->assertSame($invalidEndpoint, $event->getEndpoint());
+            }
+        );
+
+        $query = self::$client->createPing();
+        $result = self::$client->ping($query);
+
+        $this->assertSame(0, $result->getStatus());
+        $this->assertSame(1, $invalidEndpointListenerCalled);
+        $this->assertSame('localhost', $loadbalancer->getLastEndpoint());
+
+        // cleanup
+        self::$client->getEventDispatcher()->removeListener(LoadbalancerEvents::ENDPOINT_FAILURE, $invalidEndpointListener);
+        self::$client->removePlugin('loadbalancer');
+        self::$client->removeEndpoint('invalid');
     }
 
     public function testParallelExecution()
@@ -2945,6 +2990,7 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE, $overrideResult);
         self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE_REQUEST, $overrideResponse);
         self::$client->removePlugin('parallelexecution');
+        self::$client->removePlugin('postbigrequest');
     }
 
     public function testPrefetchIterator()
@@ -2965,6 +3011,8 @@ abstract class AbstractTechproductsTest extends TestCase
             $this->assertLessThan(0, strcmp($id, $id = $prefetch->current()->id));
         }
         $this->assertSame(32, $i);
+
+        self::$client->removePlugin('prefetchiterator');
     }
 
     public function testPrefetchIteratorWithCursorMark()
@@ -2986,6 +3034,8 @@ abstract class AbstractTechproductsTest extends TestCase
             $this->assertLessThan(0, strcmp($id, $id = $prefetch->current()->id));
         }
         $this->assertSame(32, $i);
+
+        self::$client->removePlugin('prefetchiterator');
     }
 
     public function testPrefetchIteratorWithoutAndWithCursorMark()
@@ -3013,6 +3063,8 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         $this->assertSame($without, $with);
+
+        self::$client->removePlugin('prefetchiterator');
     }
 
     public function testPrefetchIteratorManualRewind()
@@ -3051,6 +3103,8 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $prefetch->key());
         // current document is once again the one with lowest alphabetical id in techproducts
         $this->assertSame('0579B002', $prefetch->current()->id);
+
+        self::$client->removePlugin('prefetchiterator');
     }
 
     /**
@@ -3358,32 +3412,16 @@ abstract class AbstractTechproductsTest extends TestCase
     }
 
     /**
-     * @testWith [false]
-     *           [true]
+     * We don't test this with PostBigExtractRequest because we can't remove the plugin after an Exception.
      */
-    public function testExtractInvalidFile(bool $usePostBigExtractRequestPlugin)
+    public function testExtractInvalidFile()
     {
-        if ($usePostBigExtractRequestPlugin) {
-            $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
-            // make sure the GET parameters will be converted to POST
-            $postBigExtractRequest->setMaxQueryStringLength(1);
-
-            $this->assertArrayHasKey('postbigextractrequest', self::$client->getPlugins());
-        } else {
-            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
-        }
-
         $extract = self::$client->createExtract();
         $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
         self::$client->extract($extract);
-
-        if ($usePostBigExtractRequestPlugin) {
-            self::$client->removePlugin('postbigextractrequest');
-            $this->assertArrayNotHasKey('postbigextractrequest', self::$client->getPlugins());
-        }
     }
 
     public function testV2Api()

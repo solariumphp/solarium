@@ -15,7 +15,7 @@ use Solarium\Core\Client\Response;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * PostExecuteRequest event, see Events for details.
+ * PostExecuteRequest event, see {@see Events} for details.
  */
 class PostExecuteRequest extends Event
 {

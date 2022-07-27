@@ -121,11 +121,22 @@ class PostBigExtractRequest extends AbstractPlugin
     /**
      * Plugin init function.
      *
-     * Register event listeners
+     * Register event listeners.
      */
     protected function initPluginType()
     {
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+    }
+
+    /**
+     * Plugin cleanup function.
+     *
+     * Unregister event listeners.
+     */
+    public function deinitPlugin()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
     }
 }

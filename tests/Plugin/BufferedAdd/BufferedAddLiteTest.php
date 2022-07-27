@@ -33,6 +33,14 @@ class BufferedAddLiteTest extends TestCase
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
+    public function testInitPlugin()
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('bufferedaddlite');
+
+        $this->assertInstanceOf(BufferedAddLite::class, $plugin);
+    }
+
     public function testSetAndGetBufferSize()
     {
         $this->plugin->setBufferSize(500);

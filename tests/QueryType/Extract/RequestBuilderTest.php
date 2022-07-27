@@ -70,6 +70,19 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testGetUriWithInputEncoding()
+    {
+        $query = $this->query;
+        $query->setInputEncoding('iso-8859-1');
+        $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Integration'.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'test iso-8859-1 ¡¢£¤¥¦§¨©ª«¬.xml');
+        $request = $this->builder->build($this->query);
+        $this->assertSame(
+            'update/extract?omitHeader=true&ie=iso-8859-1&param1=value1&wt=json&json.nl=flat&extractOnly=false&fmap.from-field=to-field'.
+            '&resource.name=test+iso-8859-1+%A1%A2%A3%A4%A5%A6%A7%A8%A9%AA%AB%AC.xml',
+            $request->getUri()
+        );
+    }
+
     public function testGetUriWithStreamUrl()
     {
         $query = $this->query;

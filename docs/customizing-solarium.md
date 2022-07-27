@@ -109,6 +109,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
     protected $start;
     protected $output = array();
 
+    // This method is called when the plugin is registered with the client.
     protected function initPluginType()
     {
         $this->start = microtime(true);
@@ -124,6 +125,22 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         $dispatcher->addListener(Events::POST_EXECUTE, array($this, 'postExecute'));
         $dispatcher->addListener(Events::PRE_CREATE_QUERY, array($this, 'preCreateQuery'));
         $dispatcher->addListener(Events::POST_CREATE_QUERY, array($this, 'postCreateQuery'));
+    }
+
+    // This method is called if the plugin is removed from the client.
+    public function deinitPlugin()
+    {
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
+        $dispatcher->removeListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
+        $dispatcher->removeListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
+        $dispatcher->removeListener(Events::POST_EXECUTE_REQUEST, array($this, 'postExecuteRequest'));
+        $dispatcher->removeListener(Events::PRE_CREATE_RESULT, array($this, 'preCreateResult'));
+        $dispatcher->removeListener(Events::POST_CREATE_RESULT, array($this, 'postCreateResult'));
+        $dispatcher->removeListener(Events::PRE_EXECUTE, array($this, 'preExecute'));
+        $dispatcher->removeListener(Events::POST_EXECUTE, array($this, 'postExecute'));
+        $dispatcher->removeListener(Events::PRE_CREATE_QUERY, array($this, 'preCreateQuery'));
+        $dispatcher->removeListener(Events::POST_CREATE_QUERY, array($this, 'postCreateQuery'));
     }
 
     protected function timer($event)
@@ -147,8 +164,8 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         $this->timer('postCreateRequest');
     }
 
-    // This method uses the aviable param(s) (see plugin abstract class)
-    // You can access or modify data this way
+    // This method uses the available param(s) (see plugin abstract class).
+    // You can access or modify data this way.
     public function preExecuteRequest($event)
     {
         $this->timer('preExecuteRequest');
