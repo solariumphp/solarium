@@ -5,6 +5,7 @@ namespace Solarium\Tests\Plugin\BufferedAdd;
 use Solarium\Plugin\BufferedAdd\BufferedAdd;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument;
 use Solarium\QueryType\Update\Query\Document;
+use Solarium\Tests\Integration\TestClientFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BufferedAddTest extends BufferedAddLiteTest
@@ -18,6 +19,14 @@ class BufferedAddTest extends BufferedAddLiteTest
      * @var BufferedAdd
      */
     protected $plugin;
+
+    public function testInitPlugin()
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('bufferedadd');
+
+        $this->assertInstanceOf(BufferedAdd::class, $plugin);
+    }
 
     public function testAddDocumentEventIsTriggered()
     {

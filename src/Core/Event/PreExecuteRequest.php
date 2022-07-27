@@ -15,7 +15,7 @@ use Solarium\Core\Client\Response;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * PreExecuteRequest event, see Events for details.
+ * PreExecuteRequest event, see {@see Events} for details.
  */
 class PreExecuteRequest extends Event
 {

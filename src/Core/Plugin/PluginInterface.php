@@ -20,10 +20,17 @@ interface PluginInterface extends ConfigurableInterface
     /**
      * Initialize.
      *
-     * This method is called when the plugin is registered to a client instance
+     * This method is called when the plugin is registered to a client instance.
      *
      * @param ClientInterface $client
      * @param array           $options
      */
     public function initPlugin(ClientInterface $client, array $options);
+
+    /**
+     * Cleanup.
+     *
+     * This method is called if the plugin is removed from a client instance.
+     */
+    public function deinitPlugin();
 }

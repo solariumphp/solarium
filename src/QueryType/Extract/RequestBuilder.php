@@ -78,8 +78,12 @@ class RequestBuilder extends BaseRequestBuilder
             $request->addParam('stream.url', $file);
             $request->setMethod(Request::METHOD_GET);
         } elseif (is_readable($file)) {
+            $resourceName = basename($query->getFile());
+            if (0 !== strcasecmp('UTF-8', $charset = $request->getParam('ie') ?? 'UTF-8')) {
+                $resourceName = iconv('UTF-8', $charset, $resourceName);
+            }
             $request->setFileUpload($file);
-            $request->addParam('resource.name', basename($query->getFile()));
+            $request->addParam('resource.name', $resourceName);
             $request->addHeader('Content-Type: multipart/form-data; boundary='.$request->getHash());
         } else {
             throw new RuntimeException(sprintf('Extract query file path/url invalid or not available: %s', $file));

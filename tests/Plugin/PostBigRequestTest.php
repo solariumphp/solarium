@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Plugin\PostBigRequest;
 use Solarium\QueryType\Select\Query\Query;
@@ -34,6 +35,43 @@ class PostBigRequestTest extends TestCase
 
         $this->client = TestClientFactory::createWithCurlAdapter();
         $this->query = $this->client->createSelect();
+    }
+
+    public function testInitPlugin(): Client
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('postbigrequest');
+
+        $this->assertInstanceOf(PostBigRequest::class, $plugin);
+
+        $expectedListeners = [
+            Events::PRE_EXECUTE_REQUEST => [
+                [
+                    $plugin,
+                    'preExecuteRequest',
+                ],
+            ],
+        ];
+
+        $this->assertSame(
+            $expectedListeners,
+            $client->getEventDispatcher()->getListeners()
+        );
+
+        return $client;
+    }
+
+    /**
+     * @depends testInitPlugin
+     */
+    public function testDeinitPlugin(Client $client)
+    {
+        $client->removePlugin('postbigrequest');
+
+        $this->assertSame(
+            [],
+            $client->getEventDispatcher()->getListeners()
+        );
     }
 
     public function testSetAndGetMaxQueryStringLength()

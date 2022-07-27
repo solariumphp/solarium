@@ -9,6 +9,7 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
+use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreCreateRequest as PreCreateRequestEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Exception\HttpException;
@@ -76,6 +77,49 @@ class LoadbalancerTest extends TestCase
         $this->assertSame(
             [Client::QUERY_UPDATE, Client::QUERY_MORELIKETHIS],
             $this->plugin->getBlockedQueryTypes()
+        );
+    }
+
+    public function testInitPlugin(): Client
+    {
+        $client = TestClientFactory::createWithCurlAdapter();
+        $plugin = $client->getPlugin('loadbalancer');
+
+        $this->assertInstanceOf(Loadbalancer::class, $plugin);
+
+        $expectedListeners = [
+            Events::PRE_EXECUTE_REQUEST => [
+                [
+                    $plugin,
+                    'preExecuteRequest',
+                ],
+            ],
+            Events::PRE_CREATE_REQUEST => [
+                [
+                    $plugin,
+                    'preCreateRequest',
+                ],
+            ],
+        ];
+
+        $this->assertSame(
+            $expectedListeners,
+            $client->getEventDispatcher()->getListeners()
+        );
+
+        return $client;
+    }
+
+    /**
+     * @depends testInitPlugin
+     */
+    public function testDeinitPlugin(Client $client)
+    {
+        $client->removePlugin('loadbalancer');
+
+        $this->assertSame(
+            [],
+            $client->getEventDispatcher()->getListeners()
         );
     }
 

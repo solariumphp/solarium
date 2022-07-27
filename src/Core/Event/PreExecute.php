@@ -14,7 +14,7 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * PreExecute event, see Events for details.
+ * PreExecute event, see {@see Events} for details.
  */
 class PreExecute extends Event
 {

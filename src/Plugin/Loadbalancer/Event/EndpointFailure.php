@@ -14,7 +14,7 @@ use Solarium\Exception\HttpException;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * EndpointFailure event, see Events for details.
+ * EndpointFailure event, see {@see Events} for details.
  */
 class EndpointFailure extends Event
 {

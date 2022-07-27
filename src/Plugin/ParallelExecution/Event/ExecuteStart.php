@@ -12,7 +12,7 @@ namespace Solarium\Plugin\ParallelExecution\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * ExecuteStart event, see Events for details.
+ * ExecuteStart event, see {@see Events} for details.
  */
 class ExecuteStart extends Event
 {
