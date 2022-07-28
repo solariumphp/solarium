@@ -3553,7 +3553,6 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testManagedStopwords()
     {
-        /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
         $query->setName('english');
         $term = 'managed_stopword_test';
@@ -3625,7 +3624,6 @@ abstract class AbstractTechproductsTest extends TestCase
             $name = str_replace([':', '/', '?'], '', $name);
         }
 
-        /** @var StopwordsQuery $query */
         $query = self::$client->createManagedStopwords();
         $query->setName($name.uniqid());
 
@@ -3703,7 +3701,6 @@ abstract class AbstractTechproductsTest extends TestCase
 
     public function testManagedSynonyms()
     {
-        /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName('english');
         $term = 'managed_synonyms_test';
@@ -3792,7 +3789,6 @@ abstract class AbstractTechproductsTest extends TestCase
             $name = str_replace([':', '/', '?'], '', $name);
         }
 
-        /** @var SynonymsQuery $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName($name.uniqid());
 
