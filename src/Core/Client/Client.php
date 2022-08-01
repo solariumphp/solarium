@@ -45,9 +45,9 @@ use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
 use Solarium\QueryType\Graph\Query as GraphQuery;
-use Solarium\QueryType\ManagedResources\Query\Resources;
-use Solarium\QueryType\ManagedResources\Query\Stopwords;
-use Solarium\QueryType\ManagedResources\Query\Synonyms;
+use Solarium\QueryType\ManagedResources\Query\Resources as ManagedResourcesQuery;
+use Solarium\QueryType\ManagedResources\Query\Stopwords as ManagedStopwordsQuery;
+use Solarium\QueryType\ManagedResources\Query\Synonyms as ManagedSynonymsQuery;
 use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
 use Solarium\QueryType\MoreLikeThis\Result as MoreLikeThisResult;
 use Solarium\QueryType\Ping\Query as PingQuery;
@@ -223,9 +223,9 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_COLLECTIONS => CollectionsQuery::class,
         self::QUERY_CONFIGSETS => ConfigsetsQuery::class,
         self::QUERY_API => ApiQuery::class,
-        self::QUERY_MANAGED_RESOURCES => Resources::class,
-        self::QUERY_MANAGED_STOPWORDS => Stopwords::class,
-        self::QUERY_MANAGED_SYNONYMS => Synonyms::class,
+        self::QUERY_MANAGED_RESOURCES => ManagedResourcesQuery::class,
+        self::QUERY_MANAGED_STOPWORDS => ManagedStopwordsQuery::class,
+        self::QUERY_MANAGED_SYNONYMS => ManagedSynonymsQuery::class,
     ];
 
     /**
@@ -1245,7 +1245,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Stream\Query
      */
-    public function createStream(array $options = null)
+    public function createStream(array $options = null): StreamQuery
     {
         // Streaming expressions tend to be very long. Therfore we use the 'postbigrequest' plugin. The plugin needs to
         // be loaded before the request is created.
@@ -1261,7 +1261,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Graph\Query
      */
-    public function createGraph(array $options = null)
+    public function createGraph(array $options = null): GraphQuery
     {
         // Streaming expressions tend to be very long. Therfore we use the 'postbigrequest' plugin. The plugin needs to
         // be loaded before the request is created.
@@ -1337,7 +1337,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Resources
      */
-    public function createManagedResources(array $options = null)
+    public function createManagedResources(array $options = null): ManagedResourcesQuery
     {
         return $this->createQuery(self::QUERY_MANAGED_RESOURCES, $options);
     }
@@ -1349,7 +1349,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Stopwords
      */
-    public function createManagedStopwords(array $options = null)
+    public function createManagedStopwords(array $options = null): ManagedStopwordsQuery
     {
         return $this->createQuery(self::QUERY_MANAGED_STOPWORDS, $options);
     }
@@ -1361,7 +1361,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Synonyms
      */
-    public function createManagedSynonyms(array $options = null)
+    public function createManagedSynonyms(array $options = null): ManagedSynonymsQuery
     {
         return $this->createQuery(self::QUERY_MANAGED_SYNONYMS, $options);
     }
