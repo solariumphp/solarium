@@ -153,6 +153,28 @@ class CurlTest extends TestCase
         ];
     }
 
+    public function testCreateHandleForPostRequestWithFileUpload()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
+        file_put_contents($tmpfname, 'Test file contents');
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setFileUpload($tmpfname);
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+
+        $handle = $this->adapter->createHandle($request, $endpoint);
+
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handle);
+        } else {
+            $this->assertIsResource($handle);
+        }
+
+        curl_close($handle);
+    }
+
     public function testCreateHandleWithUnknownMethod()
     {
         $request = new Request();

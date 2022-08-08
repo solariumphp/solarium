@@ -140,39 +140,6 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithHeaders()
-    {
-        $timeout = 13;
-        $method = Request::METHOD_HEAD;
-        $header1 = 'X-MyHeader-1: dummyvalue 1';
-        $header2 = 'X-MyHeader-2: dummyvalue 2';
-
-        $request = new Request();
-        $request->setMethod($method);
-        $request->setContentType(Request::CONTENT_TYPE_TEXT_PLAIN);
-        $request->addHeader($header1);
-        $request->addHeader($header2);
-        $request->setIsServerRequest(true);
-        $endpoint = new Endpoint();
-        $this->adapter->setTimeout($timeout);
-
-        $context = $this->adapter->createContext($request, $endpoint);
-
-        $this->assertSame(
-            [
-                'http' => [
-                    'method' => $method,
-                    'timeout' => $timeout,
-                    'protocol_version' => 1.0,
-                    'user_agent' => 'Solarium Http Adapter',
-                    'ignore_errors' => true,
-                    'header' => $header1."\r\n".$header2."\r\n".'Content-Type: text/plain; charset=utf-8',
-                ],
-            ],
-            stream_context_get_options($context)
-        );
-    }
-
     public function testCreateContextPostRequest()
     {
         $timeout = 13;
@@ -273,6 +240,66 @@ class HttpTest extends TestCase
         );
     }
 
+    public function testCreateContextDeleteRequest()
+    {
+        $timeout = 22;
+        $method = Request::METHOD_DELETE;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
+    public function testCreateContextWithHeaders()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_HEAD;
+        $header1 = 'X-MyHeader-1: dummyvalue 1';
+        $header2 = 'X-MyHeader-2: dummyvalue 2';
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setContentType(Request::CONTENT_TYPE_TEXT_PLAIN);
+        $request->addHeader($header1);
+        $request->addHeader($header2);
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                    'header' => $header1."\r\n".$header2."\r\n".'Content-Type: text/plain; charset=utf-8',
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
     public function testCreateContextWithAuthorization()
     {
         $timeout = 13;
@@ -329,33 +356,6 @@ class HttpTest extends TestCase
                     'ignore_errors' => true,
                     'proxy' => $proxy,
                     'request_fulluri' => true,
-                ],
-            ],
-            stream_context_get_options($context)
-        );
-    }
-
-    public function testCreateContextDeleteRequest()
-    {
-        $timeout = 22;
-        $method = Request::METHOD_DELETE;
-
-        $request = new Request();
-        $request->setMethod($method);
-        $request->setIsServerRequest(true);
-        $endpoint = new Endpoint();
-        $this->adapter->setTimeout($timeout);
-
-        $context = $this->adapter->createContext($request, $endpoint);
-
-        $this->assertSame(
-            [
-                'http' => [
-                    'method' => $method,
-                    'timeout' => $timeout,
-                    'protocol_version' => 1.0,
-                    'user_agent' => 'Solarium Http Adapter',
-                    'ignore_errors' => true,
                 ],
             ],
             stream_context_get_options($context)
