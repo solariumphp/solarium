@@ -12,7 +12,7 @@ namespace Solarium\QueryType\Server\Query;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
- * Collections result object.
+ * Abstract Server result object.
  */
 abstract class AbstractResult extends BaseResult
 {

@@ -92,7 +92,26 @@ htmlFooter();
 
 ### Proxy support
 
-The cURL adapter supports the use of a proxy. Use the adapter option `proxy` to enable this.
+The cURL adapter supports the use of a proxy. Use `$adapter->setProxy($proxy)` to enable this, where `$proxy` can be any string that is understood by libcurl's [CURLOPT_PROXY](https://curl.se/libcurl/c/CURLOPT_PROXY.html) option.
+
+### Customization
+
+You can extend the cURL adapter and override the `createHandle()` method to set additional options you require for the cURL transfer.
+
+```php
+class MyAdapter extends Solarium\Core\Client\Adapter\Curl
+{
+    public function createHandle($request, $endpoint)
+    {
+        $handle = parent::createHandle($request, $endpoint);
+
+        // add your own options to the cURL handle
+        curl_setopt($handle, CURLOPT_USERAGENT, 'My Application');
+
+        return $handle;
+    }
+}
+```
 
 HTTP adapter
 ------------
@@ -113,6 +132,29 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 htmlFooter();
 
+```
+
+### Proxy support
+
+The HTTP adapter supports the use of a proxy. Use `$adapter->setProxy($proxy)` to enable this, where `$proxy` can be any string that is understood as a HTTP context [proxy](https://www.php.net/manual/en/context.http.php#context.http.proxy) option.
+
+### Customization
+
+You can extend the HTTP adapter and override the `createContext()` method to set additional options you require for the stream.
+
+```php
+class MyAdapter extends Solarium\Core\Client\Adapter\Http
+{
+    public function createContext($request, $endpoint)
+    {
+        $context = parent::createContext($request, $endpoint);
+
+        // add your own options to the context
+        stream_context_set_option($context, 'http', 'user_agent', 'My Application');
+
+        return $context;
+    }
+}
 ```
 
 PSR-18 adapter
@@ -176,6 +218,10 @@ $client = new Client($adapter, new EventDispatcher, $config);
 **Note:** If you don't reuse your created client instance, you might end up with many open HTTP connection handles, which can lead to **"too many open files"**.
 This can especially happen in unit testing setups that generally don't reuse variables across tests.
 A workaround is to increase the limit for open file handles e.g. via `ulimit -n 1000` (unix).
+
+### Proxy support
+
+Check the documentation of the PSR-18 client on how to use a proxy with it.
 
 Custom adapter
 --------------

@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Core\Client\Adapter\Curl::setProxy() to set proxy (instead of through options)
+- Proxy support for Http adapter with Core\Client\Adapter\Http::setProxy()
 
 ### Fixed
 - Plugins unregister event listeners when removed with Client::removePlugin()
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Deprecated
+- Setting proxy on the Curl adapter through options, use setProxy() instead
 
 
 ## [6.2.6]

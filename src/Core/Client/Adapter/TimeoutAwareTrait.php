@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Solarium package.
  *
@@ -22,9 +24,11 @@ trait TimeoutAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setTimeout(int $timeoutInSeconds): void
+    public function setTimeout(int $timeoutInSeconds)
     {
         $this->timeout = $timeoutInSeconds;
+
+        return $this;
     }
 
     /**

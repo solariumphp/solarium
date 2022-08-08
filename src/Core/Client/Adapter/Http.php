@@ -17,9 +17,10 @@ use Solarium\Exception\HttpException;
 /**
  * Basic HTTP adapter using a stream.
  */
-class Http implements AdapterInterface, TimeoutAwareInterface
+class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterface
 {
     use TimeoutAwareTrait;
+    use ProxyAwareTrait;
 
     /**
      * Handle Solr communication.
@@ -68,17 +69,26 @@ class Http implements AdapterInterface, TimeoutAwareInterface
      *
      * @return resource
      */
-    public function createContext($request, $endpoint)
+    public function createContext(Request $request, Endpoint $endpoint)
     {
         $method = $request->getMethod();
+
+        $httpOptions = [
+            'method' => $method,
+            'timeout' => $this->timeout,
+            'protocol_version' => 1.0,
+            'user_agent' => 'Solarium Http Adapter',
+            'ignore_errors' => true,
+        ];
+
+        if (null !== $this->proxy) {
+            $httpOptions['proxy'] = $this->proxy;
+            $httpOptions['request_fulluri'] = true;
+        }
+
         $context = stream_context_create(
-            ['http' => [
-                    'method' => $method,
-                    'timeout' => $this->timeout,
-                    'protocol_version' => 1.0,
-                    'user_agent' => 'Solarium Http Adapter',
-                    'ignore_errors' => true,
-                ],
+            [
+                'http' => $httpOptions,
             ]
         );
 

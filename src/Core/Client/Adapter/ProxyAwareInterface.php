@@ -12,19 +12,19 @@ declare(strict_types=1);
 namespace Solarium\Core\Client\Adapter;
 
 /**
- * Contract for Client Adapters that are aware of connection timeouts.
+ * Contract for Client Adapters that are aware of proxy settings.
  */
-interface ConnectionTimeoutAwareInterface
+interface ProxyAwareInterface
 {
     /**
-     * @param int|null $timeoutInSeconds
+     * @param mixed|null $proxy
      *
      * @return self Provides fluent interface
      */
-    public function setConnectionTimeout(?int $timeoutInSeconds);
+    public function setProxy($proxy);
 
     /**
-     * @return int|null
+     * @return mixed|null
      */
-    public function getConnectionTimeout(): ?int;
+    public function getProxy();
 }

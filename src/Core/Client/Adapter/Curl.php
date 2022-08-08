@@ -22,10 +22,11 @@ use Solarium\Exception\RuntimeException;
  *
  * @author Intervals <info@myintervals.com>
  */
-class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterface, ConnectionTimeoutAwareInterface
+class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterface, ConnectionTimeoutAwareInterface, ProxyAwareInterface
 {
     use TimeoutAwareTrait;
     use ConnectionTimeoutAwareTrait;
+    use ProxyAwareTrait;
 
     /**
      * Execute a Solr request using the cURL Http.
@@ -43,8 +44,8 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Get the response for a cURL handle.
      *
-     * @param resource $handle
-     * @param string   $httpResponse
+     * @param resource|\CurlHandle $handle
+     * @param string               $httpResponse
      *
      * @return Response
      */
@@ -76,7 +77,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @return resource|\CurlHandle
      */
-    public function createHandle($request, $endpoint)
+    public function createHandle(Request $request, Endpoint $endpoint)
     {
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
@@ -92,8 +93,8 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         curl_setopt($handler, CURLOPT_TIMEOUT, $options['timeout']);
         curl_setopt($handler, CURLOPT_CONNECTTIMEOUT, $options['connection_timeout']);
 
-        if (null !== ($proxy = $this->getOption('proxy'))) {
-            curl_setopt($handler, CURLOPT_PROXY, $proxy);
+        if (null !== $options['proxy']) {
+            curl_setopt($handler, CURLOPT_PROXY, $options['proxy']);
         }
 
         if (!isset($options['headers']['Content-Type'])) {
@@ -159,9 +160,9 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Check result of a request.
      *
-     * @param string   $data
-     * @param array    $headers
-     * @param resource $handle
+     * @param string               $data
+     * @param array                $headers
+     * @param resource|\CurlHandle $handle
      *
      * @throws HttpException
      */
@@ -174,6 +175,16 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         }
     }
 
+    public function setOption(string $name, $value): Configurable
+    {
+        if ('proxy' === $name) {
+            trigger_error('Setting proxy as an option is deprecated. Use setProxy() instead.', \E_USER_DEPRECATED);
+            $this->setProxy($value);
+        }
+
+        return parent::setOption($name, $value);
+    }
+
     /**
      * Execute request.
      *
@@ -182,7 +193,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @return Response
      */
-    protected function getData($request, $endpoint): Response
+    protected function getData(Request $request, Endpoint $endpoint): Response
     {
         $handle = $this->createHandle($request, $endpoint);
         $httpResponse = curl_exec($handle);
@@ -206,6 +217,11 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
         }
 
         parent::init();
+
+        if (isset($this->options['proxy'])) {
+            trigger_error('Setting proxy as an option is deprecated. Use setProxy() instead.', \E_USER_DEPRECATED);
+            $this->setProxy($this->options['proxy']);
+        }
     }
 
     /**
@@ -216,11 +232,12 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @return array
      */
-    protected function createOptions($request, $endpoint)
+    protected function createOptions(Request $request, Endpoint $endpoint)
     {
         $options = [
             'timeout' => $this->timeout,
             'connection_timeout' => $this->connectionTimeout ?? $this->timeout,
+            'proxy' => $this->proxy,
         ];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
