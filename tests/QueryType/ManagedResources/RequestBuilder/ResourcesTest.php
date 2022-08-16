@@ -3,6 +3,7 @@
 namespace Solarium\Tests\QueryType\ManagedResources\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\ManagedResources\Query\Resources as ResourcesQuery;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as ResourcesRequestBuilder;
 
@@ -40,5 +41,6 @@ class ResourcesTest extends TestCase
         );
 
         $this->assertSame($handler, $request->getHandler());
+        $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 }

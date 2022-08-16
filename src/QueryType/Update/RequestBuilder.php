@@ -38,6 +38,7 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $request = parent::build($query);
         $request->setMethod(Request::METHOD_POST);
+        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_XML);
         $request->setRawData($this->getRawData($query));
 
         return $request;

@@ -97,7 +97,8 @@ class RequestBuilderTest extends TestCase
             '&filePath=path%2Fto%2Ffile'.
             '&cleanup=true';
         $this->assertSame($expectedUri, $request->getUri());
-        $this->assertStringStartsWith('Content-Type: multipart/form-data; boundary=', $request->getHeader('Content-Type'));
+        $this->assertSame(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, $request->getContentType());
+        $this->assertSame(['boundary' => $request->getHash()], $request->getContentTypeParams());
         $this->assertSame(__FILE__, $request->getFileUpload());
     }
 }

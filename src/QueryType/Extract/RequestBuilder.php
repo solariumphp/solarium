@@ -32,7 +32,6 @@ class RequestBuilder extends BaseRequestBuilder
     public function build(AbstractQuery $query): Request
     {
         $request = parent::build($query);
-        $request->setMethod(Request::METHOD_POST);
 
         // add common options to request
         $request->addParam('commit', $query->getCommit());
@@ -50,7 +49,7 @@ class RequestBuilder extends BaseRequestBuilder
 
         // add document settings to request
         /** @var \Solarium\QueryType\Update\Query\Document $doc */
-        if (null !== ($doc = $query->getDocument())) {
+        if (null !== $doc = $query->getDocument()) {
             if (null !== $doc->getBoost()) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }
@@ -84,7 +83,8 @@ class RequestBuilder extends BaseRequestBuilder
             }
             $request->setFileUpload($file);
             $request->addParam('resource.name', $resourceName);
-            $request->addHeader('Content-Type: multipart/form-data; boundary='.$request->getHash());
+            $request->setMethod(Request::METHOD_POST);
+            $request->setContentType(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, ['boundary' => $request->getHash()]);
         } else {
             throw new RuntimeException(sprintf('Extract query file path/url invalid or not available: %s', $file));
         }

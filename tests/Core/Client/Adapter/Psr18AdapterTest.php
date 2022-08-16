@@ -27,7 +27,6 @@ class Psr18AdapterTest extends TestCase
                 $this->assertSame([
                     'Host' => ['127.0.0.1:8983'],
                     'X-Request-Header' => ['some value', 'and another one'],
-                    'Content-Type' => ['application/x-www-form-urlencoded; charset=utf-8'],
                 ], $request->getHeaders());
 
                 return true;
@@ -63,7 +62,7 @@ class Psr18AdapterTest extends TestCase
                 $this->assertSame('some data', (string) $request->getBody());
                 $this->assertSame([
                     'Host' => ['127.0.0.1:8983'],
-                    'Content-Type' => ['application/xml; charset=utf-8'],
+                    'Content-Type' => ['application/xml; charset=us-ascii'],
                 ], $request->getHeaders());
 
                 return true;
@@ -76,6 +75,8 @@ class Psr18AdapterTest extends TestCase
 
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
+        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_XML);
+        $request->addParam('ie', 'us-ascii', true);
         $request->setRawData('some data');
         $request->setIsServerRequest(true);
 
@@ -107,7 +108,6 @@ REGEX;
                 $this->assertMatchesRegularExpression($expectedBodyRegex, (string) $request->getBody());
                 $this->assertSame([
                     'Host' => ['127.0.0.1:8983'],
-                    'Content-Type' => ['application/xml; charset=utf-8'],
                 ], $request->getHeaders());
 
                 return true;
@@ -138,7 +138,7 @@ REGEX;
                 $this->assertSame('some data', (string) $request->getBody());
                 $this->assertSame([
                     'Host' => ['127.0.0.1:8983'],
-                    'Content-Type' => ['application/xml; charset=utf-8'],
+                    'Content-Type' => ['application/json; charset=utf-8'],
                 ], $request->getHeaders());
 
                 return true;
@@ -151,6 +151,7 @@ REGEX;
 
         $request = new Request();
         $request->setMethod(Request::METHOD_PUT);
+        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
         $request->setRawData('some data');
         $request->setIsServerRequest(true);
 

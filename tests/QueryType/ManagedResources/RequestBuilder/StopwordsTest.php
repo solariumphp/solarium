@@ -95,6 +95,7 @@ class StopwordsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
         $this->assertSame('["de"]', $request->getRawData());
     }
@@ -120,6 +121,7 @@ class StopwordsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
         $this->assertSame('{"initArgs":{"ignoreCase":true}}', $request->getRawData());
     }
@@ -141,6 +143,7 @@ class StopwordsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/stopwords/dutch', $request->getHandler());
         $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedWordSetResource"}', $request->getRawData());
     }

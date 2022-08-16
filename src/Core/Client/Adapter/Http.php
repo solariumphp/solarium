@@ -109,7 +109,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
                 $data = AdapterHelper::buildUploadBodyFromRequest($request);
 
                 $contentLength = \strlen($data);
-                $request->addHeader("Content-Length: $contentLength\r\n");
+                $request->addHeader("Content-Length: $contentLength");
                 stream_context_set_option(
                     $context,
                     'http',
@@ -125,9 +125,6 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
                         'content',
                         $data
                     );
-
-                    $charset = $request->getParam('ie') ?? 'utf-8';
-                    $request->addHeader('Content-Type: text/xml; charset='.$charset);
                 }
             }
         } elseif (Request::METHOD_PUT === $method) {
@@ -139,7 +136,6 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
                     'content',
                     $data
                 );
-                $request->addHeader('Content-Type: application/json; charset=utf-8');
                 // The stream context automatically adds a "Connection: close" header which fails on Solr 8.5.0
                 $request->addHeader('Connection: Keep-Alive');
             }

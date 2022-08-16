@@ -42,6 +42,15 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testGetContentType()
+    {
+        $request = $this->builder->build($this->query);
+        $this->assertSame(
+            Request::CONTENT_TYPE_APPLICATION_XML,
+            $request->getContentType()
+        );
+    }
+
     public function testGetUri()
     {
         $request = $this->builder->build($this->query);

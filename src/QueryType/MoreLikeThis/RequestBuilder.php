@@ -48,12 +48,10 @@ class RequestBuilder extends SelectRequestBuilder
 
         // convert query to stream if necessary
         if (true === $query->getQueryStream()) {
-            $charset = $request->getParam('ie') ?? 'utf-8';
-
             $request->removeParam('q');
             $request->setRawData($query->getQuery());
             $request->setMethod(Request::METHOD_POST);
-            $request->addHeader('Content-Type: text/plain; charset='.$charset);
+            $request->setContentType(Request::CONTENT_TYPE_TEXT_PLAIN);
         }
 
         return $request;

@@ -31,15 +31,23 @@ class RequestBuilder extends BaseRequestBuilder
     {
         $request = parent::build($query);
 
-        $request->setMethod($query->getMethod());
+        $method = $query->getMethod();
+
+        $request->setMethod($method);
         $request->setApi($query->getVersion());
         $request->setIsServerRequest(true);
 
+        if (null !== $contentType = $query->getContentType()) {
+            $request->setContentType($query->getContentType());
+        } elseif (Request::METHOD_POST === $method) {
+            $request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
+        } elseif (Request::METHOD_PUT === $method) {
+            $request->setContentType(Request::CONTENT_TYPE_APPLICATION_OCTET_STREAM);
+        }
+        $request->setContentTypeParams($query->getContentTypeParams());
+
         if ($accept = $query->getAccept()) {
             $request->addHeader('Accept: '.$accept);
-        }
-        if ($contentType = $query->getContentType()) {
-            $request->addHeader('Content-Type: '.$contentType);
         }
         if ($rawData = $query->getRawData()) {
             $request->setRawData($rawData);

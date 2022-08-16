@@ -40,7 +40,7 @@ class Resource extends AbstractRequestBuilder
         // reserved characters in a REST resource name need to be encoded twice to make it through the servlet (SOLR-6853)
         $request->setHandler($query->getHandler().rawurlencode(rawurlencode($query->getName())));
         if (null !== $query->getCommand()) {
-            $request->addHeader('Content-Type: application/json; charset=utf-8');
+            $request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
             $this->buildCommand($request, $query->getCommand());
         } else {
             // Lists one or all items.

@@ -99,6 +99,7 @@ class SynonymsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/synonyms/dutch', $request->getHandler());
         $this->assertSame('{"mad":["angry","upset"]}', $request->getRawData());
     }
@@ -114,6 +115,7 @@ class SynonymsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/synonyms/dutch', $request->getHandler());
         $this->assertSame('["funny","entertaining","whimsical","jocular"]', $request->getRawData());
     }
@@ -139,6 +141,7 @@ class SynonymsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/synonyms/dutch', $request->getHandler());
         $this->assertSame('{"initArgs":{"ignoreCase":true,"format":"solr"}}', $request->getRawData());
     }
@@ -160,6 +163,7 @@ class SynonymsTest extends TestCase
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_PUT, $request->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
         $this->assertSame('schema/analysis/synonyms/dutch', $request->getHandler());
         $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager"}', $request->getRawData());
     }

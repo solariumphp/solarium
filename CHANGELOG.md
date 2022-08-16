@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plugins unregister event listeners when removed with Client::removePlugin()
 
 ### Changed
+- `RequestBuilder`s must set a Content-Type on the `Request` for POST and PUT requests. `Adapter`s no longer set a default.
 
 ### Removed
 

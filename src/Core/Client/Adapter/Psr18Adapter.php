@@ -156,18 +156,8 @@ final class Psr18Adapter implements AdapterInterface
 
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
-            if ($header = trim($header)) {
+            if ('' !== $header = trim($header)) {
                 $headers[$header][] = $value;
-            }
-        }
-
-        if (!isset($headers['Content-Type'])) {
-            $charset = $request->getParam('ie') ?? 'utf-8';
-
-            if (Request::METHOD_GET === $request->getMethod()) {
-                $headers['Content-Type'] = ['application/x-www-form-urlencoded; charset='.$charset];
-            } else {
-                $headers['Content-Type'] = ['application/xml; charset='.$charset];
             }
         }
 

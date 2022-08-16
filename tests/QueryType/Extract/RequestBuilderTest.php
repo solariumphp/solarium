@@ -29,11 +29,22 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testGetMethod()
+    public function testGetMethodWithFileUpload()
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
             Request::METHOD_POST,
+            $request->getMethod()
+        );
+    }
+
+    public function testGetMethodWithStreamUrl()
+    {
+        $query = $this->query;
+        $query->setFile('http://solarium-project.org/');
+        $request = $this->builder->build($query);
+        $this->assertSame(
+            Request::METHOD_GET,
             $request->getMethod()
         );
     }
@@ -134,11 +145,9 @@ class RequestBuilderTest extends TestCase
     public function testContentTypeHeader()
     {
         $request = $this->builder->build($this->query);
-        $headers = [
-            'Content-Type: multipart/form-data; boundary='.$request->getHash(),
-        ];
 
-        $this->assertSame($headers, $request->getHeaders());
+        $this->assertSame(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, $request->getContentType());
+        $this->assertSame(['boundary' => $request->getHash()], $request->getContentTypeParams());
     }
 
     public function testDocumentDateTimeField()

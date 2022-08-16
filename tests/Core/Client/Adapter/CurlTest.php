@@ -65,18 +65,18 @@ class CurlTest extends TestCase
     {
         $data = 'data';
         $headers = ['X-dummy: data'];
-        $handler = curl_init();
+        $handle = curl_init();
 
         // this should be ok, no exception
-        $this->adapter->check($data, $headers, $handler);
+        $this->adapter->check($data, $headers, $handle);
 
         $data = '';
         $headers = [];
 
         $this->expectException(HttpException::class);
-        $this->adapter->check($data, $headers, $handler);
+        $this->adapter->check($data, $headers, $handle);
 
-        curl_close($handler);
+        curl_close($handle);
     }
 
     public function testExecute()
@@ -104,6 +104,24 @@ class CurlTest extends TestCase
     }
 
     /**
+     * @testWith [false]
+     *           [null]
+     *
+     * @param mixed $httpResponse
+     */
+    public function testGetResponseWithEmptyHttpResponse($httpResponse)
+    {
+        $handle = curl_init();
+
+        $this->expectException(HttpException::class);
+        $response = $this->adapter->getResponse($handle, $httpResponse);
+
+        curl_close($handle);
+
+        $this->assertEquals(new Response('', []), $response);
+    }
+
+    /**
      * @dataProvider methodProvider
      */
     public function testCreateHandleForRequestMethod(string $method)
@@ -113,14 +131,15 @@ class CurlTest extends TestCase
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
-        $handler = $this->adapter->createHandle($request, $endpoint);
+        $handle = $this->adapter->createHandle($request, $endpoint);
 
         if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handler);
+            $this->assertInstanceOf(\CurlHandle::class, $handle);
         } else {
-            $this->assertIsResource($handler);
+            $this->assertIsResource($handle);
         }
-        curl_close($handler);
+
+        curl_close($handle);
     }
 
     public function methodProvider(): array
@@ -134,6 +153,28 @@ class CurlTest extends TestCase
         ];
     }
 
+    public function testCreateHandleForPostRequestWithFileUpload()
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
+        file_put_contents($tmpfname, 'Test file contents');
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        $request->setFileUpload($tmpfname);
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+
+        $handle = $this->adapter->createHandle($request, $endpoint);
+
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handle);
+        } else {
+            $this->assertIsResource($handle);
+        }
+
+        curl_close($handle);
+    }
+
     public function testCreateHandleWithUnknownMethod()
     {
         $request = new Request();
@@ -143,8 +184,8 @@ class CurlTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('unsupported method: PSOT');
-        $handler = $this->adapter->createHandle($request, $endpoint);
+        $handle = $this->adapter->createHandle($request, $endpoint);
 
-        curl_close($handler);
+        curl_close($handle);
     }
 }
