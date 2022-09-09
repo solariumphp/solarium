@@ -300,7 +300,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithAuthorization()
+    public function testCreateContextWithRequestAuthorization()
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -311,6 +311,100 @@ class HttpTest extends TestCase
         $request->setIsServerRequest(true);
 
         $endpoint = new Endpoint();
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                    'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
+    public function testCreateContextWithEndpointAuthorization()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_HEAD;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+        $endpoint->setAuthentication('someone', 'S0M3p455');
+
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                    'header' => 'Authorization: Basic c29tZW9uZTpTME0zcDQ1NQ==',
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
+    public function testCreateContextWithAuthorizationToken()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_HEAD;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+        $endpoint->setAuthorizationToken('Token', 'foobar');
+
+        $this->adapter->setTimeout($timeout);
+
+        $context = $this->adapter->createContext($request, $endpoint);
+
+        $this->assertSame(
+            [
+                'http' => [
+                    'method' => $method,
+                    'timeout' => $timeout,
+                    'protocol_version' => 1.0,
+                    'user_agent' => 'Solarium Http Adapter',
+                    'ignore_errors' => true,
+                    'header' => 'Authorization: Token foobar',
+                ],
+            ],
+            stream_context_get_options($context)
+        );
+    }
+
+    public function testCreateContextWithRequestAuthorizationMoreImportantThanAuthorizationToken()
+    {
+        $timeout = 13;
+        $method = Request::METHOD_HEAD;
+
+        $request = new Request();
+        $request->setMethod($method);
+        $request->setAuthentication('someone', 'S0M3p455');
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+        $endpoint->setAuthorizationToken('Token', 'foobar');
+
         $this->adapter->setTimeout($timeout);
 
         $context = $this->adapter->createContext($request, $endpoint);

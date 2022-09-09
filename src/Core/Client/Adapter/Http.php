@@ -102,6 +102,15 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
             $request->addHeader(
                 'Authorization: Basic '.base64_encode($authData['username'].':'.$authData['password'])
             );
+        } else {
+            // According to the specification, only one Authorization header is allowed.
+            // @see https://stackoverflow.com/questions/29282578/multiple-http-authorization-headers
+            $tokenData = $endpoint->getAuthorizationToken();
+            if (!empty($tokenData['tokenname']) && !empty($tokenData['token'])) {
+                $request->addHeader(
+                    'Authorization: '.$tokenData['tokenname'].' '.$tokenData['token']
+                );
+            }
         }
 
         if (Request::METHOD_POST === $method) {

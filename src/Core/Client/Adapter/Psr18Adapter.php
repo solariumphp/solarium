@@ -170,6 +170,13 @@ final class Psr18Adapter implements AdapterInterface
 
             if (!empty($authData['username']) && !empty($authData['password'])) {
                 $headers['Authorization'] = ['Basic '.base64_encode($authData['username'].':'.$authData['password'])];
+            } else {
+                // According to the specification, only one Authorization header is allowed.
+                // @see https://stackoverflow.com/questions/29282578/multiple-http-authorization-headers
+                $tokenData = $endpoint->getAuthorizationToken();
+                if (!empty($tokenData['tokenname']) && !empty($tokenData['token'])) {
+                    $headers['Authorization'] = [$tokenData['tokenname'].' '.$tokenData['token']];
+                }
             }
         }
 

@@ -31,6 +31,8 @@ class EndpointTest extends TestCase
             'leader' => false,
             'username' => 'x',
             'password' => 'y',
+            'tokenname' => 'a',
+            'token' => 'b',
         ];
         $this->endpoint->setOptions($options);
 
@@ -262,6 +264,22 @@ class EndpointTest extends TestCase
         );
     }
 
+    public function testGetAndSetAuthorizationToken()
+    {
+        $tokenname = 'Token';
+        $token = '1234567890ABCDEFG';
+
+        $this->endpoint->setAuthorizationToken($tokenname, $token);
+
+        $this->assertSame(
+            [
+                'tokenname' => $tokenname,
+                'token' => $token,
+            ],
+            $this->endpoint->getAuthorizationToken()
+        );
+    }
+
     public function testIsAndSetLeader()
     {
         $this->endpoint->setLeader(true);
@@ -278,6 +296,8 @@ class EndpointTest extends TestCase
             'core' => 'mycore',
             'username' => 'x',
             'password' => 'y',
+            'tokenname' => 'a',
+            'token' => 'b',
         ];
         $this->endpoint->setOptions($options);
 
@@ -293,6 +313,8 @@ authentication: Array
 (
     [username] => x
     [password] => y
+    [tokenname] => a
+    [token] => b
 )
 
 EOF;
