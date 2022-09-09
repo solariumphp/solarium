@@ -107,6 +107,14 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
             curl_setopt($handler, CURLOPT_USERPWD, $authData['username'].':'.$authData['password']);
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
+        elseif (!array_key_exists('Authorization', $options['headers'])) {
+            // According to the specification, only one Authorization header is allowed.
+            // @se https://stackoverflow.com/questions/29282578/multiple-http-authorization-headers
+            $tokenData = $endpoint->getAuthorizationToken();
+            if (!empty($tokenData['tokenname']) && !empty($tokenData['token'])) {
+                $options['headers']['Authorization'] = $tokenData['tokenname'].' '.$tokenData['token'];
+            }
+        }
 
         if (0 !== \count($options['headers'] ?? [])) {
             $headers = [];

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Core\Client\Adapter\Curl::setProxy() to set proxy (instead of through options)
 - Proxy support for Http adapter with Core\Client\Adapter\Http::setProxy()
+- Authorization token support
 
 ### Fixed
 - Plugins unregister event listeners when removed with Client::removePlugin()
