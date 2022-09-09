@@ -188,4 +188,58 @@ class CurlTest extends TestCase
 
         curl_close($handle);
     }
+
+    public function testRequestBasicAuthentication()
+    {
+        $request = new Request();
+        $request->setIsServerRequest(true);
+        $request->setAuthentication('foo', 'bar');
+        $endpoint = new Endpoint();
+
+        $handle = $this->adapter->createHandle($request, $endpoint);
+
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handle);
+        } else {
+            $this->assertIsResource($handle);
+        }
+
+        curl_close($handle);
+    }
+
+    public function testEndpointBasicAuthentication()
+    {
+        $request = new Request();
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+        $endpoint->setAuthentication('foo', 'bar');
+
+        $handle = $this->adapter->createHandle($request, $endpoint);
+
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handle);
+        } else {
+            $this->assertIsResource($handle);
+        }
+
+        curl_close($handle);
+    }
+
+    public function testAuthorizationToken()
+    {
+        $request = new Request();
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+        $endpoint->setAuthorizationToken('foo', 'bar');
+
+        $handle = $this->adapter->createHandle($request, $endpoint);
+
+        if (class_exists(\CurlHandle::class)) {
+            $this->assertInstanceOf(\CurlHandle::class, $handle);
+        } else {
+            $this->assertIsResource($handle);
+        }
+
+        curl_close($handle);
+    }
 }
