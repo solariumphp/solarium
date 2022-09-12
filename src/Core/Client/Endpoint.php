@@ -46,7 +46,7 @@ class Endpoint extends Configurable
      */
     public function __toString()
     {
-        $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'context: '.$this->getContext()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'authentication: '.print_r($this->getAuthentication(), true);
+        $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'context: '.$this->getContext()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'authentication: '.print_r($this->getAuthentication() + $this->getAuthorizationToken(), true);
 
         return $output;
     }
@@ -353,8 +353,6 @@ class Endpoint extends Configurable
     /**
      * Set HTTP basic auth settings.
      *
-     * If one or both values are NULL authentication will be disabled
-     *
      * @param string $username
      * @param string $password
      *
@@ -378,6 +376,37 @@ class Endpoint extends Configurable
         return [
             'username' => $this->getOption('username'),
             'password' => $this->getOption('password'),
+        ];
+    }
+
+    /**
+     * Set authorization token.
+     *
+     * Used for JWT or simple token based authorization.
+     *
+     * @param string $tokenname
+     * @param string $token
+     *
+     * @return self Provides fluent interface
+     */
+    public function setAuthorizationToken(string $tokenname, string $token): self
+    {
+        $this->setOption('tokenname', $tokenname);
+        $this->setOption('token', $token);
+
+        return $this;
+    }
+
+    /**
+     * Get authorization token.
+     *
+     * @return array
+     */
+    public function getAuthorizationToken(): array
+    {
+        return [
+            'tokenname' => $this->getOption('tokenname'),
+            'token' => $this->getOption('token'),
         ];
     }
 

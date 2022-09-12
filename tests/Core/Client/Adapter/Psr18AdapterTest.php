@@ -200,6 +200,80 @@ REGEX;
         $adapter->execute($request, $endpoint);
     }
 
+    public function testExecuteRequestWithAuthorizationToken(): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (RequestInterface $request) {
+                $this->assertSame([
+                    'Host' => ['127.0.0.1:8983'],
+                    'Content-Type' => ['application/xml'],
+                    'Authorization' => ['Token foobar'],
+                ], $request->getHeaders());
+
+                return true;
+            }))
+            ->willReturn(new Response(200))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->addHeader('Content-Type: application/xml');
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+
+        $endpoint->setAuthorizationToken('Token', 'foobar');
+
+        $adapter->execute($request, $endpoint);
+    }
+
+    /**
+     * @testWith [true]
+     *           [false]
+     */
+    public function testExecuteRequestWithHttpBasicAuthenticationMoreImportantThanAuthorizationToken(bool $useRequestAuth): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (RequestInterface $request) {
+                $this->assertSame([
+                    'Host' => ['127.0.0.1:8983'],
+                    'Content-Type' => ['application/xml'],
+                    'Authorization' => [sprintf('Basic %s', base64_encode('foo:bar'))],
+                ], $request->getHeaders());
+
+                return true;
+            }))
+            ->willReturn(new Response(200))
+        ;
+
+        $psr17Factory = new Psr17Factory();
+        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->addHeader('Content-Type: application/xml');
+        $request->setIsServerRequest(true);
+
+        $endpoint = new Endpoint();
+
+        if ($useRequestAuth) {
+            $endpoint->setAuthentication('foo', 'bar');
+        } else {
+            $request->setAuthentication('foo', 'bar');
+        }
+
+        $endpoint->setAuthorizationToken('Token', 'foobar');
+
+        $adapter->execute($request, $endpoint);
+    }
+
     public function testExecuteWithClientException(): void
     {
         $client = $this->createMock(ClientInterface::class);

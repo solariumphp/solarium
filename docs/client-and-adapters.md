@@ -15,9 +15,17 @@ Adapters
 
 The adapters are the actual implementations for communication with Solr. They have a generic interface, but different implementations. They are purely for executing requests, and hold no state.
 
-### Authentication
+### Authentication / Authorization
 
-Adapters support authentication. To use this set the authentication on the request object using the `setAuthentication()` method.
+Adapters support authentication. Currently _Basic Authentication_ and _Token Authorization_ are supported. Be aware of the fact that only one method could be used at the same time.
+
+#### Basic Authentication
+
+To use Basic Authentication set the authentication credentials on the endpoint object using the `setAuthentication()` method.
+
+#### Token Authorization
+
+To use Token Authorization set the token name and the token itself  on the endpoint object using the `setAuthorizationToken()` method.
 
 ### HTTP request timeout handling
 
