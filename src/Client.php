@@ -12,9 +12,6 @@ namespace Solarium;
 use Composer\InstalledVersions;
 use Solarium\Core\Client\Client as CoreClient;
 
-// Workaround to assign a "dynamic" value to Client::VERSION.
-define('DEPRECATED_CONSTANT_SOLARIUM_VERSION', InstalledVersions::getPrettyVersion('solarium/solarium'));
-
 /**
  * This class makes the client easier to use (shorter class name) and adds
  * a library version check.
@@ -47,7 +44,7 @@ class Client extends CoreClient
      *
      * @deprecated This class constant will be removed in Solarium 6.3.0. Use Client::getVersion() instead.
      */
-    const VERSION = DEPRECATED_CONSTANT_SOLARIUM_VERSION;
+    const VERSION = '6.2.7-deprecated';
 
     /**
      * Returns the version string.
