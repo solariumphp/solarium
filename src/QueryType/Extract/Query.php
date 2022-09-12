@@ -455,8 +455,6 @@ class Query extends BaseQuery
      */
     protected function init()
     {
-        parent::init();
-
         if (isset($this->options['fmap'])) {
             $this->setFieldMappings($this->options['fmap']);
         }

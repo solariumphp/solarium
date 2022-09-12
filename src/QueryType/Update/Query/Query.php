@@ -528,8 +528,6 @@ class Query extends BaseQuery
      */
     protected function init(): void
     {
-        parent::init();
-
         if (isset($this->options['command'])) {
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];
