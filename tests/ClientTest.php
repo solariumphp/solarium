@@ -38,16 +38,16 @@ class ClientTest extends TestCase
         );
     }
 
-    /**
-     * @deprecated The class constant will be removed in Solarium 6.3.0.
-     */
-    public function testVersionConstant()
-    {
-        $this->assertSame(
-            self::$installedVersion,
-            Client::VERSION
-        );
-    }
+//    /**
+//     * @deprecated The class constant will be removed in Solarium 6.3.0.
+//     */
+//    public function testVersionConstant()
+//    {
+//        $this->assertSame(
+//            self::$installedVersion,
+//            Client::VERSION
+//        );
+//    }
 
     public function testCheckExact()
     {
