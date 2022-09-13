@@ -201,8 +201,6 @@ trait FacetSetTrait
      */
     protected function init()
     {
-        parent::init();
-
         if (isset($this->options['facet'])) {
             foreach ($this->options['facet'] as $key => $config) {
                 if (!isset($config['local_key'])) {
