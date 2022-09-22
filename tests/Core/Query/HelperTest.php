@@ -596,6 +596,16 @@ class HelperTest extends TestCase
         );
     }
 
+    public function testFormatDateDoesntModifyPassedObject()
+    {
+        $timezone = new \DateTimeZone('Europe/London');
+        $date = new \DateTime('2013-01-15 14:41:58', $timezone);
+
+        $this->helper->formatDate($date);
+
+        $this->assertEquals($timezone->getName(), $date->getTimezone()->getName());
+    }
+
     public function testAssemble()
     {
         // test single basic placeholder

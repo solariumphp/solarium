@@ -1,21 +1,30 @@
-An update query has options and commands. These commands and options are instructions for the client classes to build and execute a request and return the correct result. In the following sections both the options and commands will be discussed in detail. You can also take a look at <https://solr.apache.org/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates> for more information about the underlying Solr update handler XML request format.
+An update query has options and commands. These commands and options are instructions for the client classes to build and execute a request and return the correct result. In the following sections both the options and commands will be discussed in detail.
+You can also take a look at the [XML](https://solr.apache.org/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates) or [JSON](https://solr.apache.org/guide/uploading-data-with-index-handlers.html#json-formatted-index-updates) request formats for more information about the underlying Solr update handler.
 
 Options
 -------
 
-The update query has only two options, and it's not likely you need alter them. For select queries it's not uncommon to have a custom Solr handler, or a custom resultclass that maps to your models. But for an update query you usually just want to use the default handler and check the result. For this the default settings are just fine.
+The update query has only a few options, and it's not likely that you need to alter them. For select queries it's not uncommon to have a custom Solr handler, or a custom resultclass that maps to your models. But for an update query you usually just want to use the default handler and check the result. For this the default settings are just fine.
 
 However, if you do need to customize them for a special case, you can.
 
+### RequestFormat
+
+Solarium sends XML formatted update requests by default. You can change this to JSON formatted requests.
+
 ### ResultClass
 
-If you want to use a custom result class you can set the class name with this option. Any custom result class should implement the ResultInterface. It is your responsibility to make sure this class is included before use (or available through autoloading).
+If you want to use a custom result class you can set the class name with this option. Any custom result class should implement the `ResultInterface`. It is your responsibility to make sure this class is included before use (or available through autoloading).
+
+### DocumentClass
+
+If you want to use a custom class for documents created with `createDocument()` you can set the class name with this option. Any custom document class should implement the `DocumentInterface`. It is your responsibility to make sure this class is included before use (or available through autoloading).
 
 ### Handler
 
-The handler is used for building the Solr URL. The default value is 'update' and it's very uncommon to need to change this. But if you have a special update handler configured in your Solr core you can use this option to route update requests to this handler.
+The handler is used for building the Solr URL. The default value is `'update'` and it's very uncommon to need to change this. But if you have a special update handler configured in your Solr core you can use this option to route update requests to that handler.
 
-The handler value should not start or end with a slash, but may contain slashes. For instance 'admin/ping' for the ping handler is valid.
+The handler value should not start or end with a slash, but may contain slashes. For instance `'admin/ping'` for the ping handler is valid.
 
 Commands
 --------

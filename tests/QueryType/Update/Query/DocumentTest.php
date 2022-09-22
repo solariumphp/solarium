@@ -767,9 +767,13 @@ class DocumentTest extends TestCase
         $this->doc->setField('multi_string', ['b', 'c']);
         $this->doc->setField('single_bool', true);
         $this->doc->setField('multi_bool', [true, false]);
+        $this->doc->setField('datetime', new \DateTime('2013-01-15T14:41:58Z'));
+        $this->doc->setField('datetimeimmutable', new \DateTimeImmutable('2013-01-15T14:41:58Z'));
+        $this->doc->setField('datetimes', [new \DateTime('2013-01-15T14:41:58Z'), new \DateTimeImmutable('2013-01-15T14:41:58Z')]);
         $this->doc->setField('empty_string', '');
         $this->doc->setField('empty_list', []);
         $this->doc->setField('omitted_without_modifier', null);
+        $this->doc->setVersion(123);
 
         $this->assertJsonStringEqualsJsonString(
             '{
@@ -781,8 +785,13 @@ class DocumentTest extends TestCase
                 "multi_string":["b","c"],
                 "single_bool":true,
                 "multi_bool":[true,false],
+                "datetime":"2013-01-15T14:41:58Z",
+                "datetimeimmutable":"2013-01-15T14:41:58Z",
+                "datetimes":["2013-01-15T14:41:58Z","2013-01-15T14:41:58Z"],
                 "empty_string":"",
-                "empty_list":[]}',
+                "empty_list":[],
+                "_version_":123
+            }',
             json_encode($this->doc)
         );
     }

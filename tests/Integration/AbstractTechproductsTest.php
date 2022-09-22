@@ -48,7 +48,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
-use Solarium\QueryType\Update\RequestBuilder as UpdateRequestBuilder;
+use Solarium\QueryType\Update\RequestBuilder\Xml as XmlUpdateRequestBuilder;
 use Solarium\Support\Utility;
 use Solarium\Tests\Integration\Plugin\EventTimer;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -4161,7 +4161,7 @@ class NonControlCharFilteringUpdateQuery extends UpdateQuery
     /**
      * Get a requestbuilder that doesn't filter control characters.
      *
-     * @return UpdateRequestBuilder
+     * @return RequestBuilderInterface
      */
     public function getRequestBuilder(): RequestBuilderInterface
     {
@@ -4169,7 +4169,7 @@ class NonControlCharFilteringUpdateQuery extends UpdateQuery
     }
 }
 
-class NonControlCharFilteringUpdateRequestBuilder extends UpdateRequestBuilder
+class NonControlCharFilteringUpdateRequestBuilder extends XmlUpdateRequestBuilder
 {
     /**
      * Get a custom helper instance that doesn't filter control characters.
