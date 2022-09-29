@@ -3485,7 +3485,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // input encoding: ISO-8859-1
         // output encoding: UTF-8 (always)
-        $select->setQuery('cat:'.utf8_decode('áéíóú'));
+        $select->setQuery('cat:'.iconv('UTF-8', 'ISO-8859-1', 'áéíóú'));
         $select->setInputEncoding('ISO-8859-1');
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
@@ -3499,9 +3499,9 @@ abstract class AbstractTechproductsTest extends TestCase
         $update = self::$client->createUpdate();
         $update->setInputEncoding('ISO-8859-1');
         $doc = $update->createDocument();
-        $doc->setField('id', utf8_decode('solarium-test-2'));
-        $doc->setField('name', utf8_decode('Sølåríùm Tëst 2'));
-        $doc->setField('cat', [utf8_decode('solarium-test'), utf8_decode('áéíóú')]);
+        $doc->setField('id', iconv('UTF-8', 'ISO-8859-1', 'solarium-test-2'));
+        $doc->setField('name', iconv('UTF-8', 'ISO-8859-1', 'Sølåríùm Tëst 2'));
+        $doc->setField('cat', [iconv('UTF-8', 'ISO-8859-1', 'solarium-test'), iconv('UTF-8', 'ISO-8859-1', 'áéíóú')]);
         $doc->setField('price', 42.0);
         $update->addDocument($doc);
         $update->addCommit(true, true);

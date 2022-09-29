@@ -21,12 +21,14 @@
         "composer-runtime-api": ">=2.0"
     },
     "require-dev": {
+        "ext-iconv": "*",
         "escapestudios/symfony2-coding-standard": "^3.11",
         "guzzlehttp/guzzle": "^7.2",
         "nyholm/psr7": "^1.2",
         "php-http/guzzle7-adapter": "^0.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",

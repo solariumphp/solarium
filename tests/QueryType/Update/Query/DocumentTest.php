@@ -533,6 +533,9 @@ class DocumentTest extends TestCase
         );
     }
 
+    /**
+     * @deprecated No longer supported since Solr 7
+     */
     public function testSetAndGetBoost()
     {
         $this->doc->setBoost(2.5);
