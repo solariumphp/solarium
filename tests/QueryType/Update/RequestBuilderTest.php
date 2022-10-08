@@ -462,28 +462,26 @@ class RequestBuilderTest extends TestCase
     {
         $command = new AddCommand();
         $command->addDocument(
-            new Document(['id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('Europe/London'))])
+            new Document(['id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('+02:00'))])
         );
 
         $this->assertSame(
-            '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T14:41:58Z</field></doc></add>',
+            '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T12:41:58Z</field></doc></add>',
             $this->builder->buildAddXml($command)
         );
     }
 
     public function testBuildAddXmlWithDateTimeImmutable()
     {
-        $timezone = new \DateTimeZone('Europe/London');
-        $date = new \DateTime('2013-01-15 14:41:58', $timezone);
-
         $command = new AddCommand();
         $command->addDocument(
-            new Document(['id' => 1, 'datetime' => $date])
+            new Document(['id' => 1, 'datetime' => new \DateTimeImmutable('2013-01-15 14:41:58', new \DateTimeZone('-06:00'))])
         );
 
-        $this->builder->buildAddXml($command);
-
-        $this->assertEquals($timezone->getName(), $date->getTimezone()->getName());
+        $this->assertSame(
+            '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T20:41:58Z</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
     }
 
     public function testBuildAddXmlWithFieldModifierAndNullValue()

@@ -596,6 +596,15 @@ class HelperTest extends TestCase
         );
     }
 
+    public function testFormatDateDoesntModifyPassedObject()
+    {
+        $timezone = new \DateTimeZone('+02:00');
+        $date = new \DateTime('2013-01-15 14:41:58', $timezone);
+
+        $this->assertEquals('2013-01-15T12:41:58Z', $this->helper->formatDate($date));
+        $this->assertEquals('2013-01-15T14:41:58+02:00', $date->format(\DateTimeInterface::ATOM));
+    }
+
     public function testAssemble()
     {
         // test single basic placeholder
