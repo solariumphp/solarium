@@ -598,12 +598,11 @@ class HelperTest extends TestCase
 
     public function testFormatDateDoesntModifyPassedObject()
     {
-        $timezone = new \DateTimeZone('Europe/London');
+        $timezone = new \DateTimeZone('+02:00');
         $date = new \DateTime('2013-01-15 14:41:58', $timezone);
 
-        $this->helper->formatDate($date);
-
-        $this->assertEquals($timezone->getName(), $date->getTimezone()->getName());
+        $this->assertEquals('2013-01-15T12:41:58Z', $this->helper->formatDate($date));
+        $this->assertEquals('2013-01-15T14:41:58+02:00', $date->format(\DateTimeInterface::ATOM));
     }
 
     public function testAssemble()
@@ -680,6 +679,9 @@ class HelperTest extends TestCase
         );
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 6
+     */
     public function testCacheControlWithCost()
     {
         $this->assertSame(
@@ -688,6 +690,9 @@ class HelperTest extends TestCase
         );
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 6
+     */
     public function testCacheControlWithoutCost()
     {
         $this->assertSame(

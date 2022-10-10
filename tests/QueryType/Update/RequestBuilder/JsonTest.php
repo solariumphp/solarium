@@ -416,6 +416,8 @@ class JsonTest extends TestCase
 
     /**
      * Document boosts aren't supported in JSON update requests.
+     *
+     * @deprecated No longer supported since Solr 7
      */
     public function testBuildAddJsonSingleDocumentWithBoost()
     {
@@ -592,7 +594,7 @@ class JsonTest extends TestCase
     {
         $command = new AddCommand();
         $command->addDocument(
-            new Document(['id' => 1, 'datetime' => new \DateTime('2013-01-15T14:41:58Z')])
+            new Document(['id' => 1, 'datetime' => new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('+02:00'))])
         );
         $json = [];
 
@@ -604,7 +606,7 @@ class JsonTest extends TestCase
                 "add": {
                     "doc": {
                         "id": 1,
-                        "datetime": "2013-01-15T14:41:58Z"
+                        "datetime": "2013-01-15T12:41:58Z"
                     }
                 }
             }',
@@ -616,7 +618,7 @@ class JsonTest extends TestCase
     {
         $command = new AddCommand();
         $command->addDocument(
-            new Document(['id' => 1, 'datetime' => new \DateTimeImmutable('2013-01-15T14:41:58Z')])
+            new Document(['id' => 1, 'datetime' => new \DateTimeImmutable('2013-01-15 14:41:58', new \DateTimeZone('-06:00'))])
         );
         $json = [];
 
@@ -628,7 +630,7 @@ class JsonTest extends TestCase
                 "add": {
                     "doc": {
                         "id": 1,
-                        "datetime": "2013-01-15T14:41:58Z"
+                        "datetime": "2013-01-15T20:41:58Z"
                     }
                 }
             }',
@@ -640,7 +642,7 @@ class JsonTest extends TestCase
     {
         $command = new AddCommand();
         $command->addDocument(
-            new Document(['id' => 1, 'datetime' => [new \DateTime('2013-01-15T14:41:58Z'), new \DateTimeImmutable('2014-02-16T15:42:59Z')]])
+            new Document(['id' => 1, 'datetime' => [new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('-02:00')), new \DateTimeImmutable('2014-02-16 15:42:59', new \DateTimeZone('+06:00'))]])
         );
         $json = [];
 
@@ -653,8 +655,8 @@ class JsonTest extends TestCase
                     "doc": {
                         "id": 1,
                         "datetime": [
-                            "2013-01-15T14:41:58Z",
-                            "2014-02-16T15:42:59Z"
+                            "2013-01-15T16:41:58Z",
+                            "2014-02-16T09:42:59Z"
                         ]
                     }
                 }

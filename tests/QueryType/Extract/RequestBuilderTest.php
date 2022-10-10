@@ -152,7 +152,7 @@ class RequestBuilderTest extends TestCase
 
     public function testDocumentDateTimeField()
     {
-        $timezone = new \DateTimeZone('Europe/London');
+        $timezone = new \DateTimeZone('+07:30');
         $date = new \DateTime('2013-01-15 14:41:58', $timezone);
 
         $document = $this->query->createDocument(['date' => $date]);
@@ -163,7 +163,7 @@ class RequestBuilderTest extends TestCase
         $this->assertEquals(
             [
                 'fmap.from-field' => 'to-field',
-                'literal.date' => '2013-01-15T14:41:58Z',
+                'literal.date' => '2013-01-15T07:11:58Z',
                 'omitHeader' => 'true',
                 'extractOnly' => 'false',
                 'param1' => 'value1',

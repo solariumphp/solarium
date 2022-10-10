@@ -15,12 +15,10 @@ class HighlightingTest extends TestCase
         $request = new Request();
 
         $component = new Component();
-        $component->setUseFastVectorHighlighter(true);
         $component->setMethod($component::METHOD_FASTVECTOR);
         $component->addField('fieldA');
 
         $field = $component->getField('fieldB');
-        $field->setUseFastVectorHighlighter(false);
         $field->setMethod($component::METHOD_ORIGINAL);
         $field->setUsePhraseHighlighter(false);
         $field->setHighlightMultiTerm(false);
@@ -68,7 +66,6 @@ class HighlightingTest extends TestCase
         $this->assertSame(
             [
                 'hl' => 'true',
-                'hl.useFastVectorHighlighter' => 'true',
                 'hl.method' => 'fastVector',
                 'hl.fl' => 'fieldA,fieldB',
                 'hl.q' => 'text:myvalue',
@@ -95,7 +92,6 @@ class HighlightingTest extends TestCase
                 'hl.bs.chars' => '.,',
                 'hl.phraseLimit' => 40,
                 'hl.multiValuedSeparatorChar' => '|',
-                'f.fieldB.hl.useFastVectorHighlighter' => 'false',
                 'f.fieldB.hl.method' => 'original',
                 'f.fieldB.hl.usePhraseHighlighter' => 'false',
                 'f.fieldB.hl.highlightMultiTerm' => 'false',
@@ -112,6 +108,34 @@ class HighlightingTest extends TestCase
                 'f.fieldB.hl.regex.maxAnalyzedChars' => 500,
                 'f.fieldB.hl.preserveMulti' => 'true',
                 'f.fieldB.hl.payloads' => 'false',
+            ],
+            $request->getParams()
+        );
+    }
+
+    /**
+     * @deprecated Since Solr 6.4
+     */
+    public function testBuildComponentWithUseFastVectorHighlighter()
+    {
+        $builder = new RequestBuilder();
+        $request = new Request();
+
+        $component = new Component();
+        $component->setUseFastVectorHighlighter(true);
+        $component->addField('fieldA');
+
+        $field = $component->getField('fieldB');
+        $field->setUseFastVectorHighlighter(false);
+
+        $request = $builder->buildComponent($component, $request);
+
+        $this->assertSame(
+            [
+                'hl' => 'true',
+                'hl.useFastVectorHighlighter' => 'true',
+                'hl.fl' => 'fieldA,fieldB',
+                'f.fieldB.hl.useFastVectorHighlighter' => 'false',
             ],
             $request->getParams()
         );
@@ -253,14 +277,13 @@ class HighlightingTest extends TestCase
         );
     }
 
-    public function testBuildComponentWitFastVectorHighlighter()
+    public function testBuildComponentWithFastVectorHighlighter()
     {
         $builder = new RequestBuilder();
         $request = new Request();
 
         $component = new Component();
-        $component->setUseFastVectorHighlighter(true); // old way
-        $component->setMethod($component::METHOD_FASTVECTOR); // the new way
+        $component->setMethod($component::METHOD_FASTVECTOR);
         $component->setQuery('text:myvalue');
         $component->setQueryParser('myparser');
         $component->setRequireFieldMatch(false);
@@ -291,7 +314,6 @@ class HighlightingTest extends TestCase
         $this->assertSame(
             [
                 'hl' => 'true',
-                'hl.useFastVectorHighlighter' => 'true',
                 'hl.method' => 'fastVector',
                 'hl.q' => 'text:myvalue',
                 'hl.qparser' => 'myparser',
