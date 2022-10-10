@@ -679,6 +679,9 @@ class HelperTest extends TestCase
         );
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 6
+     */
     public function testCacheControlWithCost()
     {
         $this->assertSame(
@@ -687,6 +690,9 @@ class HelperTest extends TestCase
         );
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 6
+     */
     public function testCacheControlWithoutCost()
     {
         $this->assertSame(

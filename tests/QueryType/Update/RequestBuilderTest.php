@@ -352,6 +352,9 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    /**
+     * @deprecated No longer supported since Solr 7
+     */
     public function testBuildAddXmlSingleDocumentWithBoost()
     {
         $doc = new Document(['id' => 1]);
