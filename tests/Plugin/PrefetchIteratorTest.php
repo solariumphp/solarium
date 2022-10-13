@@ -180,7 +180,7 @@ class PrefetchIteratorTest extends TestCase
         $mockQuery->method('setRows')
                   ->with($this->equalTo(2))
                   ->willReturnSelf();
-        // number of times the query should be executed
+        // every time the query is executed
         $mockQuery->expects($this->exactly(3))
                   ->method('setStart')
                   ->withConsecutive(
@@ -228,7 +228,7 @@ class PrefetchIteratorTest extends TestCase
         $mockQuery->expects($this->never())
                   ->method('setStart')
                   ->willReturnSelf();
-        // initial manual setCursorMark('*') + number of times the query should be executed
+        // initial manual setCursorMark('*') + every time the query is executed
         $mockQuery->expects($this->exactly(4))
                   ->method('setCursorMark')
                   ->withConsecutive(
@@ -281,7 +281,7 @@ class PrefetchIteratorTest extends TestCase
         $mockQuery->method('setRows')
                   ->with($this->equalTo(2))
                   ->willReturnSelf();
-        // number of times the query should be executed
+        // every time the query is executed
         $mockQuery->expects($this->exactly(4))
                   ->method('setStart')
                   ->withConsecutive(
@@ -335,7 +335,7 @@ class PrefetchIteratorTest extends TestCase
         $mockQuery->expects($this->never())
                   ->method('setStart')
                   ->willReturnSelf();
-        // initial manual setCursorMark('*') + number of times the query should be executed
+        // initial manual setCursorMark('*') + every time the query is executed
         $mockQuery->expects($this->exactly(5))
                   ->method('setCursorMark')
                   ->withConsecutive(
@@ -429,7 +429,7 @@ class PrefetchIteratorTest extends TestCase
         $mockQuery->method('setRows')
                   ->with($this->equalTo(3))
                   ->willReturnSelf();
-        // number of times the query should be executed
+        // every time the query is executed
         $mockQuery->expects($this->exactly(4))
                   ->method('setStart')
                   ->withConsecutive(
@@ -484,7 +484,7 @@ class PrefetchIteratorTest extends TestCase
         $mockQuery->expects($this->never())
                   ->method('setStart')
                   ->willReturnSelf();
-        // initial manual setCursorMark('*') + number of times the query should be executed
+        // initial manual setCursorMark('*') + every time the query is executed
         $mockQuery->expects($this->exactly(5))
                   ->method('setCursorMark')
                   ->withConsecutive(
