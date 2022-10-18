@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Update;
+namespace Solarium\QueryType\Update\RequestBuilder;
 
 use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractQuery;
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Update\Query\Command\Add;
@@ -23,9 +23,9 @@ use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 /**
- * Build an update request.
+ * Build an XML update request.
  */
-class RequestBuilder extends BaseRequestBuilder
+class Xml extends AbstractRequestBuilder
 {
     /**
      * Build request for an update query.
@@ -146,7 +146,7 @@ class RequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * Build XML for an update command.
+     * Build XML for an optimize command.
      *
      * @param Optimize $command
      *

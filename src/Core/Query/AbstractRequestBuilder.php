@@ -141,7 +141,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
     /**
      * Get a helper instance.
      *
-     * Uses lazy loading: the helper is instantiated on first use
+     * Uses lazy loading: the helper is instantiated on first use.
      *
      * @return Helper
      */

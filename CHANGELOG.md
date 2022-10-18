@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - PHP 8.2 support
+- JSON formatted update requests
 
 
 ## [6.2.7]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarium\Tests\QueryType\Update;
+namespace Solarium\Tests\QueryType\Update\RequestBuilder;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Request;
@@ -13,9 +13,9 @@ use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
-use Solarium\QueryType\Update\RequestBuilder;
+use Solarium\QueryType\Update\RequestBuilder\Xml as XmlRequestBuilder;
 
-class RequestBuilderTest extends TestCase
+class XmlTest extends TestCase
 {
     /**
      * @var Query
@@ -23,14 +23,16 @@ class RequestBuilderTest extends TestCase
     protected $query;
 
     /**
-     * @var RequestBuilder
+     * @var XmlRequestBuilder
      */
     protected $builder;
 
     public function setUp(): void
     {
         $this->query = new Query();
-        $this->builder = new RequestBuilder();
+        $this->query->setRequestFormat(Query::REQUEST_FORMAT_XML);
+
+        $this->builder = new XmlRequestBuilder();
     }
 
     public function testGetMethod()
@@ -94,9 +96,9 @@ class RequestBuilderTest extends TestCase
     public function testBuildAddXmlWithEmptyValues()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(['id' => 0, 'empty_string' => '', 'array_of_empty_string' => [''], 'null' => null]));
+        $command->addDocument(new Document(['id' => 0, 'empty_string' => '', 'empty_array' => [], 'array_of_empty_string' => [''], 'null' => null]));
 
-        // Empty values must be added to the document as empty fields, NULL values are skipped.
+        // Empty strings must be added to the document as empty fields, empty arrays and NULL values are skipped.
         $this->assertSame(
             '<add><doc><field name="id">0</field><field name="empty_string"></field><field name="array_of_empty_string"></field></doc></add>',
             $this->builder->buildAddXml($command)
@@ -487,6 +489,19 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlWithMultivaluedDateTimes()
+    {
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'datetime' => [new \DateTime('2013-01-15 14:41:58', new \DateTimeZone('-02:00')), new \DateTimeImmutable('2014-02-16 15:42:59', new \DateTimeZone('+06:00'))]])
+        );
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field><field name="datetime">2013-01-15T16:41:58Z</field><field name="datetime">2014-02-16T09:42:59Z</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithFieldModifierAndNullValue()
     {
         $doc = new Document();
@@ -507,7 +522,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXml()
+    public function testBuildDeleteXmlEmpty()
     {
         $command = new DeleteCommand();
 

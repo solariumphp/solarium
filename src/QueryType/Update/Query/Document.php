@@ -10,6 +10,7 @@
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Query\AbstractDocument;
+use Solarium\Core\Query\Helper;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -139,6 +140,13 @@ class Document extends AbstractDocument
     protected $version;
 
     /**
+     * Helper instance.
+     *
+     * @var Helper
+     */
+    protected $helper;
+
+    /**
      * Constructor.
      *
      * @param array $fields
@@ -171,7 +179,7 @@ class Document extends AbstractDocument
     /**
      * Unset field value.
      *
-     * Magic method for removing fields by un-setting object properties
+     * Magic method for removing fields by un-setting object properties.
      *
      * @param string $name
      */
@@ -440,7 +448,7 @@ class Document extends AbstractDocument
     /**
      * Get fields.
      *
-     * Adds validation for atomicUpdates
+     * Adds validation for atomic updates.
      *
      * @throws RuntimeException
      *
@@ -487,13 +495,42 @@ class Document extends AbstractDocument
     {
         $fields = $this->getFields();
 
-        foreach ($this->modifiers as $key => $modifier) {
-            // isset($fields[$key]) wouldn't let you set a field to null
-            if (\array_key_exists($key, $fields)) {
-                $fields[$key] = [$modifier => $fields[$key]];
+        foreach ($fields as $key => &$value) {
+            if ($value instanceof \DateTimeInterface) {
+                $value = $this->getHelper()->formatDate($value);
+            } elseif (\is_array($value) && is_numeric(array_key_first($value))) {
+                foreach ($value as &$multivalue) {
+                    if ($multivalue instanceof \DateTimeInterface) {
+                        $multivalue = $this->getHelper()->formatDate($multivalue);
+                    }
+                }
+            }
+
+            if (isset($this->modifiers[$key])) {
+                $value = [$this->modifiers[$key] => $value];
             }
         }
 
+        if (null !== $this->version) {
+            $fields['_version_'] = $this->version;
+        }
+
         return $fields;
+    }
+
+    /**
+     * Get a helper instance.
+     *
+     * Uses lazy loading: the helper is instantiated on first use.
+     *
+     * @return Helper
+     */
+    protected function getHelper(): Helper
+    {
+        if (null === $this->helper) {
+            $this->helper = new Helper();
+        }
+
+        return $this->helper;
     }
 }

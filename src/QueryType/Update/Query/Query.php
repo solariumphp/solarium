@@ -23,7 +23,8 @@ use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
-use Solarium\QueryType\Update\RequestBuilder;
+use Solarium\QueryType\Update\RequestBuilder\Json as JsonRequestBuilder;
+use Solarium\QueryType\Update\RequestBuilder\Xml as XmlRequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
 use Solarium\QueryType\Update\Result;
 
@@ -67,6 +68,16 @@ class Query extends BaseQuery
     const COMMAND_ROLLBACK = 'rollback';
 
     /**
+     * JSON request format.
+     */
+    const REQUEST_FORMAT_JSON = 'json';
+
+    /**
+     * XML request format.
+     */
+    const REQUEST_FORMAT_XML = 'xml';
+
+    /**
      * Update command types.
      *
      * @var array
@@ -81,12 +92,23 @@ class Query extends BaseQuery
     ];
 
     /**
+     * Request formats.
+     *
+     * @var array
+     */
+    protected $requestFormats = [
+        self::REQUEST_FORMAT_JSON => JsonRequestBuilder::class,
+        self::REQUEST_FORMAT_XML => XmlRequestBuilder::class,
+    ];
+
+    /**
      * Default options.
      *
      * @var array
      */
     protected $options = [
         'handler' => 'update',
+        'requestformat' => self::REQUEST_FORMAT_XML,
         'resultclass' => Result::class,
         'documentclass' => Document::class,
         'omitheader' => false,
@@ -113,13 +135,49 @@ class Query extends BaseQuery
     }
 
     /**
+     * Set the request format for this query.
+     *
+     * Use one of the REQUEST_FORMAT_* constants as value.
+     *
+     * @param string $requestFormat
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return self Provides fluent interface
+     */
+    public function setRequestFormat(string $requestFormat): self
+    {
+        $requestFormat = strtolower($requestFormat);
+
+        if (!isset($this->requestFormats[$requestFormat])) {
+            throw new InvalidArgumentException(sprintf('Unsupported request format: %s', $requestFormat));
+        }
+
+        $this->setOption('requestformat', $requestFormat);
+
+        return $this;
+    }
+
+    /**
+     * Get the request format for this query.
+     *
+     * @return string
+     */
+    public function getRequestFormat(): string
+    {
+        return $this->getOption('requestformat');
+    }
+
+    /**
      * Get a requestbuilder for this query.
      *
-     * @return RequestBuilder
+     * @return RequestBuilderInterface
      */
     public function getRequestBuilder(): RequestBuilderInterface
     {
-        return new RequestBuilder();
+        $class = $this->requestFormats[$this->options['requestformat']];
+
+        return new $class();
     }
 
     /**
@@ -168,8 +226,8 @@ class Query extends BaseQuery
     /**
      * Add a command to this update query.
      *
-     * The command must be an instance of one of the Solarium\QueryType\Update_*
-     * classes.
+     * The command must be an instance of one of the
+     * Solarium\QueryType\Update\Query\Command\* classes.
      *
      * @param string|null     $key
      * @param AbstractCommand $command
@@ -488,7 +546,7 @@ class Query extends BaseQuery
     /**
      * Get the current documentclass option.
      *
-     * The value is a classname, not an instance
+     * The value is a classname, not an instance.
      *
      * @return string
      */
@@ -501,7 +559,7 @@ class Query extends BaseQuery
      * Create a document object instance.
      *
      * You can optionally directly supply the fields and boosts
-     * to get a ready-made document instance for direct use in an add command
+     * to get a ready-made document instance for direct use in an add command.
      *
      * @since 2.1.0
      *
@@ -524,10 +582,15 @@ class Query extends BaseQuery
      * Several options need some extra checks or setup work, for these options
      * the setters are called.
      *
+     * @throws InvalidArgumentException
      * @throws RuntimeException
      */
     protected function init(): void
     {
+        if (isset($this->options['requestformat'])) {
+            $this->setRequestFormat($this->options['requestformat']);
+        }
+
         if (isset($this->options['command'])) {
             foreach ($this->options['command'] as $key => $value) {
                 $type = $value['type'];

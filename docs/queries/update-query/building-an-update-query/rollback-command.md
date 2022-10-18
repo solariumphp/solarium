@@ -1,6 +1,6 @@
 A rollback command withdraws any uncommitted changes.
 
-If you want to use this be carefull not to have the Solr autocommit feature enabled. However in most cases you should try to prevent having to rollback changes. Rollbacks can almost always be avoided by a solid update policy.
+If you want to use this be careful not to have the Solr autocommit feature enabled. However in most cases you should try to prevent having to rollback changes. Rollbacks can almost always be avoided by a solid update policy.
 
 Options
 -------

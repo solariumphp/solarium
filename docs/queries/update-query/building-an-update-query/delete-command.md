@@ -1,4 +1,4 @@
-This command commits deletes documents from the index. You can delete based on document id (uniquekey) or by query. Multiple ids, multiple queries or a combination of both can be used in a single delete command.
+This command deletes documents from the index. You can delete based on document id (uniquekey) or by query. Multiple ids, multiple queries or a combination of both can be used in a single delete command.
 
 The addDeleteQuery method supports placeholders, similar to the placeholder syntax for select queries.
 

@@ -25,20 +25,46 @@ class QueryTest extends TestCase
         $this->assertSame(Client::QUERY_UPDATE, $this->query->getType());
     }
 
+    public function testDefaultRequestFormat()
+    {
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->query->getRequestFormat());
+    }
+
+    public function testSetAndGetRequestFormat()
+    {
+        $this->query->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->query->getRequestFormat());
+    }
+
+    public function testSetUnsupportedRequestFormat()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request format: foobar');
+        $this->query->setRequestFormat('foobar');
+    }
+
     public function testGetResponseParser()
     {
         $this->assertInstanceOf('Solarium\QueryType\Update\ResponseParser', $this->query->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetJsonRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Update\RequestBuilder', $this->query->getRequestBuilder());
+        $this->query->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->assertInstanceOf('Solarium\QueryType\Update\RequestBuilder\Json', $this->query->getRequestBuilder());
+    }
+
+    public function testGetXmlRequestBuilder()
+    {
+        $this->query->setRequestFormat(Query::REQUEST_FORMAT_XML);
+        $this->assertInstanceOf('Solarium\QueryType\Update\RequestBuilder\Xml', $this->query->getRequestBuilder());
     }
 
     public function testConfigMode()
     {
         $options = [
             'handler' => 'myHandler',
+            'requestformat' => Query::REQUEST_FORMAT_JSON,
             'resultclass' => 'myResult',
             'command' => [
                 'key1' => [
@@ -69,6 +95,11 @@ class QueryTest extends TestCase
         $this->assertSame(
             $options['handler'],
             $this->query->getHandler()
+        );
+
+        $this->assertSame(
+            Query::REQUEST_FORMAT_JSON,
+            $this->query->getRequestFormat()
         );
 
         $this->assertSame(
@@ -111,9 +142,20 @@ class QueryTest extends TestCase
 
         $rollback = $commands['key4'];
         $this->assertSame(
-            'Solarium\QueryType\Update\Query\Command\Rollback',
+            Rollback::class,
             get_class($rollback)
         );
+    }
+
+    public function testConstructorWithUnsupportedRequestFormat()
+    {
+        $config = [
+            'requestformat' => 'foobar',
+        ];
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request format: foobar');
+        new Query($config);
     }
 
     public function testConstructorWithConfigAddCommand()

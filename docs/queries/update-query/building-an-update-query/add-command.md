@@ -1,4 +1,4 @@
-This command commits add documents to the index. If a document with the same uniquekey (see Solr schema) already exists it will be overwritten, effectively updating the document.
+This command adds documents to the index. If a document with the same uniquekey (see Solr schema) already exists it will be overwritten, effectively updating the document.
 
 You can add multiple documents in a single add command, this is also more efficient than separate add commands.
 
