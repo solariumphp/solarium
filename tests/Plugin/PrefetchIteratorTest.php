@@ -176,16 +176,33 @@ class PrefetchIteratorTest extends TestCase
             $this->getPartialResult(4, 2),
         ];
 
+        $mockQuery = $this->createMock(Query::class);
+        $mockQuery->method('setRows')
+                  ->with($this->equalTo(2))
+                  ->willReturnSelf();
+        // every time the query is executed
+        $mockQuery->expects($this->exactly(3))
+                  ->method('setStart')
+                  ->withConsecutive(
+                      [$this->equalTo(0)],
+                      [$this->equalTo(2)],
+                      [$this->equalTo(4)],
+                  )
+                  ->willReturnSelf();
+        $mockQuery->expects($this->never())
+                  ->method('setCursorMark')
+                  ->willReturnSelf();
+
         $mockClient = $this->createMock(Client::class);
-        // the query should be executed 3 times for a full iteration because 3 === (int) ceil($numFound = 5 / $prefetch = 2)
+        // the query should be executed 3 times for a full iteration because 3 === intdiv($numFound = 5 / $prefetch = 2) + 1
         $mockClient->expects($this->exactly(3))
                    ->method('execute')
-                   ->with($this->equalTo($this->query), $this->equalTo(null))
+                   ->with($this->equalTo($mockQuery), $this->equalTo(null))
                    ->willReturnOnConsecutiveCalls(...$resultSets);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setPrefetch(2);
-        $this->plugin->setQuery($this->query);
+        $this->plugin->setQuery($mockQuery);
 
         $results = [];
         foreach ($this->plugin as $doc) {
@@ -196,14 +213,198 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
+    public function testIteratorWithCursorMark()
+    {
+        $resultSets = [
+            $this->getPartialResult(0, 2)->setNextCursorMark('AoEhMg=='),
+            $this->getPartialResult(2, 2)->setNextCursorMark('AoEhNA=='),
+            $this->getPartialResult(4, 2)->setNextCursorMark('AoEhNQ=='),
+        ];
+
+        $mockQuery = $this->createMock(Query::class);
+        $mockQuery->method('setRows')
+                  ->with($this->equalTo(2))
+                  ->willReturnSelf();
+        $mockQuery->expects($this->never())
+                  ->method('setStart')
+                  ->willReturnSelf();
+        // initial manual setCursorMark('*') + every time the query is executed
+        $mockQuery->expects($this->exactly(4))
+                  ->method('setCursorMark')
+                  ->withConsecutive(
+                      [$this->equalTo('*')],
+                      [$this->equalTo('*')],
+                      [$this->equalTo('AoEhMg==')],
+                      [$this->equalTo('AoEhNA==')],
+                  )
+                  ->willReturnSelf();
+        // won't be '*' on consecutive calls, only matters that it isn't NULL for this test
+        $mockQuery->method('getCursorMark')
+                  ->willReturn('*');
+
+        $mockClient = $this->createMock(Client::class);
+        // the query should be executed 3 times for a full iteration because 3 === intdiv($numFound = 5 / $prefetch = 2) + 1
+        $mockClient->expects($this->exactly(3))
+                   ->method('execute')
+                   ->with($this->equalTo($mockQuery), $this->equalTo(null))
+                   ->willReturnOnConsecutiveCalls(...$resultSets);
+
+        $mockQuery->setCursorMark('*');
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setPrefetch(2);
+        $this->plugin->setQuery($mockQuery);
+
+        $results = [];
+        foreach ($this->plugin as $doc) {
+            $results[] = $doc;
+        }
+
+        $this->assertCount(5, $this->plugin);
+        $this->assertSame($this->documents, $results);
+    }
+
+    public function testIteratorExactMultiple()
+    {
+        // add an extra document so we hit a multiple of prefetch size 2
+        $this->documents[] = new Document(['id' => 6, 'title' => 'doc6']);
+
+        $resultSets = [
+            $this->getPartialResult(0, 2),
+            $this->getPartialResult(2, 2),
+            $this->getPartialResult(4, 2),
+            // an empty resultset is returned if you try to page beyond numFound
+            $this->getEmptyResult()->setNumFound(6),
+        ];
+
+        $mockQuery = $this->createMock(Query::class);
+        $mockQuery->method('setRows')
+                  ->with($this->equalTo(2))
+                  ->willReturnSelf();
+        // every time the query is executed
+        $mockQuery->expects($this->exactly(4))
+                  ->method('setStart')
+                  ->withConsecutive(
+                      [$this->equalTo(0)],
+                      [$this->equalTo(2)],
+                      [$this->equalTo(4)],
+                      [$this->equalTo(6)],
+                  )
+                  ->willReturnSelf();
+        $mockQuery->expects($this->never())
+                  ->method('setCursorMark')
+                  ->willReturnSelf();
+
+        $mockClient = $this->createMock(Client::class);
+        // the query should be executed 4 times for a full iteration because 4 === intdiv($numFound = 6 / $prefetch = 2) + 1
+        $mockClient->expects($this->exactly(4))
+                   ->method('execute')
+                   ->with($this->equalTo($mockQuery), $this->equalTo(null))
+                   ->willReturnOnConsecutiveCalls(...$resultSets);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setPrefetch(2);
+        $this->plugin->setQuery($mockQuery);
+
+        $results = [];
+        foreach ($this->plugin as $doc) {
+            $results[] = $doc;
+        }
+
+        $this->assertCount(6, $this->plugin);
+        $this->assertSame($this->documents, $results);
+    }
+
+    public function testIteratorExactMultipleWithCursorMark()
+    {
+        // add an extra document so we hit a multiple of prefetch size 2
+        $this->documents[] = new Document(['id' => 6, 'title' => 'doc6']);
+
+        $resultSets = [
+            $this->getPartialResult(0, 2)->setNextCursorMark('AoEhMg=='),
+            $this->getPartialResult(2, 2)->setNextCursorMark('AoEhNA=='),
+            $this->getPartialResult(4, 2)->setNextCursorMark('AoEhNg=='),
+            // last cursorMark is repeated by Solr if there are no further results
+            $this->getEmptyResult()->setNumFound(6)->setNextCursorMark('AoEhNg=='),
+        ];
+
+        $mockQuery = $this->createMock(Query::class);
+        $mockQuery->method('setRows')
+                  ->with($this->equalTo(2))
+                  ->willReturnSelf();
+        $mockQuery->expects($this->never())
+                  ->method('setStart')
+                  ->willReturnSelf();
+        // initial manual setCursorMark('*') + every time the query is executed
+        $mockQuery->expects($this->exactly(5))
+                  ->method('setCursorMark')
+                  ->withConsecutive(
+                      [$this->equalTo('*')],
+                      [$this->equalTo('*')],
+                      [$this->equalTo('AoEhMg==')],
+                      [$this->equalTo('AoEhNA==')],
+                      [$this->equalTo('AoEhNg==')],
+                  )
+                  ->willReturnSelf();
+        // won't be '*' on consecutive calls, only matters that it isn't NULL for this test
+        $mockQuery->method('getCursorMark')
+                  ->willReturn('*');
+
+        $mockClient = $this->createMock(Client::class);
+        // the query should be executed 4 times for a full iteration because 4 === intdiv($numFound = 6 / $prefetch = 2) + 1
+        $mockClient->expects($this->exactly(4))
+                   ->method('execute')
+                   ->with($this->equalTo($mockQuery), $this->equalTo(null))
+                   ->willReturnOnConsecutiveCalls(...$resultSets);
+
+        $mockQuery->setCursorMark('*');
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setPrefetch(2);
+        $this->plugin->setQuery($mockQuery);
+
+        $results = [];
+        foreach ($this->plugin as $doc) {
+            $results[] = $doc;
+        }
+
+        $this->assertCount(6, $this->plugin);
+        $this->assertSame($this->documents, $results);
+    }
+
     public function testIteratorEmptyResult()
     {
         $result = $this->getEmptyResult();
+
         $mockClient = $this->createMock(Client::class);
         // the query should be executed only once because there is nothing else to fetch
         $mockClient->expects($this->exactly(1))
                    ->method('execute')
                    ->willReturn($result);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setQuery($this->query);
+
+        $results = [];
+        foreach ($this->plugin as $doc) {
+            $results[] = $doc;
+        }
+
+        $this->assertCount(0, $this->plugin);
+        $this->assertSame([], $results);
+    }
+
+    public function testIteratorEmptyResultWithCursorMark()
+    {
+        $result = $this->getEmptyResult()->setNextCursorMark('*');
+
+        $mockClient = $this->createMock(Client::class);
+        // the query should be executed only once because there is nothing else to fetch
+        $mockClient->expects($this->exactly(1))
+                   ->method('execute')
+                   ->willReturn($result);
+
+        $this->query->setCursorMark('*');
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setQuery($this->query);
@@ -224,17 +425,35 @@ class PrefetchIteratorTest extends TestCase
             $this->getPartialResult(3, 3),
         ];
 
+        $mockQuery = $this->createMock(Query::class);
+        $mockQuery->method('setRows')
+                  ->with($this->equalTo(3))
+                  ->willReturnSelf();
+        // every time the query is executed
+        $mockQuery->expects($this->exactly(4))
+                  ->method('setStart')
+                  ->withConsecutive(
+                      [$this->equalTo(0)],
+                      [$this->equalTo(3)],
+                      [$this->equalTo(0)],
+                      [$this->equalTo(3)],
+                  )
+                  ->willReturnSelf();
+        $mockQuery->expects($this->never())
+                  ->method('setCursorMark')
+                  ->willReturnSelf();
+
         $mockClient = $this->createMock(Client::class);
-        // the query should be executed 2 times for a full iteration because 2 === (int) ceil($numFound = 5 / $prefetch = 3)
+        // the query should be executed 2 times for a full iteration because 2 === intdiv($numFound = 5 / $prefetch = 3) + 1
         // + 2 times for another full iteration after the rewind() invoked by the second foreach
         $mockClient->expects($this->exactly(4))
                    ->method('execute')
-                   ->with($this->equalTo($this->query), $this->equalTo(null))
+                   ->with($this->equalTo($mockQuery), $this->equalTo(null))
                    ->willReturnOnConsecutiveCalls(...$resultSets, ...$resultSets);
 
         $this->plugin->initPlugin($mockClient, []);
         $this->plugin->setPrefetch(3);
-        $this->plugin->setQuery($this->query);
+        $this->plugin->setQuery($mockQuery);
 
         $results1 = [];
         foreach ($this->plugin as $doc) {
@@ -249,6 +468,107 @@ class PrefetchIteratorTest extends TestCase
 
         $this->assertSame($this->documents, $results1);
         $this->assertSame($this->documents, $results2);
+    }
+
+    public function testIteratorAndRewindWithCursorMark()
+    {
+        $resultSets = [
+            $this->getPartialResult(0, 3)->setNextCursorMark('AoEhMw=='),
+            $this->getPartialResult(3, 3)->setNextCursorMark('AoEhNQ=='),
+        ];
+
+        $mockQuery = $this->createMock(Query::class);
+        $mockQuery->method('setRows')
+                  ->with($this->equalTo(3))
+                  ->willReturnSelf();
+        $mockQuery->expects($this->never())
+                  ->method('setStart')
+                  ->willReturnSelf();
+        // initial manual setCursorMark('*') + every time the query is executed
+        $mockQuery->expects($this->exactly(5))
+                  ->method('setCursorMark')
+                  ->withConsecutive(
+                      [$this->equalTo('*')],
+                      [$this->equalTo('*')],
+                      [$this->equalTo('AoEhMw==')],
+                      [$this->equalTo('*')],
+                      [$this->equalTo('AoEhMw==')],
+                  )
+                  ->willReturnSelf();
+        // won't be '*' on consecutive calls, only matters that it isn't NULL for this test
+        $mockQuery->method('getCursorMark')
+                  ->willReturn('*');
+
+        $mockClient = $this->createMock(Client::class);
+        // the query should be executed 2 times for a full iteration because 2 === intdiv($numFound = 5 / $prefetch = 3) + 1
+        // + 2 times for another full iteration after the rewind() invoked by the second foreach
+        $mockClient->expects($this->exactly(4))
+                   ->method('execute')
+                   ->with($this->equalTo($mockQuery), $this->equalTo(null))
+                   ->willReturnOnConsecutiveCalls(...$resultSets, ...$resultSets);
+
+        $mockQuery->setCursorMark('*');
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setPrefetch(3);
+        $this->plugin->setQuery($mockQuery);
+
+        $results1 = [];
+        foreach ($this->plugin as $doc) {
+            $results1[] = $doc;
+        }
+
+        // the second foreach will trigger a rewind, this time include keys
+        $results2 = [];
+        foreach ($this->plugin as $key => $doc) {
+            $results2[$key] = $doc;
+        }
+
+        $this->assertSame($this->documents, $results1);
+        $this->assertSame($this->documents, $results2);
+    }
+
+    public function testPrefetchTrumpsStartAndRows()
+    {
+        $result = $this->getEmptyResult();
+
+        $mockClient = $this->createMock(Client::class);
+        $mockClient->method('execute')
+                   ->willReturn($result);
+
+        $this->query->setStart(12);
+        $this->query->setRows(2);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setPrefetch(3);
+        $this->plugin->setQuery($this->query);
+
+        // trigger a fetch
+        $this->plugin->valid();
+
+        $this->assertSame(0, $this->query->getStart());
+        $this->assertSame(3, $this->query->getRows());
+    }
+
+    public function testPrefetchTrumpsRowsWithCursorMark()
+    {
+        $result = $this->getEmptyResult();
+
+        $mockClient = $this->createMock(Client::class);
+        $mockClient->method('execute')
+                   ->willReturn($result);
+
+        $this->query->setCursorMark('*');
+        $this->query->setRows(2);
+
+        $this->plugin->initPlugin($mockClient, []);
+        $this->plugin->setPrefetch(3);
+        $this->plugin->setQuery($this->query);
+
+        // trigger a fetch
+        $this->plugin->valid();
+
+        $this->assertSame(3, $this->query->getRows());
     }
 
     public function testIteratorDoesntResetOnCount()
@@ -383,32 +703,32 @@ class PrefetchIteratorTest extends TestCase
         $this->assertCount(5, $this->plugin);
     }
 
-    public function getResult(): SelectDummy
+    public function getResult(): SelectResultDummy
     {
         $numFound = \count($this->documents);
         $docs = $this->documents;
 
-        return new SelectDummy(1, 12, $numFound, $docs, []);
+        return new SelectResultDummy(1, 12, $numFound, $docs, []);
     }
 
-    public function getPartialResult(int $offset, int $length): SelectDummy
+    public function getPartialResult(int $offset, int $length): SelectResultDummy
     {
         $numFound = \count($this->documents);
         $docs = array_slice($this->documents, $offset, $length);
 
-        return new SelectDummy(1, 12, $numFound, $docs, []);
+        return new SelectResultDummy(1, 12, $numFound, $docs, []);
     }
 
-    public function getEmptyResult(): SelectDummy
+    public function getEmptyResult(): SelectResultDummy
     {
         $numFound = 0;
         $docs = [];
 
-        return new SelectDummy(1, 2, $numFound, $docs, []);
+        return new SelectResultDummy(1, 2, $numFound, $docs, []);
     }
 }
 
-class SelectDummy extends Result
+class SelectResultDummy extends Result
 {
     protected $parsed = true;
 
@@ -419,5 +739,19 @@ class SelectDummy extends Result
         $this->components = $components;
         $this->queryTime = $queryTime;
         $this->status = $status;
+    }
+
+    public function setNumFound(int $numfound): self
+    {
+        $this->numfound = $numfound;
+
+        return $this;
+    }
+
+    public function setNextCursorMark(string $nextcursormark): self
+    {
+        $this->nextcursormark = $nextcursormark;
+
+        return $this;
     }
 }
