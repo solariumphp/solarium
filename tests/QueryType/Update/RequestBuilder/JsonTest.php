@@ -61,6 +61,30 @@ class JsonTest extends TestCase
         );
     }
 
+    /**
+     * Update queries with a different input encoding than the default UTF-8
+     * aren't supported by the JSON request format.
+     *
+     * @see https://www.rfc-editor.org/rfc/rfc8259#section-8.1
+     */
+    public function testBuildWithInputEncoding()
+    {
+        // not setting an input encoding is fine
+        $this->builder->build($this->query);
+
+        $this->query->setInputEncoding('utf-8');
+
+        // setting UTF-8 input encoding explicitly is fine (but superfluous)
+        $this->builder->build($this->query);
+
+        $this->query->setInputEncoding('us-ascii');
+
+        // setting a different input encoding is prohibited
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('JSON requests can only be UTF-8');
+        $this->builder->build($this->query);
+    }
+
     public function testBuildWithUnsupportedCommandType()
     {
         $this->query->add(null, new RawXmlCommand());

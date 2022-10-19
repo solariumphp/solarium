@@ -29,7 +29,7 @@ abstract class AbstractProxyTest extends TestCase
     protected static $proxy_server;
 
     /**
-     * @var string
+     * @var int
      */
     protected static $proxy_port;
 

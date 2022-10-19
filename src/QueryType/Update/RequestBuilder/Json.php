@@ -30,10 +30,19 @@ class Json extends AbstractRequestBuilder
      *
      * @param QueryInterface|AbstractQuery|UpdateQuery $query
      *
+     * @throws RuntimeException
+     *
      * @return Request
      */
     public function build(AbstractQuery $query): Request
     {
+        $inputEncoding = $query->getInputEncoding();
+
+        if (null !== $inputEncoding && 0 !== strcasecmp('UTF-8', $inputEncoding)) {
+            // @see https://www.rfc-editor.org/rfc/rfc8259#section-8.1
+            throw new RuntimeException('JSON requests can only be UTF-8');
+        }
+
         $request = parent::build($query);
         $request->setMethod(Request::METHOD_POST);
         $request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
