@@ -11,6 +11,7 @@ namespace Solarium\Plugin\AbstractBufferedUpdate;
 
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
 
@@ -67,6 +68,34 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
     }
 
     /**
+     * Set the request format for the updates.
+     *
+     * Use one of the UpdateQuery::REQUEST_FORMAT_* constants as value.
+     *
+     * @param string $requestFormat
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return self Provides fluent interface
+     */
+    public function setRequestFormat(string $requestFormat): self
+    {
+        $this->updateQuery->setRequestFormat($requestFormat);
+
+        return $this;
+    }
+
+    /**
+     * Get the request format for the updates.
+     *
+     * @return string|null
+     */
+    public function getRequestFormat(): ?string
+    {
+        return $this->updateQuery->getRequestFormat();
+    }
+
+    /**
      * Set buffer size option.
      *
      * @param int $size
@@ -111,7 +140,11 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
      */
     public function clear(): self
     {
+        // keep request format
+        $requestFormat = $this->updateQuery->getRequestFormat();
         $this->updateQuery = $this->client->createUpdate();
+        $this->updateQuery->setRequestFormat($requestFormat);
+
         $this->buffer = [];
 
         return $this;
@@ -142,5 +175,9 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
     protected function initPluginType(): void
     {
         $this->updateQuery = $this->client->createUpdate();
+
+        if (null !== $requestFormat = $this->getOption('requestformat')) {
+            $this->updateQuery->setRequestFormat($requestFormat);
+        }
     }
 }

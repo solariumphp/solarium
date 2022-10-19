@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\BufferedDelete\AbstractDelete;
 use Solarium\Plugin\BufferedDelete\BufferedDeleteLite;
@@ -42,6 +43,22 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin = $client->getPlugin('buffereddeletelite');
 
         $this->assertInstanceOf(BufferedDeleteLite::class, $plugin);
+    }
+
+    public function testConfigMode()
+    {
+        $options = [
+            'endpoint' => new Endpoint(),
+            'requestformat' => Query::REQUEST_FORMAT_JSON,
+            'buffersize' => 200,
+        ];
+
+        $plugin = new $this->pluginClass();
+        $plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), $options);
+
+        $this->assertSame($options['endpoint'], $plugin->getEndpoint());
+        $this->assertSame($options['requestformat'], $plugin->getRequestFormat());
+        $this->assertSame($options['buffersize'], $plugin->getBufferSize());
     }
 
     public function testSetAndGetBufferSize()
@@ -175,6 +192,14 @@ class BufferedDeleteLiteTest extends TestCase
         $this->assertEquals([], $this->plugin->getDeletes());
     }
 
+    public function testClearKeepsRequestFormat()
+    {
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->plugin->clear();
+
+        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+    }
+
     public function testFlushEmptyBuffer()
     {
         $this->assertFalse($this->plugin->flush());
@@ -250,6 +275,24 @@ class BufferedDeleteLiteTest extends TestCase
         $endpoint->setKey('master');
         $this->assertSame($this->plugin, $this->plugin->setEndpoint($endpoint));
         $this->assertSame($endpoint, $this->plugin->getEndPoint());
+    }
+
+    public function testDefaultRequestFormat()
+    {
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
+    }
+
+    public function testSetAndGetRequestFormat()
+    {
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+    }
+
+    public function testSetUnsupportedRequestFormat()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request format: foobar');
+        $this->plugin->setRequestFormat('foobar');
     }
 
     /**

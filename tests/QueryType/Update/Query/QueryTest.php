@@ -27,7 +27,12 @@ class QueryTest extends TestCase
 
     public function testDefaultRequestFormat()
     {
-        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->query->getRequestFormat());
+        $this->assertSame(
+            Query::REQUEST_FORMAT_XML,
+            $this->query->getRequestFormat(),
+            // some tests will still pass but no longer be reliable if they're suddenly testing against the default
+            'Update all tests that assume REQUEST_FORMAT_XML is the default if this is changed (including tests for plugins)'
+        );
     }
 
     public function testSetAndGetRequestFormat()

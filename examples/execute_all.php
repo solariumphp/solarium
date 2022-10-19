@@ -131,7 +131,11 @@ try {
     // examples that can't be run against techproducts
     $skipAltogether = [
         '2.1.5.8-distributed-search.php',
-        '7.5.3-plugin-bufferedupdate-benchmarks.php', // takes too long for a workflow, can be run manually
+        '7.5.3-plugin-bufferedupdate-benchmarks.php', // intended to be included, not to be run standalone
+        '7.5.3.1-plugin-bufferedupdate-benchmarks-xml.php', // takes too long for a workflow, can be run manually
+        '7.5.3.2-plugin-bufferedupdate-lite-benchmarks-xml.php', // takes too long for a workflow, can be run manually
+        '7.5.3.3-plugin-bufferedupdate-benchmarks-json.php', // takes too long for a workflow, can be run manually
+        '7.5.3.4-plugin-bufferedupdate-lite-benchmarks-json.php', // takes too long for a workflow, can be run manually
     ];
 
     // examples that can't be run against this Solr version
