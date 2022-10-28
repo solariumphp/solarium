@@ -155,6 +155,7 @@ abstract class AbstractTechproductsTest extends TestCase
                 DIRECTORY_SEPARATOR.'exampledocs';
             foreach (glob($dataDir.DIRECTORY_SEPARATOR.'*.xml') as $file) {
                 $update = self::$client->createUpdate();
+                $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
 
                 if (null !== $encoding = Utility::getXmlEncoding($file)) {
                     $update->setInputEncoding($encoding);
@@ -191,6 +192,18 @@ abstract class AbstractTechproductsTest extends TestCase
             self::tearDownAfterClass();
             static::markTestSkipped('Solr techproducts sample data not indexed properly.');
         }
+    }
+
+    /**
+     * This data provider should be used by all UpdateQuery tests that don't test request
+     * format specific Commands to ensure functional equivalance between the formats.
+     */
+    public function updateRequestFormatProvider(): array
+    {
+        return [
+            [UpdateQuery::REQUEST_FORMAT_XML],
+            [UpdateQuery::REQUEST_FORMAT_JSON],
+        ];
     }
 
     /**
@@ -252,8 +265,10 @@ abstract class AbstractTechproductsTest extends TestCase
 
     /**
      * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
+     *
+     * @dataProvider updateRequestFormatProvider
      */
-    public function testEscapes()
+    public function testEscapes(string $requestFormat)
     {
         $escapeChars = [' ', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', '\\'];
         $cat = [implode('', $escapeChars)];
@@ -263,6 +278,7 @@ abstract class AbstractTechproductsTest extends TestCase
         }
 
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-escapes');
         $doc->setField('name', 'Solarium Test Escapes');
@@ -303,8 +319,10 @@ abstract class AbstractTechproductsTest extends TestCase
     /**
      * @see https://github.com/solariumphp/solarium/issues/974
      * @see https://solr.apache.org/guide/local-parameters-in-queries.html#basic-syntax-of-local-parameters
+     *
+     * @dataProvider updateRequestFormatProvider
      */
-    public function testLocalParamValueEscapes()
+    public function testLocalParamValueEscapes(string $requestFormat)
     {
         $categories = [
             'solarium-test-localparamvalue-escapes',
@@ -319,6 +337,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ];
 
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-localparamvalue-escapes');
         $doc->setField('name', 'Solarium Test Local Param Value Escapes');
@@ -1277,7 +1296,10 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $terms);
     }
 
-    public function testUpdate()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testUpdate(string $requestFormat)
     {
         $select = self::$client->createSelect();
         $select->setQuery('cat:solarium-test');
@@ -1286,6 +1308,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // add, but don't commit
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $doc1 = $update->createDocument();
         $doc1->setField('id', 'solarium-test-1');
         $doc1->setField('name', 'Solarium Test 1');
@@ -1305,6 +1328,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // commit
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $update->addCommit(true, true);
         self::$client->update($update);
         $result = self::$client->select($select);
@@ -1328,6 +1352,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // delete by id and commit
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $update->addDeleteById('solarium-test-1');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1341,6 +1366,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // delete by query and commit
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $update->addDeleteQuery('cat:solarium-test');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1349,6 +1375,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // optimize
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $update->addOptimize(true, false);
         $response = self::$client->update($update);
         $this->assertSame(0, $response->getStatus());
@@ -1357,6 +1384,7 @@ abstract class AbstractTechproductsTest extends TestCase
         if ($this instanceof AbstractServerTest) {
             // add, rollback, commit
             $update = self::$client->createUpdate();
+            $update->setRequestFormat($requestFormat);
             $doc1 = $update->createDocument();
             $doc1->setField('id', 'solarium-test-1');
             $doc1->setField('name', 'Solarium Test 1');
@@ -1365,15 +1393,25 @@ abstract class AbstractTechproductsTest extends TestCase
             $update->addDocument($doc1);
             self::$client->update($update);
             $update = self::$client->createUpdate();
+            $update->setRequestFormat($requestFormat);
             $update->addRollback();
             $update->addCommit(true, true);
             self::$client->update($update);
             $result = self::$client->select($select);
             $this->assertCount(0, $result);
         }
+    }
+
+    public function testUpdateRawXml()
+    {
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-test');
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,price,content');
 
         // raw add and raw commit
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->addRawXmlCommand('<add><doc><field name="id">solarium-test-1</field><field name="name">Solarium Test 1</field><field name="cat">solarium-test</field><field name="price">3.14</field></doc></add>');
         $update->addRawXmlCommand('<commit softCommit="true" waitSearcher="true"/>');
         self::$client->update($update);
@@ -1387,6 +1425,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // grouped mixed raw commands
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->addRawXmlCommand('<update><add><doc><field name="id">solarium-test-2</field><field name="name">Solarium Test 2</field><field name="cat">solarium-test</field><field name="price">42</field></doc></add></update>');
         $update->addRawXmlCommand('<update><delete><id>solarium-test-1</id></delete><commit softCommit="true" waitSearcher="true"/></update>');
         self::$client->update($update);
@@ -1400,6 +1439,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // raw delete and regular commit
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->addRawXmlCommand('<delete><query>cat:solarium-test</query></delete>');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1408,6 +1448,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // add from UTF-8 encoded files without and with Byte Order Mark and XML declaration
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file) {
             $update->addRawXmlFile($file);
         }
@@ -1416,6 +1457,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // add from non-UTF-8 encoded file
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->setInputEncoding('ISO-8859-1');
         $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-add-iso-8859-1.xml');
         $update->addCommit(true, true);
@@ -1456,6 +1498,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // delete from file with grouped delete commands
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml6-delete.xml');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1463,13 +1506,17 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testModifiers()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testModifiers(string $requestFormat)
     {
         $select = self::$client->createSelect();
         $select->setQuery('id:solarium-test');
         $select->addSort('id', $select::SORT_ASC);
         $select->setFields('id,name,cat,weight');
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
 
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test');
@@ -1729,6 +1776,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // cleanup
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $update->addDeleteById('solarium-test');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1736,7 +1784,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testNestedDocuments()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testNestedDocuments(string $requestFormat)
     {
         $data = [
             'id' => 'solarium-parent',
@@ -1746,20 +1797,20 @@ abstract class AbstractTechproductsTest extends TestCase
                 'id' => 'solarium-single-child',
                 'name' => 'Solarium Nested Document Single Child',
                 'cat' => ['solarium-nested-document', 'child'],
-                'price' => 0.0,
+                'weight' => 0.0,
             ],
             'children' => [
                 [
                     'id' => 'solarium-child-1',
                     'name' => 'Solarium Nested Document Child 1',
                     'cat' => ['solarium-nested-document', 'child'],
-                    'price' => 1.0,
+                    'weight' => 1.0,
                     'grandchildren' => [
                         [
                             'id' => 'solarium-grandchild-1-1',
                             'name' => 'Solarium Nested Document Grandchild 1.1',
                             'cat' => ['solarium-nested-document', 'grandchild'],
-                            'price' => 1.1,
+                            'weight' => 1.1,
                         ],
                     ],
                 ],
@@ -1767,13 +1818,13 @@ abstract class AbstractTechproductsTest extends TestCase
                     'id' => 'solarium-child-2',
                     'name' => 'Solarium Nested Document Child 2',
                     'cat' => ['solarium-nested-document', 'child'],
-                    'price' => 2.0,
+                    'weight' => 2.0,
                     'grandchildren' => [
                         [
                             'id' => 'solarium-grandchild-2-1',
                             'name' => 'Solarium Nested Document Grandchild 2.1',
                             'cat' => ['solarium-nested-document', 'grandchild'],
-                            'price' => 2.1,
+                            'weight' => 2.1,
                         ],
                     ],
                 ],
@@ -1781,6 +1832,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ];
 
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $doc = $update->createDocument($data);
         $update->addDocument($doc);
         $update->addCommit(true, true);
@@ -1789,7 +1841,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // get all documents (parents and descendants) as a flat list
         $select = self::$client->createSelect();
         $select->setQuery('cat:solarium-nested-document');
-        $select->setFields('id,name,price');
+        $select->setFields('id,name,weight');
         $result = self::$client->select($select);
         $this->assertCount(6, $result);
 
@@ -1798,31 +1850,31 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame([
             'id' => 'solarium-single-child',
             'name' => 'Solarium Nested Document Single Child',
-            'price' => 0.0,
+            'weight' => 0.0,
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([
             'id' => 'solarium-grandchild-1-1',
             'name' => 'Solarium Nested Document Grandchild 1.1',
-            'price' => 1.1,
+            'weight' => 1.1,
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([
             'id' => 'solarium-child-1',
             'name' => 'Solarium Nested Document Child 1',
-            'price' => 1.0,
+            'weight' => 1.0,
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([
             'id' => 'solarium-grandchild-2-1',
             'name' => 'Solarium Nested Document Grandchild 2.1',
-            'price' => 2.1,
+            'weight' => 2.1,
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([
             'id' => 'solarium-child-2',
             'name' => 'Solarium Nested Document Child 2',
-            'price' => 2.0,
+            'weight' => 2.0,
         ], $iterator->current()->getFields());
         $iterator->next();
         $this->assertSame([
@@ -1839,14 +1891,12 @@ abstract class AbstractTechproductsTest extends TestCase
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+
+            $expected = [
                 'id' => 'solarium-parent',
-                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
-                /*
                 'single_child' => [
                     'id' => 'solarium-single-child',
                 ],
-                 */
                 'children' => [
                     [
                         'id' => 'solarium-child-1',
@@ -1865,10 +1915,17 @@ abstract class AbstractTechproductsTest extends TestCase
                         ],
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ];
+
+            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat) {
+                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
+                unset($expected['single_child']);
+            }
+
+            $this->assertSame($expected, $iterator->current()->getFields());
 
             // only get descendant documents that match a filter
-            $select->setFields('id,single_child,price,children,grandchildren,[child childFilter=price:2.1]');
+            $select->setFields('id,single_child,weight,children,grandchildren,[child childFilter=weight:2.1]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
@@ -1877,11 +1934,11 @@ abstract class AbstractTechproductsTest extends TestCase
                 'children' => [
                     [
                         'id' => 'solarium-child-2',
-                        'price' => 2.0,
+                        'weight' => 2.0,
                         'grandchildren' => [
                             [
                                 'id' => 'solarium-grandchild-2-1',
-                                'price' => 2.1,
+                                'weight' => 2.1,
                             ],
                         ],
                     ],
@@ -1910,14 +1967,12 @@ abstract class AbstractTechproductsTest extends TestCase
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+
+            $expected = [
                 'id' => 'solarium-parent',
-                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
-                /*
                 'single_child' => [
                     'id' => 'solarium-single-child',
                 ],
-                 */
                 'children' => [
                     [
                         'id' => 'solarium-child-1',
@@ -1928,46 +1983,58 @@ abstract class AbstractTechproductsTest extends TestCase
                         ],
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ];
+
+            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat) {
+                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
+                unset($expected['single_child']);
+            }
+
+            $this->assertSame($expected, $iterator->current()->getFields());
 
             // only return a subset of the top level fl parameter for the child documents
-            $select->setFields('id,name,price,single_child,children,grandchildren,[child fl=id,price]');
+            $select->setFields('id,name,weight,single_child,children,grandchildren,[child fl=id,weight]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+
+            $expected = [
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
-                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
-                /*
                 'single_child' => [
                     'id' => 'solarium-single-child',
-                    'price' => 0.0,
+                    'weight' => 0.0,
                 ],
-                 */
                 'children' => [
                     [
                         'id' => 'solarium-child-1',
-                        'price' => 1.0,
+                        'weight' => 1.0,
                         'grandchildren' => [
                             [
                                 'id' => 'solarium-grandchild-1-1',
-                                'price' => 1.1,
+                                'weight' => 1.1,
                             ],
                         ],
                     ],
                     [
                         'id' => 'solarium-child-2',
-                        'price' => 2.0,
+                        'weight' => 2.0,
                         'grandchildren' => [
                             [
                                 'id' => 'solarium-grandchild-2-1',
-                                'price' => 2.1,
+                                'weight' => 2.1,
                             ],
                         ],
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ];
+
+            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat) {
+                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
+                unset($expected['single_child']);
+            }
+
+            $this->assertSame($expected, $iterator->current()->getFields());
         }
 
         // parent query parser
@@ -2022,13 +2089,13 @@ abstract class AbstractTechproductsTest extends TestCase
                     'id' => 'solarium-child-3',
                     'name' => 'Solarium Nested Document Child 3',
                     'cat' => ['solarium-nested-document', 'child'],
-                    'price' => 3.0,
+                    'weight' => 3.0,
                 ],
                 [
                     'id' => 'solarium-child-4',
                     'name' => 'Solarium Nested Document Child 4',
                     'cat' => ['solarium-nested-document', 'child'],
-                    'price' => 4.0,
+                    'weight' => 4.0,
                 ],
             ];
             $doc = $update->createDocument();
@@ -2041,7 +2108,7 @@ abstract class AbstractTechproductsTest extends TestCase
             $update->addCommit(true, true);
             self::$client->update($update);
             $select->setQuery('id:solarium-parent');
-            $select->setFields('id,name,cat,price,children,grandchildren,[child]');
+            $select->setFields('id,name,cat,weight,children,grandchildren,[child]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
@@ -2058,21 +2125,480 @@ abstract class AbstractTechproductsTest extends TestCase
                         'id' => 'solarium-child-3',
                         'name' => 'Solarium Nested Document Child 3',
                         'cat' => ['solarium-nested-document', 'child'],
-                        'price' => 3.0,
+                        'weight' => 3.0,
                     ],
                     [
                         'id' => 'solarium-child-4',
                         'name' => 'Solarium Nested Document Child 4',
                         'cat' => ['solarium-nested-document', 'child'],
-                        'price' => 4.0,
+                        'weight' => 4.0,
                     ],
                 ],
             ], $iterator->current()->getFields());
 
+            // non-monolithic atomic updates (replacing, adding, removing individual child documents) can't be executed through XML (SOLR-12677)
+            if (UpdateQuery::REQUEST_FORMAT_JSON === $requestFormat) {
+                // atomic update: adding a child document to a pseudo-field
+                $newChild = [
+                    'id' => 'solarium-child-5',
+                    'name' => 'Solarium Nested Document Added Child 5',
+                    'cat' => ['solarium-nested-document', 'child', 'added'],
+                    'weight' => 5.0,
+                ];
+                $doc = $update->createDocument();
+                $doc->setKey('id', 'solarium-parent');
+                $doc->setField('cat', 'updated-2');
+                $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                $doc->setField('children', $newChild);
+                $doc->setFieldModifier('children', $doc::MODIFIER_ADD);
+                $update->addDocument($doc);
+                $update->addCommit(true, true);
+                self::$client->update($update);
+                $result = self::$client->select($select);
+                $this->assertCount(1, $result);
+                $iterator = $result->getIterator();
+                $this->assertSame([
+                    'id' => 'solarium-parent',
+                    'name' => 'Solarium Nested Document Parent',
+                    'cat' => [
+                        'solarium-nested-document',
+                        'parent',
+                        'updated-1',
+                        'updated-2',
+                    ],
+                    'children' => [
+                        [
+                            'id' => 'solarium-child-3',
+                            'name' => 'Solarium Nested Document Child 3',
+                            'cat' => ['solarium-nested-document', 'child'],
+                            'weight' => 3.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-4',
+                            'name' => 'Solarium Nested Document Child 4',
+                            'cat' => ['solarium-nested-document', 'child'],
+                            'weight' => 4.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-5',
+                            'name' => 'Solarium Nested Document Added Child 5',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 5.0,
+                        ],
+                    ],
+                ], $iterator->current()->getFields());
+
+                // atomic update: adding a list of child documents to a pseudo-field
+                $newChildren = [
+                    [
+                        'id' => 'solarium-child-6',
+                        'name' => 'Solarium Nested Document Added Child 6',
+                        'cat' => ['solarium-nested-document', 'child', 'added'],
+                        'weight' => 6.0,
+                    ],
+                    [
+                        'id' => 'solarium-child-7',
+                        'name' => 'Solarium Nested Document Added Child 7',
+                        'cat' => ['solarium-nested-document', 'child', 'added'],
+                        'weight' => 7.0,
+                    ],
+                ];
+                $doc = $update->createDocument();
+                $doc->setKey('id', 'solarium-parent');
+                $doc->setField('cat', 'updated-3');
+                $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                $doc->setField('children', $newChildren);
+                $doc->setFieldModifier('children', $doc::MODIFIER_ADD);
+                $update->addDocument($doc);
+                $update->addCommit(true, true);
+                self::$client->update($update);
+                $result = self::$client->select($select);
+                $this->assertCount(1, $result);
+                $iterator = $result->getIterator();
+                $this->assertSame([
+                    'id' => 'solarium-parent',
+                    'name' => 'Solarium Nested Document Parent',
+                    'cat' => [
+                        'solarium-nested-document',
+                        'parent',
+                        'updated-1',
+                        'updated-2',
+                        'updated-3',
+                    ],
+                    'children' => [
+                        [
+                            'id' => 'solarium-child-3',
+                            'name' => 'Solarium Nested Document Child 3',
+                            'cat' => ['solarium-nested-document', 'child'],
+                            'weight' => 3.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-4',
+                            'name' => 'Solarium Nested Document Child 4',
+                            'cat' => ['solarium-nested-document', 'child'],
+                            'weight' => 4.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-5',
+                            'name' => 'Solarium Nested Document Added Child 5',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 5.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-6',
+                            'name' => 'Solarium Nested Document Added Child 6',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 6.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-7',
+                            'name' => 'Solarium Nested Document Added Child 7',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 7.0,
+                        ],
+                    ],
+                ], $iterator->current()->getFields());
+
+                // add-or-replace logic for child documents is available since Solr 9.0.0 (SOLR-15213)
+                if (9 <= self::$solrVersion) {
+                    // atomic update: replacing a list of child documents in a pseudo-field
+                    $newChildren = [
+                        [
+                            'id' => 'solarium-child-3',
+                            'name' => 'Solarium Nested Document Updated Child 3',
+                            'cat' => ['solarium-nested-document', 'child', 'updated-4'],
+                            'weight' => 3.4,
+                        ],
+                        [
+                            'id' => 'solarium-child-5',
+                            'name' => 'Solarium Nested Document Updated Child 5',
+                            'cat' => ['solarium-nested-document', 'child', 'updated-4'],
+                            'weight' => 5.4,
+                        ],
+                    ];
+                    $doc = $update->createDocument();
+                    $doc->setKey('id', 'solarium-parent');
+                    $doc->setField('cat', 'updated-4');
+                    $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                    $doc->setField('children', $newChildren);
+                    $doc->setFieldModifier('children', $doc::MODIFIER_ADD);
+                    $update->addDocument($doc);
+                    $update->addCommit(true, true);
+                    self::$client->update($update);
+                    $result = self::$client->select($select);
+                    $this->assertCount(1, $result);
+                    $iterator = $result->getIterator();
+                    $this->assertSame([
+                        'id' => 'solarium-parent',
+                        'name' => 'Solarium Nested Document Parent',
+                        'cat' => [
+                            'solarium-nested-document',
+                            'parent',
+                            'updated-1',
+                            'updated-2',
+                            'updated-3',
+                            'updated-4',
+                        ],
+                        'children' => [
+                            [
+                                'id' => 'solarium-child-3',
+                                'name' => 'Solarium Nested Document Updated Child 3',
+                                'cat' => ['solarium-nested-document', 'child', 'updated-4'],
+                                'weight' => 3.4,
+                            ],
+                            [
+                                'id' => 'solarium-child-4',
+                                'name' => 'Solarium Nested Document Child 4',
+                                'cat' => ['solarium-nested-document', 'child'],
+                                'weight' => 4.0,
+                            ],
+                            [
+                                'id' => 'solarium-child-5',
+                                'name' => 'Solarium Nested Document Updated Child 5',
+                                'cat' => ['solarium-nested-document', 'child', 'updated-4'],
+                                'weight' => 5.4,
+                            ],
+                            [
+                                'id' => 'solarium-child-6',
+                                'name' => 'Solarium Nested Document Added Child 6',
+                                'cat' => ['solarium-nested-document', 'child', 'added'],
+                                'weight' => 6.0,
+                            ],
+                            [
+                                'id' => 'solarium-child-7',
+                                'name' => 'Solarium Nested Document Added Child 7',
+                                'cat' => ['solarium-nested-document', 'child', 'added'],
+                                'weight' => 7.0,
+                            ],
+                        ],
+                    ], $iterator->current()->getFields());
+
+                    // atomic update: replacing a child document in a pseudo-field
+                    // (revert previous update to solarium-child-5 to keep tests consistent across Solr versions)
+                    $newChild = [
+                        'id' => 'solarium-child-5',
+                        'name' => 'Solarium Nested Document Added Child 5',
+                        'cat' => ['solarium-nested-document', 'child', 'added'],
+                        'weight' => 5.0,
+                    ];
+                    $doc = $update->createDocument();
+                    $doc->setKey('id', 'solarium-parent');
+                    $doc->setField('cat', 'updated-5');
+                    $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                    $doc->setField('children', $newChild);
+                    $doc->setFieldModifier('children', $doc::MODIFIER_ADD);
+                    $update->addDocument($doc);
+                    $update->addCommit(true, true);
+                    self::$client->update($update);
+                    $result = self::$client->select($select);
+                    $this->assertCount(1, $result);
+                    $iterator = $result->getIterator();
+                    $this->assertSame([
+                        'id' => 'solarium-parent',
+                        'name' => 'Solarium Nested Document Parent',
+                        'cat' => [
+                            'solarium-nested-document',
+                            'parent',
+                            'updated-1',
+                            'updated-2',
+                            'updated-3',
+                            'updated-4',
+                            'updated-5',
+                        ],
+                        'children' => [
+                            [
+                                'id' => 'solarium-child-3',
+                                'name' => 'Solarium Nested Document Updated Child 3',
+                                'cat' => ['solarium-nested-document', 'child', 'updated-4'],
+                                'weight' => 3.4,
+                            ],
+                            [
+                                'id' => 'solarium-child-4',
+                                'name' => 'Solarium Nested Document Child 4',
+                                'cat' => ['solarium-nested-document', 'child'],
+                                'weight' => 4.0,
+                            ],
+                            [
+                                'id' => 'solarium-child-5',
+                                'name' => 'Solarium Nested Document Added Child 5',
+                                'cat' => ['solarium-nested-document', 'child', 'added'],
+                                'weight' => 5.0,
+                            ],
+                            [
+                                'id' => 'solarium-child-6',
+                                'name' => 'Solarium Nested Document Added Child 6',
+                                'cat' => ['solarium-nested-document', 'child', 'added'],
+                                'weight' => 6.0,
+                            ],
+                            [
+                                'id' => 'solarium-child-7',
+                                'name' => 'Solarium Nested Document Added Child 7',
+                                'cat' => ['solarium-nested-document', 'child', 'added'],
+                                'weight' => 7.0,
+                            ],
+                        ],
+                    ], $iterator->current()->getFields());
+                } else {
+                    // atomic update tests are designed to cancel each other out for any Solr version
+                    // but the remainder of the test assumes 'cat' has been updated every time
+                    $doc = $update->createDocument();
+                    $doc->setKey('id', 'solarium-parent');
+                    $doc->setField('cat', ['updated-4', 'updated-5']);
+                    $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                    $update->addDocument($doc);
+                    $update->addCommit(true, true);
+                }
+
+                // atomic update: remove a child document from a pseudo-field
+                $removeChild = [
+                    'id' => 'solarium-child-3',
+                ];
+                $doc = $update->createDocument();
+                $doc->setKey('id', 'solarium-parent');
+                $doc->setField('cat', 'updated-6');
+                $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                $doc->setField('children', $removeChild);
+                $doc->setFieldModifier('children', $doc::MODIFIER_REMOVE);
+                $update->addDocument($doc);
+                $update->addCommit(true, true);
+                self::$client->update($update);
+                $result = self::$client->select($select);
+                $this->assertCount(1, $result);
+                $iterator = $result->getIterator();
+                $this->assertSame([
+                    'id' => 'solarium-parent',
+                    'name' => 'Solarium Nested Document Parent',
+                    'cat' => [
+                        'solarium-nested-document',
+                        'parent',
+                        'updated-1',
+                        'updated-2',
+                        'updated-3',
+                        'updated-4',
+                        'updated-5',
+                        'updated-6',
+                    ],
+                    'children' => [
+                        [
+                            'id' => 'solarium-child-4',
+                            'name' => 'Solarium Nested Document Child 4',
+                            'cat' => ['solarium-nested-document', 'child'],
+                            'weight' => 4.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-5',
+                            'name' => 'Solarium Nested Document Added Child 5',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 5.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-6',
+                            'name' => 'Solarium Nested Document Added Child 6',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 6.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-7',
+                            'name' => 'Solarium Nested Document Added Child 7',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 7.0,
+                        ],
+                    ],
+                ], $iterator->current()->getFields());
+
+                // atomic update: remove a list of child documents from a pseudo-field
+                $removeChildren = [
+                    [
+                        'id' => 'solarium-child-6',
+                    ],
+                    [
+                        'id' => 'solarium-child-7',
+                    ],
+                ];
+                $doc = $update->createDocument();
+                $doc->setKey('id', 'solarium-parent');
+                $doc->setField('cat', 'updated-7');
+                $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                $doc->setField('children', $removeChildren);
+                $doc->setFieldModifier('children', $doc::MODIFIER_REMOVE);
+                $update->addDocument($doc);
+                $update->addCommit(true, true);
+                self::$client->update($update);
+                $result = self::$client->select($select);
+                $this->assertCount(1, $result);
+                $iterator = $result->getIterator();
+                $this->assertSame([
+                    'id' => 'solarium-parent',
+                    'name' => 'Solarium Nested Document Parent',
+                    'cat' => [
+                        'solarium-nested-document',
+                        'parent',
+                        'updated-1',
+                        'updated-2',
+                        'updated-3',
+                        'updated-4',
+                        'updated-5',
+                        'updated-6',
+                        'updated-7',
+                    ],
+                    'children' => [
+                        [
+                            'id' => 'solarium-child-4',
+                            'name' => 'Solarium Nested Document Child 4',
+                            'cat' => ['solarium-nested-document', 'child'],
+                            'weight' => 4.0,
+                        ],
+                        [
+                            'id' => 'solarium-child-5',
+                            'name' => 'Solarium Nested Document Added Child 5',
+                            'cat' => ['solarium-nested-document', 'child', 'added'],
+                            'weight' => 5.0,
+                        ],
+                    ],
+                ], $iterator->current()->getFields());
+
+                // atomic update: set a single child document in a pseudo-field
+                $newChild = [
+                    'id' => 'solarium-new-single-child',
+                    'name' => 'Solarium Nested Document New Single Child',
+                    'cat' => ['solarium-nested-document', 'child', 'updated-8'],
+                    'weight' => 0.8,
+                ];
+                $doc = $update->createDocument();
+                $doc->setKey('id', 'solarium-parent');
+                $doc->setField('cat', 'updated-8');
+                $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                $doc->setField('single_child', $newChild);
+                $doc->setFieldModifier('single_child', $doc::MODIFIER_SET);
+                $update->addDocument($doc);
+                $update->addCommit(true, true);
+                self::$client->update($update);
+                $select->setQuery('id:solarium-parent');
+                $select->setFields('id,name,cat,weight,single_child,[child]');
+                $result = self::$client->select($select);
+                $this->assertCount(1, $result);
+                $iterator = $result->getIterator();
+                $this->assertSame([
+                    'id' => 'solarium-parent',
+                    'name' => 'Solarium Nested Document Parent',
+                    'cat' => [
+                        'solarium-nested-document',
+                        'parent',
+                        'updated-1',
+                        'updated-2',
+                        'updated-3',
+                        'updated-4',
+                        'updated-5',
+                        'updated-6',
+                        'updated-7',
+                        'updated-8',
+                    ],
+                    'single_child' => [
+                        'id' => 'solarium-new-single-child',
+                        'name' => 'Solarium Nested Document New Single Child',
+                        'cat' => ['solarium-nested-document', 'child', 'updated-8'],
+                        'weight' => 0.8,
+                    ],
+                ], $iterator->current()->getFields());
+
+                // atomic update: remove a single child document from a pseudo-field
+                $doc = $update->createDocument();
+                $doc->setKey('id', 'solarium-parent');
+                $doc->setField('cat', 'updated-9');
+                $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
+                // to remove atomically, modifier must be supplied to setField()
+                $doc->setField('single_child', null, null, $doc::MODIFIER_SET);
+                $update->addDocument($doc);
+                $update->addCommit(true, true);
+                self::$client->update($update);
+                $select->setQuery('id:solarium-parent');
+                $select->setFields('id,name,cat,weight,single_child,[child]');
+                $result = self::$client->select($select);
+                $this->assertCount(1, $result);
+                $iterator = $result->getIterator();
+                $this->assertSame([
+                    'id' => 'solarium-parent',
+                    'name' => 'Solarium Nested Document Parent',
+                    'cat' => [
+                        'solarium-nested-document',
+                        'parent',
+                        'updated-1',
+                        'updated-2',
+                        'updated-3',
+                        'updated-4',
+                        'updated-5',
+                        'updated-6',
+                        'updated-7',
+                        'updated-8',
+                        'updated-9',
+                    ],
+                ], $iterator->current()->getFields());
+            }
+
             // atomic update: removing all child documents from a pseudo-field
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-parent');
-            $doc->setField('cat', 'updated-2');
+            $doc->setField('cat', 'updated-10');
             $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
             $doc->setField('children', []);
             $doc->setFieldModifier('children', $doc::MODIFIER_SET);
@@ -2080,31 +2606,50 @@ abstract class AbstractTechproductsTest extends TestCase
             $update->addCommit(true, true);
             self::$client->update($update);
             $select->setQuery('id:solarium-parent');
-            $select->setFields('id,name,cat,price,children,grandchildren,[child]');
+            $select->setFields('id,name,cat,weight,children,grandchildren,[child]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+
+            $expected = [
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
                 'cat' => [
                     'solarium-nested-document',
                     'parent',
                     'updated-1',
-                    'updated-2',
+                    'updated-10',
                 ],
-            ], $iterator->current()->getFields());
+            ];
 
-            // other atomic updates (replacing, adding, removing individual child documents) can't be executed through XML (SOLR-12677)
+            if (UpdateQuery::REQUEST_FORMAT_JSON === $requestFormat) {
+                $expected['cat'] = [
+                    'solarium-nested-document',
+                    'parent',
+                    'updated-1',
+                    'updated-2',
+                    'updated-3',
+                    'updated-4',
+                    'updated-5',
+                    'updated-6',
+                    'updated-7',
+                    'updated-8',
+                    'updated-9',
+                    'updated-10',
+                ];
+            }
+
+            $this->assertSame($expected, $iterator->current()->getFields());
         }
 
         // cleanup
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         // in Solr 7, the whole block of parent-children documents must be deleted together
         if (7 === self::$solrVersion) {
             $update->addDeleteQuery('cat:solarium-nested-document');
         }
-        // in Solr 8, you can simply delete-by-ID using the id of the root document
+        // from Solr 8, you can simply delete-by-ID using the id of the root document
         else {
             $update->addDeleteById('solarium-parent');
         }
@@ -2116,7 +2661,10 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testAnonymouslyNestedDocuments()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testAnonymouslyNestedDocuments(string $requestFormat)
     {
         $data = [
             'id' => 'solarium-parent',
@@ -2139,6 +2687,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ];
 
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         $doc = $update->createDocument($data);
         $update->addDocument($doc);
         $update->addCommit(true, true);
@@ -2255,49 +2804,14 @@ abstract class AbstractTechproductsTest extends TestCase
             ], $iterator->current()->getFields());
         }
 
-        // in Solr 7, atomic updates of child documents aren't possible
-        // in SolrCloud mode, this fails more often with "Async exception during distributed update" than it succeeds
-        // @todo get this sorted for distributed search when #908 is resolved
-        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
-            // atomic update: removing all child documents
-            $doc = $update->createDocument();
-            $doc->setKey('id', 'solarium-parent');
-            $doc->setField('cat', 'updated');
-            $doc->setFieldModifier('cat', $doc::MODIFIER_ADD);
-            $doc->setField('_childDocuments_', []);
-            $doc->setFieldModifier('_childDocuments_', $doc::MODIFIER_SET);
-            $update->addDocument($doc);
-            $update->addCommit(true, true);
-            self::$client->update($update);
-            // ensure the update was atomic ('name' must be unchanged, 'cat' must be updated)
-            $select->setQuery('id:solarium-parent');
-            $select->setFields('id,name,cat');
-            $result = self::$client->select($select);
-            $this->assertCount(1, $result);
-            $iterator = $result->getIterator();
-            $this->assertSame([
-                'id' => 'solarium-parent',
-                'name' => 'Solarium Nested Document Parent',
-                'cat' => [
-                    'solarium-nested-document',
-                    'parent',
-                    'updated',
-                ],
-            ], $iterator->current()->getFields());
-            // ensure child documents have been replaced (with nothing)
-            $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
-            $select->setFields('id');
-            $result = self::$client->select($select);
-            $this->assertCount(0, $result);
-        }
-
         // cleanup
         $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
         // in Solr 7, the whole block of parent-children documents must be deleted together
         if (7 === self::$solrVersion) {
             $update->addDeleteQuery('cat:solarium-nested-document');
         }
-        // in Solr 8, you can simply delete-by-ID using the id of the root document
+        // from Solr 8, you can simply delete-by-ID using the id of the root document
         else {
             $update->addDeleteById('solarium-parent');
         }
@@ -2362,6 +2876,13 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $rerankedids);
     }
 
+    /**
+     * Only tested with default request format because this test deliberately
+     * alters the index state for {@see testBufferedDelete()}.
+     *
+     * Dependencies and data providers don't mix in the way that we need them to
+     * to repeat these tests for multiple request formats.
+     */
     public function testBufferedAdd()
     {
         $bufferSize = 10;
@@ -2529,6 +3050,12 @@ abstract class AbstractTechproductsTest extends TestCase
     }
 
     /**
+     * Only tested with default request format because this test undoes the
+     * changes to the index state by {@see testBufferedAdd()}.
+     *
+     * Dependencies and data providers don't mix in the way that we need them to
+     * to repeat these tests for multiple request formats.
+     *
      * @depends testBufferedAdd
      */
     public function testBufferedDelete()
@@ -2605,14 +3132,19 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $result->getNumFound());
     }
 
-    public function testBufferedAddAndDelete()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testBufferedAddAndDelete(string $requestFormat)
     {
         $bufferSize = 10;
 
         $addBuffer = self::$client->getPlugin('bufferedadd');
+        $addBuffer->setRequestFormat($requestFormat);
         $addBuffer->setBufferSize($bufferSize);
 
         $delBuffer = self::$client->getPlugin('buffereddelete');
+        $delBuffer->setRequestFormat($requestFormat);
 
         $weight = 0;
 
@@ -2715,6 +3247,15 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $result->getNumFound());
     }
 
+    /**
+     * Only tested with default request format because this test deliberately
+     * alters the index state for {@see testBufferedDeleteLite()}.
+     *
+     * Dependencies and data providers don't mix in the way that we need them to
+     * to repeat these tests for multiple request formats.
+     *
+     * @return int Total number of added docs
+     */
     public function testBufferedAddLite(): int
     {
         $bufferSize = 10;
@@ -2800,9 +3341,15 @@ abstract class AbstractTechproductsTest extends TestCase
     }
 
     /**
+     * Only tested with default request format because this test undoes the
+     * changes to the index state by {@see testBufferedAddLite()}.
+     *
+     * Dependencies and data providers don't mix in the way that we need them to
+     * to repeat these tests for multiple request formats.
+     *
      * @depends testBufferedAddLite
      *
-     * @param int $totalDocs
+     * @param int $totalDocs Total number of docs added by {@see testBufferedAddLite()}
      */
     public function testBufferedDeleteLite(int $totalDocs)
     {
@@ -2844,6 +3391,107 @@ abstract class AbstractTechproductsTest extends TestCase
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
         self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
         self::$client->removePlugin('buffereddeletelite');
+    }
+
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testBufferedAddAndDeleteLite(string $requestFormat)
+    {
+        $bufferSize = 10;
+
+        $addBuffer = self::$client->getPlugin('bufferedaddlite');
+        $addBuffer->setRequestFormat($requestFormat);
+        $addBuffer->setBufferSize($bufferSize);
+
+        $delBuffer = self::$client->getPlugin('buffereddeletelite');
+        $delBuffer->setRequestFormat($requestFormat);
+
+        $weight = 0;
+
+        for ($i = 1; $i <= 15; ++$i) {
+            $data = [
+                'id' => 'solarium-bufferedaddlite-'.$i,
+                'cat' => 'solarium-bufferedaddlite',
+                'weight' => ++$weight,
+            ];
+            $addBuffer->createDocument($data);
+        }
+
+        $addBuffer->flush();
+
+        $delBuffer->addDeleteById('solarium-bufferedaddlite-8');
+        $delBuffer->addDeleteById('solarium-bufferedaddlite-4');
+        $delBuffer->flush();
+
+        foreach (range('a', 'c') as $i) {
+            $data = [
+                'id' => 'solarium-bufferedaddlite-'.$i,
+                'cat' => 'solarium-bufferedaddlite',
+                'weight' => ++$weight,
+            ];
+            $addBuffer->createDocument($data);
+        }
+
+        $addBuffer->flush();
+
+        $delBuffer->addDeleteQuery('cat:solarium-bufferedaddlite AND weight:[* TO 5]');
+        $delBuffer->addDeleteById('solarium-bufferedaddlite-b');
+        $delBuffer->flush();
+
+        foreach (range('d', 'e') as $i) {
+            $data = [
+                'id' => 'solarium-bufferedaddlite-'.$i,
+                'cat' => 'solarium-bufferedaddlite',
+                'weight' => ++$weight,
+            ];
+            $addBuffer->createDocument($data);
+        }
+
+        $addBuffer->flush();
+
+        $delBuffer->addDeleteById('solarium-bufferedaddlite-d');
+        $delBuffer->addDeleteById('solarium-bufferedaddlite-13');
+        $delBuffer->flush();
+
+        // either buffer can be committed as long as the other one has been flushed
+        $addBuffer->commit(null, true, true);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-bufferedaddlite');
+        $select->addSort('weight', $select::SORT_ASC);
+        $select->setFields('id');
+        $select->setRows(11);
+        $result = self::$client->select($select);
+        $this->assertSame(11, $result->getNumFound());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $this->assertEquals([
+            'solarium-bufferedaddlite-6',
+            'solarium-bufferedaddlite-7',
+            'solarium-bufferedaddlite-9',
+            'solarium-bufferedaddlite-10',
+            'solarium-bufferedaddlite-11',
+            'solarium-bufferedaddlite-12',
+            'solarium-bufferedaddlite-14',
+            'solarium-bufferedaddlite-15',
+            'solarium-bufferedaddlite-a',
+            'solarium-bufferedaddlite-c',
+            'solarium-bufferedaddlite-e',
+            ], $ids);
+
+        // cleanup
+        $delBuffer->addDeleteQuery('cat:solarium-bufferedaddlite');
+        $delBuffer->commit(null, true, true);
+        self::$client->removePlugin('bufferedaddlite');
+        self::$client->removePlugin('buffereddeletelite');
+        $result = self::$client->select($select);
+        $this->assertSame(0, $result->getNumFound());
     }
 
     public function testLoadbalancerFailover()
@@ -3455,6 +4103,12 @@ abstract class AbstractTechproductsTest extends TestCase
         }
     }
 
+    /**
+     * Update queries with a different input encoding than the default UTF-8
+     * aren't supported by the JSON request format.
+     *
+     * @see https://www.rfc-editor.org/rfc/rfc8259#section-8.1
+     */
     public function testInputEncoding()
     {
         $select = self::$client->createSelect();
@@ -3463,6 +4117,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // input encoding: UTF-8 (default)
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-1');
         $doc->setField('name', 'Sølåríùm Tëst 1');
@@ -3497,6 +4152,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         // input encoding: ISO-8859-1
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->setInputEncoding('ISO-8859-1');
         $doc = $update->createDocument();
         $doc->setField('id', iconv('UTF-8', 'ISO-8859-1', 'solarium-test-2'));
@@ -3527,6 +4183,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $iterator->current()->getFields());
 
         $update = self::$client->createUpdate();
+        $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->addDeleteQuery('cat:solarium-test');
         $update->addCommit(true, true);
         self::$client->update($update);
