@@ -42,6 +42,7 @@ class Highlighting implements ComponentRequestBuilderInterface
         $request->addParam('hl.q', $component->getQuery());
         $request->addParam('hl.qparser', $component->getQueryParser());
         $request->addParam('hl.requireFieldMatch', $component->getRequireFieldMatch());
+        $request->addParam('hl.queryFieldPattern', null === ($qfp = $component->getQueryFieldPattern()) ? null : implode(',', $qfp));
         $this->addHighlighterParams($component, $request);
 
         // set per-field highlighting params

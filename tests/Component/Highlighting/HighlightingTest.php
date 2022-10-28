@@ -34,6 +34,7 @@ class HighlightingTest extends AbstractHighlightingTest
             'query' => 'text:myvalue',
             'queryparser' => 'myparser',
             'requirefieldmatch' => false,
+            'queryfieldpattern' => 'fieldC,fieldD',
             'usephrasehighlighter' => false,
             'highlightmultiterm' => true,
             'snippets' => 2,
@@ -91,6 +92,7 @@ class HighlightingTest extends AbstractHighlightingTest
         $this->assertSame($options['query'], $this->hlt->getQuery());
         $this->assertSame($options['queryparser'], $this->hlt->getQueryParser());
         $this->assertFalse($this->hlt->getRequireFieldMatch());
+        $this->assertSame(['fieldC', 'fieldD'], $this->hlt->getQueryFieldPattern());
         $this->assertFalse($this->hlt->getUsePhraseHighlighter());
         $this->assertTrue($this->hlt->getHighlightMultiTerm());
         $this->assertSame($options['snippets'], $this->hlt->getSnippets());
@@ -317,5 +319,17 @@ class HighlightingTest extends AbstractHighlightingTest
     {
         $this->hlt->setRequireFieldMatch(true);
         $this->assertTrue($this->hlt->getRequireFieldMatch());
+    }
+
+    public function testSetAndGetQueryFieldPatternWithString()
+    {
+        $this->hlt->setQueryFieldPattern('fieldA,fieldB');
+        $this->assertSame(['fieldA', 'fieldB'], $this->hlt->getQueryFieldPattern());
+    }
+
+    public function testSetAndGetQueryFieldPatternWithArray()
+    {
+        $this->hlt->setQueryFieldPattern(['fieldA', 'fieldB']);
+        $this->assertSame(['fieldA', 'fieldB'], $this->hlt->getQueryFieldPattern());
     }
 }
