@@ -11,6 +11,7 @@ namespace Solarium\Plugin\AbstractBufferedUpdate;
 
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Exception\DomainException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\Result as UpdateResult;
@@ -100,10 +101,20 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
      *
      * @param int $size
      *
+     * @throws DomainException if trying to set a buffer size less than 1
+     *
      * @return self Provides fluent interface
      */
     public function setBufferSize(int $size): self
     {
+        if (\count($this->buffer) >= $size) {
+            $this->flush();
+        }
+
+        if (1 > $size) {
+            throw new DomainException('Buffer size must be at least 1.');
+        }
+
         $this->setOption('buffersize', $size);
 
         return $this;
@@ -165,6 +176,20 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
      * @return UpdateResult
      */
     abstract public function commit(): UpdateResult;
+
+    /**
+     * Initialize options.
+     */
+    protected function init()
+    {
+        foreach ($this->options as $name => $value) {
+            switch ($name) {
+                case 'buffersize':
+                    $this->setBufferSize($value);
+                    break;
+            }
+        }
+    }
 
     /**
      * Plugin init function.
