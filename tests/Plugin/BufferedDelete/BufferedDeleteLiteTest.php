@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Endpoint;
+use Solarium\Exception\DomainException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\BufferedDelete\AbstractDelete;
@@ -45,6 +46,34 @@ class BufferedDeleteLiteTest extends TestCase
         $this->assertInstanceOf(BufferedDeleteLite::class, $plugin);
     }
 
+    public function testConstructor()
+    {
+        $options = [
+            'buffersize' => 50,
+        ];
+
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass($options);
+
+        $this->assertEquals(50, $plugin->getBufferSize());
+    }
+
+    /**
+     * @testWith [0]
+     *           [-10]
+     */
+    public function testConstructorWithInvalidBufferSize(int $size)
+    {
+        $options = [
+            'buffersize' => $size,
+        ];
+
+        $pluginClass = \get_class($this->plugin);
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Buffer size must be at least 1.');
+        new $pluginClass($options);
+    }
+
     public function testConfigMode()
     {
         $options = [
@@ -65,6 +94,33 @@ class BufferedDeleteLiteTest extends TestCase
     {
         $this->plugin->setBufferSize(500);
         $this->assertSame(500, $this->plugin->getBufferSize());
+    }
+
+    /**
+     * @testWith [0]
+     *           [-10]
+     */
+    public function testSetInvalidBufferSize(int $size)
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Buffer size must be at least 1.');
+        $this->plugin->setBufferSize($size);
+    }
+
+    public function testInitCallsSetBufferSize()
+    {
+        $options = [
+            'buffersize' => 50,
+        ];
+
+        $plugin = $this->getMockBuilder(\get_class($this->plugin))
+            ->onlyMethods(['setBufferSize'])
+            ->getMock();
+        $plugin->expects($this->once())
+            ->method('setBufferSize')
+            ->with($this->equalTo(50));
+
+        $plugin->initPlugin($this->getClient(), $options);
     }
 
     public function testAddDeleteById()
@@ -169,6 +225,67 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
         $plugin->addDeleteQueries(['cat:abc', 'cat:def']);
+    }
+
+    public function testSetBufferSizeAutoFlush()
+    {
+        $pluginClass = \get_class($this->plugin);
+        $client = $this->getClient();
+
+        $plugin = $this->getMockBuilder($pluginClass)
+            ->onlyMethods(['flush'])
+            ->getMock();
+        $plugin->expects($this->never())
+            ->method('flush');
+
+        $plugin->initPlugin($client, ['buffersize' => 5]);
+        $plugin->addDeleteByIds([1, 2]);
+        $plugin->setBufferSize(6); // grow
+        $plugin->setBufferSize(4); // shrink with room to spare
+
+        $plugin = $this->getMockBuilder($pluginClass)
+            ->onlyMethods(['flush'])
+            ->getMock();
+        $plugin->expects($this->once())
+            ->method('flush');
+
+        $plugin->initPlugin($client, ['buffersize' => 5]);
+        $plugin->addDeleteByIds([1, 2, 3]);
+        $plugin->setBufferSize(3); // shrink to exact content size
+
+        $plugin = $this->getMockBuilder($pluginClass)
+            ->onlyMethods(['flush'])
+            ->getMock();
+        $plugin->expects($this->once())
+            ->method('flush');
+
+        $plugin->initPlugin($client, ['buffersize' => 5]);
+        $plugin->addDeleteByIds([1, 2]);
+        $plugin->setBufferSize(1); // shrink below content size
+    }
+
+    /**
+     * The buffer should be flushed before an exception is thrown when trying to set
+     * an invalid size to allow easier recovery from this exception without data loss.
+     *
+     * @testWith [0]
+     *           [-10]
+     */
+    public function testSetInvalidBufferSizeFlushesBeforeThrowing(int $size)
+    {
+        $pluginClass = \get_class($this->plugin);
+        $client = $this->getClient();
+
+        $plugin = $this->getMockBuilder($pluginClass)
+            ->onlyMethods(['flush'])
+            ->getMock();
+        $plugin->expects($this->once())
+            ->method('flush');
+
+        $plugin->initPlugin($client, ['buffersize' => 5]);
+        $plugin->addDeleteByIds([1, 2]);
+        $this->expectException(DomainException::class);
+        $plugin->setBufferSize($size);
     }
 
     public function testGetBuffer()
