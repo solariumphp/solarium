@@ -39,6 +39,7 @@ class HighlightingTest extends TestCase
         $component->setQuery('text:myvalue');
         $component->setQueryParser('myparser');
         $component->setRequireFieldMatch(false);
+        $component->setQueryFieldPattern(['fieldC', 'fieldD']);
         $component->setUsePhraseHighlighter(true);
         $component->setHighlightMultiTerm(true);
         $component->setSnippets(2);
@@ -71,6 +72,7 @@ class HighlightingTest extends TestCase
                 'hl.q' => 'text:myvalue',
                 'hl.qparser' => 'myparser',
                 'hl.requireFieldMatch' => 'false',
+                'hl.queryFieldPattern' => 'fieldC,fieldD',
                 'hl.usePhraseHighlighter' => 'true',
                 'hl.highlightMultiTerm' => 'true',
                 'hl.snippets' => 2,
@@ -151,6 +153,7 @@ class HighlightingTest extends TestCase
         $component->setQuery('text:myvalue');
         $component->setQueryParser('myparser');
         $component->setRequireFieldMatch(false);
+        $component->setQueryFieldPattern(['fieldC', 'fieldD']);
         $component->setUsePhraseHighlighter(true);
         $component->setHighlightMultiTerm(true);
         $component->setSnippets(2);
@@ -183,6 +186,7 @@ class HighlightingTest extends TestCase
                 'hl.q' => 'text:myvalue',
                 'hl.qparser' => 'myparser',
                 'hl.requireFieldMatch' => 'false',
+                'hl.queryFieldPattern' => 'fieldC,fieldD',
                 'hl.usePhraseHighlighter' => 'true',
                 'hl.highlightMultiTerm' => 'true',
                 'hl.snippets' => 2,
@@ -220,6 +224,7 @@ class HighlightingTest extends TestCase
         $component->setQuery('text:myvalue');
         $component->setQueryParser('myparser');
         $component->setRequireFieldMatch(false);
+        $component->setQueryFieldPattern(['fieldC', 'fieldD']);
         $component->setUsePhraseHighlighter(true);
         $component->setHighlightMultiTerm(true);
         $component->setSnippets(2);
@@ -251,6 +256,7 @@ class HighlightingTest extends TestCase
                 'hl.q' => 'text:myvalue',
                 'hl.qparser' => 'myparser',
                 'hl.requireFieldMatch' => 'false',
+                'hl.queryFieldPattern' => 'fieldC,fieldD',
                 'hl.usePhraseHighlighter' => 'true',
                 'hl.highlightMultiTerm' => 'true',
                 'hl.snippets' => 2,
@@ -287,6 +293,7 @@ class HighlightingTest extends TestCase
         $component->setQuery('text:myvalue');
         $component->setQueryParser('myparser');
         $component->setRequireFieldMatch(false);
+        $component->setQueryFieldPattern(['fieldC', 'fieldD']);
         $component->setUsePhraseHighlighter(true);
         $component->setHighlightMultiTerm(true);
         $component->setSnippets(2);
@@ -318,6 +325,7 @@ class HighlightingTest extends TestCase
                 'hl.q' => 'text:myvalue',
                 'hl.qparser' => 'myparser',
                 'hl.requireFieldMatch' => 'false',
+                'hl.queryFieldPattern' => 'fieldC,fieldD',
                 'hl.usePhraseHighlighter' => 'true',
                 'hl.highlightMultiTerm' => 'true',
                 'hl.snippets' => 2,

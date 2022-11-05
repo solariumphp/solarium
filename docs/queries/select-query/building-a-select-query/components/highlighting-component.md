@@ -13,6 +13,7 @@ Options
 | query                    | string  | null          | Overrides the q parameter for highlighting                                                      |
 | queryparser              | string  | null          | The query parser to use if the query option is set                                              |
 | requirefieldmatch        | boolean | null          | requireFieldMatch option                                                                        |
+| queryfieldpattern        | string  | null          | queryFieldPattern option. Separate multiple fields with commas.                                 |
 | usephrasehighlighter     | boolean | null          |                                                                                                 |
 | highlightmultiterm       | boolean | null          |                                                                                                 |
 | snippets                 | int     | null          | Maximum number of snippets per field                                                            |
