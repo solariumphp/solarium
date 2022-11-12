@@ -137,7 +137,7 @@ class Helper
      * @param int|string|\DateTimeInterface $input Accepted formats: timestamp, date string, DateTime or
      *                                             DateTimeImmutable
      *
-     * @return string|bool false is returned in case of invalid input
+     * @return string|false false is returned in case of invalid input
      */
     public function formatDate($input)
     {
