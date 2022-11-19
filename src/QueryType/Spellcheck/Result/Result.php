@@ -124,7 +124,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @throws \Solarium\Exception\UnexpectedValueException
      *
-     * @return array
+     * @return Term|null
      */
     public function getTerm(string $term): ?Term
     {
