@@ -1,7 +1,7 @@
-diff --git a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
-index aad0c822f34..d0b272c39c2 100644
---- a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
-+++ b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema
+diff --git a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema.xml b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema.xml
+index 190214aebad..7a76a28276a 100644
+--- a/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema.xml
++++ b/solr/server/solr/configsets/sample_techproducts_configs/conf/managed-schema.xml
 @@ -118,7 +118,9 @@
     <!-- points to the root document of a block of nested documents. Required for nested
        document support, may be removed otherwise
@@ -13,3 +13,10 @@ index aad0c822f34..d0b272c39c2 100644
  
     <!-- Only remove the "id" field if you have a very good reason to. While not strictly
       required, it is highly recommended. A <uniqueKey> is present in almost all Solr
+@@ -218,6 +220,7 @@
+
+    <dynamicField name="random_*" type="random"/>
+    <dynamicField name="ignored_*" type="ignored"/>
++   <dynamicField name="attr_*" type="text_general" indexed="true" stored="true" multiValued="true"/>
+ 
+    <dynamicField name="*_c"   type="currency" indexed="true"  stored="true"/>

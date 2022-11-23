@@ -3782,6 +3782,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc = $extract->createDocument();
         $doc->id = 'extract-test-1-pdf';
         $doc->cat = ['extract-test'];
+        $doc->foo_1 = 'bar 1';
         $extract->setDocument($doc);
         self::$client->extract($extract);
 
@@ -3790,6 +3791,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $doc = $extract->createDocument();
         $doc->id = 'extract-test-2-html';
         $doc->cat = ['extract-test'];
+        $doc->foo_2 = 'bar 2';
         $extract->setDocument($doc);
         self::$client->extract($extract);
 
@@ -3805,11 +3807,13 @@ abstract class AbstractTechproductsTest extends TestCase
         $document = $iterator->current();
         $this->assertSame('application/pdf', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('PDF Test', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $this->assertSame(['bar 1'], $document['attr_foo_1']);
         $iterator->next();
         $document = $iterator->current();
         $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
         $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $this->assertSame(['bar 2'], $document['attr_foo_2']);
 
         // now cleanup the documents to have the initial index state
         $update = self::$client->createUpdate();

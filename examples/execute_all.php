@@ -1,6 +1,7 @@
 <?php
 
 use Solarium\Core\Client\Request;
+use Solarium\Exception\HttpException;
 use Solarium\Support\Utility;
 
 try {
@@ -87,6 +88,31 @@ try {
             ]);
             $client->execute($query);
         }
+    }
+
+    // check if attr_* dynamic field definition exists (it was removed from the techproducts configset in Solr 9.1)
+    try {
+        $query = $client->createApi([
+            'version' => Request::API_V1,
+            'handler' => $collection_or_core_name.'/schema/dynamicfields/'.rawurlencode('attr_*'),
+        ]);
+        $response = $client->execute($query);
+    } catch (HttpException $e) {
+        $query = $client->createApi([
+            'version' => Request::API_V1,
+            'handler' => $collection_or_core_name.'/schema',
+            'method' => Request::METHOD_POST,
+            'rawdata' => json_encode([
+                'add-dynamic-field' => [
+                    'name' => 'attr_*',
+                    'type' => 'text_general',
+                    'indexed' => true,
+                    'stored' => true,
+                    'multiValued' => true,
+                ],
+            ]),
+        ]);
+        $client->execute($query);
     }
 
     // disable automatic commits for update examples
