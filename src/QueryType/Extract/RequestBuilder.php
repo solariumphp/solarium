@@ -49,7 +49,9 @@ class RequestBuilder extends BaseRequestBuilder
 
         // add document settings to request
         /** @var \Solarium\QueryType\Update\Query\Document $doc */
-        if (null !== $doc = $query->getDocument()) {
+        $doc = $query->getDocument();
+        if (null !== $doc) {
+            // @phpstan-ignore-next-line we're calling a deprecated method on purpose
             if (null !== $doc->getBoost()) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }
@@ -77,7 +79,7 @@ class RequestBuilder extends BaseRequestBuilder
             $request->addParam('stream.url', $file);
             $request->setMethod(Request::METHOD_GET);
         } elseif (is_readable($file)) {
-            $resourceName = basename($query->getFile());
+            $resourceName = basename($file);
             if (0 !== strcasecmp('UTF-8', $charset = $request->getParam('ie') ?? 'UTF-8')) {
                 $resourceName = iconv('UTF-8', $charset, $resourceName);
             }
