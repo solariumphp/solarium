@@ -36,6 +36,8 @@ trait RequestParamsTrait
         if (isset($this->params[$key])) {
             return $this->params[$key];
         }
+
+        return null;
     }
 
     /**

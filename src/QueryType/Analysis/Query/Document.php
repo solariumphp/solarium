@@ -112,7 +112,7 @@ class Document extends AbstractQuery
     /**
      * Get all documents.
      *
-     * @return DocumentInterface
+     * @return DocumentInterface[]
      */
     public function getDocuments(): array
     {

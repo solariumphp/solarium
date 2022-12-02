@@ -78,7 +78,7 @@ class Loader
             \RecursiveIteratorIterator::LEAVES_ONLY
         );
 
-        /** @var $file \DirectoryIterator */
+        /** @var \DirectoryIterator $file */
         foreach ($iterator as $file) {
             if ($file->getBasename($this->fileExtension) === $file->getBasename()) {
                 continue;
