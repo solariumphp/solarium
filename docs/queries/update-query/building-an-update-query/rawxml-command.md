@@ -2,6 +2,8 @@ You can use this command to add XML formatted update commands to an update query
 
 Make sure the XML is valid as Solarium will not check this. If you are constructing these strings in your own code, you should probably be using the other commands Solarium provides to build your update query.
 
+This command can only be used with the XML request format.
+
 Options
 -------
 
@@ -21,6 +23,9 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get an update query instance
 $update = $client->createUpdate();
+
+// set XML request format
+$update->setRequestFormat($update::REQUEST_FORMAT_XML);
 
 // create an XML string with a valid update command
 $xml = '

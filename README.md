@@ -53,6 +53,26 @@ setlocale(LC_NUMERIC, $currentLocale);
 PHP 8.0 has made the float to string conversion locale-independent and will always use the `.` decimal separator.
 The workaround is no longer necessary with PHP versions ≥ 8.0.
 
+### Future pitfall when upgrading to 7.x
+
+Solarium 7 will change the default request format for update queries from XML to JSON.
+
+You can already test your code with JSON requests to ensure a seamless transition.
+
+```php
+// get an update query instance
+$update = $client->createUpdate();
+
+// set JSON request format
+$update->setRequestFormat($update::REQUEST_FORMAT_JSON);
+```
+
+If you do require XML specific functionality, set the request format to XML explicitly instead to avoid issues when upgrading.
+
+```php
+$update->setRequestFormat($update::REQUEST_FORMAT_XML);
+```
+
 ### Pitfalls when upgrading from 3.x or 4.x or 5.x
 
 #### Setting a timeout

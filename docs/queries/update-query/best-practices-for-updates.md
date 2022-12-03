@@ -28,6 +28,10 @@ If you need to use rollbacks (outside of testing) that usually indicates there i
 
 While 'optimizing' sounds like it's always a good thing to do, you should use it with care, as it can have a negative performance impact *during the optimize process*. If possible use try to use it outside peak hours / at intervals.
 
+### XML vs JSON formatted update requests
+
+Solarium issues XML formatted update requests by default. This will change to JSON format when Solarium 7 is released. You can set this to JSON if you want to test your code in advance. If you require XML specific functionality, you should already set this to XML explicitly to ensure a seamless transition.
+
 ### Raw XML update commands
 
 Solarium makes it easy to build update commands without having to know the underlying XML structure. If you already have XML formatted update commands, you can add them directly to an update query. Make sure they are valid as Solarium will not check this.
