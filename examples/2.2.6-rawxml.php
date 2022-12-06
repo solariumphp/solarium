@@ -9,6 +9,9 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 // get an update query instance
 $update = $client->createUpdate();
 
+// set XML request format
+$update->setRequestFormat($update::REQUEST_FORMAT_XML);
+
 // create an XML string with a valid update command
 $xml = '
 <add>
