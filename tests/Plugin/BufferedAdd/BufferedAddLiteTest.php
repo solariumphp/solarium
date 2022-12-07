@@ -75,7 +75,7 @@ class BufferedAddLiteTest extends TestCase
     {
         $options = [
             'endpoint' => new Endpoint(),
-            'requestformat' => Query::REQUEST_FORMAT_JSON,
+            'requestformat' => Query::REQUEST_FORMAT_XML,
             'buffersize' => 200,
         ];
 
@@ -300,10 +300,10 @@ class BufferedAddLiteTest extends TestCase
 
     public function testClearKeepsRequestFormat()
     {
-        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
         $this->plugin->clear();
 
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
     }
 
     public function testFlushEmptyBuffer()
@@ -414,13 +414,13 @@ class BufferedAddLiteTest extends TestCase
 
     public function testDefaultRequestFormat()
     {
-        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
+        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
     }
 
     public function testSetAndGetRequestFormat()
     {
-        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
     }
 
     public function testSetUnsupportedRequestFormat()

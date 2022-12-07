@@ -108,7 +108,7 @@ class Query extends BaseQuery
      */
     protected $options = [
         'handler' => 'update',
-        'requestformat' => self::REQUEST_FORMAT_XML,
+        'requestformat' => self::REQUEST_FORMAT_JSON,
         'resultclass' => Result::class,
         'documentclass' => Document::class,
         'omitheader' => false,

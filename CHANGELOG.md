@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
+### Changed
+- Update queries use the JSON request format by default
 
 ## [6.2.8]
 ### Added

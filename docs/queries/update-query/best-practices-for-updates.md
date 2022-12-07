@@ -30,8 +30,16 @@ While 'optimizing' sounds like it's always a good thing to do, you should use it
 
 ### XML vs JSON formatted update requests
 
-Solarium issues XML formatted update requests by default. This will change to JSON format when Solarium 7 is released. You can set this to JSON if you want to test your code in advance. If you require XML specific functionality, you should already set this to XML explicitly to ensure a seamless transition.
+Solarium issues JSON formatted update requests by default since Solarium 7. If you do require XML specific functionality, set the request format to XML explicitly.
+
+```php
+// get an update query instance
+$update = $client->createUpdate();
+
+// set XML request format
+$update->setRequestFormat($update::REQUEST_FORMAT_XML);
+```
 
 ### Raw XML update commands
 
-Solarium makes it easy to build update commands without having to know the underlying XML structure. If you already have XML formatted update commands, you can add them directly to an update query. Make sure they are valid as Solarium will not check this.
+Solarium makes it easy to build update commands without having to know the underlying XML structure. If you already have XML formatted update commands, you can add them directly to an update query. Make sure they are valid as Solarium will not check this, and set the [XML request format](#xml-vs-json-formatted-update-requests) on the update query.
