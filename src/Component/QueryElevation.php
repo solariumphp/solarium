@@ -334,8 +334,9 @@ class QueryElevation extends AbstractComponent
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Options that influence transformers need additional setup work.
+     *            Options that set a list of ids need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {

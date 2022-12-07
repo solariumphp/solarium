@@ -201,7 +201,8 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Initialization hook.
      *
-     * Checks the availability of Curl_http
+     * {@internal Check if PHP was compiled with cURL support.
+     *            Check for deprecated use of 'proxy' option.}
      *
      * @throws RuntimeException
      */

@@ -579,8 +579,8 @@ class Query extends BaseQuery
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Several options need some extra checks or setup work,
+     *            for these options the setters are called.}
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException

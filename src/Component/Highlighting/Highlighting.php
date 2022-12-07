@@ -280,7 +280,8 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
     /**
      * Initialize options.
      *
-     * Options that can be an array or string with fieldnames need work.
+     * {@internal Options that set a list of fields need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {
