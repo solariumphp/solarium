@@ -13,7 +13,7 @@ This can be done very easily with this plugin, you can simply keep feeding docum
 
 ### Some notes
 
--   Solarium issues XML formatted update requests by default. If you don't need XML specific behaviour, you can get better performance by switching to JSON formatted update requests.
+-   Solarium issues JSON formatted update requests by default. If you require XML specific functionality, you can set the request format to XML on the plugin instance. XML requests are slower than JSON.
 -   You can set a custom buffer size. The default is 100 documents, a safe value. By increasing this you can get even better performance, but depending on your document size at some level you will run into memory or request limits. A value of 1000 has been successfully used for indexing 200k documents.
 -   You can use the createDocument method with array input, but you can also manually create document instance and use the addDocument(s) method.
 -   With buffer size X an update request with be sent to Solr for each X docs. You can just keep feeding docs. These buffer flushes don’t include a commit. This is done on purpose. You can add a commit when you’re done, or you can use the Solr auto commit feature.
@@ -60,7 +60,6 @@ htmlHeader();
 // create a client instance and autoload the buffered add plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('bufferedadd');
-$buffer->setRequestFormat(Query::REQUEST_FORMAT_JSON); // JSON formatted requests are faster than XML
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
@@ -111,9 +110,6 @@ When you need to delete a lot of documents, this can also be done in batches.
 
 You can feed the IDs of the documents to delete, queries to delete matching documents, or both.
 
-Solarium issues XML formatted update requests by default. You can get better performance by switching to
-JSON formatted update requests.
-
 The default buffer size is 100 deletes, a safe value. By increasing this you can get even better performance.
 Delete commands send very little data to Solr, so you can set this to a much higher value than the document
 buffer size for `BufferedAdd`.
@@ -160,7 +156,6 @@ htmlHeader();
 // create a client instance and autoload the buffered delete plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('buffereddelete');
-$buffer->setRequestFormat(Query::REQUEST_FORMAT_JSON); // JSON formatted requests are faster than XML
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
