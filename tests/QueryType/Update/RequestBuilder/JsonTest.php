@@ -231,6 +231,28 @@ class JsonTest extends TestCase
         );
     }
 
+    public function testBuildAddJsonMultivalueFieldWithNonConsecutiveArrayIndices()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => [0 => 1, 4 => 2, 6 => 3], 'text' => [1 => 'a', 2 => 'b', 3 => 'c']]));
+        $json = [];
+
+        $this->builder->buildAddJson($command, $json);
+
+        $this->assertCount(1, $json);
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "add": {
+                    "doc": {
+                        "id": [1, 2, 3],
+                        "text": ["a", "b", "c"]
+                    }
+                }
+            }',
+            '{'.$json[0].'}'
+        );
+    }
+
     public function testBuildAddJsonWithEmptyStrings()
     {
         $command = new AddCommand();
@@ -662,7 +684,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithMultivaluedDateTimes()
+    public function testBuildAddJsonWithMultivalueDateTimes()
     {
         $command = new AddCommand();
         $command->addDocument(
