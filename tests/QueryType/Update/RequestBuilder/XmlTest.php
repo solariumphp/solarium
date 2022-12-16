@@ -174,6 +174,26 @@ class XmlTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlMultivalueFieldWithNonConsecutiveArrayIndices()
+    {
+        $command = new AddCommand();
+        $command->addDocument(new Document(['id' => [0 => 1, 4 => 2, 6 => 3], 'text' => [1 => 'a', 2 => 'b', 3 => 'c']]));
+
+        $this->assertSame(
+            '<add>'.
+            '<doc>'.
+            '<field name="id">1</field>'.
+            '<field name="id">2</field>'.
+            '<field name="id">3</field>'.
+            '<field name="text">a</field>'.
+            '<field name="text">b</field>'.
+            '<field name="text">c</field>'.
+            '</doc>'.
+            '</add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithEmptyStrings()
     {
         $command = new AddCommand();
@@ -489,7 +509,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithMultivaluedDateTimes()
+    public function testBuildAddXmlWithMultivalueDateTimes()
     {
         $command = new AddCommand();
         $command->addDocument(
