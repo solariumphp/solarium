@@ -141,6 +141,7 @@ try {
         DIRECTORY_SEPARATOR.'exampledocs';
     foreach (glob($dataDir.DIRECTORY_SEPARATOR.'*.xml') as $file) {
         $update = $client->createUpdate();
+        $update->setRequestFormat($update::REQUEST_FORMAT_XML);
 
         if (null !== $encoding = Utility::getXmlEncoding($file)) {
             $update->setInputEncoding($encoding);

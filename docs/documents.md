@@ -223,7 +223,7 @@ $doc->reaction = $reaction;
 $doc->setField('reaction', $reaction);
 ```
 
-**Note:** You have to use the JSON request format to index a labelled single nested child document. For more info see [known limitations](#known-limitations).
+**Note:** You can't index a labelled single nested child document if you set the request format to XML. For more info see [known limitations](#known-limitations).
 
 #### Anonymous children
 
@@ -231,20 +231,10 @@ If you use `_childDocuments_` as the field name, the child documents are indexed
 
 #### Known limitations
 
-Some child document functionality isn't supported by XML formatted update requests.
+Solarium issues JSON formatted update requests by default. If you change this to XML, some child document functionality isn't supported by Solr.
 
 - It's impossible to index a labelled single nested child document because of [SOLR-16183](https://issues.apache.org/jira/browse/SOLR-16183). Any child document you index this way will end up as an anonymous nested child.
 - Atomic updates of child documents aren't fully supported because of [SOLR-12677](https://issues.apache.org/jira/browse/SOLR-12677).
-
-Make sure to set the request format to JSON if you require this functionality.
-
-```php
-// get an update query instance
-$update = $client->createUpdate();
-
-// set JSON request format
-$update->setRequestFormat($update::REQUEST_FORMAT_JSON);
-```
 
 ### Atomic updates
 
@@ -352,7 +342,15 @@ You can set the document boost with the `setBoost` method.
 
 Field boosts can be set with the `setFieldBoost` method, or with optional parameters of the `setField` and `addField` methods. See the API docs for details.
 
-Index-time boosts have been removed from Solr 7 and will be ignored. Even with older Solr versions, they aren't supported by JSON formatted update requests.
+Index-time boosts have been removed from Solr 7 and will be ignored. Even with older Solr versions, they aren't supported by JSON formatted update requests. Set the request format to XML if you are still using them.
+
+```php
+// get an update query instance
+$update = $client->createUpdate();
+
+// set XML request format
+$update->setRequestFormat($update::REQUEST_FORMAT_XML);
+```
 
 Custom document
 ---------------

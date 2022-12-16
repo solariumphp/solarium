@@ -11,7 +11,6 @@ htmlHeader();
 // create a client instance and autoload the buffered delete plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('buffereddelete'); // or 'buffereddeletelite'
-$buffer->setRequestFormat(Query::REQUEST_FORMAT_JSON); // JSON formatted requests are faster than XML
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening

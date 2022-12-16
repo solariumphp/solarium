@@ -10,7 +10,7 @@ However, if you do need to customize them for a special case, you can.
 
 ### RequestFormat
 
-Solarium issues XML formatted update requests by default. This will change to JSON format when Solarium 7 is released. You can set this to JSON if you want to test your code in advance. If you require XML specific functionality, you should already set this to XML explicitly to ensure a seamless transition.
+Solarium issues JSON formatted update requests by default. Set this to XML if you require XML specific functionality.
 
 ### ResultClass
 
