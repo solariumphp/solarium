@@ -499,6 +499,9 @@ class Document extends AbstractDocument
             if ($value instanceof \DateTimeInterface) {
                 $value = $this->getHelper()->formatDate($value);
             } elseif (\is_array($value) && is_numeric(array_key_first($value))) {
+                // ensure consecutive indices so it doesn't serialize to an object
+                $value = array_values($value);
+
                 foreach ($value as &$multivalue) {
                     if ($multivalue instanceof \DateTimeInterface) {
                         $multivalue = $this->getHelper()->formatDate($multivalue);
