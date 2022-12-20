@@ -196,8 +196,7 @@ trait FacetSetTrait
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal The 'facet' option needs additional setup work.}
      */
     protected function init()
     {

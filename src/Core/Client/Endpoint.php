@@ -437,8 +437,8 @@ class Endpoint extends Configurable
     /**
      * Initialization hook.
      *
-     * In this case the path needs to be cleaned of trailing slashes.
-     * The context needs to be cleaned of leading and trailing slashes.
+     * The path will be cleaned of trailing slashes.
+     * The context will be cleaned of leading and trailing slashes.
      *
      * @see setPath()
      * @see setContext()

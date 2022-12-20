@@ -224,8 +224,8 @@ class Stats extends AbstractComponent
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Options that set a list of field or facet names need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {

@@ -35,8 +35,8 @@ class JsonRange extends AbstractRange implements JsonFacetInterface, FacetSetInt
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Both the parent's and JsonFacetTrait's init() are needed
+     *            to properly initialize all options.}
      */
     protected function init()
     {

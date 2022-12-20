@@ -571,8 +571,9 @@ class Grouping extends AbstractComponent
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal The 'query' option needs additional setup work.
+     *            Options that set a list of fields need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {

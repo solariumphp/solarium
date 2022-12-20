@@ -193,6 +193,9 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
 
     /**
      * Initialize options.
+     *
+     * {@internal Options that set a list of fields need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {
