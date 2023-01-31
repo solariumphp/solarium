@@ -160,9 +160,9 @@ trait FacetSetTrait
      * When no key is supplied the facet cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFacet method.
      *
-     * @param string            $type
-     * @param array|object|null $options
-     * @param bool              $add
+     * @param string                   $type
+     * @param array|object|string|null $options
+     * @param bool                     $add
      *
      * @throws OutOfBoundsException
      *
