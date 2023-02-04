@@ -180,12 +180,18 @@ class BufferedAddLiteTest extends TestCase
         $doc2->id = '234';
         $doc2->name = 'test2';
 
+        $docs = [$doc1, $doc2];
+
         $updateQuery = $this->createMock(Query::class);
         $updateQuery->expects($this->exactly(2))
             ->method('add')
-            ->withConsecutive(
-                [null, (new AddCommand())->addDocument($doc1)],
-                [null, (new AddCommand())->addDocument($doc2)],
+            ->with(
+                $this->equalTo(null),
+                $this->callback(function (AddCommand $command) use ($docs): bool {
+                    static $i = 0;
+
+                    return [$docs[$i++]] === $command->getDocuments();
+                })
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -203,7 +209,7 @@ class BufferedAddLiteTest extends TestCase
         $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
-        $plugin->addDocuments([$doc1, $doc2]);
+        $plugin->addDocuments($docs);
     }
 
     public function testSetBufferSizeAutoFlush()

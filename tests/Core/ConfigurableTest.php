@@ -124,7 +124,7 @@ class ConfigurableTest extends TestCase
         $configTest = new ConfigTest();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('Options value given to the setOptions() method must be an array or a Zend_Config object');
+        $this->expectExceptionMessage('Options value given to the setOptions() method must be an array or a Zend_Config object');
         $configTest->setOptions('option2=2&option3=3');
     }
 }

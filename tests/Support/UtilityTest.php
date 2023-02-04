@@ -19,10 +19,16 @@ class UtilityTest extends TestCase
 
     public function testGetXmlEncodingNoFile()
     {
-        $this->expectError();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_WARNING);
+
+        $this->expectExceptionMessage('No such file or directory');
         $this->assertNull(
             Utility::getXmlEncoding('nosuchfile')
         );
+
+        restore_error_handler();
     }
 
     public function testGetXmlEncodingWithoutUtf8BomWithoutXmlDeclaration()

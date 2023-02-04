@@ -183,10 +183,13 @@ class PrefetchIteratorTest extends TestCase
         // every time the query is executed
         $mockQuery->expects($this->exactly(3))
                   ->method('setStart')
-                  ->withConsecutive(
-                      [$this->equalTo(0)],
-                      [$this->equalTo(2)],
-                      [$this->equalTo(4)],
+                  ->with(
+                      $this->callback(function (int $start): bool {
+                          static $i = 0;
+                          static $starts = [0, 2, 4];
+
+                          return $starts[$i++] === $start;
+                      })
                   )
                   ->willReturnSelf();
         $mockQuery->expects($this->never())
@@ -231,11 +234,13 @@ class PrefetchIteratorTest extends TestCase
         // initial manual setCursorMark('*') + every time the query is executed
         $mockQuery->expects($this->exactly(4))
                   ->method('setCursorMark')
-                  ->withConsecutive(
-                      [$this->equalTo('*')],
-                      [$this->equalTo('*')],
-                      [$this->equalTo('AoEhMg==')],
-                      [$this->equalTo('AoEhNA==')],
+                  ->with(
+                      $this->callback(function (string $cursorMark): bool {
+                          static $i = 0;
+                          static $cursorMarks = ['*', '*', 'AoEhMg==', 'AoEhNA=='];
+
+                          return $cursorMarks[$i++] === $cursorMark;
+                      })
                   )
                   ->willReturnSelf();
         // won't be '*' on consecutive calls, only matters that it isn't NULL for this test
@@ -284,11 +289,13 @@ class PrefetchIteratorTest extends TestCase
         // every time the query is executed
         $mockQuery->expects($this->exactly(4))
                   ->method('setStart')
-                  ->withConsecutive(
-                      [$this->equalTo(0)],
-                      [$this->equalTo(2)],
-                      [$this->equalTo(4)],
-                      [$this->equalTo(6)],
+                  ->with(
+                      $this->callback(function (int $start): bool {
+                          static $i = 0;
+                          static $starts = [0, 2, 4, 6];
+
+                          return $starts[$i++] === $start;
+                      })
                   )
                   ->willReturnSelf();
         $mockQuery->expects($this->never())
@@ -338,12 +345,13 @@ class PrefetchIteratorTest extends TestCase
         // initial manual setCursorMark('*') + every time the query is executed
         $mockQuery->expects($this->exactly(5))
                   ->method('setCursorMark')
-                  ->withConsecutive(
-                      [$this->equalTo('*')],
-                      [$this->equalTo('*')],
-                      [$this->equalTo('AoEhMg==')],
-                      [$this->equalTo('AoEhNA==')],
-                      [$this->equalTo('AoEhNg==')],
+                  ->with(
+                      $this->callback(function (string $cursorMark): bool {
+                          static $i = 0;
+                          static $cursorMarks = ['*', '*', 'AoEhMg==', 'AoEhNA==', 'AoEhNg=='];
+
+                          return $cursorMarks[$i++] === $cursorMark;
+                      })
                   )
                   ->willReturnSelf();
         // won't be '*' on consecutive calls, only matters that it isn't NULL for this test
@@ -432,11 +440,13 @@ class PrefetchIteratorTest extends TestCase
         // every time the query is executed
         $mockQuery->expects($this->exactly(4))
                   ->method('setStart')
-                  ->withConsecutive(
-                      [$this->equalTo(0)],
-                      [$this->equalTo(3)],
-                      [$this->equalTo(0)],
-                      [$this->equalTo(3)],
+                  ->with(
+                      $this->callback(function (int $start): bool {
+                          static $i = 0;
+                          static $starts = [0, 3, 0, 3];
+
+                          return $starts[$i++] === $start;
+                      })
                   )
                   ->willReturnSelf();
         $mockQuery->expects($this->never())
@@ -487,12 +497,13 @@ class PrefetchIteratorTest extends TestCase
         // initial manual setCursorMark('*') + every time the query is executed
         $mockQuery->expects($this->exactly(5))
                   ->method('setCursorMark')
-                  ->withConsecutive(
-                      [$this->equalTo('*')],
-                      [$this->equalTo('*')],
-                      [$this->equalTo('AoEhMw==')],
-                      [$this->equalTo('*')],
-                      [$this->equalTo('AoEhMw==')],
+                  ->with(
+                      $this->callback(function (string $cursorMark): bool {
+                          static $i = 0;
+                          static $cursorMarks = ['*', '*', 'AoEhMw==', '*', 'AoEhMw=='];
+
+                          return $cursorMarks[$i++] === $cursorMark;
+                      })
                   )
                   ->willReturnSelf();
         // won't be '*' on consecutive calls, only matters that it isn't NULL for this test

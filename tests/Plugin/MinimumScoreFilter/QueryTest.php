@@ -79,9 +79,19 @@ class QueryTest extends AbstractQueryTest
 
         $mock->expects($this->exactly(2))
             ->method('setOption')
-            ->withConsecutive(
-                ['resultquerygroupclass', QueryGroupResult::class],
-                ['resultvaluegroupclass', ValueGroupResult::class],
+            ->with(
+                $this->callback(function (string $option): bool {
+                    static $i = 0;
+                    static $options = ['resultquerygroupclass', 'resultvaluegroupclass'];
+
+                    return $options[$i++] === $option;
+                }),
+                $this->callback(function (string $className): bool {
+                    static $j = 0;
+                    static $classNames = [QueryGroupResult::class, ValueGroupResult::class];
+
+                    return $classNames[$j++] === $className;
+                })
             );
 
         $this->query->setComponent(Query::COMPONENT_GROUPING, $mock);

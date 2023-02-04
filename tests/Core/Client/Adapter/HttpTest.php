@@ -79,11 +79,8 @@ class HttpTest extends TestCase
 
     public function testCheckOk()
     {
-        $value = $this->adapter->check('dummydata', ['HTTP 1.1 200 OK']);
-
-        $this->assertNull(
-            $value
-        );
+        $this->expectNotToPerformAssertions();
+        $this->adapter->check('dummydata', ['HTTP 1.1 200 OK']);
     }
 
     public function testCreateContextGetRequest()
