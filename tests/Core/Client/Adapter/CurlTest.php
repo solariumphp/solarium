@@ -70,6 +70,15 @@ class CurlTest extends TestCase
         restore_error_handler();
     }
 
+    /**
+     * Verify that options besides 'proxy' are handled as usual.
+     */
+    public function testSetNonProxyOption()
+    {
+        $this->adapter->setOption('foo', 'bar');
+        $this->assertSame('bar', $this->adapter->getOption('foo'));
+    }
+
     public function testCheck()
     {
         $data = 'data';
