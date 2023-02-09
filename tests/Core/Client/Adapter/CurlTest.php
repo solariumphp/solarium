@@ -33,32 +33,50 @@ class CurlTest extends TestCase
 
     public function testSetProxyConstructor()
     {
-        $adapter = @new Curl(['proxy' => 'proxy.example.org:1234']);
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $adapter = new Curl(['proxy' => 'proxy.example.org:1234']);
         $this->assertSame('proxy.example.org:1234', $adapter->getProxy());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
-        new Curl(['proxy' => 'proxy.example.org:1234']);
+        restore_error_handler();
     }
 
     public function testSetProxyConfigMode()
     {
-        @$this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
         $this->assertSame('proxy.example.org:5678', $this->adapter->getProxy());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
-        $this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
+        restore_error_handler();
     }
 
     public function testSetProxyOption()
     {
-        @$this->adapter->setOption('proxy', 'proxy.example.org:9012');
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $this->adapter->setOption('proxy', 'proxy.example.org:9012');
         $this->assertSame('proxy.example.org:9012', $this->adapter->getProxy());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
-        $this->adapter->setOption('proxy', 'proxy.example.org:9012');
+        restore_error_handler();
+    }
+
+    /**
+     * Verify that options besides 'proxy' are handled as usual.
+     */
+    public function testSetNonProxyOption()
+    {
+        $this->adapter->setOption('foo', 'bar');
+        $this->assertSame('bar', $this->adapter->getOption('foo'));
     }
 
     public function testCheck()

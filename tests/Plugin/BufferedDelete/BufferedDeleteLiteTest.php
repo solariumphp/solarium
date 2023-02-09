@@ -150,12 +150,18 @@ class BufferedDeleteLiteTest extends TestCase
 
     public function testAddDeleteByIdAutoFlush()
     {
+        $ids = [123, 'abc'];
+
         $updateQuery = $this->createMock(Query::class);
         $updateQuery->expects($this->exactly(2))
             ->method('add')
-            ->withConsecutive(
-                [null, (new DeleteCommand())->addId(123)],
-                [null, (new DeleteCommand())->addId('abc')],
+            ->with(
+                $this->equalTo(null),
+                $this->callback(function (DeleteCommand $command) use ($ids): bool {
+                    static $i = 0;
+
+                    return [$ids[$i++]] === $command->getIds();
+                })
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -173,7 +179,7 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
-        $plugin->addDeleteByIds([123, 'abc']);
+        $plugin->addDeleteByIds($ids);
     }
 
     public function testAddDeleteQuery()
@@ -201,12 +207,18 @@ class BufferedDeleteLiteTest extends TestCase
 
     public function testAddDeleteQueryAutoFlush()
     {
+        $queries = ['cat:abc', 'cat:def'];
+
         $updateQuery = $this->createMock(Query::class);
         $updateQuery->expects($this->exactly(2))
             ->method('add')
-            ->withConsecutive(
-                [null, (new DeleteCommand())->addQuery('cat:abc')],
-                [null, (new DeleteCommand())->addQuery('cat:def')],
+            ->with(
+                $this->equalTo(null),
+                $this->callback(function (DeleteCommand $command) use ($queries): bool {
+                    static $i = 0;
+
+                    return [$queries[$i++]] === $command->getQueries();
+                })
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -224,7 +236,7 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
-        $plugin->addDeleteQueries(['cat:abc', 'cat:def']);
+        $plugin->addDeleteQueries($queries);
     }
 
     public function testSetBufferSizeAutoFlush()
@@ -354,7 +366,7 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin->addUnknownDeleteType();
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Unsupported delete type in buffer');
+        $this->expectExceptionMessage('Unsupported delete type in buffer');
         $plugin->flush();
     }
 
