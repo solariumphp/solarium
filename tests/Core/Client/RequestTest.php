@@ -464,8 +464,14 @@ EOF;
 
     public function testGetUri()
     {
+        $this->assertNull($this->request->getUri());
+    }
+
+    public function testGetUriWithHandler()
+    {
+        $this->request->setHandler('myHandler');
         $this->assertSame(
-            '?',
+            'myHandler',
             $this->request->getUri()
         );
     }
