@@ -427,11 +427,11 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @return string|null
      */
-    public function getUri(): ?string
+    public function getUri(): string
     {
         $queryString = $this->getQueryString();
         if ('' === $queryString) {
-            return $this->getHandler();
+            return $this->getHandler() ?? '';
         }
 
         return $this->getHandler().'?'.$queryString;
