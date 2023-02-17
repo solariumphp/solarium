@@ -425,7 +425,7 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Get an URI for this request.
      *
-     * @return string|null
+     * @return string
      */
     public function getUri(): string
     {
