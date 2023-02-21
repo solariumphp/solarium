@@ -179,6 +179,7 @@ try {
         '2.2.5-rollback.php',
         '2.10.2-managedresources-stopwords.php',
         '2.10.3-managedresources-synonyms.php',
+        '2.11.4-luke-query-doc.php',
         '7.1-plugin-loadbalancer.php',
     ];
 

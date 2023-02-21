@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Support;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\Support\Utility;
 
 class UtilityTest extends TestCase
@@ -87,5 +88,65 @@ class UtilityTest extends TestCase
         foreach ($values as $value) {
             $this->assertFalse(Utility::isPointValue($value));
         }
+    }
+
+    /**
+     * @testWith ["*", true]
+     *           ["a_*", true]
+     *           ["*_a", true]
+     *           ["a", false]
+     *           ["*_a_*", false]
+     *           ["a_*_a", false]
+     *           ["a_**", false]
+     *           ["**_a", false]
+     */
+    public function testIsWildcardPattern(string $fieldName, bool $expected)
+    {
+        $this->assertSame($expected, Utility::isWildcardPattern($fieldName));
+    }
+
+    /**
+     * @testWith ["*", "field", true]
+     *           ["a_*", "a_field", true]
+     *           ["a_*", "a_", true]
+     *           ["*_a", "field_a", true]
+     *           ["*_a", "_a", true]
+     *           ["a_*", "b_field", false]
+     *           ["*_a", "field_b", false]
+     */
+    public function testFieldMatchesWildcard(string $wildcardPattern, string $fieldName, bool $expected)
+    {
+        $this->assertSame($expected, Utility::fieldMatchesWildcard($wildcardPattern, $fieldName));
+    }
+
+    /**
+     * @testWith ["a"]
+     *           ["*_a_*"]
+     *           ["a_*_a"]
+     *           ["a_**"]
+     *           ["**_a"]
+     */
+    public function testFieldMatchesWildcardInvalidWildcardPattern(string $wildcardPattern)
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Wildcard pattern must have a "*" only at the start or the end.');
+        Utility::fieldMatchesWildcard($wildcardPattern, 'field');
+    }
+
+    /**
+     * @testWith ["org.example.ClassName", "o.e.ClassName"]
+     *           ["org.Example.ClassName", "o.E.ClassName"]
+     *           ["org.example.p.ClassName", "o.e.p.ClassName"]
+     *           ["org.example.v1.ClassName", "o.e.v.ClassName"]
+     *           ["org.example.ClassName$InnerClassName", "o.e.ClassName$InnerClassName"]
+     *           ["org.example.ClassName$1", "o.e.ClassName$1"]
+     *           ["ClassName", "ClassName"]
+     *           ["ClassName$InnerClassName", "ClassName$InnerClassName"]
+     *           ["ClassName$1", "ClassName$1"]
+     *           ["", ""]
+     */
+    public function testCompactSolrClassName(string $className, string $expected)
+    {
+        $this->assertSame($expected, Utility::compactSolrClassName($className));
     }
 }

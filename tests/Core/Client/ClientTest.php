@@ -29,6 +29,7 @@ use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Graph\Query as GraphQuery;
+use Solarium\QueryType\Luke\Query as LukeQuery;
 use Solarium\QueryType\ManagedResources\Query\Resources as ManagedResourcesQuery;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as ManagedStopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as ManagedSynonymsQuery;
@@ -1116,6 +1117,22 @@ class ClientTest extends TestCase
             ->willReturn(new \Solarium\QueryType\RealtimeGet\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
 
         $observer->realtimeGet($query);
+    }
+
+    public function testLuke()
+    {
+        $query = new LukeQuery();
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['execute'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('execute')
+                 ->with($this->equalTo($query))
+            ->willReturn(new \Solarium\QueryType\Luke\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+
+        $observer->luke($query);
     }
 
     public function testCoreAdmin()
