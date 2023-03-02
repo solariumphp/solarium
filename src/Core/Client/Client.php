@@ -45,6 +45,8 @@ use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
 use Solarium\QueryType\Graph\Query as GraphQuery;
+use Solarium\QueryType\Luke\Query as LukeQuery;
+use Solarium\QueryType\Luke\Result\Result as LukeResult;
 use Solarium\QueryType\ManagedResources\Query\Resources as ManagedResourcesQuery;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as ManagedStopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as ManagedSynonymsQuery;
@@ -155,6 +157,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_REALTIME_GET = 'get';
 
     /**
+     * Querytype luke.
+     */
+    const QUERY_LUKE = 'luke';
+
+    /**
      * Querytype cores.
      */
     const QUERY_CORE_ADMIN = 'cores';
@@ -219,6 +226,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_GRAPH => GraphQuery::class,
         self::QUERY_EXTRACT => ExtractQuery::class,
         self::QUERY_REALTIME_GET => RealtimeGetQuery::class,
+        self::QUERY_LUKE => LukeQuery::class,
         self::QUERY_CORE_ADMIN => CoreAdminQuery::class,
         self::QUERY_COLLECTIONS => CollectionsQuery::class,
         self::QUERY_CONFIGSETS => ConfigsetsQuery::class,
@@ -1034,6 +1042,22 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Execute a Luke query.
+     *
+     * This is a convenience method that forwards the query to the
+     * execute method, thus allowing for an easy to use and clean API.
+     *
+     * @param QueryInterface|\Solarium\QueryType\Luke\Query $query
+     * @param Endpoint|string|null                          $endpoint
+     *
+     * @return ResultInterface|\Solarium\QueryType\Luke\Result\Result
+     */
+    public function luke(QueryInterface $query, $endpoint = null): LukeResult
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Execute a CoreAdmin query.
      *
      * This is a convenience method that forwards the query to the
@@ -1280,6 +1304,18 @@ class Client extends Configurable implements ClientInterface
     public function createRealtimeGet(array $options = null): RealtimeGetQuery
     {
         return $this->createQuery(self::QUERY_REALTIME_GET, $options);
+    }
+
+    /**
+     * Create a Luke query instance.
+     *
+     * @param mixed $options
+     *
+     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Luke\Query
+     */
+    public function createLuke(array $options = null): LukeQuery
+    {
+        return $this->createQuery(self::QUERY_LUKE, $options);
     }
 
     /**

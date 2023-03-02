@@ -14,6 +14,7 @@
     "require": {
         "php": "^7.3 || ^8.0",
         "ext-json": "*",
+        "halaxa/json-machine": "^1.1",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",

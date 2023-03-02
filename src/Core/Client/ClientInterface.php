@@ -22,6 +22,8 @@ use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
 use Solarium\QueryType\Graph\Query as GraphQuery;
+use Solarium\QueryType\Luke\Query as LukeQuery;
+use Solarium\QueryType\Luke\Result\Result as LukeResult;
 use Solarium\QueryType\ManagedResources\Query\Resources as ManagedResourcesQuery;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as ManagedStopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as ManagedSynonymsQuery;
@@ -498,6 +500,19 @@ interface ClientInterface
     public function realtimeGet(QueryInterface $query, $endpoint = null): RealtimeGetResult;
 
     /**
+     * Execute a Luke query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|\Solarium\QueryType\Luke\Query $query
+     * @param Endpoint|string|null                          $endpoint
+     *
+     * @return ResultInterface|\Solarium\QueryType\Luke\Result\Result
+     */
+    public function luke(QueryInterface $query, $endpoint = null): LukeResult;
+
+    /**
      * Execute a CoreAdmin query.
      *
      * @internal this is a convenience method that forwards the query to the
@@ -664,6 +679,15 @@ interface ClientInterface
      * @return \Solarium\QueryType\RealtimeGet\Query
      */
     public function createRealtimeGet(array $options = null): RealtimeGetQuery;
+
+    /**
+     * Create a Luke query instance.
+     *
+     * @param array $options
+     *
+     * @return \Solarium\QueryType\Luke\Query
+     */
+    public function createLuke(array $options = null): LukeQuery;
 
     /**
      * Create a CoreAdmin query instance.

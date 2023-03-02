@@ -36,6 +36,12 @@ use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as LoadbalancerEndpointFa
 use Solarium\Plugin\Loadbalancer\Event\Events as LoadbalancerEvents;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\Plugin\PrefetchIterator;
+use Solarium\QueryType\Luke\Query as LukeQuery;
+use Solarium\QueryType\Luke\Result\Doc\DocFieldInfo as LukeDocFieldInfo;
+use Solarium\QueryType\Luke\Result\Doc\DocInfo as LukeDocInfo;
+use Solarium\QueryType\Luke\Result\Fields\FieldInfo as LukeFieldInfo;
+use Solarium\QueryType\Luke\Result\Index\Index as LukeIndexResult;
+use Solarium\QueryType\Luke\Result\Schema\Schema as LukeSchemaResult;
 use Solarium\QueryType\ManagedResources\Query\AbstractQuery as AbstractManagedResourceQuery;
 use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd as AbstractAddCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
@@ -4074,6 +4080,208 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Extract query file path/url invalid or not available: '.__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
         self::$client->extract($extract);
+    }
+
+    /**
+     * Test the ability to execute Luke queries.
+     *
+     * The main purpose of this test is to check that our assumptions about which
+     * ResponseParser to use for a given combination of query parameters are correct.
+     * We test this with a few sanity checks on the results.
+     *
+     * Exhaustive tests for all fields of every response type are part of the unit tests.
+     *
+     * We don't test on SolrCloud because it returns the Luke result for a single shard,
+     * not the entire index. That makes some expected values unpredictable. We'd also
+     * need to know the correct shard to query for a specific document.
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testLuke()
+    {
+        $luke = self::$client->createLuke();
+
+        // SHOW_INDEX has the simplest response, which is also included in all other responses
+        $luke->setShow(LukeQuery::SHOW_INDEX);
+        $resultShowIndex = self::$client->luke($luke);
+
+        /** @var LukeIndexResult $index */
+        $index = $resultShowIndex->getIndex();
+
+        // there are 32 docs in techproducts, other tests may have added to that number
+        $this->assertGreaterThanOrEqual(32, $index->getMaxDoc());
+
+        // this is the only response that doesn't include an 'info' key
+        $this->assertNull($resultShowIndex->getInfo());
+
+        // default behaviour without 'show' is the same as ...
+        $luke->setOptions(['show' => null]);
+        $resultDefault = self::$client->luke($luke);
+
+        // ... SHOW_DOC without specifying an id or docId ...
+        $luke->setShow(LukeQuery::SHOW_DOC);
+        $resultShowDoc = self::$client->luke($luke);
+
+        // ... which behaves exactly like SHOW_ALL
+        $luke->setShow(LukeQuery::SHOW_ALL);
+        $resultShowAll = self::$client->luke($luke);
+
+        $this->assertSame($resultShowAll->getData(), $resultDefault->getData());
+        $this->assertSame($resultShowAll->getData(), $resultShowDoc->getData());
+
+        $this->assertEquals($index, $resultShowAll->getIndex());
+        $this->assertNotNull($resultShowAll->getInfo());
+
+        /** @var LukeFieldInfo[] $fields */
+        $fields = $resultShowAll->getFields();
+
+        // this result includes information on all fields, with index-flags, without expensive details
+        $this->assertGreaterThan(2, \count($fields));
+        $this->assertSame('id', $fields['id']->getName());
+        $this->assertTrue($fields['id']->getIndex()->isIndexed());
+        $this->assertSame('cat', $fields['cat']->getName());
+        $this->assertNull($fields['cat']->getDistinct());
+        $this->assertNull($fields['cat']->getTopTerms());
+        $this->assertNull($fields['cat']->getHistogram());
+
+        // "all fields" can be requested explicitly to include expensive detailed information
+        $luke->setFields('*');
+        $resultShowAllFields = self::$client->luke($luke);
+
+        /** @var LukeFieldInfo[] $fieldsAll */
+        $fieldsAll = $resultShowAllFields->getFields();
+
+        // this results includes the same fields as the previous one, with expensive details
+        $this->assertEquals(array_keys($fields), array_keys($fieldsAll));
+        $this->assertSame('id', $fieldsAll['id']->getName());
+        $this->assertTrue($fieldsAll['id']->getIndex()->isIndexed());
+        $this->assertSame('cat', $fieldsAll['cat']->getName());
+        $this->assertIsInt($fieldsAll['cat']->getDistinct());
+        $this->assertIsArray($fieldsAll['cat']->getTopTerms());
+        $this->assertIsArray($fieldsAll['cat']->getHistogram());
+
+        // fields included with SHOW_ALL can be limited
+        $luke->setFields('id,cat');
+        $resultShowAllFields = self::$client->luke($luke);
+
+        /** @var LukeFieldInfo[] $fieldsFields */
+        $fieldsFields = $resultShowAllFields->getFields();
+
+        // this result only includes the requested fields, with expensive details
+        $this->assertCount(2, $fieldsFields);
+        $this->assertEquals($fieldsAll['id'], $fieldsFields['id']);
+        $this->assertEquals($fieldsAll['cat'], $fieldsFields['cat']);
+
+        // the number of top terms can be changed from the default
+        $luke->setNumTerms(2);
+        $resultShowAllFields = self::$client->luke($luke);
+
+        /** @var LukeFieldInfo[] $fieldsFields */
+        $fieldsNumTerms = $resultShowAllFields->getFields();
+
+        $this->assertCount(2, $fieldsNumTerms['cat']->getTopTerms());
+        $this->assertSame(
+            \array_slice($fieldsFields['cat']->getTopTerms(), 0, 2),
+            $fieldsNumTerms['cat']->getTopTerms()
+        );
+
+        // returning index-flags has non-zero cost and can be disabled for SHOW_ALL
+        $luke->setIncludeIndexFieldFlags(false);
+        $resultShowAllFields = self::$client->luke($luke);
+        $this->assertNull($resultShowAllFields->getFields()['id']->getIndex());
+
+        // if fields are set, 'show' can be omitted
+        $luke->setOptions(['show' => null]);
+        $resultDefaultFields = self::$client->luke($luke);
+
+        // and if fields are set, SHOW_DOC is ignored
+        $luke->setShow(LukeQuery::SHOW_DOC);
+        $resultShowDocFields = self::$client->luke($luke);
+
+        $this->assertSame($resultShowAllFields->getData(), $resultDefaultFields->getData());
+        $this->assertSame($resultShowAllFields->getData(), $resultShowDocFields->getData());
+
+        // SHOW_SCHEMA has the most complex ResponseParser
+        $luke->setShow(LukeQuery::SHOW_SCHEMA);
+        $resultShowSchema = self::$client->luke($luke);
+
+        $this->assertEquals($index, $resultShowSchema->getIndex());
+        $this->assertNotNull($resultShowSchema->getInfo());
+
+        /** @var LukeSchemaResult $schema */
+        $schema = $resultShowSchema->getSchema();
+
+        $id = $schema->getField('id');
+        $this->assertSame('id', $id->getName());
+        $this->assertTrue($id->getFlags()->isIndexed());
+        $this->assertTrue($id->isUniqueKey());
+
+        $manu = $schema->getField('manu');
+        $manuExact = $schema->getField('manu_exact');
+        $this->assertContains($manuExact, $manu->getCopyDests());
+        $this->assertContains($manu, $manuExact->getCopySources());
+
+        $price = $schema->getField('price');
+        $price_c = $price->getCopyDests()[0];
+        $_c = $schema->getDynamicField('*_c');
+        $this->assertContains($price, $price_c->getCopySources());
+        $this->assertSame($_c, $price_c->getDynamicBase());
+
+        $this->assertSame($id, $schema->getUniqueKeyField());
+
+        $this->assertSame(
+            'org.apache.solr.search.similarities.SchemaSimilarityFactory$SchemaSimilarity',
+             $schema->getSimilarity()->getClassName()
+        );
+
+        $string = $schema->getType('string');
+        $this->assertSame($string, $id->getType());
+        $this->assertContains($id, $string->getFields());
+        $this->assertSame('org.apache.solr.schema.StrField', $string->getClassName());
+        $this->assertFalse($string->isTokenized());
+
+        $currency = $schema->getType('currency');
+        $this->assertSame($currency, $_c->getType());
+        $this->assertContains($_c, $currency->getFields());
+
+        // SHOW_DOC with an id or docId has a simpler ResponseParser, but with a SimpleOrderedMap quirk
+        $luke->setShow(LukeQuery::SHOW_DOC);
+        $luke->setId('9885A004');
+        $resultShowDocId = self::$client->luke($luke);
+
+        $this->assertEquals($index, $resultShowDocId->getIndex());
+        $this->assertNotNull($resultShowDocId->getInfo());
+
+        /** @var LukeDocInfo $doc */
+        $doc = $resultShowDocId->getDoc();
+
+        // Lucene data is a SimpleOrderedMap in Solr and lists a multiValued field once per value
+        /** @var LukeDocFieldInfo[] $lucene */
+        $lucene = $doc->getLucene();
+        $this->assertSame('id', $lucene[0]->getName());
+        $this->assertTrue($lucene[0]->getSchema()->isIndexed());
+        $this->assertTrue($lucene[0]->getFlags()->isIndexed());
+        $this->assertSame('cat', $lucene[4]->getName());
+        $this->assertSame('cat', $lucene[5]->getName());
+        $this->assertSame('electronics', $lucene[4]->getValue());
+        $this->assertSame('camera', $lucene[5]->getValue());
+
+        /** @var Document $solr */
+        $solr = $doc->getSolr();
+        $this->assertSame(
+            [
+                'electronics',
+                'camera',
+            ],
+            $solr->cat
+        );
+
+        // the corresponding docId retrieves details about the same document
+        $luke->setOptions(['id' => null]);
+        $luke->setDocId($doc->getDocId());
+        $resultShowDocDocId = self::$client->luke($luke);
+
+        $this->assertEquals($doc, $resultShowDocDocId->getDoc());
     }
 
     public function testV2Api()
