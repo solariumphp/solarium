@@ -42,7 +42,7 @@ class DocFieldInfo
     protected $value = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $internal;
 
@@ -172,19 +172,19 @@ class DocFieldInfo
     /**
      * Returns the stored value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getInternal(): string
+    public function getInternal(): ?string
     {
         return $this->internal;
     }
 
     /**
-     * @param string $internal
+     * @param string|null $internal
      *
      * @return self
      */
-    public function setInternal(string $internal): self
+    public function setInternal(?string $internal): self
     {
         $this->internal = $internal;
 
