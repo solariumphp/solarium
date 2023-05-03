@@ -105,7 +105,6 @@ class SuggesterDummy extends Result
     {
         $this->results = $results;
         $this->all = $all;
-        $this->status = 1;
-        $this->queryTime = 12;
+        $this->responseHeader = ['status' => 1, 'QTime' => 12];
     }
 }

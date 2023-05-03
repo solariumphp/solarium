@@ -15,10 +15,15 @@ $coreAdminQuery->setAction($statusAction);
 
 $response = $client->coreAdmin($coreAdminQuery);
 $statusResults = $response->getStatusResults();
+$initFailures = $response->getInitFailureResults();
 
 echo '<b>CoreAdmin status action execution:</b><br/>';
 foreach($statusResults as $statusResult) {
-    echo 'Uptime of the core ( ' .$statusResult->getCoreName(). ' ): ' . $statusResult->getUptime();
+    echo 'Uptime of the core ( ' .$statusResult->getCoreName(). ' ): ' . $statusResult->getUptime() . '<br/>';
+}
+
+foreach($initFailures as $initFailure) {
+    echo 'Init failure ( '. $initFailure->getCoreName() .' ): ' . $initFailure->getException() . '<br/>';
 }
 
 htmlFooter();

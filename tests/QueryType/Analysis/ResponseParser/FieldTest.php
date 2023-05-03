@@ -89,8 +89,6 @@ class FieldTest extends TestCase
 
         $this->assertEquals(
             [
-                'status' => 1,
-                'queryTime' => 5,
                 'items' => [],
             ],
             $result

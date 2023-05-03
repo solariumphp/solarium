@@ -17,6 +17,30 @@ use Solarium\Core\Query\Result\QueryType as BaseResult;
 class Result extends BaseResult
 {
     /**
+     * @var array
+     */
+    protected $status;
+
+    /**
+     * @var array
+     */
+    protected $initFailures;
+
+    /**
+     * InitFailureResult collection.
+     *
+     * @var InitFailureResult[]
+     */
+    protected $initFailureResults;
+
+    /**
+     * InitFailureResult when the status only for one core as requested.
+     *
+     * @var InitFailureResult
+     */
+    protected $initFailureResult;
+
+    /**
      * StatusResult collection when multiple statuses have been requested.
      *
      * @var StatusResult[]|null
@@ -65,6 +89,34 @@ class Result extends BaseResult
     }
 
     /**
+     * Returns the init failure result objects for all core statuses.
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
+     * @return InitFailureResult[]|null
+     */
+    public function getInitFailureResults(): ?array
+    {
+        $this->parseResponse();
+
+        return $this->initFailureResults;
+    }
+
+    /**
+     * Retrieves the init failure of the core, only available when the query was filtered to a core in the status action.
+     *
+     * @throws \Solarium\Exception\UnexpectedValueException
+     *
+     * @return InitFailureResult|null
+     */
+    public function getInitFailureResult(): ?InitFailureResult
+    {
+        $this->parseResponse();
+
+        return $this->initFailureResult;
+    }
+
+    /**
      * Returns the status result objects for all requested core statuses.
      *
      * @throws \Solarium\Exception\UnexpectedValueException
@@ -79,7 +131,7 @@ class Result extends BaseResult
     }
 
     /**
-     * Retrieves the status of the core, only available when the core was filtered to a core in the status action.
+     * Retrieves the status of the core, only available when the query was filtered to a core in the status action.
      *
      * @throws \Solarium\Exception\UnexpectedValueException
      *

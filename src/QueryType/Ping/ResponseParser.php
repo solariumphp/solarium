@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\QueryType\Update;
+namespace Solarium\QueryType\Ping;
 
-use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\AbstractResponseParser;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 
 /**
- * Parse update response data.
+ * Parse ping response data.
  */
-class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
+class ResponseParser extends AbstractResponseParser implements ResponseParserInterface
 {
     /**
      * Parse response data.

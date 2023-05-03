@@ -24,6 +24,16 @@ class QueryTypeTest extends TestCase
         $this->result = new TestStubResult($query, $response);
     }
 
+    public function testGetStatus()
+    {
+        $this->assertSame(1, $this->result->getStatus());
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertSame(12, $this->result->getQueryTime());
+    }
+
     public function testParseResponse()
     {
         $query = new TestStubQuery();
@@ -74,6 +84,8 @@ class TestStubQuery extends SelectQuery
 class TestStubResult extends QueryTypeResult
 {
     public $parseCount = 0;
+
+    protected $dummyvar;
 
     public function parse()
     {

@@ -222,7 +222,6 @@ class SelectDummy extends Result
         $this->maxscore = $maxscore;
         $this->documents = $docs;
         $this->components = $components;
-        $this->queryTime = $queryTime;
-        $this->status = $status;
+        $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
     }
 }

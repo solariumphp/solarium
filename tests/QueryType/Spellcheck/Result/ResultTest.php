@@ -105,7 +105,6 @@ class SpellcheckDummy extends Result
         $this->results = $results;
         $this->all = $all;
         $this->collation = $collation;
-        $this->status = 1;
-        $this->queryTime = 12;
+        $this->responseHeader = ['status' => 1, 'QTime' => 12];
     }
 }

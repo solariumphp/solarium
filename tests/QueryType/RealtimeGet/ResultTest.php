@@ -18,6 +18,16 @@ class ResultTest extends TestCase
         $this->result = new ResultDummy([$this->doc]);
     }
 
+    public function testGetStatus()
+    {
+        $this->assertSame(1, $this->result->getStatus());
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertSame(12, $this->result->getQueryTime());
+    }
+
     public function testGetDocument()
     {
         $this->assertSame($this->doc, $this->result->getDocument());
@@ -31,5 +41,6 @@ class ResultDummy extends Result
     public function __construct($docs)
     {
         $this->documents = $docs;
+        $this->responseHeader = ['status' => 1, 'QTime' => 12];
     }
 }

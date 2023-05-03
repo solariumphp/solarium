@@ -76,12 +76,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             throw $e;
         }
 
-        return $this->addHeaderInfo(
-            $data,
-            [
-                'numfound' => \count($documents),
-                'documents' => $documents,
-            ]
-        );
+        return [
+            'numfound' => \count($documents),
+            'documents' => $documents,
+        ];
     }
 }

@@ -10,9 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - JSON serialization of arrays with non-consecutive indices in multivalue fields
+- PHP 8.2 deprecations
 
 ### Changed
 - Update queries use the JSON request format by default
+
+### Deprecated
+- Solarium\QueryType\Server\Collections\Result\CreateResult::getStatus(), use getCreateStatus() instead
+- Solarium\QueryType\Server\Collections\Result\DeleteResult::getStatus(), use getDeleteStatus() instead
+- Solarium\QueryType\Server\Collections\Result\ReloadResult::getStatus(), use getReloadStatus() instead
 
 
 ## [6.2.8]

@@ -72,10 +72,10 @@ $ping = $client->createPing();
 // execute the ping query
 try {
     $result = $client->ping($ping);
-    echo 'Ping query successful';
-    echo '<br/><pre>';
-    var_dump($result->getData());
-    echo '</pre>';
+
+    echo 'Ping query successful<br/><br/>';
+    echo 'Ping status: ' . $result->getPingStatus() . '<br/>';
+    echo 'Query time: ' . $result->getQueryTime() . ' ms';
 } catch (Exception $e) {
     echo 'Ping query failed';
 }
