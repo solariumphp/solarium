@@ -57,7 +57,7 @@ abstract class AbstractEvents
     /**
      * Not instantiable.
      */
-    final private function __construct()
+    private function __construct()
     {
     }
 }

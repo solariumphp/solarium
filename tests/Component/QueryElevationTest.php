@@ -29,6 +29,7 @@ class QueryElevationTest extends TestCase
             'markExcludes' => false,
             'elevateIds' => 'doc1,doc2',
             'excludeIds' => 'doc3,doc4',
+            'excludeTags' => 'tagA,tagB',
         ];
 
         $this->queryelevation->setOptions($options);
@@ -41,6 +42,7 @@ class QueryElevationTest extends TestCase
         $this->assertFalse($this->queryelevation->getMarkExcludes());
         $this->assertSame(['doc1', 'doc2'], $this->queryelevation->getElevateIds());
         $this->assertSame(['doc3', 'doc4'], $this->queryelevation->getExcludeIds());
+        $this->assertSame(['tagA', 'tagB'], $this->queryelevation->getExcludeTags());
     }
 
     public function testGetType()
@@ -174,5 +176,19 @@ class QueryElevationTest extends TestCase
     {
         $this->queryelevation->setExcludeIds('doc3, doc4');
         $this->assertSame(['doc3', 'doc4'], $this->queryelevation->getExcludeIds());
+    }
+
+    public function testSetAndGetExcludeTags()
+    {
+        $tags = ['tagA', 'tagB'];
+
+        $this->queryelevation->setExcludeTags($tags);
+        $this->assertSame($tags, $this->queryelevation->getExcludeTags());
+    }
+
+    public function testSetExcludeTagsAsStringWithTrim()
+    {
+        $this->queryelevation->setExcludeTags('tagA, tagB');
+        $this->assertSame(['tagA', 'tagB'], $this->queryelevation->getExcludeTags());
     }
 }

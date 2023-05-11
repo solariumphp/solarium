@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Support for Luke queries
+- Solarium\Component\QueryElevation::setExcludeTags()
 
 ### Fixed
 - JSON serialization of arrays with non-consecutive indices in multivalue fields

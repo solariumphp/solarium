@@ -131,8 +131,11 @@ class DocTest extends TestCase
         $this->assertSame('true', $lucene[5]->getValue());
         $this->assertSame('T', $lucene[5]->getInternal());
 
-        // 'binary' is returned for binary fields
+        // 'value' and 'binary' are returned for binary fields, but 'internal' is null
+        $this->assertTrue($lucene[6]->getFlags()->isBinary());
+        $this->assertSame('PS9cPQ==', $lucene[6]->getValue());
         $this->assertSame('PS9cPQ==', $lucene[6]->getBinary());
+        $this->assertNull($lucene[6]->getInternal());
 
         // some field types don't return 'docFreq'
         $this->assertNull($lucene[4]->getDocFreq());

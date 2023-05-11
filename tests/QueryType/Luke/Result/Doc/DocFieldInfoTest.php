@@ -59,6 +59,9 @@ class DocFieldInfoTest extends TestCase
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setInternal('internal value'));
         $this->assertSame('internal value', $this->docFieldInfo->getInternal());
+
+        $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setInternal(null));
+        $this->assertNull($this->docFieldInfo->getInternal());
     }
 
     public function testSetAndGetBinary()

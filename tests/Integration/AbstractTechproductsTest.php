@@ -4235,7 +4235,7 @@ abstract class AbstractTechproductsTest extends TestCase
 
         $this->assertSame(
             'org.apache.solr.search.similarities.SchemaSimilarityFactory$SchemaSimilarity',
-             $schema->getSimilarity()->getClassName()
+            $schema->getSimilarity()->getClassName()
         );
 
         $string = $schema->getType('string');
