@@ -18,10 +18,6 @@ trait DocDataTrait
      */
     public function getRawDocData(): string
     {
-        /*
-         * Representation of binary data is tentative. We can't base our
-         * example on actual response data because of SOLR-16293.
-         */
         return <<<'JSON'
             {
                 "docId": 1701,
@@ -80,10 +76,11 @@ trait DocDataTrait
                     "insignia": {
                         "type": "binary",
                         "schema": "I-S-U------F------",
-                        "flags": "I-S-------OF------",
+                        "flags": "-TS------------B--",
                         "value": "PS9cPQ==",
-                        "internal": "PS9cPQ==",
-                        "binary": "PS9cPQ=="
+                        "internal": null,
+                        "binary": "PS9cPQ==",
+                        "docFreq": 0
                     }
                 },
                 "solr": {

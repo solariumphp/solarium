@@ -62,7 +62,7 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
                 switch ($facet->getType()) {
                     case FacetSetInterface::FACET_FIELD:
                         /* @var FacetField $facet */
-                        $this->addFacetField($request, $facet, (1 < $facetFields[$facet->getField()]));
+                        $this->addFacetField($request, $facet, 1 < $facetFields[$facet->getField()]);
                         $nonJson = true;
                         break;
                     case FacetSetInterface::FACET_QUERY:
