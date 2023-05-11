@@ -30,7 +30,7 @@ class ResultTest extends AbstractResultTest
         /** @var \Solarium\Plugin\MinimumScoreFilter\Document $doc */
         foreach ($this->result as $key => $doc) {
             $this->assertSame($this->docs[$key]->title, $doc->title);
-            $this->assertSame((3 === $key), $doc->markedAsLowScore());
+            $this->assertSame(3 === $key, $doc->markedAsLowScore());
         }
     }
 
