@@ -49,7 +49,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
             $request->addParam('json.nl', 'flat');
         }
 
-        $isServerQuery = ($query instanceof AbstractServerQuery);
+        $isServerQuery = $query instanceof AbstractServerQuery;
         $request->setIsServerRequest($isServerQuery);
 
         return $request;

@@ -142,13 +142,13 @@ class Helper
     public function formatDate($input)
     {
         switch (true) {
-            // input of DateTime or DateTimeImmutable object
             case $input instanceof \DateTimeInterface:
+                // input of DateTime or DateTimeImmutable object
                 $input = clone $input;
                 break;
-            // input of timestamp or date/time string
             case \is_string($input):
             case is_numeric($input):
+                // input of timestamp or date/time string
                 // if date/time string: convert to timestamp first
                 if (\is_string($input)) {
                     $input = strtotime($input);
@@ -161,11 +161,8 @@ class Helper
                     $input = false;
                 }
                 break;
-            // any other input formats can be added in additional cases here...
-            // case $input instanceof Zend_Date:
-
-            // unsupported input format
             default:
+                // unsupported input format
                 $input = false;
                 break;
         }
