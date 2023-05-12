@@ -14,8 +14,6 @@ namespace Solarium\Builder;
 /**
  * Value.
  *
- * @codeCoverageIgnore
- *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
 class Value implements ExpressionInterface

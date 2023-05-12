@@ -16,8 +16,6 @@ use Solarium\Exception\RuntimeException;
 /**
  * Expression Visitor.
  *
- * @codeCoverageIgnore
- *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
 abstract class AbstractExpressionVisitor

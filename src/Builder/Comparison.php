@@ -14,8 +14,6 @@ namespace Solarium\Builder;
 /**
  * Comparison.
  *
- * @codeCoverageIgnore
- *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
 class Comparison implements ExpressionInterface
@@ -79,6 +77,11 @@ class Comparison implements ExpressionInterface
      * Matching.
      */
     public const MATCH = 'MATCH';
+
+    /**
+     * Empty.
+     */
+    public const EMPTY = 'EMPTY';
 
     /**
      * @var string
