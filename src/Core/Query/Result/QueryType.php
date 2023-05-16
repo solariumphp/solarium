@@ -81,6 +81,11 @@ class QueryType extends Result
 
             $this->mapData($responseParser->parse($this));
 
+            // don't override if ResponseParser already parsed this
+            if (null === $this->responseHeader) {
+                $this->responseHeader = $this->data['responseHeader'] ?? null;
+            }
+
             $this->parsed = true;
         }
     }

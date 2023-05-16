@@ -399,6 +399,25 @@ htmlFooter();
 
 For all options (like boosting) see the docs.
 
+### Status and query time
+
+As shown in the update query examples above, you can get the status and query time from a query result.
+The normal Solr status code for succes is `0`.
+The query time is the execution time in milliseconds as reported by Solr and doesn't include network transfer times.
+
+This is possible for every query type if a response header is returned from Solr alongside the result. Solarium
+requests this header by default for [Ping](queries/ping-query.md) and [Update](queries/update-query/update-query.md)
+queries, you have to set it explicitly on the query if you want this returned for other query types.
+
+```php
+$query = $client->createSelect();
+$query->setOmitHeader(false);
+
+$result = $client->select($query);
+echo 'Query status: ' . $result->getStatus();
+echo 'Query time: ' . $result->getQueryTime();
+```
+
 
 Example code
 ------------
