@@ -34,13 +34,6 @@ class Result extends BaseResult
     protected $initFailureResults;
 
     /**
-     * InitFailureResult when the status only for one core as requested.
-     *
-     * @var InitFailureResult
-     */
-    protected $initFailureResult;
-
-    /**
      * StatusResult collection when multiple statuses have been requested.
      *
      * @var StatusResult[]|null
@@ -89,7 +82,7 @@ class Result extends BaseResult
     }
 
     /**
-     * Returns the init failure result objects for all core statuses.
+     * Returns the init failure result objects.
      *
      * @throws \Solarium\Exception\UnexpectedValueException
      *
@@ -100,20 +93,6 @@ class Result extends BaseResult
         $this->parseResponse();
 
         return $this->initFailureResults;
-    }
-
-    /**
-     * Retrieves the init failure of the core, only available when the query was filtered to a core in the status action.
-     *
-     * @throws \Solarium\Exception\UnexpectedValueException
-     *
-     * @return InitFailureResult|null
-     */
-    public function getInitFailureResult(): ?InitFailureResult
-    {
-        $this->parseResponse();
-
-        return $this->initFailureResult;
     }
 
     /**

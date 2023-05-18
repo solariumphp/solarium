@@ -66,7 +66,6 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         }
 
         $initFailureResults = [];
-        $initFailureResult = null;
 
         foreach ($data['initFailures'] as $coreName => $exception) {
             $initFailure = new InitFailureResult();
@@ -74,15 +73,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             $initFailure->setException($exception);
 
             $initFailureResults[] = $initFailure;
-
-            // when a core name was set in the action and we have a response we remember it to set a single initFailureResult
-            if ($coreName === $action->getCore()) {
-                $initFailureResult = $initFailure;
-            }
         }
 
         $data['initFailureResults'] = $initFailureResults;
-        $data['initFailureResult'] = $initFailureResult;
 
         return $data;
     }
