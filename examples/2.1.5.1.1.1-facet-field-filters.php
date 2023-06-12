@@ -29,11 +29,15 @@ $facetSet->createFacetField('electronics')->setField('cat')->setContains('electr
 $facetSet->createFacetField('electronicsAndMore')->setField('cat')->setMatches('electronics.+');
 
 // setExcludeTerms takes a comma separated list of terms to exclude from the facet
-// escape the comma for a literal match e.g. 'yes\, this facet with be excluded'
+// escape the comma for a literal match e.g. 'yes\, this term will be excluded'
 $facetSet->createFacetField('electronicsExclude')->setField('cat')->setExcludeTerms('electronics,music');
 
 // all three restriction types can also be used on the facetset as a whole and will affect all (non json) facets
 // e.g. $facetSet->setExcludeTerms('search');
+
+// setTerms takes a comma separated list of terms to exclude from the facet
+// escape the comma for a literal match e.g. 'yes\, this term will be included'
+$facetSet->createFacetField('electronicsTerms')->setField('cat')->setTerms('electronics,music');
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -72,6 +76,13 @@ foreach ($facet as $value => $count) {
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms excluding "electronics" and "music":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('electronicsExclude');
+foreach ($facet as $value => $count) {
+    echo $value . ' [' . $count . ']<br/>';
+}
+
+// display facet counts
+echo '<hr/>Facet counts for field "cat"; terms limited to "electronics" and "music":<br/>';
+$facet = $resultset->getFacetSet()->getFacet('electronicsTerms');
 foreach ($facet as $value => $count) {
     echo $value . ' [' . $count . ']<br/>';
 }

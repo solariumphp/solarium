@@ -55,8 +55,8 @@ class FacetSetTest extends TestCase
 
     public function testBuildWithFacets()
     {
-        $this->component->addFacet(new FacetField(['local_key' => 'f1', 'field' => 'owner']));
-        $this->component->addFacet(new FacetQuery(['local_key' => 'f2', 'query' => 'category:23']));
+        $this->component->addFacet(new FacetField(['local_key' => 'f1', 'local_exclude' => 'e11,e12', 'local_terms' => 't1,t2', 'field' => 'owner']));
+        $this->component->addFacet(new FacetQuery(['local_key' => 'f2', 'local_exclude' => 'e21,e22', 'query' => 'category:23']));
         $this->component->addFacet(
             new FacetMultiQuery(['local_key' => 'f3', 'query' => ['f4' => ['query' => 'category:40']]])
         );
@@ -65,7 +65,20 @@ class FacetSetTest extends TestCase
 
         $this->assertNull($request->getRawData());
         $this->assertEquals(
-            '?facet.field={!key=f1}owner&facet.query={!key=f2}category:23&facet.query={!key=f4}category:40&facet=true',
+            '?facet.field={!key=f1 ex=e11,e12 terms=t1,t2}owner&facet.query={!key=f2 ex=e21,e22}category:23&facet.query={!key=f4}category:40&facet=true',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithFacetFieldWithCommaAndQuoteInTerm()
+    {
+        $this->component->addFacet(new FacetField(['local_key' => 'f1', 'local_terms' => ['yes\, it is', 'no\, it isn\'t'], 'field' => 'isit']));
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            "?facet.field={!key=f1 terms='yes\\, it is,no\\, it isn\\'t'}isit&facet=true",
             urldecode($request->getUri())
         );
     }
@@ -366,7 +379,7 @@ class FacetSetTest extends TestCase
                 'overrequest.ratio' => 2.2,
             ]
         );
-        $facet->getLocalParameters()->setExclude('owner');
+        $facet->addExclude('owner');
         $this->component->addFacet($facet);
         $this->component->setPivotMinCount(5);
         $this->component->setLimit(-1);

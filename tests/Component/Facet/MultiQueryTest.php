@@ -293,6 +293,66 @@ class MultiQueryTest extends TestCase
         );
     }
 
+    public function testAddExclude()
+    {
+        $this->facet->addExclude('e1');
+        $this->assertEquals(['e1'], $this->facet->getExcludes());
+        $this->assertEquals(['e1'], $this->facet->getLocalParameters()->getExcludes());
+
+        $this->facet->addExclude('e2');
+        $this->assertEquals(['e1', 'e2'], $this->facet->getExcludes());
+        $this->assertEquals(['e1', 'e2'], $this->facet->getLocalParameters()->getExcludes());
+    }
+
+    public function testAddExcludes()
+    {
+        $this->facet->addExcludes(['e1', 'e2']);
+        $this->assertEquals(['e1', 'e2'], $this->facet->getExcludes());
+        $this->assertEquals(['e1', 'e2'], $this->facet->getLocalParameters()->getExcludes());
+
+        $this->facet->addExcludes('e3,e4');
+        $this->assertEquals(['e1', 'e2', 'e3', 'e4'], $this->facet->getExcludes());
+        $this->assertEquals(['e1', 'e2', 'e3', 'e4'], $this->facet->getLocalParameters()->getExcludes());
+    }
+
+    public function testSetExcludes()
+    {
+        $this->facet->setExcludes(['e1', 'e2']);
+        $this->assertEquals(['e1', 'e2'], $this->facet->getExcludes());
+        $this->assertEquals(['e1', 'e2'], $this->facet->getLocalParameters()->getExcludes());
+
+        $this->facet->setExcludes('e3,e4');
+        $this->assertEquals(['e3', 'e4'], $this->facet->getExcludes());
+        $this->assertEquals(['e3', 'e4'], $this->facet->getLocalParameters()->getExcludes());
+    }
+
+    public function testSetAndAddTermsWithEscapedSeparator()
+    {
+        $this->facet->setExcludes('e1\,e2,e3');
+        $this->assertEquals(['e1\,e2', 'e3'], $this->facet->getExcludes());
+        $this->assertEquals(['e1\,e2', 'e3'], $this->facet->getLocalParameters()->getExcludes());
+
+        $this->facet->addExcludes('e4\,e5,e6');
+        $this->assertEquals(['e1\,e2', 'e3', 'e4\,e5', 'e6'], $this->facet->getExcludes());
+        $this->assertEquals(['e1\,e2', 'e3', 'e4\,e5', 'e6'], $this->facet->getLocalParameters()->getExcludes());
+    }
+
+    public function testRemoveExclude()
+    {
+        $this->facet->setExcludes(['e1', 'e2']);
+        $this->facet->removeExclude('e1');
+        $this->assertEquals(['e2'], $this->facet->getExcludes());
+        $this->assertEquals(['e2'], $this->facet->getLocalParameters()->getExcludes());
+    }
+
+    public function testClearExcludes()
+    {
+        $this->facet->setExcludes(['e1', 'e2']);
+        $this->facet->clearExcludes();
+        $this->assertEquals([], $this->facet->getExcludes());
+        $this->assertEquals([], $this->facet->getLocalParameters()->getExcludes());
+    }
+
     public function testAddExcludeForwarding()
     {
         $facetQuery = new Query();
@@ -304,7 +364,37 @@ class MultiQueryTest extends TestCase
 
         $this->assertSame(
             ['fq1'],
-            $facetQuery->getLocalParameters()->getExcludes()
+            $facetQuery->getExcludes()
+        );
+    }
+
+    public function testAddExcludesForwarding()
+    {
+        $facetQuery = new Query();
+        $facetQuery->setKey('k1');
+        $facetQuery->setQuery('category:1');
+        $this->facet->addQuery($facetQuery);
+
+        $this->facet->addExcludes(['fq1', 'fq2']);
+
+        $this->assertSame(
+            ['fq1', 'fq2'],
+            $facetQuery->getExcludes()
+        );
+    }
+
+    public function testSetExcludesForwarding()
+    {
+        $facetQuery = new Query();
+        $facetQuery->setKey('k1');
+        $facetQuery->setQuery('category:1');
+        $this->facet->addQuery($facetQuery);
+
+        $this->facet->setExcludes(['fq1', 'fq2']);
+
+        $this->assertSame(
+            ['fq1', 'fq2'],
+            $facetQuery->getExcludes()
         );
     }
 
@@ -319,14 +409,14 @@ class MultiQueryTest extends TestCase
 
         $this->assertSame(
             ['fq1'],
-            $facetQuery->getLocalParameters()->getExcludes()
+            $facetQuery->getExcludes()
         );
 
         $this->facet->removeExclude('fq1');
 
         $this->assertSame(
             [],
-            $facetQuery->getLocalParameters()->getExcludes()
+            $facetQuery->getExcludes()
         );
     }
 

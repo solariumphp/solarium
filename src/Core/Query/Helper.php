@@ -108,18 +108,30 @@ class Helper
      * a single quote, a double quote, or a right curly bracket. It backslash
      * escapes single quotes and backslashes within that quoted string.
      *
+     * If an optional pre-escaped separator character is passed, a backslash
+     * preceding this character will not be escaped with another backslash.
+     * {@internal Based on splitSmart() in org.apache.solr.common.util.StrUtils}
+     *
      * A value that doesn't require quoting is returned as is.
      *
      * @see https://solr.apache.org/guide/local-parameters-in-queries.html#basic-syntax-of-local-parameters
      *
      * @param string $value
+     * @param string $preEscapedSeparator Separator character that is already escaped with a backslash
      *
      * @return string
      */
-    public function escapeLocalParamValue(string $value): string
+    public function escapeLocalParamValue(string $value, string $preEscapedSeparator = null): string
     {
         if (preg_match('/[ \'"}]/', $value)) {
-            $value = "'".preg_replace("/('|\\\\)/", '\\\$1', $value)."'";
+            $pattern = "/('|\\\\)/";
+
+            if (null !== $preEscapedSeparator) {
+                $char = preg_quote(substr($preEscapedSeparator, 0, 1), '/');
+                $pattern = "/('|\\\\(?!$char))/";
+            }
+
+            $value = "'".preg_replace($pattern, '\\\$1', $value)."'";
         }
 
         return $value;

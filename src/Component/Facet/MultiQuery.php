@@ -203,7 +203,7 @@ class MultiQuery extends AbstractFacet
     /**
      * Add an exclude tag.
      *
-     * Excludes added to the MultiQuery facet a shared by all underlying
+     * Excludes added to the MultiQuery facet are shared by all underlying
      * FacetQueries, so they must be forwarded to any existing instances.
      *
      * If you don't want to share an exclude use the addExclude method of a
@@ -211,14 +211,12 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $exclude
      *
-     * @throws OutOfBoundsException
-     *
      * @return self Provides fluent interface
      */
-    public function addExclude(string $exclude): AbstractFacet
+    public function addExclude(string $exclude): self
     {
         foreach ($this->facetQueries as $facetQuery) {
-            $facetQuery->getLocalParameters()->setExclude($exclude);
+            $facetQuery->addExclude($exclude);
         }
 
         $this->getLocalParameters()->setExclude($exclude);
@@ -227,9 +225,65 @@ class MultiQuery extends AbstractFacet
     }
 
     /**
+     * Add exclude tags.
+     *
+     * Excludes added to the MultiQuery facet are shared by all underlying
+     * FacetQueries, so they must be forwarded to any existing instances.
+     *
+     * If you don't want to share excludes use the addExcludes method of a
+     * specific FacetQuery instance instead.
+     *
+     * @param array|string $excludes array or string with comma separated exclude tags
+     *
+     * @return self Provides fluent interface
+     */
+    public function addExcludes($excludes): self
+    {
+        if (\is_string($excludes)) {
+            $excludes = preg_split('/(?<!\\\\),/', $excludes);
+        }
+
+        foreach ($this->facetQueries as $facetQuery) {
+            $facetQuery->addExcludes($excludes);
+        }
+
+        $this->getLocalParameters()->addExcludes($excludes);
+
+        return $this;
+    }
+
+    /**
+     * Set the list of exclude tags.
+     *
+     * Excludes added to the MultiQuery facet are shared by all underlying
+     * FacetQueries, so they must be forwarded to any existing instances.
+     *
+     * If you don't want to share excludes use the setExcludes method of a
+     * specific FacetQuery instance instead.
+     *
+     * @param array|string $excludes array or string with comma separated exclude tags
+     *
+     * @return self Provides fluent interface
+     */
+    public function setExcludes($excludes): self
+    {
+        if (\is_string($excludes)) {
+            $excludes = preg_split('/(?<!\\\\),/', $excludes);
+        }
+
+        foreach ($this->facetQueries as $facetQuery) {
+            $facetQuery->setExcludes($excludes);
+        }
+
+        $this->getLocalParameters()->setExcludes($excludes);
+
+        return $this;
+    }
+
+    /**
      * Remove a single exclude tag.
      *
-     * Excludes added to the MultiQuery facet a shared by all underlying
+     * Excludes added to the MultiQuery facet are shared by all underlying
      * FacetQueries, so changes must be forwarded to any existing instances.
      *
      * If you don't want this use the removeExclude method of a
@@ -237,14 +291,12 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $exclude
      *
-     * @throws OutOfBoundsException
-     *
      * @return self Provides fluent interface
      */
-    public function removeExclude(string $exclude): AbstractFacet
+    public function removeExclude(string $exclude): self
     {
         foreach ($this->facetQueries as $facetQuery) {
-            $facetQuery->getLocalParameters()->removeExclude($exclude);
+            $facetQuery->removeExclude($exclude);
         }
 
         $this->getLocalParameters()->removeExclude($exclude);
@@ -253,27 +305,41 @@ class MultiQuery extends AbstractFacet
     }
 
     /**
-     * Remove all excludes.
+     * Remove all exclude tags.
      *
-     * Excludes added to the MultiQuery facet a shared by all underlying
+     * Excludes added to the MultiQuery facet are shared by all underlying
      * FacetQueries, so changes must be forwarded to any existing instances.
      *
      * If you don't want this use the clearExcludes method of a
      * specific FacetQuery instance instead.
      *
-     * @throws OutOfBoundsException
-     *
      * @return self Provides fluent interface
      */
-    public function clearExcludes(): AbstractFacet
+    public function clearExcludes(): self
     {
         foreach ($this->facetQueries as $facetQuery) {
-            $facetQuery->getLocalParameters()->clearExcludes();
+            $facetQuery->clearExcludes();
         }
 
         $this->getLocalParameters()->clearExcludes();
 
         return $this;
+    }
+
+    /**
+     * Get the list of exclude tags.
+     *
+     * Excludes added to the MultiQuery facet are shared by all underlying
+     * FacetQueries, so they must be forwarded to any existing instances.
+     *
+     * If you don't want to share excludes use the getExcludes method of a
+     * specific FacetQuery instance instead.
+     *
+     * @return array
+     */
+    public function getExcludes(): array
+    {
+        return $this->getLocalParameters()->getExcludes();
     }
 
     /**

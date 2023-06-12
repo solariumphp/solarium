@@ -146,8 +146,10 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $field = $facet->getField();
 
         if ($useLocalParams) {
-            $localParams = ['key' => $facet->getKey(),
+            $localParams = [
+                'key' => $facet->getKey(),
                 'ex' => $facet->getLocalParameters()->getExcludes(),
+                'terms' => $facet->getLocalParameters()->getTerms(),
                 'facet.prefix' => $facet->getPrefix(),
                 'facet.contains' => $facet->getContains(),
                 'facet.contains.ignoreCase' => $facet->getContainsIgnoreCase(),

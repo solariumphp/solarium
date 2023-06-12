@@ -37,7 +37,7 @@ class RangeTest extends TestCase
         $this->facet->setOptions($options);
 
         $this->assertSame($options['local_key'], $this->facet->getKey());
-        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
+        $this->assertSame($options['local_exclude'], $this->facet->getExcludes());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame((string) $options['start'], $this->facet->getStart());
         $this->assertSame((string) $options['end'], $this->facet->getEnd());
@@ -45,6 +45,33 @@ class RangeTest extends TestCase
         $this->assertTrue($this->facet->getHardend());
         $this->assertSame([$options['other']], $this->facet->getOther());
         $this->assertSame([$options['include']], $this->facet->getInclude());
+    }
+
+    public function testConfigModeWithExclude()
+    {
+        $options = [
+            'exclude' => 'e1\,e2,e3',
+        ];
+
+        @$this->facet->setOptions($options);
+
+        $this->assertSame(['e1\,e2', 'e3'], $this->facet->getExcludes());
+    }
+
+    public function testConfigModeWithExcludeThrowsDeprecation()
+    {
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $options = [
+            'exclude' => 'e1\,e2,e3',
+        ];
+
+        $this->expectExceptionCode(\E_USER_DEPRECATED);
+        $this->facet->setOptions($options);
+
+        restore_error_handler();
     }
 
     public function testGetType()
