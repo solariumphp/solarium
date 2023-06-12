@@ -12,7 +12,6 @@ namespace Solarium\QueryType\Spellcheck;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
-use Solarium\QueryType\Spellcheck\Result\Result;
 
 /**
  * Parse Spellcheck response data.
