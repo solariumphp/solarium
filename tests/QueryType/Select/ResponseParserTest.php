@@ -43,8 +43,6 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $this->assertSame(1, $result['status']);
-        $this->assertSame(13, $result['queryTime']);
         $this->assertSame(503, $result['numfound']);
         $this->assertSame(1.23, $result['maxscore']);
 
@@ -90,8 +88,6 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $this->assertSame(1, $result['status']);
-        $this->assertSame(13, $result['queryTime']);
         $this->assertSame(503, $result['numfound']);
         $this->assertNull($result['maxscore']);
 
@@ -169,8 +165,6 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse($resultStub);
 
-        $this->assertSame(1, $result['status']);
-        $this->assertSame(13, $result['queryTime']);
         $this->assertNull($result['numfound']);
     }
 }

@@ -17,61 +17,11 @@ use Solarium\Core\Query\Result\QueryType as BaseResult;
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
-     * Status code returned by Solr.
-     *
-     * @var int
-     */
-    protected $status;
-
-    /**
-     * Solr index queryTime.
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @var int
-     */
-    protected $queryTime;
-
-    /**
      * Term results.
      *
      * @var array
      */
     protected $results;
-
-    /**
-     * Get Solr status code.
-     *
-     * This is not the HTTP status code! The normal value for success is 0.
-     *
-     * @throws \Solarium\Exception\UnexpectedValueException
-     *
-     * @return int
-     */
-    public function getStatus(): int
-    {
-        $this->parseResponse();
-
-        return $this->status;
-    }
-
-    /**
-     * Get Solr query time.
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @throws \Solarium\Exception\UnexpectedValueException
-     *
-     * @return int
-     */
-    public function getQueryTime(): int
-    {
-        $this->parseResponse();
-
-        return $this->queryTime;
-    }
 
     /**
      * Get all term results.

@@ -93,7 +93,6 @@ class TermsDummy extends Result
     public function __construct($results)
     {
         $this->results = $results;
-        $this->status = 1;
-        $this->queryTime = 12;
+        $this->responseHeader = ['status' => 1, 'QTime' => 12];
     }
 }

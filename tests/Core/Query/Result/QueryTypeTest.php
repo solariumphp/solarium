@@ -24,6 +24,16 @@ class QueryTypeTest extends TestCase
         $this->result = new TestStubResult($query, $response);
     }
 
+    public function testGetStatus()
+    {
+        $this->assertSame(1, $this->result->getStatus());
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertSame(12, $this->result->getQueryTime());
+    }
+
     public function testParseResponse()
     {
         $query = new TestStubQuery();
@@ -37,6 +47,16 @@ class QueryTypeTest extends TestCase
     public function testParseResponseInvalidQuerytype()
     {
         $this->assertNull($this->result->parse());
+    }
+
+    public function testParseResponseResponseHeaderFallback()
+    {
+        $query = new SelectQuery();
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
+        $result = new TestNonDataMappingStubResult($query, $response);
+
+        $this->assertSame(1, $result->getStatus());
+        $this->assertSame(12, $result->getQueryTime());
     }
 
     public function testParseLazyLoading()
@@ -75,6 +95,8 @@ class TestStubResult extends QueryTypeResult
 {
     public $parseCount = 0;
 
+    protected $dummyvar;
+
     public function parse()
     {
         $this->parseResponse();
@@ -89,5 +111,12 @@ class TestStubResult extends QueryTypeResult
     public function getVar($name)
     {
         return $this->$name;
+    }
+}
+
+class TestNonDataMappingStubResult extends QueryTypeResult
+{
+    protected function mapData(array $mapData)
+    {
     }
 }

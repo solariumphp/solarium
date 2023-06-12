@@ -212,14 +212,18 @@ abstract class AbstractTechproductsTest extends TestCase
         ];
     }
 
-    /**
-     * The ping test succeeds if no exception is thrown.
-     */
     public function testPing()
     {
         $ping = self::$client->createPing();
         $result = self::$client->ping($ping);
         $this->assertSame(0, $result->getStatus());
+        $this->assertSame('OK', $result->getPingStatus());
+
+        if ($this instanceof AbstractCloudTest) {
+            $this->assertTrue($result->getZkConnected());
+        } else {
+            $this->assertNull($result->getZkConnected());
+        }
     }
 
     public function testSelect(): SelectResult

@@ -31,7 +31,7 @@ class Query extends BaseQuery
     protected $options = [
         'resultclass' => Result::class,
         'handler' => 'admin/ping',
-        'omitheader' => true,
+        'omitheader' => false,
     ];
 
     /**
@@ -55,12 +55,12 @@ class Query extends BaseQuery
     }
 
     /**
-     * The ping query has no response parser so we return a null value.
+     * Get a responseparser for this query.
      *
-     * @return \Solarium\Core\Query\ResponseParserInterface|null
+     * @return ResponseParser
      */
     public function getResponseParser(): ?ResponseParserInterface
     {
-        return null;
+        return new ResponseParser();
     }
 }

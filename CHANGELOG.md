@@ -8,12 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for Luke queries
 - Solarium\Component\QueryElevation::setExcludeTags()
+- Solarium\Core\Query\Result\QueryType::getStatus() and getQueryTime(), inherited by all Solarium\QueryType Results
+- Solarium\QueryType\CoreAdmin\Result\Result::getInitFailureResults()
+- Solarium\QueryType\Ping\Result::getPingStatus() and getZkConnected()
 
 ### Fixed
 - JSON serialization of arrays with non-consecutive indices in multivalue fields
+- PHP 8.2 deprecations
 
 ### Changed
 - Update queries use the JSON request format by default
+- Ping queries set omitHeader=false by default
+
+### Deprecated
+- Solarium\QueryType\Server\Collections\Result\CreateResult::getStatus(), use getCreateStatus() instead
+- Solarium\QueryType\Server\Collections\Result\DeleteResult::getStatus(), use getDeleteStatus() instead
+- Solarium\QueryType\Server\Collections\Result\ReloadResult::getStatus(), use getReloadStatus() instead
 
 
 ## [6.2.8]
