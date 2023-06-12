@@ -47,7 +47,7 @@ class FacetSetTest extends TestCase
     {
         $request = $this->builder->buildComponent($this->component, $this->request);
 
-        static::assertEquals(
+        $this->assertEquals(
             [],
             $request->getParams()
         );
@@ -147,6 +147,21 @@ class FacetSetTest extends TestCase
         );
     }
 
+    public function testBuildWithJsonFacetFilterQueryWithPlaceholders()
+    {
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
+        $terms->setDomainFilterQuery('popularity:[%1% TO %2%]', [5, 10]);
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","domain":{"filter":"popularity:[5 TO 10]"},"type":"terms"}}',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithJsonFacetFilterParamsAndQuery()
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
@@ -160,6 +175,24 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
         $this->assertEquals(
             '?json.facet={"f1":{"field":"owner","domain":{"filter":[{"param":"myparam1"},{"param":"myparam2"},"popularity:[5 TO 10]"]},"type":"terms"}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithJsonFacetFilterParamsAndQueryOverwrite()
+    {
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
+        $terms->setDomainFilterQuery('popularity:[5 TO 10]');
+        $terms->addDomainFilterParameter('myparam1');
+        $terms->addDomainFilterParameter('myparam2');
+        $terms->setDomainFilterQuery('popularity:[15 TO 20]');
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","domain":{"filter":["popularity:[15 TO 20]",{"param":"myparam1"},{"param":"myparam2"}]},"type":"terms"}}',
             urldecode($request->getUri())
         );
     }
@@ -217,6 +250,44 @@ class FacetSetTest extends TestCase
         $this->assertNull($request->getRawData());
         $this->assertEquals(
             '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"type":"query","facet":{"f1":"avg(mul(price,popularity))","f2":"unique(popularity)"},"q":"category:23"}}}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithNestedJsonFacetRemoved()
+    {
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
+        $query = new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']);
+        $query->addFacet(new JsonAggregation(['local_key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
+        $query->addFacet(new JsonAggregation(['local_key' => 'f2', 'function' => 'unique(popularity)']));
+        $query->removeFacet('f1');
+        $terms->addFacet($query);
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"type":"query","facet":{"f2":"unique(popularity)"},"q":"category:23"}}}}',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testBuildWithNestedJsonFacetsCleared()
+    {
+        $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
+        $query = new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']);
+        $query->addFacet(new JsonAggregation(['local_key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
+        $query->addFacet(new JsonAggregation(['local_key' => 'f2', 'function' => 'unique(popularity)']));
+        $query->clearFacets();
+        $terms->addFacet($query);
+        $this->component->addFacet($terms);
+
+        $request = $this->builder->buildComponent($this->component, $this->request);
+
+        $this->assertNull($request->getRawData());
+        $this->assertEquals(
+            '?json.facet={"f1":{"field":"owner","type":"terms","facet":{"f2":{"type":"query","q":"category:23"}}}}',
             urldecode($request->getUri())
         );
     }
