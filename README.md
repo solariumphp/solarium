@@ -104,7 +104,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $options);
 
 The Symfony EventDispatcher is also no longer automatically available for autoloading.
 If you want to keep using it, you can add it to your project's `composer.json`.
-Alternatively you can use any PSR-14 compatible event dispatcher.
+Alternatively you can use any [PSR-14](https://www.php-fig.org/psr/psr-14/) compatible event dispatcher.
 
 ```json
 {
@@ -113,6 +113,23 @@ Alternatively you can use any PSR-14 compatible event dispatcher.
         "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
     }
 }
+```
+
+#### Adapters
+
+The `Zend2HttpAdapter`, `GuzzleAdapter`, and `Guzzle3Adapter` were removed in Solarium 6.
+You can use the `Psr18Adapter` with any [PSR-18](https://www.php-fig.org/psr/psr-18/) compliant HTTP client instead.
+
+Example:
+```sh
+composer require php-http/guzzle7-adapter
+composer require nyholm/psr7
+```
+
+```php
+$httpClient = new Http\Adapter\Guzzle7\Client();
+$factory = new Nyholm\Psr7\Factory\Psr17Factory();
+$adapter = new Solarium\Core\Client\Adapter\Psr18Adapter($httpClient, $factory, $factory);
 ```
 
 #### Local parameter names
@@ -214,4 +231,3 @@ You can run the tests in a Windows environment. For all of them to pass, you mus
 * [![codecov](https://codecov.io/gh/solariumphp/solarium/branch/master/graph/badge.svg)](https://codecov.io/gh/solariumphp/solarium)
 * [![SensioLabsInsight](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae/small.png)](https://insight.sensiolabs.com/projects/292e29f7-10a9-4685-b9ac-37925ebef9ae)
 * [![Total Downloads](https://poser.pugx.org/solarium/solarium/downloads.svg)](https://packagist.org/packages/solarium/solarium)
-
