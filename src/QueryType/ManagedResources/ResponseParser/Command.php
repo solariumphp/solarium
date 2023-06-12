@@ -29,7 +29,6 @@ class Command extends ResponseParserAbstract implements ResponseParserInterface
     {
         $data = $result->getData();
         $parsed = $this->parseStatus([], $result);
-        $parsed = $this->addHeaderInfo($data, $parsed);
 
         return $parsed;
     }

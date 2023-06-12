@@ -25,9 +25,49 @@ class QueryType extends Result
     protected $parsed = false;
 
     /**
+     * Response header returned by Solr.
+     *
+     * @var array
+     */
+    protected $responseHeader;
+
+    /**
+     * Get Solr status code.
+     *
+     * This is not the HTTP status code! The normal value for success is 0.
+     *
+     * {@internal No return typehint until deprecated inheriting
+     *            methods that are not covariant are removed from
+     *            Solarium\QueryType\Server\Collections\Result classes.}
+     *
+     * @return int|null
+     */
+    public function getStatus()
+    {
+        $this->parseResponse();
+
+        return $this->responseHeader['status'] ?? null;
+    }
+
+    /**
+     * Get Solr query time.
+     *
+     * This doesn't include things like the HTTP responsetime. Purely the Solr
+     * query execution time.
+     *
+     * @return int|null
+     */
+    public function getQueryTime(): ?int
+    {
+        $this->parseResponse();
+
+        return $this->responseHeader['QTime'] ?? null;
+    }
+
+    /**
      * Parse response into result objects.
      *
-     * Only runs once
+     * Only runs once.
      *
      * @throws UnexpectedValueException
      */
@@ -40,6 +80,11 @@ class QueryType extends Result
             }
 
             $this->mapData($responseParser->parse($this));
+
+            // don't override if ResponseParser already parsed this
+            if (null === $this->responseHeader) {
+                $this->responseHeader = $this->data['responseHeader'] ?? null;
+            }
 
             $this->parsed = true;
         }

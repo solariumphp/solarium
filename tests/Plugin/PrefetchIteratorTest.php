@@ -748,8 +748,7 @@ class SelectResultDummy extends Result
         $this->numfound = $numfound;
         $this->documents = $docs;
         $this->components = $components;
-        $this->queryTime = $queryTime;
-        $this->status = $status;
+        $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
     }
 
     public function setNumFound(int $numfound): self

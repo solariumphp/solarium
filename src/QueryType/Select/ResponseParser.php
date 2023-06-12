@@ -62,15 +62,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
         }
 
-        return $this->addHeaderInfo(
-            $data,
-            [
-                'numfound' => $data['response']['numFound'] ?? null,
-                'maxscore' => $data['response']['maxScore'] ?? null,
-                'documents' => $documents,
-                'components' => $components,
-                'nextcursormark' => $data['nextCursorMark'] ?? null,
-            ]
-        );
+        return [
+            'numfound' => $data['response']['numFound'] ?? null,
+            'maxscore' => $data['response']['maxScore'] ?? null,
+            'documents' => $documents,
+            'components' => $components,
+            'nextcursormark' => $data['nextCursorMark'] ?? null,
+        ];
     }
 }

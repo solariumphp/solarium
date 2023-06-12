@@ -38,6 +38,6 @@ class Resources extends ResponseParserAbstract implements ResponseParserInterfac
             }
         }
 
-        return $this->addHeaderInfo($data, ['items' => $items]);
+        return ['items' => $items];
     }
 }

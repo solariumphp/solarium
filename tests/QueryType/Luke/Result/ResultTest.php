@@ -268,7 +268,7 @@ class ResultTest extends TestCase
         ];
 
         $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
-        $result = new Result($query, $response);
+        $result = new DummyResult($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
         $this->assertNull($result->getSchema());
@@ -276,4 +276,16 @@ class ResultTest extends TestCase
         $this->assertNull($result->getFields());
         $this->assertNull($result->getInfo());
     }
+}
+
+/**
+ * Get around deprecation for creation of dynamic property
+ * with {@link ResultTest::testWithUnknownShow()}.
+ */
+class DummyResult extends Result
+{
+    /**
+     * @var array
+     */
+    protected $unknown;
 }

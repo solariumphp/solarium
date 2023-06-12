@@ -3,23 +3,59 @@
 namespace Solarium\Tests\QueryType\Ping;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Response;
-use Solarium\QueryType\Ping\Query;
 use Solarium\QueryType\Ping\Result;
-use Solarium\Tests\Integration\TestClientFactory;
 
 class ResultTest extends TestCase
 {
+    /**
+     * @var Result
+     */
+    protected $result;
+
+    public function setUp(): void
+    {
+        $this->result = new PingDummy();
+    }
+
+    public function testGetPingStatus()
+    {
+        $this->assertSame(
+            'OK',
+            $this->result->getPingStatus()
+        );
+    }
+
+    public function testGetZkConnected()
+    {
+        $this->assertTrue(
+            $this->result->getZkConnected()
+        );
+    }
+
     public function testGetStatus()
     {
-        $client = TestClientFactory::createWithCurlAdapter();
-        $query = new Query();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
-
-        $ping = new Result($query, $response);
         $this->assertSame(
-            0,
-            $ping->getStatus()
+            1,
+            $this->result->getStatus()
         );
+    }
+
+    public function testGetQueryTime()
+    {
+        $this->assertSame(
+            12,
+            $this->result->getQueryTime()
+        );
+    }
+}
+
+class PingDummy extends Result
+{
+    protected $parsed = true;
+
+    public function __construct()
+    {
+        $this->status = 'OK';
+        $this->responseHeader = ['zkConnected' => true, 'status' => 1, 'QTime' => 12];
     }
 }

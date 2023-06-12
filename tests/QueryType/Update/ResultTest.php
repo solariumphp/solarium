@@ -18,7 +18,6 @@ class UpdateDummy extends UpdateResult
 
     public function __construct()
     {
-        $this->status = 1;
-        $this->queryTime = 12;
+        $this->responseHeader = ['status' => 1, 'QTime' => 12];
     }
 }

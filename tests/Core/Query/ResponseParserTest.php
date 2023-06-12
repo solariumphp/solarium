@@ -68,37 +68,6 @@ class ResponseParserTest extends TestCase
             $this->parser->parse($result)
         );
     }
-
-    public function testAddHeaderInfo()
-    {
-        $data = [
-            'responseHeader' => [
-                'status' => 0,
-                'QTime' => 5,
-            ],
-        ];
-        $result = ['key' => 'value'];
-        $expected = [
-            'key' => 'value',
-            'status' => 0,
-            'queryTime' => 5,
-        ];
-
-        $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
-    }
-
-    public function testAddHeaderInfoEmpty()
-    {
-        $data = [];
-        $result = ['key' => 'value'];
-        $expected = [
-            'key' => 'value',
-            'status' => null,
-            'queryTime' => null,
-        ];
-
-        $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
-    }
 }
 
 class TestQueryForResponseParser extends AbstractQuery implements Status4xxNoExceptionInterface

@@ -81,8 +81,7 @@ class FilterResultDummy extends Result
         $this->maxscore = $maxscore;
         $this->documents = $docs;
         $this->components = $components;
-        $this->queryTime = $queryTime;
-        $this->status = $status;
+        $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
 
         $this->query = new Query();
         $this->query->setFilterRatio(0.2)->setFilterMode($mode);

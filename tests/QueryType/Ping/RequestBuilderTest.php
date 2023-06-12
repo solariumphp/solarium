@@ -15,7 +15,7 @@ class RequestBuilderTest extends TestCase
         $request = $builder->build(new Query());
 
         $this->assertSame(
-            'admin/ping?omitHeader=true&wt=json&json.nl=flat',
+            'admin/ping?omitHeader=false&wt=json&json.nl=flat',
             $request->getUri()
         );
 
