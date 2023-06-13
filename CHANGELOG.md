@@ -24,7 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ping queries set omitHeader=false by default
 
 ### Removed
-- Removed deprecated class constant Client::Version. Use Client::getVersion() instead.
+- Removed deprecated class constant Client::Version. Use Client::getVersion() instead
+- Removed Core/Query/AbstractResponseParser::addHeaderInfo()
 
 ### Deprecated
 - Solarium\QueryType\Server\Collections\Result\CreateResult::getStatus(), use getCreateStatus() instead
