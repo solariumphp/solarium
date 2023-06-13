@@ -32,10 +32,10 @@ Standard facet options
 
 All facet types available in the facetset extend a base class that offers a standard set of options. The following options are available for ALL facet types:
 
-| Name     | Type   | Default value | Description                                                 |
-|----------|--------|---------------|-------------------------------------------------------------|
-| key      | string | null          | Key to identify the facet (mandatory)                       |
-| excludes | string | null          | Add one or multiple filterquery tags to exclude for a facet |
+| Name          | Type   | Default value | Description                                                  |
+|---------------|--------|---------------|--------------------------------------------------------------|
+| local_key     | string | null          | Key to identify the facet (mandatory).                       |
+| local_exclude | string | null          | Add one or multiple filterquery tags to exclude for a facet. |
 ||
 
 Pivot facet options

@@ -10,6 +10,7 @@
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Client\Request;
+use Solarium\Core\Query\LocalParameters\LocalParameter;
 use Solarium\QueryType\Server\AbstractServerQuery;
 
 /**
@@ -88,7 +89,13 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
                 $paramValue = $paramValue ? 'true' : 'false';
             }
 
-            $params .= $paramName.'='.$helper->escapeLocalParamValue($paramValue).' ';
+            if (LocalParameter::isSplitSmart($paramName)) {
+                $paramValue = $helper->escapeLocalParamValue($paramValue, ',');
+            } else {
+                $paramValue = $helper->escapeLocalParamValue($paramValue);
+            }
+
+            $params .= $paramName.'='.$paramValue.' ';
         }
 
         if ('' !== $params = trim($params)) {

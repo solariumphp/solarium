@@ -48,7 +48,7 @@ trait LocalParametersTrait
             switch ($name) {
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_EXCLUDE]:
                     if (!\is_array($value)) {
-                        $value = explode(',', $value);
+                        $value = preg_split('/(?<!\\\\),/', $value);
                     }
 
                     $this->getLocalParameters()->addExcludes($value);
@@ -62,7 +62,7 @@ trait LocalParametersTrait
                     break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_TAG]:
                     if (!\is_array($value)) {
-                        $value = explode(',', $value);
+                        $value = preg_split('/(?<!\\\\),/', $value);
                     }
 
                     $this->getLocalParameters()->addTags($value);
@@ -71,7 +71,7 @@ trait LocalParametersTrait
                     break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_RANGE]:
                     if (!\is_array($value)) {
-                        $value = explode(',', $value);
+                        $value = preg_split('/(?<!\\\\),/', $value);
                     }
 
                     $this->getLocalParameters()->addRanges($value);
@@ -80,7 +80,7 @@ trait LocalParametersTrait
                     break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_STAT]:
                     if (!\is_array($value)) {
-                        $value = explode(',', $value);
+                        $value = preg_split('/(?<!\\\\),/', $value);
                     }
 
                     $this->getLocalParameters()->addStats($value);
@@ -88,7 +88,7 @@ trait LocalParametersTrait
                     break;
                 case LocalParameter::PARAMETER_MAP[LocalParameter::TYPE_TERM]:
                     if (!\is_array($value)) {
-                        $value = explode(',', $value);
+                        $value = preg_split('/(?<!\\\\),/', $value);
                     }
 
                     $this->getLocalParameters()->addTerms($value);

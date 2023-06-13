@@ -86,4 +86,10 @@ class LocalParameterTest extends TestCase
         $this->parameter->setValues(['value1', 'value2']);
         $this->assertSame('key=value1,value2', (string) $this->parameter);
     }
+
+    public function testIsSplitSmart(): void
+    {
+        $this->assertTrue(LocalParameter::isSplitSmart(LocalParameter::IS_SPLIT_SMART[0]));
+        $this->assertFalse(LocalParameter::isSplitSmart('other.type'));
+    }
 }

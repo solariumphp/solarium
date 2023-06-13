@@ -497,6 +497,34 @@ class HelperTest extends TestCase
     }
 
     /**
+     * @dataProvider escapeLocalParamValuePreEscapedSeparatorProvider
+     */
+    public function testEscapeLocalParamValuePreEscapedSeparator(string $value, string $separator, string $expectedWithoutSeparator, string $expectedWithSeparator)
+    {
+        $this->assertSame(
+            $expectedWithoutSeparator,
+            $this->helper->escapeLocalParamValue($value)
+        );
+
+        $this->assertSame(
+            $expectedWithSeparator,
+            $this->helper->escapeLocalParamValue($value, $separator)
+        );
+    }
+
+    public function escapeLocalParamValuePreEscapedSeparatorProvider(): array
+    {
+        return [
+            'no other escapes needed' => ['a\\,b', ',', 'a\\,b', 'a\\,b'],
+            'other escapes needed' => ['a b\\,c', ',', "'a b\\\\,c'", "'a b\\,c'"],
+            'unescaped separator left alone' => ['a b\\,c,d', ',', "'a b\\\\,c,d'", "'a b\\,c,d'"],
+            'multiple escaped separators' => ['a b\\,c\\,d', ',', "'a b\\\\,c\\\\,d'", "'a b\\,c\\,d'"],
+            'separator can be only 1 char' => ['a b\\,\\;c', ',;', "'a b\\\\,\\\\;c'", "'a b\\,\\\\;c'"],
+            'separator is also regex syntax' => ['a b\\|c', '|', "'a b\\\\|c'", "'a b\\|c'"],
+        ];
+    }
+
+    /**
      * @testWith ["ab"]
      *           ["a\\b"]
      *           ["{!ab"]

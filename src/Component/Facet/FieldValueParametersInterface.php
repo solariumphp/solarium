@@ -217,7 +217,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setEnumCacheMinimumDocumentFrequency($frequency);
+    public function setEnumCacheMinimumDocumentFrequency(int $frequency);
 
     /**
      * Get the minimum document frequency for which the filterCache should be used.
@@ -229,7 +229,7 @@ interface FieldValueParametersInterface
     /**
      * Set to true to cap facet counts by 1.
      *
-     * @param int $exists
+     * @param bool $exists
      *
      * @return self Provides fluent interface
      */
@@ -267,7 +267,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOverrequestCount($count);
+    public function setOverrequestCount(int $count);
 
     /**
      * Get the facet overrequest count.
@@ -283,7 +283,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOverrequestRatio($ratio);
+    public function setOverrequestRatio(float $ratio);
 
     /**
      * Get the facet overrequest ratio.

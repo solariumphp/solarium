@@ -62,4 +62,88 @@ class Field extends AbstractFacet implements FieldValueParametersInterface
     {
         return $this->getOption('field');
     }
+
+    /**
+     * Add a term.
+     *
+     * @param string $term
+     *
+     * @return self Provides fluent interface
+     */
+    public function addTerm(string $term): self
+    {
+        $this->getLocalParameters()->setTerm($term);
+
+        return $this;
+    }
+
+    /**
+     * Add multiple terms.
+     *
+     * @param array|string $terms array or string with comma separated terms
+     *
+     * @return self Provides fluent interface
+     */
+    public function addTerms($terms): self
+    {
+        if (\is_string($terms)) {
+            $terms = preg_split('/(?<!\\\\),/', $terms);
+        }
+
+        $this->getLocalParameters()->addTerms($terms);
+
+        return $this;
+    }
+
+    /**
+     * Set the list of terms.
+     *
+     * This overwrites any existing terms.
+     *
+     * @param array|string $terms
+     *
+     * @return self Provides fluent interface
+     */
+    public function setTerms($terms): self
+    {
+        $this->clearTerms()->addTerms($terms);
+
+        return $this;
+    }
+
+    /**
+     * Remove a single term.
+     *
+     * @param string $term
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeTerm(string $term): self
+    {
+        $this->getLocalParameters()->removeTerm($term);
+
+        return $this;
+    }
+
+    /**
+     * Remove all terms.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearTerms(): self
+    {
+        $this->getLocalParameters()->clearTerms();
+
+        return $this;
+    }
+
+    /**
+     * Get the list of terms.
+     *
+     * @return array
+     */
+    public function getTerms(): array
+    {
+        return $this->getLocalParameters()->getTerms();
+    }
 }

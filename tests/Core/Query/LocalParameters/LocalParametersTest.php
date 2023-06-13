@@ -37,19 +37,19 @@ class LocalParametersTest extends TestCase
     {
         $options = [
             'local_key' => 'key',
-            'local_exclude' => '',
-            'local_tag' => '',
-            'local_range' => '',
-            'local_stats' => '',
-            'local_terms' => '',
-            'local_type' => '',
-            'local_query' => '',
-            'local_query_field' => '',
-            'local_default_field' => '',
-            'local_max' => '',
-            'local_mean' => '',
-            'local_min' => '',
-            'local_value' => '',
+            'local_exclude' => 'ex1\,ex2,ex3',
+            'local_tag' => 'tag1\,tag2,tag3',
+            'local_range' => 'r1\,r2,r3',
+            'local_stats' => 'stat1\,stat2,stat3',
+            'local_terms' => 't1\,t2,t3',
+            'local_type' => 'mytype',
+            'local_query' => 'myquery',
+            'local_query_field' => 'myfield',
+            'local_default_field' => 'deffield',
+            'local_max' => 'max',
+            'local_mean' => 'mean',
+            'local_min' => 'min',
+            'local_value' => 'value',
             'local_cache' => true,
             'local_cost' => 0,
         ];
@@ -59,21 +59,37 @@ class LocalParametersTest extends TestCase
         $parameters = $query->getLocalParameters();
 
         $this->assertArrayHasKey(LocalParameter::TYPE_KEY, $parameters);
+        $this->assertSame(['key'], $parameters->getKeys());
         $this->assertArrayHasKey(LocalParameter::TYPE_EXCLUDE, $parameters);
+        $this->assertSame(['ex1\,ex2', 'ex3'], $parameters->getExcludes());
         $this->assertArrayHasKey(LocalParameter::TYPE_TAG, $parameters);
+        $this->assertSame(['tag1\,tag2', 'tag3'], $parameters->getTags());
         $this->assertArrayHasKey(LocalParameter::TYPE_RANGE, $parameters);
+        $this->assertSame(['r1\,r2', 'r3'], $parameters->getRanges());
         $this->assertArrayHasKey(LocalParameter::TYPE_STAT, $parameters);
+        $this->assertSame(['stat1\,stat2', 'stat3'], $parameters->getStats());
         $this->assertArrayHasKey(LocalParameter::TYPE_TERM, $parameters);
+        $this->assertSame(['t1\,t2', 't3'], $parameters->getTerms());
         $this->assertArrayHasKey(LocalParameter::TYPE_TYPE, $parameters);
+        $this->assertSame(['mytype'], $parameters->getTypes());
         $this->assertArrayHasKey(LocalParameter::TYPE_QUERY, $parameters);
+        $this->assertSame(['myquery'], $parameters->getQueries());
         $this->assertArrayHasKey(LocalParameter::TYPE_QUERY_FIELD, $parameters);
+        $this->assertSame(['myfield'], $parameters->getQueryFields());
         $this->assertArrayHasKey(LocalParameter::TYPE_DEFAULT_FIELD, $parameters);
+        $this->assertSame(['deffield'], $parameters->getDefaultFields());
         $this->assertArrayHasKey(LocalParameter::TYPE_MAX, $parameters);
-        $this->assertArrayHasKey(LocalParameter::TYPE_MAX, $parameters);
+        $this->assertSame(['max'], $parameters->getMax());
+        $this->assertArrayHasKey(LocalParameter::TYPE_MEAN, $parameters);
+        $this->assertSame(['mean'], $parameters->getMean());
         $this->assertArrayHasKey(LocalParameter::TYPE_MIN, $parameters);
+        $this->assertSame(['min'], $parameters->getMin());
         $this->assertArrayHasKey(LocalParameter::TYPE_VALUE, $parameters);
+        $this->assertSame(['value'], $parameters->getLocalValues());
         $this->assertArrayHasKey(LocalParameter::TYPE_CACHE, $parameters);
+        $this->assertSame(['true'], $parameters->getCache());
         $this->assertArrayHasKey(LocalParameter::TYPE_COST, $parameters);
+        $this->assertSame([0], $parameters->getCost());
 
         $keys = $parameters[LocalParameter::TYPE_KEY];
         $this->assertInstanceOf(LocalParameter::class, $keys);
@@ -94,6 +110,12 @@ class LocalParametersTest extends TestCase
         $this->expectException(OutOfBoundsException::class);
 
         $parameters->getKeys();
+    }
+
+    public function testGetUninitedLocalParameters(): void
+    {
+        $localParameters = (new DummyTraitUse())->getLocalParameters();
+        $this->assertEquals(new LocalParameters(), $localParameters);
     }
 
     /**
@@ -132,6 +154,9 @@ class LocalParametersTest extends TestCase
 
         $this->parameters->removeExclude('excludeOne');
         $this->assertSame(['excludeTwo'], $this->parameters->getExcludes());
+
+        $this->parameters->setExclude('excludeThree');
+        $this->assertSame(['excludeTwo', 'excludeThree'], $this->parameters->getExcludes());
     }
 
     /**
@@ -164,6 +189,9 @@ class LocalParametersTest extends TestCase
 
         $this->parameters->removeRange('rangeOne');
         $this->assertSame(['rangeTwo'], $this->parameters->getRanges());
+
+        $this->parameters->setRange('rangeThree');
+        $this->assertSame(['rangeTwo', 'rangeThree'], $this->parameters->getRanges());
     }
 
     /**
@@ -196,6 +224,9 @@ class LocalParametersTest extends TestCase
 
         $this->parameters->removeTag('tagOne');
         $this->assertSame(['tagTwo'], $this->parameters->getTags());
+
+        $this->parameters->setTag('tagThree');
+        $this->assertSame(['tagTwo', 'tagThree'], $this->parameters->getTags());
     }
 
     /**
@@ -226,8 +257,11 @@ class LocalParametersTest extends TestCase
         $this->parameters->addTerms(['termsOne', 'termsTwo']);
         $this->assertSame(['termsOne', 'termsTwo'], $this->parameters->getTerms());
 
-        $this->parameters->removeTerms('termsOne');
+        $this->parameters->removeTerm('termsOne');
         $this->assertSame(['termsTwo'], $this->parameters->getTerms());
+
+        $this->parameters->setTerm('termsThree');
+        $this->assertSame(['termsTwo', 'termsThree'], $this->parameters->getTerms());
     }
 
     /**
@@ -241,6 +275,21 @@ class LocalParametersTest extends TestCase
 
         $this->parameters->setTerms(['termsOne', 'termsTwo']);
         $this->assertSame(['termsOne', 'termsTwo'], $this->parameters->getTerms());
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Solarium\Exception\OutOfBoundsException
+     *
+     * @deprecated Will be removed in Solarium 8
+     */
+    public function testRemoveTerms(): void
+    {
+        $this->parameters->setTerms(['termsOne', 'termsTwo']);
+        $this->assertSame(['termsOne', 'termsTwo'], $this->parameters->getTerms());
+
+        $this->parameters->removeTerms('termsOne');
+        $this->assertSame(['termsTwo'], $this->parameters->getTerms());
     }
 
     /**
@@ -260,6 +309,9 @@ class LocalParametersTest extends TestCase
 
         $this->parameters->removeQuery('queryOne');
         $this->assertSame(['queryTwo'], $this->parameters->getQueries());
+
+        $this->parameters->setQuery('queryThree');
+        $this->assertSame(['queryTwo', 'queryThree'], $this->parameters->getQueries());
     }
 
     /**
@@ -292,6 +344,9 @@ class LocalParametersTest extends TestCase
 
         $this->parameters->removeStat('statsOne');
         $this->assertSame(['statsTwo'], $this->parameters->getStats());
+
+        $this->parameters->setStat('statsThree');
+        $this->assertSame(['statsTwo', 'statsThree'], $this->parameters->getStats());
     }
 
     /**
@@ -476,4 +531,12 @@ class LocalParametersTest extends TestCase
 class DummyQuery extends Configurable
 {
     use LocalParametersTrait;
+}
+
+class DummyTraitUse
+{
+    use LocalParametersTrait;
+
+    // trait assumes this is inherited from Configurable
+    protected $options = [];
 }

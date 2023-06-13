@@ -5,6 +5,7 @@ namespace Solarium\Tests\Core\Query;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\Helper;
+use Solarium\Core\Query\LocalParameters\LocalParameter;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class RequestBuilderTest extends TestCase
@@ -171,6 +172,21 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             "{!as.is=as-is space='the final frontier' single.quote='\\'60s' double.quote='\"so-called\"' backslash=' \\\\ ' curly='{x}' list='wax on,wax off'}myValue",
+            $this->builder->renderLocalParams('myValue', $myParams)
+        );
+    }
+
+    public function testRenderLocalParamsWithSplitSmart()
+    {
+        $splitSmartParam = LocalParameter::IS_SPLIT_SMART[0];
+
+        $myParams = [
+            'no.split.smart' => 'a\, b,c',
+            $splitSmartParam => 'd\, e,f',
+        ];
+
+        $this->assertSame(
+            "{!no.split.smart='a\\\\, b,c' $splitSmartParam='d\\, e,f'}myValue",
             $this->builder->renderLocalParams('myValue', $myParams)
         );
     }

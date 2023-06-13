@@ -65,10 +65,18 @@ class Range extends AbstractRange
         foreach ($this->options as $name => $value) {
             switch ($name) {
                 case 'exclude':
+                    if (!\is_array($value)) {
+                        $value = preg_split('/(?<!\\\\),/', $value);
+                    }
+
                     $this->getLocalParameters()->addExcludes($value);
+                    unset($this->options[$name]);
+
+                    trigger_error('Setting local parameter using the "exclude" option is deprecated in Solarium 7 and will be removed in Solarium 8. Use "local_exclude" instead.', \E_USER_DEPRECATED);
                     break;
                 case 'pivot':
                     $this->setPivot(new Pivot($value));
+                    break;
             }
         }
     }
