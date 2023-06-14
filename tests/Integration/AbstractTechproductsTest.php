@@ -3805,12 +3805,36 @@ abstract class AbstractTechproductsTest extends TestCase
         $extract->setDocument($doc);
         self::$client->extract($extract);
 
+        // add stream
+        $contents = <<<'EOF'
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>HTML Stream Title</title>
+                </head>
+                <body>
+                    <p>HTML Stream Body</p>
+                </body>
+            </html>
+            EOF;
+        $file = fopen('php://memory', 'w+');
+        fwrite($file, $contents);
+        $extract->setFile($file);
+        $doc = $extract->createDocument();
+        $doc->id = 'extract-test-3-stream';
+        $doc->cat = ['extract-test'];
+        $doc->foo_3 = 'bar 3';
+        $extract->setDocument($doc);
+        self::$client->extract($extract);
+        fclose($file);
+
         // now get the documents and check the contents
         $select = self::$client->createSelect();
         $select->setQuery('cat:extract-test');
         $select->addSort('id', $select::SORT_ASC);
         $selectResult = self::$client->select($select);
-        $this->assertCount(2, $selectResult);
+        $this->assertCount(3, $selectResult);
         $iterator = $selectResult->getIterator();
 
         /** @var Document $document */
@@ -3824,6 +3848,12 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
         $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
         $this->assertSame(['bar 2'], $document['attr_foo_2']);
+        $iterator->next();
+        $document = $iterator->current();
+        $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
+        $this->assertSame('HTML Stream Title', $document['title'][0], 'Written document does not contain extracted title');
+        $this->assertMatchesRegularExpression('/^HTML Stream Title\s+HTML Stream Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
+        $this->assertSame(['bar 3'], $document['attr_foo_3']);
 
         // now cleanup the documents to have the initial index state
         $update = self::$client->createUpdate();
@@ -3861,14 +3891,14 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
 
         $response = self::$client->extract($query);
-        $this->assertSame('PDF Test', trim($response->getData()['testpdf.pdf']), 'Can not extract the plain content from the PDF file');
-        $this->assertSame('PDF Test', trim($response->getData()['file']), 'Can not extract the plain content from the PDF file');
+        $this->assertSame('PDF Test', trim($response->getFile()), 'Can not extract the plain content from the PDF file');
+        $this->assertArrayHasKey('stream_size', $response->getFileMetadata());
 
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
 
         $response = self::$client->extract($query);
-        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['testhtml.html']), 'Can not extract the plain content from the HTML file');
-        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getData()['file']), 'Can not extract the plain content from the HTML file');
+        $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($response->getFile()), 'Can not extract the plain content from the HTML file');
+        $this->assertArrayHasKey('stream_size', $response->getFileMetadata());
 
         if ($usePostBigExtractRequestPlugin) {
             self::$client->removePlugin('postbigextractrequest');
@@ -3898,20 +3928,17 @@ abstract class AbstractTechproductsTest extends TestCase
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
 
         $response = self::$client->extract($query);
-        $this->assertSame(0, strpos($response->getData()['testpdf.pdf'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
-        $this->assertSame(0, strpos($response->getData()['file'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
-        $this->assertNotFalse(strpos($response->getData()['testpdf.pdf'], '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
-        $this->assertNotFalse(strpos($response->getData()['file'], '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+        $this->assertSame(0, strpos($response->getFile(), '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
+        $this->assertNotFalse(strpos($response->getFile(), '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+        $this->assertArrayHasKey('stream_size', $response->getFileMetadata());
 
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
 
         $response = self::$client->extract($query);
-        $this->assertSame(0, strpos($response->getData()['testhtml.html'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
-        $this->assertSame(0, strpos($response->getData()['file'], '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
-        $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
-        $this->assertNotFalse(strpos($response->getData()['file'], '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
-        $this->assertNotFalse(strpos($response->getData()['testhtml.html'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
-        $this->assertNotFalse(strpos($response->getData()['file'], '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+        $this->assertSame(0, strpos($response->getFile(), '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
+        $this->assertNotFalse(strpos($response->getFile(), '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
+        $this->assertNotFalse(strpos($response->getFile(), '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+        $this->assertArrayHasKey('stream_size', $response->getFileMetadata());
 
         if ($usePostBigExtractRequestPlugin) {
             self::$client->removePlugin('postbigextractrequest');

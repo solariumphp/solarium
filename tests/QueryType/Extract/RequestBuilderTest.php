@@ -49,6 +49,19 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testGetMethodWithResource()
+    {
+        $file = fopen('php://memory', 'w+');
+        $query = $this->query;
+        $query->setFile($file);
+        $request = $this->builder->build($query);
+        $this->assertSame(
+            Request::METHOD_POST,
+            $request->getMethod()
+        );
+        fclose($file);
+    }
+
     public function testGetFileUpload()
     {
         $request = $this->builder->build($this->query);
@@ -56,6 +69,52 @@ class RequestBuilderTest extends TestCase
             __FILE__,
             $request->getFileUpload()
         );
+    }
+
+    public function testGetFileUploadWithResource()
+    {
+        $file = fopen('php://memory', 'w+');
+        $query = $this->query;
+        $query->setFile($file);
+        $request = $this->builder->build($query);
+        $this->assertSame(
+            $file,
+            $request->getFileUpload()
+        );
+        fclose($file);
+    }
+
+    public function testSetsResourceNameWithFileUpload()
+    {
+        $this->builder->build($this->query);
+        $this->assertSame(
+            basename(__FILE__),
+            $this->query->getResourceName()
+        );
+    }
+
+    public function testSetsResourceNameWithStreamUrl()
+    {
+        $query = $this->query;
+        $query->setFile('http://solarium-project.org/');
+        $this->builder->build($query);
+        $this->assertSame(
+            'http://solarium-project.org/',
+            $query->getResourceName()
+        );
+    }
+
+    public function testSetsResourceNameWithResource()
+    {
+        $file = fopen('php://memory', 'w+');
+        $query = $this->query;
+        $query->setFile($file);
+        $this->builder->build($query);
+        $this->assertSame(
+            'memory',
+            $query->getResourceName()
+        );
+        fclose($file);
     }
 
     public function testGetUri()
@@ -104,6 +163,20 @@ class RequestBuilderTest extends TestCase
             '&stream.url=http%3A%2F%2Fsolarium-project.org%2F',
             $request->getUri()
         );
+    }
+
+    public function testGetUriWithResource()
+    {
+        $file = fopen('php://memory', 'w+');
+        $query = $this->query;
+        $query->setFile($file);
+        $request = $this->builder->build($query);
+        $this->assertSame(
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=false&fmap.from-field=to-field'.
+            '&resource.name=memory',
+            $request->getUri()
+        );
+        fclose($file);
     }
 
     public function testDocumentFieldAndBoostParams()

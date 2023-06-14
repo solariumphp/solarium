@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Loadbalancer plugin can failover on an optional list of HTTP status codes
+- Solarium\QueryType\Extract\Query::setFile() now supports file pointer resources
+- Solarium\QueryType\Extract\Result::getFile() and getFileMetadata() to access the retrieved data for `extractOnly=true`
 
 
 ## [6.3.0]

@@ -5,6 +5,8 @@ namespace Solarium\Tests\QueryType\Extract;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Extract\Query;
+use Solarium\QueryType\Extract\RequestBuilder;
+use Solarium\QueryType\Extract\ResponseParser;
 use Solarium\QueryType\Update\Query\Document;
 
 class QueryTest extends TestCase
@@ -24,14 +26,14 @@ class QueryTest extends TestCase
         $this->assertSame(Client::QUERY_EXTRACT, $this->query->getType());
     }
 
-    public function testGetResponseParser()
-    {
-        $this->assertInstanceOf('Solarium\QueryType\Update\ResponseParser', $this->query->getResponseParser());
-    }
-
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Extract\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testConfigMode()
@@ -64,6 +66,20 @@ class QueryTest extends TestCase
     {
         $this->query->setFile(__FILE__);
         $this->assertSame(__FILE__, $this->query->getFile());
+    }
+
+    public function testSetAndGetFileUrl()
+    {
+        $this->query->setFile('http://solarium-project.org/');
+        $this->assertSame('http://solarium-project.org/', $this->query->getFile());
+    }
+
+    public function testSetAndGetFileResource()
+    {
+        $file = fopen('php://memory', 'r');
+        $this->query->setFile($file);
+        $this->assertSame($file, $this->query->getFile());
+        fclose($file);
     }
 
     public function testSetAndGetUprefix()
@@ -195,6 +211,12 @@ class QueryTest extends TestCase
         $fields = ['field3' => 'target3', 'field4' => 'target4'];
         $query->setFieldMappings($fields);
         $this->assertSame($fields, $query->getFieldMappings());
+    }
+
+    public function testSetAndGetResourceName()
+    {
+        $this->query->setResourceName('document.pdf');
+        $this->assertSame('document.pdf', $this->query->getResourceName());
     }
 }
 
