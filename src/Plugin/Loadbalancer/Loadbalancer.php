@@ -22,6 +22,7 @@ use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
+use Solarium\Plugin\Loadbalancer\Event\StatusCodeFailure as StatusCodeFailureEvent;
 
 /**
  * Loadbalancer plugin.
@@ -34,7 +35,9 @@ use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
  * Any querytype that may not be loadbalanced will be executed by Solarium with the default endpoint.
  * In a master-slave setup the default endpoint should be connecting to the master endpoint.
  *
- * You can also enable the failover mode. In this case a query will be retried on another endpoint in case of error.
+ * You can also enable the failover mode. In this case a query will be retried on another endpoint if a connection
+ * to the endpoint can't be established. You can optionally specify HTTP response status codes for which you also
+ * want to failover to another endpoint. The list of failover status codes is empty by default.
  */
 class Loadbalancer extends AbstractPlugin
 {
@@ -46,6 +49,7 @@ class Loadbalancer extends AbstractPlugin
     protected $options = [
         'failoverenabled' => false,
         'failovermaxretries' => 1,
+        'failoverstatuscodes' => [],
     ];
 
     /**
@@ -157,6 +161,95 @@ class Loadbalancer extends AbstractPlugin
     public function getFailoverMaxRetries(): ?int
     {
         return $this->getOption('failovermaxretries');
+    }
+
+    /**
+     * Add an HTTP response status code for which to failover.
+     *
+     * @param int $statusCode
+     *
+     * @return self Provides fluent interface
+     */
+    public function addFailoverStatusCode(int $statusCode): self
+    {
+        $this->options['failoverstatuscodes'][] = $statusCode;
+
+        return $this;
+    }
+
+    /**
+     * Add multiple HTTP response status codes for which to failover.
+     *
+     * @param int[]|string $statusCodes can be an array or string with comma
+     *                                  separated status codes
+     *
+     * @return self Provides fluent interface
+     */
+    public function addFailoverStatusCodes($statusCodes): self
+    {
+        if (\is_string($statusCodes)) {
+            $statusCodes = explode(',', $statusCodes);
+            $statusCodes = array_map('trim', $statusCodes);
+            $statusCodes = array_map('\intval', $statusCodes);
+        }
+
+        $this->options['failoverstatuscodes'] = array_merge($this->options['failoverstatuscodes'], $statusCodes);
+
+        return $this;
+    }
+
+    /**
+     * Get the HTTP response status codes for which to failover.
+     *
+     * @return int[]
+     */
+    public function getFailoverStatusCodes(): array
+    {
+        return $this->getOption('failoverstatuscodes');
+    }
+
+    /**
+     * Clear all HTTP response status codes for which to failover.
+     *
+     * @return self Provides fluent interface
+     */
+    public function clearFailoverStatusCodes(): self
+    {
+        $this->options['failoverstatuscodes'] = [];
+
+        return $this;
+    }
+
+    /**
+     * Remove an HTTP response status code for which to failover.
+     *
+     * @param int $statusCode
+     *
+     * @return self Provides fluent interface
+     */
+    public function removeFailoverStatusCode(int $statusCode): self
+    {
+        $this->options['failoverstatuscodes'] = array_values(array_diff($this->options['failoverstatuscodes'], [$statusCode]));
+
+        return $this;
+    }
+
+    /**
+     * Set multiple HTTP response status codes for which to failover.
+     *
+     * This overwrites any existing status codes.
+     *
+     * @param int[]|string $statusCodes can be an array or string with comma
+     *                                  separated status codes
+     *
+     * @return self Provides fluent interface
+     */
+    public function setFailoverStatusCodes($statusCodes): self
+    {
+        $this->clearFailoverStatusCodes();
+        $this->addFailoverStatusCodes($statusCodes);
+
+        return $this;
     }
 
     /**
@@ -469,10 +562,21 @@ class Loadbalancer extends AbstractPlugin
 
         if (true === $this->getFailoverEnabled()) {
             $maxRetries = $this->getFailoverMaxRetries();
+
             for ($i = 0; $i <= $maxRetries; ++$i) {
                 $endpoint = $this->getRandomEndpoint();
+
                 try {
-                    return $adapter->execute($request, $endpoint);
+                    $response = $adapter->execute($request, $endpoint);
+
+                    if (\in_array($response->getStatusCode(), $this->getFailoverStatusCodes())) {
+                        // ignore HTTP status code and try again
+                        // but do issue an event for things like logging
+                        $event = new StatusCodeFailureEvent($endpoint, $response);
+                        $this->client->getEventDispatcher()->dispatch($event);
+                    } else {
+                        return $response;
+                    }
                 } catch (HttpException $e) {
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
@@ -537,6 +641,9 @@ class Loadbalancer extends AbstractPlugin
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {
+                case 'failoverstatuscodes':
+                    $this->setFailoverStatusCodes($value);
+                    break;
                 case 'endpoint':
                     $this->setEndpoints($value);
                     break;

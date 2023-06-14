@@ -274,11 +274,33 @@ This plugin is a code based loadbalancer for when you do need the redundancy and
 
 All blocked query types (updates by default) are excluded from loadbalancing so they will use the default adapter settings that point to the master. All other queries will be load balanced.
 
+Failover mode is disabled by default. If enabled, a query will be retried on another endpoint if a connection to the endpoint can't be established.
+You can optionally specify HTTP response status codes for which you also want to failover to another endpoint. The list of failover status codes is empty by default.
+
 ### Events
 
 #### solarium.loadbalancer.endpointFailure
 
-An 'EndpointFailure' event is triggered when a HTTP exception occurs on one of the backends. This event has access to the Endpoint object and the exception that occurred.
+An `EndpointFailure` event is triggered when an HTTP exception occurs on one of the backends. This event has access to the `Endpoint` object and the `HttpException` that occurred.
+
+```php
+// what is the key of the failing endpoint?
+$event->getEndpoint()->getKey();
+// what is the exception message?
+$event->getException()->getMessage();
+```
+
+#### solarium.loadbalancer.statusCodeFailure
+
+A `StatusCodeFailure` event is triggered when an HTTP response status code is encountered that is in the list of failover error codes. This event has access to the `Endpoint` object and the `Response` that was received.
+
+```php
+// what is the key of the erroring endpoint?
+$event->getEndpoint()->getKey();
+// what is the response status code & message?
+$event->getResponse()->getStatusCode();
+$event->getResponse()->getStatusMessage();
+```
 
 ### Example usage
 
@@ -300,6 +322,11 @@ $loadbalancer = $client->getPlugin('loadbalancer');
 $loadbalancer->addEndpoint($endpoint1, 100);
 $loadbalancer->addEndpoint($endpoint2, 100);
 $loadbalancer->addEndpoint($endpoint3, 1);
+
+// you can optionally enable failover mode for unresponsive endpoints, and additionally HTTP status codes of your choosing
+$loadbalancer->setFailoverEnabled(true);
+$loadbalancer->setFailoverMaxRetries(3);
+$loadbalancer->addFailoverStatusCode(504);
 
 // create a basic query to execute
 $query = $client->createSelect();

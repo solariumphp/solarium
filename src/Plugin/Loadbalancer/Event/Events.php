@@ -26,6 +26,16 @@ class Events
     public const ENDPOINT_FAILURE = EndpointFailure::class;
 
     /**
+     * This event is called after an HTTP response status code is encountered
+     * that is in the list of failover error codes.
+     *
+     * Gets the endpoint and the response as params
+     *
+     * @var string
+     */
+    public const STATUS_CODE_FAILURE = StatusCodeFailure::class;
+
+    /**
      * Not instantiable.
      */
     private function __construct()
