@@ -271,6 +271,38 @@ EOF;
         $this->request->setFileUpload('invalid-filename.dummy');
     }
 
+    public function testSetAndGetFileUploadWithResourceInReadMode()
+    {
+        $file = fopen(__FILE__, 'r');
+        $this->request->setFileUpload($file);
+        $this->assertSame(
+            $file,
+            $this->request->getFileUpload()
+        );
+        fclose($file);
+    }
+
+    public function testSetAndGetFileUploadWithResourceInReadWriteMode()
+    {
+        // we use append lest we overwrite __FILE__
+        $file = fopen(__FILE__, 'a+');
+        $this->request->setFileUpload($file);
+        $this->assertSame(
+            $file,
+            $this->request->getFileUpload()
+        );
+        fclose($file);
+    }
+
+    public function testSetAndGetFileUploadWithResourceInWriteMode()
+    {
+        // we use append lest we overwrite __FILE__
+        $file = fopen(__FILE__, 'a');
+        $this->expectException(RuntimeException::class);
+        $this->request->setFileUpload($file);
+        fclose($file);
+    }
+
     public function testSetAndGetHeaders()
     {
         $headers = [

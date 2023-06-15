@@ -268,9 +268,9 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Get the file to upload via "multipart/form-data" POST request.
      *
-     * @return string|null
+     * @return string|resource|null
      */
-    public function getFileUpload(): ?string
+    public function getFileUpload()
     {
         return $this->getOption('file');
     }
@@ -278,19 +278,25 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set the file to upload via "multipart/form-data" POST request.
      *
-     * @param string $filename Name of file to upload
+     * @param string|resource $file Name of file or file pointer resource to upload
      *
      * @throws RuntimeException
      *
      * @return self Provides fluent interface
      */
-    public function setFileUpload($filename): self
+    public function setFileUpload($file): self
     {
-        if (!is_file($filename) || !is_readable($filename)) {
-            throw new RuntimeException(sprintf("Unable to read file '%s' for upload", $filename));
+        if (\is_resource($file)) {
+            $meta = stream_get_meta_data($file);
+
+            if (false === strpos($meta['mode'], 'r') && false === strpos($meta['mode'], '+')) {
+                throw new RuntimeException(sprintf("Unable to read stream '%s' for upload", $meta['uri']));
+            }
+        } elseif (!is_file($file) || !is_readable($file)) {
+            throw new RuntimeException(sprintf("Unable to read file '%s' for upload", $file));
         }
 
-        $this->setOption('file', $filename);
+        $this->setOption('file', $file);
 
         return $this;
     }
