@@ -453,8 +453,11 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setAuthentication(string $username, string $password): self
-    {
+    public function setAuthentication(
+        string $username,
+        #[\SensitiveParameter]
+        string $password
+    ): self {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
 

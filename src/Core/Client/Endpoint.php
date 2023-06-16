@@ -358,8 +358,11 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAuthentication(string $username, string $password): self
-    {
+    public function setAuthentication(
+        string $username,
+        #[\SensitiveParameter]
+        string $password
+    ): self {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
 
@@ -389,8 +392,11 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAuthorizationToken(string $tokenname, string $token): self
-    {
+    public function setAuthorizationToken(
+        string $tokenname,
+        #[\SensitiveParameter]
+        string $token
+    ): self {
         $this->setOption('tokenname', $tokenname);
         $this->setOption('token', $token);
 
