@@ -264,6 +264,26 @@ class EndpointTest extends TestCase
         );
     }
 
+    public function testSetAuthenticationSensitiveParameter()
+    {
+        // #[\SensitiveParameter] was introduced in PHP 8.2
+        if (!class_exists('\SensitiveParameter')) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        try {
+            // trigger a \TypeError with the $user argument
+            $this->endpoint->setAuthentication(null, 'S0M3p455');
+        } catch (\TypeError $e) {
+            $trace = $e->getTrace();
+
+            // \SensitiveParameterValue::class trips phpstan in PHP versions that don't support it
+            $this->assertInstanceOf('\SensitiveParameterValue', $trace[0]['args'][1]);
+        }
+    }
+
     public function testGetAndSetAuthorizationToken()
     {
         $tokenname = 'Token';
@@ -278,6 +298,26 @@ class EndpointTest extends TestCase
             ],
             $this->endpoint->getAuthorizationToken()
         );
+    }
+
+    public function testSetAuthorizationTokenSensitiveParameter()
+    {
+        // #[\SensitiveParameter] was introduced in PHP 8.2
+        if (!class_exists('\SensitiveParameter')) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        try {
+            // trigger a \TypeError with the $tokenname argument
+            $this->endpoint->setAuthorizationToken(null, '1234567890ABCDEFG');
+        } catch (\TypeError $e) {
+            $trace = $e->getTrace();
+
+            // \SensitiveParameterValue::class trips phpstan in PHP versions that don't support it
+            $this->assertInstanceOf('\SensitiveParameterValue', $trace[0]['args'][1]);
+        }
     }
 
     public function testIsAndSetLeader()

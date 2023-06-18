@@ -29,7 +29,7 @@ jobs:
               with:
                 php-version: ${{ matrix.php }}
                 extensions: dom, curl, libxml, mbstring, zip, iconv, json, simplexml
-                ini-values: memory_limit=256M, post_max_size=256M
+                ini-values: memory_limit=256M, post_max_size=256M, zend.exception_ignore_args=Off
                 coverage: pcov
 
             - name: Checkout solarium

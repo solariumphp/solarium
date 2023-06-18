@@ -543,6 +543,26 @@ EOF;
         );
     }
 
+    public function testSetAuthenticationSensitiveParameter()
+    {
+        // #[\SensitiveParameter] was introduced in PHP 8.2
+        if (!class_exists('\SensitiveParameter')) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        try {
+            // trigger a \TypeError with the $user argument
+            $this->request->setAuthentication(null, 'S0M3p455');
+        } catch (\TypeError $e) {
+            $trace = $e->getTrace();
+
+            // \SensitiveParameterValue::class trips phpstan in PHP versions that don't support it
+            $this->assertInstanceOf('\SensitiveParameterValue', $trace[0]['args'][1]);
+        }
+    }
+
     public function testSetAndGetIsServerRequest()
     {
         $this->request->setIsServerRequest();
