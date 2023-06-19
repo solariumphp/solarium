@@ -8,7 +8,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\CharFilter;
 use Solarium\QueryType\Luke\Result\Schema\Type\Filter;
 use Solarium\QueryType\Luke\Result\Schema\Type\Tokenizer;
 
-abstract class AbstractAnalyzerTest extends TestCase
+abstract class AbstractAnalyzerTestCase extends TestCase
 {
     /**
      * @var AbstractAnalyzer

@@ -59,7 +59,7 @@ use Solarium\Support\Utility;
 use Solarium\Tests\Integration\Plugin\EventTimer;
 use Symfony\Contracts\EventDispatcher\Event;
 
-abstract class AbstractTechproductsTest extends TestCase
+abstract class AbstractTechproductsTestCase extends TestCase
 {
     /**
      * @var ClientInterface
@@ -219,7 +219,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $result->getStatus());
         $this->assertSame('OK', $result->getPingStatus());
 
-        if ($this instanceof AbstractCloudTest) {
+        if ($this instanceof AbstractCloudTestCase) {
             $this->assertTrue($result->getZkConnected());
         } else {
             $this->assertNull($result->getZkConnected());
@@ -960,7 +960,7 @@ abstract class AbstractTechproductsTest extends TestCase
         // Solr 7 doesn't support mlt.interestingTerms for MoreLikeThisComponent
         // Solr 8 & Solr 9: "To use this parameter with the search component, the query cannot be distributed."
         // https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
-        if (8 <= self::$solrVersion && $this instanceof AbstractServerTest) {
+        if (8 <= self::$solrVersion && $this instanceof AbstractServerTestCase) {
             // with 'details', interesting terms are an associative array of terms and their boost values
             $interestingTerms = $mlt->getInterestingTerm($document->id);
             $this->assertSame('cat:search', key($interestingTerms));
@@ -1224,7 +1224,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $terms->setFields('name');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
-        if ($this instanceof AbstractCloudTest) {
+        if ($this instanceof AbstractCloudTestCase) {
             $terms->setDistrib(true);
         }
 
@@ -1250,7 +1250,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $select = self::$client->createQuery('test');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
-        if ($this instanceof AbstractCloudTest) {
+        if ($this instanceof AbstractCloudTestCase) {
             $select->setDistrib(true);
         }
 
@@ -1391,7 +1391,7 @@ abstract class AbstractTechproductsTest extends TestCase
         $this->assertSame(0, $response->getStatus());
 
         // rollback is currently not supported in SolrCloud mode (SOLR-4895)
-        if ($this instanceof AbstractServerTest) {
+        if ($this instanceof AbstractServerTestCase) {
             // add, rollback, commit
             $update = self::$client->createUpdate();
             $update->setRequestFormat($requestFormat);
@@ -1635,7 +1635,7 @@ abstract class AbstractTechproductsTest extends TestCase
         ], $result->getIterator()->current()->getFields());
 
         // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
-        if (7 === self::$solrVersion && $this instanceof AbstractCloudTest) {
+        if (7 === self::$solrVersion && $this instanceof AbstractCloudTestCase) {
             // we still have to emulate a successful atomic update for the remainder of this test to pass
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-test');

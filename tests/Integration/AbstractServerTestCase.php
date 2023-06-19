@@ -4,7 +4,7 @@ namespace Solarium\Tests\Integration;
 
 use Solarium\Exception\HttpException;
 
-abstract class AbstractServerTest extends AbstractTechproductsTest
+abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
 {
     protected static function createTechproducts(): void
     {

@@ -9,7 +9,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  *
  * @group integration
  */
-class HttpTest extends AbstractProxyTest
+class HttpTest extends AbstractProxyTestCase
 {
     protected static function createClient(): void
     {

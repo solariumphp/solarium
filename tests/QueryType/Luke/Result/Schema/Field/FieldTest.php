@@ -7,7 +7,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\CopyFieldSourceInterface;
 use Solarium\QueryType\Luke\Result\Schema\Field\Field;
 use Solarium\QueryType\Luke\Result\Schema\Field\SchemaFieldInterface;
 
-class FieldTest extends AbstractFieldTest
+class FieldTest extends AbstractFieldTestCase
 {
     /**
      * @var Field

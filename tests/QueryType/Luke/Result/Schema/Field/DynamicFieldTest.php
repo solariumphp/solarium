@@ -10,7 +10,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\DynamicField;
 use Solarium\QueryType\Luke\Result\Schema\Field\SchemaFieldInterface;
 use Solarium\QueryType\Luke\Result\Schema\Type\Type;
 
-class DynamicFieldTest extends AbstractFieldTest
+class DynamicFieldTest extends AbstractFieldTestCase
 {
     /**
      * @var DynamicField

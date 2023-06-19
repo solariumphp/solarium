@@ -4,9 +4,9 @@ namespace Solarium\Tests\QueryType\Extract;
 
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
-use Solarium\Tests\QueryType\Update\AbstractResultTest;
+use Solarium\Tests\QueryType\Update\AbstractResultTestCase;
 
-class ResultTest extends AbstractResultTest
+class ResultTest extends AbstractResultTestCase
 {
     public function setUp(): void
     {

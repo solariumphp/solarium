@@ -3,13 +3,13 @@
 namespace Solarium\Tests\Integration\SolrCloud;
 
 use Solarium\Core\Client\Adapter\Curl;
-use Solarium\Tests\Integration\AbstractCloudTest;
+use Solarium\Tests\Integration\AbstractCloudTestCase;
 
 /**
  * @group integration
  * @group skip_for_solr_server
  */
-class CurlTest extends AbstractCloudTest
+class CurlTest extends AbstractCloudTestCase
 {
     public function setUp(): void
     {

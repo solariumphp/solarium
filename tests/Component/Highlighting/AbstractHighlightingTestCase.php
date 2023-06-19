@@ -5,7 +5,7 @@ namespace Solarium\Tests\Component\Highlighting;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Highlighting\HighlightingInterface;
 
-abstract class AbstractHighlightingTest extends TestCase
+abstract class AbstractHighlightingTestCase extends TestCase
 {
     /**
      * @var HighlightingInterface

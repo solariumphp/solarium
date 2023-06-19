@@ -7,7 +7,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result;
 
-abstract class AbstractResultTest extends TestCase
+abstract class AbstractResultTestCase extends TestCase
 {
     /**
      * @var SelectDummy

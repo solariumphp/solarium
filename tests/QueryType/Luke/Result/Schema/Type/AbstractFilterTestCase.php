@@ -5,7 +5,7 @@ namespace Solarium\Tests\QueryType\Luke\Result\Schema\Type;
 use PHPUnit\Framework\TestCase;
 use Solarium\QueryType\Luke\Result\Schema\Type\AbstractFilter;
 
-abstract class AbstractFilterTest extends TestCase
+abstract class AbstractFilterTestCase extends TestCase
 {
     /**
      * @var AbstractFilter

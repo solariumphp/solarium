@@ -4,7 +4,7 @@ namespace Solarium\Tests\Component\Highlighting;
 
 use Solarium\Component\Highlighting\Field;
 
-class FieldTest extends AbstractHighlightingTest
+class FieldTest extends AbstractHighlightingTestCase
 {
     /**
      * @var Field

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Select\Result\Document;
 
-abstract class AbstractDocumentTest extends TestCase
+abstract class AbstractDocumentTestCase extends TestCase
 {
     /**
      * @var Document

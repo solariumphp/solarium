@@ -4,7 +4,7 @@ namespace Solarium\Tests\QueryType\Update;
 
 use Solarium\QueryType\Update\Result as UpdateResult;
 
-class ResultTest extends AbstractResultTest
+class ResultTest extends AbstractResultTestCase
 {
     public function setUp(): void
     {

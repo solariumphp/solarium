@@ -8,7 +8,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\DynamicBasedField;
 use Solarium\QueryType\Luke\Result\Schema\Field\DynamicField;
 use Solarium\QueryType\Luke\Result\Schema\Field\SchemaFieldInterface;
 
-class DynamicBasedFieldTest extends AbstractFieldTest
+class DynamicBasedFieldTest extends AbstractFieldTestCase
 {
     /**
      * @var DynamicBasedField

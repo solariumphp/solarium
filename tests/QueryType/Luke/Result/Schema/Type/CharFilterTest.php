@@ -4,7 +4,7 @@ namespace Solarium\Tests\QueryType\Luke\Result\Schema\Type;
 
 use Solarium\QueryType\Luke\Result\Schema\Type\CharFilter;
 
-class CharFilterTest extends AbstractFilterTest
+class CharFilterTest extends AbstractFilterTestCase
 {
     /**
      * @var CharFilter

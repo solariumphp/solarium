@@ -4,7 +4,7 @@ namespace Solarium\Tests\QueryType\Luke\Result\Schema\Type;
 
 use Solarium\QueryType\Luke\Result\Schema\Type\QueryAnalyzer;
 
-class QueryAnalyzerTest extends AbstractAnalyzerTest
+class QueryAnalyzerTest extends AbstractAnalyzerTestCase
 {
     /**
      * @var QueryAnalyzer
