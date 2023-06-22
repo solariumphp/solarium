@@ -11,7 +11,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  *
  * @group integration
  */
-class CurlTest extends AbstractProxyTest
+class CurlTest extends AbstractProxyTestCase
 {
     protected static function createClient(): void
     {

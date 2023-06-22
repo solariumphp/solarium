@@ -11,7 +11,7 @@ use Solarium\Core\Client\Request;
  *
  * @group integration
  */
-abstract class AbstractProxyTest extends TestCase
+abstract class AbstractProxyTestCase extends TestCase
 {
     /**
      * @var ClientInterface

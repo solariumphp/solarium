@@ -6,9 +6,9 @@ use Solarium\Exception\OutOfBoundsException;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\Result;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\Tests\QueryType\Select\Result\AbstractResultTest;
+use Solarium\Tests\QueryType\Select\Result\AbstractResultTestCase;
 
-class ResultTest extends AbstractResultTest
+class ResultTest extends AbstractResultTestCase
 {
     public function setUp(): void
     {

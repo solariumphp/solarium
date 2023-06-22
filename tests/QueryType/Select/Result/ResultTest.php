@@ -2,6 +2,6 @@
 
 namespace Solarium\Tests\QueryType\Select\Result;
 
-class ResultTest extends AbstractResultTest
+class ResultTest extends AbstractResultTestCase
 {
 }

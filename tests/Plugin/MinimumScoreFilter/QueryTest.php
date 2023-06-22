@@ -6,9 +6,9 @@ use Solarium\Component\Grouping;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\QueryGroupResult;
 use Solarium\Plugin\MinimumScoreFilter\ValueGroupResult;
-use Solarium\Tests\QueryType\Select\Query\AbstractQueryTest;
+use Solarium\Tests\QueryType\Select\Query\AbstractQueryTestCase;
 
-class QueryTest extends AbstractQueryTest
+class QueryTest extends AbstractQueryTestCase
 {
     public function setUp(): void
     {

@@ -7,7 +7,7 @@ use Solarium\Core\Client\State\ClusterState;
 /**
  * Abstract base class.
  */
-abstract class AbstractCloudTest extends AbstractTechproductsTest
+abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
 {
     protected static function createTechproducts(): void
     {

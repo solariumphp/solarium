@@ -11,7 +11,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\Field;
 use Solarium\QueryType\Luke\Result\Schema\Field\WildcardField;
 use Solarium\QueryType\Luke\Result\Schema\Type\Type;
 
-abstract class AbstractFieldTest extends TestCase
+abstract class AbstractFieldTestCase extends TestCase
 {
     /**
      * @var AbstractField

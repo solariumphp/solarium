@@ -4,9 +4,9 @@ namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
 use Solarium\Plugin\MinimumScoreFilter\Document as FilterDocument;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\Tests\QueryType\Select\Result\AbstractDocumentTest;
+use Solarium\Tests\QueryType\Select\Result\AbstractDocumentTestCase;
 
-class DocumentTest extends AbstractDocumentTest
+class DocumentTest extends AbstractDocumentTestCase
 {
     public function setUp(): void
     {
