@@ -442,7 +442,7 @@ class HelperTest extends TestCase
             'to' => ['to', '"to"'],
             'TO' => ['TO', '"TO"'],
             ' AnD ' => [' AnD ', '" AnD "'],
-            'AND or' => ['AND OR', '"AND or"'],
+            'AND or' => ['AND or', '"AND or"'],
             'Animals and plants' => ['Animals and plants', '"Animals and plants"'],
             'boring' => ['boring', 'boring'],
             'Band' => ['Band', 'Band'],
