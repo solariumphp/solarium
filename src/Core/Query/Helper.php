@@ -75,7 +75,8 @@ class Helper
      */
     public function escapeTerm(string $input): string
     {
-        if (in_array(strtoupper(trim($input)), ['AND', 'OR', 'TO'])) {
+        $input = trim($input);
+        if (in_array(strtoupper($input), ['AND', 'OR', 'TO'])) {
             return '"'.$input.'"';
         }
 
