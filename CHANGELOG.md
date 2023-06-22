@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\QueryType\Extract\Query::setFile() now supports file pointer resources
 - Solarium\QueryType\Extract\Result::getFile() and getFileMetadata() to access the retrieved data for `extractOnly=true`
 
+### Fixed
+- Solarium\Core\Query\Helper::escapeTerm() has to quote reserved terms `AND`, `OR`, `TO`
+
 ### Changed
 - Solarium\Core\Client\Endpoint::setAuthentication() marks $password as #[\SensitiveParameter] (PHP 8 >= 8.2.0)
 - Solarium\Core\Client\Endpoint::setAuthorizationToken() marks $token as #[\SensitiveParameter] (PHP 8 >= 8.2.0)

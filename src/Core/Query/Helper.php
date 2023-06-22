@@ -75,6 +75,10 @@ class Helper
      */
     public function escapeTerm(string $input): string
     {
+        if (in_array(strtoupper(trim($input)), ['AND', 'OR', 'TO'])) {
+            return '"'.$input.'"';
+        }
+
         $pattern = '/( |\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\/|\\\)/';
 
         return preg_replace($pattern, '\\\$1', $input);
