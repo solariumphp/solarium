@@ -30,7 +30,7 @@ While 'optimizing' sounds like it's always a good thing to do, you should use it
 
 ### XML vs JSON formatted update requests
 
-Solarium issues JSON formatted update requests by default since Solarium 7. If you do require XML specific functionality, set the request format to XML explicitly.
+Solarium issues JSON formatted update requests by default since Solarium 6.3. If you do require XML specific functionality, set the request format to XML explicitly.
 
 ```php
 // get an update query instance

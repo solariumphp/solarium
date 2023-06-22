@@ -53,9 +53,9 @@ setlocale(LC_NUMERIC, $currentLocale);
 PHP 8.0 has made the float to string conversion locale-independent and will always use the `.` decimal separator.
 The workaround is no longer necessary with PHP versions ≥ 8.0.
 
-### Pitfall when upgrading to 7.x
+### Pitfall when upgrading to 6.3
 
-With Solarium 7 update queries use the JSON request format by default.
+With Solarium 6.3 update queries use the JSON request format by default.
 
 If you do require XML specific functionality, set the request format to XML explicitly.
 
