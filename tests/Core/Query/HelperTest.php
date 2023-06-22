@@ -441,7 +441,11 @@ class HelperTest extends TestCase
             'OR' => ['OR', '"OR"'],
             'to' => ['to', '"to"'],
             'TO' => ['TO', '"TO"'],
-            ' AnD ' => [' AnD ', '"AnD"'],
+            ' AnD ' => [' AnD ', '" AnD "'],
+            'AND or' => ['AND OR', '"AND or"'],
+            'Animals and plants' => ['Animals and plants', '"Animals and plants"'],
+            'boring' => ['boring', 'boring'],
+            'Band' => ['Band', 'Band'],
         ];
     }
 
