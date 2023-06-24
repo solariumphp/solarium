@@ -3540,6 +3540,44 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removeEndpoint('invalid');
     }
 
+    /**
+     * @group skip_for_solr_cloud
+     */
+    public function testMinimumScoreFilterWithGrouping()
+    {
+        $filter = self::$client->getPlugin('minimumscorefilter');
+        $query = self::$client->createQuery($filter::QUERY_TYPE);
+        $query->setQuery('*:*');
+
+        $groupComponent = $query->getGrouping();
+        $groupComponent->addField('inStock');
+        $groupComponent->setNumberOfGroups(true);
+
+        $resultset = self::$client->select($query);
+        $groups = $resultset->getGrouping();
+
+        $this->assertCount(1, $groups);
+
+        $fieldGroup = $groups->getGroup('inStock');
+
+        $this->assertSame(3, $fieldGroup->getNumberOfGroups());
+
+        $values = [];
+        foreach ($fieldGroup as $valueGroup) {
+            $values[] = $valueGroup->getValue();
+        }
+
+        $expected = [
+            (string) true,
+            (string) false,
+            null,
+        ];
+        $this->assertSame($expected, $values);
+
+        // cleanup
+        self::$client->removePlugin('minimumscorefilter');
+    }
+
     public function testParallelExecution()
     {
         // ParallelExecution only works with Curl, pass tacitly for other adapters
