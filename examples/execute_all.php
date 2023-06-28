@@ -166,11 +166,11 @@ try {
     ];
 
     // examples that can't be run against this Solr version
-    $skipForVersion = [];
+    $skipForSolrVersion = [];
 
     if (9 === $solrVersion) {
-        $skipForVersion[] = '2.3.1-mlt-query.php';
-        $skipForVersion[] = '2.3.2-mlt-stream.php';
+        $skipForSolrVersion[] = '2.3.1-mlt-query.php';
+        $skipForSolrVersion[] = '2.3.2-mlt-stream.php';
     }
 
     // examples that can't be run in cloud mode
@@ -183,15 +183,25 @@ try {
         '7.1-plugin-loadbalancer.php',
     ];
 
+    // examples that can't be run in this PHP version
+    $skipForPHPVersion = [];
+
+    if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+        // @see https://bugs.php.net/bug.php?id=40913
+        $skipForPHPVersion[] = '2.7.3.2-extract-query-pdo-lob.php';
+    }
+
     foreach (scandir(__DIR__) as $example) {
         if (preg_match('/^\d.*\.php/', $example)) {
             print "\n".$example.' ';
             if (in_array($example, $skipAltogether)) {
                 print 'Could not be run against the techproducts example.';
-            } elseif (in_array($example, $skipForVersion)) {
+            } elseif (in_array($example, $skipForSolrVersion)) {
                 printf('Could not be run against Solr %d.', $solrVersion);
             } elseif ('solrcloud' === $solr_mode && in_array($example, $skipForCloud)) {
                 print 'Could not be run in cloud mode.';
+            } elseif (in_array($example, $skipForPHPVersion)) {
+                printf('Could not be run in PHP %s.', PHP_VERSION);
             } else {
                 ob_start();
                 require($example);
