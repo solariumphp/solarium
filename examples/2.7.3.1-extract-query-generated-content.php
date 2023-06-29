@@ -13,11 +13,15 @@ $query->setUprefix('attr_');
 $query->setCommit(true);
 $query->setOmitHeader(false);
 
-// add content through a file pointer resource
-$content = 'File contents that were generated, retrieved as a BLOB from a database …';
+// open a file pointer resource and add it to the query
 $file = tmpfile();
-fwrite($file, $content);
 $query->setFile($file);
+
+// write generated content to the file pointer
+ob_start();
+phpcredits();
+fwrite($file, ob_get_contents());
+ob_end_clean();
 
 // add document
 $doc = $query->createDocument();

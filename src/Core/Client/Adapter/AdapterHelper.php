@@ -58,7 +58,8 @@ class AdapterHelper
         $file = $request->getFileUpload();
 
         if (\is_resource($file)) {
-            $baseName = basename(stream_get_meta_data($file)['uri']);
+            $meta = stream_get_meta_data($file);
+            $baseName = basename($meta['uri'] ?? $meta['stream_type']);
         } else {
             $baseName = basename($file);
         }

@@ -26,7 +26,7 @@ See the example code below.
 
 ### Extracting from other sources
 
-Extract queries can also take a stream URL or a file pointer resource instead of the name of a local file.
+Extract queries can also take a stream URL or a stream resource instead of the name of a local file.
 
 Remote streaming is disabled by default. Consult the reference guide on
 [Content Streams](https://solr.apache.org/guide/solr/latest/indexing-guide/content-streams.html) for more info.
@@ -35,8 +35,11 @@ Remote streaming is disabled by default. Consult the reference guide on
 $query->setFile('http://example.org/resource');
 ```
 
-You can even index files that aren't stored on the filesystem: generated in memory, retrieved as a BLOB from a database …
-Don't forget to close your file pointer afterwards!
+You can even index files that aren't stored on the filesystem: generated in memory, retrieved as a textual or binary large object from a database …
+
+If your content is generated in memory, you can create a temporary file with [`tmpfile()`](https://www.php.net/manual/en/function.tmpfile.php)
+or write it to a [`php://memory` or `php://temp`](https://www.php.net/manual/en/wrappers.php.php#wrappers.php.memory) stream
+that can be passed to an Extract query. Don't forget to close your file pointer afterwards!
 
 ```php
 $contents = '...';
@@ -49,6 +52,37 @@ $query->setFile($file);
 $client->extract($query);
 fclose($file);
 ```
+
+```php
+$contents = '...';
+$file = fopen('php://memory', 'w+');
+fwrite($file, $contents);
+$query->setFile($file);
+
+// ...
+
+$client->extract($query);
+fclose($file);
+```
+
+If your content is stored in a database, you can fetch it as [PDO Large Objects (LOBs)](https://www.php.net/manual/en/pdo.lobs.php).
+
+```php
+$db = new PDO(...);
+
+$select = $db->prepare("SELECT content FROM table WHERE id = ?");
+$select->execute($id);
+$select->bindColumn(1, $content, PDO::PARAM_LOB);
+$select->fetch(PDO::FETCH_BOUND);
+
+$query->setFile($content);
+
+// ...
+
+$client->extract($query);
+```
+
+**Note:** Using a LOB as a stream doesn't work in PHP < 8.1.0 because of [PHP Bug #40913](https://bugs.php.net/bug.php?id=40913).
 
 Result of an extract query
 --------------------------
@@ -143,7 +177,7 @@ htmlFooter();
 
 ```
 
-### Extract from a resource
+### Extract from generated content
 
 ```php
 <?php
@@ -161,11 +195,15 @@ $query->setUprefix('attr_');
 $query->setCommit(true);
 $query->setOmitHeader(false);
 
-// add content through a file pointer resource
-$content = 'File contents that were generated, retrieved as a BLOB from a database …';
+// open a file pointer resource and add it to the query
 $file = tmpfile();
-fwrite($file, $content);
 $query->setFile($file);
+
+// write generated content to the file pointer
+ob_start();
+phpcredits();
+fwrite($file, ob_get_contents());
+ob_end_clean();
 
 // add document
 $doc = $query->createDocument();
@@ -182,6 +220,59 @@ echo 'Query time: ' . $result->getQueryTime();
 
 // don't forget to close your file pointer!
 fclose($file);
+
+htmlFooter();
+
+```
+
+### Extract from PDO Large Objects (LOBs)
+
+```php
+<?php
+
+require_once(__DIR__.'/init.php');
+htmlHeader();
+
+echo "<h2>Note: This example doesn't work in PHP &lt; 8.1.0!</h2>";
+echo "<h2>Note: This example requires the PDO_SQLITE PDO driver (enabled by default in PHP)</h2>";
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+// get an extract query instance and add settings
+$query = $client->createExtract();
+$query->addFieldMapping('content', 'text');
+$query->setUprefix('attr_');
+$query->setCommit(true);
+$query->setOmitHeader(false);
+
+// create a database & store content as an example
+$db = new PDO('sqlite::memory:');
+$db->exec("CREATE TABLE test (id INT, content TEXT)");
+$insert = $db->prepare("INSERT INTO test (id, content) VALUES (:id, :content)");
+$insert->execute(['id' => 1, 'content' => file_get_contents(__DIR__.'/index.html')]);
+
+// get content from the database and map it as a stream
+$select = $db->prepare("SELECT content FROM test WHERE id = :id");
+$select->execute(['id' => 1]);
+$select->bindColumn(1, $content, PDO::PARAM_LOB);
+$select->fetch(PDO::FETCH_BOUND);
+
+// add content as a stream resource
+$query->setFile($content);
+
+// add document
+$doc = $query->createDocument();
+$doc->id = 'extract-test';
+$doc->some = 'more fields';
+$query->setDocument($doc);
+
+// this executes the query and returns the result
+$result = $client->extract($query);
+
+echo '<b>Extract query executed</b><br/>';
+echo 'Query status: ' . $result->getStatus(). '<br/>';
+echo 'Query time: ' . $result->getQueryTime();
 
 htmlFooter();
 

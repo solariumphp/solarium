@@ -82,7 +82,8 @@ class RequestBuilder extends BaseRequestBuilder
             $request->setMethod(Request::METHOD_GET);
         } elseif (\is_resource($file) || is_readable($file)) {
             if (\is_resource($file)) {
-                $resourceName = basename(stream_get_meta_data($file)['uri']);
+                $meta = stream_get_meta_data($file);
+                $resourceName = basename($meta['uri'] ?? $meta['stream_type']);
             } else {
                 $resourceName = basename($file);
             }
