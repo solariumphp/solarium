@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MinimumScoreFilter can have a null value in a ValueGroupResult
 - Warning when building an Extract request from a stream resource without an associated URI/filename
 
+### Changed
+- LoadBalancer plugin blocks Extract queries from load balancing by default
+
 
 ## [6.3.1]
 ### Added

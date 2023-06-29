@@ -269,10 +269,17 @@ This plugin is a code based loadbalancer for when you do need the redundancy and
 
 -   support for multiple servers, each with their own ‘weight’
 -   ability to use a failover mode (try another server on query failure)
--   block querytypes from loadbalancing (update queries are blocked by default)
+-   block query types from loadbalancing (`Update` and `Extract` queries are blocked by default)
 -   force a specific server for the next query
 
-All blocked query types (updates by default) are excluded from loadbalancing so they will use the default adapter settings that point to the master. All other queries will be load balanced.
+All blocked query types (`Update` and `Extract` by default) are excluded from loadbalancing so they will use the default adapter settings that point to the master. All other queries will be load balanced.
+
+If you want to load balance a blocked query type anyway (e.g. when extracting without indexing), you can unblock it.
+
+```php
+$loadbalancer = $client->getPlugin('loadbalancer');
+$loadbalancer->removeBlockedQueryType($client::QUERY_EXTRACT);
+```
 
 Failover mode is disabled by default. If enabled, a query will be retried on another endpoint if a connection to the endpoint can't be established.
 You can optionally specify HTTP response status codes for which you also want to failover to another endpoint. The list of failover status codes is empty by default.

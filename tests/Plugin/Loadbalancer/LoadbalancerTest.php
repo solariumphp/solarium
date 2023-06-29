@@ -36,6 +36,16 @@ class LoadbalancerTest extends TestCase
      */
     protected $client;
 
+    /**
+     * Query types that are blocked by default according to the documentation.
+     *
+     * @var array
+     */
+    protected $expectedDefaultBlockedQueryTypes = [
+        Client::QUERY_UPDATE,
+        Client::QUERY_EXTRACT,
+    ];
+
     public function setUp(): void
     {
         $this->plugin = new Loadbalancer();
@@ -326,13 +336,21 @@ class LoadbalancerTest extends TestCase
         $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 
+    public function testDefaultBlockedQueryTypes()
+    {
+        $this->assertEqualsCanonicalizing(
+            $this->expectedDefaultBlockedQueryTypes,
+            $this->plugin->getBlockedQueryTypes()
+        );
+    }
+
     public function testAddBlockedQueryType()
     {
         $this->plugin->addBlockedQueryType('type1');
         $this->plugin->addBlockedQueryType('type2');
 
-        $this->assertSame(
-            [Client::QUERY_UPDATE, 'type1', 'type2'],
+        $this->assertEqualsCanonicalizing(
+            array_merge($this->expectedDefaultBlockedQueryTypes, ['type1', 'type2']),
             $this->plugin->getBlockedQueryTypes()
         );
     }
