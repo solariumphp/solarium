@@ -65,6 +65,7 @@ class Loadbalancer extends AbstractPlugin
      * @var array
      */
     protected $blockedQueryTypes = [
+        Client::QUERY_EXTRACT => true,
         Client::QUERY_UPDATE => true,
     ];
 
