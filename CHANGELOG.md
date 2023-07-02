@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - LoadBalancer plugin blocks Extract queries from load balancing by default
 
+### Removed
+- PHP 7 support
+
 
 ## [6.3.1]
 ### Added

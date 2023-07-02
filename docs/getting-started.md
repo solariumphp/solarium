@@ -9,7 +9,7 @@ Installation
 
 ### Requirements
 
-For installing Solarium a minimal PHP version 7.3 is required.
+For installing Solarium a minimal PHP version 8.0 is required. It's highly recommended to always use an [actively supported version](https://www.php.net/supported-versions.php) in production.
 
 There is no Solr version requirement. But it's highly recommended that you use at least 7.7. All older versions are EOL.
 
@@ -28,7 +28,7 @@ See [<https://packagist.org>](https://packagist.org) for other packages.
 ```json
 {
     "require": {
-        "solarium/solarium": "~6.2"
+        "solarium/solarium": "~6.4"
     }
 }
 ```
@@ -44,8 +44,8 @@ Also you need to make sure that a PSR-14 compatible event dispatcher is availabl
 ```json
 {
     "require": {
-        "solarium/solarium": "~6.2",
-        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
+        "solarium/solarium": "~6.4",
+        "symfony/event-dispatcher": "^5.0 || ^6.0"
     }
 }
 ```

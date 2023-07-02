@@ -114,7 +114,7 @@ class DetailTest extends TestCase
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
-        }, \E_NOTICE /* PHP 7 */ | \E_WARNING /* PHP 8 */);
+        }, \E_WARNING);
 
         $this->expectExceptionMessage('Undefined property');
         $this->result->offsetGet('unknown');

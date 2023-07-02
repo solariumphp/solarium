@@ -10,7 +10,7 @@ Please see the [docs](http://solarium.readthedocs.io/en/stable/) for a more deta
 
 ## Requirements
 
-Solarium 6.1.x only supports PHP 7.3 and up.
+Solarium 6.4.x only supports PHP 8.0 and up.
 
 It's highly recommended to have cURL enabled in your PHP environment. However if you don't have cURL available you can
 switch from using cURL (the default) to a pure PHP based HTTP client adapter which works for the essential stuff but
@@ -28,30 +28,9 @@ Example:
 composer require solarium/solarium
 ```
 
-### Pitfall when using PHP versions prior to PHP 8.0
+### Pitfall when upgrading to 6.4
 
-If you are using a PHP version prior to PHP 8.0 *and* a locale that uses a decimal separator that's different
-from a decimal point, float values are sent in a way that Solr doesn't understand. This is due to the string
-representation of floats in those PHP versions.
-
-You can work around this by setting the `'C'` locale before creating and sending requests to Solr. Don't forget
-to set it back to the original value if your application is locale-dependent.
-
-```php
-// make sure floats use "." as decimal separator
-$currentLocale = setlocale(LC_NUMERIC, 0);
-setlocale(LC_NUMERIC, 'C');
-
-/*
- * Create and send the requests you want Solarium to send.
- */
-
-// restore the locale
-setlocale(LC_NUMERIC, $currentLocale);
-```
-
-PHP 8.0 has made the float to string conversion locale-independent and will always use the `.` decimal separator.
-The workaround is no longer necessary with PHP versions ≥ 8.0.
+Support for PHP 7 was removed in Solarium 6.4.0. Upgrade to PHP 8 first to use the latest Solarium version.
 
 ### Pitfall when upgrading to 6.3
 
@@ -109,8 +88,8 @@ Alternatively you can use any [PSR-14](https://www.php-fig.org/psr/psr-14/) comp
 ```json
 {
     "require": {
-        "solarium/solarium": "~6.2",
-        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
+        "solarium/solarium": "~6.4",
+        "symfony/event-dispatcher": "^5.0 || ^6.0"
     }
 }
 ```

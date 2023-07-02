@@ -12,13 +12,13 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "halaxa/json-machine": "^1.1",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0",
+        "symfony/event-dispatcher-contracts": "^2.0 || ^3.0",
         "composer-runtime-api": ">=2.0"
     },
     "require-dev": {
@@ -33,7 +33,7 @@
         "phpstan/phpstan-phpunit": "^1.0",
         "phpunit/phpunit": "^9.6",
         "roave/security-advisories": "dev-master",
-        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
+        "symfony/event-dispatcher": "^5.0 || ^6.0"
     },
     "prefer-stable": true,
     "config": {
