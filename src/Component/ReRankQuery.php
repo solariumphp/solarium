@@ -22,6 +22,21 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
     use QueryTrait;
 
     /**
+     * Add the score from the reRankQuery multiplied by the reRankWeight to the original score.
+     */
+    public const OPERATOR_ADD = 'add';
+
+    /**
+     * Multiply the score from the reRankQuery, the reRankWeight, and the original score.
+     */
+    public const OPERATOR_MULTIPLY = 'multiply';
+
+    /**
+     * Replace the original score with the score from the reRankQuery multiplied by the reRankWeight.
+     */
+    public const OPERATOR_REPLACE = 'replace';
+
+    /**
      * Get component type.
      *
      * @return string
@@ -85,6 +100,32 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
     public function setWeight(float $value): self
     {
         $this->setOption('weight', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get reRankOperator value.
+     *
+     * @return string|null
+     */
+    public function getOperator(): ?string
+    {
+        return $this->getOption('operator');
+    }
+
+    /**
+     * Set reRankOperator value.
+     *
+     * Use one of the OPERATOR_* constants as value.
+     *
+     * @param string $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setOperator(string $value): self
+    {
+        $this->setOption('operator', $value);
 
         return $this;
     }

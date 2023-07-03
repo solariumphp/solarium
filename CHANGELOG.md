@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Solarium\Component\ReRankQuery::setOperator()
+
 ### Fixed
 - MinimumScoreFilter can have a null value in a ValueGroupResult
 - Warning when building an Extract request from a stream resource without an associated URI/filename
