@@ -18,12 +18,13 @@ class ReRankQueryTest extends TestCase
         $component->setQuery('foo:bar');
         $component->setDocs(42);
         $component->setWeight(48.2233);
+        $component->setOperator($component::OPERATOR_MULTIPLY);
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             [
-                'rq' => '{!rerank reRankQuery=$rqq reRankDocs=42 reRankWeight=48.2233}',
+                'rq' => '{!rerank reRankQuery=$rqq reRankDocs=42 reRankWeight=48.2233 reRankOperator=multiply}',
                 'rqq' => 'foo:bar',
             ],
             $request->getParams()
@@ -39,12 +40,13 @@ class ReRankQueryTest extends TestCase
         $component->setQuery('foo:[1 TO *]');
         $component->setDocs(42);
         $component->setWeight(48.2233);
+        $component->setOperator($component::OPERATOR_REPLACE);
 
         $request = $builder->buildComponent($component, $request);
 
         $this->assertEquals(
             [
-                'rq' => '{!rerank reRankQuery=$rqq reRankDocs=42 reRankWeight=48.2233}',
+                'rq' => '{!rerank reRankQuery=$rqq reRankDocs=42 reRankWeight=48.2233 reRankOperator=replace}',
                 'rqq' => 'foo:[1 TO *]',
             ],
             $request->getParams()

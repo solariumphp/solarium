@@ -24,6 +24,7 @@ class ReRankQueryTest extends TestCase
             'query' => 'foo:bar',
             'docs' => 50,
             'weight' => '16.3161',
+            'operator' => ReRankQuery::OPERATOR_MULTIPLY,
         ];
 
         $this->reRankQuery->setOptions($options);
@@ -31,6 +32,7 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($options['query'], $this->reRankQuery->getQuery());
         $this->assertEquals($options['docs'], $this->reRankQuery->getDocs());
         $this->assertEquals($options['weight'], $this->reRankQuery->getWeight());
+        $this->assertEquals($options['operator'], $this->reRankQuery->getOperator());
     }
 
     public function testGetType()
@@ -80,5 +82,13 @@ class ReRankQueryTest extends TestCase
         $this->reRankQuery->setWeight($value);
 
         $this->assertEquals($value, $this->reRankQuery->getWeight());
+    }
+
+    public function testSetAndGetOperator()
+    {
+        $value = ReRankQuery::OPERATOR_REPLACE;
+        $this->reRankQuery->setOperator($value);
+
+        $this->assertEquals($value, $this->reRankQuery->getOperator());
     }
 }
