@@ -44,12 +44,12 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Get the response for a cURL handle.
      *
-     * @param resource|\CurlHandle $handle
-     * @param string               $httpResponse
+     * @param \CurlHandle       $handle
+     * @param string|false|null $httpResponse
      *
      * @return Response
      */
-    public function getResponse($handle, $httpResponse): Response
+    public function getResponse(\CurlHandle $handle, $httpResponse): Response
     {
         if (false !== $httpResponse && null !== $httpResponse) {
             $data = $httpResponse;
@@ -75,9 +75,9 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @throws InvalidArgumentException
      *
-     * @return resource|\CurlHandle
+     * @return \CurlHandle
      */
-    public function createHandle(Request $request, Endpoint $endpoint)
+    public function createHandle(Request $request, Endpoint $endpoint): \CurlHandle
     {
         $uri = AdapterHelper::buildUri($request, $endpoint);
 
@@ -157,13 +157,13 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     /**
      * Check result of a request.
      *
-     * @param string               $data
-     * @param array                $headers
-     * @param resource|\CurlHandle $handle
+     * @param string      $data
+     * @param array       $headers
+     * @param \CurlHandle $handle
      *
      * @throws HttpException
      */
-    public function check($data, $headers, $handle): void
+    public function check($data, $headers, \CurlHandle $handle): void
     {
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
