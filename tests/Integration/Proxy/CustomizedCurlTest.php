@@ -48,7 +48,7 @@ class CustomizedCurl extends Curl
         return $this->myProxyOptions;
     }
 
-    public function createHandle(Request $request, Endpoint $endpoint)
+    public function createHandle(Request $request, Endpoint $endpoint): \CurlHandle
     {
         $handle = parent::createHandle($request, $endpoint);
 

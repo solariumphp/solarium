@@ -151,11 +151,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -184,11 +180,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -216,11 +208,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -234,11 +222,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -252,11 +236,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
