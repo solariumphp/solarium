@@ -33,7 +33,7 @@ interface ConfigurableInterface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setOptions($options, bool $overwrite = false): self;
 

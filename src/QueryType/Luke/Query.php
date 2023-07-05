@@ -292,7 +292,7 @@ class Query extends BaseQuery
      *
      * @param bool $includeIndexFieldFlags
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setIncludeIndexFieldFlags(bool $includeIndexFieldFlags): self
     {

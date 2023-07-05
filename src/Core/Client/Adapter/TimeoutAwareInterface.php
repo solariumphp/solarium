@@ -26,7 +26,7 @@ interface TimeoutAwareInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTimeout(int $timeoutInSeconds);
+    public function setTimeout(int $timeoutInSeconds): self;
 
     /**
      * @return int

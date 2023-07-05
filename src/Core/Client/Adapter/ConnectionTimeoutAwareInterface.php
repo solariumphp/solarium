@@ -21,7 +21,7 @@ interface ConnectionTimeoutAwareInterface
      *
      * @return self Provides fluent interface
      */
-    public function setConnectionTimeout(?int $timeoutInSeconds);
+    public function setConnectionTimeout(?int $timeoutInSeconds): self;
 
     /**
      * @return int|null

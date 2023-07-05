@@ -228,7 +228,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @return array
      */
-    protected function createOptions(Request $request, Endpoint $endpoint)
+    protected function createOptions(Request $request, Endpoint $endpoint): array
     {
         $options = [
             'timeout' => $this->timeout,

@@ -61,7 +61,7 @@ class Config extends AbstractCommand
      *
      * @param \Solarium\QueryType\ManagedResources\Query\InitArgsInterface $initArgs
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setInitArgs(InitArgsInterface $initArgs): self
     {

@@ -51,7 +51,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setPrefix(string $prefix);
+    public function setPrefix(string $prefix): self;
 
     /**
      * Get the facet prefix.
@@ -67,7 +67,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setContains(string $contains);
+    public function setContains(string $contains): self;
 
     /**
      * Get the facet contains.
@@ -83,7 +83,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setContainsIgnoreCase(bool $containsIgnoreCase);
+    public function setContainsIgnoreCase(bool $containsIgnoreCase): self;
 
     /**
      * Get the case sensitivity of facet contains.
@@ -99,7 +99,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMatches(string $matches);
+    public function setMatches(string $matches): self;
 
     /**
      * Get the regular expression string that facets must match.
@@ -117,7 +117,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setSort(string $sort);
+    public function setSort(string $sort): self;
 
     /**
      * Get the facet sort type.
@@ -133,7 +133,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setLimit(int $limit);
+    public function setLimit(int $limit): self;
 
     /**
      * Get the facet limit.
@@ -149,7 +149,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOffset(int $offset);
+    public function setOffset(int $offset): self;
 
     /**
      * Get the facet offset.
@@ -165,7 +165,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMinCount(int $minCount);
+    public function setMinCount(int $minCount): self;
 
     /**
      * Get the facet mincount.
@@ -181,7 +181,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMissing(bool $missing);
+    public function setMissing(bool $missing): self;
 
     /**
      * Get the facet missing option.
@@ -199,7 +199,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMethod(string $method);
+    public function setMethod(string $method): self;
 
     /**
      * Get the facet method.
@@ -217,7 +217,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setEnumCacheMinimumDocumentFrequency(int $frequency);
+    public function setEnumCacheMinimumDocumentFrequency(int $frequency): self;
 
     /**
      * Get the minimum document frequency for which the filterCache should be used.
@@ -233,7 +233,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setExists(bool $exists);
+    public function setExists(bool $exists): self;
 
     /**
      * Get the exists parameter.
@@ -251,7 +251,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setExcludeTerms(string $exclude);
+    public function setExcludeTerms(string $exclude): self;
 
     /**
      * Get terms that should be excluded from the facet.
@@ -267,7 +267,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOverrequestCount(int $count);
+    public function setOverrequestCount(int $count): self;
 
     /**
      * Get the facet overrequest count.
@@ -283,7 +283,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOverrequestRatio(float $ratio);
+    public function setOverrequestRatio(float $ratio): self;
 
     /**
      * Get the facet overrequest ratio.
@@ -303,7 +303,7 @@ interface FieldValueParametersInterface
      *
      * @return self Provides fluent interface
      */
-    public function setThreads(int $threads);
+    public function setThreads(int $threads): self;
 
     /**
      * Get the maximum number of threads used for parallel execution.

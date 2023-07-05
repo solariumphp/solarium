@@ -111,7 +111,7 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function registerComponentType(string $key, string $component);
+    public function registerComponentType(string $key, string $component): self;
 
     /**
      * Get all registered components.

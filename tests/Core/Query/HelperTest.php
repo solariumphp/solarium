@@ -756,7 +756,7 @@ class HelperTest extends TestCase
         );
     }
 
-    protected function mockFormatDateOutput($timestamp)
+    protected function mockFormatDateOutput($timestamp): string
     {
         $date = new \DateTime('@'.$timestamp);
 

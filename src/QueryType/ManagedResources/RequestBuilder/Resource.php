@@ -61,7 +61,7 @@ class Resource extends AbstractRequestBuilder
      *
      * @throws \Solarium\Exception\RuntimeException
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     protected function buildCommand(Request $request, AbstractCommand $command): self
     {

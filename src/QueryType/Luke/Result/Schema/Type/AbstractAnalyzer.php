@@ -63,7 +63,7 @@ abstract class AbstractAnalyzer
     /**
      * @param CharFilter[] $charFilters
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setCharFilters(array $charFilters): self
     {
@@ -83,7 +83,7 @@ abstract class AbstractAnalyzer
     /**
      * @param Tokenizer $tokenizer
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTokenizer(Tokenizer $tokenizer): self
     {
@@ -103,7 +103,7 @@ abstract class AbstractAnalyzer
     /**
      * @param Filter[] $filters
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setFilters(array $filters): self
     {

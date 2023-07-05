@@ -60,7 +60,7 @@ class Delete extends AbstractCommand
      *
      * @param string $term
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTerm(string $term): self
     {

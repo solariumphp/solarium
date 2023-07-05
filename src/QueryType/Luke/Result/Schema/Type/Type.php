@@ -81,7 +81,7 @@ class Type
     /**
      * @param SchemaFieldInterface $field
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function addField(SchemaFieldInterface &$field): self
     {
@@ -101,7 +101,7 @@ class Type
     /**
      * @param bool $tokenized
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTokenized(bool $tokenized): self
     {
@@ -129,7 +129,7 @@ class Type
     /**
      * @param string $className
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setClassName(string $className): self
     {
@@ -149,7 +149,7 @@ class Type
     /**
      * @param IndexAnalyzer $indexAnalyzer
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setIndexAnalyzer(IndexAnalyzer $indexAnalyzer): self
     {
@@ -169,7 +169,7 @@ class Type
     /**
      * @param QueryAnalyzer $queryAnalyzer
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setQueryAnalyzer(QueryAnalyzer $queryAnalyzer): self
     {
@@ -189,7 +189,7 @@ class Type
     /**
      * @param Similarity $similarity
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSimilarity(Similarity $similarity): self
     {

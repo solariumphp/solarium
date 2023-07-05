@@ -38,7 +38,7 @@ class Add extends AbstractAdd
      *
      * @param array $stopwords
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setStopwords(array $stopwords): self
     {

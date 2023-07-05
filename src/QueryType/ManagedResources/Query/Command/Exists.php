@@ -74,7 +74,7 @@ class Exists extends AbstractCommand
      *
      * @param string $term
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTerm(string $term): self
     {
@@ -86,7 +86,7 @@ class Exists extends AbstractCommand
     /**
      * Remove the name of the child resource. This reverts to checking if the managed resource exists.
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function removeTerm(): self
     {
@@ -115,7 +115,7 @@ class Exists extends AbstractCommand
      *
      * @param bool $useHeadRequest
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setUseHeadRequest(bool $useHeadRequest): self
     {

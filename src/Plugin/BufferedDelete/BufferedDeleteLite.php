@@ -40,7 +40,7 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteById($id)
+    public function addDeleteById($id): self
     {
         $this->buffer[] = new DeleteById($id);
 
@@ -74,7 +74,7 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteQuery(string $query)
+    public function addDeleteQuery(string $query): self
     {
         $this->buffer[] = new DeleteQuery($query);
 

@@ -55,7 +55,7 @@ class PreCreateRequest extends Event
      *
      * @param Request $request
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setRequest(Request $request): self
     {

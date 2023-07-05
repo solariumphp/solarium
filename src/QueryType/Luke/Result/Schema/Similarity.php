@@ -35,7 +35,7 @@ class Similarity
     /**
      * @param string|null $className
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setClassName(?string $className): self
     {
@@ -55,7 +55,7 @@ class Similarity
     /**
      * @param string|null $details
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDetails(?string $details): self
     {

@@ -94,7 +94,7 @@ class FieldInfo
     /**
      * @param string|null $type
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setType(?string $type): self
     {
@@ -116,7 +116,7 @@ class FieldInfo
     /**
      * @param FlagList $schema
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSchema(FlagList $schema): self
     {
@@ -138,7 +138,7 @@ class FieldInfo
     /**
      * @param string|null $dynamicBase
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDynamicBase(?string $dynamicBase): self
     {
@@ -160,7 +160,7 @@ class FieldInfo
     /**
      * @param FlagList|string|null $index
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setIndex($index): self
     {
@@ -182,7 +182,7 @@ class FieldInfo
     /**
      * @param int|null $docs
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDocs(?int $docs): self
     {
@@ -204,7 +204,7 @@ class FieldInfo
     /**
      * @param int|null $distinct
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDistinct(?int $distinct): self
     {
@@ -226,7 +226,7 @@ class FieldInfo
     /**
      * @param array|null $topTerms
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTopTerms(?array $topTerms): self
     {
@@ -248,7 +248,7 @@ class FieldInfo
     /**
      * @param array|null $histogram
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setHistogram(?array $histogram): self
     {

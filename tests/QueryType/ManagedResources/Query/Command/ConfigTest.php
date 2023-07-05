@@ -87,7 +87,7 @@ class DummyInitArgs implements InitArgsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setInitArgs(array $initArgs): InitArgsInterface
+    public function setInitArgs(array $initArgs): self
     {
         $this->initArgs = $initArgs;
 

@@ -77,7 +77,7 @@ interface FacetSetInterface
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet);
+    public function addFacet($facet): self;
 
     /**
      * Add multiple facets.
@@ -86,7 +86,7 @@ interface FacetSetInterface
      *
      * @return self Provides fluent interface
      */
-    public function addFacets(array $facets);
+    public function addFacets(array $facets): self;
 
     /**
      * Get a facet.
@@ -113,14 +113,14 @@ interface FacetSetInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet);
+    public function removeFacet($facet): self;
 
     /**
      * Remove all facets.
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets();
+    public function clearFacets(): self;
 
     /**
      * Set multiple facets.
@@ -131,7 +131,7 @@ interface FacetSetInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFacets(array $facets);
+    public function setFacets(array $facets): self;
 
     /**
      * Create a facet instance.

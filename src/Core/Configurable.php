@@ -63,9 +63,9 @@ class Configurable implements ConfigurableInterface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return self Provides fluent interface
      */
-    public function setOptions($options, bool $overwrite = false): ConfigurableInterface
+    public function setOptions($options, bool $overwrite = false): self
     {
         if (null !== $options) {
             // first convert to array if needed

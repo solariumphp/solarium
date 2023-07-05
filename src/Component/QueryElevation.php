@@ -60,7 +60,7 @@ class QueryElevation extends AbstractComponent
      *
      * @param string $transformer
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function addTransformer(string $transformer): self
     {
@@ -111,7 +111,7 @@ class QueryElevation extends AbstractComponent
     /**
      * Remove all document transformers.
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function clearTransformers(): self
     {

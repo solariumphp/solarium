@@ -40,7 +40,7 @@ class Loader
     /**
      * @param FixtureInterface $fixture
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function addFixture(FixtureInterface $fixture): self
     {
@@ -63,7 +63,7 @@ class Loader
      * @throws InvalidArgumentException
      * @throws ReflectionException
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function loadFromDirectory(string $dir): self
     {

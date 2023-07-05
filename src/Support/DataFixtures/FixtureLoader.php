@@ -51,7 +51,7 @@ class FixtureLoader
      *
      * @throws ReflectionException
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function loadFixturesFromDir(string $dir, bool $append = true): self
     {
