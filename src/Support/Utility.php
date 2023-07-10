@@ -31,12 +31,12 @@ class Utility
 
         if (false !== $xml) {
             // discard UTF-8 Byte Order Mark
-            if (0 === strpos($xml, pack('CCC', 0xEF, 0xBB, 0xBF))) {
+            if (str_starts_with($xml, pack('CCC', 0xEF, 0xBB, 0xBF))) {
                 $xml = substr($xml, 3);
             }
 
             // detect XML declaration
-            if (0 === strpos($xml, '<?xml')) {
+            if (str_starts_with($xml, '<?xml')) {
                 $declaration = substr($xml, 0, strpos($xml, '?>') + 2);
 
                 // detect encoding attribute
@@ -103,10 +103,10 @@ class Utility
 
         if ('*' === $wildcardPattern) {
             $match = true;
-        } elseif (0 === strpos($wildcardPattern, '*')) {
+        } elseif (str_starts_with($wildcardPattern, '*')) {
             $match = substr($wildcardPattern, 1) === substr($fieldName, 1 - \strlen($wildcardPattern));
         } else {
-            $match = 0 === strpos($fieldName, substr($wildcardPattern, 0, -1));
+            $match = str_starts_with($fieldName, substr($wildcardPattern, 0, -1));
         }
 
         return $match;

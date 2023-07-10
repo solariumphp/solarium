@@ -114,7 +114,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$solrVersion = (int) strstr($solrSpecVersion, '.', true);
 
         $systemName = $system['system']['name'];
-        self::$isSolrOnWindows = 0 === strpos($systemName, 'Windows');
+        self::$isSolrOnWindows = str_starts_with($systemName, 'Windows');
 
         // disable automatic commits for update tests
         $query = self::$client->createApi([
@@ -3966,16 +3966,16 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testpdf.pdf');
 
         $response = self::$client->extract($query);
-        $this->assertSame(0, strpos($response->getFile(), '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
-        $this->assertNotFalse(strpos($response->getFile(), '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
+        $this->assertTrue(str_starts_with($response->getFile(), '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the PDF file is not XML');
+        $this->assertTrue(str_contains($response->getFile(), '<p>PDF Test</p>'), 'Extracted content from the PDF file not found in XML');
         $this->assertArrayHasKey('stream_size', $response->getFileMetadata());
 
         $query->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testhtml.html');
 
         $response = self::$client->extract($query);
-        $this->assertSame(0, strpos($response->getFile(), '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
-        $this->assertNotFalse(strpos($response->getFile(), '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
-        $this->assertNotFalse(strpos($response->getFile(), '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
+        $this->assertTrue(str_starts_with($response->getFile(), '<?xml version="1.0" encoding="UTF-8"?>'), 'Extracted content from the HTML file is not XML');
+        $this->assertTrue(str_contains($response->getFile(), '<title>HTML Test Title</title>'), 'Extracted title from the HTML file not found in XML');
+        $this->assertTrue(str_contains($response->getFile(), '<p>HTML Test Body</p>'), 'Extracted body from the HTML file not found in XML');
         $this->assertArrayHasKey('stream_size', $response->getFileMetadata());
 
         if ($usePostBigExtractRequestPlugin) {

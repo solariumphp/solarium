@@ -73,7 +73,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $params = '';
         $helper = $this->getHelper();
 
-        if (0 === strpos($value, '{!')) {
+        if (str_starts_with($value, '{!')) {
             $params = substr($value, 2, strpos($value, '}') - 2).' ';
             $value = substr($value, strpos($value, '}') + 1);
         }

@@ -82,12 +82,12 @@ class RawXml extends AbstractCommand
         }
 
         // discard UTF-8 Byte Order Mark
-        if (0 === strpos($command, pack('CCC', 0xEF, 0xBB, 0xBF))) {
+        if (str_starts_with($command, pack('CCC', 0xEF, 0xBB, 0xBF))) {
             $command = substr($command, 3);
         }
 
         // discard XML declaration
-        if (0 === strpos($command, '<?xml')) {
+        if (str_starts_with($command, '<?xml')) {
             $command = substr($command, strpos($command, '?>') + 2);
         }
 

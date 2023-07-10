@@ -177,7 +177,7 @@ class ConnectionReuseTest extends TestCase
         $connections = [];
 
         foreach ($docs as $doc) {
-            if ('org.eclipse.jetty.io.AbstractConnection' === $doc['logger'] && 0 === strpos($doc['message'], 'onOpen ')) {
+            if ('org.eclipse.jetty.io.AbstractConnection' === $doc['logger'] && str_starts_with($doc['message'], 'onOpen ')) {
                 $connections[] = $doc['message'];
             }
         }
