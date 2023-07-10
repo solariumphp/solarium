@@ -44,7 +44,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setHandler(string $handler): QueryInterface
+    public function setHandler(string $handler): self
     {
         $this->setOption('handler', $handler);
 
@@ -75,7 +75,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setResultClass(string $classname): QueryInterface
+    public function setResultClass(string $classname): self
     {
         $this->setOption('resultclass', $classname);
 
@@ -99,7 +99,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTimeAllowed(int $value): QueryInterface
+    public function setTimeAllowed(int $value): self
     {
         $this->setOption('timeallowed', $value);
 
@@ -123,7 +123,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOmitHeader(bool $value): QueryInterface
+    public function setOmitHeader(bool $value): self
     {
         $this->setOption('omitheader', $value);
 
@@ -167,7 +167,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function addParam(string $name, $value): QueryInterface
+    public function addParam(string $name, $value): self
     {
         $this->params[$name] = $value;
 
@@ -183,7 +183,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeParam(string $name): QueryInterface
+    public function removeParam(string $name): self
     {
         if (isset($this->params[$name])) {
             unset($this->params[$name]);
@@ -209,7 +209,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setResponseWriter(string $value): QueryInterface
+    public function setResponseWriter(string $value): self
     {
         $this->setOption('responsewriter', $value);
 

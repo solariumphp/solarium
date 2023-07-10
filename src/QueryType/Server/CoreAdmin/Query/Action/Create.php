@@ -36,7 +36,7 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setCore(string $core): CoreActionInterface
+    public function setCore(string $core): self
     {
         // for some reason the core is called "name" in the create action
         $this->setOption('name', $core);

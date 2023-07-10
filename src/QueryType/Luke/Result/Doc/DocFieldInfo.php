@@ -94,7 +94,7 @@ class DocFieldInfo
     /**
      * @param string|null $type
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setType(?string $type): self
     {
@@ -116,7 +116,7 @@ class DocFieldInfo
     /**
      * @param FlagList $schema
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSchema(FlagList $schema): self
     {
@@ -138,7 +138,7 @@ class DocFieldInfo
     /**
      * @param FlagList $flags
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setFlags($flags): self
     {
@@ -160,7 +160,7 @@ class DocFieldInfo
     /**
      * @param string|null $value
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setValue(?string $value): self
     {
@@ -182,7 +182,7 @@ class DocFieldInfo
     /**
      * @param string|null $internal
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setInternal(?string $internal): self
     {
@@ -204,7 +204,7 @@ class DocFieldInfo
     /**
      * @param string|null $binary
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setBinary(?string $binary): self
     {
@@ -228,7 +228,7 @@ class DocFieldInfo
     /**
      * @param int|null $docFreq
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDocFreq(?int $docFreq): self
     {
@@ -250,7 +250,7 @@ class DocFieldInfo
     /**
      * @param array|null $termVector
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTermVector(?array $termVector): self
     {

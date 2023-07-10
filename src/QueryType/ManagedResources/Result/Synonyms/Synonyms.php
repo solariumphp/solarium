@@ -51,7 +51,7 @@ class Synonyms
      *
      * @param string $term
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTerm(string $term): self
     {
@@ -75,7 +75,7 @@ class Synonyms
      *
      * @param array $synonyms
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSynonyms(array $synonyms): self
     {

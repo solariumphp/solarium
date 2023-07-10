@@ -59,7 +59,7 @@ class WildcardField implements CopyFieldSourceInterface, FieldInterface
     /**
      * @param CopyFieldDestInterface $copyDest
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function addCopyDest(CopyFieldDestInterface &$copyDest): self
     {

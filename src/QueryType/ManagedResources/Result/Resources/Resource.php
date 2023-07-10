@@ -62,7 +62,7 @@ class Resource
     /**
      * @param string $resourceId
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setResourceId(string $resourceId): self
     {
@@ -82,7 +82,7 @@ class Resource
     /**
      * @param int $numObservers
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setNumObservers(int $numObservers): self
     {
@@ -102,7 +102,7 @@ class Resource
     /**
      * @param string $class
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setClass(string $class): self
     {

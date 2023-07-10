@@ -23,7 +23,7 @@ trait HighlightingTrait
      *
      * @deprecated Use {@link setMethod()} for Solr 6.4 and higher
      */
-    public function setUseFastVectorHighlighter(bool $use): HighlightingInterface
+    public function setUseFastVectorHighlighter(bool $use): self
     {
         $this->setOption('usefastvectorhighlighter', $use);
 
@@ -49,7 +49,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMethod(string $method): HighlightingInterface
+    public function setMethod(string $method): self
     {
         $this->setOption('method', $method);
 
@@ -73,7 +73,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setUsePhraseHighlighter(bool $use): HighlightingInterface
+    public function setUsePhraseHighlighter(bool $use): self
     {
         $this->setOption('usephrasehighlighter', $use);
 
@@ -97,7 +97,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setHighlightMultiTerm(bool $highlight): HighlightingInterface
+    public function setHighlightMultiTerm(bool $highlight): self
     {
         $this->setOption('highlightmultiterm', $highlight);
 
@@ -123,7 +123,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setSnippets(int $maximum): HighlightingInterface
+    public function setSnippets(int $maximum): self
     {
         $this->setOption('snippets', $maximum);
 
@@ -149,7 +149,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFragSize(int $size): HighlightingInterface
+    public function setFragSize(int $size): self
     {
         $this->setOption('fragsize', $size);
 
@@ -175,7 +175,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setTagPrefix(string $prefix): HighlightingInterface
+    public function setTagPrefix(string $prefix): self
     {
         $this->setOption('tagprefix', $prefix);
 
@@ -203,7 +203,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setTagPostfix(string $postfix): HighlightingInterface
+    public function setTagPostfix(string $postfix): self
     {
         $this->setOption('tagpostfix', $postfix);
 
@@ -231,7 +231,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setEncoder(string $encoder): HighlightingInterface
+    public function setEncoder(string $encoder): self
     {
         $this->setOption('encoder', $encoder);
 
@@ -257,7 +257,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxAnalyzedChars(int $chars): HighlightingInterface
+    public function setMaxAnalyzedChars(int $chars): self
     {
         $this->setOption('maxanalyzedchars', $chars);
 
@@ -283,7 +283,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setOffsetSource(string $source): HighlightingInterface
+    public function setOffsetSource(string $source): self
     {
         $this->setOption('offsetsource', $source);
 
@@ -309,7 +309,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFragAlignRatio(float $ratio): HighlightingInterface
+    public function setFragAlignRatio(float $ratio): self
     {
         $this->setOption('fragalignratio', $ratio);
 
@@ -333,7 +333,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFragsizeIsMinimum(bool $isMinimum): HighlightingInterface
+    public function setFragsizeIsMinimum(bool $isMinimum): self
     {
         $this->setOption('fragsizeisminimum', $isMinimum);
 
@@ -357,7 +357,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setTagEllipsis(string $ellipsis): HighlightingInterface
+    public function setTagEllipsis(string $ellipsis): self
     {
         $this->setOption('tagellipsis', $ellipsis);
 
@@ -381,7 +381,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setDefaultSummary(bool $defaultSummary): HighlightingInterface
+    public function setDefaultSummary(bool $defaultSummary): self
     {
         $this->setOption('defaultsummary', $defaultSummary);
 
@@ -407,7 +407,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setScoreK1(float $k1): HighlightingInterface
+    public function setScoreK1(float $k1): self
     {
         $this->setOption('scorek1', $k1);
 
@@ -433,7 +433,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setScoreB(float $b): HighlightingInterface
+    public function setScoreB(float $b): self
     {
         $this->setOption('scoreb', $b);
 
@@ -459,7 +459,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setScorePivot(int $pivot): HighlightingInterface
+    public function setScorePivot(int $pivot): self
     {
         $this->setOption('scorepivot', $pivot);
 
@@ -483,7 +483,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerLanguage(string $language): HighlightingInterface
+    public function setBoundaryScannerLanguage(string $language): self
     {
         $this->setOption('boundaryscannerlanguage', $language);
 
@@ -507,7 +507,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerCountry(string $country): HighlightingInterface
+    public function setBoundaryScannerCountry(string $country): self
     {
         $this->setOption('boundaryscannercountry', $country);
 
@@ -531,7 +531,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerVariant(string $variant): HighlightingInterface
+    public function setBoundaryScannerVariant(string $variant): self
     {
         $this->setOption('boundaryscannervariant', $variant);
 
@@ -557,7 +557,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerType(string $type): HighlightingInterface
+    public function setBoundaryScannerType(string $type): self
     {
         $this->setOption('boundaryscannertype', $type);
 
@@ -583,7 +583,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerSeparator(string $separator): HighlightingInterface
+    public function setBoundaryScannerSeparator(string $separator): self
     {
         $this->setOption('boundaryscannerseparator', $separator);
 
@@ -609,7 +609,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setWeightMatches(bool $weightMatches): HighlightingInterface
+    public function setWeightMatches(bool $weightMatches): self
     {
         $this->setOption('weightmatches', $weightMatches);
 
@@ -635,7 +635,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMergeContiguous(bool $merge): HighlightingInterface
+    public function setMergeContiguous(bool $merge): self
     {
         $this->setOption('mergecontiguous', $merge);
 
@@ -661,7 +661,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxMultiValuedToExamine(int $maximum): HighlightingInterface
+    public function setMaxMultiValuedToExamine(int $maximum): self
     {
         $this->setOption('maxmultivaluedtoexamine', $maximum);
 
@@ -687,7 +687,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxMultiValuedToMatch(int $maximum): HighlightingInterface
+    public function setMaxMultiValuedToMatch(int $maximum): self
     {
         $this->setOption('maxmultivaluedtomatch', $maximum);
 
@@ -711,7 +711,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setAlternateField(string $field): HighlightingInterface
+    public function setAlternateField(string $field): self
     {
         $this->setOption('alternatefield', $field);
 
@@ -735,7 +735,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxAlternateFieldLength(int $length): HighlightingInterface
+    public function setMaxAlternateFieldLength(int $length): self
     {
         $this->setOption('maxalternatefieldlength', $length);
 
@@ -759,7 +759,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setHighlightAlternate(bool $highlight): HighlightingInterface
+    public function setHighlightAlternate(bool $highlight): self
     {
         $this->setOption('highlightalternate', $highlight);
 
@@ -785,7 +785,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFormatter(string $formatter = HighlightingInterface::FORMATTER_SIMPLE): HighlightingInterface
+    public function setFormatter(string $formatter = HighlightingInterface::FORMATTER_SIMPLE): self
     {
         $this->setOption('formatter', $formatter);
 
@@ -811,7 +811,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setSimplePrefix(string $prefix): HighlightingInterface
+    public function setSimplePrefix(string $prefix): self
     {
         $this->setOption('simpleprefix', $prefix);
 
@@ -839,7 +839,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setSimplePostfix(string $postfix): HighlightingInterface
+    public function setSimplePostfix(string $postfix): self
     {
         $this->setOption('simplepostfix', $postfix);
 
@@ -867,7 +867,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFragmenter(string $fragmenter): HighlightingInterface
+    public function setFragmenter(string $fragmenter): self
     {
         $this->setOption('fragmenter', $fragmenter);
 
@@ -891,7 +891,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegexSlop(float $slop): HighlightingInterface
+    public function setRegexSlop(float $slop): self
     {
         $this->setOption('regexslop', $slop);
 
@@ -915,7 +915,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegexPattern(string $pattern): HighlightingInterface
+    public function setRegexPattern(string $pattern): self
     {
         $this->setOption('regexpattern', $pattern);
 
@@ -939,7 +939,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegexMaxAnalyzedChars(int $chars): HighlightingInterface
+    public function setRegexMaxAnalyzedChars(int $chars): self
     {
         $this->setOption('regexmaxanalyzedchars', $chars);
 
@@ -963,7 +963,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setPreserveMulti(bool $preservemulti): HighlightingInterface
+    public function setPreserveMulti(bool $preservemulti): self
     {
         $this->setOption('preservemulti', $preservemulti);
 
@@ -987,7 +987,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setPayloads(bool $payloads): HighlightingInterface
+    public function setPayloads(bool $payloads): self
     {
         $this->setOption('payloads', $payloads);
 
@@ -1013,7 +1013,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFragListBuilder(string $builder): HighlightingInterface
+    public function setFragListBuilder(string $builder): self
     {
         $this->setOption('fraglistbuilder', $builder);
 
@@ -1039,7 +1039,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFragmentsBuilder(string $builder): HighlightingInterface
+    public function setFragmentsBuilder(string $builder): self
     {
         $this->setOption('fragmentsbuilder', $builder);
 
@@ -1065,7 +1065,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScanner(string $scanner): HighlightingInterface
+    public function setBoundaryScanner(string $scanner): self
     {
         $this->setOption('boundaryscanner', $scanner);
 
@@ -1089,7 +1089,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerMaxScan(int $maximum): HighlightingInterface
+    public function setBoundaryScannerMaxScan(int $maximum): self
     {
         $this->setOption('boundaryscannermaxscan', $maximum);
 
@@ -1113,7 +1113,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerChars(string $chars): HighlightingInterface
+    public function setBoundaryScannerChars(string $chars): self
     {
         $this->setOption('boundaryscannerchars', $chars);
 
@@ -1139,7 +1139,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseLimit(int $maximum): HighlightingInterface
+    public function setPhraseLimit(int $maximum): self
     {
         $this->setOption('phraselimit', $maximum);
 
@@ -1165,7 +1165,7 @@ trait HighlightingTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMultiValuedSeparatorChar(string $separator): HighlightingInterface
+    public function setMultiValuedSeparatorChar(string $separator): self
     {
         $this->setOption('multivaluedseparatorchar', $separator);
 

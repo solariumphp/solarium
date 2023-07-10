@@ -60,7 +60,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function addQuery(string $key, QueryInterface $query, $endpoint = null)
+    public function addQuery(string $key, QueryInterface $query, $endpoint = null): self
     {
         if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();

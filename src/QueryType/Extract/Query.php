@@ -102,7 +102,7 @@ class Query extends BaseQuery
      *
      * @param DocumentInterface $document
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDocument(DocumentInterface $document): self
     {
@@ -126,7 +126,7 @@ class Query extends BaseQuery
      *
      * @param string|resource $file
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setFile($file): self
     {
@@ -150,7 +150,7 @@ class Query extends BaseQuery
      *
      * @param string $uprefix
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setUprefix(string $uprefix): self
     {
@@ -175,7 +175,7 @@ class Query extends BaseQuery
      *
      * @param string $defaultField
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDefaultField(string $defaultField): self
     {
@@ -201,7 +201,7 @@ class Query extends BaseQuery
      *
      * @param bool $lowerNames
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setLowernames(bool $lowerNames): self
     {

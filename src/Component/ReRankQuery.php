@@ -71,7 +71,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
      *
      * @param int $value
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDocs(int $value): self
     {

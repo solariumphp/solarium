@@ -55,7 +55,7 @@ class StatusResult
     /**
      * @param string $coreName
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setCoreName(string $coreName): self
     {
@@ -75,7 +75,7 @@ class StatusResult
     /**
      * @param int $numberOfDocuments
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setNumberOfDocuments(int $numberOfDocuments): self
     {
@@ -95,7 +95,7 @@ class StatusResult
     /**
      * @param int $uptime
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setUptime(int $uptime): self
     {
@@ -115,7 +115,7 @@ class StatusResult
     /**
      * @param int $version
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setVersion(int $version): self
     {
@@ -135,7 +135,7 @@ class StatusResult
     /**
      * @param \DateTime|null $startTime
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setStartTime(?\DateTime $startTime): self
     {

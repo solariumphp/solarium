@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Core\Plugin;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Client;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Tests\Integration\TestClientFactory;
@@ -14,8 +15,14 @@ class PluginTest extends TestCase
      */
     protected $plugin;
 
+    /**
+     * @var Client
+     */
     protected $client;
 
+    /**
+     * @var array
+     */
     protected $options;
 
     public function setUp(): void
@@ -44,7 +51,7 @@ class MyPlugin extends AbstractPlugin
 {
     public $eventReceived = false;
 
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }

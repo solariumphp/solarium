@@ -53,7 +53,7 @@ class Tokenizer
     /**
      * @param array $args
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setArgs(array $args): self
     {

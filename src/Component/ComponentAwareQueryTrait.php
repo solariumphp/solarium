@@ -48,7 +48,7 @@ trait ComponentAwareQueryTrait
      *
      * @return self Provides fluent interface
      */
-    public function registerComponentType(string $key, string $component)
+    public function registerComponentType(string $key, string $component): self
     {
         $this->componentTypes[$key] = $component;
 
@@ -111,7 +111,7 @@ trait ComponentAwareQueryTrait
      *
      * @return self Provides fluent interface
      */
-    public function setComponent(string $key, AbstractComponent $component): ComponentAwareQueryInterface
+    public function setComponent(string $key, AbstractComponent $component): self
     {
         $component->setQueryInstance($this);
         $this->components[$key] = $component;
@@ -128,7 +128,7 @@ trait ComponentAwareQueryTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeComponent($component): ComponentAwareQueryInterface
+    public function removeComponent($component): self
     {
         if (\is_object($component)) {
             foreach ($this->components as $key => $instance) {
@@ -153,7 +153,7 @@ trait ComponentAwareQueryTrait
      *
      * @return self Provides fluent interface
      */
-    protected function createComponents(array $configs): ComponentAwareQueryInterface
+    protected function createComponents(array $configs): self
     {
         foreach ($configs as $type => $config) {
             $this->getComponent($type, true, $config);

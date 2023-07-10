@@ -64,7 +64,7 @@ class DocInfo
     /**
      * @param DocFieldInfo[] $lucene
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setLucene(array $lucene): self
     {
@@ -86,7 +86,7 @@ class DocInfo
     /**
      * @param DocumentInterface $solr
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSolr(DocumentInterface $solr): self
     {

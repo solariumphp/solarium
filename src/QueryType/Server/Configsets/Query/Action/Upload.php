@@ -46,7 +46,7 @@ class Upload extends AbstractAction
      *
      * @param string $file
      *
-     * @return self $this
+     * @return self Provides fluent interface
      *
      * @throws InvalidArgumentException
      */
@@ -74,7 +74,7 @@ class Upload extends AbstractAction
      *
      * @param bool $overwrite
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setOverwrite(bool $overwrite): self
     {
@@ -100,7 +100,7 @@ class Upload extends AbstractAction
      *
      * @param bool $cleanup
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setCleanup(bool $cleanup): self
     {
@@ -127,7 +127,7 @@ class Upload extends AbstractAction
      *
      * @param string $filePath
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setFilePath(string $filePath): self
     {

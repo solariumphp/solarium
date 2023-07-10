@@ -37,7 +37,7 @@ class UserData
     /**
      * @param string|null $commitCommandVer
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setCommitCommandVer(?string $commitCommandVer): self
     {
@@ -57,7 +57,7 @@ class UserData
     /**
      * @param string|null $commitTimeMSec
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setCommitTimeMSec(?string $commitTimeMSec): self
     {

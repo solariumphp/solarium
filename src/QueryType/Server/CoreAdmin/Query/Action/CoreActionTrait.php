@@ -19,9 +19,9 @@ trait CoreActionTrait
      *
      * @param string $core
      *
-     * @return self
+     * @return self Provides fluent interface
      */
-    public function setCore(string $core): CoreActionInterface
+    public function setCore(string $core): self
     {
         $this->setOption('core', $core);
 

@@ -32,7 +32,7 @@ trait SpellcheckTrait
      *
      * @return self Provides fluent interface
      */
-    public function setBuild(bool $build): SpellcheckInterface
+    public function setBuild(bool $build): self
     {
         return $this->setOption('build', $build);
     }
@@ -56,7 +56,7 @@ trait SpellcheckTrait
      *
      * @return self Provides fluent interface
      */
-    public function setReload(bool $reload): SpellcheckInterface
+    public function setReload(bool $reload): self
     {
         return $this->setOption('reload', $reload);
     }
@@ -266,7 +266,7 @@ trait SpellcheckTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCollationEvaluations(int $maxCollationEvaluations): SpellcheckInterface
+    public function setMaxCollationEvaluations(int $maxCollationEvaluations): self
     {
         return $this->setOption('maxcollationevaluations', $maxCollationEvaluations);
     }

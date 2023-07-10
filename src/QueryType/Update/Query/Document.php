@@ -421,7 +421,7 @@ class Document extends AbstractDocument
      *
      * @throws RuntimeException
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setFieldModifier(string $key, string $modifier = null): self
     {
@@ -468,7 +468,7 @@ class Document extends AbstractDocument
      *
      * @param int $version
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setVersion(int $version): self
     {

@@ -39,7 +39,7 @@ class Add extends AbstractAdd
      *
      * @param \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms $synonyms
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSynonyms(SynonymsData $synonyms): self
     {

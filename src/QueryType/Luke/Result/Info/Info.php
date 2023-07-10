@@ -35,7 +35,7 @@ class Info
     /**
      * @param array $key
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setKey(array $key): self
     {
@@ -55,7 +55,7 @@ class Info
     /**
      * @param string $note
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setNote(string $note): self
     {

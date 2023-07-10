@@ -35,7 +35,7 @@ class InitFailureResult
     /**
      * @param string $coreName
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setCoreName(string $coreName): self
     {
@@ -55,7 +55,7 @@ class InitFailureResult
     /**
      * @param string $exception
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setException(string $exception): self
     {

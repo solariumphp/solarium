@@ -58,7 +58,7 @@ abstract class AbstractFilter
     /**
      * @param array $args
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setArgs(array $args): self
     {
@@ -78,7 +78,7 @@ abstract class AbstractFilter
     /**
      * @param string $className
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setClassName(string $className): self
     {

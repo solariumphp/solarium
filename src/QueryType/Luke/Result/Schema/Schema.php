@@ -64,7 +64,7 @@ class Schema
     /**
      * @param Field[] $fields
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setFields(array $fields): self
     {
@@ -94,7 +94,7 @@ class Schema
     /**
      * @param DynamicField[] $dynamicFields
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDynamicFields(array $dynamicFields): self
     {
@@ -114,7 +114,7 @@ class Schema
     /**
      * @param Field $uniqueKeyField
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setUniqueKeyField(Field &$uniqueKeyField): self
     {
@@ -134,7 +134,7 @@ class Schema
     /**
      * @param Similarity $similarity
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSimilarity(Similarity $similarity): self
     {
@@ -164,7 +164,7 @@ class Schema
     /**
      * @param Type[] $types
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTypes(array $types): self
     {

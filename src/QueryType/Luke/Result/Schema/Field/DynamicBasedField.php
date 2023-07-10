@@ -33,7 +33,7 @@ class DynamicBasedField extends AbstractField implements CopyFieldDestInterface,
     /**
      * @param DynamicField $dynamicBase
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDynamicBase(DynamicField &$dynamicBase): self
     {

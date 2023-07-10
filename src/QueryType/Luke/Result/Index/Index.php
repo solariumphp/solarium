@@ -90,7 +90,7 @@ class Index
     /**
      * @param int $numDocs
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setNumDocs(int $numDocs): self
     {
@@ -110,7 +110,7 @@ class Index
     /**
      * @param int $maxDoc
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setMaxDoc(int $maxDoc): self
     {
@@ -130,7 +130,7 @@ class Index
     /**
      * @param int $deletedDocs
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDeletedDocs(int $deletedDocs): self
     {
@@ -150,7 +150,7 @@ class Index
     /**
      * @param int|null $indexHeapUsageBytes
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setIndexHeapUsageBytes(?int $indexHeapUsageBytes): self
     {
@@ -170,7 +170,7 @@ class Index
     /**
      * @param int $version
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setVersion(int $version): self
     {
@@ -190,7 +190,7 @@ class Index
     /**
      * @param int $segmentCount
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSegmentCount(int $segmentCount): self
     {
@@ -210,7 +210,7 @@ class Index
     /**
      * @param bool $current
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setCurrent(bool $current): self
     {
@@ -238,7 +238,7 @@ class Index
     /**
      * @param bool $hasDeletions
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setHasDeletions(bool $hasDeletions): self
     {
@@ -266,7 +266,7 @@ class Index
     /**
      * @param string $directory
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDirectory(string $directory): self
     {
@@ -286,7 +286,7 @@ class Index
     /**
      * @param string $segmentsFile
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSegmentsFile(string $segmentsFile): self
     {
@@ -306,7 +306,7 @@ class Index
     /**
      * @param int $segmentsFileSizeInBytes
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSegmentsFileSizeInBytes(int $segmentsFileSizeInBytes): self
     {
@@ -326,7 +326,7 @@ class Index
     /**
      * @param UserData $userData
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setUserData(UserData $userData): self
     {

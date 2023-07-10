@@ -91,7 +91,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param Type $type
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setType(Type &$type): self
     {
@@ -111,7 +111,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param FlagList $flags
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setFlags(FlagList $flags): self
     {
@@ -131,7 +131,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param bool|null $required
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setRequired(?bool $required): self
     {
@@ -159,7 +159,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param string|null $default
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDefault(?string $default): self
     {
@@ -179,7 +179,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param bool|null $uniqueKey
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setUniqueKey(?bool $uniqueKey): self
     {
@@ -207,7 +207,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param int|null $positionIncrementGap
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setPositionIncrementGap(?int $positionIncrementGap): self
     {
@@ -227,7 +227,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param CopyFieldDestInterface $copyDest
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function addCopyDest(CopyFieldDestInterface &$copyDest): self
     {
@@ -247,7 +247,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @param CopyFieldSourceInterface $copySource
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function addCopySource(CopyFieldSourceInterface &$copySource): self
     {

@@ -61,7 +61,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function addExclude(string $exclude)
+    public function addExclude(string $exclude): self
     {
         $this->getLocalParameters()->setExclude($exclude);
 
@@ -75,7 +75,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function addExcludes($excludes)
+    public function addExcludes($excludes): self
     {
         if (\is_string($excludes)) {
             $excludes = preg_split('/(?<!\\\\),/', $excludes);
@@ -95,7 +95,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function setExcludes($excludes)
+    public function setExcludes($excludes): self
     {
         $this->clearExcludes()->addExcludes($excludes);
 
@@ -109,7 +109,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeExclude(string $exclude)
+    public function removeExclude(string $exclude): self
     {
         $this->getLocalParameters()->removeExclude($exclude);
 
@@ -121,7 +121,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * @return self Provides fluent interface
      */
-    public function clearExcludes()
+    public function clearExcludes(): self
     {
         $this->getLocalParameters()->clearExcludes();
 
