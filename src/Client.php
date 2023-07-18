@@ -83,7 +83,7 @@ class Client extends CoreClient
      */
     public static function checkExact(string $version): bool
     {
-        return 0 === strpos(self::getVersion(), $version);
+        return str_starts_with(self::getVersion(), $version);
     }
 
     /**

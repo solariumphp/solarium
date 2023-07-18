@@ -289,7 +289,7 @@ class Request extends Configurable implements RequestParamsInterface
         if (\is_resource($file)) {
             $meta = stream_get_meta_data($file);
 
-            if (false === strpos($meta['mode'], 'r') && false === strpos($meta['mode'], '+')) {
+            if (!str_contains($meta['mode'], 'r') && !str_contains($meta['mode'], '+')) {
                 throw new RuntimeException(sprintf("Unable to read stream '%s' for upload", $meta['uri'] ?? $meta['stream_type']));
             }
         } elseif (!is_file($file) || !is_readable($file)) {
