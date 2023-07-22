@@ -24,6 +24,13 @@ class ConnectionReuseTest extends TestCase
     protected static $config;
 
     /**
+     * Are we running against the new v2 logging API that was tweaked for Solr 9.3 (SOLR-16458)?
+     *
+     * @var bool
+     */
+    protected static $isNewLoggingApi;
+
+    /**
      * Original org.eclipse.jetty.io.AbstractConnection log level to restore after the testcase.
      *
      * @var string
@@ -60,10 +67,21 @@ class ConnectionReuseTest extends TestCase
 
         self::$client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
+        // determine if we're running against a version of Solr that uses the tweaked v2 logging API (SOLR-16458)
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => 'admin/info/system',
+        ]);
+        $response = self::$client->execute($query);
+        $system = $response->getData();
+
+        $solrSpecVersion = $system['lucene']['solr-spec-version'];
+        self::$isNewLoggingApi = version_compare($solrSpecVersion, '9.3', '>=');
+
         // get the current log level to restore afterwards to avoid excessive logging in other testcases
         $query = self::$client->createApi([
             'version' => Request::API_V2,
-            'handler' => 'node/logging',
+            'handler' => self::$isNewLoggingApi ? 'node/logging/levels' : 'node/logging',
         ]);
         $result = self::$client->execute($query);
         $connectionLogger = array_values(array_filter(
@@ -75,31 +93,72 @@ class ConnectionReuseTest extends TestCase
         self::$origLogLevel = $connectionLogger['level'];
 
         // set the minimal log level that will provide us with enough information
-        $query = self::$client->createApi([
-            'version' => Request::API_V2,
-            'handler' => 'node/logging',
-        ]);
-        $query->addParam('set', 'org.eclipse.jetty.io.AbstractConnection:DEBUG');
-        $result = self::$client->execute($query);
-        self::assertTrue($result->getWasSuccessful());
+        if (self::$isNewLoggingApi) {
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging/levels',
+                'method' => Request::METHOD_PUT,
+                'contenttype' => Request::CONTENT_TYPE_APPLICATION_JSON,
+            ]);
+            $query->setRawData(json_encode(
+                [
+                    [
+                        'logger' => 'org.eclipse.jetty.io.AbstractConnection',
+                        'level' => 'DEBUG',
+                    ],
+                ]
+            ));
+            $result = self::$client->execute($query);
+            self::assertTrue($result->getWasSuccessful());
+        } else {
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging',
+            ]);
+            $query->addParam('set', 'org.eclipse.jetty.io.AbstractConnection:DEBUG');
+            $result = self::$client->execute($query);
+            self::assertTrue($result->getWasSuccessful());
+        }
 
         // get the current watcher threshold to restore afterwards
         $query = self::$client->createApi([
             'version' => Request::API_V2,
-            'handler' => 'node/logging',
+            'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
         ]);
         $query->addParam('since', self::$since);
         $result = self::$client->execute($query);
-        self::$origThreshold = $result->getData()['info']['threshold'];
+        self::$origThreshold = $result->getData()['info']['threshold'] ?? 'WARN';
 
         // set the watcher threshold to match the log level we need
+        if (self::$isNewLoggingApi) {
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging/messages/threshold',
+                'method' => Request::METHOD_PUT,
+                'contenttype' => Request::CONTENT_TYPE_APPLICATION_JSON,
+            ]);
+            $query->setRawData(json_encode(
+                [
+                    'level' => 'DEBUG',
+                ]
+            ));
+            self::$client->execute($query);
+        } else {
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging',
+            ]);
+            $query->addParam('since', self::$since);
+            $query->addParam('threshold', 'DEBUG');
+            self::$client->execute($query);
+        }
+
         // get the initial timestamp to use for retrieving the logging history
         $query = self::$client->createApi([
             'version' => Request::API_V2,
-            'handler' => 'node/logging',
+            'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
         ]);
         $query->addParam('since', self::$since);
-        $query->addParam('threshold', 'DEBUG');
         $result = self::$client->execute($query);
         self::$since = $result->getData()['info']['last'];
     }
@@ -107,14 +166,47 @@ class ConnectionReuseTest extends TestCase
     public static function tearDownAfterClass(): void
     {
         // restore the original log level and watcher threshold
-        $query = self::$client->createApi([
-            'version' => Request::API_V2,
-            'handler' => 'node/logging',
-        ]);
-        $query->addParam('set', sprintf('org.eclipse.jetty.io.AbstractConnection:%s', self::$origLogLevel));
-        $query->addParam('threshold', self::$origThreshold);
-        $result = self::$client->execute($query);
-        self::assertTrue($result->getWasSuccessful());
+        if (self::$isNewLoggingApi) {
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging/levels',
+                'method' => Request::METHOD_PUT,
+                'contenttype' => Request::CONTENT_TYPE_APPLICATION_JSON,
+            ]);
+            $query->setRawData(json_encode(
+                [
+                    [
+                        'logger' => 'org.eclipse.jetty.io.AbstractConnection',
+                        'level' => self::$origLogLevel,
+                    ],
+                ]
+            ));
+            $result = self::$client->execute($query);
+            self::assertTrue($result->getWasSuccessful());
+
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging/messages/threshold',
+                'method' => Request::METHOD_PUT,
+                'contenttype' => Request::CONTENT_TYPE_APPLICATION_JSON,
+            ]);
+            $query->setRawData(json_encode(
+                [
+                    'level' => self::$origThreshold,
+                ]
+            ));
+            $result = self::$client->execute($query);
+            self::assertTrue($result->getWasSuccessful());
+        } else {
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/logging',
+            ]);
+            $query->addParam('set', sprintf('org.eclipse.jetty.io.AbstractConnection:%s', self::$origLogLevel));
+            $query->addParam('threshold', self::$origThreshold);
+            $result = self::$client->execute($query);
+            self::assertTrue($result->getWasSuccessful());
+        }
     }
 
     /**
@@ -138,14 +230,14 @@ class ConnectionReuseTest extends TestCase
 
         $query = $client->createApi([
             'version' => Request::API_V2,
-            'handler' => 'node/logging',
+            'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
         ]);
         $query->addParam('since', self::$since);
         $result = $client->execute($query);
         $data = $result->getData();
         self::$since = $data['info']['last'];
 
-        $connections = $this->extractConnections($data['history']['docs']);
+        $connections = $this->extractConnections(self::$isNewLoggingApi ? $data['history'] : $data['history']['docs']);
 
         // The count is off-by-1 with an additional connection for one of the tests:
         // - the request for node/logging without reuse is included in the count without reuse in most tests in a workflow;

@@ -1927,8 +1927,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 ],
             ];
 
-            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat) {
-                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
+            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat && 9 > self::$solrVersion) {
+                // labelled single nested child documents can't be indexed in XML before Solr 9.3 (SOLR-16183)
                 unset($expected['single_child']);
             }
 
@@ -1995,8 +1995,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 ],
             ];
 
-            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat) {
-                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
+            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat && 9 > self::$solrVersion) {
+                // labelled single nested child documents can't be indexed in XML before Solr 9.3 (SOLR-16183)
                 unset($expected['single_child']);
             }
 
@@ -2039,8 +2039,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 ],
             ];
 
-            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat) {
-                // labelled single nested child documents can't be indexed in XML (SOLR-16183)
+            if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat && 9 > self::$solrVersion) {
+                // labelled single nested child documents can't be indexed in XML before Solr 9.3 (SOLR-16183)
                 unset($expected['single_child']);
             }
 
@@ -4374,7 +4374,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
-                'handler' => 'node/logging',
+                'handler' => 9 <= self::$solrVersion ? 'node/logging/levels' : 'node/logging',
             ]);
             $response = self::$client->execute($query);
             $this->assertArrayHasKey('levels', $response->getData());
