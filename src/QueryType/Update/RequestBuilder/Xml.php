@@ -305,8 +305,7 @@ class Xml extends AbstractRequestBuilder
             } else {
                 $xml .= '<doc';
                 if ('_childDocuments_' !== $key) {
-                    // labelled single nested child documents can't be indexed in XML, but
-                    // we aim for forward compatibility with the proposed syntax in SOLR-16183
+                    // labelled single nested child documents can be indexed in XML since Solr 9.3 (SOLR-16183)
                     $xml .= ' name="'.$key.'"';
                 }
                 $xml .= '>';

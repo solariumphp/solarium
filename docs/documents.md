@@ -223,7 +223,8 @@ $doc->reaction = $reaction;
 $doc->setField('reaction', $reaction);
 ```
 
-**Note:** You can't index a labelled single nested child document if you set the request format to XML. For more info see [known limitations](#known-limitations).
+**Note:** You can't index a labelled single nested child document with Solr versions before Solr 9.3 if you set the request format to XML.
+For more info see [known limitations](#known-limitations).
 
 #### Anonymous children
 
@@ -233,7 +234,8 @@ If you use `_childDocuments_` as the field name, the child documents are indexed
 
 Solarium issues JSON formatted update requests by default. If you change this to XML, some child document functionality isn't supported by Solr.
 
-- It's impossible to index a labelled single nested child document because of [SOLR-16183](https://issues.apache.org/jira/browse/SOLR-16183). Any child document you index this way will end up as an anonymous nested child.
+- It's impossible to index a labelled single nested child document with Solr versions before Solr 9.3. because of
+  [SOLR-16183](https://issues.apache.org/jira/browse/SOLR-16183). Any child document you index this way will end up as an anonymous nested child.
 - Atomic updates of child documents aren't fully supported because of [SOLR-12677](https://issues.apache.org/jira/browse/SOLR-12677).
 
 ### Atomic updates
