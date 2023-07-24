@@ -59,6 +59,11 @@ class Query extends AbstractServerQuery
     const ACTION_DELETESHARD = 'DELETESHARD';
 
     /**
+     * Install/Import Data to Shard.
+     */
+    const ACTION_INSTALLSHARDDATA = 'INSTALLSHARDDATA';
+
+    /**
      * Create or Modify an Alias for a Collection.
      */
     const ACTION_CREATEALIAS = 'CREATEALIAS';
@@ -218,6 +223,7 @@ class Query extends AbstractServerQuery
         self::ACTION_SPLITSHARD => 'Solarium\QueryType\Server\Collections\Query\Action\SplitShard',
         self::ACTION_CREATESHARD => 'Solarium\QueryType\Server\Collections\Query\Action\SplitShard',
         self::ACTION_DELETESHARD => 'Solarium\QueryType\Server\Collections\Query\Action\DeleteShard',
+        self::ACTION_INSTALLSHARDDATA => 'Solarium\QueryType\Server\Collections\Query\Action\InstallShardData',
         self::ACTION_CREATEALIAS => 'Solarium\QueryType\Server\Collections\Query\Action\CreateAlias',
         self::ACTION_LISTALIASES => 'Solarium\QueryType\Server\Collections\Query\Action\ListAliases',
         self::ACTION_ALIASPROP => 'Solarium\QueryType\Server\Collections\Query\Action\AliasProp',
