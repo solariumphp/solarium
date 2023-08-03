@@ -4,6 +4,7 @@ namespace Solarium\Tests\Component;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ReRankQuery;
+use Solarium\Exception\DomainException;
 use Solarium\QueryType\Select\Query\Query;
 
 class ReRankQueryTest extends TestCase
@@ -24,6 +25,8 @@ class ReRankQueryTest extends TestCase
             'query' => 'foo:bar',
             'docs' => 50,
             'weight' => '16.3161',
+            'scale' => '1-5',
+            'mainscale' => '0-1',
             'operator' => ReRankQuery::OPERATOR_MULTIPLY,
         ];
 
@@ -32,6 +35,8 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($options['query'], $this->reRankQuery->getQuery());
         $this->assertEquals($options['docs'], $this->reRankQuery->getDocs());
         $this->assertEquals($options['weight'], $this->reRankQuery->getWeight());
+        $this->assertEquals($options['scale'], $this->reRankQuery->getScale());
+        $this->assertEquals($options['mainscale'], $this->reRankQuery->getMainScale());
         $this->assertEquals($options['operator'], $this->reRankQuery->getOperator());
     }
 
@@ -84,11 +89,60 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($value, $this->reRankQuery->getWeight());
     }
 
+    public function testSetAndGetScale()
+    {
+        $value = '0-1';
+        $this->reRankQuery->setScale($value);
+
+        $this->assertEquals($value, $this->reRankQuery->getScale());
+    }
+
+    public function testSetInvalidScale()
+    {
+        $this->expectException(DomainException::class);
+        $this->reRankQuery->setScale('-1-0');
+    }
+
+    public function testSetAndGetMainScale()
+    {
+        $value = '1-10';
+        $this->reRankQuery->setMainScale($value);
+
+        $this->assertEquals($value, $this->reRankQuery->getMainScale());
+    }
+
+    public function testSetInvalidMainScale()
+    {
+        $this->expectException(DomainException::class);
+        $this->reRankQuery->setMainScale('a-z');
+    }
+
     public function testSetAndGetOperator()
     {
         $value = ReRankQuery::OPERATOR_REPLACE;
         $this->reRankQuery->setOperator($value);
 
         $this->assertEquals($value, $this->reRankQuery->getOperator());
+    }
+
+    /**
+     * @testWith ["0-1"]
+     *           ["1-10"]
+     */
+    public function testIsValidScale(string $value)
+    {
+        $this->assertTrue(ReRankQuery::isValidScale($value));
+    }
+
+    /**
+     * @testWith ["0--1"]
+     *           ["-1-0"]
+     *           ["1"]
+     *           ["a-z"]
+     *           [""]
+     */
+    public function testIsInvalidScale(string $value)
+    {
+        $this->assertFalse(ReRankQuery::isValidScale($value));
     }
 }
