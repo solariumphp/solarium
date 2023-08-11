@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Solarium\Component\ReRankQuery::setOperator()
+- Solarium\Component\ReRankQuery::setScale() and setMainScale()
 
 ### Fixed
 - MinimumScoreFilter can have a null value in a ValueGroupResult

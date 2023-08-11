@@ -19,6 +19,12 @@ $rerank->setQuery('popularity:10');
 // set the "boost factor"
 $rerank->setWeight(3);
 
+// set the scale for the rerank scores
+$rerank->setScale('0-1');
+
+// set the scale for the main query scores
+$rerank->setMainScale('0-1');
+
 // multiply the original score by the re-ranked score
 $rerank->setOperator($rerank::OPERATOR_MULTIPLY);
 
