@@ -88,7 +88,7 @@ Alternatively you can use any [PSR-14](https://www.php-fig.org/psr/psr-14/) comp
 ```json
 {
     "require": {
-        "solarium/solarium": "~6.4",
+        "solarium/solarium": "~6.3",
         "symfony/event-dispatcher": "^5.0 || ^6.0"
     }
 }
