@@ -16,7 +16,7 @@ class SpatialTest extends TestCase
 
         $component = new Component();
         $component->setField('geo');
-        $component->setDistance(50);
+        $component->setDistance(50.1415);
         $component->setPoint('48.2233,16.3161');
 
         $request = $builder->buildComponent($component, $request);
@@ -25,7 +25,7 @@ class SpatialTest extends TestCase
             [
                 'pt' => '48.2233,16.3161',
                 'sfield' => 'geo',
-                'd' => 50,
+                'd' => 50.1415,
             ],
             $request->getParams()
         );

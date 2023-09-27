@@ -22,7 +22,7 @@ class SpatialTest extends TestCase
     {
         $options = [
             'sfield' => 'geo',
-            'd' => 50,
+            'd' => 50.1415,
             'pt' => '48.2233,16.3161',
         ];
 
@@ -64,7 +64,7 @@ class SpatialTest extends TestCase
 
     public function testSetAndGetDistance()
     {
-        $value = 5;
+        $value = 5.9438;
         $this->spatial->setDistance($value);
 
         $this->assertEquals($value, $this->spatial->getDistance());
