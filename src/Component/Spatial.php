@@ -52,11 +52,11 @@ class Spatial extends AbstractComponent
     }
 
     /**
-     * @param int $distance
+     * @param float $distance
      *
      * @return self Provides fluent interface
      */
-    public function setDistance(int $distance): self
+    public function setDistance(float $distance): self
     {
         $this->setOption('d', $distance);
 
@@ -89,9 +89,9 @@ class Spatial extends AbstractComponent
     /**
      * Get d option.
      *
-     * @return int|null
+     * @return float|null
      */
-    public function getDistance(): ?int
+    public function getDistance(): ?float
     {
         return $this->getOption('d');
     }
