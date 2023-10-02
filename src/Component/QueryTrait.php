@@ -24,7 +24,7 @@ trait QueryTrait
      *
      * @return self Provides fluent interface
      */
-    public function setQuery(string $query, array $bind = null): self
+    public function setQuery(string $query, array $bind = null): QueryInterface
     {
         if (null !== $bind) {
             $helper = $this->getHelper();

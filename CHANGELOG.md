@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Spatial component distance type changed from int to float
+- Revert return type for Solarium\Component\QueryTrait::setQuery() from `self` to `QueryInterface` for backward compatibility with custom query classes that override this method
+
 
 ## [6.3.2]
 ### Added
