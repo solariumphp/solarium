@@ -35,7 +35,7 @@ class HttpTest extends TestCase
 
         /** @var Http|MockObject $mock */
         $mock = $this->getMockBuilder(Http::class)
-            ->onlyMethods(['getData', 'check'])
+            ->onlyMethods(['getData'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -48,39 +48,22 @@ class HttpTest extends TestCase
 
     public function testExecuteErrorResponse()
     {
-        $data = 'test123';
-
         $request = new Request();
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
         /** @var Http|MockObject $mock */
         $mock = $this->getMockBuilder(Http::class)
-            ->onlyMethods(['getData', 'check'])
+            ->onlyMethods(['getData'])
             ->getMock();
 
         $mock->expects($this->once())
              ->method('getData')
              ->with($this->equalTo('http://127.0.0.1:8983/solr/'), $this->isType('resource'))
-             ->willReturn([$data, ['HTTP 1.1 200 OK']]);
-        $mock->expects($this->once())
-             ->method('check')
-             ->will($this->throwException(new HttpException('HTTP request failed')));
+             ->willReturn([false, []]);
 
         $this->expectException(HttpException::class);
         $mock->execute($request, $endpoint);
-    }
-
-    public function testCheckError()
-    {
-        $this->expectException(HttpException::class);
-        $this->adapter->check(false, []);
-    }
-
-    public function testCheckOk()
-    {
-        $this->expectNotToPerformAssertions();
-        $this->adapter->check('dummydata', ['HTTP 1.1 200 OK']);
     }
 
     public function testCreateContextGetRequest()

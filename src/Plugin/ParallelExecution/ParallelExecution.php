@@ -167,6 +167,10 @@ class ParallelExecution extends AbstractPlugin
             } while (CURLM_CALL_MULTI_PERFORM === $mrc);
         }
 
+        while (false !== curl_multi_info_read($multiHandle)) {
+            // ↑ this loops over messages from the individual transfers so we can get curl_errno() for each handle
+        }
+
         $event = new ExecuteEndEvent();
         $this->client->getEventDispatcher()->dispatch($event);
 
