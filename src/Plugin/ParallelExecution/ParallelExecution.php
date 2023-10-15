@@ -19,6 +19,7 @@ use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Query\Result\Result;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
@@ -105,7 +106,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @throws RuntimeException
      *
-     * @return \Solarium\Core\Query\Result\Result[]
+     * @return (Result|HttpException)[]
      */
     public function execute(): array
     {
