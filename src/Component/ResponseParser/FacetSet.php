@@ -39,13 +39,14 @@ use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Parse select component FacetSet result from the data.
  */
 class FacetSet extends ResponseParserAbstract implements ComponentParserInterface
 {
+    use NormalizeParsedJsonStatsTrait;
+
     /**
      * Parse result data into result objects.
      *
@@ -117,7 +118,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     $result = $this->facetRange($query, $facet, $data);
                     break;
                 case FacetSetInterface::FACET_PIVOT:
-                    $result = $this->facetPivot($facet, $data);
+                    $result = $this->facetPivot($query, $facet, $data);
                     break;
                 case FacetSetInterface::FACET_INTERVAL:
                     $result = $this->facetInterval($facet, $data);
@@ -300,7 +301,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a range facet.
      *
-     * @param Query           $query
+     * @param AbstractQuery   $query
      * @param QueryFacetRange $facet
      * @param array           $data
      *
@@ -371,12 +372,13 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
     /**
      * Add a facet result for a range facet.
      *
+     * @param AbstractQuery  $query
      * @param FacetInterface $facet
      * @param array          $data
      *
      * @return ResultFacetPivot|null
      */
-    protected function facetPivot(FacetInterface $facet, array $data): ?ResultFacetPivot
+    protected function facetPivot(AbstractQuery $query, FacetInterface $facet, array $data): ?ResultFacetPivot
     {
         $key = $facet->getKey();
 
@@ -387,7 +389,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         $facetPivot = new ResultFacetPivot($data['facet_counts']['facet_pivot'][$key]);
 
         foreach ($facetPivot->getPivot() as $pivot) {
-            $this->pivotStats($pivot);
+            $this->pivotStats($query, $pivot);
         }
 
         return $facetPivot;
@@ -398,20 +400,27 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
      *
      * @param PivotItem $pivotItem
      */
-    protected function pivotStats(PivotItem $pivotItem): void
+    protected function pivotStats(AbstractQuery $query, PivotItem $pivotItem): void
     {
         foreach ($pivotItem->getPivot() as $pivot) {
-            $this->pivotStats($pivot);
+            $this->pivotStats($query, $pivot);
         }
 
         if (null !== $stats = $pivotItem->getStats()) {
             foreach ($stats->getResults() as $key => $result) {
-                if ($result instanceof Result || false === \is_array($result)) {
+                if ('stats_fields' !== $key) {
                     continue;
                 }
 
+                // remove unparsed results
+                $stats->removeResult($key);
+
                 foreach ($result as $field => $values) {
-                    $stats->setResult($key, new Result($field, $values));
+                    if ($query->getResponseWriter() === $query::WT_JSON) {
+                        $values = $this->normalizeParsedJsonStats($values);
+                    }
+
+                    $stats->setResult($field, new Result($field, $values));
                 }
             }
         }

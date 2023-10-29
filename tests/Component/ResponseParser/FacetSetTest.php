@@ -510,6 +510,9 @@ class FacetSetTest extends TestCase
                                                 'min' => 74.98,
                                                 'max' => 399.0,
                                             ],
+                                            'popularity' => [
+                                                'mean' => 'NaN',
+                                            ],
                                         ],
                                     ],
                                     'pivot' => [
@@ -523,6 +526,9 @@ class FacetSetTest extends TestCase
                                                         'min' => 128.98,
                                                         'max' => 240.65,
                                                     ],
+                                                    'popularity' => [
+                                                        'mean' => 4.2,
+                                                    ],
                                                 ],
                                             ],
                                         ],
@@ -534,6 +540,15 @@ class FacetSetTest extends TestCase
                                     'price' => [
                                         'min' => 12.32,
                                         'max' => 1024.20,
+                                    ],
+                                    'popularity' => [
+                                        'mean' => 2.7,
+                                        'percentiles' => [
+                                            '50.0',
+                                            3.14,
+                                            '90.0',
+                                            42.0,
+                                        ],
                                     ],
                                 ],
                             ],
@@ -547,15 +562,82 @@ class FacetSetTest extends TestCase
         $facetSet->setExtractFromResponse(true);
 
         $result = $this->parser->parse($this->query, $facetSet, $data);
-        $pivot = $result->getFacets()[$key];
+        $pivot = $result->getFacet($key);
+
+        $first = $pivot->getPivot()[0];
+        $this->assertContainsOnlyInstancesOf(Result::class, $first->getStats()->getResults());
+        $this->assertSame(12.32, $first->getStats()->getResult('price')->getMin());
+        $this->assertSame(1024.20, $first->getStats()->getResult('price')->getMax());
+        $this->assertSame(2.7, $first->getStats()->getResult('popularity')->getMean());
+
+        $expectedPercentiles = [
+            '50.0' => 3.14,
+            '90.0' => 42.0,
+        ];
+        $this->assertSame($expectedPercentiles, $first->getStats()->getResult('popularity')->getPercentiles());
+
+        $second = $first->getPivot()[0];
+        $this->assertContainsOnlyInstancesOf(Result::class, $second->getStats()->getResults());
+        $this->assertSame(74.98, $second->getStats()->getResult('price')->getMin());
+        $this->assertSame(399.0, $second->getStats()->getResult('price')->getMax());
+        $this->assertNan($second->getStats()->getResult('popularity')->getMean());
+
+        $third = $second->getPivot()[0];
+        $this->assertContainsOnlyInstancesOf(Result::class, $third->getStats()->getResults());
+        $this->assertSame(4.2, $third->getStats()->getResult('popularity')->getMean());
+    }
+
+    public function testParseFacetPivotStatsWithFieldNamedStatsFields(): void
+    {
+        $key = 'cat,country';
+
+        $data = [
+            'facet_counts' => [
+                'facet_pivot' => [
+                    $key => [
+                        [
+                            'field' => 'cat',
+                            'value' => 'electronics',
+                            'count' => 12,
+                            'pivot' => [
+                                [
+                                    'field' => 'country',
+                                    'value' => 'nl',
+                                    'count' => 8,
+                                    'stats' => [
+                                        'stats_fields' => [
+                                            'stats_fields' => [
+                                                'min' => 74.98,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'stats' => [
+                                'stats_fields' => [
+                                    'stats_fields' => [
+                                        'min' => 12.32,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $facetSet = new FacetSet();
+        $facetSet->setExtractFromResponse(true);
+
+        $result = $this->parser->parse($this->query, $facetSet, $data);
+        $pivot = $result->getFacet($key);
 
         $first = $pivot->getPivot()[0];
         $this->assertInstanceOf(Result::class, $first->getStats()->getResult('stats_fields'));
+        $this->assertSame(12.32, $first->getStats()->getResult('stats_fields')->getMin());
 
         $second = $first->getPivot()[0];
         $this->assertInstanceOf(Result::class, $second->getStats()->getResult('stats_fields'));
-
-        $third = $first->getPivot()[0];
-        $this->assertInstanceOf(Result::class, $third->getStats()->getResult('stats_fields'));
+        $this->assertSame(74.98, $second->getStats()->getResult('stats_fields')->getMin());
     }
 }
