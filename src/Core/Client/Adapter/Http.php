@@ -39,26 +39,12 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
 
         list($data, $headers) = $this->getData($uri, $context);
 
-        $this->check($data, $headers);
-
-        return new Response($data, $headers);
-    }
-
-    /**
-     * Check result of a request.
-     *
-     * @param string $data
-     * @param array  $headers
-     *
-     * @throws HttpException
-     */
-    public function check($data, $headers): void
-    {
-        // if there is no data and there are no headers it's a total failure,
-        // a connection to the host was impossible.
-        if (false === $data && 0 === \count($headers)) {
+        // if false instead of response data it's a total failure
+        if (false === $data) {
             throw new HttpException('HTTP request failed');
         }
+
+        return new Response($data, $headers);
     }
 
     /**
@@ -171,7 +157,7 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
      *
      * @return array
      */
-    protected function getData($uri, $context)
+    protected function getData(string $uri, $context): array
     {
         $data = @file_get_contents($uri, false, $context);
 
