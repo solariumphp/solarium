@@ -37,6 +37,7 @@ use Solarium\Plugin\BufferedDelete\Event\Events as BufferedDeleteEvents;
 use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as LoadbalancerEndpointFailureEvent;
 use Solarium\Plugin\Loadbalancer\Event\Events as LoadbalancerEvents;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
+use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\Luke\Query as LukeQuery;
 use Solarium\QueryType\Luke\Result\Doc\DocFieldInfo as LukeDocFieldInfo;
@@ -3690,6 +3691,12 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
         );
 
+        $invalidEndpointConfig = self::$config['endpoint']['localhost'];
+        $invalidEndpointConfig['host'] = 'server.invalid';
+        $invalidEndpointConfig['key'] = 'invalid';
+        $invalidEndpoint = self::$client->createEndpoint($invalidEndpointConfig);
+
+        /** @var ParallelExecution $parallel */
         $parallel = self::$client->getPlugin('parallelexecution');
         $parallel->addQuery('instock', $queryInStock);
         $parallel->addQuery('lowprice', $queryLowPrice);
@@ -3697,6 +3704,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $parallel->addQuery('overrideresult', $queryOverrideResult);
         $parallel->addQuery('overrideresponse', $queryOverrideResponse);
         $parallel->addQuery('error', $queryError);
+        $parallel->addQuery('endpointfailure', $queryInStock, $invalidEndpoint);
         $parallel->addQuery('server', $serverQuery);
         $results = $parallel->execute();
 
@@ -3708,6 +3716,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             'overrideresult',
             'overrideresponse',
             'error',
+            'endpointfailure',
             'server',
         ];
         $this->assertSame($expectedKeys, array_keys($results));
@@ -3718,6 +3727,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertEquals($resultOverrideResult, $results['overrideresult']);
         $this->assertEquals($resultOverrideResponse, $results['overrideresponse']);
         $this->assertInstanceOf(HttpException::class, $results['error']);
+        $this->assertInstanceOf(HttpException::class, $results['endpointfailure']);
+        $this->assertStringContainsString('HTTP request failed, ', $results['endpointfailure']->getMessage());
         $this->assertEquals($serverResult, $results['server']);
 
         // cleanup
@@ -3725,6 +3736,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE_REQUEST, $overrideResponse);
         self::$client->removePlugin('parallelexecution');
         self::$client->removePlugin('postbigrequest');
+        self::$client->removeEndpoint('invalid');
     }
 
     public function testPrefetchIterator()

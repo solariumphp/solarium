@@ -198,7 +198,6 @@ If your application does many Solr requests during a single PHP process, conside
 Below example registers such a PSR-18 Client with a timeout of 120 seconds.
 
 ```sh
-composer require psr/http-client
 composer require nyholm/psr7
 composer require symfony/http-client
 ```

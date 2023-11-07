@@ -126,6 +126,8 @@ Those that extend their SPL counterparts do so to implement the marker interface
 
 This exception indicates that a problem occurred in the communication with the Solr server. You should catch this (or a more generic exception) for every request that is executed.
 
+When using the [ParallelExecution plugin](plugins.md#parallelexecution-plugin), this exception isn't thrown. Instead it's added to the result array and you have to check the type in your code.
+
 
 #### `StreamException`
 
