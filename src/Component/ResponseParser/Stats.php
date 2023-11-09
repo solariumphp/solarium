@@ -24,6 +24,8 @@ use Solarium\QueryType\Select\Query\Query;
  */
 class Stats extends ResponseParserAbstract implements ComponentParserInterface
 {
+    use NormalizeParsedJsonStatsTrait;
+
     /**
      * Parse result data into result objects.
      *
@@ -49,7 +51,7 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
                     foreach ($stats['facets'] as $facetField => $values) {
                         foreach ($values as $value => $valueStats) {
                             if ($query->getResponseWriter() === $query::WT_JSON) {
-                                $valueStats = $this->normalizeParsedJsonValues($valueStats);
+                                $valueStats = $this->normalizeParsedJsonStats($valueStats);
                             }
 
                             $stats['facets'][$facetField][$value] = new ResultStatsFacetValue($value, $valueStats);
@@ -58,7 +60,7 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
                 }
 
                 if ($query->getResponseWriter() === $query::WT_JSON) {
-                    $stats = $this->normalizeParsedJsonValues($stats);
+                    $stats = $this->normalizeParsedJsonStats($stats);
                 }
 
                 $results[$field] = new ResultStatsResult($field, $stats);
@@ -66,28 +68,5 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
         }
 
         return new ResultStats($results);
-    }
-
-    /**
-     * Normalize values that were parsed from JSON.
-     *
-     * - Convert string 'NaN' to float NAN for mean.
-     * - Convert percentiles to associative array.
-     *
-     * @param array $stats
-     *
-     * @return array
-     */
-    protected function normalizeParsedJsonValues(array $stats): array
-    {
-        if (isset($stats['mean']) && 'NaN' === $stats['mean']) {
-            $stats['mean'] = NAN;
-        }
-
-        if (isset($stats['percentiles'])) {
-            $stats['percentiles'] = $this->convertToKeyValueArray($stats['percentiles']);
-        }
-
-        return $stats;
     }
 }

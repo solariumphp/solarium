@@ -17,14 +17,14 @@ class Stats implements \IteratorAggregate, \Countable
     /**
      * Result array.
      *
-     * @var array
+     * @var Result[]
      */
     protected $results;
 
     /**
      * Constructor.
      *
-     * @param array $results
+     * @param Result[] $results
      */
     public function __construct(array $results)
     {
@@ -44,14 +44,28 @@ class Stats implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param string                                  $key
-     * @param \Solarium\Component\Result\Stats\Result $result
+     * @param string $key
+     * @param Result $result
      *
      * @return $this
      */
     public function setResult(string $key, Result $result): self
     {
         $this->results[$key] = $result;
+
+        return $this;
+    }
+
+    /**
+     * Remove a result.
+     *
+     * @param string $key
+     *
+     * @return $this
+     */
+    public function removeResult(string $key): self
+    {
+        unset($this->results[$key]);
 
         return $this;
     }

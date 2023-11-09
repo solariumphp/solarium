@@ -8,6 +8,7 @@ use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\QueryInterface;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
+use Solarium\Component\Result\Facet\Pivot\PivotItem;
 use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
@@ -631,6 +632,39 @@ abstract class AbstractTechproductsTestCase extends TestCase
             // The power cord is not in stock! In the techproducts example that is reflected by the string 'false'.
             $this->assertSame(1, $facetField->getValues()['false']);
         }
+    }
+
+    /**
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/faceting.html#combining-stats-component-with-pivots
+     */
+    public function testFacetPivotsWithStatsComponent()
+    {
+        $select = self::$client->createSelect();
+
+        $facetSet = $select->getFacetSet();
+        $facet = $facetSet->createFacetPivot('piv1');
+        $facet->addFields('{!stats=piv1}cat');
+
+        $stats = $select->getStats();
+        $stats->createField('{!tag=piv1 sum=true percentiles="1,10,90,99"}price');
+        $stats->createField('{!tag=piv1 min=true max=true mean=true}popularity');
+
+        $result = self::$client->select($select);
+        /** @var PivotItem $pivotItem */
+        $pivotItem = $result->getFacetSet()->getFacet('piv1')->getPivot()[0];
+        $pivotStats = $pivotItem->getStats();
+        $this->assertCount(2, $pivotStats->getResults());
+
+        $result1 = $pivotStats->getResult('price');
+        $this->assertSame('price', $result1->getName());
+        $this->assertIsFloat($result1->getSum());
+        $this->assertSame(['1.0', '10.0', '90.0', '99.0'], array_keys($result1->getPercentiles()));
+
+        $result2 = $pivotStats->getResult('popularity');
+        $this->assertSame('popularity', $result2->getName());
+        $this->assertSame(0.0, $result2->getMin());
+        $this->assertSame(10.0, $result2->getMax());
+        $this->assertSame(5.25, $result2->getMean());
     }
 
     /**
