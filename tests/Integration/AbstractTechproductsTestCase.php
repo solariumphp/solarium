@@ -286,7 +286,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      */
     public function testEscapes(string $requestFormat)
     {
-        $escapeChars = [' ', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', '\\'];
+        $escapeChars = [' ', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', '\\', "\n", "\t", "\r", "\r\n"];
         $cat = [implode('', $escapeChars)];
 
         foreach ($escapeChars as $char) {
@@ -318,6 +318,18 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
             // as phrase
             $select->setQuery('cat:%P1%', ['a'.$char.'b']);
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result, $msg = sprintf('Failure with phrase containing \'%s\'.', $char));
+            $this->assertSame('solarium-test-escapes', $result->getIterator()->current()->getFields()['id'], $msg);
+            
+            // as filter over escapeTerm helper
+            $select->createFilterQuery('filter_cat')->setQuery('cat:' . $select->getHelper()->escapeTerm('a'.$char.'b'));
+            $result = self::$client->select($select);
+            $this->assertCount(1, $result, $msg = sprintf('Failure with term containing \'%s\'.', $char));
+            $this->assertSame('solarium-test-escapes', $result->getIterator()->current()->getFields()['id'], $msg);
+
+            // as filter over escapePhrase helper
+            $select->createFilterQuery('filter_cat')->setQuery('cat:' . $select->getHelper()->escapePhrase('a'.$char.'b'));
             $result = self::$client->select($select);
             $this->assertCount(1, $result, $msg = sprintf('Failure with phrase containing \'%s\'.', $char));
             $this->assertSame('solarium-test-escapes', $result->getIterator()->current()->getFields()['id'], $msg);
