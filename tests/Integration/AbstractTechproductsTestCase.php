@@ -321,7 +321,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $result = self::$client->select($select);
             $this->assertCount(1, $result, $msg = sprintf('Failure with phrase containing \'%s\'.', $char));
             $this->assertSame('solarium-test-escapes', $result->getIterator()->current()->getFields()['id'], $msg);
-            
+
             // as filter over escapeTerm helper
             $select->createFilterQuery('filter_cat')->setQuery('cat:'.$select->getHelper()->escapeTerm('a'.$char.'b'));
             $result = self::$client->select($select);
