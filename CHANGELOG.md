@@ -5,11 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Solarium\QueryType\Server\Api\Result::getWarning()
+
 ### Fixed
 - ParallelExecution adds a HttpException instead of an empty Result in case of an endpoint failure
 - Facet pivot stats contain all fields (previously only the last field was present in the result)
 - Facet pivot stats return `NAN` for a mean value that's NaN
 - Facet pivot stats return an associative array for percentiles
+- PHP 8.2 deprecation for V1 Config/V2 Introspect API results
 
 ### Changed
 - Facet pivot stats results use the field name instead of `'stats_fields'` as array key
