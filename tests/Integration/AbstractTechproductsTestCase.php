@@ -340,7 +340,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      */
     public function testPhraseQuery(string $requestFormat)
     {
-        $phrase = "^The 17\" O'Conner && O`Series \n OR a || 1%2 \r\n book? \r \twhat \\ text // ok? end$";
+        $phrase = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$";
 
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
