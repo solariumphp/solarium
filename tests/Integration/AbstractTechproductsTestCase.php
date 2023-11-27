@@ -303,6 +303,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update->addCommit(true, true);
         self::$client->update($update);
 
+        // check if stored correctly in index
         $select = self::$client->createSelect();
         $select->setQuery('id:%T1%', ['solarium-test-escapes']);
         $result = self::$client->select($select);
@@ -328,6 +329,62 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update->addCommit(true, true);
         self::$client->update($update);
         $select->setQuery('id:solarium-test-escapes');
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
+    /**
+     * @see https://github.com/solariumphp/solarium/issues/1104
+     *
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testPhraseQuery(string $requestFormat)
+    {
+        $phrase = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$";
+
+        $update = self::$client->createUpdate();
+        $update->setRequestFormat($requestFormat);
+        $doc = $update->createDocument();
+        $doc->setField('id', 'solarium-test-phrase');
+        $doc->setField('name', 'Solarium Test Phrase Query');
+        $doc->setField('cat', [$phrase]);
+        $update->addDocument($doc);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+
+        if ($update::REQUEST_FORMAT_XML === $requestFormat) {
+            /*
+             * Per https://www.w3.org/TR/REC-xml/#sec-line-ends line breaks are normalized
+             *
+             *      [...] by translating both the two-character sequence #xD #xA and
+             *      any #xD that is not followed by #xA to a single #xA character.
+             */
+            $phrase = str_replace(["\r\n", "\r"], ["\n", "\n"], $phrase);
+        }
+
+        // check if stored correctly in index
+        $select = self::$client->createSelect();
+        $select->setQuery('id:solarium-test-phrase');
+        $result = self::$client->select($select);
+        $this->assertSame([$phrase], $result->getIterator()->current()->getFields()['cat']);
+
+        // as term
+        $select->setQuery('cat:%T1%', [$phrase]);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame('solarium-test-phrase', $result->getIterator()->current()->getFields()['id']);
+
+        // as phrase
+        $select->setQuery('cat:%P1%', [$phrase]);
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $this->assertSame('solarium-test-phrase', $result->getIterator()->current()->getFields()['id']);
+
+        // cleanup
+        $update->addDeleteQuery('cat:%P1%', [$phrase]);
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $select->setQuery('id:solarium-test-phrase');
         $result = self::$client->select($select);
         $this->assertCount(0, $result);
     }
