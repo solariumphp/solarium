@@ -4486,6 +4486,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $response = self::$client->execute($query);
             $this->assertArrayHasKey('levels', $response->getData());
             $this->assertArrayHasKey('loggers', $response->getData());
+
+            $query = self::$client->createApi([
+                'version' => Request::API_V2,
+                'handler' => 'node/_introspect',
+            ]);
+            $response = self::$client->execute($query);
+            $this->assertSame('This response format is experimental.  It is likely to change in the future.', $response->getWarning());
         } else {
             $this->markTestSkipped('V2 API requires Solr 7.');
         }
