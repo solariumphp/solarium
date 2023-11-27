@@ -12,7 +12,6 @@ namespace Solarium\QueryType\Server\Api;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
-use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 
 /**
  * Parse API response data.
