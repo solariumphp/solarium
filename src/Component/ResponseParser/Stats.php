@@ -50,7 +50,7 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
                 if (isset($stats['facets'])) {
                     foreach ($stats['facets'] as $facetField => $values) {
                         foreach ($values as $value => $valueStats) {
-                            if ($query->getResponseWriter() === $query::WT_JSON) {
+                            if ($query::WT_JSON === $query->getResponseWriter()) {
                                 $valueStats = $this->normalizeParsedJsonStats($valueStats);
                             }
 
@@ -59,7 +59,7 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
                     }
                 }
 
-                if ($query->getResponseWriter() === $query::WT_JSON) {
+                if ($query::WT_JSON === $query->getResponseWriter()) {
                     $stats = $this->normalizeParsedJsonStats($stats);
                 }
 
