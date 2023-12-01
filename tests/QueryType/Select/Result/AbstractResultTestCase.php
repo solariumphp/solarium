@@ -40,6 +40,8 @@ abstract class AbstractResultTestCase extends TestCase
 
     protected $analytics;
 
+    protected $termVector;
+
     public function setUp(): void
     {
         $this->numFound = 11;
@@ -60,6 +62,7 @@ abstract class AbstractResultTestCase extends TestCase
         $this->stats = null;
         $this->debug = null;
         $this->analytics = null;
+        $this->termVector = null;
 
         $this->components = [
             ComponentAwareQueryInterface::COMPONENT_FACETSET => $this->facetSet,
@@ -71,6 +74,7 @@ abstract class AbstractResultTestCase extends TestCase
             ComponentAwareQueryInterface::COMPONENT_STATS => $this->stats,
             ComponentAwareQueryInterface::COMPONENT_DEBUG => $this->debug,
             ComponentAwareQueryInterface::COMPONENT_ANALYTICS => $this->analytics,
+            ComponentAwareQueryInterface::COMPONENT_TERMVECTOR => $this->termVector,
         ];
 
         $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
@@ -182,6 +186,14 @@ abstract class AbstractResultTestCase extends TestCase
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_ANALYTICS],
             $this->result->getAnalytics()
+        );
+    }
+
+    public function testGetTermVector()
+    {
+        $this->assertSame(
+            $this->components[ComponentAwareQueryInterface::COMPONENT_TERMVECTOR],
+            $this->result->getTermVector()
         );
     }
 

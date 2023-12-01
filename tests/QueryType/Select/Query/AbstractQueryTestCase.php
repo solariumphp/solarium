@@ -652,6 +652,16 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
+    public function testGetTermVector()
+    {
+        $termVector = $this->query->getTermVector();
+
+        $this->assertSame(
+            'Solarium\Component\TermVector',
+            \get_class($termVector)
+        );
+    }
+
     public function testGetDistributedSearch()
     {
         $spellcheck = $this->query->getDistributedSearch();

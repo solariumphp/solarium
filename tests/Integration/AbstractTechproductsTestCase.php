@@ -1495,6 +1495,61 @@ abstract class AbstractTechproductsTestCase extends TestCase
     }
 
     /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testTermVectorComponent(string $responseWriter)
+    {
+        $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
+        $select->setHandler('tvrh');
+        $select->setQuery($select->getHelper()->rangeQuery('includes', null, null));
+        $select->addField('[docid]');
+        // we want this to be the first document so we can easily get its [docid]
+        $select->setSorts(['eq(id, "9885A004")' => $select::SORT_DESC]);
+
+        $termVectorComponent = $select->getTermVector();
+        $termVectorComponent->setFields('includes');
+        $termVectorComponent->setAll(true);
+
+        $result = self::$client->select($select);
+        $termVector = $result->getTermVector();
+        $warnings = $termVector->getWarnings();
+        $document = $termVector->getDocument('9885A004');
+        $field = $document->getField('includes');
+        $term = $field->getTerm('cable');
+
+        $this->assertCount(\count($result), $termVector);
+        $this->assertSame(['includes'], $warnings->getNoPayloads());
+        $this->assertNotNull($document);
+        $this->assertSame('9885A004', $document->getUniqueKey());
+        $this->assertNotNull($field);
+        $this->assertSame('includes', $field->getName());
+        $this->assertNotNull($term);
+        $this->assertSame('cable', $term->getTerm());
+        $this->assertSame(2, $term->getTermFrequency());
+        $this->assertSame([4, 6], $term->getPositions());
+        $this->assertSame([['start' => 18, 'end' => 23], ['start' => 28, 'end' => 33]], $term->getOffsets());
+        $this->assertNull($term->getPayloads());
+
+        // distributed document and term statistics can introduce inaccuracies
+        if ($this instanceof AbstractServerTestCase) {
+            $this->assertSame(3, $term->getDocumentFrequency());
+            $this->assertSame(2 / 3, $term->getTermFreqInverseDocFreq());
+        }
+
+        // we would need to know which shard to query in SolrCloud
+        if ($this instanceof AbstractServerTestCase) {
+            $termVectorComponent->setDocIds([$result->getDocuments()[0]['[docid]']]);
+
+            $result = self::$client->select($select);
+            $termVector = $result->getTermVector();
+
+            $this->assertCount(1, $termVector);
+            $this->assertEquals($document, $termVector['9885A004']);
+        }
+    }
+
+    /**
      * @dataProvider crossRequestFormatResponseWriterProvider
      */
     public function testUpdate(string $requestFormat, string $responseWriter)

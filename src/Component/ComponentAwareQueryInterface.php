@@ -82,6 +82,11 @@ interface ComponentAwareQueryInterface
     const COMPONENT_TERMS = 'terms';
 
     /**
+     * Query component term vector.
+     */
+    const COMPONENT_TERMVECTOR = 'termvector';
+
+    /**
      * Query component queryelevation.
      */
     const COMPONENT_QUERYELEVATION = 'queryelevation';

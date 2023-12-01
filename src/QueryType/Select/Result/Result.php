@@ -19,6 +19,7 @@ use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
 use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
 use Solarium\Component\Result\Stats\Stats;
 use Solarium\Component\Result\Suggester\Result as SuggesterResult;
+use Solarium\Component\Result\TermVector\Result as TermVectorResult;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
@@ -298,5 +299,17 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getAnalytics(): ?AnalyticsResult
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_ANALYTICS);
+    }
+
+    /**
+     * Get term vector component result.
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return TermVectorResult|null
+     */
+    public function getTermVector(): ?TermVectorResult
+    {
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMVECTOR);
     }
 }
