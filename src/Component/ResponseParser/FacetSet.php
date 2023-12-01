@@ -245,7 +245,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
             return null;
         }
 
-        if ($query->getResponseWriter() === $query::WT_JSON) {
+        if ($query::WT_JSON === $query->getResponseWriter()) {
             $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray(
                 $data['facet_counts']['facet_fields'][$key]
             );
@@ -344,7 +344,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
         $end = $data['end'] ?? null;
         $gap = $data['gap'] ?? null;
 
-        if ($query->getResponseWriter() === $query::WT_JSON) {
+        if ($query::WT_JSON === $query->getResponseWriter()) {
             $data['counts'] = $this->convertToKeyValueArray($data['counts']);
         }
 
@@ -416,7 +416,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                 $stats->removeResult($key);
 
                 foreach ($result as $field => $values) {
-                    if ($query->getResponseWriter() === $query::WT_JSON) {
+                    if ($query::WT_JSON === $query->getResponseWriter()) {
                         $values = $this->normalizeParsedJsonStats($values);
                     }
 

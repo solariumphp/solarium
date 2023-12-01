@@ -32,6 +32,7 @@
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
         "phpunit/phpunit": "^9.6",
+        "rawr/phpunit-data-provider": "^3.3",
         "roave/security-advisories": "dev-master",
         "symfony/event-dispatcher": "^5.0 || ^6.0"
     },

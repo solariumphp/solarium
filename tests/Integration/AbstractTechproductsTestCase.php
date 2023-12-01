@@ -64,6 +64,7 @@ use Solarium\Tests\Integration\Query\CustomQueryInterfaceQuery;
 use Solarium\Tests\Integration\Query\CustomSelfQuery;
 use Solarium\Tests\Integration\Query\CustomStaticQuery;
 use Symfony\Contracts\EventDispatcher\Event;
+use TRegx\PhpUnit\DataProviders\DataProvider;
 
 abstract class AbstractTechproductsTestCase extends TestCase
 {
@@ -207,8 +208,20 @@ abstract class AbstractTechproductsTestCase extends TestCase
     }
 
     /**
+     * This data provider can be used to test functional equivalence in parsing results
+     * from the same queries with different response writers.
+     */
+    public function responseWriterProvider(): array
+    {
+        return [
+            [AbstractQuery::WT_JSON],
+            [AbstractQuery::WT_PHPS],
+        ];
+    }
+
+    /**
      * This data provider should be used by all UpdateQuery tests that don't test request
-     * format specific Commands to ensure functional equivalance between the formats.
+     * format specific Commands to ensure functional equivalence between the formats.
      */
     public function updateRequestFormatProvider(): array
     {
@@ -218,9 +231,25 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ];
     }
 
-    public function testPing()
+    /**
+     * This data provider crosses {@see updateRequestFormatProvider()} with
+     * {@see responseWriterProvider()}.
+     */
+    public function crossRequestFormatResponseWriterProvider(): DataProvider
+    {
+        return DataProvider::cross(
+            $this->updateRequestFormatProvider(),
+            $this->responseWriterProvider(),
+        );
+    }
+
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testPing(string $responseWriter)
     {
         $ping = self::$client->createPing();
+        $ping->setResponseWriter($responseWriter);
         $result = self::$client->ping($ping);
         $this->assertSame(0, $result->getStatus());
         $this->assertSame('OK', $result->getPingStatus());
@@ -232,9 +261,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         }
     }
 
-    public function testSelect(): SelectResult
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testSelect(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
         $result = self::$client->select($select);
         $this->assertSame(32, $result->getNumFound());
@@ -257,17 +290,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
             'GB18030TEST',
             'GBP',
             ], $ids);
-
-        return $result;
     }
 
-    /**
-     * @depends testSelect
-     *
-     * @param SelectResult $result
-     */
-    public function testJsonSerializeSelectResult(SelectResult $result)
+    public function testJsonSerializeSelectResult()
     {
+        $select = self::$client->createSelect();
+        $select->setResponseWriter(AbstractQuery::WT_JSON);
+        $result = self::$client->select($select);
+
         $expectedJson = $result->getResponse()->getBody();
 
         // this only calls SelectResult::jsonSerialize() which gets the document data from the parsed response
@@ -282,9 +312,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
      *
-     * @dataProvider updateRequestFormatProvider
+     * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testEscapes(string $requestFormat)
+    public function testEscapes(string $requestFormat, string $responseWriter)
     {
         $escapeChars = [' ', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', '\\'];
         $cat = [implode('', $escapeChars)];
@@ -295,6 +325,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        $update->setResponseWriter($responseWriter);
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-escapes');
         $doc->setField('name', 'Solarium Test Escapes');
@@ -305,6 +336,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         // check if stored correctly in index
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('id:%T1%', ['solarium-test-escapes']);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
@@ -336,13 +368,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @see https://github.com/solariumphp/solarium/issues/1104
      *
-     * @dataProvider updateRequestFormatProvider
+     * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testPhraseQuery(string $requestFormat)
+    public function testPhraseQuery(string $requestFormat, string $responseWriter)
     {
         $phrase = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$";
 
         $update = self::$client->createUpdate();
+        $update->setResponseWriter($responseWriter);
         $update->setRequestFormat($requestFormat);
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-phrase');
@@ -364,6 +397,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         // check if stored correctly in index
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('id:solarium-test-phrase');
         $result = self::$client->select($select);
         $this->assertSame([$phrase], $result->getIterator()->current()->getFields()['cat']);
@@ -393,9 +427,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @see https://github.com/solariumphp/solarium/issues/974
      * @see https://solr.apache.org/guide/local-parameters-in-queries.html#basic-syntax-of-local-parameters
      *
-     * @dataProvider updateRequestFormatProvider
+     * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testLocalParamValueEscapes(string $requestFormat)
+    public function testLocalParamValueEscapes(string $requestFormat, string $responseWriter)
     {
         $categories = [
             'solarium-test-localparamvalue-escapes',
@@ -410,6 +444,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ];
 
         $update = self::$client->createUpdate();
+        $update->setResponseWriter($responseWriter);
         $update->setRequestFormat($requestFormat);
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-localparamvalue-escapes');
@@ -420,6 +455,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
 
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setRows(0);
         $facetSet = $select->getFacetSet();
 
@@ -459,9 +495,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testRangeQueries()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testRangeQueries(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', null, 80)
@@ -693,10 +733,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
     /**
      * @see https://solr.apache.org/guide/solr/latest/query-guide/faceting.html#combining-stats-component-with-pivots
+     *
+     * @dataProvider responseWriterProvider
      */
-    public function testFacetPivotsWithStatsComponent()
+    public function testFacetPivotsWithStatsComponent(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
 
         $facetSet = $select->getFacetSet();
         $facet = $facetSet->createFacetPivot('piv1');
@@ -725,19 +768,18 @@ abstract class AbstractTechproductsTestCase extends TestCase
     }
 
     /**
-     * @testWith ["METHOD_UNIFIED"]
-     *           ["METHOD_ORIGINAL"]
-     *           ["METHOD_FASTVECTOR"]
+     * @dataProvider crossHighlightingMethodResponseWriterProvider
      */
-    public function testHighlightingComponentMethods(string $method)
+    public function testHighlightingComponentMethods(string $method, string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         // The self-defined "componentdemo" request handler has a highlighting component.
         $select->setHandler('componentdemo');
         $select->setQuery('id:F8V7067-APL-KIT');
 
         $highlighting = $select->getHighlighting();
-        $highlighting->setMethod(\constant(Highlighting::class.'::'.$method));
+        $highlighting->setMethod($method);
         $highlighting->setFields('name, features');
         $highlighting->getField('features')->setSimplePrefix('<u class="hl">')->setSimplePostfix('</u>');
         $highlighting->setQuery('(power cord) OR (power adapter)');
@@ -771,6 +813,20 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'features' => ['car <u class="hl">power</u> <u class="hl">adapter</u>, white'],
             ],
             $result->getHighlighting()->getResult('F8V7067-APL-KIT')->getFields()
+        );
+    }
+
+    public function crossHighlightingMethodResponseWriterProvider(): DataProvider
+    {
+        $highlightingMethods = [
+            [Highlighting::METHOD_UNIFIED],
+            [Highlighting::METHOD_ORIGINAL],
+            [Highlighting::METHOD_FASTVECTOR],
+        ];
+
+        return DataProvider::cross(
+            $highlightingMethods,
+            $this->responseWriterProvider(),
         );
     }
 
@@ -838,13 +894,16 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @see https://cwiki.apache.org/confluence/display/solr/SolrCloud%20/#SolrCloud-KnownLimitations
      *
+     * @dataProvider responseWriterProvider
+     *
      * @group skip_for_solr_cloud
      */
-    public function testGroupingComponent()
+    public function testGroupingComponent(string $responseWriter)
     {
         self::$client->registerQueryType('grouping', GroupingTestQuery::class);
         /** @var GroupingTestQuery $select */
         $select = self::$client->createQuery('grouping');
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('solr memory');
         $select->setFields('id');
         $select->addSort('manu_exact', SelectQuery::SORT_ASC);
@@ -964,16 +1023,19 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * Skipped for SolrCloud because maxScore is included in distributed search results even if score is not requested (SOLR-6612).
      * This makes the test fail on SolrCloud for queries that don't fetch a score and thus aren't affected by SOLR-13839.
      *
-     * @group skip_for_solr_cloud
-     *
      * @see https://issues.apache.org/jira/browse/SOLR-13839
      * @see https://issues.apache.org/jira/browse/SOLR-6612
+     *
+     * @dataProvider responseWriterProvider
+     *
+     * @group skip_for_solr_cloud
      */
-    public function testGroupingComponentFixForSolr13839()
+    public function testGroupingComponentFixForSolr13839(string $responseWriter)
     {
         self::$client->registerQueryType('grouping', GroupingTestQuery::class);
         /** @var GroupingTestQuery $select */
         $select = self::$client->createQuery('grouping');
+        $select->setResponseWriter($responseWriter);
         // without score in the fl parameter, result groups don't have a maxScore
         $select->setFields('id');
         $grouping = $select->getGrouping();
@@ -1016,9 +1078,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertNull($queryGroup->getMaximumScore());
     }
 
-    public function testMoreLikeThisComponent()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testMoreLikeThisComponent(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('apache');
         $select->setSorts(['id' => SelectQuery::SORT_ASC]);
 
@@ -1090,11 +1156,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @see https://issues.apache.org/jira/browse/SOLR-4414
      * @see https://issues.apache.org/jira/browse/SOLR-5480
      *
+     * @dataProvider responseWriterProvider
+     *
      * @group skip_for_solr_cloud
      */
-    public function testMoreLikeThisQuery()
+    public function testMoreLikeThisQuery(string $responseWriter)
     {
         $query = self::$client->createMoreLikethis();
+        $query->setResponseWriter($responseWriter);
 
         // the document we query to get similar documents for
         $query->setQuery('id:SP2514N');
@@ -1145,11 +1214,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @see https://issues.apache.org/jira/browse/SOLR-4414
      * @see https://issues.apache.org/jira/browse/SOLR-5480
      *
+     * @dataProvider responseWriterProvider
+     *
      * @group skip_for_solr_cloud
      */
-    public function testMoreLikeThisStream()
+    public function testMoreLikeThisStream(string $responseWriter)
     {
         $query = self::$client->createMoreLikethis();
+        $query->setResponseWriter($responseWriter);
 
         // the supplied text we want similar documents for
         $text = <<<EOT
@@ -1201,9 +1273,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $resultset->getInterestingTerms();
     }
 
-    public function testQueryElevation()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testQueryElevation(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         // In the techproducts example, the request handler "select" doesn't contain a query elevation component.
         // But the "elevate" request handler does.
         $select->setHandler('elevate');
@@ -1233,9 +1309,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertFalse($document->{'[elevated]'});
     }
 
-    public function testSpatial()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testSpatial(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
 
         $select->setQuery(
             $select->getHelper()->geofilt('store', 40, -100, 100000)
@@ -1290,9 +1370,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $words);
     }
 
-    public function testSuggester()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testSuggester(string $responseWriter)
     {
         $suggester = self::$client->createSuggester();
+        $suggester->setResponseWriter($responseWriter);
         // The techproducts example doesn't provide a default suggester, but 'mySuggester'.
         $suggester->setDictionary('mySuggester');
         $suggester->setQuery('electronics');
@@ -1314,9 +1398,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertContains('electronics and stuff2', $phrases);
     }
 
-    public function testTerms()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testTerms(string $responseWriter)
     {
         $terms = self::$client->createTerms();
+        $terms->setResponseWriter($responseWriter);
         $terms->setFields('name');
 
         // Setting distrib to true in a non cloud setup causes exceptions.
@@ -1340,10 +1428,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getTerms('name'));
     }
 
-    public function testTermsComponent()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testTermsComponent(string $responseWriter)
     {
         self::$client->registerQueryType('test', TermsTestQuery::class);
         $select = self::$client->createQuery('test');
+        $select->setResponseWriter($responseWriter);
 
         // Setting distrib to true in a non cloud setup causes exceptions.
         if ($this instanceof AbstractCloudTestCase) {
@@ -1403,11 +1495,12 @@ abstract class AbstractTechproductsTestCase extends TestCase
     }
 
     /**
-     * @dataProvider updateRequestFormatProvider
+     * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testUpdate(string $requestFormat)
+    public function testUpdate(string $requestFormat, string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('cat:solarium-test');
         $select->addSort('id', $select::SORT_ASC);
         $select->setFields('id,name,price,content');
@@ -1415,6 +1508,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // add, but don't commit
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        $update->setResponseWriter($responseWriter);
         $doc1 = $update->createDocument();
         $doc1->setField('id', 'solarium-test-1');
         $doc1->setField('name', 'Solarium Test 1');
@@ -1435,6 +1529,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // commit
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        $update->setResponseWriter($responseWriter);
         $update->addCommit(true, true);
         self::$client->update($update);
         $result = self::$client->select($select);
@@ -1459,6 +1554,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // delete by id and commit
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        $update->setResponseWriter($responseWriter);
         $update->addDeleteById('solarium-test-1');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1473,6 +1569,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // delete by query and commit
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        $update->setResponseWriter($responseWriter);
         $update->addDeleteQuery('cat:solarium-test');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1482,6 +1579,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // optimize
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        $update->setResponseWriter($responseWriter);
         $update->addOptimize(true, false);
         $response = self::$client->update($update);
         $this->assertSame(0, $response->getStatus());
@@ -1491,6 +1589,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             // add, rollback, commit
             $update = self::$client->createUpdate();
             $update->setRequestFormat($requestFormat);
+            $update->setResponseWriter($responseWriter);
             $doc1 = $update->createDocument();
             $doc1->setField('id', 'solarium-test-1');
             $doc1->setField('name', 'Solarium Test 1');
@@ -1508,9 +1607,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         }
     }
 
-    public function testUpdateRawXml()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testUpdateRawXml(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('cat:solarium-test');
         $select->addSort('id', $select::SORT_ASC);
         $select->setFields('id,name,price,content');
@@ -1518,6 +1621,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // raw add and raw commit
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        $update->setResponseWriter($responseWriter);
         $update->addRawXmlCommand('<add><doc><field name="id">solarium-test-1</field><field name="name">Solarium Test 1</field><field name="cat">solarium-test</field><field name="price">3.14</field></doc></add>');
         $update->addRawXmlCommand('<commit softCommit="true" waitSearcher="true"/>');
         self::$client->update($update);
@@ -1532,6 +1636,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // grouped mixed raw commands
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        $update->setResponseWriter($responseWriter);
         $update->addRawXmlCommand('<update><add><doc><field name="id">solarium-test-2</field><field name="name">Solarium Test 2</field><field name="cat">solarium-test</field><field name="price">42</field></doc></add></update>');
         $update->addRawXmlCommand('<update><delete><id>solarium-test-1</id></delete><commit softCommit="true" waitSearcher="true"/></update>');
         self::$client->update($update);
@@ -1546,6 +1651,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // raw delete and regular commit
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        $update->setResponseWriter($responseWriter);
         $update->addRawXmlCommand('<delete><query>cat:solarium-test</query></delete>');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -1555,6 +1661,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // add from UTF-8 encoded files without and with Byte Order Mark and XML declaration
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        $update->setResponseWriter($responseWriter);
         foreach (glob(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml[1234]-add*.xml') as $file) {
             $update->addRawXmlFile($file);
         }
@@ -1564,6 +1671,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // add from non-UTF-8 encoded file
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        $update->setResponseWriter($responseWriter);
         $update->setInputEncoding('ISO-8859-1');
         $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml5-add-iso-8859-1.xml');
         $update->addCommit(true, true);
@@ -1605,6 +1713,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // delete from file with grouped delete commands
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        $update->setResponseWriter($responseWriter);
         $update->addRawXmlFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'testxml6-delete.xml');
         $update->addCommit(true, true);
         self::$client->update($update);
@@ -2948,9 +3057,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
     }
 
-    public function testReRankQuery()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testReRankQuery(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('inStock:true');
         $select->setRows(2);
         $result = self::$client->select($select);
@@ -3637,12 +3750,15 @@ abstract class AbstractTechproductsTestCase extends TestCase
     }
 
     /**
+     * @dataProvider responseWriterProvider
+     *
      * @group skip_for_solr_cloud
      */
-    public function testMinimumScoreFilterWithGrouping()
+    public function testMinimumScoreFilterWithGrouping(string $responseWriter)
     {
         $filter = self::$client->getPlugin('minimumscorefilter');
         $query = self::$client->createQuery($filter::QUERY_TYPE);
+        $query->setResponseWriter($responseWriter);
         $query->setQuery('*:*');
 
         $groupComponent = $query->getGrouping();
@@ -3796,9 +3912,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removeEndpoint('invalid');
     }
 
-    public function testPrefetchIterator()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testPrefetchIterator(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->addSort('id', SelectQuery::SORT_ASC);
         /** @var PrefetchIterator $prefetch */
         $prefetch = self::$client->getPlugin('prefetchiterator');
@@ -3818,9 +3938,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removePlugin('prefetchiterator');
     }
 
-    public function testPrefetchIteratorWithCursorMark()
+    /**
+     * @dataProvider responseWriterProvider
+     */
+    public function testPrefetchIteratorWithCursorMark(string $responseWriter)
     {
         $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
         $select->setCursorMark('*');
         $select->addSort('id', SelectQuery::SORT_ASC);
         /** @var PrefetchIterator $prefetch */
