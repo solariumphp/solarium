@@ -38,7 +38,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             $suggestResults = $data['spellcheck']['suggestions'];
             $termClass = $query->getOption('termclass');
 
-            if ($query->getResponseWriter() === $query::WT_JSON) {
+            if ($query::WT_JSON === $query->getResponseWriter()) {
                 $suggestResults = $this->convertToKeyValueArray($suggestResults);
             }
 
