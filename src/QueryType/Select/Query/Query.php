@@ -38,11 +38,13 @@ use Solarium\Component\QueryTraits\SpatialTrait;
 use Solarium\Component\QueryTraits\SpellcheckTrait;
 use Solarium\Component\QueryTraits\StatsTrait;
 use Solarium\Component\QueryTraits\SuggesterTrait;
+use Solarium\Component\QueryTraits\TermVectorTrait;
 use Solarium\Component\ReRankQuery;
 use Solarium\Component\Spatial;
 use Solarium\Component\Spellcheck;
 use Solarium\Component\Stats\Stats;
 use Solarium\Component\Suggester;
+use Solarium\Component\TermVector;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
@@ -80,6 +82,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     use SpellcheckTrait;
     use StatsTrait;
     use SuggesterTrait;
+    use TermVectorTrait;
 
     /**
      * Solr sort mode descending.
@@ -166,6 +169,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
             ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION => QueryElevation::class,
             ComponentAwareQueryInterface::COMPONENT_RERANKQUERY => ReRankQuery::class,
             ComponentAwareQueryInterface::COMPONENT_ANALYTICS => Analytics::class,
+            ComponentAwareQueryInterface::COMPONENT_TERMVECTOR => TermVector::class,
         ];
 
         parent::__construct($options);

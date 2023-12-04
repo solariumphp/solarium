@@ -19,7 +19,7 @@ use Solarium\Core\ConfigurableInterface;
 class Terms implements ComponentRequestBuilderInterface
 {
     /**
-     * Add request settings for Spellcheck.
+     * Add request settings for Terms.
      *
      * @param TermsInterface $component
      * @param Request        $request

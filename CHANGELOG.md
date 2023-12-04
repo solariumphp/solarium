@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - PHP 8.3 support
 - Solarium\QueryType\Server\Api\Result::getWarning()
+- Term Vector Component
 
 ### Fixed
 - ParallelExecution adds a HttpException instead of an empty Result in case of an endpoint failure
