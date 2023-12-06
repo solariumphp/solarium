@@ -99,6 +99,20 @@ class Response
     }
 
     /**
+     * Set body data.
+     *
+     * @param string $body
+     *
+     * @return self Provides fluent interface
+     */
+    public function setBody(string $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
      * Set headers.
      *
      * @param array $headers

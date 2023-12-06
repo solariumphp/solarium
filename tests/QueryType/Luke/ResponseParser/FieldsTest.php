@@ -16,7 +16,7 @@ class FieldsTest extends TestCase
     use IndexDataTrait;
     use InfoDataTrait;
 
-    public function testParse(): array
+    public function testParseJson(): array
     {
         $data = [
             'responseHeader' => [
@@ -24,11 +24,12 @@ class FieldsTest extends TestCase
                 'QTime' => 3,
             ],
             'index' => $this->getIndexData(),
-            'fields' => $this->getFieldsData(),
+            'fields' => $this->getFieldsJsonData(),
             'info' => $this->getInfoData(),
         ];
 
         $query = new Query();
+        $query->setResponseWriter(Query::WT_JSON);
         $query->setShow(Query::SHOW_ALL);
         $query->setFields('*');
 
@@ -53,7 +54,45 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
+     */
+    public function testParsePhps(array $fields)
+    {
+        $data = [
+            'responseHeader' => [
+                'status' => 0,
+                'QTime' => 3,
+            ],
+            'index' => $this->getIndexData(),
+            'fields' => $this->getFieldsPhpsData(),
+            'info' => $this->getInfoData(),
+        ];
+
+        $query = new Query();
+        $query->setResponseWriter(Query::WT_PHPS);
+        $query->setShow(Query::SHOW_ALL);
+        $query->setFields('*');
+
+        $resultStub = $this->createMock(Result::class);
+        $resultStub->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+        $resultStub->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
+
+        $parser = new ResponseParser();
+        $result = $parser->parse($resultStub);
+
+        $this->assertInstanceOf(Index::class, $result['indexResult']);
+        $this->assertNull($result['schemaResult']);
+        $this->assertNull($result['docResult']);
+        $this->assertEquals($fields, $result['fieldsResult']);
+        $this->assertInstanceOf(Info::class, $result['infoResult']);
+    }
+
+    /**
+     * @depends testParseJson
      */
     public function testName(array $fields)
     {
@@ -61,7 +100,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testType(array $fields)
     {
@@ -69,7 +108,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testSchema(array $fields)
     {
@@ -83,7 +122,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDynamicBase(array $fields)
     {
@@ -92,7 +131,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testIndex(array $fields)
     {
@@ -110,7 +149,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDocs(array $fields)
     {
@@ -119,7 +158,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDistinct(array $fields)
     {
@@ -128,7 +167,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testTopTerms(array $fields)
     {
@@ -140,7 +179,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testHistogram(array $fields)
     {
@@ -153,7 +192,7 @@ class FieldsTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testToString(array $fields)
     {

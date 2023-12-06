@@ -14,7 +14,7 @@ class InfoTest extends TestCase
     use IndexDataTrait;
     use InfoDataTrait;
 
-    public function testParse(): Info
+    public function testParseJson(): Info
     {
         $data = [
             'responseHeader' => [
@@ -22,11 +22,12 @@ class InfoTest extends TestCase
                 'QTime' => 3,
             ],
             'index' => $this->getIndexData(),
-            'fields' => $this->getFieldsData(),
+            'fields' => $this->getFieldsJsonData(),
             'info' => $this->getInfoData(),
         ];
 
         $query = new Query();
+        $query->setResponseWriter(Query::WT_JSON);
 
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())
@@ -45,7 +46,40 @@ class InfoTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
+     */
+    public function testParsePhps(Info $info)
+    {
+        $data = [
+            'responseHeader' => [
+                'status' => 0,
+                'QTime' => 3,
+            ],
+            'index' => $this->getIndexData(),
+            'fields' => $this->getFieldsPhpsData(),
+            'info' => $this->getInfoData(),
+        ];
+
+        $query = new Query();
+        $query->setResponseWriter(Query::WT_PHPS);
+
+        $resultStub = $this->createMock(Result::class);
+        $resultStub->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+        $resultStub->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
+
+        $parser = new ResponseParser();
+        $result = $parser->parse($resultStub);
+
+        $this->assertInstanceOf(Info::class, $result['infoResult']);
+        $this->assertEquals($info, $result['infoResult']);
+    }
+
+    /**
+     * @depends testParseJson
      */
     public function testInfo(Info $info)
     {
