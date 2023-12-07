@@ -2,7 +2,6 @@
 
 namespace Solarium\Tests\QueryType\Luke\ResponseParser;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\DocumentInterface;
@@ -21,23 +20,8 @@ class DocTest extends TestCase
     use IndexDataTrait;
     use InfoDataTrait;
 
-    /**
-     * @var Result|MockObject
-     */
-    protected $resultStub;
-
-    public function setUp(): void
+    public function testParseJson(): DocInfo
     {
-        $data = [
-            'responseHeader' => [
-                'status' => 0,
-                'QTime' => 3,
-            ],
-            'index' => $this->getIndexData(),
-            'doc' => $this->getDocData(),
-            'info' => $this->getInfoData(),
-        ];
-
         // the doc parser accesses the response body directly
         $rawData = sprintf(<<<'JSON'
                 {
@@ -50,49 +34,64 @@ class DocTest extends TestCase
                     "info": %s
                 }
             JSON,
-            json_encode($data['index']),
-            $this->getRawDocData(),
-            json_encode($data['info']),
+            json_encode($this->getIndexData()),
+            $this->getRawDocJsonData(),
+            json_encode($this->getInfoData()),
         );
 
-        $responseStub = $this->createMock(Response::class);
-        $responseStub->expects($this->any())
-            ->method('getBody')
-            ->willReturn($rawData);
-
-        $this->resultStub = $this->createMock(Result::class);
-        $this->resultStub->expects($this->any())
-            ->method('getResponse')
-            ->willReturn($responseStub);
-        $this->resultStub->expects($this->any())
-            ->method('getData')
-            ->willReturn($data);
-    }
-
-    public function testParse(): DocInfo
-    {
         $query = new Query();
+        $query->setResponseWriter($query::WT_JSON);
         $query->setShow(Query::SHOW_DOC);
         $query->setDocId(1701);
 
-        $this->resultStub->expects($this->any())
-            ->method('getQuery')
-            ->willReturn($query);
+        $response = new Response($rawData, ['HTTP/1.0 200 OK']);
+        $result = new Result($query, $response);
 
         $parser = new ResponseParser();
-        $result = $parser->parse($this->resultStub);
+        $data = $parser->parse($result);
 
-        $this->assertInstanceOf(Index::class, $result['indexResult']);
-        $this->assertNull($result['schemaResult']);
-        $this->assertInstanceOf(DocInfo::class, $result['docResult']);
-        $this->assertNull($result['fieldsResult']);
-        $this->assertInstanceOf(Info::class, $result['infoResult']);
+        $this->assertInstanceOf(Index::class, $data['indexResult']);
+        $this->assertNull($data['schemaResult']);
+        $this->assertInstanceOf(DocInfo::class, $data['docResult']);
+        $this->assertNull($data['fieldsResult']);
+        $this->assertInstanceOf(Info::class, $data['infoResult']);
 
-        return $result['docResult'];
+        return $data['docResult'];
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
+     */
+    public function testParsePhps(DocInfo $doc)
+    {
+        // the doc parser accesses the response body directly
+        $rawData = sprintf(
+            'a:4:{s:14:"responseHeader";a:2:{s:6:"status";i:0;s:5:"QTime";i:3;}s:5:"index";%ss:3:"doc";%ss:4:"info";%s}',
+            serialize($this->getIndexData()),
+            $this->getRawDocPhpsData(),
+            serialize($this->getInfoData()),
+        );
+
+        $query = new Query();
+        $query->setResponseWriter($query::WT_PHPS);
+        $query->setShow(Query::SHOW_DOC);
+        $query->setDocId(1701);
+
+        $response = new Response($rawData, ['HTTP/1.0 200 OK']);
+        $result = new Result($query, $response);
+
+        $parser = new ResponseParser();
+        $data = $parser->parse($result);
+
+        $this->assertInstanceOf(Index::class, $data['indexResult']);
+        $this->assertNull($data['schemaResult']);
+        $this->assertEquals($doc, $data['docResult']);
+        $this->assertNull($data['fieldsResult']);
+        $this->assertInstanceOf(Info::class, $data['infoResult']);
+    }
+
+    /**
+     * @depends testParseJson
      */
     public function testDocId(DocInfo $doc)
     {
@@ -100,7 +99,7 @@ class DocTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testLucene(DocInfo $doc)
     {
@@ -163,7 +162,7 @@ class DocTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testSolr(DocInfo $doc)
     {
@@ -189,18 +188,28 @@ class DocTest extends TestCase
 
     public function testParseWithInvalidDocumentClass()
     {
+        $data = [
+            'responseHeader' => [
+                'status' => 0,
+                'QTime' => 3,
+            ],
+            'index' => $this->getIndexData(),
+            'doc' => $this->getDocJsonData(),
+            'info' => $this->getInfoData(),
+        ];
+
         $query = new Query();
+        $query->setResponseWriter($query::WT_JSON);
         $query->setDocumentClass(\stdClass::class);
         $query->setShow(Query::SHOW_DOC);
         $query->setDocId(1701);
 
-        $this->resultStub->expects($this->any())
-            ->method('getQuery')
-            ->willReturn($query);
+        $response = new Response(json_encode($data), ['HTTP/1.0 200 OK']);
+        $result = new Result($query, $response);
 
         $parser = new ResponseParser();
 
         $this->expectException(RuntimeException::class);
-        $parser->parse($this->resultStub);
+        $parser->parse($result);
     }
 }

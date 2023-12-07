@@ -12,7 +12,7 @@ class IndexTest extends TestCase
 {
     use IndexDataTrait;
 
-    public function testParse(): Index
+    public function testParseJson(): Index
     {
         $data = [
             'responseHeader' => [
@@ -23,6 +23,7 @@ class IndexTest extends TestCase
         ];
 
         $query = new Query();
+        $query->setResponseWriter($query::WT_JSON);
         $query->setShow(Query::SHOW_INDEX);
 
         $resultStub = $this->createMock(Result::class);
@@ -46,7 +47,42 @@ class IndexTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
+     */
+    public function testParsePhps(Index $index)
+    {
+        $data = [
+            'responseHeader' => [
+                'status' => 0,
+                'QTime' => 3,
+            ],
+            'index' => $this->getIndexData(),
+        ];
+
+        $query = new Query();
+        $query->setResponseWriter($query::WT_PHPS);
+        $query->setShow(Query::SHOW_INDEX);
+
+        $resultStub = $this->createMock(Result::class);
+        $resultStub->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+        $resultStub->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
+
+        $parser = new ResponseParser();
+        $result = $parser->parse($resultStub);
+
+        $this->assertEquals($index, $result['indexResult']);
+        $this->assertNull($result['schemaResult']);
+        $this->assertNull($result['docResult']);
+        $this->assertNull($result['fieldsResult']);
+        $this->assertNull($result['infoResult']);
+    }
+
+    /**
+     * @depends testParseJson
      */
     public function testIndex(Index $index)
     {

@@ -1498,6 +1498,22 @@ class ClientTest extends TestCase
         $observer->createRealtimeGet($options);
     }
 
+    public function testCreateLuke()
+    {
+        $options = ['optionA' => 1, 'optionB' => 2];
+
+        $observer = $this->getMockBuilder(Client::class)
+            ->onlyMethods(['createQuery'])
+            ->setConstructorArgs([new MyAdapter(), new EventDispatcher()])
+            ->getMock();
+        $observer->expects($this->once())
+                 ->method('createQuery')
+                 ->with($this->equalTo(Client::QUERY_LUKE), $this->equalTo($options))
+                 ->willReturn(new LukeQuery());
+
+        $observer->createLuke($options);
+    }
+
     public function testCreateCoreAdmin()
     {
         $options = ['optionA' => 1, 'optionB' => 2];

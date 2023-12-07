@@ -42,20 +42,15 @@ class Doc extends Index
     {
         $this->result = $result;
 
-        $data = parent::parse($result);
+        $query = $result->getQuery();
 
-        // 'lucene' can contain the same key multiple times for multiValued fields.
-        // A SimpleOrderedMap in Solr, it isn't represented as a flat array in JSON
-        // and unlike a NamedList its output format can't be controlled with json.nl.
-        // We can't rely on json_decode() if we don't want data loss for these fields.
-        $data['doc']['lucene'] = JsonMachineItems::fromString(
-            $result->getResponse()->getBody(),
-            [
-                // like json_decode('...', true), ExtJsonDecoder(true) returns arrays instead of objects
-                'decoder' => new ExtJsonDecoder(true),
-                'pointer' => '/doc/lucene',
-            ]
-        );
+        if ($query::WT_PHPS === $query->getResponseWriter()) {
+            // workaround for https://github.com/apache/solr/pull/2114
+            $response = $result->getResponse();
+            $response->setBody(str_replace('}s:4:"solr";i:0;a:', '}s:4:"solr";a:', $response->getBody()));
+        }
+
+        $data = parent::parse($result);
 
         // parse 'info' first so 'doc' can use it for flag lookups
         $data['infoResult'] = $this->parseInfo($data['info']);
@@ -73,7 +68,28 @@ class Doc extends Index
     {
         $docInfo = new DocInfo($docData['docId']);
 
-        $docInfo->setLucene($this->parseLucene($docData['lucene']));
+        $query = $this->result->getQuery();
+
+        // 'lucene' can contain the same key multiple times for multiValued fields.
+        // How this is represented in the response body depends on Solr's ResponseWriter.
+        if ($query::WT_JSON === $query->getResponseWriter()) {
+            // A SimpleOrderedMap in Solr isn't represented as a flat array in JSON
+            // and unlike a NamedList its output format can't be controlled with json.nl.
+            // We can't rely on json_decode() if we don't want data loss for these fields.
+            $docData['lucene'] = JsonMachineItems::fromString(
+                $this->result->getResponse()->getBody(),
+                [
+                    // like json_decode('...', true), ExtJsonDecoder(true) returns arrays instead of objects
+                    'decoder' => new ExtJsonDecoder(true),
+                    'pointer' => '/doc/lucene',
+                ]
+            );
+
+            $docInfo->setLucene($this->parseLuceneJson($docData['lucene']));
+        } else {
+            $docInfo->setLucene($this->parseLucenePhps($docData['lucene']));
+        }
+
         $docInfo->setSolr($this->parseSolr($docData['solr']));
 
         return $docInfo;
@@ -84,26 +100,60 @@ class Doc extends Index
      *
      * @return DocFieldInfo[]
      */
-    protected function parseLucene(JsonMachineItems $luceneData): array
+    protected function parseLuceneJson(JsonMachineItems $luceneData): array
     {
         $lucene = [];
 
         foreach ($luceneData as $name => $details) {
-            $fieldInfo = new DocFieldInfo($name);
-
-            $fieldInfo->setType($details['type']);
-            $fieldInfo->setSchema(new FlagList($details['schema'], $this->key));
-            $fieldInfo->setFlags(new FlagList($details['flags'], $this->key));
-            $fieldInfo->setValue($details['value']);
-            $fieldInfo->setInternal($details['internal']);
-            $fieldInfo->setBinary($details['binary'] ?? null);
-            $fieldInfo->setDocFreq($details['docFreq'] ?? null);
-            $fieldInfo->setTermVector($details['termVector'] ?? null);
-
-            $lucene[] = $fieldInfo;
+            $lucene[] = $this->parseLuceneField($name, $details);
         }
 
         return $lucene;
+    }
+
+    /**
+     * @param array $luceneData
+     *
+     * @return DocFieldInfo[]
+     */
+    protected function parseLucenePhps(array $luceneData): array
+    {
+        $lucene = [];
+        $prevName = '';
+
+        foreach ($luceneData as $name => $details) {
+            if (str_starts_with($name, $prevName.' ')) {
+                // field name was mangled by Solr's ResponseWriter to avoid repeats in the output
+                $name = $prevName;
+            }
+
+            $lucene[] = $this->parseLuceneField($name, $details);
+            $prevName = $name;
+        }
+
+        return $lucene;
+    }
+
+    /**
+     * @param string $name
+     * @param array  $details
+     *
+     * @return DocFieldInfo
+     */
+    protected function parseLuceneField(string $name, array $details): DocFieldInfo
+    {
+        $fieldInfo = new DocFieldInfo($name);
+
+        $fieldInfo->setType($details['type']);
+        $fieldInfo->setSchema(new FlagList($details['schema'], $this->key));
+        $fieldInfo->setFlags(new FlagList($details['flags'], $this->key));
+        $fieldInfo->setValue($details['value']);
+        $fieldInfo->setInternal($details['internal']);
+        $fieldInfo->setBinary($details['binary'] ?? null);
+        $fieldInfo->setDocFreq($details['docFreq'] ?? null);
+        $fieldInfo->setTermVector($details['termVector'] ?? null);
+
+        return $fieldInfo;
     }
 
     /**

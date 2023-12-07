@@ -22,6 +22,11 @@ class Fields extends Index
     use InfoTrait;
 
     /**
+     * @var ResultInterface
+     */
+    protected $result;
+
+    /**
      * Get result data for the response.
      *
      * @param Result $result
@@ -30,6 +35,8 @@ class Fields extends Index
      */
     public function parse(ResultInterface $result): array
     {
+        $this->result = $result;
+
         $data = parent::parse($result);
 
         // parse 'info' first so 'fields' can use it for flag lookups
@@ -46,6 +53,7 @@ class Fields extends Index
      */
     protected function parseFields(array $fieldsData): array
     {
+        $query = $this->result->getQuery();
         $fields = [];
 
         foreach ($fieldsData as $name => $info) {
@@ -71,11 +79,19 @@ class Fields extends Index
             $field->setDistinct($info['distinct'] ?? null);
 
             if (isset($info['topTerms'])) {
-                $field->setTopTerms($this->convertToKeyValueArray($info['topTerms']));
+                if ($query::WT_JSON === $query->getResponseWriter()) {
+                    $info['topTerms'] = $this->convertToKeyValueArray($info['topTerms']);
+                }
+
+                $field->setTopTerms($info['topTerms']);
             }
 
             if (isset($info['histogram'])) {
-                $field->setHistogram($this->convertToKeyValueArray($info['histogram']));
+                if ($query::WT_JSON === $query->getResponseWriter()) {
+                    $info['histogram'] = $this->convertToKeyValueArray($info['histogram']);
+                }
+
+                $field->setHistogram($info['histogram']);
             }
 
             $fields[$name] = $field;

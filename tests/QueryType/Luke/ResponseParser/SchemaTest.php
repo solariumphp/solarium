@@ -23,7 +23,7 @@ class SchemaTest extends TestCase
     use InfoDataTrait;
     use SchemaDataTrait;
 
-    public function testParse(): Schema
+    public function testParseJson(): Schema
     {
         $data = [
             'responseHeader' => [
@@ -59,7 +59,43 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
+     */
+    public function testParsePhps(Schema $schema)
+    {
+        $data = [
+            'responseHeader' => [
+                'status' => 0,
+                'QTime' => 3,
+            ],
+            'index' => $this->getIndexData(),
+            'schema' => $this->getSchemaData(),
+            'info' => $this->getInfoData(),
+        ];
+
+        $query = new Query();
+        $query->setShow(Query::SHOW_SCHEMA);
+
+        $resultStub = $this->createMock(Result::class);
+        $resultStub->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+        $resultStub->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
+
+        $parser = new ResponseParser();
+        $result = $parser->parse($resultStub);
+
+        $this->assertInstanceOf(Index::class, $result['indexResult']);
+        $this->assertEquals($schema, $result['schemaResult']);
+        $this->assertNull($result['docResult']);
+        $this->assertNull($result['fieldsResult']);
+        $this->assertInstanceOf(Info::class, $result['infoResult']);
+    }
+
+    /**
+     * @depends testParseJson
      */
     public function testFields(Schema $schema)
     {
@@ -99,7 +135,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testFieldFlags(Schema $schema)
     {
@@ -151,7 +187,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testFieldCopyDests(Schema $schema)
     {
@@ -162,7 +198,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testFieldCopySources(Schema $schema)
     {
@@ -175,7 +211,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDynamicFields(Schema $schema)
     {
@@ -210,7 +246,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDynamicFieldFlags(Schema $schema)
     {
@@ -220,7 +256,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDynamicFieldCopyDests(Schema $schema)
     {
@@ -232,7 +268,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testDynamicFieldCopySources(Schema $schema)
     {
@@ -243,7 +279,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testUniqueKeyField(Schema $schema)
     {
@@ -251,7 +287,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testSimilarity(Schema $schema)
     {
@@ -262,7 +298,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testTypes(Schema $schema)
     {
@@ -291,7 +327,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testIndexAnalyzer(Schema $schema): IndexAnalyzer
     {
@@ -364,7 +400,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testQueryAnalyzer(Schema $schema): QueryAnalyzer
     {
@@ -437,7 +473,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testTypeSimilarity(Schema $schema)
     {
@@ -453,7 +489,7 @@ class SchemaTest extends TestCase
     }
 
     /**
-     * @depends testParse
+     * @depends testParseJson
      */
     public function testReferences(Schema $schema)
     {

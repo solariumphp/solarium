@@ -4450,11 +4450,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * not the entire index. That makes some expected values unpredictable. We'd also
      * need to know the correct shard to query for a specific document.
      *
+     * @dataProvider responseWriterProvider
+     *
      * @group skip_for_solr_cloud
      */
-    public function testLuke()
+    public function testLuke(string $responseWriter)
     {
         $luke = self::$client->createLuke();
+        $luke->setResponseWriter($responseWriter);
 
         // SHOW_INDEX has the simplest response, which is also included in all other responses
         $luke->setShow(LukeQuery::SHOW_INDEX);

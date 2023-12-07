@@ -48,6 +48,12 @@ class ResponseTest extends TestCase
         $this->assertSame($this->data, $this->response->getBody());
     }
 
+    public function testSetBody()
+    {
+        $this->response->setBody('test body');
+        $this->assertSame('test body', $this->response->getBody());
+    }
+
     public function testMissingStatusCode()
     {
         $headers = ['dummy'];
