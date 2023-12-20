@@ -5,6 +5,7 @@ namespace Solarium\Tests\QueryType\Server\Collections\Query;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\QueryType\Server\Collections\Query\Action\Create;
+use Solarium\QueryType\Server\Collections\Query\Action\Delete;
 use Solarium\QueryType\Server\Collections\Query\Action\Reload;
 use Solarium\QueryType\Server\Collections\Query\Action\ClusterStatus;
 use Solarium\QueryType\Server\Collections\Query\Query;
@@ -42,6 +43,12 @@ class QueryTest extends TestCase
     {
         $action = $this->query->createCreate();
         $this->assertInstanceOf(Create::class, $action, 'Can not create create action');
+    }
+
+    public function testCreateDelete()
+    {
+        $action = $this->query->createDelete();
+        $this->assertInstanceOf(Delete::class, $action, 'Can not create delete action');
     }
 
     public function testCreateReload()

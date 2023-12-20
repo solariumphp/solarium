@@ -14,6 +14,7 @@ use Solarium\QueryType\Server\Query\AbstractResult;
 /**
  * DeleteResult.
  */
+#[\AllowDynamicProperties]
 class DeleteResult extends AbstractResult
 {
     /**
