@@ -1401,9 +1401,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testSuggesterBuildAll()
     {
         $suggester = self::$client->createSuggester();
+        // The techproducts example doesn't provide a default suggester, but 'mySuggester'.
+        $suggester->setDictionary('mySuggester');
         $suggester->setBuildAll(true);
         $plugin = self::$client->getPlugin('nowaitforresponserequest');
-        self::$client->suggester($suggester);
+        $time = time();
+        $result = self::$client->suggester($suggester);
+        $this->assertTrue((time() - $time) < 2);
+        $this->assertSame(200, $result->getResponse()->getStatusCode());
         self::$client->removePlugin($plugin);
     }
 
