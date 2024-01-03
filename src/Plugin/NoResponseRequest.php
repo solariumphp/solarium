@@ -13,9 +13,11 @@ use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\TimeoutAwareTrait;
 use Solarium\Core\Client\Request;
+use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\Core\Plugin\AbstractPlugin;
+use Solarium\Exception\HttpException;
 
 /**
  * NoResponseRequest plugin.
@@ -58,6 +60,16 @@ class NoResponseRequest extends AbstractPlugin
         if ($this->client->getAdapter() instanceof Curl) {
             $this->client->getAdapter()->setOption('return_transfer', false);
         }
+
+        try {
+            $this->client->getAdapter()->execute($request, $event->getEndpoint());
+        }
+        catch (HttpException $e) {
+            // We expect to run into a timeout.
+        }
+
+        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $event->setResponse($response);
 
         return $this;
     }

@@ -54,7 +54,9 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     public function getResponse(\CurlHandle $handle, $httpResponse): Response
     {
         if (CURLE_OK !== curl_errno($handle)) {
-            throw new HttpException(sprintf('HTTP request failed, %s', curl_error($handle)));
+            $error = curl_error($handle);
+            curl_close($handle);
+            throw new HttpException(sprintf('HTTP request failed, %s', $error));
         }
 
         $httpCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);

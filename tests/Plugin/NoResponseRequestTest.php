@@ -89,6 +89,7 @@ class NoResponseRequestTest extends TestCase
         $endpoint = $this->client->getEndpoint();
         $event = new PreExecuteRequestEvent($requestOutput, $endpoint);
         $this->plugin->preExecuteRequest($event);
+        $response = $event->getResponse();
 
         $this->assertSame(Request::METHOD_GET, $requestInput->getMethod());
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
@@ -97,8 +98,9 @@ class NoResponseRequestTest extends TestCase
         $this->assertSame('', $requestOutput->getQueryString());
         $this->assertSame(TimeoutAwareInterface::MINIMUM_TIMEOUT, $this->client->getAdapter()->getTimeout());
         $this->assertFalse($this->client->getAdapter()->getOption('return_transfer'));
+        $this->assertSame(200, $response->getStatusCode());
 
-        $event = new PostExecuteRequest($requestOutput, $endpoint, new Response('response'));
+        $event = new PostExecuteRequest($requestOutput, $endpoint, $response);
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(TimeoutAwareInterface::DEFAULT_TIMEOUT, $this->client->getAdapter()->getTimeout());
