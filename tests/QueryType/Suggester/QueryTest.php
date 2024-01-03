@@ -102,10 +102,10 @@ class QueryTest extends TestCase
         $this->assertTrue($this->query->getReload());
     }
 
-  public function testSetAndBuildAll()
-  {
-      $this->assertFalse($this->query->getBuildAll());
-      $this->query->setBuildAll(true);
-      $this->assertTrue($this->query->getBuildAll());
-  }
+    public function testSetAndBuildAll()
+    {
+        $this->assertFalse($this->query->getBuildAll());
+        $this->query->setBuildAll(true);
+        $this->assertTrue($this->query->getBuildAll());
+    }
 }
