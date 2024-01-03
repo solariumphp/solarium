@@ -8,7 +8,6 @@ use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
-use Solarium\Core\Event\PostExecuteRequest;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Plugin\NoResponseRequest;
 use Solarium\QueryType\Select\Query\Query;
@@ -91,9 +90,8 @@ class NoResponseRequestTest extends TestCase
         $this->assertSame('', $requestOutput->getQueryString());
         $this->assertSame(200, $response->getStatusCode());
 
-        $event = new PostExecuteRequest($requestOutput, $endpoint, $response);
-        $this->plugin->preExecuteRequest($event);
-
+        // The client should be configured with defaults again, after these
+        // settings changed within the event subscriber.
         $this->assertSame(TimeoutAwareInterface::DEFAULT_TIMEOUT, $this->client->getAdapter()->getTimeout());
         $this->assertTrue($this->client->getAdapter()->getOption('return_transfer'));
     }
