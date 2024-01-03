@@ -9,14 +9,14 @@ use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
-use Solarium\Plugin\NoResponseRequest;
+use Solarium\Plugin\NoWaitForResponseRequest;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Tests\Integration\TestClientFactory;
 
-class NoResponseRequestTest extends TestCase
+class NoWaitForResponseRequestTest extends TestCase
 {
     /**
-     * @var \Solarium\Plugin\NoResponseRequest
+     * @var \Solarium\Plugin\NoWaitForResponseRequest
      */
     protected $plugin;
 
@@ -33,16 +33,16 @@ class NoResponseRequestTest extends TestCase
     public function setUp(): void
     {
         $this->client = TestClientFactory::createWithCurlAdapter();
-        $this->plugin = $this->client->getPlugin('noresponserequest');
+        $this->plugin = $this->client->getPlugin('nowaitforresponserequest');
         $this->query = $this->client->createSuggester(['buildAll' => true]);
     }
 
     public function testInitPlugin(): Client
     {
         $client = TestClientFactory::createWithCurlAdapter();
-        $plugin = $client->getPlugin('noresponserequest');
+        $plugin = $client->getPlugin('nowaitforresponserequest');
 
-        $this->assertInstanceOf(NoResponseRequest::class, $plugin);
+        $this->assertInstanceOf(NoWaitForResponseRequest::class, $plugin);
 
         $expectedListeners = [
             Events::PRE_EXECUTE_REQUEST => [
@@ -66,7 +66,7 @@ class NoResponseRequestTest extends TestCase
      */
     public function testDeinitPlugin(Client $client)
     {
-        $client->removePlugin('noresponserequest');
+        $client->removePlugin('nowaitforresponserequest');
 
         $this->assertSame(
             [],
@@ -99,7 +99,7 @@ class NoResponseRequestTest extends TestCase
     public function testPluginIntegration()
     {
         $client = TestClientFactory::createWithCurlAdapter();
-        $plugin = new NoResponseRequest();
+        $plugin = new NoWaitForResponseRequest();
         $client->registerPlugin('testplugin', $plugin);
 
         $query = $client->createSelect();

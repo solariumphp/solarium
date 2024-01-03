@@ -19,13 +19,13 @@ use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Exception\HttpException;
 
 /**
- * NoResponseRequest plugin.
+ * NoWaitForResponseRequest plugin.
  *
  * Long-running requests like suggest.buildAll might exceed timeouts.
  * This plugin "tries" to convert the request in a kind of fire-and-forget.
  * Most reliable if using the Curl adapter.
  */
-class NoResponseRequest extends AbstractPlugin
+class NoWaitForResponseRequest extends AbstractPlugin
 {
     /**
      * Event hook to adjust client settings just before query execution.
@@ -90,7 +90,7 @@ class NoResponseRequest extends AbstractPlugin
     {
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
-            // NoResponseRequest has to act on PRE_EXECUTE_REQUEST before Loadbalancer (priority 0)
+            // NoWaitForResponseRequest has to act on PRE_EXECUTE_REQUEST before Loadbalancer (priority 0)
             // and after PostBigRequest (priority 10). Set priority to 5.
             $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest'], 5);
         }
