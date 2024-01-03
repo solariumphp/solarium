@@ -16,7 +16,7 @@ class PostExecuteRequestTest extends TestCase
         $request = new Request();
         $request->addParam('testparam', 'test value');
         $endpoint = $client->getEndpoint();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
 
         $event = new PostExecuteRequest($request, $endpoint, $response);
 

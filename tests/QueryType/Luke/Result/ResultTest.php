@@ -40,7 +40,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -63,7 +63,7 @@ class ResultTest extends TestCase
             'index' => $this->getIndexData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -88,7 +88,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -113,7 +113,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -139,7 +139,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -165,7 +165,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -189,7 +189,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -214,7 +214,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -239,7 +239,7 @@ class ResultTest extends TestCase
             'info' => $this->getInfoData(),
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         $result = new Result($query, $response);
 
         $this->assertInstanceOf(Index::class, $result->getIndex());
@@ -267,7 +267,7 @@ class ResultTest extends TestCase
             ],
         ];
 
-        $response = new Response(json_encode($data), ['HTTP 1.1 200 OK']);
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
         // get around deprecation for creation of dynamic property
         $result = new class($query, $response) extends Result {
             /**

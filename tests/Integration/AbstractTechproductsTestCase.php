@@ -3879,7 +3879,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'maxScore' => 1.00,
             ],
         ];
-        $responseOverrideResult = new Response(json_encode($dataOverrideResult), ['HTTP 1.0 200 OK']);
+        $responseOverrideResult = new Response(json_encode($dataOverrideResult), ['HTTP/1.0 200 OK']);
 
         $dataOverrideResponse = [
             'response' => [
@@ -3890,7 +3890,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'maxScore' => 1.00,
             ],
         ];
-        $responseOverrideResponse = new Response(json_encode($dataOverrideResponse), ['HTTP 1.0 200 OK']);
+        $responseOverrideResponse = new Response(json_encode($dataOverrideResponse), ['HTTP/1.0 200 OK']);
 
         $resultInStock = self::$client->select($queryInStock);
         $resultLowPrice = self::$client->select($queryLowPrice);

@@ -62,8 +62,7 @@ class NoResponseRequest extends AbstractPlugin
 
         try {
             $this->client->getAdapter()->execute($request, $event->getEndpoint());
-        }
-        catch (HttpException $e) {
+        } catch (HttpException $e) {
             // We expect to run into a timeout.
         }
 
@@ -76,7 +75,7 @@ class NoResponseRequest extends AbstractPlugin
             $this->client->getAdapter()->setOption('return_transfer', true);
         }
 
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $event->setResponse($response);
 
         return $this;

@@ -595,7 +595,7 @@ class ClientTest extends TestCase
     public function testCreateResult()
     {
         $query = new SelectQuery();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = $this->client->createResult($query, $response);
 
         $this->assertThat(
@@ -607,7 +607,7 @@ class ClientTest extends TestCase
     public function testCreateResultPrePlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $expectedEvent = new PreCreateResultEvent($query, $response);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -634,7 +634,7 @@ class ClientTest extends TestCase
     public function testCreateResultPostPlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = $this->client->createResult($query, $response);
         $expectedEvent = new PostCreateResultEvent($query, $response, $result);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -661,7 +661,7 @@ class ClientTest extends TestCase
     public function testCreateResultWithOverridingPlugin()
     {
         $query = new SelectQuery();
-        $response = new Response('test 1234', ['HTTP 1.0 200 OK']);
+        $response = new Response('test 1234', ['HTTP/1.0 200 OK']);
         $expectedEvent = new PreCreateResultEvent($query, $response);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -690,7 +690,7 @@ class ClientTest extends TestCase
     {
         $query = new SelectQuery();
         $query->setResultClass(\stdClass::class);
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
 
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Result class must implement the ResultInterface');
@@ -701,7 +701,7 @@ class ClientTest extends TestCase
     {
         $query = new PingQuery();
         $request = new Request();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = new Result($query, $response);
 
         $observer = $this->getMockBuilder(Client::class)
@@ -730,7 +730,7 @@ class ClientTest extends TestCase
     public function testExecutePrePlugin()
     {
         $query = new PingQuery();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
 
@@ -772,7 +772,7 @@ class ClientTest extends TestCase
     public function testExecutePostPlugin()
     {
         $query = new PingQuery();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = new Result($query, $response);
         $expectedEvent = new PostExecuteEvent($query, $result);
 
@@ -814,7 +814,7 @@ class ClientTest extends TestCase
     public function testExecuteWithOverridingPlugin()
     {
         $query = new PingQuery();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $expectedResult = new Result($query, $response);
         $expectedEvent = new PreExecuteEvent($query);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -842,7 +842,7 @@ class ClientTest extends TestCase
     public function testExecuteRequest()
     {
         $request = new Request();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
 
         $observer = $this->getMockBuilder(Http::class)
             ->onlyMethods(['execute'])
@@ -865,7 +865,7 @@ class ClientTest extends TestCase
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -900,7 +900,7 @@ class ClientTest extends TestCase
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $expectedEvent = new PostExecuteRequestEvent($request, $endpoint, $response);
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
@@ -934,7 +934,7 @@ class ClientTest extends TestCase
     public function testExecuteRequestWithOverridingPlugin()
     {
         $request = new Request();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $endpoint = $this->client->createEndpoint('s1');
         $expectedEvent = new PreExecuteRequestEvent($request, $endpoint);
         if (method_exists($expectedEvent, 'setDispatcher')) {
@@ -970,7 +970,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new \Solarium\QueryType\Ping\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new \Solarium\QueryType\Ping\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->ping($query);
     }
@@ -986,7 +986,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new \Solarium\QueryType\Select\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new \Solarium\QueryType\Select\Result\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->select($query);
     }
@@ -1002,7 +1002,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new \Solarium\QueryType\Update\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new \Solarium\QueryType\Update\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->update($query);
     }
@@ -1018,7 +1018,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new \Solarium\QueryType\MoreLikeThis\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new \Solarium\QueryType\MoreLikeThis\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->moreLikeThis($query);
     }
@@ -1034,7 +1034,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->analyze($query);
     }
@@ -1050,7 +1050,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\Terms\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\Terms\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->terms($query);
     }
@@ -1066,7 +1066,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new \Solarium\QueryType\Spellcheck\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new \Solarium\QueryType\Spellcheck\Result\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->spellcheck($query);
     }
@@ -1082,7 +1082,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-                 ->willReturn(new \Solarium\QueryType\Suggester\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+                 ->willReturn(new \Solarium\QueryType\Suggester\Result\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->suggester($query);
     }
@@ -1098,7 +1098,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\Extract\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\Extract\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->extract($query);
     }
@@ -1114,7 +1114,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\RealtimeGet\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\RealtimeGet\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->realtimeGet($query);
     }
@@ -1130,7 +1130,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\Luke\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\Luke\Result\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->luke($query);
     }
@@ -1146,7 +1146,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\Server\CoreAdmin\Result\Result($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\Server\CoreAdmin\Result\Result($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->coreAdmin($query);
     }
@@ -1162,7 +1162,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\Server\Collections\Result\ClusterStatusResult($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\Server\Collections\Result\ClusterStatusResult($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->collections($query);
     }
@@ -1178,7 +1178,7 @@ class ClientTest extends TestCase
         $observer->expects($this->once())
                  ->method('execute')
                  ->with($this->equalTo($query))
-            ->willReturn(new \Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult($query, new Response('dummyresponse', ['HTTP 1.0 200 OK'])));
+            ->willReturn(new \Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult($query, new Response('dummyresponse', ['HTTP/1.0 200 OK'])));
 
         $observer->configsets($query);
     }
