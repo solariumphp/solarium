@@ -1398,6 +1398,15 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertContains('electronics and stuff2', $phrases);
     }
 
+    public function testSuggesterBuildAll()
+    {
+        $suggester = self::$client->createSuggester();
+        $suggester->setBuildAll(true);
+        $plugin = self::$client->getPlugin('nowaitforresponserequest');
+        self::$client->suggester($suggester);
+        self::$client->removePlugin($plugin);
+    }
+
     /**
      * @dataProvider responseWriterProvider
      */
