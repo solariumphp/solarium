@@ -22,6 +22,11 @@ interface TimeoutAwareInterface
     public const DEFAULT_TIMEOUT = 5;
 
     /**
+     * Minimum timeout that should be respected by adapters implementing this interface.
+     */
+    public const MINIMUM_TIMEOUT = 1;
+
+    /**
      * @param int $timeoutInSeconds
      *
      * @return self Provides fluent interface

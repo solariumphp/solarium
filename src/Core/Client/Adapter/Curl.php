@@ -85,7 +85,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
 
         $handler = curl_init();
         curl_setopt($handler, CURLOPT_URL, $uri);
-        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, $options['return_transfer']);
         if (!(\function_exists('ini_get') && ini_get('open_basedir'))) {
             curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         }
@@ -211,10 +211,11 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      */
     protected function createOptions(Request $request, Endpoint $endpoint): array
     {
-        $options = [
+        $options = $this->options + [
             'timeout' => $this->timeout,
             'connection_timeout' => $this->connectionTimeout ?? $this->timeout,
             'proxy' => $this->proxy,
+            'return_transfer' => true,
         ];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);
