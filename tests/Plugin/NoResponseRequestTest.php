@@ -34,9 +34,8 @@ class NoResponseRequestTest extends TestCase
 
     public function setUp(): void
     {
-        $this->plugin = new NoResponseRequest();
-
         $this->client = TestClientFactory::createWithCurlAdapter();
+        $this->plugin = $this->client->getPlugin('noresponserequest');
         $this->query = $this->client->createSuggester(['buildAll' => true]);
     }
 
@@ -109,7 +108,8 @@ class NoResponseRequestTest extends TestCase
     public function testPluginIntegration()
     {
         $client = TestClientFactory::createWithCurlAdapter();
-        $client->registerPlugin('testplugin', $this->plugin);
+        $plugin = new NoResponseRequest();
+        $client->registerPlugin('testplugin', $plugin);
 
         $query = $client->createSelect();
         $request = $client->createRequest($query);
