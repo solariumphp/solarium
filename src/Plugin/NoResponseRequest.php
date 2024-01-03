@@ -11,7 +11,6 @@ namespace Solarium\Plugin;
 
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
-use Solarium\Core\Client\Adapter\TimeoutAwareTrait;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
@@ -24,11 +23,10 @@ use Solarium\Exception\HttpException;
  *
  * Long-running requests like suggest.buildAll might exceed timeouts.
  * This plugin "tries" to convert the request in a kind of fire-and-forget.
+ * Most reliable if using the Curl adapter.
  */
 class NoResponseRequest extends AbstractPlugin
 {
-    use TimeoutAwareTrait;
-
     /**
      * Event hook to adjust client settings just before query execution.
      *
@@ -52,8 +50,9 @@ class NoResponseRequest extends AbstractPlugin
             $request->clearParams();
         }
 
+        $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
-            $this->setTimeout($this->client->getAdapter()->getTimeout());
+            $timeout = $this->client->getAdapter()->getTimeout();
             $this->client->getAdapter()->setTimeout(TimeoutAwareInterface::MINIMUM_TIMEOUT);
         }
 
@@ -68,29 +67,17 @@ class NoResponseRequest extends AbstractPlugin
             // We expect to run into a timeout.
         }
 
-        $response = new Response('', ['HTTP 1.0 200 OK']);
-        $event->setResponse($response);
-
-        return $this;
-    }
-
-    /**
-     * Event hook to adjust client settings after query execution.
-     *
-     * @param object $event
-     *
-     * @return self Provides fluent interface
-     */
-    public function postExecuteRequest($event): self
-    {
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
             // Restore the previous timeout.
-            $this->client->getAdapter()->setTimeout($this->getTimeout());
+            $this->client->getAdapter()->setTimeout($timeout);
         }
 
         if ($this->client->getAdapter() instanceof Curl) {
             $this->client->getAdapter()->setOption('return_transfer', true);
         }
+
+        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $event->setResponse($response);
 
         return $this;
     }
@@ -107,7 +94,6 @@ class NoResponseRequest extends AbstractPlugin
             // NoResponseRequest has to act on PRE_EXECUTE_REQUEST before Loadbalancer (priority 0)
             // and after PostBigRequest (priority 10). Set priority to 5.
             $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest'], 5);
-            $dispatcher->addListener(Events::POST_EXECUTE_REQUEST, [$this, 'postExecuteRequest']);
         }
     }
 
@@ -121,7 +107,6 @@ class NoResponseRequest extends AbstractPlugin
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
             $dispatcher->removeListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
-            $dispatcher->removeListener(Events::POST_EXECUTE_REQUEST, [$this, 'postExecuteRequest']);
         }
     }
 }

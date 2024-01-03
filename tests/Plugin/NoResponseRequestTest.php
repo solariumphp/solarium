@@ -7,7 +7,6 @@ use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Request;
-use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostExecuteRequest;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
@@ -53,12 +52,6 @@ class NoResponseRequestTest extends TestCase
                     'preExecuteRequest',
                 ],
             ],
-            Events::POST_EXECUTE_REQUEST => [
-                [
-                    $plugin,
-                    'postExecuteRequest',
-                ],
-            ],
           ];
 
         $this->assertSame(
@@ -96,8 +89,6 @@ class NoResponseRequestTest extends TestCase
         $this->assertSame(Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, $requestOutput->getContentType());
         $this->assertSame($requestInput->getQueryString(), $requestOutput->getRawData());
         $this->assertSame('', $requestOutput->getQueryString());
-        $this->assertSame(TimeoutAwareInterface::MINIMUM_TIMEOUT, $this->client->getAdapter()->getTimeout());
-        $this->assertFalse($this->client->getAdapter()->getOption('return_transfer'));
         $this->assertSame(200, $response->getStatusCode());
 
         $event = new PostExecuteRequest($requestOutput, $endpoint, $response);
