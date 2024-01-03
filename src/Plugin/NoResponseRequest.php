@@ -71,16 +71,16 @@ class NoResponseRequest extends AbstractPlugin
      */
     public function postExecuteRequest($event): self
     {
-      if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
-          // Restore the previous timeout.
-          $this->client->getAdapter()->setTimeout($this->getTimeout());
-      }
+        if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
+            // Restore the previous timeout.
+            $this->client->getAdapter()->setTimeout($this->getTimeout());
+        }
 
-      if ($this->client->getAdapter() instanceof Curl) {
-        $this->client->getAdapter()->setOption('return_transfer', true);
-      }
+        if ($this->client->getAdapter() instanceof Curl) {
+            $this->client->getAdapter()->setOption('return_transfer', true);
+        }
 
-      return $this;
+        return $this;
     }
 
     /**

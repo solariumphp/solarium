@@ -12,7 +12,6 @@ use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostExecuteRequest;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Plugin\NoResponseRequest;
-use Solarium\Plugin\PostBigRequest;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Tests\Integration\TestClientFactory;
 
@@ -98,13 +97,13 @@ class NoResponseRequestTest extends TestCase
         $this->assertSame($requestInput->getQueryString(), $requestOutput->getRawData());
         $this->assertSame('', $requestOutput->getQueryString());
         $this->assertSame(TimeoutAwareInterface::MINIMUM_TIMEOUT, $this->client->getAdapter()->getTimeout());
-        $this->assertSame(false, $this->client->getAdapter()->getOption('return_transfer'));
+        $this->assertFalse($this->client->getAdapter()->getOption('return_transfer'));
 
         $event = new PostExecuteRequest($requestOutput, $endpoint, new Response('response'));
         $this->plugin->preExecuteRequest($event);
 
         $this->assertSame(TimeoutAwareInterface::DEFAULT_TIMEOUT, $this->client->getAdapter()->getTimeout());
-        $this->assertSame(true, $this->client->getAdapter()->getOption('return_transfer'));
+        $this->assertTrue($this->client->getAdapter()->getOption('return_transfer'));
     }
 
     public function testPluginIntegration()

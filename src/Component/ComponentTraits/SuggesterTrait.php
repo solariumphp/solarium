@@ -145,7 +145,7 @@ trait SuggesterTrait
      */
     public function setBuildAll(bool $buildAll): SuggesterInterface
     {
-      return $this->setOption('buildAll', $buildAll);
+        return $this->setOption('buildAll', $buildAll);
     }
 
     /**
@@ -155,6 +155,6 @@ trait SuggesterTrait
      */
     public function getBuildAll(): ?bool
     {
-      return $this->getOption('buildAll');
+        return $this->getOption('buildAll');
     }
 }
