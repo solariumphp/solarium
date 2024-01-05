@@ -34,6 +34,8 @@ class NoWaitForResponseRequest extends AbstractPlugin
      * @param object $event
      *
      * @return self Provides fluent interface
+     *
+     * @throws \Solarium\Exception\HttpException
      */
     public function preExecuteRequest($event): self
     {
@@ -62,7 +64,7 @@ class NoWaitForResponseRequest extends AbstractPlugin
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
             $timeout = $this->client->getAdapter()->getTimeout();
             if (($this->client->getAdapter() instanceof ConnectionTimeoutAwareInterface) && ($this->client->getAdapter()->getConnectionTimeout() > 0)) {
-                $this->client->getAdapter()->setTimeout($this->client->getAdapter()->getConnectionTimeout());
+                $this->client->getAdapter()->setTimeout($this->client->getAdapter()->getConnectionTimeout() + TimeoutAwareInterface::FAST_TIMEOUT);
             }
             else {
                 $this->client->getAdapter()->setTimeout(TimeoutAwareInterface::FAST_TIMEOUT);
@@ -77,6 +79,9 @@ class NoWaitForResponseRequest extends AbstractPlugin
             $this->client->getAdapter()->execute($request, $event->getEndpoint());
         } catch (HttpException $e) {
             // We expect to run into a timeout.
+            if (($this->client->getAdapter() instanceof Curl) && $e->getCode() != CURLE_OPERATION_TIMEDOUT) {
+              throw $e;
+            }
         }
 
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
