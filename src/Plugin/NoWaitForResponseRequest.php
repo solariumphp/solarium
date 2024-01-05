@@ -74,6 +74,7 @@ class NoWaitForResponseRequest extends AbstractPlugin
             $this->client->getAdapter()->setOption('return_transfer', false);
         }
 
+        $exception = NULL;
         $microtime1 = microtime(true);
         try {
             $this->client->getAdapter()->execute($request, $event->getEndpoint());
@@ -84,13 +85,14 @@ class NoWaitForResponseRequest extends AbstractPlugin
 
             if (($this->client->getAdapter() instanceof Curl) && (CURLE_OPERATION_TIMEDOUT != $e->getCode())) {
                 // An unexpected exception occurred.
-                throw $e;
+                $exception = $e;
             }
-
-            if (($this->client->getAdapter() instanceof ConnectionTimeoutAwareInterface) && ($time_passed > $this->client->getAdapter()->getConnectionTimeout()) && ($time_passed < ($this->client->getAdapter()->getConnectionTimeout() + TimeoutAwareInterface::FAST_TIMEOUT))) {
+            else if (($this->client->getAdapter() instanceof ConnectionTimeoutAwareInterface) && ($time_passed > $this->client->getAdapter()->getConnectionTimeout()) && ($time_passed < ($this->client->getAdapter()->getConnectionTimeout() + TimeoutAwareInterface::FAST_TIMEOUT))) {
                 // A connection timeout occurred, so the POST request has not been sent.
-                throw $e;
+                $exception = $e;
             }
+        } catch (\Exception $exception) {
+            // Throw this exception after resetting the adapter.
         }
 
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
@@ -100,6 +102,10 @@ class NoWaitForResponseRequest extends AbstractPlugin
 
         if ($this->client->getAdapter() instanceof Curl) {
             $this->client->getAdapter()->setOption('return_transfer', true);
+        }
+
+        if ($exception) {
+            throw $exception;
         }
 
         $response = new Response('', ['HTTP/1.0 200 OK']);
