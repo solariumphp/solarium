@@ -65,8 +65,7 @@ class NoWaitForResponseRequest extends AbstractPlugin
             $timeout = $this->client->getAdapter()->getTimeout();
             if (($this->client->getAdapter() instanceof ConnectionTimeoutAwareInterface) && ($this->client->getAdapter()->getConnectionTimeout() > 0)) {
                 $this->client->getAdapter()->setTimeout($this->client->getAdapter()->getConnectionTimeout() + TimeoutAwareInterface::FAST_TIMEOUT);
-            }
-            else {
+            } else {
                 $this->client->getAdapter()->setTimeout(TimeoutAwareInterface::FAST_TIMEOUT);
             }
         }
@@ -83,7 +82,7 @@ class NoWaitForResponseRequest extends AbstractPlugin
             $microtime2 = microtime();
             if ($this->client->getAdapter() instanceof Curl) {
                 $time_passed = $microtime2 - $microtime1;
-                if ($e->getCode() != CURLE_OPERATION_TIMEDOUT) {
+                if (CURLE_OPERATION_TIMEDOUT != $e->getCode()) {
                     // An unexpected exception occurred.
                     throw $e;
                 }
