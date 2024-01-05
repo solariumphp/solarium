@@ -79,6 +79,7 @@ class NoWaitForResponseRequestTest extends TestCase
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
         $endpoint = $this->client->getEndpoint();
+        $endpoint->setCore('my_core');
         $event = new PreExecuteRequestEvent($requestOutput, $endpoint);
         $this->plugin->preExecuteRequest($event);
         $response = $event->getResponse();
