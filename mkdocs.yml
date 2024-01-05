@@ -8,8 +8,10 @@ nav:
   - 'Solarium Concepts': 'solarium-concepts.md'
   - 'Client and Adapters': 'client-and-adapters.md'
   - 'Queries':
-    - 'queries/select-query/select-query.md'
+    - 'Select Query':
+      - 'queries/select-query/select-query.md'
       - 'queries/select-query/executing-a-select-query.md'
+      - 'Building a Select Query':
         - 'queries/select-query/building-a-select-query/adding-filterqueries.md'
         - 'queries/select-query/building-a-select-query/building-a-select-query.md'
         - 'queries/select-query/building-a-select-query/components/analytics-component.md'
@@ -32,15 +34,19 @@ nav:
         - 'queries/select-query/building-a-select-query/components/facetset-component/facet-query.md'
         - 'queries/select-query/building-a-select-query/components/facetset-component/facet-range.md'
         - 'queries/select-query/building-a-select-query/components/facetset-component/facetset-component.md'
-      - 'queries/select-query/result-of-a-select-query/result-of-a-select-query.md'
-        - 'queries/select-query/result-of-a-select-query/component-results/component-results.md'
-        - 'queries/select-query/result-of-a-select-query/component-results/facetset-result.md'
-        - 'queries/select-query/result-of-a-select-query/component-results/grouping-result.md'
-        - 'queries/select-query/result-of-a-select-query/component-results/highlighting-result.md'
-        - 'queries/select-query/result-of-a-select-query/component-results/morelikethis-result.md'
+      - 'Result of a Select Query':
+        - 'queries/select-query/result-of-a-select-query/result-of-a-select-query.md'
+        - 'Component Results':
+          - 'queries/select-query/result-of-a-select-query/component-results/component-results.md'
+          - 'queries/select-query/result-of-a-select-query/component-results/facetset-result.md'
+          - 'queries/select-query/result-of-a-select-query/component-results/grouping-result.md'
+          - 'queries/select-query/result-of-a-select-query/component-results/highlighting-result.md'
+          - 'queries/select-query/result-of-a-select-query/component-results/morelikethis-result.md'
       - 'queries/select-query/re-use-of-queries.md'
-    - 'queries/update-query/update-query.md'
+    - 'Update Query':
+      - 'queries/update-query/update-query.md'
       - 'queries/update-query/executing-an-update-query.md'
+      - 'Building an Update Query':
         - 'queries/update-query/building-an-update-query/add-command.md'
         - 'queries/update-query/building-an-update-query/building-an-update-query.md'
         - 'queries/update-query/building-an-update-query/commit-command.md'
@@ -60,13 +66,15 @@ nav:
       - 'queries/analysis-query/analysis-query.md'
       - 'queries/analysis-query/analysis-document.md'
       - 'queries/analysis-query/analysis-field.md'
-    - 'queries/luke-query/luke-query.md'
-      - 'queries/luke-query/result-of-a-luke-query/all-fields.md'
-      - 'queries/luke-query/result-of-a-luke-query/document.md'
-      - 'queries/luke-query/result-of-a-luke-query/field-details.md'
-      - 'queries/luke-query/result-of-a-luke-query/index-details.md'
-      - 'queries/luke-query/result-of-a-luke-query/info.md'
-      - 'queries/luke-query/result-of-a-luke-query/schema.md'
+    - 'Luke':
+      - 'queries/luke-query/luke-query.md'
+      - 'Result':
+        - 'queries/luke-query/result-of-a-luke-query/all-fields.md'
+        - 'queries/luke-query/result-of-a-luke-query/document.md'
+        - 'queries/luke-query/result-of-a-luke-query/field-details.md'
+        - 'queries/luke-query/result-of-a-luke-query/index-details.md'
+        - 'queries/luke-query/result-of-a-luke-query/info.md'
+        - 'queries/luke-query/result-of-a-luke-query/schema.md'
     - 'Managed Resources':
       - 'queries/managedresources-query/managed-resources.md'
       - 'queries/managedresources-query/managed-stopwords.md'
