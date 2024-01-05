@@ -457,11 +457,14 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $suggester = $client->createSuggester();
 $suggester->setBuildAll(true);
 
-// don't wait unitl all suggesters have been built
-$client->getPlugin('nowaitforresponserequest');
+// don't wait until all suggesters have been built
+$plugin = $client->getPlugin('nowaitforresponserequest');
 
-// this executes the query
+// this executes the query without waiting for the response
 $client->suggester($suggester);
+
+// don't forget to remove the plugin again if you do need the response from further requests
+$client->removePlugin($plugin);
 
 htmlFooter();
 ```
