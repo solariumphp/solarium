@@ -23,6 +23,7 @@ interface TimeoutAwareInterface
 
     /**
      * Fast timeout that should be used if the client should not wait for the result.
+     *
      * @see \Solarium\Plugin\NoWaitForResponseRequest
      */
     public const FAST_TIMEOUT = 1;
