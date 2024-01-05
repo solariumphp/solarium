@@ -75,12 +75,23 @@ class NoWaitForResponseRequest extends AbstractPlugin
             $this->client->getAdapter()->setOption('return_transfer', false);
         }
 
+        $microtime1 = microtime();
         try {
             $this->client->getAdapter()->execute($request, $event->getEndpoint());
         } catch (HttpException $e) {
             // We expect to run into a timeout.
-            if (($this->client->getAdapter() instanceof Curl) && $e->getCode() != CURLE_OPERATION_TIMEDOUT) {
-              throw $e;
+            $microtime2 = microtime();
+            if ($this->client->getAdapter() instanceof Curl) {
+                $time_passed = $microtime2 - $microtime1;
+                if ($e->getCode() != CURLE_OPERATION_TIMEDOUT) {
+                    // An unexpected exception occurred.
+                    throw $e;
+                }
+                if ($time_passed > $this->client->getAdapter()->getConnectionTimeout() && $time_passed < ($this->client->getAdapter()->getConnectionTimeout() + TimeoutAwareInterface::FAST_TIMEOUT)) {
+                    // A connection timeout occurred, so the POST request has
+                    // not been sent.
+                    throw $e;
+                }
             }
         }
 
