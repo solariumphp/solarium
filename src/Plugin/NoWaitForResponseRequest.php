@@ -42,8 +42,15 @@ class NoWaitForResponseRequest extends AbstractPlugin
         $queryString = $request->getQueryString();
 
         if (Request::METHOD_GET === $request->getMethod()) {
+            // GET requests usually expect a result. Since the purpose of this
+            // plugin is to trigger a long-running command and to not wait for
+            // its result, POST is the correct method.
+            // Depending on the HTTP configuration, GET requests could be
+            // cached. If this plugin is used, someone usually wants to build a
+            // dictionary or suggester and caching has to be avoided. Even if
+            // Solr accepts GET requests for these tasks, POST is the correct
+            // method.
             $charset = $request->getParam('ie') ?? 'utf-8';
-
             $request->setMethod(Request::METHOD_POST);
             $request->setContentType(Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, ['charset' => $charset]);
             $request->setRawData($queryString);
@@ -53,7 +60,7 @@ class NoWaitForResponseRequest extends AbstractPlugin
         $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
             $timeout = $this->client->getAdapter()->getTimeout();
-            $this->client->getAdapter()->setTimeout(TimeoutAwareInterface::MINIMUM_TIMEOUT);
+            $this->client->getAdapter()->setTimeout(TimeoutAwareInterface::FAST_TIMEOUT);
         }
 
         if ($this->client->getAdapter() instanceof Curl) {

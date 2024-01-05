@@ -14,7 +14,9 @@ use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
+use Solarium\Core\Client\Adapter\ConnectionTimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\Curl;
+use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -1400,6 +1402,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
     public function testSuggesterBuildAll()
     {
+        $adapter = self::$client->getAdapter();
+        $connection_timeout = $adapter instanceof ConnectionTimeoutAwareInterface ? $adapter->getConnectionTimeout() : 0;
         $suggester = self::$client->createSuggester();
         // The techproducts example doesn't provide a default suggester, but 'mySuggester'.
         $suggester->setDictionary('mySuggester');
@@ -1407,7 +1411,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $plugin = self::$client->getPlugin('nowaitforresponserequest');
         $time = time();
         $result = self::$client->suggester($suggester);
-        $this->assertTrue((time() - $time) < 2);
+        if ($adapter instanceof TimeoutAwareInterface) {
+            $this->assertTrue((time() - $time) < (TimeoutAwareInterface::FAST_TIMEOUT + $connection_timeout + 1));
+        }
         $this->assertSame(200, $result->getResponse()->getStatusCode());
         self::$client->removePlugin($plugin);
     }
