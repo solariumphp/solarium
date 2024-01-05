@@ -1403,7 +1403,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testSuggesterBuildAll()
     {
         $adapter = self::$client->getAdapter();
-        $imeout = $adapter instanceof TimeoutAwareInterface ? $adapter->getTimeout() : 0;
+        $timeout = $adapter instanceof TimeoutAwareInterface ? $adapter->getTimeout() : 0;
         $connection_timeout = $adapter instanceof ConnectionTimeoutAwareInterface ? $adapter->getConnectionTimeout() : 0;
         $suggester = self::$client->createSuggester();
         // The techproducts example doesn't provide a default suggester, but 'mySuggester'.
@@ -1416,15 +1416,17 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->assertTrue((time() - $time) < (TimeoutAwareInterface::FAST_TIMEOUT + $connection_timeout + 1));
         }
         $this->assertSame(200, $result->getResponse()->getStatusCode());
-        // The client should be configured with defaults again, after these
-        // settings changed within the event subscriber.
+
+        self::$client->removePlugin($plugin);
+
+        // The client should be configured with previous settings again, after
+        // these settings have been changed within the plugin.
         if ($adapter instanceof TimeoutAwareInterface) {
             $this->assertSame($timeout, $adapter->getTimeout());
             if ($adapter instanceof Curl) {
                 $this->assertTrue(self::$client->getAdapter()->getOption('return_transfer'));
             }
         }
-        self::$client->removePlugin($plugin);
     }
 
     /**

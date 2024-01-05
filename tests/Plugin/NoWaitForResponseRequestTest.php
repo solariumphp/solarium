@@ -73,7 +73,30 @@ class NoWaitForResponseRequestTest extends TestCase
             $client->getEventDispatcher()->getListeners()
         );
     }
-    
+
+    public function testExecuteRequest()
+    {
+        $requestOutput = $this->client->createRequest($this->query);
+        $requestInput = clone $requestOutput;
+        $endpoint = $this->client->getEndpoint();
+        $endpoint->setCore('my_core');
+        $event = new PreExecuteRequestEvent($requestOutput, $endpoint);
+        $this->plugin->preExecuteRequest($event);
+        $response = $event->getResponse();
+
+        $this->assertSame(Request::METHOD_GET, $requestInput->getMethod());
+        $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
+        $this->assertSame(Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, $requestOutput->getContentType());
+        $this->assertSame($requestInput->getQueryString(), $requestOutput->getRawData());
+        $this->assertSame('', $requestOutput->getQueryString());
+        $this->assertSame(200, $response->getStatusCode());
+
+        // The client should be configured with defaults again, after these
+        // settings changed within the event subscriber.
+        $this->assertSame(TimeoutAwareInterface::DEFAULT_TIMEOUT, $this->client->getAdapter()->getTimeout());
+        $this->assertTrue($this->client->getAdapter()->getOption('return_transfer'));
+    }
+
     public function testPluginIntegration()
     {
         $client = TestClientFactory::createWithCurlAdapter();
