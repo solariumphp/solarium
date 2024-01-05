@@ -439,6 +439,20 @@ htmlFooter();
 
 ```
 
+NoWaitForResponseRequest plugin
+-------------------------------
+
+Long-running requests like suggest.buildAll might exceed timeouts. This plugin "tries" to convert the request in a kind of fire-and-forget and doesn't wait for Solr's response. Most reliable if the [cURL client adapter](client-and-adapters.md#curl-adapter) is used.
+
+```php
+$suggester = $client->createSuggester();
+$suggester->setBuildAll(true);
+$plugin = $client->getPlugin('nowaitforresponserequest');
+// Don't wait unitl all suggesters have been built.
+$client->suggester($suggester);
+$client->removePlugin($plugin);
+```
+
 ParallelExecution plugin
 ------------------------
 
