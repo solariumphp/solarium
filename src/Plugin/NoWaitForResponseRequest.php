@@ -74,12 +74,12 @@ class NoWaitForResponseRequest extends AbstractPlugin
             $this->client->getAdapter()->setOption('return_transfer', false);
         }
 
-        $microtime1 = microtime();
+        $microtime1 = microtime(true);
         try {
             $this->client->getAdapter()->execute($request, $event->getEndpoint());
         } catch (HttpException $e) {
             // We expect to run into a timeout.
-            $microtime2 = microtime();
+            $microtime2 = microtime(true);
             $time_passed = $microtime2 - $microtime1;
 
             if (($this->client->getAdapter() instanceof Curl) && (CURLE_OPERATION_TIMEDOUT != $e->getCode())) {
