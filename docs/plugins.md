@@ -445,12 +445,25 @@ NoWaitForResponseRequest plugin
 Long-running requests like suggest.buildAll might exceed timeouts. This plugin "tries" to convert the request in a kind of fire-and-forget and doesn't wait for Solr's response. Most reliable if the [cURL client adapter](client-and-adapters.md#curl-adapter) is used.
 
 ```php
+<?php
+
+require_once __DIR__.'/init.php';
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+// get a suggester query instance and add setting to build all suggesters
 $suggester = $client->createSuggester();
 $suggester->setBuildAll(true);
-$plugin = $client->getPlugin('nowaitforresponserequest');
-// Don't wait unitl all suggesters have been built.
+
+// don't wait unitl all suggesters have been built
+$client->getPlugin('nowaitforresponserequest');
+
+// this executes the query
 $client->suggester($suggester);
-$client->removePlugin($plugin);
+
+htmlFooter();
 ```
 
 ParallelExecution plugin

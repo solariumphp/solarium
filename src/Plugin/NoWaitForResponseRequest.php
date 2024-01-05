@@ -9,6 +9,7 @@
 
 namespace Solarium\Plugin;
 
+use Solarium\Core\Client\Adapter\ConnectionTimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Request;
@@ -60,7 +61,11 @@ class NoWaitForResponseRequest extends AbstractPlugin
         $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
             $timeout = $this->client->getAdapter()->getTimeout();
-            $this->client->getAdapter()->setTimeout(TimeoutAwareInterface::FAST_TIMEOUT);
+            $fastTimeout = TimeoutAwareInterface::FAST_TIMEOUT;
+            if ($this->client->getAdapter() instanceof ConnectionTimeoutAwareInterface) {
+                $fastTimeout += $this->client->getAdapter()->getConnectionTimeout() ?? 0;
+            }
+            $this->client->getAdapter()->setTimeout($fastTimeout);
         }
 
         if ($this->client->getAdapter() instanceof Curl) {
