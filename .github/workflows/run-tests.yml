@@ -33,11 +33,11 @@ jobs:
                 coverage: pcov
 
             - name: Checkout solarium
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Checkout solr 7.7
               if: matrix.solr == 7
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 repository: apache/lucene-solr
                 ref: branch_7_7
@@ -45,7 +45,7 @@ jobs:
 
             - name: Checkout solr 8.11
               if: matrix.solr == 8
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 repository: apache/lucene-solr
                 ref: branch_8_11
@@ -53,7 +53,7 @@ jobs:
 
             - name: Checkout solr 9.4
               if: matrix.solr == 9
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 repository: apache/solr
                 ref: branch_9_4
@@ -87,7 +87,7 @@ jobs:
                 cd examples
                 php execute_all.php
 
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v4
               with:
                 name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
                 path: build/logs
@@ -101,10 +101,10 @@ jobs:
 
         steps:
             - name: Checkout solarium
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Download coverage reports from tests
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v4
 
             - name: List report files
               run: |
