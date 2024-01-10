@@ -14,7 +14,9 @@ use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
+use Solarium\Core\Client\Adapter\ConnectionTimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\Curl;
+use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
@@ -1396,6 +1398,35 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertContains('electronics', $phrases);
         $this->assertContains('electronics and computer1', $phrases);
         $this->assertContains('electronics and stuff2', $phrases);
+    }
+
+    public function testSuggesterBuildAll()
+    {
+        $adapter = self::$client->getAdapter();
+        $timeout = $adapter instanceof TimeoutAwareInterface ? $adapter->getTimeout() : 0;
+        $connection_timeout = $adapter instanceof ConnectionTimeoutAwareInterface ? $adapter->getConnectionTimeout() : 0;
+        $suggester = self::$client->createSuggester();
+        // The techproducts example doesn't provide a default suggester, but 'mySuggester'.
+        $suggester->setDictionary('mySuggester');
+        $suggester->setBuildAll(true);
+        $plugin = self::$client->getPlugin('nowaitforresponserequest');
+        $time = time();
+        $result = self::$client->suggester($suggester);
+        if ($adapter instanceof TimeoutAwareInterface) {
+            $this->assertTrue((time() - $time) < (TimeoutAwareInterface::FAST_TIMEOUT + $connection_timeout + 1));
+        }
+        $this->assertSame(200, $result->getResponse()->getStatusCode());
+
+        self::$client->removePlugin($plugin);
+
+        // The client should be configured with previous settings again, after
+        // these settings have been changed within the plugin.
+        if ($adapter instanceof TimeoutAwareInterface) {
+            $this->assertSame($timeout, $adapter->getTimeout());
+            if ($adapter instanceof Curl) {
+                $this->assertTrue(self::$client->getAdapter()->getOption('return_transfer'));
+            }
+        }
     }
 
     /**
@@ -3879,7 +3910,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'maxScore' => 1.00,
             ],
         ];
-        $responseOverrideResult = new Response(json_encode($dataOverrideResult), ['HTTP 1.0 200 OK']);
+        $responseOverrideResult = new Response(json_encode($dataOverrideResult), ['HTTP/1.0 200 OK']);
 
         $dataOverrideResponse = [
             'response' => [
@@ -3890,7 +3921,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'maxScore' => 1.00,
             ],
         ];
-        $responseOverrideResponse = new Response(json_encode($dataOverrideResponse), ['HTTP 1.0 200 OK']);
+        $responseOverrideResponse = new Response(json_encode($dataOverrideResponse), ['HTTP/1.0 200 OK']);
 
         $resultInStock = self::$client->select($queryInStock);
         $resultLowPrice = self::$client->select($queryLowPrice);

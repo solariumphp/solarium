@@ -36,6 +36,7 @@ use Solarium\Plugin\BufferedDelete\BufferedDeleteLite;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter;
+use Solarium\Plugin\NoWaitForResponseRequest;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Plugin\PostBigExtractRequest;
 use Solarium\Plugin\PostBigRequest;
@@ -243,6 +244,7 @@ class Client extends Configurable implements ClientInterface
      */
     protected $pluginTypes = [
         'loadbalancer' => Loadbalancer::class,
+        'nowaitforresponserequest' => NoWaitForResponseRequest::class,
         'postbigrequest' => PostBigRequest::class,
         'postbigextractrequest' => PostBigExtractRequest::class,
         'customizerequest' => CustomizeRequest::class,

@@ -54,7 +54,10 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
     public function getResponse(\CurlHandle $handle, $httpResponse): Response
     {
         if (CURLE_OK !== curl_errno($handle)) {
-            throw new HttpException(sprintf('HTTP request failed, %s', curl_error($handle)));
+            $errno = curl_errno($handle);
+            $error = curl_error($handle);
+            curl_close($handle);
+            throw new HttpException(sprintf('HTTP request failed, %s', $error), $errno);
         }
 
         $httpCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
@@ -85,7 +88,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
 
         $handler = curl_init();
         curl_setopt($handler, CURLOPT_URL, $uri);
-        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, $options['return_transfer']);
         if (!(\function_exists('ini_get') && ini_get('open_basedir'))) {
             curl_setopt($handler, CURLOPT_FOLLOWLOCATION, true);
         }
@@ -211,10 +214,11 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      */
     protected function createOptions(Request $request, Endpoint $endpoint): array
     {
-        $options = [
+        $options = $this->options + [
             'timeout' => $this->timeout,
             'connection_timeout' => $this->connectionTimeout ?? $this->timeout,
             'proxy' => $this->proxy,
+            'return_transfer' => true,
         ];
         foreach ($request->getHeaders() as $headerLine) {
             list($header, $value) = explode(':', $headerLine);

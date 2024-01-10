@@ -20,7 +20,7 @@ class QueryTypeTest extends TestCase
     public function setUp(): void
     {
         $query = new UpdateQuery();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP/1.1 200 OK']);
         $this->result = new TestStubResult($query, $response);
     }
 
@@ -37,7 +37,7 @@ class QueryTypeTest extends TestCase
     public function testParseResponse()
     {
         $query = new TestStubQuery();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP/1.1 200 OK']);
         $result = new TestStubResult($query, $response);
 
         $this->expectException(UnexpectedValueException::class);
@@ -52,7 +52,7 @@ class QueryTypeTest extends TestCase
     public function testParseResponseResponseHeaderFallback()
     {
         $query = new SelectQuery();
-        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP 1.1 200 OK']);
+        $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP/1.1 200 OK']);
         $result = new TestNonDataMappingStubResult($query, $response);
 
         $this->assertSame(1, $result->getStatus());

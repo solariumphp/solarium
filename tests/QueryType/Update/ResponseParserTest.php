@@ -14,7 +14,7 @@ class ResponseParserTest extends TestCase
     {
         $data = '{}';
 
-        $response = new Response($data, ['HTTP 1.1 200 OK']);
+        $response = new Response($data, ['HTTP/1.1 200 OK']);
         $result = new Result(new Query(), $response);
         $parser = new ResponseParser();
         $parsed = $parser->parse($result);

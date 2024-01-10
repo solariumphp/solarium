@@ -163,6 +163,7 @@ try {
         '7.5.3.2-plugin-bufferedupdate-lite-benchmarks-xml.php', // takes too long for a workflow, can be run manually
         '7.5.3.3-plugin-bufferedupdate-benchmarks-json.php', // takes too long for a workflow, can be run manually
         '7.5.3.4-plugin-bufferedupdate-lite-benchmarks-json.php', // takes too long for a workflow, can be run manually
+        '7.9-plugin-nowaitforresponserequest.php', // there is no default suggester included with techproducts
     ];
 
     // examples that can't be run against this Solr version

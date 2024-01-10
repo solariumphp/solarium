@@ -33,7 +33,7 @@ class PreExecuteTest extends TestCase
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();
         $query->setQuery('test123');
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = new Result($query, $response);
 
         $event->setResult($result);
