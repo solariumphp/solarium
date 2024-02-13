@@ -11,6 +11,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  * Test connecting through a proxy with a customized Http adapter that sets the proxy options differently.
  *
  * @group integration
+ * @group proxy
  */
 class CustomizedHttpTest extends HttpTest
 {

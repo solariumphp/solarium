@@ -10,6 +10,7 @@ use Solarium\Core\Client\Request;
  * Abstract test for connecting through a proxy.
  *
  * @group integration
+ * @group proxy
  */
 abstract class AbstractProxyTestCase extends TestCase
 {

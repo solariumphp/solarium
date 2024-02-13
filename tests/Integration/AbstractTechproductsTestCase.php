@@ -5,7 +5,6 @@ namespace Solarium\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Highlighting\Highlighting;
-use Solarium\Component\QueryInterface;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
 use Solarium\Component\Result\Facet\Pivot\PivotItem;
@@ -47,8 +46,6 @@ use Solarium\QueryType\Luke\Result\Doc\DocInfo as LukeDocInfo;
 use Solarium\QueryType\Luke\Result\Fields\FieldInfo as LukeFieldInfo;
 use Solarium\QueryType\Luke\Result\Index\Index as LukeIndexResult;
 use Solarium\QueryType\Luke\Result\Schema\Schema as LukeSchemaResult;
-use Solarium\QueryType\ManagedResources\Query\AbstractQuery as AbstractManagedResourceQuery;
-use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd as AbstractAddCommand;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
@@ -62,9 +59,6 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\RequestBuilder\Xml as XmlUpdateRequestBuilder;
 use Solarium\Support\Utility;
 use Solarium\Tests\Integration\Plugin\EventTimer;
-use Solarium\Tests\Integration\Query\CustomQueryInterfaceQuery;
-use Solarium\Tests\Integration\Query\CustomSelfQuery;
-use Solarium\Tests\Integration\Query\CustomStaticQuery;
 use Symfony\Contracts\EventDispatcher\Event;
 use TRegx\PhpUnit\DataProviders\DataProvider;
 
@@ -5179,9 +5173,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @see https://issues.apache.org/jira/browse/SOLR-6853
      * @see https://github.com/solariumphp/solarium/pull/742
      *
-     * @dataProvider managedResourcesSolr6853Provider
+     * @testWith ["stopwords"]
+     *           ["synonyms"]
      */
-    public function testManagedResourcesSolr6853(string $resourceType, AbstractManagedResourceQuery $query, AbstractAddCommand $add)
+    public function testManagedResourcesSolr6853(string $resourceType)
     {
         // unique name is necessary for Stopwords to avoid running into SOLR-14268
         $uniqid = uniqid();
@@ -5197,10 +5192,36 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
         }
 
-        // unlike name, term can't contain a slash (SOLR-6853)
-        $term = 'test-:?#[]@% ';
-        $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
-        $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
+        if (9 <= self::$solrVersion) {
+            $term = 'test-:/?#[]@% ';
+            $termSingleEncoded = 'test-%3A%2F%3F%23%5B%5D%40%25%20';
+            $termDoubleEncoded = 'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
+        } else {
+            // Before Solr 9.4.1, term can't contain a slash (SOLR-6853)
+            $term = 'test-:?#[]@% ';
+            $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
+            $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
+        }
+
+        switch ($resourceType) {
+            case 'stopwords':
+                $query = new StopwordsQuery();
+                $add = $query->createCommand($query::COMMAND_ADD);
+                $add->setStopwords([$term]);
+                break;
+            case 'synonyms':
+                $query = new SynonymsQuery();
+                $add = $query->createCommand($query::COMMAND_ADD);
+                $synonyms = new Synonyms();
+                $synonyms->setTerm($term);
+                $synonyms->setSynonyms(['foo', 'bar']);
+                $add->setSynonyms($synonyms);
+                break;
+            default:
+                // PHPStan needs these variables defined even though we never reach this branch
+                $query = null;
+                $add = null;
+        }
 
         $compliantRequestBuilder = new CompliantManagedResourceRequestBuilder();
         $actualRequestBuilder = new ResourceRequestBuilder();
@@ -5317,29 +5338,6 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertFalse($result->getWasSuccessful());
     }
 
-    public function managedResourcesSolr6853Provider(): array
-    {
-        $term = 'test-:?#[]@% ';
-        $data = [];
-
-        $query = new StopwordsQuery();
-        $add = $query->createCommand($query::COMMAND_ADD);
-        $add->setStopwords([$term]);
-
-        $data['stopwords'] = ['stopwords', $query, $add];
-
-        $query = new SynonymsQuery();
-        $add = $query->createCommand($query::COMMAND_ADD);
-        $synonyms = new Synonyms();
-        $synonyms->setTerm($term);
-        $synonyms->setSynonyms(['foo', 'bar']);
-        $add->setSynonyms($synonyms);
-
-        $data['synonyms'] = ['synonyms', $query, $add];
-
-        return $data;
-    }
-
     public function testGetBodyOnHttpError()
     {
         /** @var \Solarium\Core\Query\Status4xxNoExceptionInterface $query */
@@ -5392,32 +5390,6 @@ abstract class AbstractTechproductsTestCase extends TestCase
         }
 
         self::$client->removePlugin('eventtimer');
-    }
-
-    /**
-     * Test the various return types that are valid for custom query classes that
-     * override the {@see \Solarium\Component\QueryTrait::setQuery()} method.
-     *
-     * If this test throws a fatal error, the return type of the parent might no
-     * longer be backward compatible with existing code that overrides it.
-     *
-     * @see https://github.com/solariumphp/solarium/issues/1097
-     *
-     * @dataProvider customQueryClassProvider
-     */
-    public function testCustomQueryClassSetQueryReturnType(string $queryClass)
-    {
-        $query = new $queryClass();
-        $this->assertInstanceOf(QueryInterface::class, $query->setQuery('*:*'));
-    }
-
-    public function customQueryClassProvider(): array
-    {
-        return [
-            [CustomStaticQuery::class],
-            [CustomSelfQuery::class],
-            [CustomQueryInterfaceQuery::class],
-        ];
     }
 }
 
