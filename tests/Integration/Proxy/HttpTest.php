@@ -8,6 +8,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  * Test connecting through a proxy with the Http adapter.
  *
  * @group integration
+ * @group proxy
  */
 class HttpTest extends AbstractProxyTestCase
 {

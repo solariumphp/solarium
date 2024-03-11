@@ -31,6 +31,13 @@ class ConnectionReuseTest extends TestCase
     protected static $isNewLoggingApi;
 
     /**
+     * Are we running against a v2 logging API with a known bug (SOLR-17176l)?
+     *
+     * @var bool
+     */
+    protected static $isBuggyLoggingApi;
+
+    /**
      * Original org.eclipse.jetty.io.AbstractConnection log level to restore after the testcase.
      *
      * @var string
@@ -68,6 +75,7 @@ class ConnectionReuseTest extends TestCase
         self::$client = TestClientFactory::createWithPsr18Adapter(self::$config);
 
         // determine if we're running against a version of Solr that uses the tweaked v2 logging API (SOLR-16458)
+        // determine if we're running against a version of Solr with a known bug in the v2 logging API (SOLR-17176l)
         $query = self::$client->createApi([
             'version' => Request::API_V1,
             'handler' => 'admin/info/system',
@@ -77,6 +85,7 @@ class ConnectionReuseTest extends TestCase
 
         $solrSpecVersion = $system['lucene']['solr-spec-version'];
         self::$isNewLoggingApi = version_compare($solrSpecVersion, '9.3', '>=');
+        self::$isBuggyLoggingApi = version_compare($solrSpecVersion, '9.5', '>=');
 
         // get the current log level to restore afterwards to avoid excessive logging in other testcases
         $query = self::$client->createApi([
@@ -228,16 +237,26 @@ class ConnectionReuseTest extends TestCase
             $client->execute($query);
         }
 
-        $query = $client->createApi([
-            'version' => Request::API_V2,
-            'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
-        ]);
+        if (self::$isBuggyLoggingApi) {
+            // fallback to v1 logging API to work around SOLR-17176
+            $apiOptions = [
+                'version' => Request::API_V1,
+                'handler' => 'admin/info/logging',
+            ];
+        } else {
+            $apiOptions = [
+                'version' => Request::API_V2,
+                'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
+            ];
+        }
+
+        $query = $client->createApi($apiOptions);
         $query->addParam('since', self::$since);
         $result = $client->execute($query);
         $data = $result->getData();
         self::$since = $data['info']['last'];
 
-        $connections = $this->extractConnections(self::$isNewLoggingApi ? $data['history'] : $data['history']['docs']);
+        $connections = $this->extractConnections(self::$isNewLoggingApi && !self::$isBuggyLoggingApi ? $data['history'] : $data['history']['docs']);
 
         // The count is off-by-1 with an additional connection for one of the tests:
         // - the request for node/logging without reuse is included in the count without reuse in most tests in a workflow;

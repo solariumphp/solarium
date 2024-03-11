@@ -10,6 +10,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  * Test connecting through a proxy with the Curl adapter.
  *
  * @group integration
+ * @group proxy
  */
 class CurlTest extends AbstractProxyTestCase
 {
