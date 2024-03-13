@@ -89,6 +89,19 @@ class QueryTest extends TestCase
         $this->assertSame(1200, $query->getTimeAllowed());
     }
 
+    public function testGetDefaultCpuAllowed()
+    {
+        $query = new TestQuery();
+        $this->assertNull($query->getCpuAllowed());
+    }
+
+    public function testSetAndGetCpuAllowed()
+    {
+        $query = new TestQuery();
+        $query->setCpuAllowed(500);
+        $this->assertSame(500, $query->getCpuAllowed());
+    }
+
     public function testSetAndGetNow()
     {
         $query = new TestQuery();
