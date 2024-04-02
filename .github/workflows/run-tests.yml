@@ -70,7 +70,7 @@ jobs:
                 cd -
                 mv solr/server/solr/configsets/sample_techproducts_configs/conf/techproducts.zip ../tests/Integration/Fixtures/
                 cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
-                docker-compose up -d
+                docker compose up -d
 
             - name: Install dependencies
               run: |
