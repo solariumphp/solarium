@@ -117,6 +117,30 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     }
 
     /**
+     * Set cpuAllowed option.
+     *
+     * @param int $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCpuAllowed(int $value): self
+    {
+        $this->setOption('cpuallowed', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get cpuAllowed option.
+     *
+     * @return int|null
+     */
+    public function getCpuAllowed(): ?int
+    {
+        return $this->getOption('cpuallowed');
+    }
+
+    /**
      * Set omitHeader option.
      *
      * @param bool $value

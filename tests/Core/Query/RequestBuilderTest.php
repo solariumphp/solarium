@@ -92,6 +92,20 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildWithCpuAllowed()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', 'v2');
+        $query->setCpuAllowed(600);
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&cpuAllowed=600&p1=v1&p2=v2&wt=json&json.nl=flat',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithNow()
     {
         $query = new SelectQuery();
