@@ -85,7 +85,7 @@ class ConnectionReuseTest extends TestCase
 
         $solrSpecVersion = $system['lucene']['solr-spec-version'];
         self::$isNewLoggingApi = version_compare($solrSpecVersion, '9.3', '>=');
-        self::$isBuggyLoggingApi = version_compare($solrSpecVersion, '9.5', '>=');
+        self::$isBuggyLoggingApi = version_compare($solrSpecVersion, '9.5', '>=') && version_compare($solrSpecVersion, '9.6', '<');
 
         // get the current log level to restore afterwards to avoid excessive logging in other testcases
         $query = self::$client->createApi([
