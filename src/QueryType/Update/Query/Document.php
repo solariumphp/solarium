@@ -498,6 +498,8 @@ class Document extends AbstractDocument
         foreach ($fields as $key => &$value) {
             if ($value instanceof \DateTimeInterface) {
                 $value = $this->getHelper()->formatDate($value);
+            } elseif ($value instanceof \Stringable && !($value instanceof \JsonSerializable)) {
+                $value = (string) $value;
             } elseif (\is_array($value) && is_numeric(array_key_first($value))) {
                 // ensure consecutive indices so it doesn't serialize to an object
                 $value = array_values($value);

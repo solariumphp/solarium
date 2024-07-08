@@ -711,6 +711,104 @@ class JsonTest extends TestCase
         );
     }
 
+    public function testBuildAddJsonWithJsonSerializableObject()
+    {
+        $value = new class() implements \JsonSerializable {
+            public function jsonSerialize(): mixed
+            {
+                return 'My value';
+            }
+        };
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'my_field' => $value])
+        );
+        $json = [];
+
+        $this->builder->buildAddJson($command, $json);
+
+        $this->assertCount(1, $json);
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "add": {
+                    "doc": {
+                        "id": 1,
+                        "my_field": "My value"
+                    }
+                }
+            }',
+            '{'.$json[0].'}'
+        );
+    }
+
+    public function testBuildAddJsonWithStringableObject()
+    {
+        $value = new class() implements \Stringable {
+            public function __toString(): string
+            {
+                return 'My value';
+            }
+        };
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'my_field' => $value])
+        );
+        $json = [];
+
+        $this->builder->buildAddJson($command, $json);
+
+        $this->assertCount(1, $json);
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "add": {
+                    "doc": {
+                        "id": 1,
+                        "my_field": "My value"
+                    }
+                }
+            }',
+            '{'.$json[0].'}'
+        );
+    }
+
+    public function testBuildAddJsonWithJsonSerializableAndStringableObject()
+    {
+        $value = new class() implements \JsonSerializable, \Stringable {
+            public function jsonSerialize(): mixed
+            {
+                return 'My JSON value';
+            }
+
+            public function __toString(): string
+            {
+                return 'My string value';
+            }
+        };
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'my_field' => $value])
+        );
+        $json = [];
+
+        $this->builder->buildAddJson($command, $json);
+
+        $this->assertCount(1, $json);
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "add": {
+                    "doc": {
+                        "id": 1,
+                        "my_field": "My JSON value"
+                    }
+                }
+            }',
+            '{'.$json[0].'}'
+        );
+    }
+
     public function testBuildAddJsonWithFieldModifierAndNullValue()
     {
         $doc = new Document();

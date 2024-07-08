@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Solarium\Core\Query\AbstractQuery::setCpuAllowed()
 
+### Fixed
+- JSON update requests correctly handle `Stringable` object set as field value
+
 
 ## [6.3.5]
 ### Added
