@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - JSON update requests correctly handle `Stringable` object set as field value
 
+### Changed
+- JSON update requests give precedence to `Stringable` over `JsonSerializable` for object set as field value to keep behaviour consistent across request formats
+
 
 ## [6.3.5]
 ### Added

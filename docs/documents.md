@@ -238,6 +238,14 @@ Solarium issues JSON formatted update requests by default. If you change this to
   [SOLR-16183](https://issues.apache.org/jira/browse/SOLR-16183). Any child document you index this way will end up as an anonymous nested child.
 - Atomic updates of child documents aren't fully supported because of [SOLR-12677](https://issues.apache.org/jira/browse/SOLR-12677).
 
+If you set a field value to an object that is both `Stringable` and `JsonSerializable`, it will always be cast to a `string` when building the
+request to keep the behaviour consistent between request formats. You can override this by calling `jsonSerialize()` explicitly. Even if an object
+isn't `Stringable`, depending on `jsonSerialize()` being called implicitly is discouraged as it will only work for JSON formatted update requests.
+
+```php
+$doc->reaction = $reaction->jsonSerialize();
+```
+
 ### Atomic updates
 
 You can create atomic updates by using the `setFieldModifier` method. Set a modifier on the field you want to update. The supported modifiers are:
