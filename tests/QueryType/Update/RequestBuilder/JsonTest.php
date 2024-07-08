@@ -773,6 +773,10 @@ class JsonTest extends TestCase
         );
     }
 
+    /**
+     * Test that \Stringable takes precedence over \JsonSerializable for
+     * consistency across request format.
+     */
     public function testBuildAddJsonWithJsonSerializableAndStringableObject()
     {
         $value = new class() implements \JsonSerializable, \Stringable {
@@ -790,6 +794,46 @@ class JsonTest extends TestCase
         $command = new AddCommand();
         $command->addDocument(
             new Document(['id' => 1, 'my_field' => $value])
+        );
+        $json = [];
+
+        $this->builder->buildAddJson($command, $json);
+
+        $this->assertCount(1, $json);
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "add": {
+                    "doc": {
+                        "id": 1,
+                        "my_field": "My string value"
+                    }
+                }
+            }',
+            '{'.$json[0].'}'
+        );
+    }
+
+    /**
+     * Test that the \Stringable precedence on an also \JsonSerializable object
+     * can be overridden by explicitly calling jsonSerialize().
+     */
+    public function testBuildAddJsonWithJsonSerializableAndStringableObjectWithExplicitJsonSerialize()
+    {
+        $value = new class() implements \JsonSerializable, \Stringable {
+            public function jsonSerialize(): mixed
+            {
+                return 'My JSON value';
+            }
+
+            public function __toString(): string
+            {
+                return 'My string value';
+            }
+        };
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'my_field' => $value->jsonSerialize()])
         );
         $json = [];
 
