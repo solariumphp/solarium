@@ -64,6 +64,20 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildWithArray()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', ['a1', 'a2']);
+        $query->setResponseWriter('xyz');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&p1=v1&p2=a1&p2=a2&wt=xyz',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithHeader()
     {
         $query = new SelectQuery();
