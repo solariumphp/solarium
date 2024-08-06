@@ -11,9 +11,9 @@ Solarium allows for three main modes of usage of the library: programmatically, 
 
 Currently only the programmatic and extending modes support all features, the configuration mode doesn't support some complex cases. This might be improved over time but there will always be limits to what is possible with configuration only, without creating very complex configurations.
 
-The configuration mode supports an array as input or an object that implements the `toArray()` method (this is also compatible with the Zend Framework `Zend_Config` component).
+The configuration mode supports an associative array as input.
 
-The three modes apply to all Solarium classes that extend `Solarium\Core\Configurable`. This includes all Solarium classes that are intended for direct usage, e.g. the query classes, filterqueries, components etcetera. You can check to API for a class to see if it supports config mode.
+The three modes apply to all Solarium classes that extend `Solarium\Core\Configurable`. This includes all Solarium classes that are intended for direct usage, e.g. the query classes, filterqueries, components etcetera. You can check the API for a class to see if it supports config mode.
 
 As an example the three modes are demonstrated, all creating an identical Solr client instance:
 
@@ -80,10 +80,6 @@ htmlFooter();
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-
-// In this case an array is used for configuration to keep the example simple.
-// For an easier to use config file you are probably better of with another format, like Zend_Config_Ini
-// See the documentation for more info about this.
 $select = array(
     'query'         => '*:*',
     'start'         => 2,
@@ -150,7 +146,7 @@ use Solarium\QueryType\Select\Query\Query as Select;
 htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
-// This makes it possible to create 'query inheritance' like in this example
+// This makes it possible to create 'query inheritance' like in this example.
 class ProductQuery extends Select
 {
     protected function init()

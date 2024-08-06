@@ -138,18 +138,18 @@ interface FacetSetInterface
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the facet
      * and it will be added to this query.
-     * If you supply an options array/object that contains a key the facet will also be added to the query.
+     * If you supply an options array that contains a key the facet will also be added to the query.
      *
      * When no key is supplied the facet cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFacet method.
      *
      * @param string            $type
-     * @param array|object|null $options
+     * @param string|array|null $options
      * @param bool              $add
      *
      * @throws OutOfBoundsException
      *
      * @return FacetInterface
      */
-    public function createFacet(string $type, $options = null, bool $add = true): FacetInterface;
+    public function createFacet(string $type, string|array|null $options = null, bool $add = true): FacetInterface;
 }

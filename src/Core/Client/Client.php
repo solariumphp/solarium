@@ -298,7 +298,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param AdapterInterface         $adapter
      * @param EventDispatcherInterface $eventDispatcher
-     * @param array|null               $options
+     * @param array                    $options
      */
     public function __construct(AdapterInterface $adapter, EventDispatcherInterface $eventDispatcher, array $options = null)
     {
@@ -313,17 +313,17 @@ class Client extends Configurable implements ClientInterface
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the endpoint
      * and it will be registered.
-     * If you supply an options array/object that contains a key the endpoint will also be registered.
+     * If you supply an options array that contains a key the endpoint will also be registered.
      *
      * When no key is supplied the endpoint cannot be registered, in that case you will need to do this manually
      * after setting the key, by using the addEndpoint method.
      *
-     * @param mixed $options
-     * @param bool  $setAsDefault
+     * @param string|array|null $options
+     * @param bool              $setAsDefault
      *
      * @return Endpoint
      */
-    public function createEndpoint($options = null, bool $setAsDefault = false): Endpoint
+    public function createEndpoint(string|array|null $options = null, bool $setAsDefault = false): Endpoint
     {
         if (\is_string($options)) {
             $endpoint = new Endpoint();
@@ -1147,7 +1147,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a select query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Select\Query\Query
      */
@@ -1159,7 +1159,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a MoreLikeThis query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\MoreLikeThis\Query
      */
@@ -1171,7 +1171,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create an update query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Update\Query\Query
      */
@@ -1183,7 +1183,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a ping query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Ping\Query
      */
@@ -1195,7 +1195,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create an analysis field query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Analysis\Query\Field
      */
@@ -1207,7 +1207,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create an analysis document query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Analysis\Query\Document
      */
@@ -1219,7 +1219,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a terms query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Terms\Query
      */
@@ -1231,7 +1231,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a specllcheck query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Spellcheck\Query
      */
@@ -1243,7 +1243,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a suggester query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Suggester\Query
      */
@@ -1255,7 +1255,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create an extract query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Extract\Query
      */
@@ -1267,7 +1267,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a stream query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Stream\Query
      */
@@ -1283,7 +1283,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a graph query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Graph\Query
      */
@@ -1299,7 +1299,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a RealtimeGet query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\RealtimeGet\Query
      */
@@ -1311,7 +1311,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a Luke query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Luke\Query
      */
@@ -1323,7 +1323,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a CoreAdmin query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\CoreAdmin\Query\Query
      */
@@ -1335,7 +1335,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a Collections API query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Collections\Query\Query
      */
@@ -1347,7 +1347,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a Configsets API query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Configsets\Query\Query
      */
@@ -1359,7 +1359,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create an API query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Api\Query
      */
@@ -1371,7 +1371,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a managed resources query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Resources
      */
@@ -1383,7 +1383,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a managed stopwords query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Stopwords
      */
@@ -1395,7 +1395,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Create a managed synonyms query instance.
      *
-     * @param mixed $options
+     * @param array $options
      *
      * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Synonyms
      */

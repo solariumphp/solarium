@@ -7,7 +7,7 @@ use Solarium\QueryType\Select\Query\Query as Select;
 htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
-// This makes it possible to create 'query inheritance' like in this example
+// This makes it possible to create 'query inheritance' like in this example.
 class ProductQuery extends Select
 {
     protected function init()

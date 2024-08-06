@@ -4,7 +4,6 @@ namespace Solarium\Tests\Core;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Configurable;
-use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 
 class ConfigurableTest extends TestCase
@@ -20,49 +19,7 @@ class ConfigurableTest extends TestCase
         $this->assertSame($configTest->getOptions(), $defaultOptions);
     }
 
-    public function testConstructorWithObject()
-    {
-        $configTest = new ConfigTest(new MyConfigObject());
-
-        // the default options should be merged with the constructor values,
-        // overwriting any default values.
-        $expectedOptions = [
-            'option1' => 1,
-            'option2' => 'newvalue2',
-            'option3' => 3,
-        ];
-
-        $this->assertSame($expectedOptions, $configTest->getOptions());
-    }
-
-    public function testConstructorWithObjectWithoutToArray()
-    {
-        $config = new \stdClass();
-        $config->option2 = 'newvalue2';
-        $config->option3 = 3;
-        $config->option4 = [
-            'option5' => 5,
-            'option6' => 'newvalue6',
-        ];
-
-        $configTest = new ConfigTest($config);
-
-        // the default options should be merged with the constructor values,
-        // overwriting any default values.
-        $expectedOptions = [
-            'option1' => 1,
-            'option2' => 'newvalue2',
-            'option3' => 3,
-            'option4' => [
-                'option5' => 5,
-                'option6' => 'newvalue6',
-            ],
-        ];
-
-        $this->assertSame($expectedOptions, $configTest->getOptions());
-    }
-
-    public function testConstructorWithArrayConfig()
+    public function testConstructorWithConfig()
     {
         $configTest = new ConfigTest(
             ['option2' => 'newvalue2', 'option3' => 3]
@@ -85,7 +42,7 @@ class ConfigurableTest extends TestCase
         $this->assertSame(1, $configTest->getOption('option1'));
     }
 
-    public function testGetOptionWIthInvalidName()
+    public function testGetOptionWithInvalidName()
     {
         $configTest = new ConfigTest();
         $this->assertNull($configTest->getOption('invalidoptionname'));
@@ -94,6 +51,7 @@ class ConfigurableTest extends TestCase
     public function testInitialisation()
     {
         $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('test init');
         new ConfigTestInit();
     }
 
@@ -108,6 +66,12 @@ class ConfigurableTest extends TestCase
         );
     }
 
+    public function testSetOptionsReturnsSelf()
+    {
+        $configTest = new ConfigTest();
+        $this->assertSame($configTest, $configTest->setOptions([]));
+    }
+
     public function testSetOptionsWithOverride()
     {
         $configTest = new ConfigTest();
@@ -119,13 +83,27 @@ class ConfigurableTest extends TestCase
         );
     }
 
-    public function testSetOptionsWithInvalidArgument()
+    public function testSetOptionsCallsInitLocalParameters()
+    {
+        $configTest = new ConfigTestInitLocalParameters();
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('test initLocalParameters');
+        $configTest->setOptions([]);
+    }
+
+    public function testSetOption()
     {
         $configTest = new ConfigTest();
+        $configTest->setOption('option2', 'newvalue');
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Options value given to the setOptions() method must be an array or a Zend_Config object');
-        $configTest->setOptions('option2=2&option3=3');
+        $this->assertSame('newvalue', $configTest->getOption('option2'));
+    }
+
+    public function testSetOptionReturnsSelf()
+    {
+        $configTest = new ConfigTest();
+        $this->assertSame($configTest, $configTest->setOption('option', 'value'));
     }
 }
 
@@ -135,6 +113,14 @@ class ConfigTest extends Configurable
         'option1' => 1,
         'option2' => 'value 2',
     ];
+
+    /**
+     * Override visibility.
+     */
+    public function setOption(string $name, mixed $value): self
+    {
+        return parent::setOption($name, $value);
+    }
 }
 
 class ConfigTestInit extends ConfigTest
@@ -145,10 +131,10 @@ class ConfigTestInit extends ConfigTest
     }
 }
 
-class MyConfigObject
+class ConfigTestInitLocalParameters extends ConfigTest
 {
-    public function toArray()
+    protected function initLocalParameters()
     {
-        return ['option2' => 'newvalue2', 'option3' => 3];
+        throw new RuntimeException('test initLocalParameters');
     }
 }

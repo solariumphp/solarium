@@ -3,10 +3,6 @@
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-
-// In this case an array is used for configuration to keep the example simple.
-// For an easier to use config file you are probably better of with another format, like Zend_Config_Ini
-// See the documentation for more info about this.
 $select = array(
     'query'         => '*:*',
     'start'         => 2,
