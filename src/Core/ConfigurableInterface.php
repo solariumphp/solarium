@@ -9,8 +9,6 @@
 
 namespace Solarium\Core;
 
-use Solarium\Exception\InvalidArgumentException;
-
 /**
  * Interface for configurable classes.
  *
@@ -23,19 +21,13 @@ interface ConfigurableInterface
     /**
      * Set options.
      *
-     * If $options is an object it will be converted into an array by calling
-     * its toArray method. This is compatible with the Zend_Config classes in
-     * Zend Framework, but can also easily be implemented in any other object.
-     *
-     * @param array|\Zend_Config $options
-     * @param bool               $overwrite True for overwriting existing options, false
-     *                                      for merging (new values overwrite old ones if needed)
-     *
-     * @throws InvalidArgumentException
+     * @param array $options
+     * @param bool  $overwrite True for overwriting existing options, false for
+     *                         merging (new values overwrite old ones if needed)
      *
      * @return self Provides fluent interface
      */
-    public function setOptions($options, bool $overwrite = false): self;
+    public function setOptions(array $options, bool $overwrite = false): self;
 
     /**
      * Get an option value by name.
@@ -46,7 +38,7 @@ interface ConfigurableInterface
      *
      * @return mixed
      */
-    public function getOption(string $name);
+    public function getOption(string $name): mixed;
 
     /**
      * Get all options.

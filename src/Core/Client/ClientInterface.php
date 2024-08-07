@@ -73,17 +73,17 @@ interface ClientInterface
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the endpoint
      * and it will be registered.
-     * If you supply an options array/object that contains a key the endpoint will also be registered.
+     * If you supply an options array that contains a key the endpoint will also be registered.
      *
      * When no key is supplied the endpoint cannot be registered, in that case you will need to do this manually
      * after setting the key, by using the addEndpoint method.
      *
-     * @param mixed $options
-     * @param bool  $setAsDefault
+     * @param string|array|null $options
+     * @param bool              $setAsDefault
      *
      * @return Endpoint
      */
-    public function createEndpoint($options = null, bool $setAsDefault = false): Endpoint;
+    public function createEndpoint(string|array|null $options = null, bool $setAsDefault = false): Endpoint;
 
     /**
      * Add an endpoint.

@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - JSON update requests give precedence to `Stringable` over `JsonSerializable` for object set as field value to keep behaviour consistent across request formats
 
+### Removed
+- Support for config objects, you have to convert them to an array before passing to a constructor or `setOptions()`
+
 
 ## [6.3.5]
 ### Added

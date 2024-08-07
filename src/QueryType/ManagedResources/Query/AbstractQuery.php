@@ -175,13 +175,13 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
      * Create a command instance.
      *
      * @param string $type
-     * @param mixed  $options
+     * @param array  $options
      *
      * @throws \Solarium\Exception\InvalidArgumentException
      *
      * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand
      */
-    public function createCommand($type, $options = null): AbstractCommand
+    public function createCommand(string $type, array $options = null): AbstractCommand
     {
         $type = strtolower($type);
 

@@ -515,16 +515,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the filterquery
      * and it will be added to this query.
-     * If you supply an options array/object that contains a key the filterquery will also be added to the query.
+     * If you supply an options array that contains a key the filterquery will also be added to the query.
      *
      * When no key is supplied the filterquery cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFilterQuery method.
      *
-     * @param mixed $options
+     * @param string|array $options
      *
      * @return FilterQuery
      */
-    public function createFilterQuery($options = null): FilterQuery
+    public function createFilterQuery(string|array $options = null): FilterQuery
     {
         if (\is_string($options)) {
             $fq = new FilterQuery();

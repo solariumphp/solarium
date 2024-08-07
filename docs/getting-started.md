@@ -90,6 +90,11 @@ Upgrading
 
 When upgrading from an earlier version, you should be aware of a number of pitfalls.
 
+### Pitfall when upgrading to 6.3.6
+
+Using a config object is no longer supported. You have to convert it to an array before passing
+it to a constructor or the `setOptions()` method.
+
 ### Pitfall when upgrading to 6.3.2
 
 Support for PHP 7 was removed in Solarium 6.3.2. Upgrade to PHP 8 first to use the latest Solarium version.
