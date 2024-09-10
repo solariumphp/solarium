@@ -20,6 +20,7 @@ use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
+use Solarium\Core\Query\AbstractDocument;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\RequestBuilderInterface;
@@ -94,6 +95,25 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @var bool
      */
     protected static $isSolrOnWindows;
+
+    /**
+     * Asserts that a document contains exactly the expected fields.
+     *
+     * {@internal We used to compare the actual array of fields directly to the
+     *            expected array with {@see assertSame()} but that stopped working
+     *            with Solr 9.7.0 because the order in which fields are returned
+     *            has changed for some queries. There was never a guarantee that
+     *            Solr maintains field order (SOLR-1190), we had just been lucky
+     *            that it had always happened to work out before.}
+     */
+    public static function assertDocumentHasFields(array $expectedFields, AbstractDocument $actualDocument, string $message = ''): void
+    {
+        $actualFields = $actualDocument->getFields();
+        Utility::recursiveKeySort($actualFields);
+        Utility::recursiveKeySort($expectedFields);
+
+        static::assertSame($expectedFields, $actualFields, $message);
+    }
 
     abstract protected static function createTechproducts(): void;
 
@@ -187,16 +207,16 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $select->setQuery('êâîôû');
             $result = self::$client->select($select);
             static::assertCount(1, $result);
-            static::assertSame([
+            static::assertDocumentHasFields([
                 'id' => 'UTF8TEST',
-            ], $result->getIterator()->current()->getFields());
+            ], $result->getIterator()->current());
 
             $select->setQuery('这是一个功能');
             $result = self::$client->select($select);
             static::assertCount(1, $result);
-            static::assertSame([
+            static::assertDocumentHasFields([
                 'id' => 'GB18030TEST',
-            ], $result->getIterator()->current()->getFields());
+            ], $result->getIterator()->current());
         } catch (\Exception $e) {
             self::tearDownAfterClass();
             static::markTestSkipped('Solr techproducts sample data not indexed properly.');
@@ -551,15 +571,15 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertSame(2, $result->getNumFound());
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'MA147LL/A',
             'manufacturedate_dt' => '2005-10-12T08:00:00Z',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'F8V7067-APL-KIT',
             'manufacturedate_dt' => '2005-08-01T16:30:25Z',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // VS1GB400C3 costs 74.99, SP2514N costs 92.0, 0579B002 costs 179.99
         $select->setFields('id,price');
@@ -570,20 +590,20 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertSame(3, $result->getNumFound());
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'VS1GB400C3',
             'price' => 74.99,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'SP2514N',
             'price' => 92.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => '0579B002',
             'price' => 179.99,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, 179.99, [true, false])
@@ -591,15 +611,15 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertSame(2, $result->getNumFound());
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'VS1GB400C3',
             'price' => 74.99,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'SP2514N',
             'price' => 92.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, 179.99, [false, true])
@@ -607,15 +627,15 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertSame(2, $result->getNumFound());
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'SP2514N',
             'price' => 92.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => '0579B002',
             'price' => 179.99,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         $select->setQuery(
             $select->getHelper()->rangeQuery('price', 74.99, 179.99, [false, false])
@@ -623,10 +643,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertSame(1, $result->getNumFound());
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'SP2514N',
             'price' => 92.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
     }
 
     public function testFacetHighlightSpellcheckComponent()
@@ -983,10 +1003,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(1, $queryGroup);
         $docIterator = $queryGroup->getIterator();
         $doc = $docIterator->current();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'VS1GB400C3',
             'price' => 74.99,
-        ], $doc->getFields());
+        ], $doc);
 
         $queryGroup = $groupingComponentResult->getGroup('price:[100 TO *]');
         $this->assertSame(5, $queryGroup->getMatches());
@@ -995,22 +1015,22 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(3, $queryGroup);
         $docIterator = $queryGroup->getIterator();
         $doc = $docIterator->current();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'EN7800GTX/2DHTV/256M',
             'price' => 479.95,
-        ], $doc->getFields());
+        ], $doc);
         $docIterator->next();
         $doc = $docIterator->current();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'TWINX2048-3200PRO',
             'price' => 185.0,
-        ], $doc->getFields());
+        ], $doc);
         $docIterator->next();
         $doc = $docIterator->current();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => '0579B002',
             'price' => 179.99,
-        ], $doc->getFields());
+        ], $doc);
     }
 
     /**
@@ -1615,7 +1635,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(2, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-1',
             'name' => 'Solarium Test 1',
             'price' => 3.14,
@@ -1623,13 +1643,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'foo',
                 'bar',
             ],
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-2',
             'name' => 'Solarium Test 2',
             'price' => 42.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // delete by id and commit
         $update = self::$client->createUpdate();
@@ -1640,11 +1660,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-2',
             'name' => 'Solarium Test 2',
             'price' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // delete by query and commit
         $update = self::$client->createUpdate();
@@ -1707,11 +1727,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-1',
             'name' => 'Solarium Test 1',
             'price' => 3.14,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // grouped mixed raw commands
         $update = self::$client->createUpdate();
@@ -1722,11 +1742,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-2',
             'name' => 'Solarium Test 2',
             'price' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // raw delete and regular commit
         $update = self::$client->createUpdate();
@@ -1760,35 +1780,35 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(5, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-1',
             'name' => 'Solarium Test 1',
             'price' => 3.14,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-2',
             'name' => 'Solarium Test 2',
             'price' => 42.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-3',
             'name' => 'Solarium Test 3',
             'price' => 17.01,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-4',
             'name' => 'Solarium Test 4',
             'price' => 3.59,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-5',
             'name' => 'Sølåríùm Tëst 5',
             'price' => 9.81,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // delete from file with grouped delete commands
         $update = self::$client->createUpdate();
@@ -1823,14 +1843,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
                 'solarium-test',
             ],
             'weight' => 17.01,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // set
         $doc = $update->createDocument();
@@ -1844,14 +1864,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
                 'modifier-set',
             ],
             'weight' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // add & inc
         $doc = $update->createDocument();
@@ -1865,7 +1885,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
@@ -1873,7 +1893,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'modifier-add',
             ],
             'weight' => 47.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // add multiple values (non-distinct)
         $doc = $update->createDocument();
@@ -1885,7 +1905,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
@@ -1895,7 +1915,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'modifier-add-another',
             ],
             'weight' => 47.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // add-distinct
         $doc = $update->createDocument();
@@ -1907,7 +1927,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
@@ -1917,7 +1937,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'modifier-add-another',
             ],
             'weight' => 47.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
         if (7 === self::$solrVersion && $this instanceof AbstractCloudTestCase) {
@@ -1941,7 +1961,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         }
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
@@ -1952,7 +1972,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'modifier-add-distinct',
             ],
             'weight' => 47.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // remove & negative inc
         $doc = $update->createDocument();
@@ -1966,7 +1986,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
@@ -1976,7 +1996,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'modifier-add-distinct',
             ],
             'weight' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // remove multiple values
         $doc = $update->createDocument();
@@ -1988,7 +2008,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
@@ -1996,7 +2016,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'modifier-add-distinct',
             ],
             'weight' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // removeregex
         $doc = $update->createDocument();
@@ -2008,14 +2028,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'cat' => [
                 'modifier-add-distinct',
             ],
             'weight' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // set to empty list
         $doc = $update->createDocument();
@@ -2027,11 +2047,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'weight' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // add to missing field
         $doc = $update->createDocument();
@@ -2043,15 +2063,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        // cat comes after weight now because it was added later!
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
-            'weight' => 42.0,
             'cat' => [
                 'solarium-test',
             ],
-        ], $result->getIterator()->current()->getFields());
+            'weight' => 42.0,
+        ], $result->getIterator()->current());
 
         // set to null
         $doc = $update->createDocument();
@@ -2063,11 +2082,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->update($update);
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test',
             'name' => 'Solarium Test',
             'weight' => 42.0,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // cleanup
         $update = self::$client->createUpdate();
@@ -2142,40 +2161,40 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-single-child',
             'name' => 'Solarium Nested Document Single Child',
             'weight' => 0.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-grandchild-1-1',
             'name' => 'Solarium Nested Document Grandchild 1.1',
             'weight' => 1.1,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-1',
             'name' => 'Solarium Nested Document Child 1',
             'weight' => 1.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-grandchild-2-1',
             'name' => 'Solarium Nested Document Grandchild 2.1',
             'weight' => 2.1,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-2',
             'name' => 'Solarium Nested Document Child 2',
             'weight' => 2.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-parent',
             'name' => 'Solarium Nested Document Parent',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // in Solr 7, the [child] transformer returns all descendant documents in a flat list, this is covered in testAnonymouslyNestedDocuments()
         if (8 <= self::$solrVersion) {
@@ -2187,7 +2206,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
 
-            $expected = [
+            $expectedFields = [
                 'id' => 'solarium-parent',
                 'single_child' => [
                     'id' => 'solarium-single-child',
@@ -2214,17 +2233,17 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
             if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat && 9 > self::$solrVersion) {
                 // labelled single nested child documents can't be indexed in XML before Solr 9.3 (SOLR-16183)
-                unset($expected['single_child']);
+                unset($expectedFields['single_child']);
             }
 
-            $this->assertSame($expected, $iterator->current()->getFields());
+            $this->assertDocumentHasFields($expectedFields, $iterator->current());
 
             // only get descendant documents that match a filter
             $select->setFields('id,single_child,weight,children,grandchildren,[child childFilter=weight:2.1]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 'children' => [
                     [
@@ -2238,14 +2257,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         ],
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
 
             // limit nested path of child documents to be returned
             $select->setFields('id,single_child,children,grandchildren,[child childFilter=/children/*:*]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 'children' => [
                     [
@@ -2255,7 +2274,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'id' => 'solarium-child-2',
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
 
             // limit number of child documents to be returned
             $select->setFields('id,single_child,children,grandchildren,[child limit=2]');
@@ -2263,7 +2282,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
 
-            $expected = [
+            $expectedFields = [
                 'id' => 'solarium-parent',
                 'single_child' => [
                     'id' => 'solarium-single-child',
@@ -2282,10 +2301,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
             if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat && 9 > self::$solrVersion) {
                 // labelled single nested child documents can't be indexed in XML before Solr 9.3 (SOLR-16183)
-                unset($expected['single_child']);
+                unset($expectedFields['single_child']);
             }
 
-            $this->assertSame($expected, $iterator->current()->getFields());
+            $this->assertDocumentHasFields($expectedFields, $iterator->current());
 
             // only return a subset of the top level fl parameter for the child documents
             $select->setFields('id,name,weight,single_child,children,grandchildren,[child fl=id,weight]');
@@ -2293,7 +2312,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
 
-            $expected = [
+            $expectedFields = [
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
                 'single_child' => [
@@ -2326,10 +2345,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
             if (UpdateQuery::REQUEST_FORMAT_XML === $requestFormat && 9 > self::$solrVersion) {
                 // labelled single nested child documents can't be indexed in XML before Solr 9.3 (SOLR-16183)
-                unset($expected['single_child']);
+                unset($expectedFields['single_child']);
             }
 
-            $this->assertSame($expected, $iterator->current()->getFields());
+            $this->assertDocumentHasFields($expectedFields, $iterator->current());
         }
 
         // parent query parser
@@ -2338,17 +2357,17 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-parent',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
         $select->setFields('id');
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-parent',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // child query parser
         $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
@@ -2356,25 +2375,25 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(5, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-single-child',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-grandchild-1-1',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-1',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-grandchild-2-1',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-2',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // in Solr 7, atomic updates of child documents aren't possible
         if (8 <= self::$solrVersion) {
@@ -2407,7 +2426,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
                 'cat' => [
@@ -2429,7 +2448,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'weight' => 4.0,
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
 
             // non-monolithic atomic updates (replacing, adding, removing individual child documents) can't be executed through XML (SOLR-12677)
             if (UpdateQuery::REQUEST_FORMAT_JSON === $requestFormat) {
@@ -2452,7 +2471,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $result = self::$client->select($select);
                 $this->assertCount(1, $result);
                 $iterator = $result->getIterator();
-                $this->assertSame([
+                $this->assertDocumentHasFields([
                     'id' => 'solarium-parent',
                     'name' => 'Solarium Nested Document Parent',
                     'cat' => [
@@ -2481,7 +2500,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                             'weight' => 5.0,
                         ],
                     ],
-                ], $iterator->current()->getFields());
+                ], $iterator->current());
 
                 // atomic update: adding a list of child documents to a pseudo-field
                 $newChildren = [
@@ -2510,7 +2529,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $result = self::$client->select($select);
                 $this->assertCount(1, $result);
                 $iterator = $result->getIterator();
-                $this->assertSame([
+                $this->assertDocumentHasFields([
                     'id' => 'solarium-parent',
                     'name' => 'Solarium Nested Document Parent',
                     'cat' => [
@@ -2552,7 +2571,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                             'weight' => 7.0,
                         ],
                     ],
-                ], $iterator->current()->getFields());
+                ], $iterator->current());
 
                 // add-or-replace logic for child documents is available since Solr 9.0.0 (SOLR-15213)
                 if (9 <= self::$solrVersion) {
@@ -2583,7 +2602,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                     $result = self::$client->select($select);
                     $this->assertCount(1, $result);
                     $iterator = $result->getIterator();
-                    $this->assertSame([
+                    $this->assertDocumentHasFields([
                         'id' => 'solarium-parent',
                         'name' => 'Solarium Nested Document Parent',
                         'cat' => [
@@ -2626,7 +2645,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                                 'weight' => 7.0,
                             ],
                         ],
-                    ], $iterator->current()->getFields());
+                    ], $iterator->current());
 
                     // atomic update: replacing a child document in a pseudo-field
                     // (revert previous update to solarium-child-5 to keep tests consistent across Solr versions)
@@ -2648,7 +2667,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                     $result = self::$client->select($select);
                     $this->assertCount(1, $result);
                     $iterator = $result->getIterator();
-                    $this->assertSame([
+                    $this->assertDocumentHasFields([
                         'id' => 'solarium-parent',
                         'name' => 'Solarium Nested Document Parent',
                         'cat' => [
@@ -2692,7 +2711,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                                 'weight' => 7.0,
                             ],
                         ],
-                    ], $iterator->current()->getFields());
+                    ], $iterator->current());
                 } else {
                     // atomic update tests are designed to cancel each other out for any Solr version
                     // but the remainder of the test assumes 'cat' has been updated every time
@@ -2720,7 +2739,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $result = self::$client->select($select);
                 $this->assertCount(1, $result);
                 $iterator = $result->getIterator();
-                $this->assertSame([
+                $this->assertDocumentHasFields([
                     'id' => 'solarium-parent',
                     'name' => 'Solarium Nested Document Parent',
                     'cat' => [
@@ -2759,7 +2778,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                             'weight' => 7.0,
                         ],
                     ],
-                ], $iterator->current()->getFields());
+                ], $iterator->current());
 
                 // atomic update: remove a list of child documents from a pseudo-field
                 $removeChildren = [
@@ -2782,7 +2801,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $result = self::$client->select($select);
                 $this->assertCount(1, $result);
                 $iterator = $result->getIterator();
-                $this->assertSame([
+                $this->assertDocumentHasFields([
                     'id' => 'solarium-parent',
                     'name' => 'Solarium Nested Document Parent',
                     'cat' => [
@@ -2810,7 +2829,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                             'weight' => 5.0,
                         ],
                     ],
-                ], $iterator->current()->getFields());
+                ], $iterator->current());
 
                 // atomic update: set a single child document in a pseudo-field
                 $newChild = [
@@ -2833,7 +2852,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $result = self::$client->select($select);
                 $this->assertCount(1, $result);
                 $iterator = $result->getIterator();
-                $this->assertSame([
+                $this->assertDocumentHasFields([
                     'id' => 'solarium-parent',
                     'name' => 'Solarium Nested Document Parent',
                     'cat' => [
@@ -2854,7 +2873,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'cat' => ['solarium-nested-document', 'child', 'updated-8'],
                         'weight' => 0.8,
                     ],
-                ], $iterator->current()->getFields());
+                ], $iterator->current());
 
                 // atomic update: remove a single child document from a pseudo-field
                 $doc = $update->createDocument();
@@ -2871,7 +2890,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $result = self::$client->select($select);
                 $this->assertCount(1, $result);
                 $iterator = $result->getIterator();
-                $this->assertSame([
+                $this->assertDocumentHasFields([
                     'id' => 'solarium-parent',
                     'name' => 'Solarium Nested Document Parent',
                     'cat' => [
@@ -2887,7 +2906,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'updated-8',
                         'updated-9',
                     ],
-                ], $iterator->current()->getFields());
+                ], $iterator->current());
             }
 
             // atomic update: removing all child documents from a pseudo-field
@@ -2906,7 +2925,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
 
-            $expected = [
+            $expectedFields = [
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
                 'cat' => [
@@ -2918,7 +2937,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             ];
 
             if (UpdateQuery::REQUEST_FORMAT_JSON === $requestFormat) {
-                $expected['cat'] = [
+                $expectedFields['cat'] = [
                     'solarium-nested-document',
                     'parent',
                     'updated-1',
@@ -2934,7 +2953,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 ];
             }
 
-            $this->assertSame($expected, $iterator->current()->getFields());
+            $this->assertDocumentHasFields($expectedFields, $iterator->current());
         }
 
         // cleanup
@@ -2997,22 +3016,22 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         // without a sort, children are returned before their parents because they're added in that order to the underlying Lucene index
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-1',
             'name' => 'Solarium Nested Document Child 1',
             'price' => 1.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-2',
             'name' => 'Solarium Nested Document Child 2',
             'price' => 2.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-parent',
             'name' => 'Solarium Nested Document Parent',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // parent query parser
         $select->setQuery('{!parent which="cat:parent"}id:solarium-child-1');
@@ -3020,9 +3039,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-parent',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // child query parser
         $select->setQuery('{!child of="cat:parent"}id:solarium-parent');
@@ -3030,13 +3049,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(2, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-1',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-child-2',
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         // [child] transformer doesn't work for anonymous children when the schema includes a _nest_path_ in Solr 8
         if (7 === self::$solrVersion) {
@@ -3046,44 +3065,44 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 '_childDocuments_' => [
                     ['id' => 'solarium-child-1'],
                     ['id' => 'solarium-child-2'],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
 
             // only get child documents that match a filter
             $select->setFields('id,[child parentFilter=cat:parent childFilter="price:[1.5 TO 2.5]" fl=id]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 '_childDocuments_' => [
                     ['id' => 'solarium-child-2'],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
 
             // limit number of child documents to be returned
             $select->setFields('id,[child parentFilter=cat:parent limit=1 fl=id]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 '_childDocuments_' => [
                     ['id' => 'solarium-child-1'],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
 
             // only return a subset of the top level fl parameter for the child documents
             $select->setFields('id,name,price,[child parentFilter=cat:parent fl=id,price]');
             $result = self::$client->select($select);
             $this->assertCount(1, $result);
             $iterator = $result->getIterator();
-            $this->assertSame([
+            $this->assertDocumentHasFields([
                 'id' => 'solarium-parent',
                 'name' => 'Solarium Nested Document Parent',
                 '_childDocuments_' => [
@@ -3096,7 +3115,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'price' => 2.0,
                     ],
                 ],
-            ], $iterator->current()->getFields());
+            ], $iterator->current());
         }
 
         // cleanup
@@ -4734,11 +4753,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $select->setQuery('cat:áéíóú');
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-1',
             'name' => 'Sølåríùm Tëst 1',
             'price' => 3.14,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // input encoding: ISO-8859-1
         // output encoding: UTF-8 (always)
@@ -4746,11 +4765,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $select->setInputEncoding('ISO-8859-1');
         $result = self::$client->select($select);
         $this->assertCount(1, $result);
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-1',
             'name' => 'Sølåríùm Tëst 1',
             'price' => 3.14,
-        ], $result->getIterator()->current()->getFields());
+        ], $result->getIterator()->current());
 
         // input encoding: ISO-8859-1
         $update = self::$client->createUpdate();
@@ -4772,17 +4791,17 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
         $this->assertCount(2, $result);
         $iterator = $result->getIterator();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-1',
             'name' => 'Sølåríùm Tëst 1',
             'price' => 3.14,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
         $iterator->next();
-        $this->assertSame([
+        $this->assertDocumentHasFields([
             'id' => 'solarium-test-2',
             'name' => 'Sølåríùm Tëst 2',
             'price' => 42.0,
-        ], $iterator->current()->getFields());
+        ], $iterator->current());
 
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
@@ -5166,6 +5185,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * Compare our fix for Solr requiring special characters be doubly percent-encoded
      * with an RFC 3986 compliant implementation that uses single percent-encoding.
      *
+     * This test checks if SOLR-6853 has been fixed in Solr 8. Starting with Solr 9.7.0
+     * the way in which compliant requests fail has changed. This is tested separately
+     * in {@see testManagedResourcesSolr6853()}.
+     *
      * If this test fails, Solr has probably fixed SOLR-6853 on their side. If that is
      * the case, we'll have to re-evaluate what to do about the workaround. As long as
      * no other tests fail, they're still supporting the workaround for BC.
@@ -5176,8 +5199,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith ["stopwords"]
      *           ["synonyms"]
      */
-    public function testManagedResourcesSolr6853(string $resourceType)
+    public function testManagedResourcesSolr6853ForSolr8(string $resourceType)
     {
+        if (8 < self::$solrVersion) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
         // unique name is necessary for Stopwords to avoid running into SOLR-14268
         $uniqid = uniqid();
 
@@ -5192,16 +5221,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
         }
 
-        if (9 <= self::$solrVersion) {
-            $term = 'test-:/?#[]@% ';
-            $termSingleEncoded = 'test-%3A%2F%3F%23%5B%5D%40%25%20';
-            $termDoubleEncoded = 'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
-        } else {
-            // Before Solr 9.4.1, term can't contain a slash (SOLR-6853)
-            $term = 'test-:?#[]@% ';
-            $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
-            $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
-        }
+        // Before Solr 9.4.1, term can't contain a slash (SOLR-6853)
+        $term = 'test-:?#[]@% ';
+        $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
+        $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
 
         switch ($resourceType) {
             case 'stopwords':
@@ -5336,6 +5359,54 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $query->setCommand($exists);
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
+    }
+
+    /**
+     * Compare our fix for Solr requiring special characters be doubly percent-encoded
+     * with an RFC 3986 compliant implementation that uses single percent-encoding.
+     *
+     * This test checks if SOLR-6853 has been fixed in Solr 9. Prior to Solr 9.7.0
+     * compliant requests failed in a different way. This is tested separately
+     * in {@see testManagedResourcesSolr6853ForSolr8()}.
+     *
+     * If this test fails, Solr has probably fixed SOLR-6853 on their side. If that is
+     * the case, we'll have to re-evaluate what to do about the workaround. As long as
+     * no other tests fail, they're still supporting the workaround for BC.
+     *
+     * @see https://issues.apache.org/jira/browse/SOLR-6853
+     * @see https://github.com/solariumphp/solarium/pull/742
+     *
+     * @testWith ["stopwords"]
+     *           ["synonyms"]
+     */
+    public function testManagedResourcesSolr6853(string $resourceType)
+    {
+        if (9 > self::$solrVersion) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        $compliantRequestBuilder = new CompliantManagedResourceRequestBuilder();
+
+        $query = match ($resourceType) {
+            'stopwords' => new StopwordsQuery(),
+            'synonyms' => new SynonymsQuery(),
+        };
+        $query->setName('english');
+        $query->setTerm('test-:/?#[]@% ');
+
+        // Getting the resource with a compliant request builder doesn't work
+        $request = $compliantRequestBuilder->build($query);
+        $this->assertStringEndsWith('/test-%3A%2F%3F%23%5B%5D%40%25%20', $request->getHandler());
+
+        $response = self::$client->executeRequest($request);
+        $responseBody = json_decode($response->getBody(), true);
+        $this->assertSame(500, $responseBody['error']['code'], 'Check if SOLR-6853 is fixed.');
+        $this->assertSame('URLDecoder: Incomplete trailing escape (%) pattern', $responseBody['error']['msg'], 'Check if SOLR-6853 is fixed.');
+
+        $this->expectException(HttpException::class);
+        self::$client->createResult($query, $response);
     }
 
     public function testGetBodyOnHttpError()

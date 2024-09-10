@@ -149,4 +149,83 @@ class UtilityTest extends TestCase
     {
         $this->assertSame($expected, Utility::compactSolrClassName($className));
     }
+
+    /**
+     * @dataProvider recursiveKeySortProvider
+     */
+    public function testRecursiveKeySort(array $array, array $expected)
+    {
+        $this->assertTrue(Utility::recursiveKeySort($array));
+        $this->assertSame($expected, $array);
+    }
+
+    public function recursiveKeySortProvider(): array
+    {
+        return [
+            [
+                [
+                    'a' => 1,
+                    'c' => 2,
+                    'b' => 3,
+                ],
+                [
+                    'a' => 1,
+                    'b' => 3,
+                    'c' => 2,
+                ],
+            ],
+            [
+                [
+                    'a' => 1,
+                    'c' => [
+                        'd',
+                        'f',
+                        'e',
+                    ],
+                    'b' => [
+                        'g' => 4,
+                        'i' => 5,
+                        'h' => 6,
+                    ],
+                ],
+                [
+                    'a' => 1,
+                    'b' => [
+                        'g' => 4,
+                        'h' => 6,
+                        'i' => 5,
+                    ],
+                    'c' => [
+                        'd',
+                        'f',
+                        'e',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'b' => [
+                        'd' => [
+                            'e' => 1,
+                            'g' => 2,
+                            'f' => 3,
+                        ],
+                        'c' => true,
+                    ],
+                    'a' => null,
+                ],
+                [
+                    'a' => null,
+                    'b' => [
+                        'c' => true,
+                        'd' => [
+                            'e' => 1,
+                            'f' => 3,
+                            'g' => 2,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+    }
 }
