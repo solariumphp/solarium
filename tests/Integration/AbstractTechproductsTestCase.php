@@ -5185,193 +5185,17 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * Compare our fix for Solr requiring special characters be doubly percent-encoded
      * with an RFC 3986 compliant implementation that uses single percent-encoding.
      *
-     * This test checks if SOLR-6853 has been fixed in Solr 8. Starting with Solr 9.7.0
-     * the way in which compliant requests fail has changed. This is tested separately
-     * in {@see testManagedResourcesSolr6853()}.
+     * This test checks the behaviour against the latest releases of Solr 8 or Solr 9.
+     * Prior to Solr 8.11.4 Solr 9.7.0 compliant requests failed in a different way.
+     * This test will fail against versions prior to those releases for the wrong
+     * (in the context of what we're testing) reasons.
      *
      * If this test fails, Solr has probably fixed SOLR-6853 on their side. If that is
      * the case, we'll have to re-evaluate what to do about the workaround. As long as
      * no other tests fail, they're still supporting the workaround for BC.
      *
-     * @see https://issues.apache.org/jira/browse/SOLR-6853
-     * @see https://github.com/solariumphp/solarium/pull/742
-     *
-     * @testWith ["stopwords"]
-     *           ["synonyms"]
-     */
-    public function testManagedResourcesSolr6853ForSolr8(string $resourceType)
-    {
-        if (8 < self::$solrVersion) {
-            $this->expectNotToPerformAssertions();
-
-            return;
-        }
-
-        // unique name is necessary for Stopwords to avoid running into SOLR-14268
-        $uniqid = uniqid();
-
-        // don't use invalid filename characters in resource name on Windows to avoid running into SOLR-15895
-        if (self::$isSolrOnWindows) {
-            $name = $uniqid.'test-#[]@% ';
-            $nameSingleEncoded = $uniqid.'test-%23%5B%5D%40%25%20';
-            $nameDoubleEncoded = $uniqid.'test-%2523%255B%255D%2540%2525%2520';
-        } else {
-            $name = $uniqid.'test-:/?#[]@% ';
-            $nameSingleEncoded = $uniqid.'test-%3A%2F%3F%23%5B%5D%40%25%20';
-            $nameDoubleEncoded = $uniqid.'test-%253A%252F%253F%2523%255B%255D%2540%2525%2520';
-        }
-
-        // Before Solr 9.4.1, term can't contain a slash (SOLR-6853)
-        $term = 'test-:?#[]@% ';
-        $termSingleEncoded = 'test-%3A%3F%23%5B%5D%40%25%20';
-        $termDoubleEncoded = 'test-%253A%253F%2523%255B%255D%2540%2525%2520';
-
-        switch ($resourceType) {
-            case 'stopwords':
-                $query = new StopwordsQuery();
-                $add = $query->createCommand($query::COMMAND_ADD);
-                $add->setStopwords([$term]);
-                break;
-            case 'synonyms':
-                $query = new SynonymsQuery();
-                $add = $query->createCommand($query::COMMAND_ADD);
-                $synonyms = new Synonyms();
-                $synonyms->setTerm($term);
-                $synonyms->setSynonyms(['foo', 'bar']);
-                $add->setSynonyms($synonyms);
-                break;
-            default:
-                // PHPStan needs these variables defined even though we never reach this branch
-                $query = null;
-                $add = null;
-        }
-
-        $compliantRequestBuilder = new CompliantManagedResourceRequestBuilder();
-        $actualRequestBuilder = new ResourceRequestBuilder();
-
-        $query->setName($name);
-
-        // Create a new managed resource with reserved characters in the name
-        $create = $query->createCommand($query::COMMAND_CREATE);
-        $query->setCommand($create);
-        $result = self::$client->execute($query);
-        $this->assertTrue($result->getWasSuccessful());
-
-        $query->removeCommand();
-
-        // Getting the resource with a compliant request builder doesn't work
-        $request = $compliantRequestBuilder->build($query);
-        $this->assertStringEndsWith('/'.$nameSingleEncoded, $request->getHandler());
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
-
-        // Since Solr 8.7, this returns an error message in JSON, earlier versions return an HTML page
-        $expectedErrorMsg = sprintf('No REST managed resource registered for path /schema/analysis/%s/%stest-', $resourceType, $uniqid);
-        if (8 <= self::$solrVersion) {
-            $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
-        } else {
-            $this->assertStringContainsString('<p>'.$expectedErrorMsg.'</p>', $response->getBody(), 'Check if SOLR-6853 is fixed.');
-        }
-
-        // Getting the resource with our actual request builder does work
-        $request = $actualRequestBuilder->build($query);
-        $this->assertStringEndsWith('/'.$nameDoubleEncoded, $request->getHandler());
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertTrue($result->getWasSuccessful());
-
-        // Removing the resource with a compliant request builder doesn't work
-        $remove = $query->createCommand($query::COMMAND_REMOVE);
-        $query->setCommand($remove);
-        $request = $compliantRequestBuilder->build($query);
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
-
-        // The resource still exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
-        $query->setCommand($exists);
-        $result = self::$client->execute($query);
-        $this->assertTrue($result->getWasSuccessful());
-
-        // Removing the resource with our actual request builder does work
-        $query->setCommand($remove);
-        $request = $actualRequestBuilder->build($query);
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertTrue($result->getWasSuccessful());
-
-        // The resource is gone
-        $query->setCommand($exists);
-        $result = self::$client->execute($query);
-        $this->assertFalse($result->getWasSuccessful());
-
-        // Add a term with reserved characters to a resource
-        $query->setName('english');
-        $query->setCommand($add);
-        $result = self::$client->execute($query);
-        $this->assertTrue($result->getWasSuccessful());
-
-        $query->removeCommand()->setTerm($term);
-
-        // Getting the term with a compliant request builder doesn't work
-        $request = $compliantRequestBuilder->build($query);
-        $this->assertStringEndsWith('/english/'.$termSingleEncoded, $request->getHandler());
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
-
-        $expectedErrorMsg = sprintf('test- not found in /schema/analysis/%s/english', $resourceType);
-        $this->assertSame($expectedErrorMsg, json_decode($response->getBody())->error->msg, 'Check if SOLR-6853 is fixed.');
-
-        // Getting the term with our actual request builder does work
-        $request = $actualRequestBuilder->build($query);
-        $this->assertStringEndsWith('/english/'.$termDoubleEncoded, $request->getHandler());
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertTrue($result->getWasSuccessful());
-
-        // Deleting the resource with a compliant request builder doesn't work
-        $delete = $query->createCommand($query::COMMAND_DELETE);
-        $delete->setTerm($term);
-        $query->setCommand($delete);
-        $request = $compliantRequestBuilder->build($query);
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertFalse($result->getWasSuccessful(), 'Check if SOLR-6853 is fixed.');
-
-        // The term still exists
-        $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
-        $exists->setTerm($term);
-        $query->setCommand($exists);
-        $result = self::$client->execute($query);
-        $this->assertTrue($result->getWasSuccessful());
-
-        // Deleting the resource with our actual request builder doesn't work
-        $query->setCommand($delete);
-        $request = $actualRequestBuilder->build($query);
-        $response = self::$client->executeRequest($request);
-        $result = self::$client->createResult($query, $response);
-        $this->assertTrue($result->getWasSuccessful());
-
-        // The term is gone
-        $query->setCommand($exists);
-        $result = self::$client->execute($query);
-        $this->assertFalse($result->getWasSuccessful());
-    }
-
-    /**
-     * Compare our fix for Solr requiring special characters be doubly percent-encoded
-     * with an RFC 3986 compliant implementation that uses single percent-encoding.
-     *
-     * This test checks if SOLR-6853 has been fixed in Solr 9. Prior to Solr 9.7.0
-     * compliant requests failed in a different way. This is tested separately
-     * in {@see testManagedResourcesSolr6853ForSolr8()}.
-     *
-     * If this test fails, Solr has probably fixed SOLR-6853 on their side. If that is
-     * the case, we'll have to re-evaluate what to do about the workaround. As long as
-     * no other tests fail, they're still supporting the workaround for BC.
+     * While SOLR-6853 has been closed since we implemented the workaround, the bug
+     * wasn't actually fixed and the workaround currently remains necessary.
      *
      * @see https://issues.apache.org/jira/browse/SOLR-6853
      * @see https://github.com/solariumphp/solarium/pull/742
@@ -5381,7 +5205,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      */
     public function testManagedResourcesSolr6853(string $resourceType)
     {
-        if (9 > self::$solrVersion) {
+        if (7 >= self::$solrVersion) {
             $this->expectNotToPerformAssertions();
 
             return;
