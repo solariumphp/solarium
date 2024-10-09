@@ -132,4 +132,22 @@ class Utility
     {
         return preg_replace('/(?<=[a-z1-9])[a-z1-9]+(?=\.)/i', '', $className);
     }
+
+    /**
+     * Recursively sorts an array in place by keys in ascending order.
+     *
+     * @param array $array
+     *
+     * @return bool Always returns true
+     */
+    public static function recursiveKeySort(array &$array): bool
+    {
+        foreach ($array as &$value) {
+            if (\is_array($value)) {
+                self::recursiveKeySort($value);
+            }
+        }
+
+        return ksort($array);
+    }
 }

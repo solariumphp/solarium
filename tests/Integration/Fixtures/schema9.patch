@@ -6,8 +6,8 @@ index 190214aebad..7a76a28276a 100644
     <!-- points to the root document of a block of nested documents. Required for nested
        document support, may be removed otherwise
     -->
--   <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
-+   <field name="_root_" type="string" indexed="true" stored="true" docValues="false" />
+-   <field name="_root_" type="string" indexed="true" stored="false" />
++   <field name="_root_" type="string" indexed="true" stored="true" />
 +   <fieldType name="_nest_path_" class="solr.NestPathField" />
 +   <field name="_nest_path_" type="_nest_path_" />
  
