@@ -13,7 +13,7 @@ class CustomQueryInterfaceQuery extends SelectQuery
     /**
      * @return self Provides fluent interface
      */
-    public function setQuery(string $query, array $bind = null): QueryInterface
+    public function setQuery(string $query, ?array $bind = null): QueryInterface
     {
         return parent::setQuery($query, $bind);
     }

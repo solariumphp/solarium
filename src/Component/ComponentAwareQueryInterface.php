@@ -139,7 +139,7 @@ interface ComponentAwareQueryInterface
      *
      * @return object|null
      */
-    public function getComponent(string $key, $autoload = false, array $config = null);
+    public function getComponent(string $key, $autoload = false, ?array $config = null);
 
     /**
      * Set a component instance.

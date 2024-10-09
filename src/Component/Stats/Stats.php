@@ -73,11 +73,11 @@ class Stats extends AbstractComponent
      * When no key is supplied the field cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addField method.
      *
-     * @param string|array $options
+     * @param string|array|null $options
      *
      * @return Field
      */
-    public function createField(string|array $options = null): Field
+    public function createField(string|array|null $options = null): Field
     {
         if (\is_string($options)) {
             $fq = new Field();

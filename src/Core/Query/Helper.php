@@ -51,9 +51,9 @@ class Helper
     /**
      * Constructor.
      *
-     * @param QueryInterface $query
+     * @param QueryInterface|null $query
      */
-    public function __construct(QueryInterface $query = null)
+    public function __construct(?QueryInterface $query = null)
     {
         $this->query = $query;
     }
@@ -118,12 +118,12 @@ class Helper
      *
      * @see https://solr.apache.org/guide/local-parameters-in-queries.html#basic-syntax-of-local-parameters
      *
-     * @param string $value
-     * @param string $preEscapedSeparator Separator character that is already escaped with a backslash
+     * @param string      $value
+     * @param string|null $preEscapedSeparator Separator character that is already escaped with a backslash
      *
      * @return string
      */
-    public function escapeLocalParamValue(string $value, string $preEscapedSeparator = null): string
+    public function escapeLocalParamValue(string $value, ?string $preEscapedSeparator = null): string
     {
         if (preg_match('/[ \'"}]/', $value)) {
             $pattern = "/('|\\\\)/";
@@ -474,7 +474,7 @@ class Helper
      *
      * @deprecated Will be removed in Solarium 6. Use FilterQuery::setCache() and FilterQuery::setCost() instead.
      */
-    public function cacheControl(bool $useCache, float $cost = null): string
+    public function cacheControl(bool $useCache, ?float $cost = null): string
     {
         $cache = 'false';
 

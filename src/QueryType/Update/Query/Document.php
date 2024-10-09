@@ -416,14 +416,14 @@ class Document extends AbstractDocument
     /**
      * Sets the modifier type for the provided field.
      *
-     * @param string $key
-     * @param string $modifier
+     * @param string      $key
+     * @param string|null $modifier
      *
      * @throws RuntimeException
      *
      * @return self Provides fluent interface
      */
-    public function setFieldModifier(string $key, string $modifier = null): self
+    public function setFieldModifier(string $key, ?string $modifier = null): self
     {
         if (!\in_array($modifier, [self::MODIFIER_SET, self::MODIFIER_ADD, self::MODIFIER_ADD_DISTINCT, self::MODIFIER_REMOVE, self::MODIFIER_REMOVEREGEX, self::MODIFIER_INC], true)) {
             throw new RuntimeException('Attempt to set an atomic update modifier that is not supported');

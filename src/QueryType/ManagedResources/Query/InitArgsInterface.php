@@ -17,9 +17,9 @@ interface InitArgsInterface
     /**
      * Constructor.
      *
-     * @param array $initArgs
+     * @param array|null $initArgs
      */
-    public function __construct(array $initArgs = null);
+    public function __construct(?array $initArgs = null);
 
     /**
      * Sets the configuration parameters to be sent to Solr.

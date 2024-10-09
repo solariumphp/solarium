@@ -33,9 +33,9 @@ class Configurable implements ConfigurableInterface
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @param array $options
+     * @param array|null $options
      */
-    public function __construct(array $options = null)
+    public function __construct(?array $options = null)
     {
         if (null !== $options) {
             $this->setOptions($options);

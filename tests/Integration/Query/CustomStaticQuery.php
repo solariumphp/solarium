@@ -12,7 +12,7 @@ class CustomStaticQuery extends SelectQuery
     /**
      * @return static Provides fluent interface
      */
-    public function setQuery(string $query, array $bind = null): static
+    public function setQuery(string $query, ?array $bind = null): static
     {
         return parent::setQuery($query, $bind);
     }

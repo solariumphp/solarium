@@ -56,12 +56,12 @@ trait JsonFacetTrait
      *
      * This overwrites the current value.
      *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
+     * @param string     $query
+     * @param array|null $bind  Bind values for placeholders in the query string
      *
      * @return self Provides fluent interface
      */
-    public function setDomainFilterQuery(string $query, array $bind = null): self
+    public function setDomainFilterQuery(string $query, ?array $bind = null): self
     {
         if (null !== $bind) {
             $helper = new Helper();

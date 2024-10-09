@@ -174,14 +174,14 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Create a command instance.
      *
-     * @param string $type
-     * @param array  $options
+     * @param string     $type
+     * @param array|null $options
      *
      * @throws \Solarium\Exception\InvalidArgumentException
      *
      * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand
      */
-    public function createCommand(string $type, array $options = null): AbstractCommand
+    public function createCommand(string $type, ?array $options = null): AbstractCommand
     {
         $type = strtolower($type);
 
@@ -235,9 +235,9 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Create an init args instance.
      *
-     * @param array $initArgs
+     * @param array|null $initArgs
      *
      * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
-    abstract public function createInitArgs(array $initArgs = null): InitArgsInterface;
+    abstract public function createInitArgs(?array $initArgs = null): InitArgsInterface;
 }

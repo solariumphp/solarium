@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class TestClientFactory
 {
-    public static function createWithPsr18Adapter(array $options = null, EventDispatcherInterface $eventDispatcher = null): Client
+    public static function createWithPsr18Adapter(?array $options = null, ?EventDispatcherInterface $eventDispatcher = null): Client
     {
         $factory = new Psr17Factory();
 
@@ -24,7 +24,7 @@ final class TestClientFactory
         );
     }
 
-    public static function createWithCurlAdapter(array $options = null, EventDispatcherInterface $eventDispatcher = null): Client
+    public static function createWithCurlAdapter(?array $options = null, ?EventDispatcherInterface $eventDispatcher = null): Client
     {
         return new Client(
             new Curl(),
@@ -33,7 +33,7 @@ final class TestClientFactory
         );
     }
 
-    public static function createWithHttpAdapter(array $options = null, EventDispatcherInterface $eventDispatcher = null): Client
+    public static function createWithHttpAdapter(?array $options = null, ?EventDispatcherInterface $eventDispatcher = null): Client
     {
         return new Client(
             new Http(),
