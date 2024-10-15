@@ -42,11 +42,11 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param int   $numFound
-     * @param float $maxScore
-     * @param array $documents
+     * @param int        $numFound
+     * @param float|null $maxScore
+     * @param array      $documents
      */
-    public function __construct(int $numFound, float $maxScore = null, array $documents = [])
+    public function __construct(int $numFound, ?float $maxScore = null, array $documents = [])
     {
         $this->numFound = $numFound;
         $this->maximumScore = $maxScore;

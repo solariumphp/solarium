@@ -12,7 +12,7 @@ class CustomSelfQuery extends SelectQuery
     /**
      * @return self Provides fluent interface
      */
-    public function setQuery(string $query, array $bind = null): self
+    public function setQuery(string $query, ?array $bind = null): self
     {
         return parent::setQuery($query, $bind);
     }

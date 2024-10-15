@@ -71,9 +71,9 @@ class DummyInitArgs implements InitArgsInterface
     /**
      * Constructor.
      *
-     * @param array $initArgs
+     * @param array|null $initArgs
      */
-    public function __construct(array $initArgs = null)
+    public function __construct(?array $initArgs = null)
     {
         if (null !== $initArgs) {
             $this->setInitArgs($initArgs);

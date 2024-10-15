@@ -271,11 +271,11 @@ class DisMax extends AbstractComponent
     /**
      * Get BoostQuery option.
      *
-     * @param string $key
+     * @param string|null $key
      *
      * @return string|null
      */
-    public function getBoostQuery(string $key = null): ?string
+    public function getBoostQuery(?string $key = null): ?string
     {
         if (null !== $key) {
             if (\array_key_exists($key, $this->boostQueries)) {

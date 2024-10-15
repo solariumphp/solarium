@@ -151,7 +151,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * @param array|null $options
      */
-    public function __construct(array $options = null)
+    public function __construct(?array $options = null)
     {
         $this->componentTypes = [
             ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => MoreLikeThis::class,
@@ -520,11 +520,11 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      * When no key is supplied the filterquery cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFilterQuery method.
      *
-     * @param string|array $options
+     * @param string|array|null $options
      *
      * @return FilterQuery
      */
-    public function createFilterQuery(string|array $options = null): FilterQuery
+    public function createFilterQuery(string|array|null $options = null): FilterQuery
     {
         if (\is_string($options)) {
             $fq = new FilterQuery();

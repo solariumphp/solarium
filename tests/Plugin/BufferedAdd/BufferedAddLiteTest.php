@@ -441,7 +441,7 @@ class BufferedAddLiteTest extends TestCase
      *
      * @return Client|MockObject
      */
-    protected function getClient(EventDispatcherInterface $dispatcher = null): ClientInterface
+    protected function getClient(?EventDispatcherInterface $dispatcher = null): ClientInterface
     {
         if (!$dispatcher) {
             $dispatcher = $this->createMock(EventDispatcherInterface::class);

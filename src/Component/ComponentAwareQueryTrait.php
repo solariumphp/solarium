@@ -79,7 +79,7 @@ trait ComponentAwareQueryTrait
      *
      * @return object|null
      */
-    public function getComponent(string $key, $autoload = false, array $config = null)
+    public function getComponent(string $key, $autoload = false, ?array $config = null)
     {
         if (isset($this->components[$key])) {
             return $this->components[$key];

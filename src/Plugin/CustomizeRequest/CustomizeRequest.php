@@ -40,11 +40,11 @@ class CustomizeRequest extends AbstractPlugin
      * When no key is supplied the Customization cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addCustomization method.
      *
-     * @param string|array $options
+     * @param string|array|null $options
      *
      * @return Customization
      */
-    public function createCustomization(string|array $options = null): Customization
+    public function createCustomization(string|array|null $options = null): Customization
     {
         if (\is_string($options)) {
             $fq = new Customization();
