@@ -45,7 +45,7 @@ Also you need to make sure that a PSR-14 compatible event dispatcher is availabl
 {
     "require": {
         "solarium/solarium": "~6.3",
-        "symfony/event-dispatcher": "^5.0 || ^6.0"
+        "symfony/event-dispatcher": "^5.0 || ^6.0 || ^7.0"
     }
 }
 ```
@@ -156,7 +156,7 @@ Alternatively you can use any [PSR-14](https://www.php-fig.org/psr/psr-14/) comp
 {
     "require": {
         "solarium/solarium": "~6.3",
-        "symfony/event-dispatcher": "^5.0 || ^6.0"
+        "symfony/event-dispatcher": "^5.0 || ^6.0 || ^7.0"
     }
 }
 ```
