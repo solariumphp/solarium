@@ -23,6 +23,19 @@ class QueryTest extends TestCase
         $this->assertSame('myResultClass', $query->getResultClass());
     }
 
+    public function testGetDefaultOmitHeader()
+    {
+        $query = new TestQuery();
+        $this->assertNull($query->getOmitHeader());
+    }
+
+    public function testSetAndGetOmitHeader()
+    {
+        $query = new TestQuery();
+        $query->setOmitHeader(false);
+        $this->assertFalse($query->getOmitHeader());
+    }
+
     public function testGetHelper()
     {
         $query = new TestQuery();
@@ -76,30 +89,23 @@ class QueryTest extends TestCase
         $this->assertSame('phps', $query->getResponseWriter());
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 7. This parameter is only relevant for Select queries.
+     */
     public function testGetDefaultTimeAllowed()
     {
         $query = new TestQuery();
         $this->assertNull($query->getTimeAllowed());
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 7. This parameter is only relevant for Select queries.
+     */
     public function testSetAndGetTimeAllowed()
     {
         $query = new TestQuery();
         $query->setTimeAllowed(1200);
         $this->assertSame(1200, $query->getTimeAllowed());
-    }
-
-    public function testGetDefaultCpuAllowed()
-    {
-        $query = new TestQuery();
-        $this->assertNull($query->getCpuAllowed());
-    }
-
-    public function testSetAndGetCpuAllowed()
-    {
-        $query = new TestQuery();
-        $query->setCpuAllowed(500);
-        $this->assertSame(500, $query->getCpuAllowed());
     }
 
     public function testSetAndGetNow()

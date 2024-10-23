@@ -151,6 +151,18 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testWithCancellableQuery()
+    {
+        $this->query->setCanCancel(true);
+        $this->query->setQueryUuid('foobar');
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame(
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&canCancel=true&queryUUID=foobar&fl=*,score',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testWithTags()
     {
         $this->query->setTags(['t1', 't2']);
@@ -158,6 +170,42 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertSame('{!tag=t1,t2}cat:1', $request->getParam('q'));
+    }
+
+    public function testWithExecutionLimits()
+    {
+        $this->query->setPartialResults(true);
+        $this->query->setTimeAllowed(1000);
+        $this->query->setCpuAllowed(500);
+        $this->query->setMemAllowed(2.5);
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame(
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&partialResults=true&timeAllowed=1000&cpuAllowed=500&memAllowed=2.5',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testWithSegmentTerminateEarly()
+    {
+        $this->query->setSegmentTerminateEarly(true);
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame(
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&segmentTerminateEarly=true',
+            urldecode($request->getUri())
+        );
+    }
+
+    public function testWithMultiThreaded()
+    {
+        $this->query->setMultiThreaded(true);
+        $request = $this->builder->build($this->query);
+
+        $this->assertSame(
+            'select?omitHeader=true&wt=json&json.nl=flat&q=*:*&start=0&rows=10&fl=*,score&multiThreaded=true',
+            urldecode($request->getUri())
+        );
     }
 
     public function testWithCursorMark()

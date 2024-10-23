@@ -85,6 +85,58 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $components;
 
     /**
+     * Return the value of the partialResults header if present in the response header.
+     *
+     * @return bool|null
+     */
+    public function getPartialResults(): ?bool
+    {
+        $this->parseResponse();
+
+        return $this->responseHeader['partialResults'] ?? null;
+    }
+
+    /**
+     * Was a query execution limit reached for this search?
+     *
+     * This method can only return a correct result if the query had omitHeader=false.
+     *
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/common-query-parameters.html#partialresults-parameter
+     *
+     * @return bool
+     */
+    public function isPartialResults(): bool
+    {
+        return (bool) $this->getPartialResults();
+    }
+
+    /**
+     * Return the value of the segmentTerminatedEarly header if present in the response header.
+     *
+     * @return bool|null
+     */
+    public function getSegmentTerminatedEarly(): ?bool
+    {
+        $this->parseResponse();
+
+        return $this->responseHeader['segmentTerminatedEarly'] ?? null;
+    }
+
+    /**
+     * Did early segment termination happen for this search?
+     *
+     * This method can only return a correct result if the query had omitHeader=false.
+     *
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/common-query-parameters.html#segmentterminateearly-parameter
+     *
+     * @return bool
+     */
+    public function isSegmentTerminatedEarly(): bool
+    {
+        return (bool) $this->getSegmentTerminatedEarly();
+    }
+
+    /**
      * get Solr numFound.
      *
      * Returns the total number of documents found by Solr (this is NOT the

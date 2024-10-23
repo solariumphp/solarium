@@ -222,6 +222,54 @@ abstract class AbstractResultTestCase extends TestCase
             $this->result->getQueryTime()
         );
     }
+
+    public function testNoPartialResults()
+    {
+        $this->assertNull(
+            $this->result->getPartialResults()
+        );
+
+        $this->assertFalse(
+            $this->result->isPartialResults()
+        );
+    }
+
+    public function testGetAndIsPartialResults()
+    {
+        $result = new SelectPartialResultsDummy(0, 5, 0, null, [], []);
+
+        $this->assertTrue(
+            $result->getPartialResults()
+        );
+
+        $this->assertTrue(
+            $result->isPartialResults()
+        );
+    }
+
+    public function testNoSegmentTerminatedEarly()
+    {
+        $this->assertNull(
+            $this->result->getSegmentTerminatedEarly()
+        );
+
+        $this->assertFalse(
+            $this->result->isSegmentTerminatedEarly()
+        );
+    }
+
+    public function testGetSegmentTerminatedEarly()
+    {
+        $result = new SelectSegmentTerminatedEarlyDummy(0, 5, 0, null, [], []);
+
+        $this->assertTrue(
+            $result->getSegmentTerminatedEarly()
+        );
+
+        $this->assertTrue(
+            $result->isSegmentTerminatedEarly()
+        );
+    }
 }
 
 class SelectDummy extends Result
@@ -235,5 +283,25 @@ class SelectDummy extends Result
         $this->documents = $docs;
         $this->components = $components;
         $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
+    }
+}
+
+class SelectPartialResultsDummy extends SelectDummy
+{
+    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
+    {
+        parent::__construct($status, $queryTime, $numfound, $maxscore, $docs, $components);
+
+        $this->responseHeader['partialResults'] = true;
+    }
+}
+
+class SelectSegmentTerminatedEarlyDummy extends SelectDummy
+{
+    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
+    {
+        parent::__construct($status, $queryTime, $numfound, $maxscore, $docs, $components);
+
+        $this->responseHeader['segmentTerminatedEarly'] = true;
     }
 }
