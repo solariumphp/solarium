@@ -1595,6 +1595,43 @@ abstract class AbstractTechproductsTestCase extends TestCase
     }
 
     /**
+     * @dataProvider responseWriterProvider
+     *
+     * @group skip_for_solr_cloud
+     */
+    public function testPartialResults(string $responseWriter)
+    {
+        // create an expensive query
+        $select = self::$client->createSelect();
+        $select->setResponseWriter($responseWriter);
+        $select->setOmitHeader(false);
+        $select->createFilterQuery('feature')->setCache(false)->setQuery(
+            'features:*power* cat:*electronics*'
+        );
+        $select->createFilterQuery('region')->setCache(false)->setQuery(
+            $select->getHelper()->geofilt('store', 45.15, -93.85, 50)
+        );
+        $select->getFacetSet()->createFacetField('cat')->setField('cat');
+        $select->addField('termfreq(cat,\'electronics\')');
+        $select->addField('totaltermfreq(cat,\'electronics\')');
+        $select->addSort(
+            'div(termfreq(features,\'power\'),totaltermfreq(features,\'power\'))',
+            $select::SORT_ASC
+        );
+        $select->addSort('id', $select::SORT_DESC);
+
+        $result = self::$client->select($select);
+        $this->assertFalse($result->isPartialResults());
+
+        // give the query 1 millisecond of time & CPU time to complete
+        $select->setTimeAllowed(1);
+        $select->setCpuAllowed(1);
+
+        $result = self::$client->select($select);
+        $this->assertTrue($result->isPartialResults());
+    }
+
+    /**
      * @dataProvider crossRequestFormatResponseWriterProvider
      */
     public function testUpdate(string $requestFormat, string $responseWriter)

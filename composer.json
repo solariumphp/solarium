@@ -34,7 +34,7 @@
         "phpunit/phpunit": "^9.6",
         "rawr/phpunit-data-provider": "^3.3",
         "roave/security-advisories": "dev-master",
-        "symfony/event-dispatcher": "^5.0 || ^6.0"
+        "symfony/event-dispatcher": "^5.0 || ^6.0 || ^7.0"
     },
     "prefer-stable": true,
     "config": {

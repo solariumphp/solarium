@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - PHP 8.4 support
-- Solarium\Core\Query\AbstractQuery::setCpuAllowed()
+- Solarium\QueryType\Select\Query\Quey::setCanCancel()
+- Solarium\QueryType\Select\Query\Quey::setQueryUuid()
+- Solarium\QueryType\Select\Query\Quey::setPartialResults()
+- Solarium\QueryType\Select\Query\Quey::setCpuAllowed()
+- Solarium\QueryType\Select\Query\Quey::setMemAllowed()
+- Solarium\QueryType\Select\Query\Quey::setSegmentTerminateEarly()
+- Solarium\QueryType\Select\Query\Quey::setMultiThreaded()
 
 ### Fixed
 - JSON update requests correctly handle `Stringable` object set as field value
@@ -18,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Support for config objects, you have to convert them to an array before passing to a constructor or `setOptions()`
 
+### Deprecated
+- Solarium\Core\Query\AbstractQuery::setTimeAllowed(), moved to Solarium\QueryType\Select\Query\Query
 
 ## [6.3.5]
 ### Added
