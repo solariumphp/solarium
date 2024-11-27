@@ -98,6 +98,8 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      * @param int $value
      *
      * @return self Provides fluent interface
+     *
+     * @deprecated Will be removed in Solarium 7. This parameter is only relevant for Select queries.
      */
     public function setTimeAllowed(int $value): self
     {
@@ -110,34 +112,12 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      * Get timeAllowed option.
      *
      * @return int|null
+     *
+     * @deprecated Will be removed in Solarium 7. This parameter is only relevant for Select queries.
      */
     public function getTimeAllowed(): ?int
     {
         return $this->getOption('timeallowed');
-    }
-
-    /**
-     * Set cpuAllowed option.
-     *
-     * @param int $value
-     *
-     * @return self Provides fluent interface
-     */
-    public function setCpuAllowed(int $value): self
-    {
-        $this->setOption('cpuallowed', $value);
-
-        return $this;
-    }
-
-    /**
-     * Get cpuAllowed option.
-     *
-     * @return int|null
-     */
-    public function getCpuAllowed(): ?int
-    {
-        return $this->getOption('cpuallowed');
     }
 
     /**

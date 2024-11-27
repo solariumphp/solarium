@@ -23,7 +23,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a select query.
      *
-     * @param QueryInterface|SelectQuery $query
+     * @param QueryInterface&SelectQuery $query
      *
      * @return Request
      */
@@ -41,9 +41,17 @@ class RequestBuilder extends BaseRequestBuilder
         );
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
+        $request->addParam('canCancel', $query->getCanCancel());
+        $request->addParam('queryUUID', $query->getQueryUUID());
         $request->addParam('fl', implode(',', $query->getFields()));
         $request->addParam('q.op', $query->getQueryDefaultOperator());
         $request->addParam('df', $query->getQueryDefaultField());
+        $request->addParam('partialResults', $query->getPartialResults());
+        $request->addParam('timeAllowed', $query->getTimeAllowed());
+        $request->addParam('cpuAllowed', $query->getCpuAllowed());
+        $request->addParam('memAllowed', $query->getMemAllowed());
+        $request->addParam('segmentTerminateEarly', $query->getSegmentTerminateEarly());
+        $request->addParam('multiThreaded', $query->getMultiThreaded());
         $request->addParam('cursorMark', $query->getCursorMark());
         $request->addParam('sow', $query->getSplitOnWhitespace());
 

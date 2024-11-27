@@ -11,6 +11,14 @@ Solr status code. This is not the HTTP status code! The normal value for success
 
 Solr index query time. This doesn't include things like the HTTP response time. Only available if your Solr server sends headers (`omitHeader=false`).
 
+### PartialResults
+
+Solr sets this flag if partial results are returned because an execution limit is reached. Only available if your Solr server sends headers (`omitHeader=false`).
+
+### SegmentTerminatedEarly
+
+Solr sets this flag if early segment termination happens. Only available if your Solr server sends headers (`omitHeader=false`).
+
 ### NumFound
 
 Total number of documents that matched the query. This is not necessarily the same as the number of document in the resultset, depending on you query settings!

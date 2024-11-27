@@ -39,10 +39,16 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetStart()
+    public function testSetAndGetResultClass()
     {
-        $this->query->setStart(234);
-        $this->assertSame(234, $this->query->getStart());
+        $this->query->setResultClass('MyResult');
+        $this->assertSame('MyResult', $this->query->getResultClass());
+    }
+
+    public function testSetAndGetDocumentClass()
+    {
+        $this->query->setDocumentClass('MyDocument');
+        $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
     public function testSetAndGetQueryWithTrim()
@@ -73,22 +79,38 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame($value, $this->query->getQueryDefaultField());
     }
 
-    public function testSetAndGetResultClass()
+    public function testSetAndGetStart()
     {
-        $this->query->setResultClass('MyResult');
-        $this->assertSame('MyResult', $this->query->getResultClass());
-    }
-
-    public function testSetAndGetDocumentClass()
-    {
-        $this->query->setDocumentClass('MyDocument');
-        $this->assertSame('MyDocument', $this->query->getDocumentClass());
+        $this->query->setStart(234);
+        $this->assertSame(234, $this->query->getStart());
     }
 
     public function testSetAndGetRows()
     {
         $this->query->setRows(100);
         $this->assertSame(100, $this->query->getRows());
+    }
+
+    public function testGetDefaultCanCancel()
+    {
+        $this->assertNull($this->query->getCanCancel());
+    }
+
+    public function testSetAndGetCanCancel()
+    {
+        $this->query->setCanCancel(true);
+        $this->assertTrue($this->query->getCanCancel());
+    }
+
+    public function testGetDefaultQueryUuid()
+    {
+        $this->assertNull($this->query->getQueryUuid());
+    }
+
+    public function testSetAndGetQueryUuid()
+    {
+        $this->query->setQueryUuid('foobar');
+        $this->assertSame('foobar', $this->query->getQueryUuid());
     }
 
     public function testAddField()
@@ -748,6 +770,72 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->query->addTags(['t1', 't2']);
         $this->query->setTags(['t3', 't4']);
         $this->assertSame(['t3', 't4'], $this->query->getTags());
+    }
+
+    public function testGetDefaultPartialResults()
+    {
+        $this->assertNull($this->query->getPartialResults());
+    }
+
+    public function testSetAndGetPartialResults()
+    {
+        $this->query->setPartialResults(true);
+        $this->assertTrue($this->query->getPartialResults());
+    }
+
+    public function testGetDefaultTimeAllowed()
+    {
+        $this->assertNull($this->query->getTimeAllowed());
+    }
+
+    public function testSetAndGetTimeAllowed()
+    {
+        $this->query->setTimeAllowed(1200);
+        $this->assertSame(1200, $this->query->getTimeAllowed());
+    }
+
+    public function testGetDefaultCpuAllowed()
+    {
+        $this->assertNull($this->query->getCpuAllowed());
+    }
+
+    public function testSetAndGetCpuAllowed()
+    {
+        $this->query->setCpuAllowed(500);
+        $this->assertSame(500, $this->query->getCpuAllowed());
+    }
+
+    public function testGetDefaultMemAllowed()
+    {
+        $this->assertNull($this->query->getMemAllowed());
+    }
+
+    public function testSetAndGetMemAllowed()
+    {
+        $this->query->setMemAllowed(2.5);
+        $this->assertSame(2.5, $this->query->getMemAllowed());
+    }
+
+    public function testGetDefaultSegmentTerminateEarly()
+    {
+        $this->assertNull($this->query->getSegmentTerminateEarly());
+    }
+
+    public function testSetAndGetSegmentTerminateEarly()
+    {
+        $this->query->setSegmentTerminateEarly(true);
+        $this->assertTrue($this->query->getSegmentTerminateEarly());
+    }
+
+    public function testGetDefaultMultiThreaded()
+    {
+        $this->assertNull($this->query->getMultiThreaded());
+    }
+
+    public function testSetAndGetMultiThreaded()
+    {
+        $this->query->setMultiThreaded(true);
+        $this->assertTrue($this->query->getMultiThreaded());
     }
 
     public function testSetCursorMark()
