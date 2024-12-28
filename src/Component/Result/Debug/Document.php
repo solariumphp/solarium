@@ -87,7 +87,7 @@ class Document extends Detail implements \IteratorAggregate, \Countable
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         $string = '';
         foreach ($this->getDetails() as $detail) {

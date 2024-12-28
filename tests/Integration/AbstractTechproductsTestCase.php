@@ -23,6 +23,7 @@ use Solarium\Core\Event\Events;
 use Solarium\Core\Query\AbstractDocument;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Helper;
+use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
@@ -47,6 +48,7 @@ use Solarium\QueryType\Luke\Result\Doc\DocInfo as LukeDocInfo;
 use Solarium\QueryType\Luke\Result\Fields\FieldInfo as LukeFieldInfo;
 use Solarium\QueryType\Luke\Result\Index\Index as LukeIndexResult;
 use Solarium\QueryType\Luke\Result\Schema\Schema as LukeSchemaResult;
+use Solarium\QueryType\ManagedResources\Query\AbstractQuery as AbstractManagedResourcesQuery;
 use Solarium\QueryType\ManagedResources\Query\Stopwords as StopwordsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms as SynonymsQuery;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
@@ -5391,7 +5393,7 @@ class NonControlCharFilteringUpdateRequestBuilder extends XmlUpdateRequestBuilde
  */
 class CompliantManagedResourceRequestBuilder extends ResourceRequestBuilder
 {
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|AbstractManagedResourcesQuery $query): Request
     {
         $request = parent::build($query);
 

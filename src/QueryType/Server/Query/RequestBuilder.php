@@ -10,8 +10,9 @@
 namespace Solarium\QueryType\Server\Query;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
+use Solarium\QueryType\Server\AbstractServerQuery;
 use Solarium\QueryType\Server\Query\Action\ActionInterface;
 
 /**
@@ -22,11 +23,11 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for an API query.
      *
-     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param QueryInterface|AbstractServerQuery $query
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|AbstractServerQuery $query): Request
     {
         $request = parent::build($query);
         $request->setMethod(Request::METHOD_GET);

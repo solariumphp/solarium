@@ -74,8 +74,8 @@ class SynonymMappings extends BaseResult implements \IteratorAggregate, \Countab
     /**
      * Constructor.
      *
-     * @param \Solarium\Core\Query\AbstractQuery $query
-     * @param \Solarium\Core\Client\Response     $response
+     * @param AbstractQuery $query
+     * @param Response      $response
      */
     public function __construct(AbstractQuery $query, Response $response)
     {

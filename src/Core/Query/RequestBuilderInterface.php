@@ -17,11 +17,11 @@ use Solarium\Core\Client\Request;
 interface RequestBuilderInterface
 {
     /**
-     * Build request for a select query.
+     * Build request for a generic query.
      *
-     * @param AbstractQuery $query
+     * @param QueryInterface $query
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request;
+    public function build(QueryInterface $query): Request;
 }

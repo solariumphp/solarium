@@ -55,6 +55,8 @@ class Result implements \IteratorAggregate, \Countable
         if (isset($this->groups[$key])) {
             return $this->groups[$key];
         }
+
+        return null;
     }
 
     /**

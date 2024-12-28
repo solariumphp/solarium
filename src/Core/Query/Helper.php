@@ -21,32 +21,24 @@ class Helper
 {
     /**
      * Placeholder pattern for use in the assemble method.
-     *
-     * @var string
      */
-    protected $placeHolderPattern = '/%(L|P|T|)(\d+)%/i';
+    protected string $placeHolderPattern = '/%(L|P|T|)(\d+)%/i';
 
     /**
      * Array of parts to use for assembling a query string.
-     *
-     * @var array
      */
-    protected $assembleParts;
+    protected array $assembleParts;
 
     /**
      * Counter to keep dereferenced params unique (within a single query instance).
-     *
-     * @var int
      */
-    protected $derefencedParamsLastKey = 0;
+    protected int $derefencedParamsLastKey = 0;
 
     /**
      * Solarium Query instance, optional.
      * Used for dereferenced params.
-     *
-     * @var QueryInterface
      */
-    protected $query;
+    protected ?QueryInterface $query;
 
     /**
      * Constructor.
@@ -153,7 +145,7 @@ class Helper
      *
      * @return string|false false is returned in case of invalid input
      */
-    public function formatDate($input)
+    public function formatDate($input): string|false
     {
         switch (true) {
             case $input instanceof \DateTimeInterface:
@@ -216,7 +208,7 @@ class Helper
      *
      * @return string
      */
-    public function rangeQuery(string $field, $from, $to, $inclusive = true): string
+    public function rangeQuery(string $field, int|float|string|null $from, int|float|string|null $to, bool|array $inclusive = true): string
     {
         if (null === $from) {
             $from = '*';
