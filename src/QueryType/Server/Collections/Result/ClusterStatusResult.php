@@ -15,7 +15,6 @@ use Solarium\QueryType\Server\Query\AbstractResult;
 /**
  * ClusterStatusResult.
  */
-#[\AllowDynamicProperties]
 class ClusterStatusResult extends AbstractResult
 {
     /**

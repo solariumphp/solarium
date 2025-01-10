@@ -15,6 +15,7 @@ use Solarium\Exception\UnexpectedValueException;
 /**
  * QueryType result.
  */
+#[\AllowDynamicProperties]
 class QueryType extends Result
 {
     /**
