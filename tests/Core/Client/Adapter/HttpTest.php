@@ -33,7 +33,7 @@ class HttpTest extends TestCase
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
-        /** @var Http|MockObject $mock */
+        /** @var Http&MockObject $mock */
         $mock = $this->getMockBuilder(Http::class)
             ->onlyMethods(['getData'])
             ->getMock();
@@ -52,7 +52,7 @@ class HttpTest extends TestCase
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
 
-        /** @var Http|MockObject $mock */
+        /** @var Http&MockObject $mock */
         $mock = $this->getMockBuilder(Http::class)
             ->onlyMethods(['getData'])
             ->getMock();

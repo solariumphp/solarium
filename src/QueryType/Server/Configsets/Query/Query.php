@@ -22,7 +22,7 @@ use Solarium\QueryType\Server\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Query\ResponseParser;
 
 /**
- * Collections query.
+ * Configsets query.
  *
  * Can be used to perform an action on the Configsets API admin endpoint
  */

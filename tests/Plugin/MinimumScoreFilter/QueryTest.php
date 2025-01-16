@@ -72,7 +72,7 @@ class QueryTest extends AbstractQueryTestCase
 
     public function testGetComponentsWithGrouping()
     {
-        /** @var Grouping|MockObject $mockComponent */
+        /** @var Grouping&MockObject $mock */
         $mock = $this->getMockBuilder(Grouping::class)
             ->onlyMethods(['setOption'])
             ->getMock();

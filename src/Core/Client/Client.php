@@ -807,7 +807,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface
      */
-    public function execute(QueryInterface $query, $endpoint = null): ResultInterface
+    public function execute(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
         $event = new PreExecuteEvent($query);
         $this->eventDispatcher->dispatch($event);
@@ -833,7 +833,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return Response
      */
-    public function executeRequest(Request $request, $endpoint = null): Response
+    public function executeRequest(Request $request, Endpoint|string|null $endpoint = null): Response
     {
         // load endpoint by string or by using the default one in case of a null value
         if (!($endpoint instanceof Endpoint)) {
@@ -872,7 +872,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Ping\Result
      */
-    public function ping(QueryInterface $query, $endpoint = null): PingResult
+    public function ping(QueryInterface $query, Endpoint|string|null $endpoint = null): PingResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -896,7 +896,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Update\Result
      */
-    public function update(QueryInterface $query, $endpoint = null): UpdateResult
+    public function update(QueryInterface $query, Endpoint|string|null $endpoint = null): UpdateResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -919,7 +919,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Select\Result\Result
      */
-    public function select(QueryInterface $query, $endpoint = null): SelectResult
+    public function select(QueryInterface $query, Endpoint|string|null $endpoint = null): SelectResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -942,7 +942,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\MoreLikeThis\Result
      */
-    public function moreLikeThis(QueryInterface $query, $endpoint = null): MoreLikeThisResult
+    public function moreLikeThis(QueryInterface $query, Endpoint|string|null $endpoint = null): MoreLikeThisResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -958,7 +958,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
-    public function analyze(QueryInterface $query, $endpoint = null): ResultInterface
+    public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
         return $this->execute($query, $endpoint);
     }
@@ -974,7 +974,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Terms\Result
      */
-    public function terms(QueryInterface $query, $endpoint = null): TermsResult
+    public function terms(QueryInterface $query, Endpoint|string|null $endpoint = null): TermsResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -990,7 +990,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Spellcheck\Result\Result
      */
-    public function spellcheck(QueryInterface $query, $endpoint = null): SpellcheckResult
+    public function spellcheck(QueryInterface $query, Endpoint|string|null $endpoint = null): SpellcheckResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -1006,7 +1006,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Suggester\Result\Result
      */
-    public function suggester(QueryInterface $query, $endpoint = null): SuggesterResult
+    public function suggester(QueryInterface $query, Endpoint|string|null $endpoint = null): SuggesterResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -1022,7 +1022,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Extract\Result
      */
-    public function extract(QueryInterface $query, $endpoint = null): ExtractResult
+    public function extract(QueryInterface $query, Endpoint|string|null $endpoint = null): ExtractResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -1038,7 +1038,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\RealtimeGet\Result
      */
-    public function realtimeGet(QueryInterface $query, $endpoint = null): RealtimeGetResult
+    public function realtimeGet(QueryInterface $query, Endpoint|string|null $endpoint = null): RealtimeGetResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -1054,7 +1054,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Luke\Result\Result
      */
-    public function luke(QueryInterface $query, $endpoint = null): LukeResult
+    public function luke(QueryInterface $query, Endpoint|string|null $endpoint = null): LukeResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -1070,7 +1070,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Server\CoreAdmin\Result\Result
      */
-    public function coreAdmin(QueryInterface $query, $endpoint = null): CoreAdminResult
+    public function coreAdmin(QueryInterface $query, Endpoint|string|null $endpoint = null): CoreAdminResult
     {
         return $this->execute($query, $endpoint);
     }
@@ -1086,7 +1086,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Server\Collections\Result\ClusterStatusResult
      */
-    public function collections(QueryInterface $query, $endpoint = null): ResultInterface
+    public function collections(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
         return $this->execute($query, $endpoint);
     }
@@ -1102,7 +1102,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult
      */
-    public function configsets(QueryInterface $query, $endpoint = null): ResultInterface
+    public function configsets(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
         return $this->execute($query, $endpoint);
     }

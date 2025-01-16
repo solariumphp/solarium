@@ -44,7 +44,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'context: '.$this->getContext()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'authentication: '.print_r($this->getAuthentication() + $this->getAuthorizationToken(), true);
 

@@ -116,7 +116,7 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $output =
             __CLASS__.'::__toString'."\n"

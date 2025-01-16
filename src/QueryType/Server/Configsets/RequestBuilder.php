@@ -10,23 +10,24 @@
 namespace Solarium\QueryType\Server\Configsets;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\QueryInterface;
 use Solarium\QueryType\Server\Configsets\Query\Action\Upload;
+use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
 use Solarium\QueryType\Server\Query\RequestBuilder as ServerRequestBuilder;
 
 /**
- * Build an Configsets API request.
+ * Build a Configsets API request.
  */
 class RequestBuilder extends ServerRequestBuilder
 {
     /**
      * Build request for an API query.
      *
-     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param QueryInterface|ConfigsetsQuery $query
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|ConfigsetsQuery $query): Request
     {
         $request = parent::build($query);
 

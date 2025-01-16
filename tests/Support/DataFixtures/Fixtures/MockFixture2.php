@@ -8,7 +8,7 @@ use Solarium\Support\DataFixtures\FixtureInterface;
 class MockFixture2 implements FixtureInterface
 {
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
     public function load(ClientInterface $client)
     {
@@ -19,7 +19,7 @@ class MockFixture2 implements FixtureInterface
 class MockFixture3 implements FixtureInterface
 {
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
     public function load(ClientInterface $client)
     {

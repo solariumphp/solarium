@@ -182,7 +182,7 @@ class Detail implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->debugDump();
     }

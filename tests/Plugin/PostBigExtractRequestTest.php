@@ -16,6 +16,7 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PostCreateRequest;
 use Solarium\Plugin\PostBigExtractRequest;
+use Solarium\QueryType\Extract\Query;
 use Solarium\Tests\Integration\TestClientFactory;
 
 class PostBigExtractRequestTest extends TestCase
@@ -31,7 +32,7 @@ class PostBigExtractRequestTest extends TestCase
     protected $client;
 
     /**
-     * @var Solarium\QueryType\Extract\Query
+     * @var Query
      */
     protected $query;
 

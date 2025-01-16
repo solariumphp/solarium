@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Luke;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 
@@ -26,7 +25,7 @@ class RequestBuilder extends AbstractRequestBuilder
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|Query $query): Request
     {
         $request = parent::build($query);
 
