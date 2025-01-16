@@ -14,6 +14,7 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Analysis\RequestBuilder\Field as RequestBuilder;
 use Solarium\QueryType\Analysis\ResponseParser\Field as ResponseParser;
+use Solarium\QueryType\Analysis\Result\Field as ResultField;
 
 /**
  * Analysis document query.
@@ -27,7 +28,7 @@ class Field extends AbstractQuery
      */
     protected $options = [
         'handler' => 'analysis/field',
-        'resultclass' => 'Solarium\QueryType\Analysis\Result\Field',
+        'resultclass' => ResultField::class,
         'omitheader' => true,
     ];
 

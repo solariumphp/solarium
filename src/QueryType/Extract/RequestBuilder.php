@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
@@ -23,13 +22,13 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request.
      *
-     * @param Query|QueryInterface $query
+     * @param QueryInterface|Query $query
      *
      * @throws RuntimeException
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|Query $query): Request
     {
         $request = parent::build($query);
 

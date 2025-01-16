@@ -317,7 +317,7 @@ interface ClientInterface
      *
      * @return ResultInterface
      */
-    public function execute(QueryInterface $query, $endpoint = null): ResultInterface;
+    public function execute(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface;
 
     /**
      * Execute a request and return the response.
@@ -327,7 +327,7 @@ interface ClientInterface
      *
      * @return Response
      */
-    public function executeRequest(Request $request, $endpoint = null): Response;
+    public function executeRequest(Request $request, Endpoint|string|null $endpoint = null): Response;
 
     /**
      * Execute a ping query.
@@ -349,7 +349,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Ping\Result
      */
-    public function ping(QueryInterface $query, $endpoint = null): PingResult;
+    public function ping(QueryInterface $query, Endpoint|string|null $endpoint = null): PingResult;
 
     /**
      * Execute an update query.
@@ -373,7 +373,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Update\Result
      */
-    public function update(QueryInterface $query, $endpoint = null): UpdateResult;
+    public function update(QueryInterface $query, Endpoint|string|null $endpoint = null): UpdateResult;
 
     /**
      * Execute a select query.
@@ -396,7 +396,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Select\Result\Result
      */
-    public function select(QueryInterface $query, $endpoint = null): SelectResult;
+    public function select(QueryInterface $query, Endpoint|string|null $endpoint = null): SelectResult;
 
     /**
      * Execute a MoreLikeThis query.
@@ -419,7 +419,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\MoreLikeThis\Result
      */
-    public function moreLikeThis(QueryInterface $query, $endpoint = null): MoreLikeThisResult;
+    public function moreLikeThis(QueryInterface $query, Endpoint|string|null $endpoint = null): MoreLikeThisResult;
 
     /**
      * Execute an analysis query.
@@ -432,7 +432,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
      */
-    public function analyze(QueryInterface $query, $endpoint = null): ResultInterface;
+    public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface;
 
     /**
      * Execute a terms query.
@@ -445,7 +445,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Terms\Result
      */
-    public function terms(QueryInterface $query, $endpoint = null): TermsResult;
+    public function terms(QueryInterface $query, Endpoint|string|null $endpoint = null): TermsResult;
 
     /**
      * Execute a spellcheck query.
@@ -458,7 +458,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Spellcheck\Result\Result
      */
-    public function spellcheck(QueryInterface $query, $endpoint = null): SpellcheckResult;
+    public function spellcheck(QueryInterface $query, Endpoint|string|null $endpoint = null): SpellcheckResult;
 
     /**
      * Execute a suggester query.
@@ -471,7 +471,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Suggester\Result\Result
      */
-    public function suggester(QueryInterface $query, $endpoint = null): SuggesterResult;
+    public function suggester(QueryInterface $query, Endpoint|string|null $endpoint = null): SuggesterResult;
 
     /**
      * Execute an extract query.
@@ -484,7 +484,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Extract\Result
      */
-    public function extract(QueryInterface $query, $endpoint = null): ExtractResult;
+    public function extract(QueryInterface $query, Endpoint|string|null $endpoint = null): ExtractResult;
 
     /**
      * Execute a RealtimeGet query.
@@ -497,7 +497,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\RealtimeGet\Result
      */
-    public function realtimeGet(QueryInterface $query, $endpoint = null): RealtimeGetResult;
+    public function realtimeGet(QueryInterface $query, Endpoint|string|null $endpoint = null): RealtimeGetResult;
 
     /**
      * Execute a Luke query.
@@ -510,7 +510,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Luke\Result\Result
      */
-    public function luke(QueryInterface $query, $endpoint = null): LukeResult;
+    public function luke(QueryInterface $query, Endpoint|string|null $endpoint = null): LukeResult;
 
     /**
      * Execute a CoreAdmin query.
@@ -523,7 +523,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Server\CoreAdmin\Result\Result
      */
-    public function coreAdmin(QueryInterface $query, $endpoint = null): CoreAdminResult;
+    public function coreAdmin(QueryInterface $query, Endpoint|string|null $endpoint = null): CoreAdminResult;
 
     /**
      * Execute a Collections API query.
@@ -536,7 +536,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Server\Collections\Result\ClusterStatusResult
      */
-    public function collections(QueryInterface $query, $endpoint = null): ResultInterface;
+    public function collections(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface;
 
     /**
      * Execute a Configsets API query.
@@ -549,7 +549,7 @@ interface ClientInterface
      *
      * @return ResultInterface|\Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult
      */
-    public function configsets(QueryInterface $query, $endpoint = null): ResultInterface;
+    public function configsets(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface;
 
     /**
      * Create a query instance.

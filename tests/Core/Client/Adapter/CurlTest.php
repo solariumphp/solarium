@@ -88,7 +88,7 @@ class CurlTest extends TestCase
         $request = new Request();
         $endpoint = new Endpoint();
 
-        /** @var Curl|MockObject $mock */
+        /** @var Curl&MockObject $mock */
         $mock = $this->getMockBuilder(Curl::class)
             ->onlyMethods(['getData'])
             ->getMock();

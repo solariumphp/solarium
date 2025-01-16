@@ -439,7 +439,7 @@ class BufferedAddLiteTest extends TestCase
     /**
      * @param EventDispatcherInterface|null $dispatcher
      *
-     * @return Client|MockObject
+     * @return Client&MockObject
      */
     protected function getClient(?EventDispatcherInterface $dispatcher = null): ClientInterface
     {
@@ -449,7 +449,7 @@ class BufferedAddLiteTest extends TestCase
                 ->method('dispatch');
         }
 
-        /** @var Client|MockObject $client */
+        /** @var Client&MockObject $client */
         $client = $this->createMock(ClientInterface::class);
 
         $client->expects($this->any())

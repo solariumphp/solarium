@@ -78,7 +78,7 @@ class BufferedDelete extends BufferedDeleteLite
      *
      * @return UpdateResult|false
      */
-    public function flush()
+    public function flush(): UpdateResult|false
     {
         if (0 === \count($this->buffer)) {
             // nothing to do

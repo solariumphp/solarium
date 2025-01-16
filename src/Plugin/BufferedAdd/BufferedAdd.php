@@ -57,7 +57,7 @@ class BufferedAdd extends BufferedAddLite
      *
      * @return UpdateResult|false
      */
-    public function flush(?bool $overwrite = null, ?int $commitWithin = null)
+    public function flush(?bool $overwrite = null, ?int $commitWithin = null): UpdateResult|false
     {
         if (0 === \count($this->buffer)) {
             // nothing to do

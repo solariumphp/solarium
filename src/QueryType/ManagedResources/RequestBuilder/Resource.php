@@ -10,8 +10,8 @@
 namespace Solarium\QueryType\ManagedResources\RequestBuilder;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder;
+use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractCommand;
 use Solarium\QueryType\ManagedResources\Query\AbstractQuery as BaseQuery;
@@ -24,13 +24,13 @@ class Resource extends AbstractRequestBuilder
     /**
      * Build request for a resource query.
      *
-     * @param \Solarium\Core\Query\AbstractQuery $query
+     * @param QueryInterface|BaseQuery $query
      *
-     * @throws \Solarium\Exception\RuntimeException
+     * @throws RuntimeException
      *
-     * @return \Solarium\Core\Client\Request
+     * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|BaseQuery $query): Request
     {
         if (empty($query->getName())) {
             throw new RuntimeException('Name of the resource is not set in the query.');
@@ -56,10 +56,10 @@ class Resource extends AbstractRequestBuilder
     }
 
     /**
-     * @param \Solarium\Core\Client\Request                              $request
-     * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
+     * @param Request         $request
+     * @param AbstractCommand $command
      *
-     * @throws \Solarium\Exception\RuntimeException
+     * @throws RuntimeException
      *
      * @return self Provides fluent interface
      */

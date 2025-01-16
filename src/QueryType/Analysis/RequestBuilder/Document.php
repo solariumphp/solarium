@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
@@ -23,11 +22,11 @@ class Document extends BaseRequestBuilder
     /**
      * Build request for an analysis document query.
      *
-     * @param AbstractQuery|QueryInterface|QueryDocument $query
+     * @param QueryInterface|QueryDocument $query
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|QueryDocument $query): Request
     {
         $request = parent::build($query);
         $request->setRawData($this->getRawData($query));
