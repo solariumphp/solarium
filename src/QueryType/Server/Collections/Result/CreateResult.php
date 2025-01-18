@@ -14,7 +14,6 @@ use Solarium\QueryType\Server\Query\AbstractResult;
 /**
  * CreateResult.
  */
-#[\AllowDynamicProperties]
 class CreateResult extends AbstractResult
 {
     /**
