@@ -11,6 +11,9 @@ use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
 
+/**
+ * @requires extension curl
+ */
 class CurlTest extends TestCase
 {
     use TimeoutAwareTestTrait;
@@ -24,10 +27,6 @@ class CurlTest extends TestCase
 
     public function setUp(): void
     {
-        if (!\function_exists('curl_init')) {
-            $this->markTestSkipped('cURL not available, skipping cURL adapter tests.');
-        }
-
         $this->adapter = new Curl();
     }
 
@@ -131,7 +130,7 @@ class CurlTest extends TestCase
         curl_close($handle);
     }
 
-    public function methodProvider(): array
+    public static function methodProvider(): array
     {
         return [
             [Request::METHOD_GET],

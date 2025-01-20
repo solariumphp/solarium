@@ -79,7 +79,7 @@ class TermTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->suggestions), $this->result);
+        $this->assertSameSize($this->suggestions, $this->result);
     }
 
     public function testIterator()

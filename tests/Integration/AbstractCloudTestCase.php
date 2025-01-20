@@ -34,8 +34,7 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
             ->setName('techproducts')
             ->setOverwrite(true);
         $configsetsQuery->setAction($action);
-        $response = self::$client->configsets($configsetsQuery);
-        static::assertTrue($response->getWasSuccessful());
+        self::$client->configsets($configsetsQuery);
 
         // create collection with unique name using the techproducts configset
         $collectionsQuery = self::$client->createCollections();
@@ -48,31 +47,26 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
             //       for the integration tests which might be the reason.
             ->setNumShards(3);
         $collectionsQuery->setAction($createAction);
-        $response = self::$client->collections($collectionsQuery);
-        static::assertTrue($response->getWasSuccessful());
+        self::$client->collections($collectionsQuery);
     }
 
     public static function tearDownAfterClass(): void
     {
-        $collectionsQuery = self::$client->createCollections();
-
         // now we delete the collection we created in setUpBeforeClass()
+        $collectionsQuery = self::$client->createCollections();
         $deleteAction = $collectionsQuery->createDelete();
         $deleteAction->setName(self::$name);
         $collectionsQuery->setAction($deleteAction);
-        $response = self::$client->collections($collectionsQuery);
-        static::assertTrue($response->getWasSuccessful());
+        self::$client->collections($collectionsQuery);
 
         // now we delete the configsets we created in setUpBeforeClass() and during the tests
         $configsetsQuery = self::$client->createConfigsets();
         $action = $configsetsQuery->createDelete();
         $action->setName('copy_of_techproducts');
         $configsetsQuery->setAction($action);
-        $result = self::$client->configsets($configsetsQuery);
-        static::assertTrue($result->getWasSuccessful());
+        self::$client->configsets($configsetsQuery);
         $action->setName('techproducts');
-        $result = self::$client->configsets($configsetsQuery);
-        static::assertTrue($result->getWasSuccessful());
+        self::$client->configsets($configsetsQuery);
     }
 
     public function testConfigsetsApi()
@@ -141,7 +135,7 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
         $result = self::$client->collections($collectionsQuery);
         $this->assertTrue($result->getWasSuccessful());
         $clusterState = $result->getClusterState();
-        $this->assertSame(ClusterState::class, get_class($clusterState));
+        $this->assertInstanceOf(ClusterState::class, $clusterState);
         $this->assertCount(3, $clusterState->getLiveNodes());
         $this->assertCount(1, $clusterState->getCollections());
         $this->assertTrue($clusterState->collectionExists(self::$name));

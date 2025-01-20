@@ -36,7 +36,7 @@ class ResultTest extends AbstractResultTestCase
 
     public function testGetDocuments()
     {
-        $this->assertCount(count($this->docs), $this->result->getDocuments());
+        $this->assertSameSize($this->docs, $this->result->getDocuments());
     }
 
     public function testIteratorWithRemoveFilter()

@@ -34,7 +34,7 @@ class TypesTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->items), $this->result);
+        $this->assertSameSize($this->items, $this->result);
     }
 
     public function testIterator()

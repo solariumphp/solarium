@@ -54,12 +54,10 @@ class FixtureLoaderTest extends TestCase
 
         $loader->expects($this->once())
             ->method('getFixtures')
-            ->will(
-                $this->returnValue(
-                    [
-                        $this->getMockFixture(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    $this->getMockFixture(),
+                ]
             );
 
         return $loader;

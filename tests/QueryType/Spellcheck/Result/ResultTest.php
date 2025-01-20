@@ -77,7 +77,7 @@ class ResultTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->data), $this->result);
+        $this->assertSameSize($this->data, $this->result);
     }
 
     public function testIterator()

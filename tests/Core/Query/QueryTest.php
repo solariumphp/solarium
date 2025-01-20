@@ -4,6 +4,7 @@ namespace Solarium\Tests\Core\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 
@@ -40,11 +41,7 @@ class QueryTest extends TestCase
     {
         $query = new TestQuery();
         $helper = $query->getHelper();
-
-        $this->assertSame(
-            'Solarium\Core\Query\Helper',
-            get_class($helper)
-        );
+        $this->assertInstanceOf(Helper::class, $helper);
     }
 
     public function testAddAndGetParams()

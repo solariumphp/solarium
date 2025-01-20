@@ -62,7 +62,7 @@ class StatsTest extends TestCase
         $field = $this->stats->createField('mykey');
 
         // check class
-        $this->assertThat($field, $this->isInstanceOf('Solarium\Component\Stats\Field'));
+        $this->assertInstanceOf(Field::class, $field);
 
         $this->assertSame(
             'mykey',
@@ -76,7 +76,7 @@ class StatsTest extends TestCase
         $field = $this->stats->createField($options);
 
         // check class
-        $this->assertThat($field, $this->isInstanceOf('Solarium\Component\Stats\Field'));
+        $this->assertInstanceOf(Field::class, $field);
 
         // check option forwarding
         $fieldOptions = $field->getOptions();

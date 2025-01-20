@@ -66,6 +66,6 @@ class StatsTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->data), $this->stats);
+        $this->assertSameSize($this->data, $this->stats);
     }
 }

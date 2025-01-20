@@ -3,7 +3,7 @@
 /lucene-solr
 /vendor
 .idea
-/.phpunit.result.cache
+/.phpunit.cache
 /.php_cs.cache
 /.phpcs-cache
 .DS_Store

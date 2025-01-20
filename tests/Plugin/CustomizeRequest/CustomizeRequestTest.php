@@ -52,14 +52,14 @@ class CustomizeRequestTest extends TestCase
         $auth = $this->plugin->getCustomization('auth');
         $id = $this->plugin->getCustomization('id');
 
-        $this->assertThat($auth, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
+        $this->assertInstanceOf(Customization::class, $auth);
         $this->assertSame('auth', $auth->getKey());
         $this->assertSame('header', $auth->getType());
         $this->assertSame('X-my-auth', $auth->getName());
         $this->assertSame('mypassword', $auth->getValue());
         $this->assertTrue($auth->getPersistent());
 
-        $this->assertThat($id, $this->isInstanceOf('Solarium\Plugin\CustomizeRequest\Customization'));
+        $this->assertInstanceOf(Customization::class, $id);
         $this->assertSame('id', $id->getKey());
         $this->assertSame('param', $id->getType());
         $this->assertSame('id', $id->getName());

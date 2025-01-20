@@ -56,7 +56,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function providerParseExtended()
+    public static function providerParseExtended(): array
     {
         return [
             'solr4' => [
@@ -237,7 +237,7 @@ class SpellcheckTest extends TestCase
         $this->assertEquals('dell ultrasharp new', $collations[1]->getQuery());
     }
 
-    public function providerParse()
+    public static function providerParse(): array
     {
         return [
             'solr4' => [
@@ -333,7 +333,7 @@ class SpellcheckTest extends TestCase
         $this->assertEquals(['word' => 'ultrasharpy', 'freq' => 1], $words[1]);
     }
 
-    public function providerParseSingleCollation()
+    public static function providerParseSingleCollation(): array
     {
         return [
             'solr4' => [

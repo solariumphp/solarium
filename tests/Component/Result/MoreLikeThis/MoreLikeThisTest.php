@@ -109,6 +109,6 @@ class MoreLikeThisTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->results), $this->mlt);
+        $this->assertSameSize($this->results, $this->mlt);
     }
 }
