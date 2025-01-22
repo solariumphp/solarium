@@ -22,7 +22,7 @@ class ResultTest extends AbstractResultTestCase
             new Document(['id' => 4, 'title' => 'doc4', 'score' => 0.08]),
         ];
 
-        $this->result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_MARK);
+        $this->result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_MARK);
     }
 
     public function testIterator()
@@ -41,7 +41,7 @@ class ResultTest extends AbstractResultTestCase
 
     public function testIteratorWithRemoveFilter()
     {
-        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
+        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = [];
         foreach ($result as $key => $doc) {
             $docs[$key] = $doc;
@@ -55,7 +55,7 @@ class ResultTest extends AbstractResultTestCase
 
     public function testGetDocumentsWithRemoveFilter()
     {
-        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
+        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = $result->getDocuments();
 
         $this->assertCount(3, $docs);
@@ -67,7 +67,7 @@ class ResultTest extends AbstractResultTestCase
     public function testFilterWithInvalidMode()
     {
         $this->expectException(OutOfBoundsException::class);
-        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, 'invalid_filter_name');
+        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, 'invalid_filter_name');
     }
 }
 
@@ -75,10 +75,11 @@ class FilterResultDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components, $mode)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components, $mode)
     {
         $this->numfound = $numfound;
         $this->maxscore = $maxscore;
+        $this->nextcursormark = $nextcursormark;
         $this->documents = $docs;
         $this->components = $components;
         $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];

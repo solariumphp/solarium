@@ -145,14 +145,16 @@ class PivotTest extends TestCase
     {
         $expectedStats = $this->facet->getLocalParameters()->getStats();
         $expectedStats[] = 'newstat';
-        $this->facet->getLocalParameters()->setStat('newstat');
+        $this->facet->addStat('newstat');
+        $this->assertSame($expectedStats, $this->facet->getStats());
         $this->assertSame($expectedStats, $this->facet->getLocalParameters()->getStats());
     }
 
     public function testClearStats()
     {
-        $this->facet->getLocalParameters()->setStat('newstat');
-        $this->facet->getLocalParameters()->clearStats();
+        $this->facet->addStat('newstat');
+        $this->facet->clearStats();
+        $this->assertSame([], $this->facet->getStats());
         $this->assertSame([], $this->facet->getLocalParameters()->getStats());
     }
 
@@ -160,24 +162,35 @@ class PivotTest extends TestCase
     {
         $stats = ['stat1', 'stat2'];
 
-        $this->facet->getLocalParameters()->clearStats();
-        $this->facet->getLocalParameters()->addStats($stats);
+        $this->facet->clearStats();
+        $this->facet->addStats($stats);
+        $this->assertSame($stats, $this->facet->getStats());
         $this->assertSame($stats, $this->facet->getLocalParameters()->getStats());
+    }
+
+    public function testAddStatsAsString()
+    {
+        $this->facet->clearStats();
+        $this->facet->addStats('stat1, stat2');
+        $this->assertSame(['stat1', 'stat2'], $this->facet->getStats());
+        $this->assertSame(['stat1', 'stat2'], $this->facet->getLocalParameters()->getStats());
     }
 
     public function testRemoveStat()
     {
-        $this->facet->getLocalParameters()->clearStats();
-        $this->facet->getLocalParameters()->addStats(['stat1', 'stat2']);
-        $this->facet->getLocalParameters()->removeStat('stat1');
+        $this->facet->clearStats();
+        $this->facet->addStats(['stat1', 'stat2']);
+        $this->facet->removeStat('stat1');
+        $this->assertSame(['stat2'], $this->facet->getStats());
         $this->assertSame(['stat2'], $this->facet->getLocalParameters()->getStats());
     }
 
     public function testSetStats()
     {
-        $this->facet->getLocalParameters()->clearStats();
-        $this->facet->getLocalParameters()->setStats(['stat1', 'stat2']);
-        $this->facet->getLocalParameters()->setStats(['stat3', 'stat4']);
+        $this->facet->clearStats();
+        $this->facet->setStats(['stat1', 'stat2']);
+        $this->facet->setStats(['stat3', 'stat4']);
         $this->assertSame(['stat3', 'stat4'], $this->facet->getStats());
+        $this->assertSame(['stat3', 'stat4'], $this->facet->getLocalParameters()->getStats());
     }
 }

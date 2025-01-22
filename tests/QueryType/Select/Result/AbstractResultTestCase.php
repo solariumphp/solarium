@@ -18,6 +18,8 @@ abstract class AbstractResultTestCase extends TestCase
 
     protected $maxScore;
 
+    protected $nextCursorMark;
+
     protected $docs;
 
     protected $components;
@@ -46,6 +48,7 @@ abstract class AbstractResultTestCase extends TestCase
     {
         $this->numFound = 11;
         $this->maxScore = 0.91;
+        $this->nextCursorMark = 'AoEjR0JQ';
 
         $this->docs = [
             new Document(['id' => 1, 'title' => 'doc1']),
@@ -77,7 +80,7 @@ abstract class AbstractResultTestCase extends TestCase
             ComponentAwareQueryInterface::COMPONENT_TERMVECTOR => $this->termVector,
         ];
 
-        $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components);
+        $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components);
     }
 
     public function testGetNumFound()
@@ -88,6 +91,11 @@ abstract class AbstractResultTestCase extends TestCase
     public function testGetMaxScore()
     {
         $this->assertSame($this->maxScore, $this->result->getMaxScore());
+    }
+
+    public function testGetNextCursorMark()
+    {
+        $this->assertSame($this->nextCursorMark, $this->result->getNextCursorMark());
     }
 
     public function testGetDocuments()
@@ -236,7 +244,7 @@ abstract class AbstractResultTestCase extends TestCase
 
     public function testGetAndIsPartialResults()
     {
-        $result = new SelectPartialResultsDummy(0, 5, 0, null, [], []);
+        $result = new SelectPartialResultsDummy(0, 5, 0, null, null, [], []);
 
         $this->assertTrue(
             $result->getPartialResults()
@@ -260,7 +268,7 @@ abstract class AbstractResultTestCase extends TestCase
 
     public function testGetSegmentTerminatedEarly()
     {
-        $result = new SelectSegmentTerminatedEarlyDummy(0, 5, 0, null, [], []);
+        $result = new SelectSegmentTerminatedEarlyDummy(0, 5, 0, null, null, [], []);
 
         $this->assertTrue(
             $result->getSegmentTerminatedEarly()
@@ -276,10 +284,11 @@ class SelectDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components)
     {
         $this->numfound = $numfound;
         $this->maxscore = $maxscore;
+        $this->nextcursormark = $nextcursormark;
         $this->documents = $docs;
         $this->components = $components;
         $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
@@ -288,9 +297,9 @@ class SelectDummy extends Result
 
 class SelectPartialResultsDummy extends SelectDummy
 {
-    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components)
     {
-        parent::__construct($status, $queryTime, $numfound, $maxscore, $docs, $components);
+        parent::__construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components);
 
         $this->responseHeader['partialResults'] = true;
     }
@@ -298,9 +307,9 @@ class SelectPartialResultsDummy extends SelectDummy
 
 class SelectSegmentTerminatedEarlyDummy extends SelectDummy
 {
-    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components)
     {
-        parent::__construct($status, $queryTime, $numfound, $maxscore, $docs, $components);
+        parent::__construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components);
 
         $this->responseHeader['segmentTerminatedEarly'] = true;
     }
