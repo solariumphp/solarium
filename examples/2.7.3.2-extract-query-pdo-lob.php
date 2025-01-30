@@ -3,6 +3,7 @@
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
+echo '<h2>Note: The <code>extraction</code> <a href="https://solr.apache.org/guide/solr/latest/configuration-guide/solr-modules.html" target="_blank">Solr Module</a> needs to be enabled to run this example!</h2>';
 echo "<h2>Note: This example doesn't work in PHP &lt; 8.1.0!</h2>";
 echo "<h2>Note: This example requires the PDO_SQLITE PDO driver (enabled by default in PHP)</h2>";
 

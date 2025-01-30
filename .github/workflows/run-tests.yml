@@ -51,20 +51,20 @@ jobs:
                 ref: branch_8_11
                 path: lucene-solr
 
-            - name: Checkout solr 9.7
+            - name: Checkout solr 9.8
               if: matrix.solr == 9
               uses: actions/checkout@v4
               with:
                 repository: apache/solr
-                ref: branch_9_7
+                ref: branch_9_8
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
                 chmod -R a+w lucene-solr
                 cd lucene-solr
-                patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
-                patch -p1 < ../tests/Integration/Fixtures/schema${{ matrix.solr }}.patch
+                patch -p1 < ../tests/Integration/Fixtures/conf/solrconf${{ matrix.solr }}.patch
+                patch -p1 < ../tests/Integration/Fixtures/conf/schema${{ matrix.solr }}.patch
                 cd solr/server/solr/configsets/sample_techproducts_configs/conf
                 zip -r techproducts.zip *
                 cd -
