@@ -172,6 +172,23 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 self::$client->update($update);
             }
 
+            // UTF8TEST was removed for Solr 9.8 in SOLR-17556
+            if (9 <= self::$solrVersion) {
+                $update = self::$client->createUpdate();
+
+                $utf8test = $update->createDocument();
+                $utf8test->setField('id', 'UTF8TEST');
+                $utf8test->setField('manu', 'Apache Software Foundation');
+                $utf8test->setField('cat', 'software');
+                $utf8test->setField('cat', 'search');
+                $utf8test->setField('features', 'êâîôû');
+                $utf8test->setField('price', 0.0);
+                $utf8test->setField('inStock', true);
+
+                $update->addDocument($utf8test);
+                self::$client->update($update);
+            }
+
             $update = self::$client->createUpdate();
             $update->addCommit(false, true);
             self::$client->update($update);
