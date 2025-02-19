@@ -137,8 +137,8 @@ class ResultTest extends TestCase
     public function testGetInvalidPhpsData()
     {
         set_error_handler(static function (int $errno, string $errstr): void {
-            // ignore E_NOTICE from unserialize() to check that we throw an exception
-        }, \E_NOTICE);
+            // ignore E_NOTICE or E_WARNING from unserialize() to check that we throw an exception
+        }, version_compare(PHP_VERSION, '8.3.0', '>=') ? \E_WARNING : \E_NOTICE);
 
         $this->query->setResponseWriter($this->query::WT_PHPS);
 

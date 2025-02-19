@@ -13,10 +13,10 @@ use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
+use Solarium\Client;
 use Solarium\Core\Client\Adapter\ConnectionTimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
-use Solarium\Core\Client\ClientInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
@@ -28,20 +28,26 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
+use Solarium\Plugin\BufferedAdd\BufferedAdd;
+use Solarium\Plugin\BufferedAdd\BufferedAddLite;
 use Solarium\Plugin\BufferedAdd\Event\AddDocument as BufferedAddAddDocumentEvent;
 use Solarium\Plugin\BufferedAdd\Event\Events as BufferedAddEvents;
 use Solarium\Plugin\BufferedAdd\Event\PostCommit as BufferedAddPostCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PostFlush as BufferedAddPostFlushEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreCommit as BufferedAddPreCommitEvent;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush as BufferedAddPreFlushEvent;
+use Solarium\Plugin\BufferedDelete\BufferedDelete;
+use Solarium\Plugin\BufferedDelete\BufferedDeleteLite;
 use Solarium\Plugin\BufferedDelete\Event\AddDeleteById as BufferedDeleteAddDeleteByIdEvent;
 use Solarium\Plugin\BufferedDelete\Event\AddDeleteQuery as BufferedDeleteAddDeleteQueryEvent;
 use Solarium\Plugin\BufferedDelete\Event\Events as BufferedDeleteEvents;
 use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as LoadbalancerEndpointFailureEvent;
 use Solarium\Plugin\Loadbalancer\Event\Events as LoadbalancerEvents;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
+use Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Plugin\PrefetchIterator;
+use Solarium\Plugin\PostBigExtractRequest;
 use Solarium\QueryType\Luke\Query as LukeQuery;
 use Solarium\QueryType\Luke\Result\Doc\DocFieldInfo as LukeDocFieldInfo;
 use Solarium\QueryType\Luke\Result\Doc\DocInfo as LukeDocInfo;
@@ -67,36 +73,23 @@ use TRegx\PhpUnit\DataProviders\DataProvider;
 
 abstract class AbstractTechproductsTestCase extends TestCase
 {
-    /**
-     * @var ClientInterface
-     */
-    protected static $client;
+    protected static Client $client;
 
-    /**
-     * @var string
-     */
-    protected static $name;
+    protected static string $name;
 
-    /**
-     * @var array
-     */
-    protected static $config;
+    protected static array $config;
 
     /**
      * Major Solr version.
-     *
-     * @var int
      */
-    protected static $solrVersion;
+    protected static int $solrVersion;
 
     /**
      * Solr running on Windows?
      *
      * SOLR-15895 has to be avoided when testing against Solr on Windows.
-     *
-     * @var bool
      */
-    protected static $isSolrOnWindows;
+    protected static bool $isSolrOnWindows;
 
     /**
      * Asserts that a document contains exactly the expected fields.
@@ -158,23 +151,6 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ]);
         self::$client->execute($query);
 
-        // ensure correct config for update tests
-        $query = self::$client->createApi([
-            'version' => Request::API_V1,
-            'handler' => self::$name.'/config/updateHandler',
-        ]);
-        $response = self::$client->execute($query);
-        $config = $response->getData()['config'];
-        static::assertEquals([
-            'maxDocs' => -1,
-            'maxTime' => -1,
-            'openSearcher' => true,
-        ], $config['updateHandler']['autoCommit']);
-        static::assertEquals([
-            'maxDocs' => -1,
-            'maxTime' => -1,
-        ], $config['updateHandler']['autoSoftCommit']);
-
         try {
             // index techproducts sample data
             $dataDir = __DIR__.
@@ -214,29 +190,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
 
             $update = self::$client->createUpdate();
-            $update->addCommit(true, true);
+            $update->addCommit(false, true);
             self::$client->update($update);
-
-            // check that everything was indexed properly
-            $select = self::$client->createSelect();
-            $select->setFields('id');
-            $result = self::$client->select($select);
-            static::assertSame(32, $result->getNumFound());
-
-            $select->setQuery('êâîôû');
-            $result = self::$client->select($select);
-            static::assertCount(1, $result);
-            static::assertDocumentHasFields([
-                'id' => 'UTF8TEST',
-            ], $result->getIterator()->current());
-
-            $select->setQuery('这是一个功能');
-            $result = self::$client->select($select);
-            static::assertCount(1, $result);
-            static::assertDocumentHasFields([
-                'id' => 'GB18030TEST',
-            ], $result->getIterator()->current());
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             self::tearDownAfterClass();
             static::markTestSkipped('Solr techproducts sample data not indexed properly.');
         }
@@ -246,7 +202,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * This data provider can be used to test functional equivalence in parsing results
      * from the same queries with different response writers.
      */
-    public function responseWriterProvider(): array
+    public static function responseWriterProvider(): array
     {
         return [
             [AbstractQuery::WT_JSON],
@@ -258,7 +214,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * This data provider should be used by all UpdateQuery tests that don't test request
      * format specific Commands to ensure functional equivalence between the formats.
      */
-    public function updateRequestFormatProvider(): array
+    public static function updateRequestFormatProvider(): array
     {
         return [
             [UpdateQuery::REQUEST_FORMAT_XML],
@@ -270,12 +226,59 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * This data provider crosses {@see updateRequestFormatProvider()} with
      * {@see responseWriterProvider()}.
      */
-    public function crossRequestFormatResponseWriterProvider(): DataProvider
+    public static function crossRequestFormatResponseWriterProvider(): DataProvider
     {
         return DataProvider::cross(
-            $this->updateRequestFormatProvider(),
-            $this->responseWriterProvider(),
+            self::updateRequestFormatProvider(),
+            self::responseWriterProvider(),
         );
+    }
+
+    public function testUpdateHandlerConfiguredCorrectly()
+    {
+        $message = 'Solr update handler not configured correctly.';
+
+        $query = self::$client->createApi([
+            'version' => Request::API_V1,
+            'handler' => self::$name.'/config/updateHandler',
+        ]);
+        $response = self::$client->execute($query);
+        $config = $response->getData()['config'];
+
+        $this->assertEquals([
+            'maxDocs' => -1,
+            'maxTime' => -1,
+            'openSearcher' => true,
+        ], $config['updateHandler']['autoCommit'], $message);
+
+        $this->assertEquals([
+            'maxDocs' => -1,
+            'maxTime' => -1,
+        ], $config['updateHandler']['autoSoftCommit'], $message);
+    }
+
+    public function testSampleDataIndexedProperly()
+    {
+        $message = 'Solr techproducts sample data not indexed properly.';
+
+        $select = self::$client->createSelect();
+        $select->setFields('id');
+        $result = self::$client->select($select);
+        $this->assertSame(32, $result->getNumFound(), $message);
+
+        $select->setQuery('êâîôû');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result, $message);
+        $this->assertDocumentHasFields([
+            'id' => 'UTF8TEST',
+        ], $result->getIterator()->current(), $message);
+
+        $select->setQuery('这是一个功能');
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result, $message);
+        $this->assertDocumentHasFields([
+            'id' => 'GB18030TEST',
+        ], $result->getIterator()->current(), $message);
     }
 
     /**
@@ -851,7 +854,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         );
     }
 
-    public function crossHighlightingMethodResponseWriterProvider(): DataProvider
+    public static function crossHighlightingMethodResponseWriterProvider(): DataProvider
     {
         $highlightingMethods = [
             [Highlighting::METHOD_UNIFIED],
@@ -861,7 +864,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         return DataProvider::cross(
             $highlightingMethods,
-            $this->responseWriterProvider(),
+            self::responseWriterProvider(),
         );
     }
 
@@ -1755,6 +1758,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             self::$client->update($update);
             $update = self::$client->createUpdate();
             $update->setRequestFormat($requestFormat);
+            $update->setResponseWriter($responseWriter);
             $update->addRollback();
             $update->addCommit(true, true);
             self::$client->update($update);
@@ -3262,6 +3266,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $bufferSize = 10;
         $totalDocs = 25;
 
+        /** @var BufferedAdd $buffer */
         $buffer = self::$client->getPlugin('bufferedadd');
         $buffer->setBufferSize($bufferSize);
 
@@ -3436,6 +3441,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     {
         $bufferSize = 3;
 
+        /** @var BufferedDelete $buffer */
         $buffer = self::$client->getPlugin('buffereddelete');
         $buffer->setBufferSize($bufferSize);
 
@@ -3513,10 +3519,12 @@ abstract class AbstractTechproductsTestCase extends TestCase
     {
         $bufferSize = 10;
 
+        /** @var BufferedAdd $addBuffer */
         $addBuffer = self::$client->getPlugin('bufferedadd');
         $addBuffer->setRequestFormat($requestFormat);
         $addBuffer->setBufferSize($bufferSize);
 
+        /** @var BufferedDelete $delBuffer */
         $delBuffer = self::$client->getPlugin('buffereddelete');
         $delBuffer->setRequestFormat($requestFormat);
 
@@ -3645,6 +3653,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->getEventDispatcher()->addListener(BufferedAddEvents::PRE_COMMIT, $failListener);
         self::$client->getEventDispatcher()->addListener(BufferedAddEvents::POST_COMMIT, $failListener);
 
+        /** @var BufferedAddLite $buffer */
         $buffer = self::$client->getPlugin('bufferedaddlite');
         $buffer->setBufferSize($bufferSize);
 
@@ -3740,6 +3749,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
         self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
 
+        /** @var BufferedDeleteLite $buffer */
         $buffer = self::$client->getPlugin('buffereddeletelite');
         $buffer->setBufferSize($bufferSize);
 
@@ -3774,10 +3784,12 @@ abstract class AbstractTechproductsTestCase extends TestCase
     {
         $bufferSize = 10;
 
+        /** @var BufferedAddLite $addBuffer */
         $addBuffer = self::$client->getPlugin('bufferedaddlite');
         $addBuffer->setRequestFormat($requestFormat);
         $addBuffer->setBufferSize($bufferSize);
 
+        /** @var BufferedDeleteLite $delBuffer */
         $delBuffer = self::$client->getPlugin('buffereddeletelite');
         $delBuffer->setRequestFormat($requestFormat);
 
@@ -3911,6 +3923,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      */
     public function testMinimumScoreFilterWithGrouping(string $responseWriter)
     {
+        /** @var MinimumScoreFilter $filter */
         $filter = self::$client->getPlugin('minimumscorefilter');
         $query = self::$client->createQuery($filter::QUERY_TYPE);
         $query->setResponseWriter($responseWriter);
@@ -4196,6 +4209,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testExtractIntoDocument(bool $usePostBigExtractRequestPlugin)
     {
         if ($usePostBigExtractRequestPlugin) {
+            /** @var PostBigExtractRequest $postBigExtractRequest */
             $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
             // make sure the GET parameters will be converted to POST
             $postBigExtractRequest->setMaxQueryStringLength(1);
@@ -4300,6 +4314,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testExtractOnlyText(bool $usePostBigExtractRequestPlugin)
     {
         if ($usePostBigExtractRequestPlugin) {
+            /** @var PostBigExtractRequest $postBigExtractRequest */
             $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
             // make sure the GET parameters will be converted to POST
             $postBigExtractRequest->setMaxQueryStringLength(1);
@@ -4337,6 +4352,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testExtractOnlyXml(bool $usePostBigExtractRequestPlugin)
     {
         if ($usePostBigExtractRequestPlugin) {
+            /** @var PostBigExtractRequest $postBigExtractRequest */
             $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
             // make sure the GET parameters will be converted to POST
             $postBigExtractRequest->setMaxQueryStringLength(1);
@@ -4387,6 +4403,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testExtractInputEncoding(bool $usePostBigExtractRequestPlugin)
     {
         if ($usePostBigExtractRequestPlugin) {
+            /** @var PostBigExtractRequest $postBigExtractRequest */
             $postBigExtractRequest = self::$client->getPlugin('postbigextractrequest');
             // make sure the GET parameters will be converted to POST
             $postBigExtractRequest->setMaxQueryStringLength(1);
@@ -5328,6 +5345,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         if (self::$client->getAdapter() instanceof Curl) {
             $eventTimer->reset();
 
+            /** @var ParallelExecution $parallel */
             $parallel = self::$client->getPlugin('parallelexecution');
             $query = self::$client->createSelect();
             $parallel->addQuery('query', $query);

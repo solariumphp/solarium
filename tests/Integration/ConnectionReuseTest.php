@@ -3,7 +3,7 @@
 namespace Solarium\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\ClientInterface;
+use Solarium\Client;
 use Solarium\Core\Client\Request;
 
 /**
@@ -13,50 +13,34 @@ use Solarium\Core\Client\Request;
  */
 class ConnectionReuseTest extends TestCase
 {
-    /**
-     * @var ClientInterface
-     */
-    protected static $client;
+    protected static Client $client;
 
-    /**
-     * @var array
-     */
-    protected static $config;
+    protected static array $config;
 
     /**
      * Are we running against the new v2 logging API that was tweaked for Solr 9.3 (SOLR-16458)?
-     *
-     * @var bool
      */
-    protected static $isNewLoggingApi;
+    protected static bool $isNewLoggingApi;
 
     /**
      * Are we running against a v2 logging API with a known bug (SOLR-17176l)?
-     *
-     * @var bool
      */
-    protected static $isBuggyLoggingApi;
+    protected static bool $isBuggyLoggingApi;
 
     /**
      * Original org.eclipse.jetty.io.AbstractConnection log level to restore after the testcase.
-     *
-     * @var string
      */
-    protected static $origLogLevel;
+    protected static string $origLogLevel;
 
     /**
      * Original watcher threshold to restore after the testcase.
-     *
-     * @var string
      */
-    protected static $origThreshold;
+    protected static string $origThreshold;
 
     /**
      * Keep track of the last retrieved logging timestamp.
-     *
-     * @var int
      */
-    protected static $since = 0;
+    protected static int $since = 0;
 
     public static function setUpBeforeClass(): void
     {
@@ -118,7 +102,10 @@ class ConnectionReuseTest extends TestCase
                 ]
             ));
             $result = self::$client->execute($query);
-            self::assertTrue($result->getWasSuccessful());
+
+            if (!$result->getWasSuccessful()) {
+                return;
+            }
         } else {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
@@ -126,7 +113,10 @@ class ConnectionReuseTest extends TestCase
             ]);
             $query->addParam('set', 'org.eclipse.jetty.io.AbstractConnection:DEBUG');
             $result = self::$client->execute($query);
-            self::assertTrue($result->getWasSuccessful());
+
+            if (!$result->getWasSuccessful()) {
+                return;
+            }
         }
 
         // get the current watcher threshold to restore afterwards
@@ -151,7 +141,11 @@ class ConnectionReuseTest extends TestCase
                     'level' => 'DEBUG',
                 ]
             ));
-            self::$client->execute($query);
+            $result = self::$client->execute($query);
+
+            if (!$result->getWasSuccessful()) {
+                return;
+            }
         } else {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
@@ -159,7 +153,11 @@ class ConnectionReuseTest extends TestCase
             ]);
             $query->addParam('since', self::$since);
             $query->addParam('threshold', 'DEBUG');
-            self::$client->execute($query);
+            $result = self::$client->execute($query);
+
+            if (!$result->getWasSuccessful()) {
+                return;
+            }
         }
 
         // get the initial timestamp to use for retrieving the logging history
@@ -190,8 +188,7 @@ class ConnectionReuseTest extends TestCase
                     ],
                 ]
             ));
-            $result = self::$client->execute($query);
-            self::assertTrue($result->getWasSuccessful());
+            self::$client->execute($query);
 
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
@@ -204,8 +201,7 @@ class ConnectionReuseTest extends TestCase
                     'level' => self::$origThreshold,
                 ]
             ));
-            $result = self::$client->execute($query);
-            self::assertTrue($result->getWasSuccessful());
+            self::$client->execute($query);
         } else {
             $query = self::$client->createApi([
                 'version' => Request::API_V2,
@@ -213,9 +209,16 @@ class ConnectionReuseTest extends TestCase
             ]);
             $query->addParam('set', sprintf('org.eclipse.jetty.io.AbstractConnection:%s', self::$origLogLevel));
             $query->addParam('threshold', self::$origThreshold);
-            $result = self::$client->execute($query);
-            self::assertTrue($result->getWasSuccessful());
+            self::$client->execute($query);
         }
+    }
+
+    /**
+     * Check that the last logging timestamp was retrieved successfully before running tests.
+     */
+    public function assertPreConditions(): void
+    {
+        $this->assertGreaterThan(0, self::$since);
     }
 
     /**
@@ -265,7 +268,7 @@ class ConnectionReuseTest extends TestCase
         $this->assertContains(\count($connections), [$expectedCount, $expectedCount + 1]);
     }
 
-    public function createAdapterProvider(): array
+    public static function createAdapterProvider(): array
     {
         return [
             'without reuse' => ['createWithCurlAdapter', 5],

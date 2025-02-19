@@ -157,6 +157,11 @@ class DisMaxTest extends TestCase
         );
     }
 
+    public function testGetBoostQueryWithNonExistentKey()
+    {
+        $this->assertNull($this->disMax->getBoostQuery('foobar'));
+    }
+
     public function testAddBoostQueryWithArray()
     {
         $query = 'cat:1^3';
@@ -247,6 +252,69 @@ class DisMaxTest extends TestCase
         }
 
         $this->assertEquals($bqs2, $this->disMax->getBoostQueries());
+    }
+
+    public function testRemoveBoostQueryByKey()
+    {
+        $bqs = [
+            'key1' => ['query' => 'cat:1'],
+            'key2' => ['query' => 'cat:2'],
+        ];
+
+        $this->disMax->addBoostQueries($bqs);
+        $this->disMax->removeBoostQuery('key1');
+
+        $this->assertNull($this->disMax->getBoostQuery('key1'));
+        $this->assertNotNull($this->disMax->getBoostQuery('key2'));
+    }
+
+    public function testRemoveBoostQueryByObject()
+    {
+        $bq1 = new BoostQuery();
+        $bq1->setKey('key1')->setQuery('cat:1');
+
+        $bq2 = new BoostQuery();
+        $bq2->setKey('key2')->setQuery('cat:2');
+
+        $this->disMax->addBoostQueries([$bq1, $bq2]);
+        $this->disMax->removeBoostQuery($bq1);
+
+        $this->assertNull($this->disMax->getBoostQuery('key1'));
+        $this->assertNotNull($this->disMax->getBoostQuery('key2'));
+    }
+
+    public function testClearBoostQueries()
+    {
+        $bqs = [
+            'key1' => ['query' => 'cat:1'],
+            'key2' => ['query' => 'cat:2'],
+        ];
+
+        $this->disMax->addBoostQueries($bqs);
+        $this->disMax->clearBoostQueries();
+
+        $this->assertCount(0, $this->disMax->getBoostQueries());
+    }
+
+    public function testSetBoostQueries()
+    {
+        $bqs1 = [
+            'key1' => (new BoostQuery())->setKey('key1')->setQuery('cat:1'),
+            'key2' => (new BoostQuery())->setKey('key2')->setQuery('cat:2'),
+        ];
+
+        $this->disMax->setBoostQueries($bqs1);
+
+        $this->assertSame($bqs1, $this->disMax->getBoostQueries());
+
+        $bqs2 = [
+            'key3' => (new BoostQuery())->setKey('key3')->setQuery('cat:3'),
+            'key4' => (new BoostQuery())->setKey('key4')->setQuery('cat:4'),
+        ];
+
+        $this->disMax->setBoostQueries($bqs2);
+
+        $this->assertSame($bqs2, $this->disMax->getBoostQueries());
     }
 
     public function testSetAndGetBoostFunctions()

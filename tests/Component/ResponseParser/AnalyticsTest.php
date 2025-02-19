@@ -102,8 +102,8 @@ class AnalyticsTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->parse(null, $component, $data);
 
-        $this->assertCount(\count($result->getResults()), $result);
-        $this->assertCount(\count($result->getIterator()), $result);
+        $this->assertSameSize($result->getResults(), $result);
+        $this->assertSameSize($result->getIterator(), $result);
         $this->assertArrayHasKey('geo_sales', $result->getGroupings());
 
         $this->assertInstanceOf(AnalyticsResult::class, $result);
@@ -123,8 +123,8 @@ class AnalyticsTest extends TestCase
         $this->assertSame('country', $facets[0]->getPivot());
         $this->assertSame('usa', $facets[0]->getValue());
 
-        $this->assertCount(\count($facets[0]->getResults()), $facets[0]);
-        $this->assertCount(\count($facets[0]->getIterator()), $facets[0]);
+        $this->assertSameSize($facets[0]->getResults(), $facets[0]);
+        $this->assertSameSize($facets[0]->getIterator(), $facets[0]);
 
         $this->assertCount(1, $facets[0]->getChildren());
         $this->assertCount(1, $facets[0]->getChildren()[0]->getChildren());

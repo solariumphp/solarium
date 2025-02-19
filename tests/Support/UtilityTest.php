@@ -159,7 +159,7 @@ class UtilityTest extends TestCase
         $this->assertSame($expected, $array);
     }
 
-    public function recursiveKeySortProvider(): array
+    public static function recursiveKeySortProvider(): array
     {
         return [
             [

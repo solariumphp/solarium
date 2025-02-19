@@ -450,7 +450,7 @@ class BufferedDeleteLiteTest extends TestCase
 
 class BufferedDeleteDummy extends BufferedDeleteLite
 {
-    public function addUnknownDeleteType()
+    public function addUnknownDeleteType(): void
     {
         $this->buffer[] = new DeleteDummy();
     }

@@ -427,7 +427,7 @@ class FacetSetTest extends TestCase
         $this->facetSet->createFacet('invalidtype');
     }
 
-    public function createFacetAddProvider()
+    public static function createFacetAddProvider(): array
     {
         return [
             [true],

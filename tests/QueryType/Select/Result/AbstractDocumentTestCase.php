@@ -113,7 +113,7 @@ abstract class AbstractDocumentTestCase extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->fields), $this->doc);
+        $this->assertSameSize($this->fields, $this->doc);
     }
 
     public function testJsonSerialize()

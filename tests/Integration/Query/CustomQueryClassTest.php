@@ -24,7 +24,7 @@ class CustomQueryClassTest extends TestCase
         $this->assertInstanceOf(QueryInterface::class, $query->setQuery('*:*'));
     }
 
-    public function customQueryClassProvider(): array
+    public static function customQueryClassProvider(): array
     {
         return [
             [CustomStaticQuery::class],

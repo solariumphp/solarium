@@ -3,7 +3,7 @@
 namespace Solarium\Tests\Integration\Proxy;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\ClientInterface;
+use Solarium\Client;
 use Solarium\Core\Client\Request;
 
 /**
@@ -14,25 +14,13 @@ use Solarium\Core\Client\Request;
  */
 abstract class AbstractProxyTestCase extends TestCase
 {
-    /**
-     * @var ClientInterface
-     */
-    protected static $client;
+    protected static Client $client;
 
-    /**
-     * @var array
-     */
-    protected static $config;
+    protected static array $config;
 
-    /**
-     * @var string
-     */
-    protected static $proxy_server;
+    protected static string $proxy_server;
 
-    /**
-     * @var int
-     */
-    protected static $proxy_port;
+    protected static int $proxy_port;
 
     abstract protected static function createClient(): void;
 
@@ -56,8 +44,11 @@ abstract class AbstractProxyTestCase extends TestCase
 
         static::createClient();
         static::setProxy();
+    }
 
-        self::assertNotNull(
+    public function assertPreConditions(): void
+    {
+        $this->assertNotNull(
             self::$client->getAdapter()->getProxy(),
             'Proxy test must set a proxy on the Client adapter!'
         );

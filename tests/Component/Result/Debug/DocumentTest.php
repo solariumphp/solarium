@@ -61,7 +61,7 @@ class DocumentTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->details), $this->result);
+        $this->assertSameSize($this->details, $this->result);
     }
 
     public function testToString()

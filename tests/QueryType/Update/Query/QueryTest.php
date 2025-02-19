@@ -146,9 +146,9 @@ class QueryTest extends TestCase
         );
 
         $rollback = $commands['key4'];
-        $this->assertSame(
+        $this->assertInstanceOf(
             Rollback::class,
-            get_class($rollback)
+            $rollback
         );
     }
 
@@ -522,7 +522,7 @@ class QueryTest extends TestCase
     public function testCreateDocument()
     {
         $doc = $this->query->createDocument();
-        $this->assertThat($doc, $this->isInstanceOf($this->query->getDocumentClass()));
+        $this->assertInstanceOf($this->query->getDocumentClass(), $doc);
     }
 
     public function testCreateDocumentWithCustomClass()
@@ -530,7 +530,7 @@ class QueryTest extends TestCase
         $this->query->setDocumentClass(__NAMESPACE__.'\\MyCustomDoc');
 
         $doc = $this->query->createDocument();
-        $this->assertThat($doc, $this->isInstanceOf(__NAMESPACE__.'\\MyCustomDoc'));
+        $this->assertInstanceOf(__NAMESPACE__.'\\MyCustomDoc', $doc);
     }
 
     public function testCreateDocumentWithFieldsAndBoostsAndModifiers()
@@ -542,7 +542,7 @@ class QueryTest extends TestCase
         $doc = $this->query->createDocument($fields, $boosts, $modifiers);
         $doc->setKey('id');
 
-        $this->assertThat($doc, $this->isInstanceOf($this->query->getDocumentClass()));
+        $this->assertInstanceOf($this->query->getDocumentClass(), $doc);
 
         $this->assertSame(
             $fields,

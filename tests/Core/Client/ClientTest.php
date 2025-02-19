@@ -91,7 +91,7 @@ class ClientTest extends TestCase
 
         $adapter = $this->client->getAdapter();
 
-        $this->assertThat($adapter, $this->isInstanceOf(MyAdapter::class));
+        $this->assertInstanceOf(MyAdapter::class, $adapter);
         $this->assertSame(8080, $this->client->getEndpoint('myhost')->getPort());
 
         $queryTypes = $this->client->getQueryTypes();
@@ -101,7 +101,7 @@ class ClientTest extends TestCase
         );
 
         $plugin = $this->client->getPlugin('myplugin');
-        $this->assertThat($plugin, $this->isInstanceOf(MyClientPlugin::class));
+        $this->assertInstanceOf(MyClientPlugin::class, $plugin);
         $this->assertSame($options['plugin']['myplugin']['options'], $plugin->getOptions());
     }
 
@@ -153,7 +153,7 @@ class ClientTest extends TestCase
 
         $adapter = $this->client->getAdapter();
 
-        $this->assertThat($adapter, $this->isInstanceOf(MyAdapter::class));
+        $this->assertInstanceOf(MyAdapter::class, $adapter);
         $this->assertSame(8080, $this->client->getEndpoint('myhost')->getPort());
 
         $queryTypes = $this->client->getQueryTypes();
@@ -163,7 +163,7 @@ class ClientTest extends TestCase
         );
 
         $plugin = $this->client->getPlugin('myplugin');
-        $this->assertThat($plugin, $this->isInstanceOf(MyClientPlugin::class));
+        $this->assertInstanceOf(MyClientPlugin::class, $plugin);
         $this->assertSame($options['plugin'][0]['options'], $plugin->getOptions());
     }
 
@@ -171,14 +171,14 @@ class ClientTest extends TestCase
     {
         $endpoint = $this->client->createEndpoint();
         $this->assertNull($endpoint->getKey());
-        $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
+        $this->assertInstanceOf(Endpoint::class, $endpoint);
     }
 
     public function testCreateEndpointWithKey()
     {
         $endpoint = $this->client->createEndpoint('key1');
         $this->assertSame('key1', $endpoint->getKey());
-        $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
+        $this->assertInstanceOf(Endpoint::class, $endpoint);
     }
 
     public function testCreateEndpointWithSetAsDefault()
@@ -198,7 +198,7 @@ class ClientTest extends TestCase
         $endpoint = $this->client->createEndpoint($options);
         $this->assertSame('server2', $endpoint->getKey());
         $this->assertSame('s2.local', $endpoint->getHost());
-        $this->assertThat($endpoint, $this->isInstanceOf(Endpoint::class));
+        $this->assertInstanceOf(Endpoint::class, $endpoint);
     }
 
     public function testAddAndGetEndpoint()
@@ -374,7 +374,7 @@ class ClientTest extends TestCase
     {
         $adapterClass = MyAdapter::class;
         $this->client->setAdapter(new $adapterClass());
-        $this->assertThat($this->client->getAdapter(), $this->isInstanceOf($adapterClass));
+        $this->assertInstanceOf($adapterClass, $this->client->getAdapter());
     }
 
     public function testRegisterQueryTypeAndGetQueryTypes()
@@ -397,16 +397,8 @@ class ClientTest extends TestCase
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
 
         $plugin = $this->client->getPlugin('testplugin');
-
-        $this->assertThat(
-            $plugin,
-            $this->isInstanceOf(MyClientPlugin::class)
-        );
-
-        $this->assertSame(
-            $options,
-            $plugin->getOptions()
-        );
+        $this->assertInstanceOf(MyClientPlugin::class, $plugin);
+        $this->assertSame($options, $plugin->getOptions());
     }
 
     public function testRegisterInvalidPlugin()
@@ -425,10 +417,7 @@ class ClientTest extends TestCase
     public function testAutoloadPlugin()
     {
         $loadbalancer = $this->client->getPlugin('loadbalancer');
-        $this->assertThat(
-            $loadbalancer,
-            $this->isInstanceOf(Loadbalancer::class)
-        );
+        $this->assertInstanceOf(Loadbalancer::class, $loadbalancer);
     }
 
     public function testAutoloadInvalidPlugin()
@@ -519,13 +508,16 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::PRE_CREATE_REQUEST);
         }
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['preCreateRequest'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('preCreateRequest')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PreCreateRequestEvent $event;
+
+            public function preCreateRequest(PreCreateRequestEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
@@ -534,6 +526,7 @@ class ClientTest extends TestCase
         );
 
         $this->client->createRequest($query);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testCreateRequestPostPlugin()
@@ -546,13 +539,16 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::POST_CREATE_REQUEST);
         }
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['postCreateRequest'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('postCreateRequest')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PostCreateRequestEvent $event;
+
+            public function postCreateRequest(PostCreateRequestEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
@@ -561,6 +557,7 @@ class ClientTest extends TestCase
         );
 
         $this->client->createRequest($query);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testCreateRequestWithOverridingPlugin()
@@ -598,10 +595,7 @@ class ClientTest extends TestCase
         $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = $this->client->createResult($query, $response);
 
-        $this->assertThat(
-            $result,
-            $this->isInstanceOf($query->getResultClass())
-        );
+        $this->assertInstanceOf($query->getResultClass(), $result);
     }
 
     public function testCreateResultPrePlugin()
@@ -614,13 +608,16 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::PRE_CREATE_RESULT);
         }
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['preCreateResult'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('preCreateResult')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PreCreateResultEvent $event;
+
+            public function preCreateResult(PreCreateResultEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
@@ -629,6 +626,7 @@ class ClientTest extends TestCase
         );
 
         $this->client->createResult($query, $response);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testCreateResultPostPlugin()
@@ -641,13 +639,17 @@ class ClientTest extends TestCase
             $expectedEvent->setDispatcher($this->client->getEventDispatcher());
             $expectedEvent->setName(Events::POST_CREATE_RESULT);
         }
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['postCreateResult'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('postCreateResult')
-                 ->with($this->equalTo($expectedEvent));
+
+        $observer = new class() extends AbstractPlugin {
+            public PostCreateResultEvent $event;
+
+            public function postCreateResult(PostCreateResultEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->registerPlugin('testplugin', $observer);
         $this->client->getEventDispatcher()->addListener(
@@ -656,6 +658,7 @@ class ClientTest extends TestCase
         );
 
         $this->client->createResult($query, $response);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testCreateResultWithOverridingPlugin()
@@ -751,13 +754,16 @@ class ClientTest extends TestCase
              ->method('createResult')
              ->willReturn($result);
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['preExecute'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('preExecute')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PreExecuteEvent $event;
+
+            public function preExecute(PreExecuteEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $mock->getEventDispatcher()->addListener(Events::PRE_EXECUTE, [$observer, 'preExecute']);
 
@@ -767,6 +773,7 @@ class ClientTest extends TestCase
         }
 
         $mock->execute($query);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testExecutePostPlugin()
@@ -793,13 +800,16 @@ class ClientTest extends TestCase
              ->method('createResult')
              ->willReturn($result);
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['postExecute'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('postExecute')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PostExecuteEvent $event;
+
+            public function postExecute(PostExecuteEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $mock->getEventDispatcher()->addListener(Events::POST_EXECUTE, [$observer, 'postExecute']);
 
@@ -809,6 +819,7 @@ class ClientTest extends TestCase
         }
 
         $mock->execute($query);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testExecuteWithOverridingPlugin()
@@ -881,19 +892,24 @@ class ClientTest extends TestCase
                  ->willReturn($response);
         $this->client->setAdapter($mockAdapter);
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['preExecuteRequest'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('preExecuteRequest')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PreExecuteRequestEvent $event;
+
+            public function preExecuteRequest(PreExecuteRequestEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->getEventDispatcher()->addListener(
             Events::PRE_EXECUTE_REQUEST,
             [$observer, 'preExecuteRequest']
         );
+
         $this->client->executeRequest($request, $endpoint);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testExecuteRequestPostPlugin()
@@ -916,19 +932,24 @@ class ClientTest extends TestCase
                  ->willReturn($response);
         $this->client->setAdapter($mockAdapter);
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['postExecuteRequest'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('postExecuteRequest')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PostExecuteRequestEvent $event;
+
+            public function postExecuteRequest(PostExecuteRequestEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->getEventDispatcher()->addListener(
             Events::POST_EXECUTE_REQUEST,
             [$observer, 'postExecuteRequest']
         );
+
         $this->client->executeRequest($request, $endpoint);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testExecuteRequestWithOverridingPlugin()
@@ -1189,7 +1210,7 @@ class ClientTest extends TestCase
         $query = $this->client->createQuery(Client::QUERY_SELECT, $options);
 
         // check class mapping
-        $this->assertThat($query, $this->isInstanceOf('Solarium\QueryType\Select\Query\Query'));
+        $this->assertInstanceOf(SelectQuery::class, $query);
 
         // check option forwarding
         $queryOptions = $query->getOptions();
@@ -1222,16 +1243,24 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::PRE_CREATE_QUERY);
         }
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['preCreateQuery'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('preCreateQuery')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PreCreateQueryEvent $event;
 
-        $this->client->getEventDispatcher()->addListener(Events::PRE_CREATE_QUERY, [$observer, 'preCreateQuery']);
+            public function preCreateQuery(PreCreateQueryEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
+
+        $this->client->getEventDispatcher()->addListener(
+            Events::PRE_CREATE_QUERY,
+            [$observer, 'preCreateQuery']
+        );
+
         $this->client->createQuery($type, $options);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testCreateQueryWithOverridingPlugin()
@@ -1274,13 +1303,16 @@ class ClientTest extends TestCase
             $expectedEvent->setName(Events::POST_CREATE_QUERY);
         }
 
-        $observer = $this->getMockBuilder(AbstractPlugin::class)
-            ->addMethods(['postCreateQuery'])
-            ->getMock();
-        /* @phpstan-ignore-next-line */
-        $observer->expects($this->once())
-                 ->method('postCreateQuery')
-                 ->with($this->equalTo($expectedEvent));
+        $observer = new class() extends AbstractPlugin {
+            public PostCreateQueryEvent $event;
+
+            public function postCreateQuery(PostCreateQueryEvent $event): self
+            {
+                $this->event = $event;
+
+                return $this;
+            }
+        };
 
         $this->client->getEventDispatcher()->addListener(
             Events::POST_CREATE_QUERY,
@@ -1288,6 +1320,7 @@ class ClientTest extends TestCase
         );
 
         $this->client->createQuery($type, $options);
+        $this->assertEquals($expectedEvent, $observer->event);
     }
 
     public function testCreateSelect()

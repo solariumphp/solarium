@@ -45,6 +45,6 @@ class PivotItemTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->values['pivot']), $this->pivotItem);
+        $this->assertSameSize($this->values['pivot'], $this->pivotItem);
     }
 }

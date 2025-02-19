@@ -412,7 +412,7 @@ class HelperTest extends TestCase
     /**
      * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
      */
-    public function escapeTermProvider(): array
+    public static function escapeTermProvider(): array
     {
         return [
             ' ' => ['a b', 'a\\ b'],
@@ -468,7 +468,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function escapePhraseProvider(): array
+    public static function escapePhraseProvider(): array
     {
         return [
             '"' => ['a+"b', '"a+\\"b"'],
@@ -495,7 +495,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function escapeLocalParamValueProvider(): array
+    public static function escapeLocalParamValueProvider(): array
     {
         return [
             'space' => ['a b', "'a b'"],
@@ -523,7 +523,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function escapeLocalParamValuePreEscapedSeparatorProvider(): array
+    public static function escapeLocalParamValuePreEscapedSeparatorProvider(): array
     {
         return [
             'no other escapes needed' => ['a\\,b', ',', 'a\\,b', 'a\\,b'],

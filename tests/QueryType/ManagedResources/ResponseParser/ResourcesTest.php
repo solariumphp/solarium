@@ -40,7 +40,7 @@ class ResourcesTest extends TestCase
 
         $result = $parser->parse($resultStub);
 
-        $this->assertCount(count($data['managedResources']), $result['items']);
+        $this->assertSameSize($data['managedResources'], $result['items']);
         $this->assertSame('/schema/analysis/stopwords/dutch', $result['items'][0]->getResourceId());
         $this->assertSame(1, $result['items'][0]->getNumObservers());
         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedWordSetResource', $result['items'][0]->getClass());

@@ -28,8 +28,7 @@ abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
         $createAction->setCore(self::$name)
             ->setConfigSet('solarium');
         $coreAdminQuery->setAction($createAction);
-        $response = self::$client->coreAdmin($coreAdminQuery);
-        static::assertTrue($response->getWasSuccessful());
+        self::$client->coreAdmin($coreAdminQuery);
     }
 
     public static function tearDownAfterClass(): void
@@ -43,8 +42,7 @@ abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
             ->setDeleteIndex(true)
             ->setDeleteInstanceDir(true);
         $coreAdminQuery->setAction($unloadAction);
-        $response = self::$client->coreAdmin($coreAdminQuery);
-        static::assertTrue($response->getWasSuccessful());
+        self::$client->coreAdmin($coreAdminQuery);
     }
 
     public function testCanReloadCore()

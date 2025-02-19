@@ -57,6 +57,6 @@ class CollationTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->corrections), $this->result);
+        $this->assertSameSize($this->corrections, $this->result);
     }
 }

@@ -543,15 +543,11 @@ EOF;
         );
     }
 
+    /**
+     * @requires PHP >= 8.2
+     */
     public function testSetAuthenticationSensitiveParameter()
     {
-        // #[\SensitiveParameter] was introduced in PHP 8.2
-        if (!class_exists('\SensitiveParameter')) {
-            $this->expectNotToPerformAssertions();
-
-            return;
-        }
-
         try {
             // trigger a \TypeError with the $user argument
             $this->request->setAuthentication(null, 'S0M3p455');

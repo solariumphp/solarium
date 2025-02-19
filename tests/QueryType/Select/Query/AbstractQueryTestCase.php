@@ -4,7 +4,20 @@ namespace Solarium\Tests\QueryType\Select\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\Analytics\Analytics;
+use Solarium\Component\Debug;
+use Solarium\Component\DisMax;
+use Solarium\Component\DistributedSearch;
+use Solarium\Component\FacetSet;
+use Solarium\Component\Grouping;
+use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\MoreLikeThis;
+use Solarium\Component\QueryElevation;
+use Solarium\Component\ReRankQuery;
+use Solarium\Component\Spatial;
+use Solarium\Component\Spellcheck;
+use Solarium\Component\Stats\Stats;
+use Solarium\Component\Suggester;
+use Solarium\Component\TermVector;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
@@ -480,10 +493,7 @@ abstract class AbstractQueryTestCase extends TestCase
 
         $components = $query->getComponents();
         $this->assertCount(1, $components);
-        $this->assertThat(
-            array_pop($components),
-            $this->isInstanceOf('Solarium\Component\FacetSet')
-        );
+        $this->assertInstanceOf(FacetSet::class, array_pop($components));
         $this->assertSame(['t1', 't2'], $query->getLocalParameters()->getTags());
     }
 
@@ -577,51 +587,41 @@ abstract class AbstractQueryTestCase extends TestCase
 
     public function testGetMoreLikeThis()
     {
-        $mlt = $this->query->getMoreLikeThis();
-
-        $this->assertSame(
-            'Solarium\Component\MoreLikeThis',
-            \get_class($mlt)
+        $this->assertInstanceOf(
+            MoreLikeThis::class,
+            $this->query->getMoreLikeThis()
         );
     }
 
     public function testGetDisMax()
     {
-        $dismax = $this->query->getDisMax();
-
-        $this->assertSame(
-            'Solarium\Component\DisMax',
-            \get_class($dismax)
+        $this->assertInstanceOf(
+            DisMax::class,
+            $this->query->getDisMax()
         );
     }
 
     public function testGetHighlighting()
     {
-        $hlt = $this->query->getHighlighting();
-
-        $this->assertSame(
-            'Solarium\Component\Highlighting\Highlighting',
-            \get_class($hlt)
+        $this->assertInstanceOf(
+            Highlighting::class,
+            $this->query->getHighlighting()
         );
     }
 
     public function testGetGrouping()
     {
-        $grouping = $this->query->getGrouping();
-
-        $this->assertSame(
-            'Solarium\Component\Grouping',
-            \get_class($grouping)
+        $this->assertInstanceOf(
+            Grouping::class,
+            $this->query->getGrouping()
         );
     }
 
     public function testGetQueryElevation()
     {
-        $queryelevation = $this->query->getQueryElevation();
-
-        $this->assertSame(
-            'Solarium\Component\QueryElevation',
-            \get_class($queryelevation)
+        $this->assertInstanceOf(
+            QueryElevation::class,
+            $this->query->getQueryElevation()
         );
     }
 
@@ -644,7 +644,7 @@ abstract class AbstractQueryTestCase extends TestCase
         $fq = $this->query->createFilterQuery($options);
 
         // check class
-        $this->assertThat($fq, $this->isInstanceOf('Solarium\QueryType\Select\Query\FilterQuery'));
+        $this->assertInstanceOf(FilterQuery::class, $fq);
 
         // check option forwarding
         $fqOptions = $fq->getOptions();
@@ -656,87 +656,74 @@ abstract class AbstractQueryTestCase extends TestCase
 
     public function testGetSpellcheck()
     {
-        $spellcheck = $this->query->getSpellcheck();
-
-        $this->assertSame(
-            'Solarium\Component\Spellcheck',
-            \get_class($spellcheck)
+        $this->assertInstanceOf(
+            Spellcheck::class,
+            $this->query->getSpellcheck()
         );
     }
 
     public function testGetSuggester()
     {
-        $suggester = $this->query->getSuggester();
-
-        $this->assertSame(
-            'Solarium\Component\Suggester',
-            \get_class($suggester)
+        $this->assertInstanceOf(
+            Suggester::class,
+            $this->query->getSuggester()
         );
     }
 
     public function testGetTermVector()
     {
-        $termVector = $this->query->getTermVector();
-
-        $this->assertSame(
-            'Solarium\Component\TermVector',
-            \get_class($termVector)
+        $this->assertInstanceOf(
+            TermVector::class,
+            $this->query->getTermVector()
         );
     }
 
     public function testGetDistributedSearch()
     {
-        $spellcheck = $this->query->getDistributedSearch();
-
-        $this->assertSame(
-            'Solarium\Component\DistributedSearch',
-            \get_class($spellcheck)
+        $this->assertInstanceOf(
+            DistributedSearch::class,
+            $this->query->getDistributedSearch()
         );
     }
 
     public function testGetStats()
     {
-        $stats = $this->query->getStats();
-
-        $this->assertSame(
-            'Solarium\Component\Stats\Stats',
-            \get_class($stats)
+        $this->assertInstanceOf(
+            Stats::class,
+            $this->query->getStats()
         );
     }
 
     public function testGetDebug()
     {
-        $stats = $this->query->getDebug();
-
-        $this->assertSame(
-            'Solarium\Component\Debug',
-            \get_class($stats)
+        $this->assertInstanceOf(
+            Debug::class,
+            $this->query->getDebug()
         );
     }
 
     public function testGetSpatial()
     {
-        $spatial = $this->query->getSpatial();
-
-        $this->assertSame(
-            'Solarium\Component\Spatial',
-            \get_class($spatial)
+        $this->assertInstanceOf(
+            Spatial::class,
+            $this->query->getSpatial()
         );
     }
 
     public function testGetReRankQuery()
     {
-        $reRankQuery = $this->query->getReRankQuery();
-
-        $this->assertSame(
-            'Solarium\Component\ReRankQuery',
-            \get_class($reRankQuery)
+        $this->assertInstanceOf(
+            ReRankQuery::class,
+            $this->query->getReRankQuery()
         );
     }
 
     public function testGetAnalytics(): void
     {
-        $this->assertInstanceOf(Analytics::class, $this->query->getAnalytics());
+        $this->assertInstanceOf(
+            Analytics::class,
+            $this->query->getAnalytics()
+        );
     }
 
     public function testAddTag()

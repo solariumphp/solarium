@@ -233,7 +233,7 @@ class TermVectorTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function expectedResultProvider(): array
+    public static function expectedResultProvider(): array
     {
         $result = new Result(
             [
@@ -358,7 +358,7 @@ class TermVectorTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function expectedResultAmbiguousKeysProvider(): array
+    public static function expectedResultAmbiguousKeysProvider(): array
     {
         $result = new Result(
             [
@@ -457,7 +457,7 @@ class TermVectorTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function expectedResultDoubleKeysProvider(): array
+    public static function expectedResultDoubleKeysProvider(): array
     {
         $result = new Result(
             [
@@ -540,7 +540,7 @@ class TermVectorTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function expectedResultNoDocumentsProvider(): array
+    public static function expectedResultNoDocumentsProvider(): array
     {
         $result = new Result(
             [],
