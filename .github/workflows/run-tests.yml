@@ -79,7 +79,7 @@ jobs:
 
             - name: Run tests
               run: |
-                vendor/bin/phpstan analyze src/ tests/ --level=1 --memory-limit=1G
+                vendor/bin/phpstan --memory-limit=1G
                 vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} --coverage-clover build/logs/clover.xml
 
             - name: Execute examples
