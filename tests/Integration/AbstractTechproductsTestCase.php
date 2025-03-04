@@ -213,6 +213,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * This data provider should be used by all UpdateQuery tests that don't test request
      * format specific Commands to ensure functional equivalence between the formats.
+     *
+     * CBOR format isn't included here because it can only be used for Add Commands.
      */
     public static function updateRequestFormatProvider(): array
     {
@@ -3197,6 +3199,165 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(0, $result);
     }
 
+    public function testUpdateCbor()
+    {
+        // support for CBOR format was added in Solr 9.3, pass tacitly for older versions
+        if (9 > self::$solrVersion) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        // add
+        $update = self::$client->createUpdate();
+        $update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+        $doc1 = $update->createDocument();
+        $doc1->setField('id', 'solarium-cbor-test-1');
+        $doc1->setField('name', 'Sølåríùm CBOR Tëst 1');
+        $doc1->setField('cat', 'solarium-cbor-test');
+        $doc1->setField('price', 3.14);
+        $doc1->setField('popularity', 5);
+        $doc1->setField('inStock', true);
+        $doc1->setField('content', ['foo', 'bar']);
+        $doc2 = $update->createDocument();
+        $doc2->setField('id', 'solarium-cbor-test-2');
+        $doc2->setField('name', 'Sølåríùm CBOR Tëst 2');
+        $doc2->setField('cat', 'solarium-cbor-test');
+        $doc2->setField('price', 42.0);
+        $doc2->setField('popularity', -1);
+        $doc2->setField('inStock', false);
+        $doc2->setField('content', []);
+        $update->addDocuments([$doc1, $doc2]);
+        $update->addParam('commit', true);
+        $update->addParam('softCommit', true);
+        self::$client->update($update);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-cbor-test');
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,name,price,popularity,inStock,content');
+
+        $result = self::$client->select($select);
+        $this->assertCount(2, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-cbor-test-1',
+            'name' => 'Sølåríùm CBOR Tëst 1',
+            'price' => 3.14,
+            'popularity' => 5,
+            'inStock' => true,
+            'content' => [
+                'foo',
+                'bar',
+            ],
+        ], $iterator->current()->getFields());
+        $iterator->next();
+        $this->assertSame([
+            'id' => 'solarium-cbor-test-2',
+            'name' => 'Sølåríùm CBOR Tëst 2',
+            'price' => 42.0,
+            'popularity' => -1,
+            'inStock' => false,
+        ], $iterator->current()->getFields());
+
+        // atomic updates
+        try {
+            $update = self::$client->createUpdate();
+            $update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+            $doc = $update->createDocument();
+            $doc->setKey('id', 'solarium-cbor-test-1');
+            $doc->setField('popularity', -1);
+            $doc->setFieldModifier('popularity', $doc::MODIFIER_INC);
+            $doc->setField('content', ['bar', 'baz']);
+            $doc->setFieldModifier('content', $doc::MODIFIER_ADD_DISTINCT);
+            $doc->setField('inStock', null);
+            $doc->setFieldModifier('inStock', $doc::MODIFIER_SET);
+            $update->addDocument($doc);
+            $update->addParam('commit', true);
+            $update->addParam('softCommit', true);
+            self::$client->update($update);
+
+            $result = self::$client->select($select);
+            $this->assertCount(2, $result);
+            $iterator = $result->getIterator();
+            $this->assertSame([
+                'id' => 'solarium-cbor-test-1',
+                'name' => 'Sølåríùm CBOR Tëst 1',
+                'price' => 3.14,
+                'popularity' => 4,
+                'content' => [
+                    'foo',
+                    'bar',
+                    'baz',
+                ],
+            ], $iterator->current()->getFields());
+        } catch (HttpException $e) {
+            // rethrow if it's not a Solr version not supporting atomic updates with CBOR
+            // @see https://issues.apache.org/jira/browse/SOLR-17510?focusedCommentId=17892000#comment-17892000
+            if (400 !== $e->getCode() || !str_contains($e->getMessage(), '[doc=solarium-cbor-test-1/popularity#] unknown field \'inc\'')) {
+                throw $e;
+            }
+        }
+
+        // nested documents
+        $data = [
+            'id' => 'solarium-cbor-test-3',
+            'cat' => ['solarium-cbor-test'],
+            'single_child' => [
+                'id' => 'solarium-single-child',
+                'cat' => ['solarium-cbor-test'],
+            ],
+            'children' => [
+                [
+                    'id' => 'solarium-child-1',
+                    'cat' => ['solarium-cbor-test'],
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                    'cat' => ['solarium-cbor-test'],
+                ],
+            ],
+        ];
+        $update = self::$client->createUpdate();
+        $update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+        $doc = $update->createDocument($data);
+        $update->addDocument($doc);
+        $update->addParam('commit', true);
+        $update->addParam('softCommit', true);
+        self::$client->update($update);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('id:solarium-cbor-test-3');
+        $select->addSort('id', $select::SORT_ASC);
+        $select->setFields('id,single_child,children,[child]');
+
+        $result = self::$client->select($select);
+        $this->assertCount(1, $result);
+        $iterator = $result->getIterator();
+        $this->assertSame([
+            'id' => 'solarium-cbor-test-3',
+            'single_child' => [
+                'id' => 'solarium-single-child',
+            ],
+            'children' => [
+                [
+                    'id' => 'solarium-child-1',
+                ],
+                [
+                    'id' => 'solarium-child-2',
+                ],
+            ],
+        ], $iterator->current()->getFields());
+
+        // cleanup with default request format (can't delete with CBOR)
+        $update = self::$client->createUpdate();
+        $update->addDeleteQuery('cat:solarium-cbor-test');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
+    }
+
     public function testUpdateWithoutControlCharacterFiltering()
     {
         $data = [
@@ -3878,6 +4039,90 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removePlugin('buffereddeletelite');
         $result = self::$client->select($select);
         $this->assertSame(0, $result->getNumFound());
+    }
+
+    public function testBufferedAddCbor()
+    {
+        // support for CBOR format was added in Solr 9.3, pass tacitly for older versions
+        if (9 > self::$solrVersion) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        $bufferSize = 10;
+        $totalDocs = 25;
+
+        $buffer = self::$client->getPlugin('bufferedaddlite');
+        $buffer->setRequestFormat(UpdateQuery::REQUEST_FORMAT_CBOR);
+        $buffer->setBufferSize($bufferSize);
+
+        $update = self::$client->createUpdate();
+        for ($i = 1; $i <= $totalDocs; ++$i) {
+            $data = [
+                'id' => 'solarium-bufferedadd-cbor-'.$i,
+                'cat' => 'solarium-bufferedadd-cbor',
+                'weight' => $i,
+            ];
+            $document = $update->createDocument($data);
+            $buffer->addDocument($document);
+        }
+
+        // flush first to test if commit works with an empty buffer
+        // (unlike other request formats, commit doesn't add a command to the update query)
+        $buffer->flush();
+        $buffer->commit(null, true, true);
+
+        $select = self::$client->createSelect();
+        $select->setQuery('cat:solarium-bufferedadd-cbor');
+        $select->addSort('weight', $select::SORT_ASC);
+        $select->setFields('id');
+        $select->setRows($totalDocs);
+        $result = self::$client->select($select);
+        $this->assertSame($totalDocs, $result->getNumFound());
+
+        $ids = [];
+        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        foreach ($result as $document) {
+            $ids[] = $document->id;
+        }
+
+        $this->assertEquals([
+            'solarium-bufferedadd-cbor-1',
+            'solarium-bufferedadd-cbor-2',
+            'solarium-bufferedadd-cbor-3',
+            'solarium-bufferedadd-cbor-4',
+            'solarium-bufferedadd-cbor-5',
+            'solarium-bufferedadd-cbor-6',
+            'solarium-bufferedadd-cbor-7',
+            'solarium-bufferedadd-cbor-8',
+            'solarium-bufferedadd-cbor-9',
+            'solarium-bufferedadd-cbor-10',
+            'solarium-bufferedadd-cbor-11',
+            'solarium-bufferedadd-cbor-12',
+            'solarium-bufferedadd-cbor-13',
+            'solarium-bufferedadd-cbor-14',
+            'solarium-bufferedadd-cbor-15',
+            'solarium-bufferedadd-cbor-16',
+            'solarium-bufferedadd-cbor-17',
+            'solarium-bufferedadd-cbor-18',
+            'solarium-bufferedadd-cbor-19',
+            'solarium-bufferedadd-cbor-20',
+            'solarium-bufferedadd-cbor-21',
+            'solarium-bufferedadd-cbor-22',
+            'solarium-bufferedadd-cbor-23',
+            'solarium-bufferedadd-cbor-24',
+            'solarium-bufferedadd-cbor-25',
+            ], $ids);
+
+        // cleanup
+        self::$client->removePlugin('bufferedaddlite');
+        $update = self::$client->createUpdate();
+        $update->addDeleteQuery('cat:solarium-bufferedadd-cbor');
+        $update->addCommit(true, true);
+        self::$client->update($update);
+        $result = self::$client->select($select);
+        $this->assertCount(0, $result);
     }
 
     public function testLoadbalancerFailover()

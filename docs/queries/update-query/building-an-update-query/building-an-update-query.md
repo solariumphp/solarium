@@ -1,5 +1,5 @@
 An update query has options and commands. These commands and options are instructions for the client classes to build and execute a request and return the correct result. In the following sections both the options and commands will be discussed in detail.
-You can also take a look at the [XML](https://solr.apache.org/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates) or [JSON](https://solr.apache.org/guide/uploading-data-with-index-handlers.html#json-formatted-index-updates) request formats for more information about the underlying Solr update handler.
+You can also take a look at the [XML](https://solr.apache.org/guide/uploading-data-with-index-handlers.html#xml-formatted-index-updates), [JSON](https://solr.apache.org/guide/uploading-data-with-index-handlers.html#json-formatted-index-updates), or [CBOR](https://solr.apache.org/guide/solr/latest/indexing-guide/indexing-with-cbor.html) request formats for more information about the underlying Solr update handler.
 
 Options
 -------
@@ -10,7 +10,7 @@ However, if you do need to customize them for a special case, you can.
 
 ### RequestFormat
 
-Solarium issues JSON formatted update requests by default. Set this to XML if you require XML specific functionality.
+Solarium issues JSON formatted update requests by default. Set this to XML if you require XML specific functionality. You can also set this to CBOR if you use Solr 9.3 or higher and your use case falls within [current limitations](../best-practices-for-updates.md#known-cbor-limitations).
 
 ### ResultClass
 
