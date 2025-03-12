@@ -47,6 +47,11 @@ class Request extends Configurable implements RequestParamsInterface
     const METHOD_PUT = 'PUT';
 
     /**
+     * Content-Type for CBOR payloads.
+     */
+    const CONTENT_TYPE_APPLICATION_CBOR = 'application/cbor';
+
+    /**
      * Content-Type for JSON payloads.
      */
     const CONTENT_TYPE_APPLICATION_JSON = 'application/json';

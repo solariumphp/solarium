@@ -35,6 +35,15 @@ class BufferedAddLiteTest extends TestCase
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
+    public static function updateRequestFormatProvider(): array
+    {
+        return [
+            [Query::REQUEST_FORMAT_XML],
+            [Query::REQUEST_FORMAT_JSON],
+            [Query::REQUEST_FORMAT_CBOR],
+        ];
+    }
+
     public function testInitPlugin()
     {
         $client = TestClientFactory::createWithCurlAdapter();
@@ -317,13 +326,19 @@ class BufferedAddLiteTest extends TestCase
         $this->assertFalse($this->plugin->flush());
     }
 
-    public function testFlush()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testFlush(string $requestFormat)
     {
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
         $doc3 = new Document(['id' => '789', 'name' => 'test 3']);
 
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
@@ -340,28 +355,41 @@ class BufferedAddLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDocuments([$doc1, $doc2]);
         $plugin->addDocument($doc3);
 
         $this->assertSame($mockResult, $plugin->flush(true, 12));
     }
 
-    public function testCommit()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommit(string $requestFormat)
     {
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
         $doc3 = new Document(['id' => '789', 'name' => 'test 3']);
 
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
                 $this->equalTo(null),
                 $this->equalTo((new AddCommand())->setOverwrite(true)->addDocuments([$doc1, $doc2, $doc3])),
             );
-        $mockUpdate->expects($this->once())
-            ->method('addCommit')
-            ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $mockUpdate->expects($this->never())
+                ->method('addCommit');
+        } else {
+            $mockUpdate->expects($this->once())
+                ->method('addCommit')
+                ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
+        }
 
         $mockResult = $this->createMock(Result::class);
 
@@ -372,27 +400,49 @@ class BufferedAddLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDocument($doc1);
         $plugin->addDocuments([$doc2, $doc3]);
 
         $this->assertSame($mockResult, $plugin->commit(true, false, true, false));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $params = $mockUpdate->getParams();
+
+            $this->assertTrue($params['commit']);
+            $this->assertFalse($params['softCommit']);
+            $this->assertTrue($params['waitSearcher']);
+            $this->assertFalse($params['expungeDeletes']);
+        }
     }
 
-    public function testCommitWithOptionalValues()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommitWithOptionalValues(string $requestFormat)
     {
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
 
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
                 $this->equalTo(null),
                 $this->equalTo((new AddCommand())->setOverwrite(true)->addDocuments([$doc1, $doc2])),
             );
-        $mockUpdate->expects($this->once())
-            ->method('addCommit')
-            ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $mockUpdate->expects($this->never())
+                ->method('addCommit');
+        } else {
+            $mockUpdate->expects($this->once())
+                ->method('addCommit')
+                ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+        }
 
         $mockResult = $this->createMock(Result::class);
 
@@ -403,11 +453,22 @@ class BufferedAddLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDocument($doc1);
         $plugin->addDocument($doc2);
         $plugin->setOverwrite(true);
 
         $this->assertSame($mockResult, $plugin->commit(null, null, null, null));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $params = $mockUpdate->getParams();
+
+            $this->assertTrue($params['commit']);
+            // explicitly null or omitted is an implementation detail with the same end result
+            $this->assertNull($params['softCommit'] ?? null);
+            $this->assertNull($params['waitSearcher'] ?? null);
+            $this->assertNull($params['expungeDeletes'] ?? null);
+        }
     }
 
     public function testSetAndGetEndpoint()

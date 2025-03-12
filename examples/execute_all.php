@@ -159,10 +159,13 @@ try {
     $skipAltogether = [
         '2.1.5.8-distributed-search.php',
         '7.5.3-plugin-bufferedupdate-benchmarks.php', // intended to be included, not to be run standalone
+        '7.5.3.0-plugin-bufferedupdate-benchmarks-build-only.php', // takes too long for a workflow, can be run manually
         '7.5.3.1-plugin-bufferedupdate-benchmarks-xml.php', // takes too long for a workflow, can be run manually
         '7.5.3.2-plugin-bufferedupdate-lite-benchmarks-xml.php', // takes too long for a workflow, can be run manually
         '7.5.3.3-plugin-bufferedupdate-benchmarks-json.php', // takes too long for a workflow, can be run manually
         '7.5.3.4-plugin-bufferedupdate-lite-benchmarks-json.php', // takes too long for a workflow, can be run manually
+        '7.5.3.5-plugin-bufferedupdate-benchmarks-cbor.php', // takes too long for a workflow, can be run manually
+        '7.5.3.6-plugin-bufferedupdate-lite-benchmarks-cbor.php', // takes too long for a workflow, can be run manually
         '7.9-plugin-nowaitforresponserequest.php', // there is no default suggester included with techproducts
     ];
 

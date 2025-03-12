@@ -38,6 +38,14 @@ class BufferedDeleteLiteTest extends TestCase
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
+    public static function updateRequestFormatProvider(): array
+    {
+        return [
+            [Query::REQUEST_FORMAT_XML],
+            [Query::REQUEST_FORMAT_JSON],
+        ];
+    }
+
     public function testInitPlugin()
     {
         $client = TestClientFactory::createWithCurlAdapter();
@@ -334,9 +342,15 @@ class BufferedDeleteLiteTest extends TestCase
         $this->assertFalse($this->plugin->flush());
     }
 
-    public function testFlush()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testFlush(string $requestFormat)
     {
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
@@ -353,6 +367,7 @@ class BufferedDeleteLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDeleteById('abc');
         $plugin->addDeleteQuery('cat:def');
 
@@ -370,9 +385,15 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin->flush();
     }
 
-    public function testCommit()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommit(string $requestFormat)
     {
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
@@ -392,10 +413,46 @@ class BufferedDeleteLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDeleteById('abc');
         $plugin->addDeleteQuery('cat:def');
 
         $this->assertSame($mockResult, $plugin->commit(false, true, false));
+    }
+
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommitWithOptionalValues(string $requestFormat)
+    {
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
+        $mockUpdate->expects($this->once())
+            ->method('add')
+            ->with(
+                $this->equalTo(null),
+                $this->equalTo((new DeleteCommand())->addId('abc')->addQuery('cat:def')),
+            );
+        $mockUpdate->expects($this->once())
+            ->method('addCommit')
+            ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+
+        $mockResult = $this->createMock(Result::class);
+
+        $mockClient = $this->getClient();
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
+
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass();
+        $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
+        $plugin->addDeleteById('abc');
+        $plugin->addDeleteQuery('cat:def');
+
+        $this->assertSame($mockResult, $plugin->commit(null, null, null));
     }
 
     public function testSetAndGetEndpoint()
@@ -415,6 +472,24 @@ class BufferedDeleteLiteTest extends TestCase
     {
         $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
         $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
+    }
+
+    /**
+     * @dataProvider cborRequestFormatProvider
+     */
+    public function testSetCborRequestFormat(string $requestFormat)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request format: CBOR can only be used to add documents');
+        $this->plugin->setRequestFormat($requestFormat);
+    }
+
+    public static function cborRequestFormatProvider(): array
+    {
+        return [
+            [strtolower(Query::REQUEST_FORMAT_CBOR)],
+            [strtoupper(Query::REQUEST_FORMAT_CBOR)],
+        ];
     }
 
     public function testSetUnsupportedRequestFormat()
