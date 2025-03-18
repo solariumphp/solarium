@@ -23,6 +23,7 @@ use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
+use Solarium\QueryType\Update\RequestBuilder\Cbor as CborRequestBuilder;
 use Solarium\QueryType\Update\RequestBuilder\Json as JsonRequestBuilder;
 use Solarium\QueryType\Update\RequestBuilder\Xml as XmlRequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
@@ -68,6 +69,11 @@ class Query extends BaseQuery
     const COMMAND_ROLLBACK = 'rollback';
 
     /**
+     * CBOR request format.
+     */
+    const REQUEST_FORMAT_CBOR = 'cbor';
+
+    /**
      * JSON request format.
      */
     const REQUEST_FORMAT_JSON = 'json';
@@ -97,6 +103,7 @@ class Query extends BaseQuery
      * @var array
      */
     protected $requestFormats = [
+        self::REQUEST_FORMAT_CBOR => CborRequestBuilder::class,
         self::REQUEST_FORMAT_JSON => JsonRequestBuilder::class,
         self::REQUEST_FORMAT_XML => XmlRequestBuilder::class,
     ];

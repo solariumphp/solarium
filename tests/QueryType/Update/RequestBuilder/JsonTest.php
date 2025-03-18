@@ -115,10 +115,19 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithBooleanValues()
+    public function testBuildAddJsonWithScalarValues()
     {
         $command = new AddCommand();
-        $command->addDocument(new Document(['id' => 1, 'visible' => true, 'forsale' => false]));
+        $command->addDocument(new Document([
+            'id' => 1,
+            'noid' => -5,
+            'name' => 'test',
+            'price' => 3.14,
+            'discount' => -2.72,
+            'visible' => true,
+            'forsale' => false,
+            'UTF8' => 'ΑΒΓαβγ АБВабв أبجد אבג カタカナ 漢字',
+        ]));
         $json = [];
 
         $this->builder->buildAddJson($command, $json);
@@ -129,8 +138,13 @@ class JsonTest extends TestCase
                 "add": {
                     "doc": {
                         "id": 1,
+                        "noid": -5,
+                        "name": "test",
+                        "price": 3.14,
+                        "discount": -2.72,
                         "visible": true,
-                        "forsale": false
+                        "forsale": false,
+                        "UTF8": "\u0391\u0392\u0393\u03b1\u03b2\u03b3 \u0410\u0411\u0412\u0430\u0431\u0432 \u0623\u0628\u062c\u062f \u05d0\u05d1\u05d2 \u30ab\u30bf\u30ab\u30ca \u6f22\u5b57"
                     }
                 }
             }',
@@ -308,7 +322,7 @@ class JsonTest extends TestCase
                         "text": "test < 123 > test"
                     }
                 }
-             }',
+            }',
             '{'.$json[0].'}'
         );
     }
@@ -612,6 +626,31 @@ class JsonTest extends TestCase
     }
 
     public function testBuildAddJsonWithVersionedDocument()
+    {
+        $doc = new Document(['id' => 1]);
+        $doc->setVersion(42);
+
+        $command = new AddCommand();
+        $command->addDocument($doc);
+        $json = [];
+
+        $this->builder->buildAddJson($command, $json);
+
+        $this->assertCount(1, $json);
+        $this->assertJsonStringEqualsJsonString(
+            '{
+                "add": {
+                    "doc": {
+                        "id": 1,
+                        "_version_": 42
+                    }
+                }
+            }',
+            '{'.$json[0].'}'
+        );
+    }
+
+    public function testBuildAddJsonWithVersionMustNotExist()
     {
         $doc = new Document(['id' => 1]);
         $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
