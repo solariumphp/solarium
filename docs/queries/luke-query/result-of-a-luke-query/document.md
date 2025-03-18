@@ -26,7 +26,7 @@ This provides detailed information on the fields and their values, including
 
 ### Solr document
 
-A [read-only document](/documents/#read-only-document). Can be retrieved with
+A [read-only document](../../../documents.md#read-only-document). Can be retrieved with
 `$docInfo->getSolr()`.
 
 Caveat with `json_encode()`
