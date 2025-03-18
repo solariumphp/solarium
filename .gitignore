@@ -10,3 +10,4 @@
 /nbproject
 /tests/Integration/Fixtures/techproducts.zip
 /.ddev/
+/phpstan.neon
