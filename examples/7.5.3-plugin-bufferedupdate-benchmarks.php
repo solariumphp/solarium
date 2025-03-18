@@ -2,27 +2,31 @@
 
 require_once(__DIR__.'/init.php');
 
+use Composer\InstalledVersions;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Update\Query\Query;
 
 set_time_limit(0);
-ini_set('memory_limit', ini_get('suhosin.memory_limit') ?: '-1');
+ini_set('memory_limit', -1);
 ob_implicit_flush(true);
 @ob_end_flush();
 
 htmlHeader();
 
-if (!isset($weight) || !isset($requestFormat)) {
+if (!isset($weight) || !isset($addRequestFormat) || !isset($delRequestFormat)) {
     echo <<<'EOT'
         <h1>Usage</h1>
 
-        <p>This file is intended to be included by a script that sets two variables:</p>
+        <p>This file is intended to be included by a script that sets three variables:</p>
 
         <dl>
             <dt><code>$weight</code></dt>
             <dd>Either <code>''</code> for the regular plugins or <code>'lite'</code> for the lite versions.</dd>
-            <dt><code>$requestFormat</code></dt>
+            <dt><code>$addRequestFormat</code></dt>
             <dd>Any of the <code>Solarium\QueryType\Update\Query\Query::REQUEST_FORMAT_*</code> constants.</dd>
+            <dt><code>$delRequestFormat</code></dt>
+            <dd><code>Solarium\QueryType\Update\Query\Query::REQUEST_FORMAT_JSON</code> or <code>REQUEST_FORMAT_XML</code>.</dd>
         </dl>
 
         <h2>Example</h2>
@@ -35,11 +39,20 @@ if (!isset($weight) || !isset($requestFormat)) {
         use Solarium\QueryType\Update\Query\Query;
 
         $weight = '';
-        $requestFormat = Query::REQUEST_FORMAT_JSON;
+        $addRequestFormat = Query::REQUEST_FORMAT_JSON;
+        $delRequestFormat = Query::REQUEST_FORMAT_JSON;
 
         require(__DIR__.'/7.5.3-plugin-bufferedupdate-benchmarks.php');
         </pre>
         EOT;
+
+    htmlFooter();
+
+    exit;
+}
+
+if (in_array(Query::REQUEST_FORMAT_CBOR, [$addRequestFormat, $delRequestFormat]) && !InstalledVersions::isInstalled('spomky-labs/cbor-php')) {
+    echo '<h2>Note: The CBOR benchmark requires spomky-labs/cbor-php</h2>';
 
     htmlFooter();
 
@@ -76,10 +89,10 @@ $client->execute($query);
 $addBuffer = $client->getPlugin($addPlugin = 'bufferedadd'.$weight);
 $delBuffer = $client->getPlugin($delPlugin = 'buffereddelete'.$weight);
 
-$addBuffer->setRequestFormat($requestFormat);
-$delBuffer->setRequestFormat($requestFormat);
+$addBuffer->setRequestFormat($addRequestFormat);
+$delBuffer->setRequestFormat($delRequestFormat);
 
-echo '<h3>'.$addPlugin.' / '.$delPlugin.' ('.strtoupper($requestFormat).')</h3>';
+echo '<h3>'.$addPlugin.' ('.strtoupper($addRequestFormat).') / '.$delPlugin.' ('.strtoupper($delRequestFormat).')</h3>';
 echo '<table><thead>';
 echo '<tr><th>add buffer size</th><th>add time</th>';
 echo '<th>delete buffer size</th><th>delete time</th>';
