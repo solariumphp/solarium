@@ -58,10 +58,8 @@ trait JsonFacetTrait
      *
      * @param string     $query
      * @param array|null $bind  Bind values for placeholders in the query string
-     *
-     * @return self Provides fluent interface
      */
-    public function setDomainFilterQuery(string $query, ?array $bind = null): self
+    public function setDomainFilterQuery(string $query, ?array $bind = null): static
     {
         if (null !== $bind) {
             $helper = new Helper();
@@ -98,10 +96,8 @@ trait JsonFacetTrait
      * Adds a domain filter parameter.
      *
      * @param string $param
-     *
-     * @return self Provides fluent interface
      */
-    public function addDomainFilterParameter(string $param): self
+    public function addDomainFilterParameter(string $param): static
     {
         $filter = $this->getDomainFilter();
         if (!$filter) {
@@ -164,10 +160,8 @@ trait JsonFacetTrait
      * @param FacetInterface|array $facet
      *
      * @throws InvalidArgumentException
-     *
-     * @return self Provides fluent interface
      */
-    public function addFacet($facet): self
+    public function addFacet($facet): static
     {
         if ($facet instanceof JsonFacetInterface) {
             $this->facetSetAddFacet($facet);
@@ -185,10 +179,8 @@ trait JsonFacetTrait
      * You can remove a facet by passing its key or the facet instance
      *
      * @param string|FacetInterface $facet
-     *
-     * @return self Provides fluent interface
      */
-    public function removeFacet($facet): self
+    public function removeFacet($facet): static
     {
         $this->facetSetRemoveFacet($facet);
         $this->serialize();
@@ -198,10 +190,8 @@ trait JsonFacetTrait
 
     /**
      * Remove all facets.
-     *
-     * @return self Provides fluent interface
      */
-    public function clearFacets(): self
+    public function clearFacets(): static
     {
         $this->facetSetClearFacets();
         $this->serialize();
