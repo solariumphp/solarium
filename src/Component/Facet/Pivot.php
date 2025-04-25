@@ -53,12 +53,10 @@ class Pivot extends AbstractFacet
      *
      * @param int $minCount
      *
-     * @return self Provides fluent interface
-     *
      * @deprecated This method no longer has effect. Use {@link Solarium\Component\FacetSet::setPivotMinCount()} to
      *    set the global minCount or {@link setPivotMinCount()} to set the minCount for specific pivot fields instead.
      */
-    public function setMinCount(int $minCount): self
+    public function setMinCount(int $minCount): static
     {
         $this->setOption('mincount', $minCount);
 
@@ -81,10 +79,8 @@ class Pivot extends AbstractFacet
      * Set the facet limit.
      *
      * @param int $limit
-     *
-     * @return self Provides fluent interface
      */
-    public function setLimit(int $limit): self
+    public function setLimit(int $limit): static
     {
         $this->setOption('limit', $limit);
 
@@ -105,10 +101,8 @@ class Pivot extends AbstractFacet
      * Set the facet offset.
      *
      * @param int $offset
-     *
-     * @return self Provides fluent interface
      */
-    public function setOffset(int $offset): self
+    public function setOffset(int $offset): static
     {
         $this->setOption('offset', $offset);
 
@@ -131,10 +125,8 @@ class Pivot extends AbstractFacet
      * Use one of the SORT_* constants as the value.
      *
      * @param string $sort
-     *
-     * @return self Provides fluent interface
      */
-    public function setSort(string $sort): self
+    public function setSort(string $sort): static
     {
         $this->setOption('sort', $sort);
 
@@ -155,10 +147,8 @@ class Pivot extends AbstractFacet
      * Set the facet overrequest count.
      *
      * @param int $count
-     *
-     * @return self Provides fluent interface
      */
-    public function setOverrequestCount(int $count): self
+    public function setOverrequestCount(int $count): static
     {
         $this->setOption('overrequest.count', $count);
 
@@ -179,10 +169,8 @@ class Pivot extends AbstractFacet
      * Set the facet overrequest ratio.
      *
      * @param float $ratio
-     *
-     * @return self Provides fluent interface
      */
-    public function setOverrequestRatio(float $ratio): self
+    public function setOverrequestRatio(float $ratio): static
     {
         $this->setOption('overrequest.ratio', $ratio);
 
@@ -203,10 +191,8 @@ class Pivot extends AbstractFacet
      * Specify a field to return in the resultset.
      *
      * @param string $field
-     *
-     * @return self Provides fluent interface
      */
-    public function addField(string $field): self
+    public function addField(string $field): static
     {
         $field = trim($field);
         $this->fields[$field] = true;
@@ -219,10 +205,8 @@ class Pivot extends AbstractFacet
      *
      * @param string|array $fields can be an array or string with comma
      *                             separated fieldnames
-     *
-     * @return self Provides fluent interface
      */
-    public function addFields($fields): self
+    public function addFields($fields): static
     {
         if (\is_string($fields)) {
             $fields = explode(',', $fields);
@@ -239,10 +223,8 @@ class Pivot extends AbstractFacet
      * Remove a field from the field list.
      *
      * @param string $field
-     *
-     * @return self Provides fluent interface
      */
-    public function removeField($field): self
+    public function removeField($field): static
     {
         if (isset($this->fields[$field])) {
             unset($this->fields[$field]);
@@ -253,10 +235,8 @@ class Pivot extends AbstractFacet
 
     /**
      * Remove all fields from the field list.
-     *
-     * @return self Provides fluent interface
      */
-    public function clearFields(): self
+    public function clearFields(): static
     {
         $this->fields = [];
 
@@ -280,10 +260,8 @@ class Pivot extends AbstractFacet
      *
      * @param array|string $fields can be an array or string with comma
      *                             separated fieldnames
-     *
-     * @return self Provides fluent interface
      */
-    public function setFields($fields): self
+    public function setFields($fields): static
     {
         $this->clearFields();
         $this->addFields($fields);
@@ -297,10 +275,8 @@ class Pivot extends AbstractFacet
      * @param string $stat
      *
      * @throws OutOfBoundsException
-     *
-     * @return self Provides fluent interface
      */
-    public function addStat(string $stat): self
+    public function addStat(string $stat): static
     {
         $this
             ->getLocalParameters()
@@ -317,10 +293,8 @@ class Pivot extends AbstractFacet
      *                            separated statnames
      *
      * @throws OutOfBoundsException
-     *
-     * @return self Provides fluent interface
      */
-    public function addStats($stats): self
+    public function addStats($stats): static
     {
         if (false === \is_array($stats)) {
             $stats = array_map('trim', explode(',', $stats));
@@ -340,10 +314,8 @@ class Pivot extends AbstractFacet
      * @param string $stat
      *
      * @throws OutOfBoundsException
-     *
-     * @return self Provides fluent interface
      */
-    public function removeStat($stat): self
+    public function removeStat($stat): static
     {
         $this
             ->getLocalParameters()
@@ -357,10 +329,8 @@ class Pivot extends AbstractFacet
      * Remove all stats from the stats list.
      *
      * @throws OutOfBoundsException
-     *
-     * @return self Provides fluent interface
      */
-    public function clearStats(): self
+    public function clearStats(): static
     {
         $this
             ->getLocalParameters()
@@ -393,10 +363,8 @@ class Pivot extends AbstractFacet
      * @param array $stats
      *
      * @throws OutOfBoundsException
-     *
-     * @return self Provides fluent interface
      */
-    public function setStats(array $stats): self
+    public function setStats(array $stats): static
     {
         $this
             ->getLocalParameters()
