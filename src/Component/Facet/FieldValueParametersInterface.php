@@ -48,10 +48,8 @@ interface FieldValueParametersInterface
      * Limit the terms for faceting by a prefix.
      *
      * @param string $prefix
-     *
-     * @return self Provides fluent interface
      */
-    public function setPrefix(string $prefix): self;
+    public function setPrefix(string $prefix): static;
 
     /**
      * Get the facet prefix.
@@ -80,10 +78,8 @@ interface FieldValueParametersInterface
      * Case sensitivity of matching string that facet terms must contain.
      *
      * @param bool $containsIgnoreCase
-     *
-     * @return self Provides fluent interface
      */
-    public function setContainsIgnoreCase(bool $containsIgnoreCase): self;
+    public function setContainsIgnoreCase(bool $containsIgnoreCase): static;
 
     /**
      * Get the case sensitivity of facet contains.
@@ -96,10 +92,8 @@ interface FieldValueParametersInterface
      * Limit facet terms to those matching this regular expression.
      *
      * @param string $matches
-     *
-     * @return self Provides fluent interface
      */
-    public function setMatches(string $matches): self;
+    public function setMatches(string $matches): static;
 
     /**
      * Get the regular expression string that facets must match.
@@ -114,10 +108,8 @@ interface FieldValueParametersInterface
      * Use one of the SORT_* constants as the value.
      *
      * @param string $sort
-     *
-     * @return self Provides fluent interface
      */
-    public function setSort(string $sort): self;
+    public function setSort(string $sort): static;
 
     /**
      * Get the facet sort type.
@@ -130,10 +122,8 @@ interface FieldValueParametersInterface
      * Set the facet limit.
      *
      * @param int $limit
-     *
-     * @return self Provides fluent interface
      */
-    public function setLimit(int $limit): self;
+    public function setLimit(int $limit): static;
 
     /**
      * Get the facet limit.
@@ -146,10 +136,8 @@ interface FieldValueParametersInterface
      * Set the facet offset.
      *
      * @param int $offset
-     *
-     * @return self Provides fluent interface
      */
-    public function setOffset(int $offset): self;
+    public function setOffset(int $offset): static;
 
     /**
      * Get the facet offset.
@@ -162,10 +150,8 @@ interface FieldValueParametersInterface
      * Set the facet mincount.
      *
      * @param int $minCount
-     *
-     * @return self Provides fluent interface
      */
-    public function setMinCount(int $minCount): self;
+    public function setMinCount(int $minCount): static;
 
     /**
      * Get the facet mincount.
@@ -178,10 +164,8 @@ interface FieldValueParametersInterface
      * Set the missing count option.
      *
      * @param bool $missing
-     *
-     * @return self Provides fluent interface
      */
-    public function setMissing(bool $missing): self;
+    public function setMissing(bool $missing): static;
 
     /**
      * Get the facet missing option.
@@ -196,10 +180,8 @@ interface FieldValueParametersInterface
      * Use one of the METHOD_* constants as value.
      *
      * @param string $method
-     *
-     * @return self Provides fluent interface
      */
-    public function setMethod(string $method): self;
+    public function setMethod(string $method): static;
 
     /**
      * Get the facet method.
@@ -214,10 +196,8 @@ interface FieldValueParametersInterface
      * This is only used with METHOD_ENUM.
      *
      * @param int $frequency
-     *
-     * @return self Provides fluent interface
      */
-    public function setEnumCacheMinimumDocumentFrequency(int $frequency): self;
+    public function setEnumCacheMinimumDocumentFrequency(int $frequency): static;
 
     /**
      * Get the minimum document frequency for which the filterCache should be used.
@@ -230,10 +210,8 @@ interface FieldValueParametersInterface
      * Set to true to cap facet counts by 1.
      *
      * @param bool $exists
-     *
-     * @return self Provides fluent interface
      */
-    public function setExists(bool $exists): self;
+    public function setExists(bool $exists): static;
 
     /**
      * Get the exists parameter.
@@ -248,10 +226,8 @@ interface FieldValueParametersInterface
      * Specify a comma separated list. Use \, for a literal comma.
      *
      * @param string $exclude
-     *
-     * @return self Provides fluent interface
      */
-    public function setExcludeTerms(string $exclude): self;
+    public function setExcludeTerms(string $exclude): static;
 
     /**
      * Get terms that should be excluded from the facet.
@@ -264,10 +240,8 @@ interface FieldValueParametersInterface
      * Set the facet overrequest count.
      *
      * @param int $count
-     *
-     * @return self Provides fluent interface
      */
-    public function setOverrequestCount(int $count): self;
+    public function setOverrequestCount(int $count): static;
 
     /**
      * Get the facet overrequest count.
@@ -280,10 +254,8 @@ interface FieldValueParametersInterface
      * Set the facet overrequest ratio.
      *
      * @param float $ratio
-     *
-     * @return self Provides fluent interface
      */
-    public function setOverrequestRatio(float $ratio): self;
+    public function setOverrequestRatio(float $ratio): static;
 
     /**
      * Get the facet overrequest ratio.
@@ -300,10 +272,8 @@ interface FieldValueParametersInterface
      * Specifying a negative number will create up to (Java's) Integer.MAX_VALUE threads.
      *
      * @param int $threads
-     *
-     * @return self Provides fluent interface
      */
-    public function setThreads(int $threads): self;
+    public function setThreads(int $threads): static;
 
     /**
      * Get the maximum number of threads used for parallel execution.

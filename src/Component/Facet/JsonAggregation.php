@@ -35,10 +35,8 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
      * This overwrites the current value
      *
      * @param string $function
-     *
-     * @return self Provides fluent interface
      */
-    public function setFunction(string $function): self
+    public function setFunction(string $function): static
     {
         $this->setOption('function', $function);
 
@@ -63,10 +61,8 @@ class JsonAggregation extends AbstractFacet implements JsonFacetInterface
      * the aggregations returned by Solr.
      *
      * @param int $min
-     *
-     * @return self Provides fluent interface
      */
-    public function setMin(int $min): self
+    public function setMin(int $min): static
     {
         $this->setOption('min', $min);
 
