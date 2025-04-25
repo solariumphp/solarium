@@ -18,10 +18,8 @@ trait FieldValueParametersTrait
      * Limit the terms for faceting by a prefix.
      *
      * @param string $prefix
-     *
-     * @return self Provides fluent interface
      */
-    public function setPrefix(string $prefix): self
+    public function setPrefix(string $prefix): static
     {
         $this->setOption('prefix', $prefix);
 
@@ -42,10 +40,8 @@ trait FieldValueParametersTrait
      * Limit the terms for faceting by a string they must contain.
      *
      * @param string $contains
-     *
-     * @return self Provides fluent interface
      */
-    public function setContains(string $contains): self
+    public function setContains(string $contains): static
     {
         $this->setOption('contains', $contains);
 
@@ -66,10 +62,8 @@ trait FieldValueParametersTrait
      * Case sensitivity of matching string that facet terms must contain.
      *
      * @param bool $containsIgnoreCase
-     *
-     * @return self Provides fluent interface
      */
-    public function setContainsIgnoreCase(bool $containsIgnoreCase): self
+    public function setContainsIgnoreCase(bool $containsIgnoreCase): static
     {
         $this->setOption('containsignorecase', $containsIgnoreCase);
 
@@ -90,10 +84,8 @@ trait FieldValueParametersTrait
      * Limit facet terms to those matching this regular expression.
      *
      * @param string $matches
-     *
-     * @return self Provides fluent interface
      */
-    public function setMatches(string $matches): self
+    public function setMatches(string $matches): static
     {
         $this->setOption('matches', $matches);
 
@@ -116,10 +108,8 @@ trait FieldValueParametersTrait
      * Use one of the SORT_* constants as the value.
      *
      * @param string $sort
-     *
-     * @return self Provides fluent interface
      */
-    public function setSort(string $sort): self
+    public function setSort(string $sort): static
     {
         $this->setOption('sort', $sort);
 
@@ -140,10 +130,8 @@ trait FieldValueParametersTrait
      * Set the facet limit.
      *
      * @param int $limit
-     *
-     * @return self Provides fluent interface
      */
-    public function setLimit(int $limit): self
+    public function setLimit(int $limit): static
     {
         $this->setOption('limit', $limit);
 
@@ -164,10 +152,8 @@ trait FieldValueParametersTrait
      * Set the facet offset.
      *
      * @param int $offset
-     *
-     * @return self Provides fluent interface
      */
-    public function setOffset(int $offset): self
+    public function setOffset(int $offset): static
     {
         $this->setOption('offset', $offset);
 
@@ -188,10 +174,8 @@ trait FieldValueParametersTrait
      * Set the facet mincount.
      *
      * @param int $minCount
-     *
-     * @return self Provides fluent interface
      */
-    public function setMinCount(int $minCount): self
+    public function setMinCount(int $minCount): static
     {
         $this->setOption('mincount', $minCount);
 
@@ -212,10 +196,8 @@ trait FieldValueParametersTrait
      * Set the missing count option.
      *
      * @param bool $missing
-     *
-     * @return self Provides fluent interface
      */
-    public function setMissing(bool $missing): self
+    public function setMissing(bool $missing): static
     {
         $this->setOption('missing', $missing);
 
@@ -238,10 +220,8 @@ trait FieldValueParametersTrait
      * Use one of the METHOD_* constants as value.
      *
      * @param string $method
-     *
-     * @return self Provides fluent interface
      */
-    public function setMethod(string $method): self
+    public function setMethod(string $method): static
     {
         $this->setOption('method', $method);
 
@@ -264,10 +244,8 @@ trait FieldValueParametersTrait
      * This is only used with METHOD_ENUM.
      *
      * @param int $frequency
-     *
-     * @return self Provides fluent interface
      */
-    public function setEnumCacheMinimumDocumentFrequency(int $frequency): self
+    public function setEnumCacheMinimumDocumentFrequency(int $frequency): static
     {
         $this->setOption('enum.cache.minDf', $frequency);
 
@@ -288,10 +266,8 @@ trait FieldValueParametersTrait
      * Set to true to cap facet counts by 1.
      *
      * @param bool $exists
-     *
-     * @return self Provides fluent interface
      */
-    public function setExists(bool $exists): self
+    public function setExists(bool $exists): static
     {
         $this->setOption('exists', $exists);
 
@@ -314,10 +290,8 @@ trait FieldValueParametersTrait
      * Specify a comma separated list. Use \, for a literal comma.
      *
      * @param string $exclude
-     *
-     * @return self Provides fluent interface
      */
-    public function setExcludeTerms(string $exclude): self
+    public function setExcludeTerms(string $exclude): static
     {
         $this->setOption('excludeTerms', $exclude);
 
@@ -338,10 +312,8 @@ trait FieldValueParametersTrait
      * Set the facet overrequest count.
      *
      * @param int $count
-     *
-     * @return self Provides fluent interface
      */
-    public function setOverrequestCount(int $count): self
+    public function setOverrequestCount(int $count): static
     {
         $this->setOption('overrequest.count', $count);
 
@@ -362,10 +334,8 @@ trait FieldValueParametersTrait
      * Set the facet overrequest ratio.
      *
      * @param float $ratio
-     *
-     * @return self Provides fluent interface
      */
-    public function setOverrequestRatio(float $ratio): self
+    public function setOverrequestRatio(float $ratio): static
     {
         $this->setOption('overrequest.ratio', $ratio);
 
@@ -390,10 +360,8 @@ trait FieldValueParametersTrait
      * Specifying a negative number will create up to (Java's) Integer.MAX_VALUE threads.
      *
      * @param int $threads
-     *
-     * @return self Provides fluent interface
      */
-    public function setThreads(int $threads): self
+    public function setThreads(int $threads): static
     {
         $this->setOption('threads', $threads);
 
