@@ -7,6 +7,7 @@
 /build.xml export-ignore
 /mkdocs.yml export-ignore
 /phpcs.xml export-ignore
+/phpstan.dist.neon export-ignore
 /phpunit.xml export-ignore
 
 /.github export-ignore
