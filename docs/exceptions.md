@@ -107,7 +107,7 @@ Solarium can throw two types of logic exceptions. Both extend their SPL counterp
 
 ### Runtime exceptions
 
-Runtime exceptions represent errors that can only be found on runtime.
+Runtime exceptions represent errors that can only be found at runtime.
 
 Solarium can throw a number of runtime exceptions. All of them implement `Solarium\Exception\ExceptionInterface` and `Solarium\Exception\RuntimeExceptionInterface`.
 
