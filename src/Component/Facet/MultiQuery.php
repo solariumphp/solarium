@@ -56,7 +56,7 @@ class MultiQuery extends AbstractFacet
         // merge excludes with shared excludes
         $excludes = array_merge($this->getLocalParameters()->getExcludes(), $excludes);
 
-        $facetQuery = new Query();
+        $facetQuery = new FacetQuery();
         $facetQuery->setKey($key);
         $facetQuery->setQuery($query);
         $facetQuery->getLocalParameters()->addExcludes($excludes);
@@ -78,7 +78,7 @@ class MultiQuery extends AbstractFacet
     public function addQuery($facetQuery): static
     {
         if (\is_array($facetQuery)) {
-            $facetQuery = new Query($facetQuery);
+            $facetQuery = new FacetQuery($facetQuery);
         }
 
         $key = $facetQuery->getKey();
@@ -127,9 +127,9 @@ class MultiQuery extends AbstractFacet
      *
      * @param string $key
      *
-     * @return Query|null
+     * @return FacetQuery|null
      */
-    public function getQuery($key): ?Query
+    public function getQuery($key): ?FacetQuery
     {
         return $this->facetQueries[$key] ?? null;
     }
@@ -137,7 +137,7 @@ class MultiQuery extends AbstractFacet
     /**
      * Get all facetqueries.
      *
-     * @return Query[]
+     * @return FacetQuery[]
      */
     public function getQueries(): array
     {
@@ -149,7 +149,7 @@ class MultiQuery extends AbstractFacet
      *
      * You can remove a facetquery by passing its key or the facetquery instance.
      *
-     * @param string|Query $query
+     * @param string|FacetQuery $query
      */
     public function removeQuery($query): static
     {

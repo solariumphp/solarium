@@ -12,7 +12,6 @@ namespace Solarium\QueryType\Analysis\ResponseParser;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
-use Solarium\QueryType\Analysis\Result as AnalysisResult;
 use Solarium\QueryType\Analysis\Result\Item;
 use Solarium\QueryType\Analysis\Result\ResultList;
 use Solarium\QueryType\Analysis\Result\Types;
@@ -48,14 +47,14 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
      * @param ResultInterface $result
      * @param array           $data
      *
-     * @return Types[]
+     * @return ResultList[]
      */
     protected function parseAnalysis(ResultInterface $result, array $data): array
     {
         $types = [];
         foreach ($data as $documentKey => $documentData) {
             $fields = $this->parseTypes($result, $documentData);
-            $types[] = new AnalysisResult\ResultList($documentKey, $fields);
+            $types[] = new ResultList($documentKey, $fields);
         }
 
         return $types;
