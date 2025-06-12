@@ -43,7 +43,7 @@ class FacetSetTest extends TestCase
         $this->component = new Component();
     }
 
-    public function testBuildEmptyFacetSet()
+    public function testBuildEmptyFacetSet(): void
     {
         $request = $this->builder->buildComponent($this->component, $this->request);
 
@@ -53,7 +53,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithFacets()
+    public function testBuildWithFacets(): void
     {
         $this->component->addFacet(new FacetField(['local_key' => 'f1', 'local_exclude' => 'e11,e12', 'local_terms' => 't1,t2', 'field' => 'owner']));
         $this->component->addFacet(new FacetQuery(['local_key' => 'f2', 'local_exclude' => 'e21,e22', 'query' => 'category:23']));
@@ -70,7 +70,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithFacetFieldWithCommaAndQuoteInTerm()
+    public function testBuildWithFacetFieldWithCommaAndQuoteInTerm(): void
     {
         $this->component->addFacet(new FacetField(['local_key' => 'f1', 'local_terms' => ['yes\, it is', 'no\, it isn\'t'], 'field' => 'isit']));
 
@@ -83,7 +83,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacets()
+    public function testBuildWithJsonFacets(): void
     {
         $this->component->addFacet(new JsonTerms(['local_key' => 'f1', 'field' => 'owner']));
         $this->component->addFacet(new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']));
@@ -97,7 +97,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacetFilterQuery()
+    public function testBuildWithJsonFacetFilterQuery(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->setDomainFilterQuery('popularity:[5 TO 10]');
@@ -112,7 +112,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacetFilterParams()
+    public function testBuildWithJsonFacetFilterParams(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->addDomainFilterParameter('myparam1');
@@ -130,7 +130,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacetFilterQueryAndParams()
+    public function testBuildWithJsonFacetFilterQueryAndParams(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->setDomainFilterQuery('popularity:[5 TO 10]');
@@ -147,7 +147,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacetFilterQueryWithPlaceholders()
+    public function testBuildWithJsonFacetFilterQueryWithPlaceholders(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->setDomainFilterQuery('popularity:[%1% TO %2%]', [5, 10]);
@@ -162,7 +162,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacetFilterParamsAndQuery()
+    public function testBuildWithJsonFacetFilterParamsAndQuery(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->addDomainFilterParameter('myparam1');
@@ -179,7 +179,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonFacetFilterParamsAndQueryOverwrite()
+    public function testBuildWithJsonFacetFilterParamsAndQueryOverwrite(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $terms->setDomainFilterQuery('popularity:[5 TO 10]');
@@ -197,7 +197,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithFacetsAndJsonFacets()
+    public function testBuildWithFacetsAndJsonFacets(): void
     {
         $this->component->addFacet(new FacetField(['local_key' => 'f1', 'field' => 'owner']));
         $this->component->addFacet(new JsonTerms(['local_key' => 'f2', 'field' => 'customer']));
@@ -215,7 +215,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithAggregationFacet()
+    public function testBuildWithAggregationFacet(): void
     {
         $this->component->addFacet(new JsonAggregation(['local_key' => 'f1', 'function' => 'avg(mul(price,popularity))']));
 
@@ -228,7 +228,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithNestedFacets()
+    public function testBuildWithNestedFacets(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         // Only JSON facets could be nested.
@@ -236,7 +236,7 @@ class FacetSetTest extends TestCase
         $terms->addFacet(new FacetQuery(['local_key' => 'f2', 'q' => 'category:23']));
     }
 
-    public function testBuildWithNestedJsonFacets()
+    public function testBuildWithNestedJsonFacets(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $query = new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']);
@@ -254,7 +254,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithNestedJsonFacetRemoved()
+    public function testBuildWithNestedJsonFacetRemoved(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $query = new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']);
@@ -273,7 +273,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithNestedJsonFacetsCleared()
+    public function testBuildWithNestedJsonFacetsCleared(): void
     {
         $terms = new JsonTerms(['local_key' => 'f1', 'field' => 'owner']);
         $query = new JsonQuery(['local_key' => 'f2', 'query' => 'category:23']);
@@ -292,7 +292,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithRangeFacet()
+    public function testBuildWithRangeFacet(): void
     {
         $this->component->addFacet(new FacetRange(
             [
@@ -316,7 +316,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithJsonRangeFacet()
+    public function testBuildWithJsonRangeFacet(): void
     {
         $this->component->addFacet(new JsonRange(
             [
@@ -340,7 +340,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithRangeFacetExcludingOptionalParams()
+    public function testBuildWithRangeFacetExcludingOptionalParams(): void
     {
         $this->component->addFacet(
             new FacetRange(
@@ -363,7 +363,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithRangeFacetAndPivot()
+    public function testBuildWithRangeFacetAndPivot(): void
     {
         $this->component->addFacet(
             new FacetRange(
@@ -388,7 +388,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithFacetsAndGlobalFacetSettings()
+    public function testBuildWithFacetsAndGlobalFacetSettings(): void
     {
         $this->component->setMissing(true);
         $this->component->setLimit(10);
@@ -407,7 +407,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithFacetsAndSameFieldMultiplePrefix()
+    public function testBuildWithFacetsAndSameFieldMultiplePrefix(): void
     {
         $this->component->setMissing(true);
         $this->component->setLimit(10);
@@ -428,7 +428,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildUnknownFacetType()
+    public function testBuildUnknownFacetType(): void
     {
         $this->component->addFacet(new UnknownFacet(['local_key' => 'f1', 'field' => 'owner']));
         $this->expectException(UnexpectedValueException::class);
@@ -436,7 +436,7 @@ class FacetSetTest extends TestCase
         $request->getUri();
     }
 
-    public function testBuildWithPivotFacet()
+    public function testBuildWithPivotFacet(): void
     {
         $facet = new FacetPivot(
             [
@@ -471,7 +471,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithPivotStatFacet()
+    public function testBuildWithPivotStatFacet(): void
     {
         $facet = new FacetPivot(
             [
@@ -492,7 +492,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithPrefix()
+    public function testBuildWithPrefix(): void
     {
         $facet = new FacetField(
             [
@@ -514,7 +514,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithContainsSettings()
+    public function testBuildWithContainsSettings(): void
     {
         $facet = new FacetField(
             [
@@ -538,7 +538,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithMatches()
+    public function testBuildWithMatches(): void
     {
         $facet = new FacetField(
             [
@@ -560,7 +560,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithSort()
+    public function testBuildWithSort(): void
     {
         $facet = new FacetField(
             [
@@ -582,7 +582,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithLimit()
+    public function testBuildWithLimit(): void
     {
         $facet = new FacetField(
             [
@@ -604,7 +604,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithOffset()
+    public function testBuildWithOffset(): void
     {
         $facet = new FacetField(
             [
@@ -626,7 +626,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithMinCount()
+    public function testBuildWithMinCount(): void
     {
         $facet = new FacetField(
             [
@@ -648,7 +648,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithMissing()
+    public function testBuildWithMissing(): void
     {
         $facet = new FacetField(
             [
@@ -670,7 +670,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithMethod()
+    public function testBuildWithMethod(): void
     {
         $facet = new FacetField(
             [
@@ -692,7 +692,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithEnumCacheMinDf()
+    public function testBuildWithEnumCacheMinDf(): void
     {
         $facet = new FacetField(
             [
@@ -715,7 +715,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithExists()
+    public function testBuildWithExists(): void
     {
         $facet = new FacetField(
             [
@@ -737,7 +737,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithExcludeTerms()
+    public function testBuildWithExcludeTerms(): void
     {
         $facet = new FacetField(
             [
@@ -759,7 +759,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithOverrequestSettings()
+    public function testBuildWithOverrequestSettings(): void
     {
         $facet = new FacetField(
             [
@@ -783,7 +783,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithThreads()
+    public function testBuildWithThreads(): void
     {
         $facet = new FacetField(
             [
@@ -805,7 +805,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithIntervalFacet()
+    public function testBuildWithIntervalFacet(): void
     {
         $facet = new FacetInterval(
             [
@@ -827,7 +827,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testBuildWithQueryFacetWithQparser()
+    public function testBuildWithQueryFacetWithQparser(): void
     {
         $facet = new FacetQuery(
             [

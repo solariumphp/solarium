@@ -9,13 +9,13 @@ use Solarium\Support\DataFixtures\Loader;
 
 class LoaderTest extends TestCase
 {
-    public function testGetEmptyFixtures()
+    public function testGetEmptyFixtures(): void
     {
         $loader = new Loader();
         $this->assertEmpty($loader->getFixtures());
     }
 
-    public function testAddFixtures()
+    public function testAddFixtures(): void
     {
         $loader = new Loader();
 
@@ -31,14 +31,14 @@ class LoaderTest extends TestCase
         $this->assertSame($fixtures, $loader->getFixtures());
     }
 
-    public function testLoadFromInvalidDir()
+    public function testLoadFromInvalidDir(): void
     {
         $loader = new Loader();
         $this->expectException(InvalidArgumentException::class);
         $loader->loadFromDirectory('bla');
     }
 
-    public function testLoadFromDir()
+    public function testLoadFromDir(): void
     {
         $loader = new Loader();
         $loader->loadFromDirectory(__DIR__.'/Fixtures/');

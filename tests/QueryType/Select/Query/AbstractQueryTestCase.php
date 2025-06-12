@@ -31,12 +31,12 @@ abstract class AbstractQueryTestCase extends TestCase
      */
     protected $query;
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_SELECT, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\QueryType\Select\ResponseParser',
@@ -44,7 +44,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\QueryType\Select\RequestBuilder',
@@ -52,31 +52,31 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetResultClass()
+    public function testSetAndGetResultClass(): void
     {
         $this->query->setResultClass('MyResult');
         $this->assertSame('MyResult', $this->query->getResultClass());
     }
 
-    public function testSetAndGetDocumentClass()
+    public function testSetAndGetDocumentClass(): void
     {
         $this->query->setDocumentClass('MyDocument');
         $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
-    public function testSetAndGetQueryWithTrim()
+    public function testSetAndGetQueryWithTrim(): void
     {
         $this->query->setQuery(' *:* ');
         $this->assertSame('*:*', $this->query->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->query->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->query->getQuery());
     }
 
-    public function testSetAndGetQueryDefaultOperator()
+    public function testSetAndGetQueryDefaultOperator(): void
     {
         $value = Query::QUERY_OPERATOR_AND;
 
@@ -84,7 +84,7 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame($value, $this->query->getQueryDefaultOperator());
     }
 
-    public function testSetAndGetQueryDefaultField()
+    public function testSetAndGetQueryDefaultField(): void
     {
         $value = 'mydefault';
 
@@ -92,41 +92,41 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame($value, $this->query->getQueryDefaultField());
     }
 
-    public function testSetAndGetStart()
+    public function testSetAndGetStart(): void
     {
         $this->query->setStart(234);
         $this->assertSame(234, $this->query->getStart());
     }
 
-    public function testSetAndGetRows()
+    public function testSetAndGetRows(): void
     {
         $this->query->setRows(100);
         $this->assertSame(100, $this->query->getRows());
     }
 
-    public function testGetDefaultCanCancel()
+    public function testGetDefaultCanCancel(): void
     {
         $this->assertNull($this->query->getCanCancel());
     }
 
-    public function testSetAndGetCanCancel()
+    public function testSetAndGetCanCancel(): void
     {
         $this->query->setCanCancel(true);
         $this->assertTrue($this->query->getCanCancel());
     }
 
-    public function testGetDefaultQueryUuid()
+    public function testGetDefaultQueryUuid(): void
     {
         $this->assertNull($this->query->getQueryUuid());
     }
 
-    public function testSetAndGetQueryUuid()
+    public function testSetAndGetQueryUuid(): void
     {
         $this->query->setQueryUuid('foobar');
         $this->assertSame('foobar', $this->query->getQueryUuid());
     }
 
-    public function testAddField()
+    public function testAddField(): void
     {
         $expectedFields = $this->query->getFields();
         $expectedFields[] = 'newfield';
@@ -134,14 +134,14 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame($expectedFields, $this->query->getFields());
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
         $this->assertSame([], $this->query->getFields());
     }
 
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $fields = ['field1', 'field2'];
 
@@ -150,14 +150,14 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame($fields, $this->query->getFields());
     }
 
-    public function testAddFieldsAsStringWithTrim()
+    public function testAddFieldsAsStringWithTrim(): void
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
         $this->assertSame(['field1', 'field2'], $this->query->getFields());
     }
 
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
@@ -165,7 +165,7 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame(['field2'], $this->query->getFields());
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
@@ -173,7 +173,7 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame(['field3', 'field4'], $this->query->getFields());
     }
 
-    public function testAddSort()
+    public function testAddSort(): void
     {
         $this->query->addSort('field1', Query::SORT_DESC);
         $this->assertSame(
@@ -182,7 +182,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testAddSorts()
+    public function testAddSorts(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -196,7 +196,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRemoveSort()
+    public function testRemoveSort(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -211,7 +211,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRemoveInvalidSort()
+    public function testRemoveInvalidSort(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -226,7 +226,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testClearSorts()
+    public function testClearSorts(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -241,7 +241,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testSetSorts()
+    public function testSetSorts(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -256,7 +256,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testAddAndGetFilterQuery()
+    public function testAddAndGetFilterQuery(): void
     {
         $fq = new FilterQuery();
         $fq->setKey('fq1')->setQuery('category:1');
@@ -268,7 +268,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testAddAndGetFilterQueryWithKey()
+    public function testAddAndGetFilterQueryWithKey(): void
     {
         $key = 'fq1';
 
@@ -286,7 +286,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testAddFilterQueryWithoutKey()
+    public function testAddFilterQueryWithoutKey(): void
     {
         $fq = new FilterQuery();
         $fq->setQuery('category:1');
@@ -295,7 +295,7 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->query->addFilterQuery($fq);
     }
 
-    public function testAddFilterQueryWithEmptyKey()
+    public function testAddFilterQueryWithEmptyKey(): void
     {
         $fq = new FilterQuery();
         $fq->setKey('')->setQuery('category:1');
@@ -304,7 +304,7 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->query->addFilterQuery($fq);
     }
 
-    public function testAddFilterQueryWithUsedKey()
+    public function testAddFilterQueryWithUsedKey(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -317,14 +317,14 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->query->addFilterQuery($fq2);
     }
 
-    public function testGetInvalidFilterQuery()
+    public function testGetInvalidFilterQuery(): void
     {
         $this->assertNull(
             $this->query->getFilterQuery('invalidtag')
         );
     }
 
-    public function testAddFilterQueries()
+    public function testAddFilterQueries(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -341,7 +341,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRemoveFilterQuery()
+    public function testRemoveFilterQuery(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -359,7 +359,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRemoveFilterQueryWithObjectInput()
+    public function testRemoveFilterQueryWithObjectInput(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -377,7 +377,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRemoveInvalidFilterQuery()
+    public function testRemoveInvalidFilterQuery(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -395,7 +395,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testClearFilterQueries()
+    public function testClearFilterQueries(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -413,7 +413,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testSetFilterQueries()
+    public function testSetFilterQueries(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -441,7 +441,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $config = [
             'query' => 'text:mykeyword',
@@ -497,13 +497,13 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame(['t1', 't2'], $query->getLocalParameters()->getTags());
     }
 
-    public function testConfigModeWithSingleValueTag()
+    public function testConfigModeWithSingleValueTag(): void
     {
         $query = new Query(['local_tag' => 't1']);
         $this->assertSame(['t1'], $query->getLocalParameters()->getTags());
     }
 
-    public function testSetAndGetComponents()
+    public function testSetAndGetComponents(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -514,7 +514,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetComponent()
+    public function testSetAndGetComponent(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -525,7 +525,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetComponentQueryInstance()
+    public function testSetAndGetComponentQueryInstance(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -536,20 +536,20 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetInvalidComponent()
+    public function testGetInvalidComponent(): void
     {
         $this->assertNull(
             $this->query->getComponent('invalid')
         );
     }
 
-    public function testGetInvalidComponentAutoload()
+    public function testGetInvalidComponentAutoload(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $this->query->getComponent('invalid', true);
     }
 
-    public function testRemoveComponent()
+    public function testRemoveComponent(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -567,7 +567,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRemoveComponentWithObjectInput()
+    public function testRemoveComponentWithObjectInput(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -585,7 +585,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetMoreLikeThis()
+    public function testGetMoreLikeThis(): void
     {
         $this->assertInstanceOf(
             MoreLikeThis::class,
@@ -593,7 +593,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetDisMax()
+    public function testGetDisMax(): void
     {
         $this->assertInstanceOf(
             DisMax::class,
@@ -601,7 +601,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetHighlighting()
+    public function testGetHighlighting(): void
     {
         $this->assertInstanceOf(
             Highlighting::class,
@@ -609,7 +609,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetGrouping()
+    public function testGetGrouping(): void
     {
         $this->assertInstanceOf(
             Grouping::class,
@@ -617,7 +617,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetQueryElevation()
+    public function testGetQueryElevation(): void
     {
         $this->assertInstanceOf(
             QueryElevation::class,
@@ -625,7 +625,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testRegisterComponentType()
+    public function testRegisterComponentType(): void
     {
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
@@ -638,7 +638,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testCreateFilterQuery()
+    public function testCreateFilterQuery(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
         $fq = $this->query->createFilterQuery($options);
@@ -654,7 +654,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetSpellcheck()
+    public function testGetSpellcheck(): void
     {
         $this->assertInstanceOf(
             Spellcheck::class,
@@ -662,7 +662,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetSuggester()
+    public function testGetSuggester(): void
     {
         $this->assertInstanceOf(
             Suggester::class,
@@ -670,7 +670,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetTermVector()
+    public function testGetTermVector(): void
     {
         $this->assertInstanceOf(
             TermVector::class,
@@ -678,7 +678,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetDistributedSearch()
+    public function testGetDistributedSearch(): void
     {
         $this->assertInstanceOf(
             DistributedSearch::class,
@@ -686,7 +686,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetStats()
+    public function testGetStats(): void
     {
         $this->assertInstanceOf(
             Stats::class,
@@ -694,7 +694,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetDebug()
+    public function testGetDebug(): void
     {
         $this->assertInstanceOf(
             Debug::class,
@@ -702,7 +702,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetSpatial()
+    public function testGetSpatial(): void
     {
         $this->assertInstanceOf(
             Spatial::class,
@@ -710,7 +710,7 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testGetReRankQuery()
+    public function testGetReRankQuery(): void
     {
         $this->assertInstanceOf(
             ReRankQuery::class,
@@ -726,119 +726,119 @@ abstract class AbstractQueryTestCase extends TestCase
         );
     }
 
-    public function testAddTag()
+    public function testAddTag(): void
     {
         $this->query->addTag('testtag');
         $this->assertSame(['testtag'], $this->query->getTags());
     }
 
-    public function testAddTags()
+    public function testAddTags(): void
     {
         $this->query->addTags(['t1', 't2']);
         $this->assertSame(['t1', 't2'], $this->query->getTags());
     }
 
-    public function testRemoveTag()
+    public function testRemoveTag(): void
     {
         $this->query->addTags(['t1', 't2']);
         $this->query->removeTag('t1');
         $this->assertSame(['t2'], $this->query->getTags());
     }
 
-    public function testClearTags()
+    public function testClearTags(): void
     {
         $this->query->addTags(['t1', 't2']);
         $this->query->clearTags();
         $this->assertSame([], $this->query->getTags());
     }
 
-    public function testSetTags()
+    public function testSetTags(): void
     {
         $this->query->addTags(['t1', 't2']);
         $this->query->setTags(['t3', 't4']);
         $this->assertSame(['t3', 't4'], $this->query->getTags());
     }
 
-    public function testGetDefaultPartialResults()
+    public function testGetDefaultPartialResults(): void
     {
         $this->assertNull($this->query->getPartialResults());
     }
 
-    public function testSetAndGetPartialResults()
+    public function testSetAndGetPartialResults(): void
     {
         $this->query->setPartialResults(true);
         $this->assertTrue($this->query->getPartialResults());
     }
 
-    public function testGetDefaultTimeAllowed()
+    public function testGetDefaultTimeAllowed(): void
     {
         $this->assertNull($this->query->getTimeAllowed());
     }
 
-    public function testSetAndGetTimeAllowed()
+    public function testSetAndGetTimeAllowed(): void
     {
         $this->query->setTimeAllowed(1200);
         $this->assertSame(1200, $this->query->getTimeAllowed());
     }
 
-    public function testGetDefaultCpuAllowed()
+    public function testGetDefaultCpuAllowed(): void
     {
         $this->assertNull($this->query->getCpuAllowed());
     }
 
-    public function testSetAndGetCpuAllowed()
+    public function testSetAndGetCpuAllowed(): void
     {
         $this->query->setCpuAllowed(500);
         $this->assertSame(500, $this->query->getCpuAllowed());
     }
 
-    public function testGetDefaultMemAllowed()
+    public function testGetDefaultMemAllowed(): void
     {
         $this->assertNull($this->query->getMemAllowed());
     }
 
-    public function testSetAndGetMemAllowed()
+    public function testSetAndGetMemAllowed(): void
     {
         $this->query->setMemAllowed(2.5);
         $this->assertSame(2.5, $this->query->getMemAllowed());
     }
 
-    public function testGetDefaultSegmentTerminateEarly()
+    public function testGetDefaultSegmentTerminateEarly(): void
     {
         $this->assertNull($this->query->getSegmentTerminateEarly());
     }
 
-    public function testSetAndGetSegmentTerminateEarly()
+    public function testSetAndGetSegmentTerminateEarly(): void
     {
         $this->query->setSegmentTerminateEarly(true);
         $this->assertTrue($this->query->getSegmentTerminateEarly());
     }
 
-    public function testGetDefaultMultiThreaded()
+    public function testGetDefaultMultiThreaded(): void
     {
         $this->assertNull($this->query->getMultiThreaded());
     }
 
-    public function testSetAndGetMultiThreaded()
+    public function testSetAndGetMultiThreaded(): void
     {
         $this->query->setMultiThreaded(true);
         $this->assertTrue($this->query->getMultiThreaded());
     }
 
-    public function testSetCursorMark()
+    public function testSetCursorMark(): void
     {
         $this->query->setCursorMark('*');
         $this->assertSame('*', $this->query->getCursorMark());
     }
 
-    public function testClearCursorMark()
+    public function testClearCursorMark(): void
     {
         $this->query->setCursorMark('*');
         $this->query->clearCursorMark();
         $this->assertNull($this->query->getCursorMark());
     }
 
-    public function testSetAndGetSplitOnWhitespace()
+    public function testSetAndGetSplitOnWhitespace(): void
     {
         $this->query->setSplitOnWhitespace(false);
         $this->assertFalse($this->query->getSplitOnWhitespace());

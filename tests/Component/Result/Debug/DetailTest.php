@@ -31,22 +31,22 @@ class DetailTest extends TestCase
         );
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $this->assertEquals($this->value, $this->result->getValue());
     }
 
-    public function testGetMatch()
+    public function testGetMatch(): void
     {
         $this->assertEquals($this->match, $this->result->getMatch());
     }
 
-    public function testGetDescription()
+    public function testGetDescription(): void
     {
         $this->assertEquals($this->description, $this->result->getDescription());
     }
 
-    public function testSetSubDetails()
+    public function testSetSubDetails(): void
     {
         $subDetailsDummyArrays = [[
             'match' => false,
@@ -90,12 +90,12 @@ class DetailTest extends TestCase
      *           ["value"]
      *           ["description"]
      */
-    public function testOffsetExists(string $offset)
+    public function testOffsetExists(string $offset): void
     {
         $this->assertTrue($this->result->offsetExists($offset));
     }
 
-    public function testOffsetExistsUnknown()
+    public function testOffsetExistsUnknown(): void
     {
         $this->assertFalse($this->result->offsetExists('unknown'));
     }
@@ -105,12 +105,12 @@ class DetailTest extends TestCase
      *           ["value"]
      *           ["description"]
      */
-    public function testOffsetGet(string $offset)
+    public function testOffsetGet(string $offset): void
     {
         $this->assertSame($this->{$offset}, $this->result->offsetGet($offset));
     }
 
-    public function testOffsetGetUnknown()
+    public function testOffsetGetUnknown(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -122,25 +122,25 @@ class DetailTest extends TestCase
         restore_error_handler();
     }
 
-    public function testOffsetSetImmutable()
+    public function testOffsetSetImmutable(): void
     {
         $this->result->offsetSet('value', 3.0);
         $this->assertSame($this->value, $this->result->getValue());
     }
 
-    public function testOffsetUnsetImmutable()
+    public function testOffsetUnsetImmutable(): void
     {
         $this->result->offsetUnset('value');
         $this->assertSame($this->value, $this->result->getValue());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $expected = '1.500000 <= dummy-desc'.PHP_EOL;
         $this->assertSame($expected, (string) $this->result);
     }
 
-    public function testToStringWithSubDetails()
+    public function testToStringWithSubDetails(): void
     {
         $subDetails = [
             new Detail(true, 3.14, 'dummy-1'),

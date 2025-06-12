@@ -15,39 +15,39 @@ class QueryTest extends AbstractQueryTestCase
         $this->query = new Query();
     }
 
-    public function testSetAndGetFilterMode()
+    public function testSetAndGetFilterMode(): void
     {
         $this->query->setFilterMode(Query::FILTER_MODE_MARK);
         $this->assertSame(Query::FILTER_MODE_MARK, $this->query->getFilterMode());
     }
 
-    public function testSetAndGetFilterRatio()
+    public function testSetAndGetFilterRatio(): void
     {
         $this->query->setFilterRatio(0.345);
         $this->assertSame(0.345, $this->query->getFilterRatio());
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
         $this->assertSame(['score'], $this->query->getFields());
     }
 
-    public function testSetAndGetResultClass()
+    public function testSetAndGetResultClass(): void
     {
         $this->query->setResultClass('MyResult');
         $this->assertSame('MyResult', $this->query->getResultClass());
     }
 
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
         $this->assertSame(['field1', 'field2', 'score'], $this->query->getFields());
     }
 
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
@@ -55,7 +55,7 @@ class QueryTest extends AbstractQueryTestCase
         $this->assertSame(['field2', 'score'], $this->query->getFields());
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
@@ -63,14 +63,14 @@ class QueryTest extends AbstractQueryTestCase
         $this->assertSame(['field3', 'field4', 'score'], $this->query->getFields());
     }
 
-    public function testAddFieldsAsStringWithTrim()
+    public function testAddFieldsAsStringWithTrim(): void
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
         $this->assertSame(['field1', 'field2', 'score'], $this->query->getFields());
     }
 
-    public function testGetComponentsWithGrouping()
+    public function testGetComponentsWithGrouping(): void
     {
         /** @var Grouping&MockObject $mock */
         $mock = $this->getMockBuilder(Grouping::class)

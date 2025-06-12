@@ -18,7 +18,7 @@ class FacetTest extends TestCase
         $this->facet = new TestFacet();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $this->facet->setOptions(['local_key' => 'myKey', 'local_exclude' => ['e1', 'e2']]);
         $this->assertSame('myKey', $this->facet->getKey());
@@ -26,20 +26,20 @@ class FacetTest extends TestCase
         $this->assertEquals(['e1', 'e2'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testConfigModeWithSingleValueExclude()
+    public function testConfigModeWithSingleValueExclude(): void
     {
         $this->facet->setOptions(['local_exclude' => 'e1']);
         $this->assertEquals(['e1'], $this->facet->getExcludes());
         $this->assertEquals(['e1'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testSetAndGetKey()
+    public function testSetAndGetKey(): void
     {
         $this->facet->setKey('testkey');
         $this->assertSame('testkey', $this->facet->getKey());
     }
 
-    public function testAddExclude()
+    public function testAddExclude(): void
     {
         $this->facet->addExclude('e1');
         $this->assertEquals(['e1'], $this->facet->getExcludes());
@@ -50,7 +50,7 @@ class FacetTest extends TestCase
         $this->assertEquals(['e1', 'e2'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testAddExcludes()
+    public function testAddExcludes(): void
     {
         $this->facet->addExcludes(['e1', 'e2']);
         $this->assertEquals(['e1', 'e2'], $this->facet->getExcludes());
@@ -61,7 +61,7 @@ class FacetTest extends TestCase
         $this->assertEquals(['e1', 'e2', 'e3', 'e4'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testSetExcludes()
+    public function testSetExcludes(): void
     {
         $this->facet->setExcludes(['e1', 'e2']);
         $this->assertEquals(['e1', 'e2'], $this->facet->getExcludes());
@@ -72,7 +72,7 @@ class FacetTest extends TestCase
         $this->assertEquals(['e3', 'e4'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testSetAndAddTermsWithEscapedSeparator()
+    public function testSetAndAddTermsWithEscapedSeparator(): void
     {
         $this->facet->setExcludes('e1\,e2,e3');
         $this->assertEquals(['e1\,e2', 'e3'], $this->facet->getExcludes());
@@ -83,7 +83,7 @@ class FacetTest extends TestCase
         $this->assertEquals(['e1\,e2', 'e3', 'e4\,e5', 'e6'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testRemoveExclude()
+    public function testRemoveExclude(): void
     {
         $this->facet->setExcludes(['e1', 'e2']);
         $this->facet->removeExclude('e1');
@@ -91,7 +91,7 @@ class FacetTest extends TestCase
         $this->assertEquals(['e2'], $this->facet->getLocalParameters()->getExcludes());
     }
 
-    public function testClearExcludes()
+    public function testClearExcludes(): void
     {
         $this->facet->setExcludes(['e1', 'e2']);
         $this->facet->clearExcludes();

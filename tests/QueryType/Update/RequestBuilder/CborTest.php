@@ -37,7 +37,7 @@ class CborTest extends TestCase
         $this->builder = new CborRequestBuilder();
     }
 
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -46,7 +46,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testGetContentType()
+    public function testGetContentType(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -55,7 +55,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -71,7 +71,7 @@ class CborTest extends TestCase
      * @see https://www.rfc-editor.org/rfc/rfc8949#section-3.1-2.8
      * @see https://www.rfc-editor.org/rfc/rfc8949#section-5.3.1-2.4
      */
-    public function testBuildWithInputEncoding()
+    public function testBuildWithInputEncoding(): void
     {
         // not setting an input encoding is fine
         $this->builder->build($this->query);
@@ -92,7 +92,7 @@ class CborTest extends TestCase
     /**
      * @dataProvider unsupportedCommandProvider
      */
-    public function testBuildWithUnsupportedCommandType(AbstractCommand $command)
+    public function testBuildWithUnsupportedCommandType(AbstractCommand $command): void
     {
         $this->query->add(null, $command);
 
@@ -112,7 +112,7 @@ class CborTest extends TestCase
         ];
     }
 
-    public function testBuildAddCborNoParamsSingleDocument()
+    public function testBuildAddCborNoParamsSingleDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1]));
@@ -132,7 +132,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithScalarValues()
+    public function testBuildAddCborWithScalarValues(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document([
@@ -168,7 +168,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithEmptyValues()
+    public function testBuildAddCborWithEmptyValues(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 0, 'empty_string' => '', 'empty_array' => [], 'array_of_empty_string' => [''], 'null' => null]));
@@ -193,7 +193,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithParams()
+    public function testBuildAddCborWithParams(): void
     {
         $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
         $command->addDocument(new Document(['id' => 1]));
@@ -215,7 +215,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborMultipleCommandsWithDifferentParams()
+    public function testBuildAddCborMultipleCommandsWithDifferentParams(): void
     {
         $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
         $command->addDocument(new Document(['id' => 1]));
@@ -244,7 +244,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborMultipleCommandsWithAndWithoutParams()
+    public function testBuildAddCborMultipleCommandsWithAndWithoutParams(): void
     {
         $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
         $command->addDocument(new Document(['id' => 1]));
@@ -273,7 +273,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborMultivalueField()
+    public function testBuildAddCborMultivalueField(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => ['test < 123 '.chr(8).' test', 'test '.chr(15).' 123 > test']]));
@@ -294,7 +294,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborMultivalueFieldWithEmptyArray()
+    public function testBuildAddCborMultivalueFieldWithEmptyArray(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => []]));
@@ -315,7 +315,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborMultivalueFieldWithNonConsecutiveArrayIndices()
+    public function testBuildAddCborMultivalueFieldWithNonConsecutiveArrayIndices(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [0 => 1, 4 => 2, 6 => 3], 'text' => [1 => 'a', 2 => 'b', 3 => 'c']]));
@@ -336,7 +336,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithEmptyStrings()
+    public function testBuildAddCborWithEmptyStrings(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => '', 'text' => ['']]));
@@ -357,7 +357,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithSingleNestedDocument()
+    public function testBuildAddCborWithSingleNestedDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -394,7 +394,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithNestedDocuments()
+    public function testBuildAddCborWithNestedDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -450,7 +450,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithSingleAnonymouslyNestedDocument()
+    public function testBuildAddCborWithSingleAnonymouslyNestedDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -488,7 +488,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithAnonymouslyNestedDocuments()
+    public function testBuildAddCborWithAnonymouslyNestedDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -543,7 +543,7 @@ class CborTest extends TestCase
      *
      * @deprecated No longer supported since Solr 7
      */
-    public function testBuildAddCborSingleDocumentWithBoost()
+    public function testBuildAddCborSingleDocumentWithBoost(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setBoost(2.5);
@@ -568,7 +568,7 @@ class CborTest extends TestCase
     /**
      * Field boosts aren't supported in CBOR update requests.
      */
-    public function testBuildAddCborSingleDocumentWithFieldBoost()
+    public function testBuildAddCborSingleDocumentWithFieldBoost(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setFieldBoost('id', 2.1);
@@ -590,7 +590,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborMultipleDocuments()
+    public function testBuildAddCborMultipleDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1]));
@@ -614,7 +614,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithFieldModifiers()
+    public function testBuildAddCborWithFieldModifiers(): void
     {
         $doc = new Document();
         $doc->setKey('id', 1);
@@ -647,7 +647,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithFieldModifiersAndMultivalueFields()
+    public function testBuildAddCborWithFieldModifiersAndMultivalueFields(): void
     {
         $doc = new Document();
         $doc->setKey('id', 1);
@@ -677,7 +677,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithVersionedDocument()
+    public function testBuildAddCborWithVersionedDocument(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setVersion(42);
@@ -701,7 +701,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithVersionMustNotExist()
+    public function testBuildAddCborWithVersionMustNotExist(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
@@ -725,7 +725,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithDateTime()
+    public function testBuildAddCborWithDateTime(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -748,7 +748,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithDateTimeImmutable()
+    public function testBuildAddCborWithDateTimeImmutable(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -771,7 +771,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithMultivalueDateTimes()
+    public function testBuildAddCborWithMultivalueDateTimes(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -797,7 +797,7 @@ class CborTest extends TestCase
         );
     }
 
-    public function testBuildAddCborWithFieldModifierAndNullValue()
+    public function testBuildAddCborWithFieldModifierAndNullValue(): void
     {
         $doc = new Document();
         $doc->setKey('employeeId', '05991');

@@ -16,12 +16,12 @@ class CharFilterTest extends AbstractFilterTestCase
         $this->filter = new CharFilter('CharFilter');
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('CharFilter', $this->filter->getName());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('CharFilter', (string) $this->filter);
     }

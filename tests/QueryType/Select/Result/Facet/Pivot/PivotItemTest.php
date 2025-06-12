@@ -28,22 +28,22 @@ class PivotItemTest extends TestCase
         $this->pivotItem = new PivotItem($this->values);
     }
 
-    public function testGetField()
+    public function testGetField(): void
     {
         $this->assertSame($this->values['field'], $this->pivotItem->getField());
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $this->assertSame($this->values['value'], $this->pivotItem->getValue());
     }
 
-    public function testGetCount()
+    public function testGetCount(): void
     {
         $this->assertSame($this->values['count'], $this->pivotItem->getCount());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->values['pivot'], $this->pivotItem);
     }

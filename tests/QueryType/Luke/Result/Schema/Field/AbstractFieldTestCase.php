@@ -20,21 +20,21 @@ abstract class AbstractFieldTestCase extends TestCase
 
     abstract public function testGetName();
 
-    public function testSetAndGetType()
+    public function testSetAndGetType(): void
     {
         $type = new Type('my_type');
         $this->assertSame($this->field, $this->field->setType($type));
         $this->assertSame($type, $this->field->getType());
     }
 
-    public function testSetAndGetFlags()
+    public function testSetAndGetFlags(): void
     {
         $flags = new FlagList('-', []);
         $this->assertSame($this->field, $this->field->setFlags($flags));
         $this->assertSame($flags, $this->field->getFlags());
     }
 
-    public function testSetAndGetAndIsRequired()
+    public function testSetAndGetAndIsRequired(): void
     {
         $this->assertSame($this->field, $this->field->setRequired(true));
         $this->assertTrue($this->field->getRequired());
@@ -49,7 +49,7 @@ abstract class AbstractFieldTestCase extends TestCase
         $this->assertFalse($this->field->isRequired());
     }
 
-    public function testSetAndGetDefault()
+    public function testSetAndGetDefault(): void
     {
         $this->assertSame($this->field, $this->field->setDefault('0.0'));
         $this->assertSame('0.0', $this->field->getDefault());
@@ -58,7 +58,7 @@ abstract class AbstractFieldTestCase extends TestCase
         $this->assertNull($this->field->getDefault());
     }
 
-    public function testSetAndGetAndIsUniqueKey()
+    public function testSetAndGetAndIsUniqueKey(): void
     {
         $this->assertSame($this->field, $this->field->setUniqueKey(true));
         $this->assertTrue($this->field->getUniqueKey());
@@ -73,7 +73,7 @@ abstract class AbstractFieldTestCase extends TestCase
         $this->assertFalse($this->field->isUniqueKey());
     }
 
-    public function testSetAndGetPositionIncrementGap()
+    public function testSetAndGetPositionIncrementGap(): void
     {
         $this->assertSame($this->field, $this->field->setPositionIncrementGap(42));
         $this->assertSame(42, $this->field->getPositionIncrementGap());
@@ -82,7 +82,7 @@ abstract class AbstractFieldTestCase extends TestCase
         $this->assertNull($this->field->getPositionIncrementGap());
     }
 
-    public function testAddAndGetCopyDests()
+    public function testAddAndGetCopyDests(): void
     {
         $copyDests = [
             $field = new Field('field_a'),
@@ -95,7 +95,7 @@ abstract class AbstractFieldTestCase extends TestCase
         $this->assertSame($copyDests, $this->field->getCopyDests());
     }
 
-    public function testAddAndGetCopySources()
+    public function testAddAndGetCopySources(): void
     {
         $copyDests = [
             $field = new Field('field_a'),

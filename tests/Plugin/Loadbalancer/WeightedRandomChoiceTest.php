@@ -9,7 +9,7 @@ use Solarium\Plugin\Loadbalancer\WeightedRandomChoice;
 
 class WeightedRandomChoiceTest extends TestCase
 {
-    public function testGetRandom()
+    public function testGetRandom(): void
     {
         $choices = ['key1' => 1, 'key2' => 2, 'key3' => 3];
 
@@ -30,7 +30,7 @@ class WeightedRandomChoiceTest extends TestCase
         $this->assertTrue($counts['key2'] < $counts['key3']);
     }
 
-    public function testGetRandomWithExclude()
+    public function testGetRandomWithExclude(): void
     {
         $choices = ['key1' => 1, 'key2' => 1, 'key3' => 300];
         $excludes = ['key3'];
@@ -42,7 +42,7 @@ class WeightedRandomChoiceTest extends TestCase
         $this->assertNotSame($key, 'key3');
     }
 
-    public function testAllEntriesExcluded()
+    public function testAllEntriesExcluded(): void
     {
         $choices = ['key1' => 1, 'key2' => 2, 'key3' => 3];
         $excludes = array_keys($choices);
@@ -53,7 +53,7 @@ class WeightedRandomChoiceTest extends TestCase
         $randomizer->getRandom($excludes);
     }
 
-    public function testInvalidWeigth()
+    public function testInvalidWeigth(): void
     {
         $choices = ['key1' => -1, 'key2' => 2];
         $this->expectException(InvalidArgumentException::class);

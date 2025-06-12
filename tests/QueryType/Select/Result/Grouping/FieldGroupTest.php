@@ -31,7 +31,7 @@ class FieldGroupTest extends TestCase
         $this->group = new FieldGroup($this->matches, $this->numberOfGroups, $this->items);
     }
 
-    public function testGetMatches()
+    public function testGetMatches(): void
     {
         $this->assertSame(
             $this->matches,
@@ -39,7 +39,7 @@ class FieldGroupTest extends TestCase
         );
     }
 
-    public function testGetNumberOfGroups()
+    public function testGetNumberOfGroups(): void
     {
         $this->assertSame(
             $this->numberOfGroups,
@@ -47,7 +47,7 @@ class FieldGroupTest extends TestCase
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->group as $key => $item) {
@@ -57,7 +57,7 @@ class FieldGroupTest extends TestCase
         $this->assertSame($this->items, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->group);
     }

@@ -19,36 +19,36 @@ class ClusterStatusTest extends TestCase
         $this->action = new ClusterStatus();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CollectionsQuery::ACTION_CLUSTERSTATUS, $this->action->getType());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testSetCollection()
+    public function testSetCollection(): void
     {
         $this->action->setCollection('test');
         $this->assertSame('test', $this->action->getCollection());
     }
 
-    public function testSetShard()
+    public function testSetShard(): void
     {
         $this->action->setShard('testshard');
         $this->assertSame('testshard', $this->action->getShard());
     }
 
-    public function testSetRoute()
+    public function testSetRoute(): void
     {
         $this->action->setRoute('testroute');
         $this->assertSame('testroute', $this->action->getRoute());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(ClusterStatusResult::class, $this->action->getResultClass());
     }

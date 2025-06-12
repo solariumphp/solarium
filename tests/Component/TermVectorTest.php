@@ -22,7 +22,7 @@ class TermVectorTest extends TestCase
         $this->termVector->setQueryInstance(new Query());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'docids' => '1, 2',
@@ -49,12 +49,12 @@ class TermVectorTest extends TestCase
         $this->assertTrue($this->termVector->getTermFreqInverseDocFreq());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_TERMVECTOR, $this->termVector->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             RequestBuilder::class,
@@ -62,7 +62,7 @@ class TermVectorTest extends TestCase
         );
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             ResponseParser::class,
@@ -70,79 +70,79 @@ class TermVectorTest extends TestCase
         );
     }
 
-    public function testSetAndGetDocIds()
+    public function testSetAndGetDocIds(): void
     {
         $this->termVector->setDocIds('1, 2');
         $this->assertSame(['1', '2'], $this->termVector->getDocIds());
     }
 
-    public function testSetAndGetDocIdsWithArray()
+    public function testSetAndGetDocIdsWithArray(): void
     {
         $this->termVector->setDocIds([1, 2]);
         $this->assertSame([1, 2], $this->termVector->getDocIds());
     }
 
-    public function testGetDocIdsAlwaysReturnsArray()
+    public function testGetDocIdsAlwaysReturnsArray(): void
     {
         $this->termVector->setDocIds(null);
         $this->assertSame([], $this->termVector->getDocIds());
     }
 
-    public function testSetAndGetFields()
+    public function testSetAndGetFields(): void
     {
         $this->termVector->setFields('fieldA, fieldB');
         $this->assertSame(['fieldA', 'fieldB'], $this->termVector->getFields());
     }
 
-    public function testSetAndGetFieldsWithArray()
+    public function testSetAndGetFieldsWithArray(): void
     {
         $this->termVector->setFields(['fieldA', 'fieldB']);
         $this->assertSame(['fieldA', 'fieldB'], $this->termVector->getFields());
     }
 
-    public function testGetFieldsAlwaysReturnsArray()
+    public function testGetFieldsAlwaysReturnsArray(): void
     {
         $this->termVector->setFields(null);
         $this->assertSame([], $this->termVector->getFields());
     }
 
-    public function testSetAndGetAll()
+    public function testSetAndGetAll(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setAll(true));
         $this->assertTrue($this->termVector->getAll());
     }
 
-    public function testSetAndGetDocumentFrequency()
+    public function testSetAndGetDocumentFrequency(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setDocumentFrequency(true));
         $this->assertTrue($this->termVector->getDocumentFrequency());
     }
 
-    public function testSetAndGetOffsets()
+    public function testSetAndGetOffsets(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setOffsets(true));
         $this->assertTrue($this->termVector->getOffsets());
     }
 
-    public function testSetAndGetPositions()
+    public function testSetAndGetPositions(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setPositions(true));
         $this->assertTrue($this->termVector->getPositions());
     }
 
-    public function testSetAndGetPayloads()
+    public function testSetAndGetPayloads(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setPayloads(true));
         $this->assertTrue($this->termVector->getPayloads());
     }
 
-    public function testSetAndGetTermFrequency()
+    public function testSetAndGetTermFrequency(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setTermFrequency(true));
         $this->assertTrue($this->termVector->getTermFrequency());
     }
 
-    public function testSetAndGetTermFreqInverseDocFreq()
+    public function testSetAndGetTermFreqInverseDocFreq(): void
     {
         $this->assertSame($this->termVector, $this->termVector->setTermFreqInverseDocFreq(true));
         $this->assertTrue($this->termVector->getTermFreqInverseDocFreq());

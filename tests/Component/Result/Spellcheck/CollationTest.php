@@ -30,22 +30,22 @@ class CollationTest extends TestCase
         $this->result = new Collation($this->query, $this->hits, $this->corrections);
     }
 
-    public function testGetQuery()
+    public function testGetQuery(): void
     {
         $this->assertEquals($this->query, $this->result->getQuery());
     }
 
-    public function testGetHits()
+    public function testGetHits(): void
     {
         $this->assertEquals($this->hits, $this->result->getHits());
     }
 
-    public function testGetCorrections()
+    public function testGetCorrections(): void
     {
         $this->assertEquals($this->corrections, $this->result->getCorrections());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -55,7 +55,7 @@ class CollationTest extends TestCase
         $this->assertEquals($this->corrections, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->corrections, $this->result);
     }

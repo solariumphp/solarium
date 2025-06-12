@@ -18,12 +18,12 @@ class DocFieldInfoTest extends TestCase
         $this->docFieldInfo = new DocFieldInfo('fieldA');
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('fieldA', $this->docFieldInfo->getName());
     }
 
-    public function testSetAndGetType()
+    public function testSetAndGetType(): void
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setType('my_type'));
         $this->assertSame('my_type', $this->docFieldInfo->getType());
@@ -32,21 +32,21 @@ class DocFieldInfoTest extends TestCase
         $this->assertNull($this->docFieldInfo->getType());
     }
 
-    public function testSetAndGetSchema()
+    public function testSetAndGetSchema(): void
     {
         $schema = new FlagList('-', []);
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setSchema($schema));
         $this->assertSame($schema, $this->docFieldInfo->getSchema());
     }
 
-    public function testSetAndGetFlags()
+    public function testSetAndGetFlags(): void
     {
         $flags = new FlagList('-', []);
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setFlags($flags));
         $this->assertSame($flags, $this->docFieldInfo->getFlags());
     }
 
-    public function testSetAndGetValue()
+    public function testSetAndGetValue(): void
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setValue('external value'));
         $this->assertSame('external value', $this->docFieldInfo->getValue());
@@ -55,7 +55,7 @@ class DocFieldInfoTest extends TestCase
         $this->assertNull($this->docFieldInfo->getValue());
     }
 
-    public function testSetAndGetInternal()
+    public function testSetAndGetInternal(): void
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setInternal('internal value'));
         $this->assertSame('internal value', $this->docFieldInfo->getInternal());
@@ -64,7 +64,7 @@ class DocFieldInfoTest extends TestCase
         $this->assertNull($this->docFieldInfo->getInternal());
     }
 
-    public function testSetAndGetBinary()
+    public function testSetAndGetBinary(): void
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setBinary('binary value'));
         $this->assertSame('binary value', $this->docFieldInfo->getBinary());
@@ -73,7 +73,7 @@ class DocFieldInfoTest extends TestCase
         $this->assertNull($this->docFieldInfo->getBinary());
     }
 
-    public function testSetAndGetDocFreq()
+    public function testSetAndGetDocFreq(): void
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setDocFreq(5));
         $this->assertSame(5, $this->docFieldInfo->getDocFreq());
@@ -82,7 +82,7 @@ class DocFieldInfoTest extends TestCase
         $this->assertNull($this->docFieldInfo->getDocFreq());
     }
 
-    public function testSetAndGetTermVector()
+    public function testSetAndGetTermVector(): void
     {
         $this->assertSame($this->docFieldInfo, $this->docFieldInfo->setTermVector([]));
         $this->assertSame([], $this->docFieldInfo->getTermVector());
@@ -91,7 +91,7 @@ class DocFieldInfoTest extends TestCase
         $this->assertNull($this->docFieldInfo->getTermVector());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('fieldA: ', (string) $this->docFieldInfo);
 

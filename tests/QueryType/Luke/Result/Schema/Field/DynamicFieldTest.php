@@ -22,27 +22,27 @@ class DynamicFieldTest extends AbstractFieldTestCase
         $this->field = new DynamicField('field_*');
     }
 
-    public function testCopyFieldDest()
+    public function testCopyFieldDest(): void
     {
         $this->assertInstanceOf(CopyFieldDestInterface::class, $this->field);
     }
 
-    public function testCopyFieldSource()
+    public function testCopyFieldSource(): void
     {
         $this->assertInstanceOf(CopyFieldSourceInterface::class, $this->field);
     }
 
-    public function testSchemaField()
+    public function testSchemaField(): void
     {
         $this->assertInstanceOf(SchemaFieldInterface::class, $this->field);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('field_*', $this->field->getName());
     }
 
-    public function testCreateField()
+    public function testCreateField(): void
     {
         $type = new Type('type_a');
         $flags = new FlagList('A-', ['A' => 'A Flag']);
@@ -61,7 +61,7 @@ class DynamicFieldTest extends AbstractFieldTestCase
         $this->assertSame($this->field, $newField->getDynamicBase());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('field_*', (string) $this->field);
     }

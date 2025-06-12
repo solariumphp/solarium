@@ -29,7 +29,7 @@ class SpellcheckTest extends TestCase
      *
      * @param mixed $data
      */
-    public function testParseExtended($data)
+    public function testParseExtended($data): void
     {
         $result = $this->parser->parse($this->query, null, $data);
 
@@ -224,7 +224,7 @@ class SpellcheckTest extends TestCase
      *
      * @param mixed $data
      */
-    public function testParse($data)
+    public function testParse($data): void
     {
         $result = $this->parser->parse($this->query, null, $data);
 
@@ -323,7 +323,7 @@ class SpellcheckTest extends TestCase
      *
      * @param mixed $data
      */
-    public function testParseSingleCollation($data)
+    public function testParseSingleCollation($data): void
     {
         $result = $this->parser->parse($this->query, null, $data);
         $collations = $result->getCollations();
@@ -418,7 +418,7 @@ class SpellcheckTest extends TestCase
         ];
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, null, []);
 

@@ -22,12 +22,12 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_API, $this->query->getType());
     }
 
-    public function testSetGetVersion()
+    public function testSetGetVersion(): void
     {
         $this->assertSame(Request::API_V1, $this->query->getVersion());
 
@@ -35,7 +35,7 @@ class QueryTest extends TestCase
         $this->assertSame(Request::API_V2, $this->query->getVersion());
     }
 
-    public function testSetGetMethod()
+    public function testSetGetMethod(): void
     {
         $this->assertSame(Request::METHOD_GET, $this->query->getMethod());
 
@@ -43,13 +43,13 @@ class QueryTest extends TestCase
         $this->assertSame(Request::METHOD_POST, $this->query->getMethod());
     }
 
-    public function testSetGetAccept()
+    public function testSetGetAccept(): void
     {
         $this->query->setAccept('example/accept');
         $this->assertSame('example/accept', $this->query->getAccept());
     }
 
-    public function testSetAndGetContentType()
+    public function testSetAndGetContentType(): void
     {
         $this->query->setContentType('example/test');
 
@@ -63,7 +63,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetContentTypeWithParams()
+    public function testSetContentTypeWithParams(): void
     {
         $this->query->setContentType('example/params', ['param' => 'value']);
 
@@ -78,7 +78,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetContentTypeWithParamsOverridesParams()
+    public function testSetContentTypeWithParamsOverridesParams(): void
     {
         $this->query->setContentTypeParams(['param' => 'value']);
         $this->query->setContentType('example/params', ['newparam' => 'newvalue']);
@@ -97,7 +97,7 @@ class QueryTest extends TestCase
     /**
      * Test that we don't lose the parameters if they are set before the Content-Type.
      */
-    public function testSetContentTypeWithoutParamsDoesntOverrideParams()
+    public function testSetContentTypeWithoutParamsDoesntOverrideParams(): void
     {
         $this->query->setContentTypeParams(['param' => 'value']);
         $this->query->setContentType('example/params');
@@ -113,7 +113,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetContentTypeParams()
+    public function testSetAndGetContentTypeParams(): void
     {
         $this->query->setContentTypeParams(['param' => 'value']);
 
@@ -123,23 +123,23 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetGetRawData()
+    public function testSetGetRawData(): void
     {
         $this->query->setRawData('raw data');
         $this->assertSame('raw data', $this->query->getRawData());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(Result::class, $this->query->getResultClass());
     }

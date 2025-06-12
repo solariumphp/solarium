@@ -17,12 +17,12 @@ class TokenizerTest extends TestCase
         $this->tokenizer = new Tokenizer('org.example.TokenizerFactory');
     }
 
-    public function testGetClassName()
+    public function testGetClassName(): void
     {
         $this->assertSame('org.example.TokenizerFactory', $this->tokenizer->getClassName());
     }
 
-    public function testSetAndGetArgs()
+    public function testSetAndGetArgs(): void
     {
         $args = [
             'class' => 'TokenizerFactory',
@@ -32,7 +32,7 @@ class TokenizerTest extends TestCase
         $this->assertSame($args, $this->tokenizer->getArgs());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('org.example.TokenizerFactory', (string) $this->tokenizer);
     }

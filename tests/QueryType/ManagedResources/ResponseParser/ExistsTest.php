@@ -10,7 +10,7 @@ use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
 class ExistsTest extends TestCase
 {
-    public function testParseSuccessfulResult()
+    public function testParseSuccessfulResult(): void
     {
         $query = new Query();
         $result = new CommandResult($query, new Response('', ['HTTP/1.1 200 OK']));
@@ -23,7 +23,7 @@ class ExistsTest extends TestCase
         $this->assertSame('OK', $parsed['statusMessage']);
     }
 
-    public function testParseUnsuccessfulResult()
+    public function testParseUnsuccessfulResult(): void
     {
         $query = new Query();
         $result = new CommandResult($query, new Response('', ['HTTP/1.1 404 Not Found']));

@@ -18,7 +18,7 @@ class RangeTest extends TestCase
         $this->facet = new Range();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -47,7 +47,7 @@ class RangeTest extends TestCase
         $this->assertSame([$options['include']], $this->facet->getInclude());
     }
 
-    public function testConfigModeWithExclude()
+    public function testConfigModeWithExclude(): void
     {
         $options = [
             'exclude' => 'e1\,e2,e3',
@@ -58,7 +58,7 @@ class RangeTest extends TestCase
         $this->assertSame(['e1\,e2', 'e3'], $this->facet->getExcludes());
     }
 
-    public function testConfigModeWithExcludeThrowsDeprecation()
+    public function testConfigModeWithExcludeThrowsDeprecation(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -74,7 +74,7 @@ class RangeTest extends TestCase
         restore_error_handler();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::FACET_RANGE,
@@ -82,68 +82,68 @@ class RangeTest extends TestCase
         );
     }
 
-    public function testSetMinCount()
+    public function testSetMinCount(): void
     {
         $this->facet->setMinCount(5);
 
         $this->assertSame(5, $this->facet->getMinCount());
     }
 
-    public function testSetAndGetField()
+    public function testSetAndGetField(): void
     {
         $this->facet->setField('price');
         $this->assertSame('price', $this->facet->getField());
     }
 
-    public function testSetAndGetStart()
+    public function testSetAndGetStart(): void
     {
         $this->facet->setStart(1);
         $this->assertSame('1', $this->facet->getStart());
     }
 
-    public function testSetAndGetEnd()
+    public function testSetAndGetEnd(): void
     {
         $this->facet->setEnd(100);
         $this->assertSame('100', $this->facet->getEnd());
     }
 
-    public function testSetAndGetGap()
+    public function testSetAndGetGap(): void
     {
         $this->facet->setGap(10);
         $this->assertSame('10', $this->facet->getGap());
     }
 
-    public function testSetAndGetHardend()
+    public function testSetAndGetHardend(): void
     {
         $this->facet->setHardend(true);
         $this->assertTrue($this->facet->getHardend());
     }
 
-    public function testSetAndGetOther()
+    public function testSetAndGetOther(): void
     {
         $this->facet->setOther('all');
         $this->assertSame(['all'], $this->facet->getOther());
     }
 
-    public function testSetAndGetOtherArray()
+    public function testSetAndGetOtherArray(): void
     {
         $this->facet->setOther(['before', 'after']);
         $this->assertSame(['before', 'after'], $this->facet->getOther());
     }
 
-    public function testSetAndGetInclude()
+    public function testSetAndGetInclude(): void
     {
         $this->facet->setInclude('all');
         $this->assertSame(['all'], $this->facet->getInclude());
     }
 
-    public function testSetAndGetIncludeArray()
+    public function testSetAndGetIncludeArray(): void
     {
         $this->facet->setInclude(['lower', 'upper']);
         $this->assertSame(['lower', 'upper'], $this->facet->getInclude());
     }
 
-    public function testSetAndGetPivot()
+    public function testSetAndGetPivot(): void
     {
         $this->facet->setPivot(['pivot', 'fields']);
         $this->assertSame(['pivot', 'fields'], $this->facet->getPivot());

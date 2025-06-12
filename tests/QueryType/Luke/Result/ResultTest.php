@@ -25,7 +25,7 @@ class ResultTest extends TestCase
     use InfoDataTrait;
     use SchemaDataTrait;
 
-    public function testWithShowAll()
+    public function testWithShowAll(): void
     {
         $query = new Query();
         $query->setShow(Query::SHOW_ALL);
@@ -50,7 +50,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithShowIndex()
+    public function testWithShowIndex(): void
     {
         $query = new Query();
         $query->setShow(Query::SHOW_INDEX);
@@ -73,7 +73,7 @@ class ResultTest extends TestCase
         $this->assertNull($result->getInfo());
     }
 
-    public function testWithShowSchema()
+    public function testWithShowSchema(): void
     {
         $query = new Query();
         $query->setShow(Query::SHOW_SCHEMA);
@@ -98,7 +98,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithShowDocWithoutIdOrDocId()
+    public function testWithShowDocWithoutIdOrDocId(): void
     {
         $query = new Query();
         $query->setShow(Query::SHOW_DOC);
@@ -123,7 +123,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithShowDocWithId()
+    public function testWithShowDocWithId(): void
     {
         $query = new Query();
         $query->setShow(Query::SHOW_DOC);
@@ -149,7 +149,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithShowDocWithDocId()
+    public function testWithShowDocWithDocId(): void
     {
         $query = new Query();
         $query->setShow(Query::SHOW_DOC);
@@ -175,7 +175,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithoutShowWithoutIdOrDocId()
+    public function testWithoutShowWithoutIdOrDocId(): void
     {
         $query = new Query();
 
@@ -199,7 +199,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithoutShowDocWithId()
+    public function testWithoutShowDocWithId(): void
     {
         $query = new Query();
         $query->setId('NCC-1701');
@@ -224,7 +224,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithoutShowDocWithDocId()
+    public function testWithoutShowDocWithDocId(): void
     {
         $query = new Query();
         $query->setDocId(1701);
@@ -249,7 +249,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(Info::class, $result->getInfo());
     }
 
-    public function testWithUnknownShow()
+    public function testWithUnknownShow(): void
     {
         $query = new Query();
         $query->setShow('unknown');

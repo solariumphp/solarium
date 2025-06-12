@@ -10,7 +10,7 @@ use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
 class CommandTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{ "responseHeader":{ "status":0, "QTime":1}}';
 

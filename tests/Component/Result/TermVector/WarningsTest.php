@@ -22,27 +22,27 @@ class WarningsTest extends TestCase
         $this->warnings = new Warnings($noTermVectors, $noPositions, $noOffsets, $noPayloads);
     }
 
-    public function testGetNoTermVectors()
+    public function testGetNoTermVectors(): void
     {
         $this->assertSame(['fieldA', 'fieldB'], $this->warnings->getNoTermVectors());
     }
 
-    public function testGetNoPositions()
+    public function testGetNoPositions(): void
     {
         $this->assertSame(['fieldC', 'fieldD'], $this->warnings->getNoPositions());
     }
 
-    public function testGetNoOffsets()
+    public function testGetNoOffsets(): void
     {
         $this->assertSame(['fieldE', 'fieldF'], $this->warnings->getNoOffsets());
     }
 
-    public function testGetNoPayloads()
+    public function testGetNoPayloads(): void
     {
         $this->assertSame(['fieldG', 'fieldH'], $this->warnings->getNoPayloads());
     }
 
-    public function testGetEmptyWarnings()
+    public function testGetEmptyWarnings(): void
     {
         $warnings = new Warnings(null, null, null, null);
 
@@ -58,12 +58,12 @@ class WarningsTest extends TestCase
      *           ["noOffsets"]
      *           ["noPayloads"]
      */
-    public function testOffsetExists(string $offset)
+    public function testOffsetExists(string $offset): void
     {
         $this->assertTrue($this->warnings->offsetExists($offset));
     }
 
-    public function testOffsetExistsUnknown()
+    public function testOffsetExistsUnknown(): void
     {
         $this->assertFalse($this->warnings->offsetExists('unknown'));
     }
@@ -74,12 +74,12 @@ class WarningsTest extends TestCase
      *           ["noOffsets", ["fieldE", "fieldF"]]
      *           ["noPayloads", ["fieldG", "fieldH"]]
      */
-    public function testOffsetGet(string $offset, array $expected)
+    public function testOffsetGet(string $offset, array $expected): void
     {
         $this->assertSame($expected, $this->warnings->offsetGet($offset));
     }
 
-    public function testOffsetGetUnknown()
+    public function testOffsetGetUnknown(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -91,13 +91,13 @@ class WarningsTest extends TestCase
         restore_error_handler();
     }
 
-    public function testOffsetSetImmutable()
+    public function testOffsetSetImmutable(): void
     {
         $this->warnings->offsetSet('noTermVectors', ['fieldY', 'fieldZ']);
         $this->assertSame(['fieldA', 'fieldB'], $this->warnings['noTermVectors']);
     }
 
-    public function testOffsetUnsetImmutable()
+    public function testOffsetUnsetImmutable(): void
     {
         $this->warnings->offsetUnset('noTermVectors');
         $this->assertSame(['fieldA', 'fieldB'], $this->warnings['noTermVectors']);

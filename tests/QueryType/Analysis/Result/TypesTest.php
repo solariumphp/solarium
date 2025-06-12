@@ -27,17 +27,17 @@ class TypesTest extends TestCase
         $this->result = new Types($this->name, $this->items);
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $this->assertSame($this->items, $this->result->getItems());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $lists = [];
         foreach ($this->result as $key => $list) {
@@ -47,7 +47,7 @@ class TypesTest extends TestCase
         $this->assertSame($this->items, $lists);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame(
             $this->name,
@@ -55,7 +55,7 @@ class TypesTest extends TestCase
         );
     }
 
-    public function testGetIndexAnalysis()
+    public function testGetIndexAnalysis(): void
     {
         $this->assertSame(
             $this->items['index'],
@@ -63,7 +63,7 @@ class TypesTest extends TestCase
         );
     }
 
-    public function testGetIndexAnalysisNoData()
+    public function testGetIndexAnalysisNoData(): void
     {
         $items = [
             'index' => new TestAnalysisTypeInvalidDummy(),
@@ -76,7 +76,7 @@ class TypesTest extends TestCase
         );
     }
 
-    public function testGetQueryAnalysis()
+    public function testGetQueryAnalysis(): void
     {
         $this->assertSame(
             $this->items['query'],
@@ -84,7 +84,7 @@ class TypesTest extends TestCase
         );
     }
 
-    public function testGetQueryAnalysisNoData()
+    public function testGetQueryAnalysisNoData(): void
     {
         $items = [
             'index' => new TestAnalysisTypeValidDummy('index', []),

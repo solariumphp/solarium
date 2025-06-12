@@ -52,17 +52,17 @@ class RangeTest extends TestCase
         );
     }
 
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $this->assertSame($this->values, $this->facet->getValues());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->values, $this->facet);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $values = [];
         foreach ($this->facet as $key => $value) {
@@ -72,32 +72,32 @@ class RangeTest extends TestCase
         $this->assertSame($this->values, $values);
     }
 
-    public function testGetBefore()
+    public function testGetBefore(): void
     {
         $this->assertSame($this->before, $this->facet->getBefore());
     }
 
-    public function testGetAfter()
+    public function testGetAfter(): void
     {
         $this->assertSame($this->after, $this->facet->getAfter());
     }
 
-    public function testGetBetween()
+    public function testGetBetween(): void
     {
         $this->assertSame($this->between, $this->facet->getBetween());
     }
 
-    public function testGetStart()
+    public function testGetStart(): void
     {
         $this->assertSame($this->start, $this->facet->getStart());
     }
 
-    public function testGetEnd()
+    public function testGetEnd(): void
     {
         $this->assertSame($this->end, $this->facet->getEnd());
     }
 
-    public function testGetGap()
+    public function testGetGap(): void
     {
         $this->assertSame($this->gap, $this->facet->getGap());
     }

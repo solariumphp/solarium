@@ -33,13 +33,13 @@ class PluginTest extends TestCase
         $this->plugin->initPlugin($this->client, $this->options);
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertSame($this->client, $this->plugin->getClient());
         $this->assertSame($this->options, $this->plugin->getOptions());
     }
 
-    public function testInitPluginType()
+    public function testInitPluginType(): void
     {
         $this->assertFalse($this->plugin->eventReceived);
         $this->client->createSelect();

@@ -10,7 +10,7 @@ use Solarium\QueryType\MoreLikeThis\Result;
 
 class ResultTest extends TestCase
 {
-    public function testGetInterestingTerms()
+    public function testGetInterestingTerms(): void
     {
         $query = new Query();
         $query->setInterestingTerms('list');
@@ -20,7 +20,7 @@ class ResultTest extends TestCase
         $this->assertEmpty($result->getInterestingTerms());
     }
 
-    public function testGetInterestingTermsException()
+    public function testGetInterestingTermsException(): void
     {
         $query = new Query();
         $query->setInterestingTerms('none');
@@ -32,7 +32,7 @@ class ResultTest extends TestCase
         $result->getInterestingTerms();
     }
 
-    public function testGetMatch()
+    public function testGetMatch(): void
     {
         $query = new Query();
         $query->setMatchInclude(true);
@@ -41,7 +41,7 @@ class ResultTest extends TestCase
         $this->assertEmpty($result->getMatch());
     }
 
-    public function testGetMatchException()
+    public function testGetMatchException(): void
     {
         $query = new Query();
         $query->setMatchInclude(false);
@@ -52,7 +52,7 @@ class ResultTest extends TestCase
         $result->getMatch();
     }
 
-    public function testGetQuery()
+    public function testGetQuery(): void
     {
         $query = new Query();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP/1.1 200 OK']);

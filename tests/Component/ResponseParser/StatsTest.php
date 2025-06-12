@@ -25,7 +25,7 @@ class StatsTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'stats' => [
@@ -91,13 +91,13 @@ class StatsTest extends TestCase
         $this->assertEquals('2006-01-15T12:49:38.727Z', $result->getResult('fieldD')->getMean());
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, null, []);
         $this->assertCount(0, $result);
     }
 
-    public function testParseNoQuery()
+    public function testParseNoQuery(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A valid query object needs to be provided.');

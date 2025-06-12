@@ -28,40 +28,40 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_MORELIKETHIS, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\MoreLikeThis\ResponseParser', $this->query->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\MoreLikeThis\RequestBuilder', $this->query->getRequestBuilder());
     }
 
-    public function testSetAndGetStart()
+    public function testSetAndGetStart(): void
     {
         $this->query->setStart(234);
         $this->assertSame(234, $this->query->getStart());
     }
 
-    public function testSetAndGetQueryWithTrim()
+    public function testSetAndGetQueryWithTrim(): void
     {
         $this->query->setQuery(' *:* ');
         $this->assertSame('*:*', $this->query->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->query->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->query->getQuery());
     }
 
-    public function testSetAndGetQueryDefaultOperator()
+    public function testSetAndGetQueryDefaultOperator(): void
     {
         $value = Query::QUERY_OPERATOR_AND;
 
@@ -69,7 +69,7 @@ class QueryTest extends TestCase
         $this->assertSame($value, $this->query->getQueryDefaultOperator());
     }
 
-    public function testSetAndGetQueryDefaultField()
+    public function testSetAndGetQueryDefaultField(): void
     {
         $value = 'mydefault';
 
@@ -77,25 +77,25 @@ class QueryTest extends TestCase
         $this->assertSame($value, $this->query->getQueryDefaultField());
     }
 
-    public function testSetAndGetResultClass()
+    public function testSetAndGetResultClass(): void
     {
         $this->query->setResultClass('MyResult');
         $this->assertSame('MyResult', $this->query->getResultClass());
     }
 
-    public function testSetAndGetDocumentClass()
+    public function testSetAndGetDocumentClass(): void
     {
         $this->query->setDocumentClass('MyDocument');
         $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
-    public function testSetAndGetRows()
+    public function testSetAndGetRows(): void
     {
         $this->query->setRows(100);
         $this->assertSame(100, $this->query->getRows());
     }
 
-    public function testAddField()
+    public function testAddField(): void
     {
         $expectedFields = $this->query->getFields();
         $expectedFields[] = 'newfield';
@@ -103,14 +103,14 @@ class QueryTest extends TestCase
         $this->assertSame($expectedFields, $this->query->getFields());
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $this->query->addField('newfield');
         $this->query->clearFields();
         $this->assertSame([], $this->query->getFields());
     }
 
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $fields = ['field1', 'field2'];
 
@@ -119,14 +119,14 @@ class QueryTest extends TestCase
         $this->assertSame($fields, $this->query->getFields());
     }
 
-    public function testAddFieldsAsStringWithTrim()
+    public function testAddFieldsAsStringWithTrim(): void
     {
         $this->query->clearFields();
         $this->query->addFields('field1, field2');
         $this->assertSame(['field1', 'field2'], $this->query->getFields());
     }
 
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
@@ -134,7 +134,7 @@ class QueryTest extends TestCase
         $this->assertSame(['field2'], $this->query->getFields());
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $this->query->clearFields();
         $this->query->addFields(['field1', 'field2']);
@@ -142,7 +142,7 @@ class QueryTest extends TestCase
         $this->assertSame(['field3', 'field4'], $this->query->getFields());
     }
 
-    public function testAddSort()
+    public function testAddSort(): void
     {
         $this->query->addSort('field1', Query::SORT_DESC);
         $this->assertSame(
@@ -151,7 +151,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddSorts()
+    public function testAddSorts(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -165,7 +165,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveSort()
+    public function testRemoveSort(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -180,7 +180,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveInvalidSort()
+    public function testRemoveInvalidSort(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -195,7 +195,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testClearSorts()
+    public function testClearSorts(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -210,7 +210,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetSorts()
+    public function testSetSorts(): void
     {
         $sorts = [
             'field1' => Query::SORT_DESC,
@@ -225,7 +225,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddAndGetFilterQuery()
+    public function testAddAndGetFilterQuery(): void
     {
         $fq = new FilterQuery();
         $fq->setKey('fq1')->setQuery('category:1');
@@ -237,7 +237,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddAndGetFilterQueryWithKey()
+    public function testAddAndGetFilterQueryWithKey(): void
     {
         $key = 'fq1';
 
@@ -255,7 +255,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddFilterQueryWithoutKey()
+    public function testAddFilterQueryWithoutKey(): void
     {
         $fq = new FilterQuery();
         $fq->setQuery('category:1');
@@ -264,7 +264,7 @@ class QueryTest extends TestCase
         $this->query->addFilterQuery($fq);
     }
 
-    public function testAddFilterQueryWithEmptyKey()
+    public function testAddFilterQueryWithEmptyKey(): void
     {
         $fq = new FilterQuery();
         $fq->setKey('')->setQuery('category:1');
@@ -273,7 +273,7 @@ class QueryTest extends TestCase
         $this->query->addFilterQuery($fq);
     }
 
-    public function testAddFilterQueryWithUsedKey()
+    public function testAddFilterQueryWithUsedKey(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -286,14 +286,14 @@ class QueryTest extends TestCase
         $this->query->addFilterQuery($fq2);
     }
 
-    public function testGetInvalidFilterQuery()
+    public function testGetInvalidFilterQuery(): void
     {
         $this->assertNull(
             $this->query->getFilterQuery('invalidtag')
         );
     }
 
-    public function testAddFilterQueries()
+    public function testAddFilterQueries(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -310,7 +310,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveFilterQuery()
+    public function testRemoveFilterQuery(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -328,7 +328,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveFilterQueryWithObjectInput()
+    public function testRemoveFilterQueryWithObjectInput(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -346,7 +346,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveInvalidFilterQuery()
+    public function testRemoveInvalidFilterQuery(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -364,7 +364,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testClearFilterQueries()
+    public function testClearFilterQueries(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -382,7 +382,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetFilterQueries()
+    public function testSetFilterQueries(): void
     {
         $fq1 = new FilterQuery();
         $fq1->setKey('fq1')->setQuery('category:1');
@@ -410,7 +410,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $config = [
             'query' => 'text:mykeyword',
@@ -462,7 +462,7 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(FacetSet::class, array_pop($components));
     }
 
-    public function testSetAndGetComponents()
+    public function testSetAndGetComponents(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -473,7 +473,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetComponent()
+    public function testSetAndGetComponent(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -484,20 +484,20 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetInvalidComponent()
+    public function testGetInvalidComponent(): void
     {
         $this->assertNull(
             $this->query->getComponent('invalid')
         );
     }
 
-    public function testGetInvalidComponentAutoload()
+    public function testGetInvalidComponentAutoload(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $this->query->getComponent('invalid', true);
     }
 
-    public function testRemoveComponent()
+    public function testRemoveComponent(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -515,7 +515,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveComponentWithObjectInput()
+    public function testRemoveComponentWithObjectInput(): void
     {
         $mlt = new MoreLikeThis();
         $this->query->setComponent('mlt', $mlt);
@@ -533,7 +533,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetMoreLikeThis()
+    public function testGetMoreLikeThis(): void
     {
         $this->assertInstanceOf(
             MoreLikeThis::class,
@@ -541,7 +541,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetDisMax()
+    public function testGetDisMax(): void
     {
         $this->assertInstanceOf(
             DisMax::class,
@@ -549,7 +549,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetHighlighting()
+    public function testGetHighlighting(): void
     {
         $this->assertInstanceOf(
             Highlighting::class,
@@ -557,7 +557,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetGrouping()
+    public function testGetGrouping(): void
     {
         $this->assertInstanceOf(
             Grouping::class,
@@ -565,7 +565,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRegisterComponentType()
+    public function testRegisterComponentType(): void
     {
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
@@ -578,7 +578,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testCreateFilterQuery()
+    public function testCreateFilterQuery(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
         $fq = $this->query->createFilterQuery($options);
@@ -594,7 +594,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetSpellcheck()
+    public function testGetSpellcheck(): void
     {
         $this->assertInstanceOf(
             Spellcheck::class,
@@ -602,7 +602,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetDistributedSearch()
+    public function testGetDistributedSearch(): void
     {
         $this->assertInstanceOf(
             DistributedSearch::class,
@@ -610,7 +610,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetStats()
+    public function testGetStats(): void
     {
         $this->assertInstanceOf(
             Stats::class,
@@ -618,7 +618,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetDebug()
+    public function testGetDebug(): void
     {
         $this->assertInstanceOf(
             Debug::class,
@@ -626,7 +626,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetMltFieldsAlwaysReturnsArray()
+    public function testGetMltFieldsAlwaysReturnsArray(): void
     {
         $this->assertSame(
             [],
@@ -634,7 +634,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMltFields()
+    public function testSetAndGetMltFields(): void
     {
         $value = 'name,description';
         $this->query->setMltFields($value);
@@ -645,7 +645,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMltFieldsWithArray()
+    public function testSetAndGetMltFieldsWithArray(): void
     {
         $value = ['name', 'description'];
         $this->query->setMltFields($value);
@@ -656,13 +656,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryStream()
+    public function testSetAndGetQueryStream(): void
     {
         $this->query->setQueryStream(true);
         $this->assertTrue($this->query->getQueryStream());
     }
 
-    public function testSetAndGetMinimumTermFrequency()
+    public function testSetAndGetMinimumTermFrequency(): void
     {
         $value = 2;
         $this->query->setMinimumTermFrequency($value);
@@ -673,7 +673,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMinimumDocumentFrequency()
+    public function testSetAndGetMinimumDocumentFrequency(): void
     {
         $value = 4;
         $this->query->setMinimumDocumentFrequency($value);
@@ -684,7 +684,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumDocumentFrequency()
+    public function testSetAndGetMaximumDocumentFrequency(): void
     {
         $value = 4;
         $this->query->setMaximumDocumentFrequency($value);
@@ -695,7 +695,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumDocumentFrequencyPercentage()
+    public function testSetAndGetMaximumDocumentFrequencyPercentage(): void
     {
         $value = 75;
         $this->query->setMaximumDocumentFrequencyPercentage($value);
@@ -710,14 +710,14 @@ class QueryTest extends TestCase
      * @testWith [-5]
      *           [120]
      */
-    public function testSetAndGetMaximumDocumentFrequencyPercentageDomainException(int $value)
+    public function testSetAndGetMaximumDocumentFrequencyPercentageDomainException(int $value): void
     {
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage(sprintf('Maximum percentage %d is not between 0 and 100.', $value));
         $this->query->setMaximumDocumentFrequencyPercentage($value);
     }
 
-    public function testSetAndGetMinimumWordLength()
+    public function testSetAndGetMinimumWordLength(): void
     {
         $value = 3;
         $this->query->setMinimumWordLength($value);
@@ -728,7 +728,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumWordLength()
+    public function testSetAndGetMaximumWordLength(): void
     {
         $value = 15;
         $this->query->setMaximumWordLength($value);
@@ -739,7 +739,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumQueryTerms()
+    public function testSetAndGetMaximumQueryTerms(): void
     {
         $value = 5;
         $this->query->setMaximumQueryTerms($value);
@@ -750,7 +750,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumNumberOfTokens()
+    public function testSetAndGetMaximumNumberOfTokens(): void
     {
         $value = 5;
         $this->query->setMaximumNumberOfTokens($value);
@@ -761,13 +761,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetBoost()
+    public function testSetAndGetBoost(): void
     {
         $this->query->setBoost(true);
         $this->assertTrue($this->query->getBoost());
     }
 
-    public function testGetQueryFieldsAlwaysReturnsArray()
+    public function testGetQueryFieldsAlwaysReturnsArray(): void
     {
         $this->query->setQueryFields(null);
 
@@ -777,7 +777,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryFields()
+    public function testSetAndGetQueryFields(): void
     {
         $value = 'content,name';
         $this->query->setQueryFields($value);
@@ -788,7 +788,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryFieldsWithArray()
+    public function testSetAndGetQueryFieldsWithArray(): void
     {
         $value = ['content', 'name'];
         $this->query->setQueryFields($value);
@@ -799,13 +799,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetMatchInclude()
+    public function testSetAndGetMatchInclude(): void
     {
         $this->query->setMatchInclude(true);
         $this->assertTrue($this->query->getMatchInclude());
     }
 
-    public function testSetAndGetMatchOffset()
+    public function testSetAndGetMatchOffset(): void
     {
         $value = 20;
         $this->query->setMatchOffset($value);
@@ -816,7 +816,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetInterestingTerms()
+    public function testSetAndGetInterestingTerms(): void
     {
         $value = 'test';
         $this->query->setInterestingTerms($value);

@@ -16,12 +16,12 @@ class QueryAnalyzerTest extends AbstractAnalyzerTestCase
         $this->analyzer = new QueryAnalyzer('org.example.QueryAnalyzerClass');
     }
 
-    public function testGetClassName()
+    public function testGetClassName(): void
     {
         $this->assertSame('org.example.QueryAnalyzerClass', $this->analyzer->getClassName());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('org.example.QueryAnalyzerClass', (string) $this->analyzer);
     }

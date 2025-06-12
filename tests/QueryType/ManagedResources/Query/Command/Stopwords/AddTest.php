@@ -17,35 +17,35 @@ class AddTest extends TestCase
         $this->add = new Add();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_ADD, $this->add->getType());
     }
 
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_PUT, $this->add->getRequestMethod());
     }
 
-    public function testSetAndGetStopwords()
+    public function testSetAndGetStopwords(): void
     {
         $this->add->setStopwords(['de']);
         $this->assertSame(['de'], $this->add->getStopwords());
     }
 
-    public function testGetRawData()
+    public function testGetRawData(): void
     {
         $this->add->setStopwords(['de']);
         $this->assertSame('["de"]', $this->add->getRawData());
     }
 
-    public function testGetRawDataEmptyStopwords()
+    public function testGetRawDataEmptyStopwords(): void
     {
         $this->add->setStopwords([]);
         $this->assertNull($this->add->getRawData());
     }
 
-    public function testGetRawDataNoStopwords()
+    public function testGetRawDataNoStopwords(): void
     {
         $this->assertNull($this->add->getRawData());
     }

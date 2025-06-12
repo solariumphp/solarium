@@ -29,49 +29,49 @@ class StopwordsTest extends TestCase
         $this->query = new Stopwords();
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $this->assertEquals(Client::QUERY_MANAGED_STOPWORDS, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(StopwordsResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithTerm()
+    public function testGetResponseParserWithTerm(): void
     {
         $this->query->setTerm('test');
         $this->assertInstanceOf(StopwordResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithCommand()
+    public function testGetResponseParserWithCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
         $this->query->setCommand($command);
         $this->assertInstanceOf(CommandResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithExistsCommand()
+    public function testGetResponseParserWithExistsCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_EXISTS);
         $this->query->setCommand($command);
         $this->assertInstanceOf(ExistsResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithRemoveCommand()
+    public function testGetResponseParserWithRemoveCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_REMOVE);
         $this->query->setCommand($command);
         $this->assertInstanceOf(RemoveResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserAfterRemovingCommand()
+    public function testGetResponseParserAfterRemovingCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
         $this->query->setCommand($command);
@@ -79,26 +79,26 @@ class StopwordsTest extends TestCase
         $this->assertInstanceOf(StopwordsResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testSetAndGetName()
+    public function testSetAndGetName(): void
     {
         $this->query->setName('test');
         $this->assertSame('test', $this->query->getName());
     }
 
-    public function testSetAndGetTerm()
+    public function testSetAndGetTerm(): void
     {
         $this->query->setTerm('test');
         $this->assertSame('test', $this->query->getTerm());
     }
 
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->query->setTerm('test');
         $this->query->removeTerm();
         $this->assertNull($this->query->getTerm());
     }
 
-    public function testCommand()
+    public function testCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
         $this->query->setCommand($command);
@@ -107,56 +107,56 @@ class StopwordsTest extends TestCase
         $this->assertNull($this->query->getCommand());
     }
 
-    public function testAddCommand()
+    public function testAddCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_ADD);
         $this->assertInstanceOf(Add::class, $command);
     }
 
-    public function testConfigCommand()
+    public function testConfigCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_CONFIG);
         $this->assertInstanceOf(Config::class, $command);
     }
 
-    public function testCreateCommand()
+    public function testCreateCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_CREATE);
         $this->assertInstanceOf(Create::class, $command);
     }
 
-    public function testDeleteCommand()
+    public function testDeleteCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_DELETE);
         $this->assertInstanceOf(Delete::class, $command);
     }
 
-    public function testExistsCommand()
+    public function testExistsCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_EXISTS);
         $this->assertInstanceOf(Exists::class, $command);
     }
 
-    public function testRemoveCommand()
+    public function testRemoveCommand(): void
     {
         $command = $this->query->createCommand(Stopwords::COMMAND_REMOVE);
         $this->assertInstanceOf(Remove::class, $command);
     }
 
-    public function testUnknownCommand()
+    public function testUnknownCommand(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $command = $this->query->createCommand('unknowncommand');
     }
 
-    public function testCreateInitArgs()
+    public function testCreateInitArgs(): void
     {
         $initArgs = $this->query->createInitArgs();
         $this->assertInstanceOf(InitArgs::class, $initArgs);
         $this->assertEquals([], $initArgs->getInitArgs());
     }
 
-    public function testCreateInitArgsWithArgs()
+    public function testCreateInitArgsWithArgs(): void
     {
         $initArgs = $this->query->createInitArgs(['ignoreCase' => true]);
         $this->assertInstanceOf(InitArgs::class, $initArgs);

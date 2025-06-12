@@ -9,7 +9,7 @@ use Solarium\QueryType\Analysis\ResponseParser\Field as FieldParser;
 
 class FieldTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'analysis' => [
@@ -70,7 +70,7 @@ class FieldTest extends TestCase
         $this->assertSame('test2', $class2items[1]->getText());
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $data = [
             'responseHeader' => [

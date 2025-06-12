@@ -71,7 +71,7 @@ class PostBigExtractRequestTest extends TestCase
     /**
      * @depends testInitPlugin
      */
-    public function testDeinitPlugin(Client $client)
+    public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('postbigextractrequest');
 
@@ -81,13 +81,13 @@ class PostBigExtractRequestTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaxQueryStringLength()
+    public function testSetAndGetMaxQueryStringLength(): void
     {
         $this->plugin->setMaxQueryStringLength(512);
         $this->assertSame(512, $this->plugin->getMaxQueryStringLength());
     }
 
-    public function testPostCreateRequest()
+    public function testPostCreateRequest(): void
     {
         $document = $this->query->createDocument();
         $document->field_1 = 'Field 1';
@@ -173,7 +173,7 @@ REGEX;
         unlink($tmpfname);
     }
 
-    public function testPostCreateRequestInputEncoding()
+    public function testPostCreateRequestInputEncoding(): void
     {
         $this->query->setInputEncoding('ascii');
 
@@ -246,7 +246,7 @@ REGEX;
         unlink($tmpfname);
     }
 
-    public function testPostCreateRequestUnalteredSmallRequest()
+    public function testPostCreateRequestUnalteredSmallRequest(): void
     {
         $this->query->setFile(__FILE__);
         $requestOutput = $this->client->createRequest($this->query);
@@ -257,7 +257,7 @@ REGEX;
         $this->assertEquals($requestInput, $requestOutput);
     }
 
-    public function testPostCreateRequestUnalteredPostRequest()
+    public function testPostCreateRequestUnalteredPostRequest(): void
     {
         $query = $this->client->createUpdate();
         $query->addDeleteById(1);
@@ -270,7 +270,7 @@ REGEX;
         $this->assertEquals($requestInput, $requestOutput);
     }
 
-    public function testPluginIntegration()
+    public function testPluginIntegration(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $client->registerPlugin('testplugin', $this->plugin);

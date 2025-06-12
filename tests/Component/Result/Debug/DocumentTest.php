@@ -39,17 +39,17 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testGetKey()
+    public function testGetKey(): void
     {
         $this->assertEquals($this->key, $this->result->getKey());
     }
 
-    public function testGetDetails()
+    public function testGetDetails(): void
     {
         $this->assertEquals($this->details, $this->result->getDetails());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -59,12 +59,12 @@ class DocumentTest extends TestCase
         $this->assertEquals($this->details, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->details, $this->result);
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $expected = '  dummy1'.PHP_EOL.'  dummy2'.PHP_EOL;
 

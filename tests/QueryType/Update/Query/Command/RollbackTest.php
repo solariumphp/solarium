@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class RollbackTest extends TestCase
 {
-    public function testGetType()
+    public function testGetType(): void
     {
         $command = new Rollback();
         $this->assertSame(
