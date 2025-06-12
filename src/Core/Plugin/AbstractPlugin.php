@@ -32,7 +32,7 @@ abstract class AbstractPlugin extends Configurable implements PluginInterface
      * @param ClientInterface $client
      * @param array           $options
      */
-    public function initPlugin(ClientInterface $client, array $options)
+    public function initPlugin(ClientInterface $client, array $options): void
     {
         $this->client = $client;
         parent::__construct($options);

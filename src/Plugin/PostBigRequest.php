@@ -107,7 +107,7 @@ class PostBigRequest extends AbstractPlugin
      *
      * Unregister event listeners.
      */
-    public function deinitPlugin()
+    public function deinitPlugin(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
         if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {

@@ -135,7 +135,7 @@ class PostBigExtractRequest extends AbstractPlugin
      *
      * Unregister event listeners.
      */
-    public function deinitPlugin()
+    public function deinitPlugin(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
