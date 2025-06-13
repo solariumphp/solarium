@@ -8,7 +8,7 @@ abstract class AbstractResultTestCase extends TestCase
 {
     protected $result;
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -16,7 +16,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,

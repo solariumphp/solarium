@@ -23,7 +23,7 @@ class PreFlushTest extends TestCase
      *
      * @param PreFlush $event
      */
-    public function testSetAndGetBuffer($event)
+    public function testSetAndGetBuffer($event): void
     {
         $buffer = [4, 5, 6];
         $event->setBuffer($buffer);

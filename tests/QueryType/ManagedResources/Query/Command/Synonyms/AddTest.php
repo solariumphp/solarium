@@ -22,23 +22,23 @@ class AddTest extends TestCase
         $this->synonyms = new Synonyms();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_ADD, $this->add->getType());
     }
 
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_PUT, $this->add->getRequestMethod());
     }
 
-    public function testSetAndGetSynonyms()
+    public function testSetAndGetSynonyms(): void
     {
         $this->add->setSynonyms($this->synonyms);
         $this->assertSame($this->synonyms, $this->add->getSynonyms());
     }
 
-    public function testGetRawData()
+    public function testGetRawData(): void
     {
         $this->synonyms->setTerm('mad');
         $this->synonyms->setSynonyms(['angry', 'upset']);
@@ -46,7 +46,7 @@ class AddTest extends TestCase
         $this->assertSame('{"mad":["angry","upset"]}', $this->add->getRawData());
     }
 
-    public function testGetRawDataEmptyTerm()
+    public function testGetRawDataEmptyTerm(): void
     {
         $this->synonyms->setTerm('');
         $this->synonyms->setSynonyms(['angry', 'upset']);
@@ -54,21 +54,21 @@ class AddTest extends TestCase
         $this->assertSame('["angry","upset"]', $this->add->getRawData());
     }
 
-    public function testGetRawDataNoTerm()
+    public function testGetRawDataNoTerm(): void
     {
         $this->synonyms->setSynonyms(['funny', 'entertaining', 'whimsical', 'jocular']);
         $this->add->setSynonyms($this->synonyms);
         $this->assertSame('["funny","entertaining","whimsical","jocular"]', $this->add->getRawData());
     }
 
-    public function testGetRawDataEmptySynonyms()
+    public function testGetRawDataEmptySynonyms(): void
     {
         $this->synonyms->setSynonyms([]);
         $this->add->setSynonyms($this->synonyms);
         $this->assertNull($this->add->getRawData());
     }
 
-    public function testGetRawDataNoSynonyms()
+    public function testGetRawDataNoSynonyms(): void
     {
         $this->assertNull($this->add->getRawData());
     }

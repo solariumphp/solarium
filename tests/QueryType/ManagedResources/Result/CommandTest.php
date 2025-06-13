@@ -14,12 +14,12 @@ class CommandTest extends TestCase
         $this->result = new CommandResultDummy();
     }
 
-    public function testGetWasSuccessful()
+    public function testGetWasSuccessful(): void
     {
         $this->assertTrue($this->result->getWasSuccessful());
     }
 
-    public function testGetStatusMessage()
+    public function testGetStatusMessage(): void
     {
         $this->assertSame('OK', $this->result->getStatusMessage());
     }

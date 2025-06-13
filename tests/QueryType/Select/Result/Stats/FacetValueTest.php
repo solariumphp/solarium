@@ -44,67 +44,67 @@ class FacetValueTest extends TestCase
         $this->result = new FacetValue($this->value, $this->stats);
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $this->assertSame($this->value, $this->result->getValue());
     }
 
-    public function testGetMin()
+    public function testGetMin(): void
     {
         $this->assertSame($this->stats['min'], $this->result->getMin());
     }
 
-    public function testGetMax()
+    public function testGetMax(): void
     {
         $this->assertSame($this->stats['max'], $this->result->getMax());
     }
 
-    public function testGetSum()
+    public function testGetSum(): void
     {
         $this->assertSame($this->stats['sum'], $this->result->getSum());
     }
 
-    public function testGetCount()
+    public function testGetCount(): void
     {
         $this->assertSame($this->stats['count'], $this->result->getCount());
     }
 
-    public function testGetMissing()
+    public function testGetMissing(): void
     {
         $this->assertSame($this->stats['missing'], $this->result->getMissing());
     }
 
-    public function testGetSumOfSquares()
+    public function testGetSumOfSquares(): void
     {
         $this->assertSame($this->stats['sumOfSquares'], $this->result->getSumOfSquares());
     }
 
-    public function testGetMean()
+    public function testGetMean(): void
     {
         $this->assertSame($this->stats['mean'], $this->result->getMean());
     }
 
-    public function testGetStddev()
+    public function testGetStddev(): void
     {
         $this->assertSame($this->stats['stddev'], $this->result->getStddev());
     }
 
-    public function testGetPercentiles()
+    public function testGetPercentiles(): void
     {
         $this->assertSame($this->stats['percentiles'], $this->result->getPercentiles());
     }
 
-    public function testGetDistinctValues()
+    public function testGetDistinctValues(): void
     {
         $this->assertSame($this->stats['distinctValues'], $this->result->getDistinctValues());
     }
 
-    public function testGetCountDistinct()
+    public function testGetCountDistinct(): void
     {
         $this->assertSame($this->stats['countDistinct'], $this->result->getCountDistinct());
     }
 
-    public function testGetCardinality()
+    public function testGetCardinality(): void
     {
         $this->assertSame($this->stats['cardinality'], $this->result->getCardinality());
     }
@@ -112,17 +112,17 @@ class FacetValueTest extends TestCase
     /**
      * @deprecated Will be removed in Solarium 7
      */
-    public function testGetFacets()
+    public function testGetFacets(): void
     {
         $this->assertNull($this->result->getFacets());
     }
 
-    public function testGetStatValue()
+    public function testGetStatValue(): void
     {
         $this->assertSame($this->stats['dummy'], $this->result->getStatValue('dummy'));
     }
 
-    public function testGetStatValueUnknown()
+    public function testGetStatValueUnknown(): void
     {
         $this->assertNull($this->result->getStatValue('unknown'));
     }
@@ -130,7 +130,7 @@ class FacetValueTest extends TestCase
     /**
      * Test stats that return a string value for string fields.
      */
-    public function testStringStats()
+    public function testStringStats(): void
     {
         $this->stats = [
             'min' => 'aaa',
@@ -146,7 +146,7 @@ class FacetValueTest extends TestCase
     /**
      * Test stats that return a string value for date fields.
      */
-    public function testDateStats()
+    public function testDateStats(): void
     {
         $this->stats = [
             'min' => '2005-08-01T16:30:25Z',

@@ -22,12 +22,12 @@ class SynonymMappingsTest extends TestCase
         $this->synonymMappings = new SynonymMappings($query, $response);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('synonymMappings', $this->synonymMappings->getName());
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $items = [
             0 => new Synonyms('GB', ['GiB', 'Gigabyte']),
@@ -38,7 +38,7 @@ class SynonymMappingsTest extends TestCase
         $this->assertEquals($items, $this->synonymMappings->getItems());
     }
 
-    public function testGetIterator()
+    public function testGetIterator(): void
     {
         $items = [
             0 => new Synonyms('GB', ['GiB', 'Gigabyte']),
@@ -51,37 +51,37 @@ class SynonymMappingsTest extends TestCase
         }
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertCount(3, $this->synonymMappings);
     }
 
-    public function testIsIgnoreCase()
+    public function testIsIgnoreCase(): void
     {
         $this->assertTrue($this->synonymMappings->isIgnoreCase());
     }
 
-    public function testGetFormat()
+    public function testGetFormat(): void
     {
         $this->assertSame('solr', $this->synonymMappings->getFormat());
     }
 
-    public function testGetInitializedOn()
+    public function testGetInitializedOn(): void
     {
         $this->assertSame('2014-12-16T22:44:05.33Z', $this->synonymMappings->getInitializedOn());
     }
 
-    public function testUpdatedSinceInit()
+    public function testUpdatedSinceInit(): void
     {
         $this->assertSame('2020-02-03T00:54:53.049Z', $this->synonymMappings->getUpdatedSinceInit());
     }
 
-    public function testGetWasSuccessful()
+    public function testGetWasSuccessful(): void
     {
         $this->assertTrue($this->synonymMappings->getWasSuccessful());
     }
 
-    public function testGetStatusMessage()
+    public function testGetStatusMessage(): void
     {
         $this->assertSame('OK', $this->synonymMappings->getStatusMessage());
     }

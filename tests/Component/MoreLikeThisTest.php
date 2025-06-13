@@ -19,7 +19,7 @@ class MoreLikeThisTest extends TestCase
         $this->mlt = new MoreLikeThis();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'fields' => 'fieldA,fieldB',
@@ -53,12 +53,12 @@ class MoreLikeThisTest extends TestCase
         $this->assertSame($options['interestingTerms'], $this->mlt->getInterestingTerms());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS, $this->mlt->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\ResponseParser\MoreLikeThis',
@@ -66,7 +66,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\MoreLikeThis',
@@ -74,7 +74,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testGetFieldsAlwaysReturnsArray()
+    public function testGetFieldsAlwaysReturnsArray(): void
     {
         $this->mlt->setFields(null);
 
@@ -84,7 +84,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetFields()
+    public function testSetAndGetFields(): void
     {
         $value = 'name,description';
         $this->mlt->setFields($value);
@@ -95,7 +95,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldsWithArray()
+    public function testSetAndGetFieldsWithArray(): void
     {
         $value = ['name', 'description'];
         $this->mlt->setFields($value);
@@ -106,7 +106,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetMinimumTermFrequency()
+    public function testSetAndGetMinimumTermFrequency(): void
     {
         $value = 2;
         $this->mlt->setMinimumTermFrequency($value);
@@ -117,7 +117,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testMinimumDocumentFrequency()
+    public function testMinimumDocumentFrequency(): void
     {
         $value = 4;
         $this->mlt->setMinimumDocumentFrequency($value);
@@ -128,7 +128,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testMaximumDocumentFrequency()
+    public function testMaximumDocumentFrequency(): void
     {
         $value = 4;
         $this->mlt->setMaximumDocumentFrequency($value);
@@ -139,7 +139,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testMaximumDocumentFrequencyPercentage()
+    public function testMaximumDocumentFrequencyPercentage(): void
     {
         $value = 75;
         $this->mlt->setMaximumDocumentFrequencyPercentage($value);
@@ -154,14 +154,14 @@ class MoreLikeThisTest extends TestCase
      * @testWith [-5]
      *           [120]
      */
-    public function testMaximumDocumentFrequencyPercentageDomainException(int $value)
+    public function testMaximumDocumentFrequencyPercentageDomainException(int $value): void
     {
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage(sprintf('Maximum percentage %d is not between 0 and 100.', $value));
         $this->mlt->setMaximumDocumentFrequencyPercentage($value);
     }
 
-    public function testSetAndGetMinimumWordLength()
+    public function testSetAndGetMinimumWordLength(): void
     {
         $value = 3;
         $this->mlt->setMinimumWordLength($value);
@@ -172,7 +172,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumWordLength()
+    public function testSetAndGetMaximumWordLength(): void
     {
         $value = 15;
         $this->mlt->setMaximumWordLength($value);
@@ -183,7 +183,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumQueryTerms()
+    public function testSetAndGetMaximumQueryTerms(): void
     {
         $value = 5;
         $this->mlt->setMaximumQueryTerms($value);
@@ -194,7 +194,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaximumNumberOfTokens()
+    public function testSetAndGetMaximumNumberOfTokens(): void
     {
         $value = 5;
         $this->mlt->setMaximumNumberOfTokens($value);
@@ -205,7 +205,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetBoost()
+    public function testSetAndGetBoost(): void
     {
         $this->mlt->setBoost(true);
 
@@ -214,7 +214,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testGetQueryFieldsAlwaysReturnsArray()
+    public function testGetQueryFieldsAlwaysReturnsArray(): void
     {
         $this->mlt->setQueryFields(null);
 
@@ -224,7 +224,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryFields()
+    public function testSetAndGetQueryFields(): void
     {
         $value = 'content,name';
         $this->mlt->setQueryFields($value);
@@ -235,7 +235,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryFieldsWithArray()
+    public function testSetAndGetQueryFieldsWithArray(): void
     {
         $value = ['content', 'name'];
         $this->mlt->setQueryFields($value);
@@ -246,7 +246,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testSetAndGetCount()
+    public function testSetAndGetCount(): void
     {
         $value = 8;
         $this->mlt->setCount($value);
@@ -260,7 +260,7 @@ class MoreLikeThisTest extends TestCase
     /**
      * @deprecated Will be removed in Solarium 8. This parameter is only accessible through the MoreLikeThisHandler.
      */
-    public function testSetAndGetMatchInclude()
+    public function testSetAndGetMatchInclude(): void
     {
         $this->mlt->setMatchInclude(true);
 
@@ -271,7 +271,7 @@ class MoreLikeThisTest extends TestCase
     /**
      * @deprecated Will be removed in Solarium 8. This parameter is only accessible through the MoreLikeThisHandler.
      */
-    public function testSetAndGetMatchOffset()
+    public function testSetAndGetMatchOffset(): void
     {
         $this->mlt->setMatchOffset(20);
 
@@ -279,7 +279,7 @@ class MoreLikeThisTest extends TestCase
         $this->assertNull($this->mlt->getMatchOffset());
     }
 
-    public function testSetAndGetInterestingTerms()
+    public function testSetAndGetInterestingTerms(): void
     {
         $value = 'details';
         $this->mlt->setInterestingTerms($value);

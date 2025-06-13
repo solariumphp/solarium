@@ -21,7 +21,7 @@ class SchemaTest extends TestCase
         $this->schema = new Schema();
     }
 
-    public function testSetAndGetFields()
+    public function testSetAndGetFields(): void
     {
         $fields = [
             'field1' => new Field('field1'),
@@ -31,7 +31,7 @@ class SchemaTest extends TestCase
         $this->assertSame($fields, $this->schema->getFields());
     }
 
-    public function testGetField()
+    public function testGetField(): void
     {
         $field = new Field('field3');
         $this->schema->setFields(['field3' => $field]);
@@ -39,7 +39,7 @@ class SchemaTest extends TestCase
         $this->assertNull($this->schema->getField('field4'));
     }
 
-    public function testSetAndGetDynamicFields()
+    public function testSetAndGetDynamicFields(): void
     {
         $dynamicFields = [
             'dynamicfield1' => new DynamicField('dynamicfield1'),
@@ -49,7 +49,7 @@ class SchemaTest extends TestCase
         $this->assertSame($dynamicFields, $this->schema->getDynamicFields());
     }
 
-    public function testGetDynamicField()
+    public function testGetDynamicField(): void
     {
         $dynamicField = new DynamicField('dynamicfield3');
         $this->schema->setDynamicFields(['dynamicfield3' => $dynamicField]);
@@ -57,7 +57,7 @@ class SchemaTest extends TestCase
         $this->assertNull($this->schema->getDynamicField('dynamicfield4'));
     }
 
-    public function testSetAndGetUniqueKeyField()
+    public function testSetAndGetUniqueKeyField(): void
     {
         $this->assertNull($this->schema->getUniqueKeyField());
 
@@ -66,14 +66,14 @@ class SchemaTest extends TestCase
         $this->assertSame($uniqueKeyField, $this->schema->getUniqueKeyField());
     }
 
-    public function testSetAndGetSimilarity()
+    public function testSetAndGetSimilarity(): void
     {
         $similarity = new Similarity();
         $this->assertSame($this->schema, $this->schema->setSimilarity($similarity));
         $this->assertSame($similarity, $this->schema->getSimilarity());
     }
 
-    public function testSetAndGetTypes()
+    public function testSetAndGetTypes(): void
     {
         $types = [
             'type_a' => new Type('type_a'),
@@ -83,7 +83,7 @@ class SchemaTest extends TestCase
         $this->assertSame($types, $this->schema->getTypes());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $type = new Type('type_c');
         $this->schema->setTypes(['type_c' => $type]);

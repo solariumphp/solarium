@@ -21,7 +21,7 @@ class AddDeleteQueryTest extends TestCase
      *
      * @param AddDeleteQuery $event
      */
-    public function testSetAndGetQuery($event)
+    public function testSetAndGetQuery($event): void
     {
         $event->setQuery('cat:def');
         $this->assertSame('cat:def', $event->getQuery());

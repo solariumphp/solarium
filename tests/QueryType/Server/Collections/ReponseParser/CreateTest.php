@@ -9,7 +9,7 @@ use Solarium\QueryType\Server\Collections\Result\CreateResult;
 
 class CreateTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'responseHeader' => [

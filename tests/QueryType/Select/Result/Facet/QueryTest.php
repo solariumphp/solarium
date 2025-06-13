@@ -7,7 +7,7 @@ use Solarium\Component\Result\Facet\Query;
 
 class QueryTest extends TestCase
 {
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $facet = new Query(124);
 

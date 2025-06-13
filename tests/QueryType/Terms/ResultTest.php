@@ -39,7 +39,7 @@ class ResultTest extends TestCase
         $this->result = new TermsDummy($this->data);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -47,7 +47,7 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,
@@ -55,27 +55,27 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetResults()
+    public function testGetResults(): void
     {
         $this->assertSame($this->data, $this->result->getResults());
     }
 
-    public function testGetTerms()
+    public function testGetTerms(): void
     {
         $this->assertSame($this->data['fieldA'], $this->result->getTerms('fieldA'));
     }
 
-    public function testGetTermsWithInvalidFieldName()
+    public function testGetTermsWithInvalidFieldName(): void
     {
         $this->assertSame([], $this->result->getTerms('fieldX'));
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->data, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $results = [];
         foreach ($this->result as $key => $doc) {

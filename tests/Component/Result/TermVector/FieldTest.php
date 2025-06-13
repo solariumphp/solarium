@@ -28,34 +28,34 @@ class FieldTest extends TestCase
         $this->field = new Field('fieldA', $this->terms);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('fieldA', $this->field->getName());
     }
 
-    public function testGetTerms()
+    public function testGetTerms(): void
     {
         $this->assertSame($this->terms, $this->field->getTerms());
     }
 
-    public function testGetTermsEmpty()
+    public function testGetTermsEmpty(): void
     {
         $field = new Field('fieldB', []);
 
         $this->assertSame([], $field->getTerms());
     }
 
-    public function testGetTerm()
+    public function testGetTerm(): void
     {
         $this->assertSame($this->terms['term1'], $this->field->getTerm('term1'));
     }
 
-    public function testGetTermInvalid()
+    public function testGetTermInvalid(): void
     {
         $this->assertNull($this->field->getTerm('invalidterm'));
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $terms = [];
         foreach ($this->field as $key => $term) {
@@ -65,23 +65,23 @@ class FieldTest extends TestCase
         $this->assertSame($this->terms, $terms);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertCount(\count($this->terms), $this->field);
     }
 
-    public function testOffsetExists()
+    public function testOffsetExists(): void
     {
         $this->assertTrue($this->field->offsetExists('term1'));
         $this->assertFalse($this->field->offsetExists('term0'));
     }
 
-    public function testOffsetGet()
+    public function testOffsetGet(): void
     {
         $this->assertSame($this->terms['term1'], $this->field->offsetGet('term1'));
     }
 
-    public function testOffsetGetUnknown()
+    public function testOffsetGetUnknown(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -93,13 +93,13 @@ class FieldTest extends TestCase
         restore_error_handler();
     }
 
-    public function testOffsetSetImmutable()
+    public function testOffsetSetImmutable(): void
     {
         $this->field->offsetSet('term1', new Term('term3', null, null, null, null, null, null));
         $this->assertSame($this->terms['term1'], $this->field['term1']);
     }
 
-    public function testOffsetUnsetImmutable()
+    public function testOffsetUnsetImmutable(): void
     {
         $this->field->offsetUnset('term1');
         $this->assertSame($this->terms['term1'], $this->field['term1']);

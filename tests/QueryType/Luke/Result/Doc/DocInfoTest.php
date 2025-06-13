@@ -19,19 +19,19 @@ class DocInfoTest extends TestCase
         $this->docInfo = new DocInfo(42);
     }
 
-    public function testGetDocId()
+    public function testGetDocId(): void
     {
         $this->assertSame(42, $this->docInfo->getDocId());
     }
 
-    public function testSetAndGetLucene()
+    public function testSetAndGetLucene(): void
     {
         $docFieldInfo = new DocFieldInfo('field');
         $this->assertSame($this->docInfo, $this->docInfo->setLucene([$docFieldInfo]));
         $this->assertSame([$docFieldInfo], $this->docInfo->getLucene());
     }
 
-    public function testSetAndGetSolr()
+    public function testSetAndGetSolr(): void
     {
         $document = new Document([]);
         $this->assertSame($this->docInfo, $this->docInfo->setSolr($document));

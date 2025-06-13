@@ -7,31 +7,31 @@ use Solarium\Exception\UnexpectedValueException;
 
 class UnexpectedValueExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\UnexpectedValueException');
         throw new UnexpectedValueException();
     }
 
-    public function testSPLException()
+    public function testSPLException(): void
     {
         $this->expectException('\UnexpectedValueException');
         throw new UnexpectedValueException();
     }
 
-    public function testSPLParentException()
+    public function testSPLParentException(): void
     {
         $this->expectException('\RuntimeException');
         throw new UnexpectedValueException();
     }
 
-    public function testRuntimeMarkerInterface()
+    public function testRuntimeMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\RuntimeExceptionInterface');
         throw new UnexpectedValueException();
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new UnexpectedValueException();

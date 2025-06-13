@@ -54,42 +54,42 @@ class SuggestionTest extends TestCase
         );
     }
 
-    public function testGetNumFound()
+    public function testGetNumFound(): void
     {
         $this->assertEquals($this->numFound, $this->result->getNumFound());
     }
 
-    public function testGetStartOffset()
+    public function testGetStartOffset(): void
     {
         $this->assertEquals($this->startOffset, $this->result->getStartOffset());
     }
 
-    public function testGetEndOffset()
+    public function testGetEndOffset(): void
     {
         $this->assertEquals($this->endOffset, $this->result->getEndOffset());
     }
 
-    public function testGetOriginalFrequency()
+    public function testGetOriginalFrequency(): void
     {
         $this->assertEquals($this->originalFrequency, $this->result->getOriginalFrequency());
     }
 
-    public function testGetWord()
+    public function testGetWord(): void
     {
         $this->assertEquals($this->words[0]['word'], $this->result->getWord());
     }
 
-    public function testGetFrequency()
+    public function testGetFrequency(): void
     {
         $this->assertEquals($this->words[0]['freq'], $this->result->getFrequency());
     }
 
-    public function testGetWords()
+    public function testGetWords(): void
     {
         $this->assertEquals($this->words, $this->result->getWords());
     }
 
-    public function testGetOriginalTerm()
+    public function testGetOriginalTerm(): void
     {
         $this->assertEquals($this->originalTerm, $this->result->getOriginalTerm());
     }

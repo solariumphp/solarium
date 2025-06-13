@@ -20,12 +20,12 @@ abstract class AbstractDocumentTestCase extends TestCase
         'empty_field' => '',
     ];
 
-    public function testGetFields()
+    public function testGetFields(): void
     {
         $this->assertSame($this->fields, $this->doc->getFields());
     }
 
-    public function testGetFieldAsProperty()
+    public function testGetFieldAsProperty(): void
     {
         $this->assertSame(
             $this->fields['categories'],
@@ -37,7 +37,7 @@ abstract class AbstractDocumentTestCase extends TestCase
         );
     }
 
-    public function testPropertyIsset()
+    public function testPropertyIsset(): void
     {
         $this->assertTrue(
             isset($this->doc->categories)
@@ -48,19 +48,19 @@ abstract class AbstractDocumentTestCase extends TestCase
         );
     }
 
-    public function testPropertyEmpty()
+    public function testPropertyEmpty(): void
     {
         $this->assertEmpty($this->doc->empty_field);
         $this->assertNotEmpty($this->doc->categories);
     }
 
-    public function testSetField()
+    public function testSetField(): void
     {
         $this->expectException(RuntimeException::class);
         $this->doc->newField = 'new value';
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $fields = [];
         foreach ($this->doc as $key => $field) {
@@ -70,7 +70,7 @@ abstract class AbstractDocumentTestCase extends TestCase
         $this->assertSame($this->fields, $fields);
     }
 
-    public function testArrayGet()
+    public function testArrayGet(): void
     {
         $this->assertSame(
             $this->fields['categories'],
@@ -82,7 +82,7 @@ abstract class AbstractDocumentTestCase extends TestCase
         );
     }
 
-    public function testArrayIsset()
+    public function testArrayIsset(): void
     {
         $this->assertTrue(
             isset($this->doc['categories'])
@@ -93,30 +93,30 @@ abstract class AbstractDocumentTestCase extends TestCase
         );
     }
 
-    public function testArrayEmpty()
+    public function testArrayEmpty(): void
     {
         $this->assertEmpty($this->doc['empty_field']);
         $this->assertNotEmpty($this->doc['categories']);
     }
 
-    public function testArraySet()
+    public function testArraySet(): void
     {
         $this->expectException(RuntimeException::class);
         $this->doc['newField'] = 'new value';
     }
 
-    public function testArrayUnset()
+    public function testArrayUnset(): void
     {
         $this->expectException(RuntimeException::class);
         unset($this->doc['newField']);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->fields, $this->doc);
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->assertJsonStringEqualsJsonString(
             '{"id":123,"name":"Test document","categories":[1,2,3],"empty_field":""}',

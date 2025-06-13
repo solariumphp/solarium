@@ -18,36 +18,36 @@ class FieldTest extends TestCase
         $this->query = new Field();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_ANALYSIS_FIELD, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Analysis\ResponseParser\Field', $this->query->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Analysis\RequestBuilder\Field', $this->query->getRequestBuilder());
     }
 
-    public function testSetAndGetFieldValue()
+    public function testSetAndGetFieldValue(): void
     {
         $data = 'testdata';
         $this->query->setFieldValue($data);
         $this->assertSame($data, $this->query->getFieldValue());
     }
 
-    public function testSetAndGetFieldType()
+    public function testSetAndGetFieldType(): void
     {
         $data = 'testdata';
         $this->query->setFieldType($data);
         $this->assertSame($data, $this->query->getFieldType());
     }
 
-    public function testSetAndGetFieldName()
+    public function testSetAndGetFieldName(): void
     {
         $data = 'testdata';
         $this->query->setFieldName($data);

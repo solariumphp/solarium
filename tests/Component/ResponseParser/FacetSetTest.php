@@ -54,7 +54,7 @@ class FacetSetTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'facet_counts' => [
@@ -179,7 +179,7 @@ class FacetSetTest extends TestCase
         $this->assertEquals(['2018-01-01T00:00:00Z' => 0, '2019-01-01T00:00:00Z' => 1], $range->getValues());
     }
 
-    public function testParseExtractFromResponse()
+    public function testParseExtractFromResponse(): void
     {
         $data = [
             'facet_counts' => [
@@ -294,13 +294,13 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, $this->facetSet, []);
         $this->assertEquals([], $result->getFacets());
     }
 
-    public function testInvalidFacetType()
+    public function testInvalidFacetType(): void
     {
         $facetStub = $this->createMock(Field::class);
         $facetStub->expects($this->any())
@@ -316,7 +316,7 @@ class FacetSetTest extends TestCase
         $this->parser->parse($this->query, $this->facetSet, []);
     }
 
-    public function testParseJsonFacet()
+    public function testParseJsonFacet(): void
     {
         $data = [
             'facets' => [

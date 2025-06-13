@@ -24,7 +24,7 @@ class FieldTest extends TestCase
         $this->builder = new FieldBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $fieldValue = 'myvalue';
         $fieldName = 'myfield';

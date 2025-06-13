@@ -7,37 +7,37 @@ use Solarium\Exception\StreamException;
 
 class StreamExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\StreamException');
         throw new StreamException();
     }
 
-    public function testSPLException()
+    public function testSPLException(): void
     {
         $this->expectException('\UnexpectedValueException');
         throw new StreamException();
     }
 
-    public function testSPLParentException()
+    public function testSPLParentException(): void
     {
         $this->expectException('\RuntimeException');
         throw new StreamException();
     }
 
-    public function testRuntimeMarkerInterface()
+    public function testRuntimeMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\RuntimeExceptionInterface');
         throw new StreamException();
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new StreamException();
     }
 
-    public function testSetExpression()
+    public function testSetExpression(): void
     {
         $exception = new StreamException();
         $exception->setExpression('testexpression');

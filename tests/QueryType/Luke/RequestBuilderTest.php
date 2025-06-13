@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->query->setId('abc');
@@ -54,7 +54,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
-    public function testEmptyBuildParams()
+    public function testEmptyBuildParams(): void
     {
         $request = $this->builder->build($this->query);
 

@@ -21,7 +21,7 @@ class ResourceTest extends TestCase
         $this->resource = new ResourceResultItem($data);
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $data = [
             'resourceId' => '/schema/analysis/synonyms/english',
@@ -35,19 +35,19 @@ class ResourceTest extends TestCase
         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager', $resource->getClass());
     }
 
-    public function testSetAndGetResourceId()
+    public function testSetAndGetResourceId(): void
     {
         $this->resource->setResourceId('/schema/analysis/synonyms/english');
         $this->assertSame('/schema/analysis/synonyms/english', $this->resource->getResourceId());
     }
 
-    public function testSetAndGetNumObservers()
+    public function testSetAndGetNumObservers(): void
     {
         $this->resource->setNumObservers(2);
         $this->assertSame(2, $this->resource->getNumObservers());
     }
 
-    public function testSetAndGetClass()
+    public function testSetAndGetClass(): void
     {
         $this->resource->setClass('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager');
         $this->assertSame('org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager', $this->resource->getClass());
@@ -58,7 +58,7 @@ class ResourceTest extends TestCase
      *           ["/schema/analysis/synonyms/english", "synonyms"]
      *           ["/schema/analysis/unknown/english", ""]
      */
-    public function testGetType(string $resourceId, string $expectedType)
+    public function testGetType(string $resourceId, string $expectedType): void
     {
         $this->resource->setResourceId($resourceId);
         $this->assertSame($expectedType, $this->resource->getType());

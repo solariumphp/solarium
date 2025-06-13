@@ -18,12 +18,12 @@ class RequestStatusTest extends TestCase
         $this->action = new RequestStatus();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_REQUEST_STATUS, $this->action->getType());
     }
 
-    public function testSetRequestId()
+    public function testSetRequestId(): void
     {
         $this->action->setRequestId('myAsyncId');
         $this->assertSame('myAsyncId', $this->action->getRequestId());

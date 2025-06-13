@@ -18,7 +18,7 @@ class DebugTest extends TestCase
         $this->parser = new Parser();
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'debug' => [
@@ -138,7 +138,7 @@ class DebugTest extends TestCase
         $this->assertEquals(3, $phase->getTiming('org.apache.solr.handler.component.MoreLikeThisComponent'));
     }
 
-    public function testParseNoExplainData()
+    public function testParseNoExplainData(): void
     {
         $data = [
             'debug' => [
@@ -159,7 +159,7 @@ class DebugTest extends TestCase
         $this->assertCount(0, $result->getExplainOther());
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse(null, null, []);
         $this->assertNull($result);

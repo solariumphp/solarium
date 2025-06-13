@@ -34,27 +34,27 @@ class ValueGroupTest extends TestCase
         $this->group = new ValueGroup($this->value, $this->numFound, $this->start, $this->items);
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $this->assertSame($this->value, $this->group->getValue());
     }
 
-    public function testGetNumFound()
+    public function testGetNumFound(): void
     {
         $this->assertSame($this->numFound, $this->group->getNumFound());
     }
 
-    public function testGetStart()
+    public function testGetStart(): void
     {
         $this->assertSame($this->start, $this->group->getStart());
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertSame($this->items, $this->group->getDocuments());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->group as $key => $item) {
@@ -64,7 +64,7 @@ class ValueGroupTest extends TestCase
         $this->assertSame($this->items, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->group);
     }

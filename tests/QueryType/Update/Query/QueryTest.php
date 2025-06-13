@@ -20,12 +20,12 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_UPDATE, $this->query->getType());
     }
 
-    public function testDefaultRequestFormat()
+    public function testDefaultRequestFormat(): void
     {
         $this->assertSame(
             Query::REQUEST_FORMAT_JSON,
@@ -35,37 +35,37 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetRequestFormat()
+    public function testSetAndGetRequestFormat(): void
     {
         $this->query->setRequestFormat(Query::REQUEST_FORMAT_XML);
         $this->assertSame(Query::REQUEST_FORMAT_XML, $this->query->getRequestFormat());
     }
 
-    public function testSetUnsupportedRequestFormat()
+    public function testSetUnsupportedRequestFormat(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported request format: foobar');
         $this->query->setRequestFormat('foobar');
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Update\ResponseParser', $this->query->getResponseParser());
     }
 
-    public function testGetJsonRequestBuilder()
+    public function testGetJsonRequestBuilder(): void
     {
         $this->query->setRequestFormat(Query::REQUEST_FORMAT_JSON);
         $this->assertInstanceOf('Solarium\QueryType\Update\RequestBuilder\Json', $this->query->getRequestBuilder());
     }
 
-    public function testGetXmlRequestBuilder()
+    public function testGetXmlRequestBuilder(): void
     {
         $this->query->setRequestFormat(Query::REQUEST_FORMAT_XML);
         $this->assertInstanceOf('Solarium\QueryType\Update\RequestBuilder\Xml', $this->query->getRequestBuilder());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'handler' => 'myHandler',
@@ -152,7 +152,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testConstructorWithUnsupportedRequestFormat()
+    public function testConstructorWithUnsupportedRequestFormat(): void
     {
         $config = [
             'requestformat' => 'foobar',
@@ -163,7 +163,7 @@ class QueryTest extends TestCase
         new Query($config);
     }
 
-    public function testConstructorWithConfigAddCommand()
+    public function testConstructorWithConfigAddCommand(): void
     {
         $config = [
             'command' => [
@@ -177,7 +177,7 @@ class QueryTest extends TestCase
         new Query($config);
     }
 
-    public function testAddWithoutKey()
+    public function testAddWithoutKey(): void
     {
         $command = new Rollback();
         $this->query->add(null, $command);
@@ -188,7 +188,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddWithKey()
+    public function testAddWithKey(): void
     {
         $rollback = new Rollback();
         $this->query->add('rb', $rollback);
@@ -202,7 +202,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $rollback = new Rollback();
         $this->query->add('rb', $rollback);
@@ -218,7 +218,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveWithObjectInput()
+    public function testRemoveWithObjectInput(): void
     {
         $rollback = new Rollback();
         $this->query->add('rb', $rollback);
@@ -234,7 +234,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testRemoveInvalidKey()
+    public function testRemoveInvalidKey(): void
     {
         $rollback = new Rollback();
         $this->query->add('rb', $rollback);
@@ -250,7 +250,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddRollback()
+    public function testAddRollback(): void
     {
         $this->query->addRollback();
         $commands = $this->query->getCommands();
@@ -261,7 +261,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDeleteQuery()
+    public function testAddDeleteQuery(): void
     {
         $this->query->addDeleteQuery('*:*');
         $commands = $this->query->getCommands();
@@ -277,7 +277,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDeleteQueryWithBind()
+    public function testAddDeleteQueryWithBind(): void
     {
         $this->query->addDeleteQuery('id:%1%', [678]);
         $commands = $this->query->getCommands();
@@ -293,7 +293,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDeleteQueries()
+    public function testAddDeleteQueries(): void
     {
         $this->query->addDeleteQueries(['id:1', 'id:2']);
         $commands = $this->query->getCommands();
@@ -309,7 +309,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDeleteById()
+    public function testAddDeleteById(): void
     {
         $this->query->addDeleteById(1);
         $commands = $this->query->getCommands();
@@ -325,7 +325,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDeleteByIds()
+    public function testAddDeleteByIds(): void
     {
         $this->query->addDeleteByIds([1, 2]);
         $commands = $this->query->getCommands();
@@ -341,7 +341,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDocument()
+    public function testAddDocument(): void
     {
         $doc = new Document(['id' => 1]);
 
@@ -359,7 +359,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddDocuments()
+    public function testAddDocuments(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 1]);
@@ -387,7 +387,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddCommit()
+    public function testAddCommit(): void
     {
         $this->query->addCommit(true, false, true);
         $commands = $this->query->getCommands();
@@ -410,7 +410,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddOptimize()
+    public function testAddOptimize(): void
     {
         $this->query->addOptimize(true, false, 10);
         $commands = $this->query->getCommands();
@@ -434,7 +434,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddRawXmlCommand()
+    public function testAddRawXmlCommand(): void
     {
         $this->query->addRawXmlCommand('<add><doc><field name="id">1</field></doc></add>');
         $commands = $this->query->getCommands();
@@ -450,7 +450,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddRawXmlCommands()
+    public function testAddRawXmlCommands(): void
     {
         $this->query->addRawXmlCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
         $commands = $this->query->getCommands();
@@ -466,7 +466,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testAddRawXmlFile()
+    public function testAddRawXmlFile(): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
         file_put_contents($tmpfname, '<add><doc><field name="id">1</field></doc></add>');
@@ -487,7 +487,7 @@ class QueryTest extends TestCase
         unlink($tmpfname);
     }
 
-    public function testCreateCommand()
+    public function testCreateCommand(): void
     {
         $type = Query::COMMAND_ROLLBACK;
         $options = ['optionA' => 1, 'optionB' => 2];
@@ -507,25 +507,25 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testCreateCommandWithInvalidQueryType()
+    public function testCreateCommandWithInvalidQueryType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->query->createCommand('invalidtype');
     }
 
-    public function testSetAndGetDocumentClass()
+    public function testSetAndGetDocumentClass(): void
     {
         $this->query->setDocumentClass('MyDocument');
         $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
-    public function testCreateDocument()
+    public function testCreateDocument(): void
     {
         $doc = $this->query->createDocument();
         $this->assertInstanceOf($this->query->getDocumentClass(), $doc);
     }
 
-    public function testCreateDocumentWithCustomClass()
+    public function testCreateDocumentWithCustomClass(): void
     {
         $this->query->setDocumentClass(__NAMESPACE__.'\\MyCustomDoc');
 
@@ -533,7 +533,7 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(__NAMESPACE__.'\\MyCustomDoc', $doc);
     }
 
-    public function testCreateDocumentWithFieldsAndBoostsAndModifiers()
+    public function testCreateDocumentWithFieldsAndBoostsAndModifiers(): void
     {
         $fields = ['id' => 1, 'name' => 'testname'];
         $boosts = ['name' => 2.7];

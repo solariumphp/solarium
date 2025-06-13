@@ -19,27 +19,27 @@ class FieldTest extends AbstractFieldTestCase
         $this->field = new Field('fieldA');
     }
 
-    public function testCopyFieldDest()
+    public function testCopyFieldDest(): void
     {
         $this->assertInstanceOf(CopyFieldDestInterface::class, $this->field);
     }
 
-    public function testCopyFieldSource()
+    public function testCopyFieldSource(): void
     {
         $this->assertInstanceOf(CopyFieldSourceInterface::class, $this->field);
     }
 
-    public function testSchemaField()
+    public function testSchemaField(): void
     {
         $this->assertInstanceOf(SchemaFieldInterface::class, $this->field);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('fieldA', $this->field->getName());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('fieldA', (string) $this->field);
     }

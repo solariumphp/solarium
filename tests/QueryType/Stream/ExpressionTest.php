@@ -18,7 +18,7 @@ class ExpressionTest extends TestCase
         $this->exp = new ExpressionBuilder();
     }
 
-    public function testExpression()
+    public function testExpression(): void
     {
         $expression_string = $this->exp
             ->search('collection', 'q=field1:"value1"', 'fq="field2:value2"', 'fl="field1, field2"', 'sort="field1 ASC, field2 ASC"', 'qt="/export"');
@@ -29,7 +29,7 @@ class ExpressionTest extends TestCase
         );
     }
 
-    public function testEmptyArgument()
+    public function testEmptyArgument(): void
     {
         $expression_string = $this->exp
             ->search('collection', 'q=field1:"value1"', '', 'fl="field1, field2"', 'sort="field1 ASC, field2 ASC"', 'qt="/export"');
@@ -40,7 +40,7 @@ class ExpressionTest extends TestCase
         );
     }
 
-    public function testObject()
+    public function testObject(): void
     {
         $expression_string = $this->exp
             ->search(new CollectionDummy(), 'q=field1:"value1"', 'fl="field1, field2"', 'sort="field1 ASC, field2 ASC"', 'qt="/export"');
@@ -59,7 +59,7 @@ class ExpressionTest extends TestCase
         $this->assertNotNull($exception);
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         $exception = null;
         try {
@@ -70,7 +70,7 @@ class ExpressionTest extends TestCase
         $this->assertNotNull($exception);
     }
 
-    public function testNestedExpressions()
+    public function testNestedExpressions(): void
     {
         $expression_string =
             $this->exp->innerJoin(

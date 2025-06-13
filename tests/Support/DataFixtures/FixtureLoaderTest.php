@@ -22,7 +22,7 @@ class FixtureLoaderTest extends TestCase
         $this->fixturePath = __DIR__.'/Fixtures/';
     }
 
-    public function testWithAppending()
+    public function testWithAppending(): void
     {
         $loader = $this->mockLoader();
         $purger = $this->mockPurger(false);
@@ -33,7 +33,7 @@ class FixtureLoaderTest extends TestCase
         $fixtureLoader->loadFixturesFromDir($this->fixturePath);
     }
 
-    public function testWithPurging()
+    public function testWithPurging(): void
     {
         $loader = $this->mockLoader();
         $purger = $this->mockPurger(true);

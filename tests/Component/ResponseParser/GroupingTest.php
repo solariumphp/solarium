@@ -94,7 +94,7 @@ class GroupingTest extends TestCase
         $this->result = $this->parser->parse($this->query, $this->grouping, $data);
     }
 
-    public function testGroupParsing()
+    public function testGroupParsing(): void
     {
         $this->assertCount(3, $this->result->getGroups());
 
@@ -107,7 +107,7 @@ class GroupingTest extends TestCase
         $this->assertInstanceOf(FieldGroup::class, $functionGroup);
     }
 
-    public function testFieldGroupParsing()
+    public function testFieldGroupParsing(): void
     {
         $fieldGroup = $this->result->getGroup('fieldA');
         $valueGroups = $fieldGroup->getValueGroups();
@@ -125,7 +125,7 @@ class GroupingTest extends TestCase
         $this->assertEquals('test', $docs[0]->name);
     }
 
-    public function testQueryGroupParsing()
+    public function testQueryGroupParsing(): void
     {
         $queryGroup = $this->result->getGroup('cat:1');
 
@@ -143,7 +143,7 @@ class GroupingTest extends TestCase
      *
      * @see https://issues.apache.org/jira/browse/SOLR-13839
      */
-    public function testQueryGroupParsingFixForSolr13839()
+    public function testQueryGroupParsingFixForSolr13839(): void
     {
         $data = [
             'grouped' => [
@@ -169,13 +169,13 @@ class GroupingTest extends TestCase
         $this->assertEquals([], $queryGroup->getDocuments());
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, $this->grouping, []);
         $this->assertEquals([], $result->getGroups());
     }
 
-    public function testParseMissingGroupField()
+    public function testParseMissingGroupField(): void
     {
         // data does not contain 'fieldA'
         $data = [
@@ -212,7 +212,7 @@ class GroupingTest extends TestCase
         $this->assertNull($result->getGroup('fieldA'));
     }
 
-    public function testFunctionGroupParsing()
+    public function testFunctionGroupParsing(): void
     {
         $fieldGroup = $this->result->getGroup('functionF');
         $valueGroups = $fieldGroup->getValueGroups();
@@ -230,7 +230,7 @@ class GroupingTest extends TestCase
         $this->assertEquals('fun', $docs[0]->name);
     }
 
-    public function testsParseWithSimpleFormat()
+    public function testsParseWithSimpleFormat(): void
     {
         $data = [
             'grouped' => [

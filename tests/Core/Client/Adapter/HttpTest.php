@@ -24,7 +24,7 @@ class HttpTest extends TestCase
         $this->adapter = new Http();
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $data = 'test123';
 
@@ -46,7 +46,7 @@ class HttpTest extends TestCase
         $mock->execute($request, $endpoint);
     }
 
-    public function testExecuteErrorResponse()
+    public function testExecuteErrorResponse(): void
     {
         $request = new Request();
         $request->setIsServerRequest(true);
@@ -66,7 +66,7 @@ class HttpTest extends TestCase
         $mock->execute($request, $endpoint);
     }
 
-    public function testCreateContextGetRequest()
+    public function testCreateContextGetRequest(): void
     {
         $timeout = 13;
         $method = Request::METHOD_GET;
@@ -93,7 +93,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextHeadRequest()
+    public function testCreateContextHeadRequest(): void
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -120,7 +120,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextPostRequest()
+    public function testCreateContextPostRequest(): void
     {
         $timeout = 13;
         $method = Request::METHOD_POST;
@@ -153,7 +153,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextPostFileRequest()
+    public function testCreateContextPostFileRequest(): void
     {
         $timeout = 13;
         $method = Request::METHOD_POST;
@@ -188,7 +188,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextPutRequest()
+    public function testCreateContextPutRequest(): void
     {
         $timeout = 13;
         $method = Request::METHOD_PUT;
@@ -220,7 +220,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextDeleteRequest()
+    public function testCreateContextDeleteRequest(): void
     {
         $timeout = 22;
         $method = Request::METHOD_DELETE;
@@ -247,7 +247,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithHeaders()
+    public function testCreateContextWithHeaders(): void
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -280,7 +280,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithRequestAuthorization()
+    public function testCreateContextWithRequestAuthorization(): void
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -310,7 +310,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithEndpointAuthorization()
+    public function testCreateContextWithEndpointAuthorization(): void
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -341,7 +341,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithAuthorizationToken()
+    public function testCreateContextWithAuthorizationToken(): void
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -372,7 +372,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithRequestAuthorizationMoreImportantThanAuthorizationToken()
+    public function testCreateContextWithRequestAuthorizationMoreImportantThanAuthorizationToken(): void
     {
         $timeout = 13;
         $method = Request::METHOD_HEAD;
@@ -404,7 +404,7 @@ class HttpTest extends TestCase
         );
     }
 
-    public function testCreateContextWithProxy()
+    public function testCreateContextWithProxy(): void
     {
         $timeout = 13;
         $proxy = 'proxy.example.org:3456';

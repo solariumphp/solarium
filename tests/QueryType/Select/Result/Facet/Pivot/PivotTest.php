@@ -24,7 +24,7 @@ class PivotTest extends TestCase
         $this->facet = new Pivot($this->values);
     }
 
-    public function testGetPivot()
+    public function testGetPivot(): void
     {
         $expected = [
             new PivotItem($this->values[0]),
@@ -34,7 +34,7 @@ class PivotTest extends TestCase
         $this->assertEquals($expected, $this->facet->getPivot());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->values, $this->facet);
     }

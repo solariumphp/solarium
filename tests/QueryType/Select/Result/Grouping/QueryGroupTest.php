@@ -37,32 +37,32 @@ class QueryGroupTest extends TestCase
         $this->group = new QueryGroup($this->matches, $this->numFound, $this->start, $this->maximumScore, $this->items);
     }
 
-    public function testGetMatches()
+    public function testGetMatches(): void
     {
         $this->assertSame($this->matches, $this->group->getMatches());
     }
 
-    public function testGetNumFound()
+    public function testGetNumFound(): void
     {
         $this->assertSame($this->numFound, $this->group->getNumFound());
     }
 
-    public function testGetStart()
+    public function testGetStart(): void
     {
         $this->assertSame($this->start, $this->group->getStart());
     }
 
-    public function testGetMaximumScore()
+    public function testGetMaximumScore(): void
     {
         $this->assertSame($this->maximumScore, $this->group->getMaximumScore());
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertSame($this->items, $this->group->getDocuments());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->group as $key => $item) {
@@ -72,7 +72,7 @@ class QueryGroupTest extends TestCase
         $this->assertSame($this->items, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->group);
     }

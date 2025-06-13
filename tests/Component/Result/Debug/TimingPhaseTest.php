@@ -26,7 +26,7 @@ class TimingPhaseTest extends TestCase
         $this->result = new TimingPhase($this->name, $this->time, $this->timings);
     }
 
-    public function testGetTime()
+    public function testGetTime(): void
     {
         $this->assertEquals(
             $this->time,
@@ -34,7 +34,7 @@ class TimingPhaseTest extends TestCase
         );
     }
 
-    public function testGetTiming()
+    public function testGetTiming(): void
     {
         $this->assertEquals(
             $this->timings['class1'],
@@ -42,14 +42,14 @@ class TimingPhaseTest extends TestCase
         );
     }
 
-    public function testGetPhaseWithInvalidKey()
+    public function testGetPhaseWithInvalidKey(): void
     {
         $this->assertNull(
             $this->result->getTiming('invalidkey')
         );
     }
 
-    public function testGetTimings()
+    public function testGetTimings(): void
     {
         $this->assertEquals(
             $this->timings,
@@ -57,7 +57,7 @@ class TimingPhaseTest extends TestCase
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -67,7 +67,7 @@ class TimingPhaseTest extends TestCase
         $this->assertEquals($this->timings, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->timings, $this->result);
     }

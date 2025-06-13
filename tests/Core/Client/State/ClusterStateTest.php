@@ -97,12 +97,12 @@ class ClusterStateTest extends TestCase
         $this->clusterState = new ClusterState($state['cluster']);
     }
 
-    public function testCollectionExists()
+    public function testCollectionExists(): void
     {
         self::assertTrue($this->clusterState->collectionExists('collection1'));
     }
 
-    public function testCollectionState()
+    public function testCollectionState(): void
     {
         $collectionState = $this->clusterState->getCollectionState('collection1');
         self::assertInstanceOf(CollectionState::class, $collectionState);
@@ -130,7 +130,7 @@ class ClusterStateTest extends TestCase
         self::assertSame('11', $collectionState->getZnodeVersion());
     }
 
-    public function testCollectionStateToString()
+    public function testCollectionStateToString(): void
     {
         $collectionState = $this->clusterState->getCollectionState('collection1');
         $expectedString = <<<'EOT'
@@ -222,7 +222,7 @@ EOT;
         self::assertSame($expectedString, (string) $collectionState);
     }
 
-    public function testCollectionStateWithNoActiveShards()
+    public function testCollectionStateWithNoActiveShards(): void
     {
         $state = json_decode($this->json, true);
 
@@ -238,19 +238,19 @@ EOT;
         $collectionState->getNodesBaseUris();
     }
 
-    public function testCollectionStateWithNonExistentCollection()
+    public function testCollectionStateWithNonExistentCollection(): void
     {
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage("Collection 'collection0' does not exist.");
         $this->clusterState->getCollectionState('collection0');
     }
 
-    public function testCollections()
+    public function testCollections(): void
     {
         self::assertCount(1, $this->clusterState->getCollections());
     }
 
-    public function testLiveNodes()
+    public function testLiveNodes(): void
     {
         $liveNodes = [
             '127.0.1.1:7574_solr',
@@ -261,13 +261,13 @@ EOT;
         self::assertEquals($liveNodes, $this->clusterState->getLiveNodes());
     }
 
-    public function testAliases()
+    public function testAliases(): void
     {
         $aliases = ['both_collections' => 'collection1,collection2'];
         self::assertEquals($aliases, $this->clusterState->getAliases());
     }
 
-    public function testShardLeaders()
+    public function testShardLeaders(): void
     {
         $collectionState = $this->clusterState->getCollectionState('collection1');
         $shardLeaders = $collectionState->getShardLeaders();
@@ -288,7 +288,7 @@ EOT;
         self::assertTrue($shardLeaders['shard2']->isLeader());
     }
 
-    public function testShards()
+    public function testShards(): void
     {
         $collectionState = $this->clusterState->getCollectionState('collection1');
         $shards = $collectionState->getShards();
@@ -319,7 +319,7 @@ EOT;
         self::assertFalse($shard2_replica4->isLeader());
     }
 
-    public function testRoles()
+    public function testRoles(): void
     {
         $expectedRoles = [
             'overseer' => [

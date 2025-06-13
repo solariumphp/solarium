@@ -24,7 +24,7 @@ class DocumentSetTest extends TestCase
         $this->result = new DocumentSet($this->docs);
     }
 
-    public function testGetDocument()
+    public function testGetDocument(): void
     {
         $this->assertEquals(
             $this->docs['key1'],
@@ -32,14 +32,14 @@ class DocumentSetTest extends TestCase
         );
     }
 
-    public function testGetDocumentWithInvalidKey()
+    public function testGetDocumentWithInvalidKey(): void
     {
         $this->assertNull(
             $this->result->getDocument('invalidkey')
         );
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertEquals(
             $this->docs,
@@ -47,7 +47,7 @@ class DocumentSetTest extends TestCase
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -57,7 +57,7 @@ class DocumentSetTest extends TestCase
         $this->assertEquals($this->docs, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->docs, $this->result);
     }

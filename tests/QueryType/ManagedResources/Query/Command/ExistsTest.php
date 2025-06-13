@@ -17,7 +17,7 @@ class ExistsTest extends TestCase
         $this->exists = new Exists();
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $exists = new Exists();
         $this->assertFalse($exists->getUseHeadRequest());
@@ -26,7 +26,7 @@ class ExistsTest extends TestCase
         $this->assertTrue($exists->getUseHeadRequest());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'useHeadRequest' => true,
@@ -37,7 +37,7 @@ class ExistsTest extends TestCase
         $this->assertTrue($this->exists->getUseHeadRequest());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_EXISTS, $this->exists->getType());
     }
@@ -65,7 +65,7 @@ class ExistsTest extends TestCase
      * A HEAD request for an existing stopword list, synonym map, or term against affected
      * Solr versions returns "500 Server Error" instead of "200 OK".
      */
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_GET, $this->exists->getRequestMethod());
     }
@@ -76,26 +76,26 @@ class ExistsTest extends TestCase
      * @testWith [true, "METHOD_HEAD"]
      *           [false, "METHOD_GET"]
      */
-    public function testGetRequestMethodWithUseHeadRequest(bool $useHeadRequest, string $method)
+    public function testGetRequestMethodWithUseHeadRequest(bool $useHeadRequest, string $method): void
     {
         $this->exists->setUseHeadRequest($useHeadRequest);
         $this->assertSame(\constant(Request::class.'::'.$method), $this->exists->getRequestMethod());
     }
 
-    public function testSetAndGetTerm()
+    public function testSetAndGetTerm(): void
     {
         $this->exists->setTerm('test');
         $this->assertSame('test', $this->exists->getTerm());
     }
 
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->exists->setTerm('test');
         $this->exists->removeTerm();
         $this->assertNull($this->exists->getTerm());
     }
 
-    public function testSetAndGetUseHeadRequest()
+    public function testSetAndGetUseHeadRequest(): void
     {
         $this->assertFalse($this->exists->getUseHeadRequest());
         $this->exists->setUseHeadRequest(true);

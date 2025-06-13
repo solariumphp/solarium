@@ -17,13 +17,13 @@ abstract class AbstractHighlightingTestCase extends TestCase
     /**
      * @deprecated Use {@link HighlightingInterface::setMethod()} for Solr 6.4 and higher
      */
-    public function testSetAndGetUseFastVectorHighlighter()
+    public function testSetAndGetUseFastVectorHighlighter(): void
     {
         $this->hlt->setUseFastVectorHighlighter(true);
         $this->assertTrue($this->hlt->getUseFastVectorHighlighter());
     }
 
-    public function testSetAndGetMethod()
+    public function testSetAndGetMethod(): void
     {
         $value = HighlightingInterface::METHOD_UNIFIED;
         $this->hlt->setMethod($value);
@@ -34,19 +34,19 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetUsePhraseHighlighter()
+    public function testSetAndGetUsePhraseHighlighter(): void
     {
         $this->hlt->setUsePhraseHighlighter(true);
         $this->assertTrue($this->hlt->getUsePhraseHighlighter());
     }
 
-    public function testSetAndGetHighlightMultiTerm()
+    public function testSetAndGetHighlightMultiTerm(): void
     {
         $this->hlt->setHighlightMultiTerm(true);
         $this->assertTrue($this->hlt->getHighlightMultiTerm());
     }
 
-    public function testSetAndGetSnippets()
+    public function testSetAndGetSnippets(): void
     {
         $value = 2;
         $this->hlt->setSnippets($value);
@@ -57,7 +57,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetFragSize()
+    public function testSetAndGetFragSize(): void
     {
         $value = 20;
         $this->hlt->setFragSize($value);
@@ -68,7 +68,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetTagPrefix()
+    public function testSetAndGetTagPrefix(): void
     {
         $value = '<i>';
         $this->hlt->setTagPrefix($value);
@@ -79,7 +79,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetTagPostfix()
+    public function testSetAndGetTagPostfix(): void
     {
         $value = '</i>';
         $this->hlt->setTagPostfix($value);
@@ -90,7 +90,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetEncoder()
+    public function testSetAndGetEncoder(): void
     {
         $value = HighlightingInterface::ENCODER_HTML;
         $this->hlt->setEncoder($value);
@@ -101,7 +101,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetMaxAnalyzedChars()
+    public function testSetAndGetMaxAnalyzedChars(): void
     {
         $value = 200;
         $this->hlt->setMaxAnalyzedChars($value);
@@ -112,7 +112,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetOffsetSource()
+    public function testSetAndGetOffsetSource(): void
     {
         $value = HighlightingInterface::OFFSETSOURCE_ANALYSIS;
         $this->hlt->setOffsetSource($value);
@@ -123,7 +123,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetFragAlignRatio()
+    public function testSetAndGetFragAlignRatio(): void
     {
         $value = .5;
         $this->hlt->setFragAlignRatio($value);
@@ -134,13 +134,13 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetFragsizeIsMinimum()
+    public function testSetAndGetFragsizeIsMinimum(): void
     {
         $this->hlt->setFragsizeIsMinimum(true);
         $this->assertTrue($this->hlt->getFragsizeIsMinimum());
     }
 
-    public function testSetAndGetTagEllipsis()
+    public function testSetAndGetTagEllipsis(): void
     {
         $value = '...';
         $this->hlt->setTagEllipsis($value);
@@ -151,13 +151,13 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetDefaultSummary()
+    public function testSetAndGetDefaultSummary(): void
     {
         $this->hlt->setDefaultSummary(true);
         $this->assertTrue($this->hlt->getDefaultSummary());
     }
 
-    public function testSetAndGetScoreK1()
+    public function testSetAndGetScoreK1(): void
     {
         $value = 1.85;
         $this->hlt->setScoreK1($value);
@@ -168,7 +168,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetScoreB()
+    public function testSetAndGetScoreB(): void
     {
         $value = .25;
         $this->hlt->setScoreB($value);
@@ -179,7 +179,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetScorePivot()
+    public function testSetAndGetScorePivot(): void
     {
         $value = 42;
         $this->hlt->setScorePivot($value);
@@ -190,7 +190,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerLanguage()
+    public function testSetAndGetBoundaryScannerLanguage(): void
     {
         $value = 'fr';
         $this->hlt->setBoundaryScannerLanguage($value);
@@ -201,7 +201,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerCountry()
+    public function testSetAndGetBoundaryScannerCountry(): void
     {
         $value = 'DE';
         $this->hlt->setBoundaryScannerCountry($value);
@@ -212,7 +212,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerVariant()
+    public function testSetAndGetBoundaryScannerVariant(): void
     {
         $value = 'ao1990';
         $this->hlt->setBoundaryScannerVariant($value);
@@ -223,7 +223,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerType()
+    public function testSetAndGetBoundaryScannerType(): void
     {
         $value = HighlightingInterface::BOUNDARYSCANNER_TYPE_SENTENCE;
         $this->hlt->setBoundaryScannerType($value);
@@ -234,7 +234,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerSeparator()
+    public function testSetAndGetBoundaryScannerSeparator(): void
     {
         $value = '¶';
         $this->hlt->setBoundaryScannerSeparator($value);
@@ -245,19 +245,19 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetWeightMatches()
+    public function testSetAndGetWeightMatches(): void
     {
         $this->hlt->setWeightMatches(false);
         $this->assertFalse($this->hlt->getWeightMatches());
     }
 
-    public function testSetAndGetMergeContiguous()
+    public function testSetAndGetMergeContiguous(): void
     {
         $this->hlt->setMergeContiguous(true);
         $this->assertTrue($this->hlt->getMergeContiguous());
     }
 
-    public function testSetAndGetMaxMultiValuedToExamine()
+    public function testSetAndGetMaxMultiValuedToExamine(): void
     {
         $value = 20000;
         $this->hlt->setMaxMultiValuedToExamine($value);
@@ -268,7 +268,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetMaxMultiValuedToMatch()
+    public function testSetAndGetMaxMultiValuedToMatch(): void
     {
         $value = 10000;
         $this->hlt->setMaxMultiValuedToMatch($value);
@@ -279,7 +279,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetAlternateField()
+    public function testSetAndGetAlternateField(): void
     {
         $value = 'description';
         $this->hlt->setAlternateField($value);
@@ -290,7 +290,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetMaxAlternateFieldLength()
+    public function testSetAndGetMaxAlternateFieldLength(): void
     {
         $value = 150;
         $this->hlt->setMaxAlternateFieldLength($value);
@@ -301,13 +301,13 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetHighlightAlternate()
+    public function testSetAndGetHighlightAlternate(): void
     {
         $this->hlt->setHighlightAlternate(false);
         $this->assertFalse($this->hlt->getHighlightAlternate());
     }
 
-    public function testSetAndGetFormatter()
+    public function testSetAndGetFormatter(): void
     {
         $value = 'myformatter';
         $this->hlt->setFormatter($value);
@@ -318,7 +318,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetFormatterDefaultValue()
+    public function testSetAndGetFormatterDefaultValue(): void
     {
         $this->hlt->setFormatter();
 
@@ -328,7 +328,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetSimplePrefix()
+    public function testSetAndGetSimplePrefix(): void
     {
         $value = '<em>';
         $this->hlt->setSimplePrefix($value);
@@ -339,7 +339,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetSimplePostfix()
+    public function testSetAndGetSimplePostfix(): void
     {
         $value = '</em>';
         $this->hlt->setSimplePostfix($value);
@@ -350,7 +350,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetFragmenter()
+    public function testSetAndGetFragmenter(): void
     {
         $value = HighlightingInterface::FRAGMENTER_REGEX;
         $this->hlt->setFragmenter($value);
@@ -361,7 +361,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetRegexSlop()
+    public function testSetAndGetRegexSlop(): void
     {
         $value = .8;
         $this->hlt->setRegexSlop($value);
@@ -372,7 +372,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetRegexPattern()
+    public function testSetAndGetRegexPattern(): void
     {
         $value = 'myPattern';
         $this->hlt->setRegexPattern($value);
@@ -383,7 +383,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetRegexMaxAnalyzedChars()
+    public function testSetAndGetRegexMaxAnalyzedChars(): void
     {
         $value = 500;
         $this->hlt->setRegexMaxAnalyzedChars($value);
@@ -394,19 +394,19 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetPreserveMulti()
+    public function testSetAndGetPreserveMulti(): void
     {
         $this->hlt->setPreserveMulti(true);
         $this->assertTrue($this->hlt->getPreserveMulti());
     }
 
-    public function testSetAndGetPayloads()
+    public function testSetAndGetPayloads(): void
     {
         $this->hlt->setPayloads(false);
         $this->assertFalse($this->hlt->getPayloads());
     }
 
-    public function testSetAndGetFragListBuilder()
+    public function testSetAndGetFragListBuilder(): void
     {
         $value = HighlightingInterface::FRAGLISTBUILDER_SINGLE;
         $this->hlt->setFragListBuilder($value);
@@ -417,7 +417,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetFragmentsBuilder()
+    public function testSetAndGetFragmentsBuilder(): void
     {
         $value = HighlightingInterface::FRAGMENTSBUILDER_DEFAULT;
         $this->hlt->setFragmentsBuilder($value);
@@ -428,7 +428,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScanner()
+    public function testSetAndGetBoundaryScanner(): void
     {
         $value = HighlightingInterface::BOUNDARYSCANNER_SIMPLE;
         $this->hlt->setBoundaryScanner($value);
@@ -439,7 +439,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerMaxScan()
+    public function testSetAndGetBoundaryScannerMaxScan(): void
     {
         $value = 15;
         $this->hlt->setBoundaryScannerMaxScan($value);
@@ -450,7 +450,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetBoundaryScannerChars()
+    public function testSetAndGetBoundaryScannerChars(): void
     {
         $value = "\n";
         $this->hlt->setBoundaryScannerChars($value);
@@ -461,7 +461,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseLimit()
+    public function testSetAndGetPhraseLimit(): void
     {
         $value = 20;
         $this->hlt->setPhraseLimit($value);
@@ -472,7 +472,7 @@ abstract class AbstractHighlightingTestCase extends TestCase
         );
     }
 
-    public function testSetAndGetMultiValuedSeparatorChar()
+    public function testSetAndGetMultiValuedSeparatorChar(): void
     {
         $value = '|';
         $this->hlt->setMultiValuedSeparatorChar($value);

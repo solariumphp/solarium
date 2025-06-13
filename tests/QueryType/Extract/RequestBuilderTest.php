@@ -29,7 +29,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testGetMethodWithFileUpload()
+    public function testGetMethodWithFileUpload(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -38,7 +38,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetMethodWithStreamUrl()
+    public function testGetMethodWithStreamUrl(): void
     {
         $query = $this->query;
         $query->setFile('http://solarium-project.org/');
@@ -49,7 +49,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetMethodWithResource()
+    public function testGetMethodWithResource(): void
     {
         $file = fopen('php://memory', 'w+');
         $query = $this->query;
@@ -62,7 +62,7 @@ class RequestBuilderTest extends TestCase
         fclose($file);
     }
 
-    public function testGetFileUpload()
+    public function testGetFileUpload(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -71,7 +71,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetFileUploadWithResource()
+    public function testGetFileUploadWithResource(): void
     {
         $file = fopen('php://memory', 'w+');
         $query = $this->query;
@@ -84,7 +84,7 @@ class RequestBuilderTest extends TestCase
         fclose($file);
     }
 
-    public function testSetsResourceNameWithFileUpload()
+    public function testSetsResourceNameWithFileUpload(): void
     {
         $this->builder->build($this->query);
         $this->assertSame(
@@ -93,7 +93,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testSetsResourceNameWithStreamUrl()
+    public function testSetsResourceNameWithStreamUrl(): void
     {
         $query = $this->query;
         $query->setFile('http://solarium-project.org/');
@@ -104,7 +104,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testSetsResourceNameWithResource()
+    public function testSetsResourceNameWithResource(): void
     {
         $file = fopen('php://memory', 'w+');
         $query = $this->query;
@@ -117,7 +117,7 @@ class RequestBuilderTest extends TestCase
         fclose($file);
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -127,7 +127,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetUriWithExtractFormat()
+    public function testGetUriWithExtractFormat(): void
     {
         $query = $this->query;
         $query->setExtractOnly(true);
@@ -140,7 +140,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetUriWithInputEncoding()
+    public function testGetUriWithInputEncoding(): void
     {
         $query = $this->query;
         $query->setInputEncoding('iso-8859-1');
@@ -153,7 +153,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetUriWithStreamUrl()
+    public function testGetUriWithStreamUrl(): void
     {
         $query = $this->query;
         $query->setFile('http://solarium-project.org/');
@@ -165,7 +165,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetUriWithResource()
+    public function testGetUriWithResource(): void
     {
         $file = fopen('php://memory', 'w+');
         $query = $this->query;
@@ -179,7 +179,7 @@ class RequestBuilderTest extends TestCase
         fclose($file);
     }
 
-    public function testDocumentFieldAndBoostParams()
+    public function testDocumentFieldAndBoostParams(): void
     {
         $fields = ['field1' => 'value1', 'field2' => 'value2'];
         $boosts = ['field1' => 1, 'field2' => 5];
@@ -205,7 +205,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testDocumentWithBoostThrowsException()
+    public function testDocumentWithBoostThrowsException(): void
     {
         $document = $this->query->createDocument();
         $document->setBoost(4);
@@ -215,7 +215,7 @@ class RequestBuilderTest extends TestCase
         $this->builder->build($this->query);
     }
 
-    public function testContentTypeHeader()
+    public function testContentTypeHeader(): void
     {
         $request = $this->builder->build($this->query);
 
@@ -223,7 +223,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(['boundary' => $request->getHash()], $request->getContentTypeParams());
     }
 
-    public function testDocumentDateTimeField()
+    public function testDocumentDateTimeField(): void
     {
         $timezone = new \DateTimeZone('+07:30');
         $date = new \DateTime('2013-01-15 14:41:58', $timezone);
@@ -248,7 +248,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testInvalidFileThrowsException()
+    public function testInvalidFileThrowsException(): void
     {
         $query = new Query();
         $query->setFile('nosuchfile');

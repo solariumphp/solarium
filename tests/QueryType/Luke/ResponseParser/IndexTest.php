@@ -49,7 +49,7 @@ class IndexTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testParsePhps(Index $index)
+    public function testParsePhps(Index $index): void
     {
         $data = [
             'responseHeader' => [
@@ -84,7 +84,7 @@ class IndexTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testIndex(Index $index)
+    public function testIndex(Index $index): void
     {
         $this->assertSame(15, $index->getNumDocs());
         $this->assertSame(20, $index->getMaxDoc());
@@ -105,7 +105,7 @@ class IndexTest extends TestCase
     /**
      * indexHeapUsageBytes was removed in SOLR-15341 for Solr 9.
      */
-    public function testParseWithoutIndexHeapUsageBytes()
+    public function testParseWithoutIndexHeapUsageBytes(): void
     {
         $indexData = $this->getIndexData();
         unset($indexData['indexHeapUsageBytes']);
@@ -139,7 +139,7 @@ class IndexTest extends TestCase
      * userData is empty if there haven't been any commits yet.
      * lastModified is calculated from commitTimeMSec (in Solr) and will be empty too.
      */
-    public function testParseWithoutUserData()
+    public function testParseWithoutUserData(): void
     {
         $indexData = $this->getIndexData();
         $indexData['userData'] = [];

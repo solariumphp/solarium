@@ -11,7 +11,7 @@ use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
 class SynonymTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{ "responseHeader":{ "status":0, "QTime":1}, "happy":["glad", "joyful"]}';
 

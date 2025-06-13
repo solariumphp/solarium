@@ -15,20 +15,20 @@ class SynonymsTest extends TestCase
         $this->synonyms = new Synonyms();
     }
 
-    public function testSetAndGetTerm()
+    public function testSetAndGetTerm(): void
     {
         $this->synonyms->setTerm('mad');
         $this->assertSame('mad', $this->synonyms->getTerm());
     }
 
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->synonyms->setTerm('mad');
         $this->synonyms->removeTerm();
         $this->assertNull($this->synonyms->getTerm());
     }
 
-    public function testSetAndGetSynonyms()
+    public function testSetAndGetSynonyms(): void
     {
         $this->synonyms->setSynonyms(['angry', 'upset']);
         $this->assertSame(['angry', 'upset'], $this->synonyms->getSynonyms());

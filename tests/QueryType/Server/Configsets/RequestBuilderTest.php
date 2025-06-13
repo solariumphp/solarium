@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $action = $this->query->createList();
 
@@ -47,7 +47,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('admin/configs?wt=json&json.nl=flat&action=LIST', $request->getUri());
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $create = $this->query->createCreate();
         $create->setName('someconfigset');
@@ -65,7 +65,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $delete = $this->query->createDelete();
         $delete->setName('someconfigset');
@@ -78,7 +78,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testUpload()
+    public function testUpload(): void
     {
         $reload = $this->query->createUpload();
         $reload->setName('someconfigset');

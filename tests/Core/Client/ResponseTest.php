@@ -28,33 +28,33 @@ class ResponseTest extends TestCase
         $this->response = new Response($this->data, $this->headers);
     }
 
-    public function testGetStatusCode()
+    public function testGetStatusCode(): void
     {
         $this->assertSame(304, $this->response->getStatusCode());
     }
 
-    public function testGetStatusMessage()
+    public function testGetStatusMessage(): void
     {
         $this->assertSame('Not Modified', $this->response->getStatusMessage());
     }
 
-    public function testGetHeaders()
+    public function testGetHeaders(): void
     {
         $this->assertSame($this->headers, $this->response->getHeaders());
     }
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $this->assertSame($this->data, $this->response->getBody());
     }
 
-    public function testSetBody()
+    public function testSetBody(): void
     {
         $this->response->setBody('test body');
         $this->assertSame('test body', $this->response->getBody());
     }
 
-    public function testMissingStatusCode()
+    public function testMissingStatusCode(): void
     {
         $headers = ['dummy'];
 

@@ -62,7 +62,7 @@ class DocTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testParsePhps(DocInfo $doc)
+    public function testParsePhps(DocInfo $doc): void
     {
         // the doc parser accesses the response body directly
         $rawData = sprintf(
@@ -93,7 +93,7 @@ class DocTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDocId(DocInfo $doc)
+    public function testDocId(DocInfo $doc): void
     {
         $this->assertSame(1701, $doc->getDocId());
     }
@@ -101,7 +101,7 @@ class DocTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testLucene(DocInfo $doc)
+    public function testLucene(DocInfo $doc): void
     {
         $lucene = $doc->getLucene();
 
@@ -164,7 +164,7 @@ class DocTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testSolr(DocInfo $doc)
+    public function testSolr(DocInfo $doc): void
     {
         $solr = $doc->getSolr();
 
@@ -186,7 +186,7 @@ class DocTest extends TestCase
         );
     }
 
-    public function testParseWithInvalidDocumentClass()
+    public function testParseWithInvalidDocumentClass(): void
     {
         $data = [
             'responseHeader' => [

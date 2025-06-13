@@ -35,12 +35,12 @@ JSON;
         $this->resourceList = new ResourceList($query, $response);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('managedResources', $this->resourceList->getName());
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $items = [
             0 => new Resource([
@@ -58,7 +58,7 @@ JSON;
         $this->assertEquals($items, $this->resourceList->getItems());
     }
 
-    public function testGetIterator()
+    public function testGetIterator(): void
     {
         $items = [
             0 => new Resource([
@@ -78,7 +78,7 @@ JSON;
         }
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertCount(2, $this->resourceList);
     }

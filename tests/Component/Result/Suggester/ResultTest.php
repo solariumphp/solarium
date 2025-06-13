@@ -40,12 +40,12 @@ class ResultTest extends TestCase
         $this->result = new Result($this->docs, $all);
     }
 
-    public function testGetDictionary()
+    public function testGetDictionary(): void
     {
         $this->assertEquals($this->docs['dictionary1'], $this->result->getDictionary('dictionary1'));
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $docs = [];
         foreach ($this->result as $key => $doc) {
@@ -55,7 +55,7 @@ class ResultTest extends TestCase
         $this->assertEquals($this->docs, $docs);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->docs, $this->result);
     }

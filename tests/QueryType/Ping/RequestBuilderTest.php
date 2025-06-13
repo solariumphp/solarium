@@ -9,7 +9,7 @@ use Solarium\QueryType\Ping\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
-    public function testBuild()
+    public function testBuild(): void
     {
         $builder = new RequestBuilder();
         $request = $builder->build(new Query());

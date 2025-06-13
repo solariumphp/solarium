@@ -23,7 +23,7 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'handler' => 'my/handler',
@@ -88,7 +88,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testConfigModeFieldsAsString()
+    public function testConfigModeFieldsAsString(): void
     {
         $this->query->setOptions(['fields' => 'field3,field4, field5']);
         $this->assertSame(
@@ -97,12 +97,12 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_LUKE, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
@@ -110,7 +110,7 @@ class QueryTest extends TestCase
     /**
      * Without parameters, the behaviour is the same as SHOW_ALL.
      */
-    public function testGetResponseParserWithoutShowWithoutFieldsOrIdOrDocId()
+    public function testGetResponseParserWithoutShowWithoutFieldsOrIdOrDocId(): void
     {
         $this->assertInstanceOf(FieldsResponseParser::class, $this->query->getResponseParser());
     }
@@ -118,7 +118,7 @@ class QueryTest extends TestCase
     /**
      * With only 'fl', the same parsing as for SHOW_ALL can be used.
      */
-    public function testGetResponseParserWithoutShowWithFields()
+    public function testGetResponseParserWithoutShowWithFields(): void
     {
         $this->query->setFields('field1,field2');
         $this->assertInstanceOf(FieldsResponseParser::class, $this->query->getResponseParser());
@@ -127,7 +127,7 @@ class QueryTest extends TestCase
     /**
      * With only an 'id', the behaviour is the same as SHOW_DOC with 'id'.
      */
-    public function testGetResponseParserWithoutShowWithId()
+    public function testGetResponseParserWithoutShowWithId(): void
     {
         $this->query->setId('abc');
         $this->assertInstanceOf(DocResponseParser::class, $this->query->getResponseParser());
@@ -136,19 +136,19 @@ class QueryTest extends TestCase
     /**
      * With only a 'docId', the behaviour is the same as SHOW_DOC with 'docId'.
      */
-    public function testGetResponseParserWithoutShowWithDocId()
+    public function testGetResponseParserWithoutShowWithDocId(): void
     {
         $this->query->setDocId(123);
         $this->assertInstanceOf(DocResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithShowAll()
+    public function testGetResponseParserWithShowAll(): void
     {
         $this->query->setShow(Query::SHOW_ALL);
         $this->assertInstanceOf(FieldsResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithShowAllWithFields()
+    public function testGetResponseParserWithShowAllWithFields(): void
     {
         $this->query->setShow(Query::SHOW_ALL);
         $this->query->setFields('field1,field2');
@@ -158,7 +158,7 @@ class QueryTest extends TestCase
     /**
      * SHOW_DOC without 'id' or 'docId' behaves like SHOW_ALL.
      */
-    public function testGetResponseParserWithShowDocWithoutIdOrDocId()
+    public function testGetResponseParserWithShowDocWithoutIdOrDocId(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->assertInstanceOf(FieldsResponseParser::class, $this->query->getResponseParser());
@@ -167,14 +167,14 @@ class QueryTest extends TestCase
     /**
      * SHOW_DOC without 'id' or 'docId', but with 'fl', behaves like 'fl' without 'show'.
      */
-    public function testGetResponseParserWithShowDocWithOnlyFields()
+    public function testGetResponseParserWithShowDocWithOnlyFields(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->query->setFields('field1,field2');
         $this->assertInstanceOf(FieldsResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithShowDocWithId()
+    public function testGetResponseParserWithShowDocWithId(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->query->setId('abc');
@@ -184,7 +184,7 @@ class QueryTest extends TestCase
     /**
      * 'fl' is ignored if SHOW_DOC has an 'id'.
      */
-    public function testGetResponseParserWithShowDocWithIdAndFields()
+    public function testGetResponseParserWithShowDocWithIdAndFields(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->query->setId('abc');
@@ -192,7 +192,7 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(DocResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithShowDocWithDocId()
+    public function testGetResponseParserWithShowDocWithDocId(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->query->setDocId(123);
@@ -202,7 +202,7 @@ class QueryTest extends TestCase
     /**
      * 'fl' is ignored if SHOW_DOC has a 'docId'.
      */
-    public function testGetResponseParserWithShowDocWithDocIdAndFields()
+    public function testGetResponseParserWithShowDocWithDocIdAndFields(): void
     {
         $this->query->setShow(Query::SHOW_DOC);
         $this->query->setDocId(123);
@@ -210,13 +210,13 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(DocResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithShowIndex()
+    public function testGetResponseParserWithShowIndex(): void
     {
         $this->query->setShow(Query::SHOW_INDEX);
         $this->assertInstanceOf(IndexResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testGetResponseParserWithShowSchema()
+    public function testGetResponseParserWithShowSchema(): void
     {
         $this->query->setShow(Query::SHOW_SCHEMA);
         $this->assertInstanceOf(SchemaResponseParser::class, $this->query->getResponseParser());
@@ -225,60 +225,60 @@ class QueryTest extends TestCase
     /**
      * Fallback to SHOW_INDEX behaviour for unknown show style.
      */
-    public function testGetResponseParserWithUnknownShow()
+    public function testGetResponseParserWithUnknownShow(): void
     {
         $this->query->setShow('unknown');
         $this->assertInstanceOf(IndexResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testSetAndGetDocumentClass()
+    public function testSetAndGetDocumentClass(): void
     {
         $this->query->setDocumentClass('MyDocument');
         $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
-    public function testSetAndGetShow()
+    public function testSetAndGetShow(): void
     {
         $this->query->setShow(Query::SHOW_SCHEMA);
         $this->assertSame(Query::SHOW_SCHEMA, $this->query->getShow());
     }
 
-    public function testSetAndGetId()
+    public function testSetAndGetId(): void
     {
         $this->query->setId('abc');
         $this->assertSame('abc', $this->query->getId());
     }
 
-    public function testSetAndGetDocId()
+    public function testSetAndGetDocId(): void
     {
         $this->query->setDocId(123);
         $this->assertSame(123, $this->query->getDocId());
     }
 
-    public function testSetAndGetFieldsAsArray()
+    public function testSetAndGetFieldsAsArray(): void
     {
         $this->query->setFields(['field1', 'field2']);
         $this->assertSame(['field1', 'field2'], $this->query->getFields());
     }
 
-    public function testSetAndGetFieldsAsString()
+    public function testSetAndGetFieldsAsString(): void
     {
         $this->query->setFields('field1,field2, field3');
         $this->assertSame(['field1', 'field2', 'field3'], $this->query->getFields());
     }
 
-    public function testGetUnsetFields()
+    public function testGetUnsetFields(): void
     {
         $this->assertSame([], $this->query->getFields());
     }
 
-    public function testSetAndGetNumTerms()
+    public function testSetAndGetNumTerms(): void
     {
         $this->query->setNumTerms(15);
         $this->assertSame(15, $this->query->getNumTerms());
     }
 
-    public function testSetAndGetIncludeIndexFieldFlags()
+    public function testSetAndGetIncludeIndexFieldFlags(): void
     {
         $this->query->setIncludeIndexFieldFlags(false);
         $this->assertFalse($this->query->getIncludeIndexFieldFlags());

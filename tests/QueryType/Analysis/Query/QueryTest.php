@@ -16,7 +16,7 @@ class QueryTest extends TestCase
         $this->query = new TestAnalysisQuery();
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $querystring = 'test query values';
 
@@ -24,13 +24,13 @@ class QueryTest extends TestCase
         $this->assertSame($querystring, $this->query->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->query->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->query->getQuery());
     }
 
-    public function testSetAndGetShowMatch()
+    public function testSetAndGetShowMatch(): void
     {
         $this->query->setShowMatch(true);
         $this->assertTrue($this->query->getShowMatch());

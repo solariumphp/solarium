@@ -73,7 +73,7 @@ class DocumentTest extends TestCase
         $this->doc = new Document($this->fields);
     }
 
-    public function testConstructorWithFieldsAndBoostsAndModifiers()
+    public function testConstructorWithFieldsAndBoostsAndModifiers(): void
     {
         $fields = ['id' => 1, 'name' => 'testname', 'categories' => [4, 5]];
         $boosts = ['name' => 2.7];
@@ -97,7 +97,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testConstructorWithChildDocuments()
+    public function testConstructorWithChildDocuments(): void
     {
         $doc = new Document($this->childDocumentFields);
 
@@ -117,7 +117,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldNoBoost()
+    public function testAddFieldNoBoost(): void
     {
         $this->doc->addField('myfield', 'myvalue');
 
@@ -130,7 +130,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithBoost()
+    public function testAddFieldWithBoost(): void
     {
         $this->doc->addField('myfield', 'myvalue', 2.3);
 
@@ -162,7 +162,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldMultivalue()
+    public function testAddFieldMultivalue(): void
     {
         $this->doc->addField('myfield', 'myvalue');
 
@@ -184,7 +184,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithModifier()
+    public function testAddFieldWithModifier(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 1);
@@ -213,7 +213,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithSingleNestedDocument()
+    public function testAddFieldWithSingleNestedDocument(): void
     {
         $this->doc->addField('single_child', $this->childDocumentFields['single_child']);
 
@@ -226,7 +226,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithNestedDocuments()
+    public function testAddFieldWithNestedDocuments(): void
     {
         foreach ($this->childDocumentFields['children'] as $child) {
             $this->doc->addField('children', $child);
@@ -241,7 +241,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithSingleAnonymousNestedDocument()
+    public function testAddFieldWithSingleAnonymousNestedDocument(): void
     {
         $this->doc->addField('_childDocuments_', $this->childDocumentFields['_childDocuments_'][0]);
 
@@ -254,7 +254,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddFieldWithAnonymousNestedDocuments()
+    public function testAddFieldWithAnonymousNestedDocuments(): void
     {
         foreach ($this->childDocumentFields['_childDocuments_'] as $child) {
             $this->doc->addField('_childDocuments_', $child);
@@ -269,7 +269,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetField()
+    public function testSetField(): void
     {
         $this->doc->setField('name', 'newname');
 
@@ -282,7 +282,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldWithModifier()
+    public function testSetFieldWithModifier(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 1);
@@ -299,7 +299,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldWithFalsyValue()
+    public function testSetFieldWithFalsyValue(): void
     {
         $falsy_value = '';
         $this->doc->setField('name', $falsy_value);
@@ -313,7 +313,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldWithSingleNestedDocument()
+    public function testSetFieldWithSingleNestedDocument(): void
     {
         $this->doc->setField('single_child', $this->childDocumentFields['single_child']);
 
@@ -326,7 +326,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldWithNestedDocuments()
+    public function testSetFieldWithNestedDocuments(): void
     {
         $this->doc->setField('children', $this->childDocumentFields['children']);
 
@@ -339,7 +339,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldWithSingleAnonymousNestedDocument()
+    public function testSetFieldWithSingleAnonymousNestedDocument(): void
     {
         $this->doc->setField('_childDocuments_', $this->childDocumentFields['_childDocuments_'][0]);
 
@@ -352,7 +352,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldWithAnonymousNestedDocuments()
+    public function testSetFieldWithAnonymousNestedDocuments(): void
     {
         $this->doc->setField('_childDocuments_', $this->childDocumentFields['_childDocuments_']);
 
@@ -365,7 +365,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $this->doc->addField('foo', 'bar');
         $this->doc->setFieldBoost('name', 2.7);
@@ -388,7 +388,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldsWithBoostsAndModifiers()
+    public function testSetFieldsWithBoostsAndModifiers(): void
     {
         $fields = ['id' => 1, 'name' => 'testname', 'categories' => [4, 5]];
         $boosts = ['name' => 2.7];
@@ -413,7 +413,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldsWithChildDocuments()
+    public function testSetFieldsWithChildDocuments(): void
     {
         $this->doc->setFields($this->childDocumentFields);
 
@@ -433,7 +433,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $this->doc->removeField('name');
 
@@ -446,7 +446,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveFieldBySettingNullValueWithModifier()
+    public function testRemoveFieldBySettingNullValueWithModifier(): void
     {
         $this->doc->setKey('key', 123);
         $this->doc->setField('name', null, null, Document::MODIFIER_SET);
@@ -461,7 +461,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveFieldBySettingToNull()
+    public function testRemoveFieldBySettingToNull(): void
     {
         $this->doc->setField('name', null);
 
@@ -474,7 +474,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveFieldBoostRemoval()
+    public function testRemoveFieldBoostRemoval(): void
     {
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->removeField('name');
@@ -484,7 +484,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveFieldModifierRemoval()
+    public function testRemoveFieldModifierRemoval(): void
     {
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
         $this->doc->removeField('name');
@@ -494,7 +494,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveInvalidField()
+    public function testRemoveInvalidField(): void
     {
         $this->doc->removeField('invalidname'); // should silently continue...
 
@@ -504,7 +504,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldBoost()
+    public function testSetAndGetFieldBoost(): void
     {
         $this->doc->setFieldBoost('name', 2.5);
         $this->assertSame(
@@ -513,7 +513,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldBoosts()
+    public function testSetAndGetFieldBoosts(): void
     {
         $this->doc->setFieldBoost('name', 2.5);
         $this->doc->setFieldBoost('category', 1.5);
@@ -526,7 +526,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testGetInvalidFieldBoost()
+    public function testGetInvalidFieldBoost(): void
     {
         $this->assertNull(
             $this->doc->getFieldBoost('invalidname')
@@ -536,7 +536,7 @@ class DocumentTest extends TestCase
     /**
      * @deprecated No longer supported since Solr 7
      */
-    public function testSetAndGetBoost()
+    public function testSetAndGetBoost(): void
     {
         $this->doc->setBoost(2.5);
         $this->assertSame(
@@ -545,7 +545,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldByProperty()
+    public function testSetAndGetFieldByProperty(): void
     {
         $this->doc->name = 'new name';
 
@@ -555,7 +555,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetMultivalueFieldByProperty()
+    public function testSetAndGetMultivalueFieldByProperty(): void
     {
         $values = ['test1', 'test2', 'test3'];
         $this->doc->multivaluefield = $values;
@@ -566,7 +566,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetMultivalueFieldByPropertyOverwrite()
+    public function testSetAndGetMultivalueFieldByPropertyOverwrite(): void
     {
         $values = ['test1', 'test2', 'test3'];
         $this->doc->name = $values;
@@ -577,7 +577,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldWithSingleNestedDocumentByProperty()
+    public function testSetAndGetFieldWithSingleNestedDocumentByProperty(): void
     {
         $this->doc->single_child = $this->childDocumentFields['single_child'];
 
@@ -587,7 +587,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldWithNestedDocumentsByProperty()
+    public function testSetAndGetFieldWithNestedDocumentsByProperty(): void
     {
         $this->doc->children = $this->childDocumentFields['children'];
 
@@ -597,7 +597,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldWithSingleAnonymousNestedDocumentByProperty()
+    public function testSetAndGetFieldWithSingleAnonymousNestedDocumentByProperty(): void
     {
         $this->doc->_childDocuments_ = $this->childDocumentFields['_childDocuments_'][0];
 
@@ -607,7 +607,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldWithAnonymousNestedDocumentsByProperty()
+    public function testSetAndGetFieldWithAnonymousNestedDocumentsByProperty(): void
     {
         $this->doc->_childDocuments_ = $this->childDocumentFields['_childDocuments_'];
 
@@ -617,7 +617,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testUnsetFieldByProperty()
+    public function testUnsetFieldByProperty(): void
     {
         unset($this->doc->name);
 
@@ -630,7 +630,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldAsArray()
+    public function testSetFieldAsArray(): void
     {
         $this->doc['name'] = 'newname';
 
@@ -643,7 +643,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testRemoveFieldAsArray()
+    public function testRemoveFieldAsArray(): void
     {
         unset($this->doc['name']);
 
@@ -656,7 +656,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $this->doc->clear();
 
@@ -668,7 +668,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testClearFieldsBoostRemoval()
+    public function testClearFieldsBoostRemoval(): void
     {
         $this->doc->setFieldBoost('name', 3.2);
         $this->doc->clear();
@@ -678,7 +678,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldModifier()
+    public function testSetAndGetFieldModifier(): void
     {
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
 
@@ -692,7 +692,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testClearFieldsModifierRemoval()
+    public function testClearFieldsModifierRemoval(): void
     {
         $this->doc->setFieldModifier('name', Document::MODIFIER_ADD);
         $this->doc->clear();
@@ -702,13 +702,13 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetFieldModifierWithInvalidValue()
+    public function testSetFieldModifierWithInvalidValue(): void
     {
         $this->expectException(RuntimeException::class);
         $this->doc->setFieldModifier('name', 'invalid_modifier_value');
     }
 
-    public function testSetAndGetFieldsUsingModifiers()
+    public function testSetAndGetFieldsUsingModifiers(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 1);
@@ -720,7 +720,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testSetAndGetFieldsUsingModifiersWithNonExistingKey()
+    public function testSetAndGetFieldsUsingModifiersWithNonExistingKey(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id');
@@ -730,7 +730,7 @@ class DocumentTest extends TestCase
         $this->doc->getFields();
     }
 
-    public function testSetAndGetFieldsUsingModifiersWithoutKey()
+    public function testSetAndGetFieldsUsingModifiersWithoutKey(): void
     {
         $this->doc->clear();
         $this->doc->setField('id', 1);
@@ -740,7 +740,7 @@ class DocumentTest extends TestCase
         $this->doc->getFields();
     }
 
-    public function testSetAndGetVersion()
+    public function testSetAndGetVersion(): void
     {
         $this->assertNull(
             $this->doc->getVersion()
@@ -759,7 +759,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->doc->clear();
         $this->doc->setField('single_int', 1);
@@ -799,7 +799,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeWithChildDocuments()
+    public function testJsonSerializeWithChildDocuments(): void
     {
         $this->doc->clear();
         $this->doc->setField('id', 123);
@@ -812,7 +812,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifiers()
+    public function testJsonSerializeUsingModifiers(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -827,7 +827,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierSet()
+    public function testJsonSerializeUsingModifierSet(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -842,7 +842,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierAdd()
+    public function testJsonSerializeUsingModifierAdd(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -855,7 +855,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierAddDistinct()
+    public function testJsonSerializeUsingModifierAddDistinct(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -868,7 +868,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierRemove()
+    public function testJsonSerializeUsingModifierRemove(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -881,7 +881,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierRemoveRegex()
+    public function testJsonSerializeUsingModifierRemoveRegex(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -894,7 +894,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierInc()
+    public function testJsonSerializeUsingModifierInc(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -910,7 +910,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierSetWithChildDocuments()
+    public function testJsonSerializeUsingModifierSetWithChildDocuments(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -923,7 +923,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierAddWithChildDocuments()
+    public function testJsonSerializeUsingModifierAddWithChildDocuments(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -936,7 +936,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifierRemoveWithChildDocuments()
+    public function testJsonSerializeUsingModifierRemoveWithChildDocuments(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id', 123);
@@ -949,7 +949,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testJsonSerializeUsingModifiersWithNonExistingKey()
+    public function testJsonSerializeUsingModifiersWithNonExistingKey(): void
     {
         $this->doc->clear();
         $this->doc->setKey('id');
@@ -959,7 +959,7 @@ class DocumentTest extends TestCase
         json_encode($this->doc);
     }
 
-    public function testJsonSerializeUsingModifiersWithoutKey()
+    public function testJsonSerializeUsingModifiersWithoutKey(): void
     {
         $this->doc->clear();
         $this->doc->setField('id', 1);

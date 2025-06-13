@@ -18,7 +18,7 @@ class JsonAggregationTest extends TestCase
         $this->facet = new JsonAggregation();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -33,7 +33,7 @@ class JsonAggregationTest extends TestCase
         $this->assertSame($options['min'], $this->facet->getMin());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::JSON_FACET_AGGREGATION,
@@ -41,13 +41,13 @@ class JsonAggregationTest extends TestCase
         );
     }
 
-    public function testSetAndGetFunction()
+    public function testSetAndGetFunction(): void
     {
         $this->facet->setFunction('sum(field)');
         $this->assertSame('sum(field)', $this->facet->getFunction());
     }
 
-    public function testSetAndGetMin()
+    public function testSetAndGetMin(): void
     {
         $this->facet->setMin(100);
         $this->assertSame(100, $this->facet->getMin());

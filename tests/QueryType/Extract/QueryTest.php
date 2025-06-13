@@ -21,22 +21,22 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_EXTRACT, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $mappings = [
             'from1' => 'to1',
@@ -55,26 +55,26 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetStart()
+    public function testSetAndGetStart(): void
     {
         $doc = new Document(['field1', 'value1']);
         $this->query->setDocument($doc);
         $this->assertSame($doc, $this->query->getDocument());
     }
 
-    public function testSetAndGetFilename()
+    public function testSetAndGetFilename(): void
     {
         $this->query->setFile(__FILE__);
         $this->assertSame(__FILE__, $this->query->getFile());
     }
 
-    public function testSetAndGetFileUrl()
+    public function testSetAndGetFileUrl(): void
     {
         $this->query->setFile('http://solarium-project.org/');
         $this->assertSame('http://solarium-project.org/', $this->query->getFile());
     }
 
-    public function testSetAndGetFileResource()
+    public function testSetAndGetFileResource(): void
     {
         $file = fopen('php://memory', 'r');
         $this->query->setFile($file);
@@ -82,25 +82,25 @@ class QueryTest extends TestCase
         fclose($file);
     }
 
-    public function testSetAndGetUprefix()
+    public function testSetAndGetUprefix(): void
     {
         $this->query->setUprefix('dyn_');
         $this->assertSame('dyn_', $this->query->getUprefix());
     }
 
-    public function testSetAndGetDefaultField()
+    public function testSetAndGetDefaultField(): void
     {
         $this->query->setDefaultField('defaulttext');
         $this->assertSame('defaulttext', $this->query->getDefaultField());
     }
 
-    public function testSetAndGetExtractOnly()
+    public function testSetAndGetExtractOnly(): void
     {
         $this->query->setExtractOnly(true);
         $this->assertTrue($this->query->getExtractOnly());
     }
 
-    public function testSetAndGetExtractFormat()
+    public function testSetAndGetExtractFormat(): void
     {
         $this->query->setExtractFormat(Query::EXTRACT_FORMAT_TEXT);
         $this->assertSame('text', $this->query->getExtractFormat());
@@ -109,19 +109,19 @@ class QueryTest extends TestCase
         $this->assertSame('xml', $this->query->getExtractFormat());
     }
 
-    public function testSetAndGetLowernames()
+    public function testSetAndGetLowernames(): void
     {
         $this->query->setLowernames(true);
         $this->assertTrue($this->query->getLowernames());
     }
 
-    public function testSetAndGetCommit()
+    public function testSetAndGetCommit(): void
     {
         $this->query->setCommit(true);
         $this->assertTrue($this->query->getCommit());
     }
 
-    public function testSetAndGetCommitWithin()
+    public function testSetAndGetCommitWithin(): void
     {
         $this->query->setCommitWithin(458);
         $this->assertSame(458, $this->query->getCommitWithin());
@@ -140,7 +140,7 @@ class QueryTest extends TestCase
      *
      * @param mixed $query
      */
-    public function testCreateDocument($query)
+    public function testCreateDocument($query): void
     {
         $fields = ['key1' => 'value1', 'key2' => 'value2'];
         $boosts = ['key1' => 1.0, 'key2' => 2.0];
@@ -206,14 +206,14 @@ class QueryTest extends TestCase
      *
      * @param Query $query
      */
-    public function testSetFields($query)
+    public function testSetFields($query): void
     {
         $fields = ['field3' => 'target3', 'field4' => 'target4'];
         $query->setFieldMappings($fields);
         $this->assertSame($fields, $query->getFieldMappings());
     }
 
-    public function testSetAndGetResourceName()
+    public function testSetAndGetResourceName(): void
     {
         $this->query->setResourceName('document.pdf');
         $this->assertSame('document.pdf', $this->query->getResourceName());

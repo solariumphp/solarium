@@ -20,7 +20,7 @@ class AddTest extends TestCase
         $this->command = new Add();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMMAND_ADD,
@@ -28,7 +28,7 @@ class AddTest extends TestCase
         );
     }
 
-    public function testAddDocument()
+    public function testAddDocument(): void
     {
         $doc = new Document(['id' => 1]);
         $this->command->addDocument($doc);
@@ -38,7 +38,7 @@ class AddTest extends TestCase
         );
     }
 
-    public function testAddDocuments()
+    public function testAddDocuments(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 2]);
@@ -49,7 +49,7 @@ class AddTest extends TestCase
         );
     }
 
-    public function testAddDocumentsMultipleTimes()
+    public function testAddDocumentsMultipleTimes(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 2]);
@@ -65,7 +65,7 @@ class AddTest extends TestCase
         );
     }
 
-    public function testAddDocumentsIteration()
+    public function testAddDocumentsIteration(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 2]);
@@ -102,7 +102,7 @@ class AddTest extends TestCase
     /**
      * @depends testAddDocumentsIteration
      */
-    public function testAddDocumentToIteration()
+    public function testAddDocumentToIteration(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 2]);
@@ -121,14 +121,14 @@ class AddTest extends TestCase
         );
     }
 
-    public function testAddDocumentsException()
+    public function testAddDocumentsException(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Documents must implement DocumentInterface.');
         $this->command->addDocuments([new \stdClass()]);
     }
 
-    public function testSetDocuments()
+    public function testSetDocuments(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 2]);
@@ -141,7 +141,7 @@ class AddTest extends TestCase
         );
     }
 
-    public function testClear()
+    public function testClear(): void
     {
         $doc1 = new Document(['id' => 1]);
         $doc2 = new Document(['id' => 2]);
@@ -151,7 +151,7 @@ class AddTest extends TestCase
         $this->assertCount(0, $this->command->getDocuments());
     }
 
-    public function testGetAndSetOverwrite()
+    public function testGetAndSetOverwrite(): void
     {
         $this->command->setOverwrite(false);
         $this->assertFalse(
@@ -159,7 +159,7 @@ class AddTest extends TestCase
         );
     }
 
-    public function testGetAndSetCommitWithin()
+    public function testGetAndSetCommitWithin(): void
     {
         $this->command->setCommitWithin(100);
         $this->assertSame(

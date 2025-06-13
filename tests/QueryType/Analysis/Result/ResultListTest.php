@@ -23,17 +23,17 @@ class ResultListTest extends TestCase
         $this->result = new ResultList($this->name, $this->items);
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $this->assertSame($this->items, $this->result->getItems());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $lists = [];
         foreach ($this->result as $key => $list) {
@@ -43,7 +43,7 @@ class ResultListTest extends TestCase
         $this->assertSame($this->items, $lists);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame(
             $this->name,

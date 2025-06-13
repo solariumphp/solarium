@@ -10,7 +10,7 @@ use Solarium\QueryType\Spellcheck\Result\Term;
 
 class ResponseParserTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'responseHeader' => [

@@ -18,25 +18,25 @@ class IndexTest extends TestCase
         $this->index = new Index();
     }
 
-    public function testSetAndGetNumDocs()
+    public function testSetAndGetNumDocs(): void
     {
         $this->assertSame($this->index, $this->index->setNumDocs(20));
         $this->assertSame(20, $this->index->getNumDocs());
     }
 
-    public function testSetAndGetMaxDoc()
+    public function testSetAndGetMaxDoc(): void
     {
         $this->assertSame($this->index, $this->index->setMaxDoc(30));
         $this->assertSame(30, $this->index->getMaxDoc());
     }
 
-    public function testSetAndGetDeletedDocs()
+    public function testSetAndGetDeletedDocs(): void
     {
         $this->assertSame($this->index, $this->index->setDeletedDocs(10));
         $this->assertSame(10, $this->index->getDeletedDocs());
     }
 
-    public function testSetAndGetIndexHeapUsageBytes()
+    public function testSetAndGetIndexHeapUsageBytes(): void
     {
         $this->assertSame($this->index, $this->index->setIndexHeapUsageBytes(5000));
         $this->assertSame(5000, $this->index->getIndexHeapUsageBytes());
@@ -45,58 +45,58 @@ class IndexTest extends TestCase
         $this->assertNull($this->index->getIndexHeapUsageBytes());
     }
 
-    public function testSetAndGetVersion()
+    public function testSetAndGetVersion(): void
     {
         $this->assertSame($this->index, $this->index->setVersion(5));
         $this->assertSame(5, $this->index->getVersion());
     }
 
-    public function testSetAndGetSegmentCount()
+    public function testSetAndGetSegmentCount(): void
     {
         $this->assertSame($this->index, $this->index->setSegmentCount(1));
         $this->assertSame(1, $this->index->getSegmentCount());
     }
 
-    public function testSetAndGetAndIsCurrent()
+    public function testSetAndGetAndIsCurrent(): void
     {
         $this->assertSame($this->index, $this->index->setCurrent(true));
         $this->assertTrue($this->index->getCurrent());
         $this->assertTrue($this->index->isCurrent());
     }
 
-    public function testSetAndGetAndHasDeletions()
+    public function testSetAndGetAndHasDeletions(): void
     {
         $this->assertSame($this->index, $this->index->setHasDeletions(false));
         $this->assertFalse($this->index->getHasDeletions());
         $this->assertFalse($this->index->hasDeletions());
     }
 
-    public function testSetAndGetDirectory()
+    public function testSetAndGetDirectory(): void
     {
         $this->assertSame($this->index, $this->index->setDirectory('directory info'));
         $this->assertSame('directory info', $this->index->getDirectory());
     }
 
-    public function testSetAndGetSegmentsFile()
+    public function testSetAndGetSegmentsFile(): void
     {
         $this->assertSame($this->index, $this->index->setSegmentsFile('segments_2'));
         $this->assertSame('segments_2', $this->index->getSegmentsFile());
     }
 
-    public function testSetAndGetSegmentsFileSizeInBytes()
+    public function testSetAndGetSegmentsFileSizeInBytes(): void
     {
         $this->assertSame($this->index, $this->index->setSegmentsFileSizeInBytes(200));
         $this->assertSame(200, $this->index->getSegmentsFileSizeInBytes());
     }
 
-    public function testSetAndGetUserData()
+    public function testSetAndGetUserData(): void
     {
         $userData = new UserData();
         $this->assertSame($this->index, $this->index->setUserData($userData));
         $this->assertSame($userData, $this->index->getUserData());
     }
 
-    public function testSetAndGetLastModified()
+    public function testSetAndGetLastModified(): void
     {
         $lastModified = new \DateTime();
         $this->assertSame($this->index, $this->index->setLastModified($lastModified));

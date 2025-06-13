@@ -20,7 +20,7 @@ class DisMaxTest extends TestCase
         $this->disMax = new DisMax();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'queryparser' => 'edismax',
@@ -49,7 +49,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($options['boostfunctions'], $this->disMax->getBoostFunctions());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMPONENT_DISMAX,
@@ -57,12 +57,12 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertNull($this->disMax->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Dismax',
@@ -70,7 +70,7 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryParser()
+    public function testSetAndGetQueryParser(): void
     {
         $value = 'dummyparser';
         $this->disMax->setQueryParser($value);
@@ -78,7 +78,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($value, $this->disMax->getQueryParser());
     }
 
-    public function testSetAndGetQueryAlternative()
+    public function testSetAndGetQueryAlternative(): void
     {
         $value = '*:*';
         $this->disMax->setQueryAlternative($value);
@@ -86,7 +86,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($value, $this->disMax->getQueryAlternative());
     }
 
-    public function testSetAndGetQueryFields()
+    public function testSetAndGetQueryFields(): void
     {
         $value = 'title^2.0 description';
         $this->disMax->setQueryFields($value);
@@ -94,7 +94,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($value, $this->disMax->getQueryFields());
     }
 
-    public function testSetAndGetMinimumMatch()
+    public function testSetAndGetMinimumMatch(): void
     {
         $value = '2.0';
         $this->disMax->setMinimumMatch($value);
@@ -102,7 +102,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($value, $this->disMax->getMinimumMatch());
     }
 
-    public function testSetAndGetPhraseFields()
+    public function testSetAndGetPhraseFields(): void
     {
         $value = 'title^2.0 description^3.5';
         $this->disMax->setPhraseFields($value);
@@ -113,7 +113,7 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseSlop()
+    public function testSetAndGetPhraseSlop(): void
     {
         $value = 2;
         $this->disMax->setPhraseSlop($value);
@@ -124,7 +124,7 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryPhraseSlop()
+    public function testSetAndGetQueryPhraseSlop(): void
     {
         $value = 3;
         $this->disMax->setQueryPhraseSlop($value);
@@ -135,7 +135,7 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetTie()
+    public function testSetAndGetTie(): void
     {
         $value = 2.1;
         $this->disMax->setTie($value);
@@ -146,7 +146,7 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetBoostQuery()
+    public function testSetAndGetBoostQuery(): void
     {
         $value = 'cat:1^3';
         $this->disMax->setBoostQuery($value);
@@ -157,12 +157,12 @@ class DisMaxTest extends TestCase
         );
     }
 
-    public function testGetBoostQueryWithNonExistentKey()
+    public function testGetBoostQueryWithNonExistentKey(): void
     {
         $this->assertNull($this->disMax->getBoostQuery('foobar'));
     }
 
-    public function testAddBoostQueryWithArray()
+    public function testAddBoostQueryWithArray(): void
     {
         $query = 'cat:1^3';
         $key = 'cat';
@@ -172,7 +172,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($query, $this->disMax->getBoostQuery($key));
     }
 
-    public function testAddBoostQueryWithObject()
+    public function testAddBoostQueryWithObject(): void
     {
         $query = 'cat:1^3';
         $key = 'cat';
@@ -186,7 +186,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($query, $this->disMax->getBoostQuery($key));
     }
 
-    public function testAddBoostQueryWithoutKey()
+    public function testAddBoostQueryWithoutKey(): void
     {
         $bq = new BoostQuery();
         $bq->setQuery('category:1');
@@ -195,7 +195,7 @@ class DisMaxTest extends TestCase
         $this->disMax->addBoostQuery($bq);
     }
 
-    public function testAddBoostQueryWithEmptyKey()
+    public function testAddBoostQueryWithEmptyKey(): void
     {
         $bq = new BoostQuery();
         $bq->setKey('')->setQuery('category:1');
@@ -204,7 +204,7 @@ class DisMaxTest extends TestCase
         $this->disMax->addBoostQuery($bq);
     }
 
-    public function testAddBoostQueryWithUsedKey()
+    public function testAddBoostQueryWithUsedKey(): void
     {
         $bq1 = new BoostQuery();
         $bq1->setKey('bq1')->setQuery('category:1');
@@ -217,7 +217,7 @@ class DisMaxTest extends TestCase
         $this->disMax->addBoostQuery($bq2);
     }
 
-    public function testAddBoostQueriesWithInnerKeys()
+    public function testAddBoostQueriesWithInnerKeys(): void
     {
         $bqs = [
             ['key' => 'key1', 'query' => 'cat:1'],
@@ -235,7 +235,7 @@ class DisMaxTest extends TestCase
         $this->assertEquals($bqs2, $this->disMax->getBoostQueries());
     }
 
-    public function testAddBoostQueriesWithOuterKeys()
+    public function testAddBoostQueriesWithOuterKeys(): void
     {
         $bqs = [
             'key1' => ['query' => 'cat:1'],
@@ -254,7 +254,7 @@ class DisMaxTest extends TestCase
         $this->assertEquals($bqs2, $this->disMax->getBoostQueries());
     }
 
-    public function testRemoveBoostQueryByKey()
+    public function testRemoveBoostQueryByKey(): void
     {
         $bqs = [
             'key1' => ['query' => 'cat:1'],
@@ -268,7 +268,7 @@ class DisMaxTest extends TestCase
         $this->assertNotNull($this->disMax->getBoostQuery('key2'));
     }
 
-    public function testRemoveBoostQueryByObject()
+    public function testRemoveBoostQueryByObject(): void
     {
         $bq1 = new BoostQuery();
         $bq1->setKey('key1')->setQuery('cat:1');
@@ -283,7 +283,7 @@ class DisMaxTest extends TestCase
         $this->assertNotNull($this->disMax->getBoostQuery('key2'));
     }
 
-    public function testClearBoostQueries()
+    public function testClearBoostQueries(): void
     {
         $bqs = [
             'key1' => ['query' => 'cat:1'],
@@ -296,7 +296,7 @@ class DisMaxTest extends TestCase
         $this->assertCount(0, $this->disMax->getBoostQueries());
     }
 
-    public function testSetBoostQueries()
+    public function testSetBoostQueries(): void
     {
         $bqs1 = [
             'key1' => (new BoostQuery())->setKey('key1')->setQuery('cat:1'),
@@ -317,7 +317,7 @@ class DisMaxTest extends TestCase
         $this->assertSame($bqs2, $this->disMax->getBoostQueries());
     }
 
-    public function testSetAndGetBoostFunctions()
+    public function testSetAndGetBoostFunctions(): void
     {
         $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
         $this->disMax->setBoostFunctions($value);

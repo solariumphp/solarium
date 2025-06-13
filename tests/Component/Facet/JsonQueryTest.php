@@ -18,7 +18,7 @@ class JsonQueryTest extends TestCase
         $this->facet = new JsonQuery();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -31,7 +31,7 @@ class JsonQueryTest extends TestCase
         $this->assertSame($options['query'], $this->facet->getQuery());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::JSON_FACET_QUERY,
@@ -39,13 +39,13 @@ class JsonQueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $this->facet->setQuery('category:1');
         $this->assertSame('category:1', $this->facet->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->facet->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->facet->getQuery());
