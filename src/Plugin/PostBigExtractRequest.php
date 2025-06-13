@@ -124,7 +124,7 @@ class PostBigExtractRequest extends AbstractPlugin
      *
      * Register event listeners.
      */
-    protected function initPluginType()
+    protected function initPluginType(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
