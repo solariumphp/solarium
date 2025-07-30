@@ -41,7 +41,7 @@ class Terms extends AbstractResponseParser implements ComponentParserInterface
                 // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr
                 // Cloud. In that case the "map" format is returned which doesn't need to be converted. But we don't
                 // use it in general because it has limitations for some components.
-                if (isset($termData[0]) && $query && $query->getResponseWriter() === $query::WT_JSON) {
+                if (isset($termData[0]) && $query && $query::WT_JSON === $query->getResponseWriter()) {
                     // We have a "flat" json result.
                     $termData = $this->convertToKeyValueArray($termData);
                 }

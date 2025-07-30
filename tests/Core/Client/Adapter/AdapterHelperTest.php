@@ -100,4 +100,29 @@ REGEX;
 
         $this->assertMatchesRegularExpression($expectedBodyRegex, $body);
     }
+
+    public function testBuildUploadBodyFromRequestWithResource(): void
+    {
+        $file = fopen('php://memory', 'w+');
+        fwrite($file, 'Test resource contents');
+
+        $expectedBodyRegex = <<<'REGEX'
+~^--([[:xdigit:]]{32})\r\n
+Content-Disposition:\ form-data;\ name="file";\ filename="memory"\r\n
+Content-Type:\ application/octet-stream\r\n
+\r\n
+Test\ resource\ contents\r\n
+--\1--\r\n
+$~xD
+REGEX;
+
+        $this->request->setMethod(Request::METHOD_POST);
+        $this->request->setFileUpload($file);
+
+        $body = AdapterHelper::buildUploadBodyFromRequest($this->request);
+
+        $this->assertMatchesRegularExpression($expectedBodyRegex, $body);
+
+        fclose($file);
+    }
 }

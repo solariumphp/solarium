@@ -22,6 +22,7 @@ class QueryElevationTest extends TestCase
         $component->setMarkExcludes(true);
         $component->setElevateIds(['doc1', 'doc2']);
         $component->setExcludeIds(['doc3', 'doc4']);
+        $component->setExcludeTags(['tagA', 'tagB']);
 
         $request = $builder->buildComponent($component, $request);
 
@@ -35,6 +36,7 @@ class QueryElevationTest extends TestCase
                 'markExcludes' => 'true',
                 'elevateIds' => 'doc1,doc2',
                 'excludeIds' => 'doc3,doc4',
+                'elevate.excludeTags' => 'tagA,tagB',
             ],
             $request->getParams()
         );

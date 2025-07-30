@@ -111,17 +111,23 @@ class Result implements ResultInterface, \JsonSerializable
         if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {
                 case AbstractQuery::WT_PHPS:
-                    $this->data = unserialize($this->response->getBody(), [false]);
+                    $this->data = unserialize($this->response->getBody(), ['allowed_classes' => false]);
+
+                    if (false === $this->data) {
+                        throw new UnexpectedValueException('Solr PHPS response could not be unserialized');
+                    }
+
                     break;
                 case AbstractQuery::WT_JSON:
                     $this->data = json_decode($this->response->getBody(), true);
+
+                    if (null === $this->data) {
+                        throw new UnexpectedValueException('Solr JSON response could not be decoded');
+                    }
+
                     break;
                 default:
                     throw new RuntimeException(sprintf('Responseparser cannot handle %s', $this->query->getResponseWriter()));
-            }
-
-            if (null === $this->data) {
-                throw new UnexpectedValueException('Solr JSON response could not be decoded');
             }
         }
 

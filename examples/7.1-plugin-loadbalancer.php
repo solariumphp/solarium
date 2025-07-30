@@ -22,6 +22,11 @@ $loadbalancer->addEndpoint($endpoint1, 100);
 $loadbalancer->addEndpoint($endpoint2, 100);
 $loadbalancer->addEndpoint($endpoint3, 1);
 
+// you can optionally enable failover mode for unresponsive endpoints, and additionally HTTP status codes of your choosing
+$loadbalancer->setFailoverEnabled(true);
+$loadbalancer->setFailoverMaxRetries(3);
+$loadbalancer->addFailoverStatusCode(504);
+
 // create a basic query to execute
 $query = $client->createSelect();
 

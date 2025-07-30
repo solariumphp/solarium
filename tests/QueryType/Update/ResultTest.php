@@ -4,7 +4,7 @@ namespace Solarium\Tests\QueryType\Update;
 
 use Solarium\QueryType\Update\Result as UpdateResult;
 
-class ResultTest extends AbstractResultTest
+class ResultTest extends AbstractResultTestCase
 {
     public function setUp(): void
     {
@@ -18,7 +18,6 @@ class UpdateDummy extends UpdateResult
 
     public function __construct()
     {
-        $this->status = 1;
-        $this->queryTime = 12;
+        $this->responseHeader = ['status' => 1, 'QTime' => 12];
     }
 }

@@ -108,4 +108,20 @@ interface SuggesterInterface extends ConfigurableInterface
      * @return bool|null
      */
     public function getReload(): ?bool;
+
+    /**
+     * Set buildAll option.
+     *
+     * @param bool $buildAll
+     *
+     * @return self Provides fluent interface
+     */
+    public function setBuildAll(bool $buildAll): self;
+
+    /**
+     * Get buildAll option.
+     *
+     * @return bool|null
+     */
+    public function getBuildAll(): ?bool;
 }

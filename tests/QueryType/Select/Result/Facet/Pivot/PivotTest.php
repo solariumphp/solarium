@@ -36,6 +36,6 @@ class PivotTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->values), $this->facet);
+        $this->assertSameSize($this->values, $this->facet);
     }
 }

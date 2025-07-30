@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
@@ -23,13 +22,13 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request.
      *
-     * @param Query|QueryInterface $query
+     * @param QueryInterface|Query $query
      *
      * @throws RuntimeException
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|Query $query): Request
     {
         $request = parent::build($query);
 
@@ -75,14 +74,25 @@ class RequestBuilder extends BaseRequestBuilder
 
         // add file to request
         $file = $query->getFile();
-        if (preg_match('/^(http|https):\/\/(.+)/i', $file)) {
+        if (\is_string($file) && preg_match('/^(http|https):\/\/(.+)/i', $file)) {
+            $query->setResourceName($file);
+
             $request->addParam('stream.url', $file);
             $request->setMethod(Request::METHOD_GET);
-        } elseif (is_readable($file)) {
-            $resourceName = basename($file);
+        } elseif (\is_resource($file) || is_readable($file)) {
+            if (\is_resource($file)) {
+                $meta = stream_get_meta_data($file);
+                $resourceName = basename($meta['uri'] ?? $meta['stream_type']);
+            } else {
+                $resourceName = basename($file);
+            }
+
+            $query->setResourceName($resourceName);
+
             if (0 !== strcasecmp('UTF-8', $charset = $request->getParam('ie') ?? 'UTF-8')) {
                 $resourceName = iconv('UTF-8', $charset, $resourceName);
             }
+
             $request->setFileUpload($file);
             $request->addParam('resource.name', $resourceName);
             $request->setMethod(Request::METHOD_POST);

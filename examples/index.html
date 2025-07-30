@@ -40,7 +40,7 @@
 
             <li>2. Queries</li>
             <ul style="list-style:none;">
-                <li>2.1. Select query</li>
+                <li>2.1 Select query</li>
                 <ul style="list-style:none;">
                     <li><a href="2.1.1-query-params.php">2.1.1 Select query params</a></li>
                     <li><a href="2.1.2-custom-result-document.php">2.1.2 Custom result document</a></li>
@@ -61,6 +61,7 @@
                                 <li><a href="2.1.5.1.4.1-facet-range-mincount.php">2.1.5.1.4.1 Facet range with minimum count</a></li>
                                 <li><a href="2.1.5.1.4.2-facet-range-other.php">2.1.5.1.4.2 Facet range with other counts</a></li>
                                 <li><a href="2.1.5.1.4.3-facet-range-excludes.php">2.1.5.1.4.3 Facet range with excluded filters</a></li>
+                                <li><a href="2.1.5.1.4.4-facet-range-multiple.php">2.1.5.1.4.4 Facet range with multiple ranges on same field</a></li>
                             </ul>
                             <li><a href="2.1.5.1.5-facet-pivot.php">2.1.5.1.5 Facet pivot</a></li>
                             <li><a href="2.1.5.1.6-facet-interval.php">2.1.5.1.6 Facet interval</a></li>
@@ -87,12 +88,14 @@
                         </ul>
                         <li><a href="2.1.5.11-debug.php">2.1.5.11 Debug (DebugQuery)</a></li>
                         <li><a href="2.1.5.12-queryelevation.php">2.1.5.12 Query Elevation</a></li>
+                        <li><a href="2.1.5.13-rerankquery.php">2.1.5.13 Query Re-Ranking</a></li>
+                        <li><a href="2.1.5.14-termvector.php">2.1.5.14 Term Vector</a></li>
                     </ul>
                     <li><a href="2.1.6-helper-functions.php">2.1.6 Helper functions</a></li>
                     <li><a href="2.1.7-query-reuse.php">2.1.7 Query re-use</a></li>
                 </ul>
 
-                <li>2.2. Update query</li>
+                <li>2.2 Update query</li>
                 <ul style="list-style:none;">
                     <li><a href="2.2.1-add-docs.php">2.2.1 Add docs</a></li>
                     <ul style="list-style:none;">
@@ -106,13 +109,13 @@
                     <li><a href="2.2.6-rawxml.php">2.2.6 Issue raw XML update commands</a></li>
                 </ul>
 
-                <li>2.3. MoreLikeThis query</li>
+                <li>2.3 MoreLikeThis query</li>
                 <ul style="list-style:none;">
                     <li><a href="2.3.1-mlt-query.php">2.3.1 MoreLikeThis query</a></li>
                     <li><a href="2.3.2-mlt-stream.php">2.3.2 MoreLikeThis query input as stream</a></li>
                 </ul>
 
-                <li>2.4. Analysis queries</li>
+                <li>2.4 Analysis queries</li>
                 <ul style="list-style:none;">
                     <li><a href="2.4.1-analysis-document.php">2.4.1 Analysis query for a document</a></li>
                     <li><a href="2.4.2-analysis-field.php">2.4.2 Analysis query for a field</a></li>
@@ -120,15 +123,37 @@
 
                 <li><a href="2.5-terms-query.php">2.5 Terms query</a></li>
                 <li><a href="2.6-suggester-query.php">2.6 Suggester query</a></li>
-                <li><a href="2.7-extract-query.php">2.7 Extract query</a></li>
+
+                <li>2.7 Extract query</li>
+                <ul style="list-style:none;">
+                    <li><a href="2.7.1-extract-query.php">2.7.1 Extract from a file</a></li>
+                    <li><a href="2.7.2-extract-query-extract-only.php">2.7.2 Extracting without indexing</a></li>
+                    <li>2.7.3 Extract from a resource</li>
+                    <ul style="list-style:none;">
+                        <li><a href="2.7.3.1-extract-query-generated-content.php">2.7.3.1 Extract from generated content</a></li>
+                        <li><a href="2.7.3.2-extract-query-pdo-lob.php">2.7.3.2 Extract from PDO Large Objects (LOBs)</a></li>
+                    </ul>
+                </ul>
+
                 <li><a href="2.8-realtime-get-query.php">2.8 Realtime get query</a></li>
                 <li><a href="2.9-server-core-admin-status.php">2.9 Core admin query</a></li>
 
-                <li>2.10. Managed resources queries</li>
+                <li>2.10 Managed resources queries</li>
                 <ul style="list-style:none;">
                     <li><a href="2.10.1-managedresources-resources.php">2.10.1 Resources query</a></li>
                     <li><a href="2.10.2-managedresources-stopwords.php">2.10.2 Stopwords query</a></li>
                     <li><a href="2.10.3-managedresources-synonyms.php">2.10.3 Synonyms query</a></li>
+                </ul>
+
+                <li>2.11 Luke query</li>
+                <ul style="list-style:none;">
+                    <li><a href="2.11.1-luke-query-index.php">2.11.1 Index</a></li>
+                    <li><a href="2.11.2-luke-query-all-fields.php">2.11.2 Fields</a></li>
+                    <ul style="list-style:none;">
+                        <li><a href="2.11.2.1-luke-query-field-details.php">2.11.2.1 Field details</a></li>
+                    </ul>
+                    <li><a href="2.11.3-luke-query-schema.php">2.11.3 Schema</a></li>
+                    <li><a href="2.11.4-luke-query-doc.php">2.11.4 Document</a></li>
                 </ul>
             </ul>
 
@@ -176,10 +201,13 @@
                     <li><a href="7.5.2-plugin-buffereddelete.php">7.5.2 Buffered Delete by ID and query</a></li>
                     <li>7.5.3 Benchmarks (can take some time to run!)</li>
                     <ul style="list-style:none;">
+                        <li><a href="7.5.3.0-plugin-bufferedupdate-benchmarks-build-only.php">7.5.3.0 Compare request builders</a></li>
                         <li><a href="7.5.3.1-plugin-bufferedupdate-benchmarks-xml.php">7.5.3.1 Regular plugins with XML requests</a></li>
                         <li><a href="7.5.3.2-plugin-bufferedupdate-lite-benchmarks-xml.php">7.5.3.2 Lite plugins with XML requests</a></li>
                         <li><a href="7.5.3.3-plugin-bufferedupdate-benchmarks-json.php">7.5.3.3 Regular plugins with JSON requests</a></li>
                         <li><a href="7.5.3.4-plugin-bufferedupdate-lite-benchmarks-json.php">7.5.3.4 Lite plugins with JSON requests</a></li>
+                        <li><a href="7.5.3.5-plugin-bufferedupdate-benchmarks-cbor.php">7.5.3.5 Regular plugins with CBOR requests</a></li>
+                        <li><a href="7.5.3.6-plugin-bufferedupdate-lite-benchmarks-cbor.php">7.5.3.6 Lite plugins with CBOR requests</a></li>
                     </ul>
                 </ul>
                 <li><a href="7.6-plugin-prefetchiterator.php">7.6 Prefetch iterator for select queries</a></li>
@@ -188,6 +216,7 @@
                     <li><a href="7.7.1-plugin-minimumscorefilter-grouping.php">7.7.1 Minimum score filter for select queries using grouping</a></li>
                 </ul>
                 <li><a href="7.8-plugin-postbigextractrequest.php">7.8 Post Big Extract Requests</a></li>
+                <li><a href="7.9-plugin-nowaitforresponserequest.php">7.9 No Wait For Response Request</a></li>
             </ul>
 
         </ul>

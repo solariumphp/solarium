@@ -113,12 +113,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a facet field instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\Field|FacetInterface
      */
-    public function createFacetField($options = null, bool $add = true): FacetInterface
+    public function createFacetField(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::FACET_FIELD, $options, $add);
     }
@@ -126,12 +128,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a facet query instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\Query
      */
-    public function createFacetQuery($options = null, bool $add = true): FacetInterface
+    public function createFacetQuery(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::FACET_QUERY, $options, $add);
     }
@@ -139,12 +143,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a facet multiquery instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\MultiQuery
      */
-    public function createFacetMultiQuery($options = null, bool $add = true): FacetInterface
+    public function createFacetMultiQuery(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::FACET_MULTIQUERY, $options, $add);
     }
@@ -152,12 +158,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a facet range instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\Range
      */
-    public function createFacetRange($options = null, bool $add = true): FacetInterface
+    public function createFacetRange(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::FACET_RANGE, $options, $add);
     }
@@ -165,12 +173,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a facet pivot instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\Pivot
      */
-    public function createFacetPivot($options = null, bool $add = true): FacetInterface
+    public function createFacetPivot(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::FACET_PIVOT, $options, $add);
     }
@@ -178,12 +188,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a facet interval instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\Interval
      */
-    public function createFacetInterval($options = null, bool $add = true): FacetInterface
+    public function createFacetInterval(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::FACET_INTERVAL, $options, $add);
     }
@@ -191,12 +203,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a json facet aggregation instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\JsonAggregation
      */
-    public function createJsonFacetAggregation($options = null, bool $add = true): FacetInterface
+    public function createJsonFacetAggregation(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::JSON_FACET_AGGREGATION, $options, $add);
     }
@@ -204,12 +218,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a json facet terms instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\JsonTerms
      */
-    public function createJsonFacetTerms($options = null, bool $add = true): FacetInterface
+    public function createJsonFacetTerms(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::JSON_FACET_TERMS, $options, $add);
     }
@@ -217,12 +233,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a json facet query instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\JsonQuery
      */
-    public function createJsonFacetQuery($options = null, bool $add = true): FacetInterface
+    public function createJsonFacetQuery(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::JSON_FACET_QUERY, $options, $add);
     }
@@ -230,12 +248,14 @@ class FacetSet extends AbstractComponent implements FacetSetInterface, FieldValu
     /**
      * Get a json facet range instance.
      *
-     * @param mixed $options
-     * @param bool  $add
+     * @see FacetSetTrait::createFacet for more information on $options
+     *
+     * @param string|array|null $options
+     * @param bool              $add
      *
      * @return \Solarium\Component\Facet\JsonRange
      */
-    public function createJsonFacetRange($options = null, bool $add = true): FacetInterface
+    public function createJsonFacetRange(string|array|null $options = null, bool $add = true): FacetInterface
     {
         return $this->createFacet(FacetSetInterface::JSON_FACET_RANGE, $options, $add);
     }

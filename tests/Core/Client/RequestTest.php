@@ -271,6 +271,38 @@ EOF;
         $this->request->setFileUpload('invalid-filename.dummy');
     }
 
+    public function testSetAndGetFileUploadWithResourceInReadMode()
+    {
+        $file = fopen(__FILE__, 'r');
+        $this->request->setFileUpload($file);
+        $this->assertSame(
+            $file,
+            $this->request->getFileUpload()
+        );
+        fclose($file);
+    }
+
+    public function testSetAndGetFileUploadWithResourceInReadWriteMode()
+    {
+        // we use append lest we overwrite __FILE__
+        $file = fopen(__FILE__, 'a+');
+        $this->request->setFileUpload($file);
+        $this->assertSame(
+            $file,
+            $this->request->getFileUpload()
+        );
+        fclose($file);
+    }
+
+    public function testSetAndGetFileUploadWithResourceInWriteMode()
+    {
+        // we use append lest we overwrite __FILE__
+        $file = fopen(__FILE__, 'a');
+        $this->expectException(RuntimeException::class);
+        $this->request->setFileUpload($file);
+        fclose($file);
+    }
+
     public function testSetAndGetHeaders()
     {
         $headers = [
@@ -465,7 +497,16 @@ EOF;
     public function testGetUri()
     {
         $this->assertSame(
-            '?',
+            '',
+            $this->request->getUri()
+        );
+    }
+
+    public function testGetUriWithHandler()
+    {
+        $this->request->setHandler('myHandler');
+        $this->assertSame(
+            'myHandler',
             $this->request->getUri()
         );
     }
@@ -500,6 +541,22 @@ EOF;
             ],
             $this->request->getAuthentication()
         );
+    }
+
+    /**
+     * @requires PHP >= 8.2
+     */
+    public function testSetAuthenticationSensitiveParameter()
+    {
+        try {
+            // trigger a \TypeError with the $user argument
+            $this->request->setAuthentication(null, 'S0M3p455');
+        } catch (\TypeError $e) {
+            $trace = $e->getTrace();
+
+            // \SensitiveParameterValue::class trips phpstan in PHP versions that don't support it
+            $this->assertInstanceOf('\SensitiveParameterValue', $trace[0]['args'][1]);
+        }
     }
 
     public function testSetAndGetIsServerRequest()

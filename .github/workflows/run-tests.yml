@@ -14,7 +14,7 @@ jobs:
 
         strategy:
             matrix:
-                php: [7.3, 7.4, 8.0, 8.1, 8.2]
+                php: [8.1, 8.2, 8.3, 8.4]
                 solr: [7, 8, 9]
                 mode: [cloud, server]
 
@@ -29,15 +29,15 @@ jobs:
               with:
                 php-version: ${{ matrix.php }}
                 extensions: dom, curl, libxml, mbstring, zip, iconv, json, simplexml
-                ini-values: memory_limit=256M, post_max_size=256M
+                ini-values: memory_limit=256M, post_max_size=256M, zend.exception_ignore_args=Off
                 coverage: pcov
 
             - name: Checkout solarium
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Checkout solr 7.7
               if: matrix.solr == 7
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 repository: apache/lucene-solr
                 ref: branch_7_7
@@ -45,32 +45,32 @@ jobs:
 
             - name: Checkout solr 8.11
               if: matrix.solr == 8
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 repository: apache/lucene-solr
                 ref: branch_8_11
                 path: lucene-solr
 
-            - name: Checkout solr 9.1
+            - name: Checkout solr 9.8
               if: matrix.solr == 9
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 repository: apache/solr
-                ref: branch_9_1
+                ref: branch_9_8
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
               run: |
                 chmod -R a+w lucene-solr
                 cd lucene-solr
-                patch -p1 < ../tests/Integration/Fixtures/solrconf.patch
-                patch -p1 < ../tests/Integration/Fixtures/schema${{ matrix.solr }}.patch
+                patch -p1 < ../tests/Integration/Fixtures/conf/solrconf${{ matrix.solr }}.patch
+                patch -p1 < ../tests/Integration/Fixtures/conf/schema${{ matrix.solr }}.patch
                 cd solr/server/solr/configsets/sample_techproducts_configs/conf
                 zip -r techproducts.zip *
                 cd -
                 mv solr/server/solr/configsets/sample_techproducts_configs/conf/techproducts.zip ../tests/Integration/Fixtures/
                 cd ../tests/Integration/Fixtures/docker/solr${{ matrix.solr }}_${{ matrix.mode }}
-                docker-compose up -d
+                docker compose up -d
 
             - name: Install dependencies
               run: |
@@ -79,15 +79,15 @@ jobs:
 
             - name: Run tests
               run: |
-                vendor/bin/phpstan analyze src/ tests/ --level=1 --memory-limit=1G
-                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} -v --coverage-clover build/logs/clover.xml
+                vendor/bin/phpstan --memory-limit=1G
+                vendor/bin/phpunit -c phpunit.xml --exclude-group skip_for_solr_${{ matrix.mode }} --coverage-clover build/logs/clover.xml
 
             - name: Execute examples
               run: |
                 cd examples
                 php execute_all.php
 
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v4
               with:
                 name: PHP_${{ matrix.php }}-Solr_${{ matrix.solr }}_${{ matrix.mode }}
                 path: build/logs
@@ -101,17 +101,17 @@ jobs:
 
         steps:
             - name: Checkout solarium
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Download coverage reports from tests
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v4
 
             - name: List report files
               run: |
                 ls -l PHP*/clover*.xml
 
             - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v1
+              uses: codecov/codecov-action@v4
               with:
                   files: PHP*/clover*.xml
                   flags: unittests

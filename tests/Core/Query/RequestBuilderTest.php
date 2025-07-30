@@ -5,6 +5,7 @@ namespace Solarium\Tests\Core\Query;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\Helper;
+use Solarium\Core\Query\LocalParameters\LocalParameter;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class RequestBuilderTest extends TestCase
@@ -63,6 +64,20 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testBuildWithArray()
+    {
+        $query = new SelectQuery();
+        $query->addParam('p1', 'v1');
+        $query->addParam('p2', ['a1', 'a2']);
+        $query->setResponseWriter('xyz');
+        $request = $this->builder->build($query);
+
+        $this->assertSame(
+            'select?omitHeader=true&p1=v1&p2=a1&p2=a2&wt=xyz',
+            urldecode($request->getUri())
+        );
+    }
+
     public function testBuildWithHeader()
     {
         $query = new SelectQuery();
@@ -73,20 +88,6 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             'select?omitHeader=false&p1=v1&p2=v2&wt=json&json.nl=flat',
-            urldecode($request->getUri())
-        );
-    }
-
-    public function testBuildWithTimeAllowed()
-    {
-        $query = new SelectQuery();
-        $query->addParam('p1', 'v1');
-        $query->addParam('p2', 'v2');
-        $query->setTimeAllowed(1400);
-        $request = $this->builder->build($query);
-
-        $this->assertSame(
-            'select?omitHeader=true&timeAllowed=1400&p1=v1&p2=v2&wt=json&json.nl=flat',
             urldecode($request->getUri())
         );
     }
@@ -171,6 +172,21 @@ class RequestBuilderTest extends TestCase
 
         $this->assertSame(
             "{!as.is=as-is space='the final frontier' single.quote='\\'60s' double.quote='\"so-called\"' backslash=' \\\\ ' curly='{x}' list='wax on,wax off'}myValue",
+            $this->builder->renderLocalParams('myValue', $myParams)
+        );
+    }
+
+    public function testRenderLocalParamsWithSplitSmart()
+    {
+        $splitSmartParam = LocalParameter::IS_SPLIT_SMART[0];
+
+        $myParams = [
+            'no.split.smart' => 'a\, b,c',
+            $splitSmartParam => 'd\, e,f',
+        ];
+
+        $this->assertSame(
+            "{!no.split.smart='a\\\\, b,c' $splitSmartParam='d\\, e,f'}myValue",
             $this->builder->renderLocalParams('myValue', $myParams)
         );
     }

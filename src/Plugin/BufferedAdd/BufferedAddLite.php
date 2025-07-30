@@ -102,7 +102,7 @@ class BufferedAddLite extends AbstractBufferedUpdate
      *
      * @return self Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document)
+    public function addDocument(DocumentInterface $document): self
     {
         $this->buffer[] = $document;
 
@@ -149,7 +149,7 @@ class BufferedAddLite extends AbstractBufferedUpdate
      *
      * @return UpdateResult|false
      */
-    public function flush(?bool $overwrite = null, ?int $commitWithin = null)
+    public function flush(?bool $overwrite = null, ?int $commitWithin = null): UpdateResult|false
     {
         if (0 === \count($this->buffer)) {
             // nothing to do
@@ -201,7 +201,16 @@ class BufferedAddLite extends AbstractBufferedUpdate
         }
 
         $this->updateQuery->add(null, $command);
-        $this->updateQuery->addCommit($softCommit, $waitSearcher, $expungeDeletes);
+
+        if ($this->updateQuery::REQUEST_FORMAT_CBOR === $this->getRequestFormat()) {
+            $this->updateQuery->addParam('commit', true);
+            $this->updateQuery->addParam('softCommit', $softCommit);
+            $this->updateQuery->addParam('waitSearcher', $waitSearcher);
+            $this->updateQuery->addParam('expungeDeletes', $expungeDeletes);
+        } else {
+            $this->updateQuery->addCommit($softCommit, $waitSearcher, $expungeDeletes);
+        }
+
         $result = $this->client->update($this->updateQuery, $this->getEndpoint());
         $this->clear();
 

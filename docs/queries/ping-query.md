@@ -7,13 +7,14 @@ The search executed by a ping is configured with the Request Parameters API. For
 Creating a ping query
 ---------------------
 
-You create a ping query using the createPing method of your client instance. This is a very simple query with only one option, the handler.
+You create a ping query using the createPing method of your client instance. This is a very simple query with only a few options.
 
 **Available options:**
 
-| Name    | Type   | Default value | Description                                    |
-|---------|--------|---------------|------------------------------------------------|
-| handler | string | admin/ping    | Path to the ping handler as configured in Solr |
+| Name       | Type   | Default value | Description                                               |
+|------------|--------|---------------|-----------------------------------------------------------|
+| handler    | string | admin/ping    | Path to the ping handler as configured in Solr            |
+| omitheader | bool   | false         | If `true`, query time will not be available in the result |
 ||
 
 Executing a ping query
@@ -24,7 +25,9 @@ Use the `ping` method of the client to execute the query object. See the example
 Result of a ping query
 ----------------------
 
-The result of a ping query is just as simple as the ping query itself: it either works or not. There is no useful result data. In case of error an exception will be thrown.
+The result of a ping query is just as simple as the ping query itself: it either works or not. In case of error an exception will be thrown.
+
+If you don't omit the response header, it can tell how long the query took. For distributed requests, it can also tell if the node that processed the request was connected with ZooKeeper.
 
 Example
 -------
@@ -47,10 +50,15 @@ $ping = $client->createPing();
 // execute the ping query
 try {
     $result = $client->ping($ping);
-    echo 'Ping query successful';
-    echo '<br/><pre>';
-    var_dump($result->getData());
-    echo '</pre>';
+
+    echo 'Ping query successful<br/><br/>';
+    echo 'Ping status: ' . $result->getPingStatus() . '<br/>';
+    echo 'Query time: ' . $result->getQueryTime() . ' ms<br/>';
+
+    // only relevant for distributed requests
+    if (null !== $zkConnected = $result->getZkConnected()) {
+        echo 'ZooKeeper connected: ' . ($zkConnected ? 'yes' : 'no');
+    }
 } catch (Exception $e) {
     echo 'Ping query failed';
 }

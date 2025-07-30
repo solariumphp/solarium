@@ -59,7 +59,8 @@ class ExistsTest extends TestCase
      * SOLR-16274
      * ==========
      *
-     * Affected: Solr 8.11.2
+     * Affected: Solr 8.11.2, Solr 9.0 – 9.1
+     * Fixed: Solr 8.11.3, Solr 9.2
      *
      * A HEAD request for an existing stopword list, synonym map, or term against affected
      * Solr versions returns "500 Server Error" instead of "200 OK".

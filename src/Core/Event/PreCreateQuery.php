@@ -38,7 +38,7 @@ class PreCreateQuery extends Event
      * @param string     $type
      * @param array|null $options
      */
-    public function __construct(string $type, array $options = null)
+    public function __construct(string $type, ?array $options = null)
     {
         $this->type = $type;
         $this->options = $options;

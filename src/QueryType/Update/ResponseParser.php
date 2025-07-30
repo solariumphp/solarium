@@ -29,6 +29,6 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     {
         $data = $result->getData();
 
-        return $this->addHeaderInfo($data, []);
+        return $data;
     }
 }

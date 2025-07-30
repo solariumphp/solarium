@@ -22,11 +22,18 @@ interface TimeoutAwareInterface
     public const DEFAULT_TIMEOUT = 5;
 
     /**
+     * Fast timeout that should be used if the client should not wait for the result.
+     *
+     * @see \Solarium\Plugin\NoWaitForResponseRequest
+     */
+    public const FAST_TIMEOUT = 1;
+
+    /**
      * @param int $timeoutInSeconds
      *
      * @return self Provides fluent interface
      */
-    public function setTimeout(int $timeoutInSeconds);
+    public function setTimeout(int $timeoutInSeconds): self;
 
     /**
      * @return int

@@ -19,7 +19,7 @@ trait NameParameterTrait
      *
      * @param string $collection
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setName(string $collection): self
     {

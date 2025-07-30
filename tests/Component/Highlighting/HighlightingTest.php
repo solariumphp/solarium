@@ -7,7 +7,7 @@ use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
-class HighlightingTest extends AbstractHighlightingTest
+class HighlightingTest extends AbstractHighlightingTestCase
 {
     /**
      * @var Highlighting

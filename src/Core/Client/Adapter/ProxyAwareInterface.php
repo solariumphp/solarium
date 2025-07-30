@@ -21,7 +21,7 @@ interface ProxyAwareInterface
      *
      * @return self Provides fluent interface
      */
-    public function setProxy($proxy);
+    public function setProxy($proxy): self;
 
     /**
      * @return mixed|null

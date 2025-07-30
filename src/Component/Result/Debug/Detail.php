@@ -87,7 +87,7 @@ class Detail implements \ArrayAccess
     /**
      * @param \Solarium\Component\Result\Debug\Detail[]|array $subDetails
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setSubDetails(array $subDetails): self
     {
@@ -182,7 +182,7 @@ class Detail implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->debugDump();
     }

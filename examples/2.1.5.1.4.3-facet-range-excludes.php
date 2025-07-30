@@ -32,7 +32,7 @@ $facet->setField('price');
 $facet->setStart(1);
 $facet->setGap(100);
 $facet->setEnd(1000);
-$facet->getLocalParameters()->addExcludes(['budget']);
+$facet->addExcludes(['budget']);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

@@ -44,7 +44,7 @@ class Analytics implements ComponentRequestBuilderInterface
 
         if (
             (null !== $currentHeader = $request->getHeader('Content-Type'))
-            && false === strpos($currentHeader, Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED)
+            && !str_contains($currentHeader, Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED)
         ) {
             throw new \RuntimeException(sprintf('Unable to build analytics request. required content type is %s while current header is %s', Request::CONTENT_TYPE_APPLICATION_X_WWW_FORM_URLENCODED, $currentHeader));
         }

@@ -11,6 +11,9 @@ use Solarium\Core\Client\Response;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
 
+/**
+ * @requires extension curl
+ */
 class CurlTest extends TestCase
 {
     use TimeoutAwareTestTrait;
@@ -24,59 +27,55 @@ class CurlTest extends TestCase
 
     public function setUp(): void
     {
-        if (!\function_exists('curl_init')) {
-            $this->markTestSkipped('cURL not available, skipping cURL adapter tests.');
-        }
-
         $this->adapter = new Curl();
     }
 
     public function testSetProxyConstructor()
     {
-        $adapter = @new Curl(['proxy' => 'proxy.example.org:1234']);
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $adapter = new Curl(['proxy' => 'proxy.example.org:1234']);
         $this->assertSame('proxy.example.org:1234', $adapter->getProxy());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
-        new Curl(['proxy' => 'proxy.example.org:1234']);
+        restore_error_handler();
     }
 
     public function testSetProxyConfigMode()
     {
-        @$this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
         $this->assertSame('proxy.example.org:5678', $this->adapter->getProxy());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
-        $this->adapter->setOptions(['proxy' => 'proxy.example.org:5678']);
+        restore_error_handler();
     }
 
     public function testSetProxyOption()
     {
-        @$this->adapter->setOption('proxy', 'proxy.example.org:9012');
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
+        $this->adapter->setOption('proxy', 'proxy.example.org:9012');
         $this->assertSame('proxy.example.org:9012', $this->adapter->getProxy());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Setting proxy as an option is deprecated. Use setProxy() instead.');
-        $this->adapter->setOption('proxy', 'proxy.example.org:9012');
+        restore_error_handler();
     }
 
-    public function testCheck()
+    /**
+     * Verify that options besides 'proxy' are handled as usual.
+     */
+    public function testSetNonProxyOption()
     {
-        $data = 'data';
-        $headers = ['X-dummy: data'];
-        $handle = curl_init();
-
-        // this should be ok, no exception
-        $this->adapter->check($data, $headers, $handle);
-
-        $data = '';
-        $headers = [];
-
-        $this->expectException(HttpException::class);
-        $this->adapter->check($data, $headers, $handle);
-
-        curl_close($handle);
+        $this->adapter->setOption('foo', 'bar');
+        $this->assertSame('bar', $this->adapter->getOption('foo'));
     }
 
     public function testExecute()
@@ -88,7 +87,7 @@ class CurlTest extends TestCase
         $request = new Request();
         $endpoint = new Endpoint();
 
-        /** @var Curl|MockObject $mock */
+        /** @var Curl&MockObject $mock */
         $mock = $this->getMockBuilder(Curl::class)
             ->onlyMethods(['getData'])
             ->getMock();
@@ -103,22 +102,15 @@ class CurlTest extends TestCase
         $this->assertSame($data, $response);
     }
 
-    /**
-     * @testWith [false]
-     *           [null]
-     *
-     * @param mixed $httpResponse
-     */
-    public function testGetResponseWithEmptyHttpResponse($httpResponse)
+    public function testGetResponseThrowsOnFailure()
     {
-        $handle = curl_init();
+        $handle = curl_init('example.invalid');
+        curl_exec($handle);
 
         $this->expectException(HttpException::class);
-        $response = $this->adapter->getResponse($handle, $httpResponse);
+        $this->adapter->getResponse($handle, false);
 
         curl_close($handle);
-
-        $this->assertEquals(new Response('', []), $response);
     }
 
     /**
@@ -133,16 +125,12 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
 
-    public function methodProvider(): array
+    public static function methodProvider(): array
     {
         return [
             [Request::METHOD_GET],
@@ -166,11 +154,21 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
+
+        curl_close($handle);
+    }
+
+    public function testCreateHandleWithCustomRequestHeaders()
+    {
+        $request = new Request();
+        $request->addHeader('X-Header: value');
+        $request->setIsServerRequest(true);
+        $endpoint = new Endpoint();
+
+        $handle = $this->adapter->createHandle($request, $endpoint);
+
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -198,11 +196,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -216,11 +210,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }
@@ -234,11 +224,7 @@ class CurlTest extends TestCase
 
         $handle = $this->adapter->createHandle($request, $endpoint);
 
-        if (class_exists(\CurlHandle::class)) {
-            $this->assertInstanceOf(\CurlHandle::class, $handle);
-        } else {
-            $this->assertIsResource($handle);
-        }
+        $this->assertInstanceOf(\CurlHandle::class, $handle);
 
         curl_close($handle);
     }

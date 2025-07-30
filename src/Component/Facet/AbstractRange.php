@@ -9,8 +9,6 @@
 
 namespace Solarium\Component\Facet;
 
-use Solarium\Core\Configurable;
-
 /**
  * Facet range.
  *
@@ -272,11 +270,13 @@ abstract class AbstractRange extends AbstractFacet
     /**
      * @param \Solarium\Component\Facet\Pivot|array $pivot
      *
-     * @return \Solarium\Core\Configurable
+     * @return self Provides fluent interface
      */
-    public function setPivot($pivot): Configurable
+    public function setPivot($pivot): self
     {
-        return $this->setOption('pivot', $pivot);
+        $this->setOption('pivot', $pivot);
+
+        return $this;
     }
 
     /**
@@ -290,8 +290,8 @@ abstract class AbstractRange extends AbstractFacet
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Several options need some extra checks or setup work,
+     *            for these options the setters are called.}
      */
     protected function init()
     {

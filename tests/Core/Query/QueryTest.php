@@ -4,6 +4,7 @@ namespace Solarium\Tests\Core\Query;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\AbstractQuery;
+use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 
@@ -23,15 +24,24 @@ class QueryTest extends TestCase
         $this->assertSame('myResultClass', $query->getResultClass());
     }
 
+    public function testGetDefaultOmitHeader()
+    {
+        $query = new TestQuery();
+        $this->assertNull($query->getOmitHeader());
+    }
+
+    public function testSetAndGetOmitHeader()
+    {
+        $query = new TestQuery();
+        $query->setOmitHeader(false);
+        $this->assertFalse($query->getOmitHeader());
+    }
+
     public function testGetHelper()
     {
         $query = new TestQuery();
         $helper = $query->getHelper();
-
-        $this->assertSame(
-            'Solarium\Core\Query\Helper',
-            get_class($helper)
-        );
+        $this->assertInstanceOf(Helper::class, $helper);
     }
 
     public function testAddAndGetParams()
@@ -76,12 +86,18 @@ class QueryTest extends TestCase
         $this->assertSame('phps', $query->getResponseWriter());
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 7. This parameter is only relevant for Select queries.
+     */
     public function testGetDefaultTimeAllowed()
     {
         $query = new TestQuery();
         $this->assertNull($query->getTimeAllowed());
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 7. This parameter is only relevant for Select queries.
+     */
     public function testSetAndGetTimeAllowed()
     {
         $query = new TestQuery();

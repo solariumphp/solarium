@@ -38,6 +38,14 @@ class BufferedDeleteLiteTest extends TestCase
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
+    public static function updateRequestFormatProvider(): array
+    {
+        return [
+            [Query::REQUEST_FORMAT_XML],
+            [Query::REQUEST_FORMAT_JSON],
+        ];
+    }
+
     public function testInitPlugin()
     {
         $client = TestClientFactory::createWithCurlAdapter();
@@ -78,7 +86,7 @@ class BufferedDeleteLiteTest extends TestCase
     {
         $options = [
             'endpoint' => new Endpoint(),
-            'requestformat' => Query::REQUEST_FORMAT_JSON,
+            'requestformat' => Query::REQUEST_FORMAT_XML,
             'buffersize' => 200,
         ];
 
@@ -150,12 +158,18 @@ class BufferedDeleteLiteTest extends TestCase
 
     public function testAddDeleteByIdAutoFlush()
     {
+        $ids = [123, 'abc'];
+
         $updateQuery = $this->createMock(Query::class);
         $updateQuery->expects($this->exactly(2))
             ->method('add')
-            ->withConsecutive(
-                [null, (new DeleteCommand())->addId(123)],
-                [null, (new DeleteCommand())->addId('abc')],
+            ->with(
+                $this->equalTo(null),
+                $this->callback(function (DeleteCommand $command) use ($ids): bool {
+                    static $i = 0;
+
+                    return [$ids[$i++]] === $command->getIds();
+                })
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -173,7 +187,7 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
-        $plugin->addDeleteByIds([123, 'abc']);
+        $plugin->addDeleteByIds($ids);
     }
 
     public function testAddDeleteQuery()
@@ -201,12 +215,18 @@ class BufferedDeleteLiteTest extends TestCase
 
     public function testAddDeleteQueryAutoFlush()
     {
+        $queries = ['cat:abc', 'cat:def'];
+
         $updateQuery = $this->createMock(Query::class);
         $updateQuery->expects($this->exactly(2))
             ->method('add')
-            ->withConsecutive(
-                [null, (new DeleteCommand())->addQuery('cat:abc')],
-                [null, (new DeleteCommand())->addQuery('cat:def')],
+            ->with(
+                $this->equalTo(null),
+                $this->callback(function (DeleteCommand $command) use ($queries): bool {
+                    static $i = 0;
+
+                    return [$queries[$i++]] === $command->getQueries();
+                })
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -224,7 +244,7 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
-        $plugin->addDeleteQueries(['cat:abc', 'cat:def']);
+        $plugin->addDeleteQueries($queries);
     }
 
     public function testSetBufferSizeAutoFlush()
@@ -311,10 +331,10 @@ class BufferedDeleteLiteTest extends TestCase
 
     public function testClearKeepsRequestFormat()
     {
-        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
         $this->plugin->clear();
 
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
     }
 
     public function testFlushEmptyBuffer()
@@ -322,9 +342,15 @@ class BufferedDeleteLiteTest extends TestCase
         $this->assertFalse($this->plugin->flush());
     }
 
-    public function testFlush()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testFlush(string $requestFormat)
     {
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
@@ -341,6 +367,7 @@ class BufferedDeleteLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDeleteById('abc');
         $plugin->addDeleteQuery('cat:def');
 
@@ -354,13 +381,19 @@ class BufferedDeleteLiteTest extends TestCase
         $plugin->addUnknownDeleteType();
 
         $this->expectException(RuntimeException::class);
-        $this->expectErrorMessage('Unsupported delete type in buffer');
+        $this->expectExceptionMessage('Unsupported delete type in buffer');
         $plugin->flush();
     }
 
-    public function testCommit()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommit(string $requestFormat)
     {
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
@@ -380,10 +413,46 @@ class BufferedDeleteLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDeleteById('abc');
         $plugin->addDeleteQuery('cat:def');
 
         $this->assertSame($mockResult, $plugin->commit(false, true, false));
+    }
+
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommitWithOptionalValues(string $requestFormat)
+    {
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
+        $mockUpdate->expects($this->once())
+            ->method('add')
+            ->with(
+                $this->equalTo(null),
+                $this->equalTo((new DeleteCommand())->addId('abc')->addQuery('cat:def')),
+            );
+        $mockUpdate->expects($this->once())
+            ->method('addCommit')
+            ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+
+        $mockResult = $this->createMock(Result::class);
+
+        $mockClient = $this->getClient();
+        $mockClient->expects($this->exactly(2))->method('createUpdate')->willReturn($mockUpdate);
+        $mockClient->expects($this->once())->method('update')->willReturn($mockResult);
+
+        $pluginClass = \get_class($this->plugin);
+        $plugin = new $pluginClass();
+        $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
+        $plugin->addDeleteById('abc');
+        $plugin->addDeleteQuery('cat:def');
+
+        $this->assertSame($mockResult, $plugin->commit(null, null, null));
     }
 
     public function testSetAndGetEndpoint()
@@ -396,13 +465,31 @@ class BufferedDeleteLiteTest extends TestCase
 
     public function testDefaultRequestFormat()
     {
-        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
+        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
     }
 
     public function testSetAndGetRequestFormat()
     {
-        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
+    }
+
+    /**
+     * @dataProvider cborRequestFormatProvider
+     */
+    public function testSetCborRequestFormat(string $requestFormat)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request format: CBOR can only be used to add documents');
+        $this->plugin->setRequestFormat($requestFormat);
+    }
+
+    public static function cborRequestFormatProvider(): array
+    {
+        return [
+            [strtolower(Query::REQUEST_FORMAT_CBOR)],
+            [strtoupper(Query::REQUEST_FORMAT_CBOR)],
+        ];
     }
 
     public function testSetUnsupportedRequestFormat()
@@ -415,9 +502,9 @@ class BufferedDeleteLiteTest extends TestCase
     /**
      * @param EventDispatcherInterface|null $dispatcher
      *
-     * @return Client|MockObject
+     * @return Client&MockObject
      */
-    protected function getClient(EventDispatcherInterface $dispatcher = null): ClientInterface
+    protected function getClient(?EventDispatcherInterface $dispatcher = null): ClientInterface
     {
         if (!$dispatcher) {
             $dispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -425,7 +512,7 @@ class BufferedDeleteLiteTest extends TestCase
                 ->method('dispatch');
         }
 
-        /** @var Client|MockObject $client */
+        /** @var Client&MockObject $client */
         $client = $this->createMock(ClientInterface::class);
 
         $client->expects($this->any())
@@ -438,7 +525,7 @@ class BufferedDeleteLiteTest extends TestCase
 
 class BufferedDeleteDummy extends BufferedDeleteLite
 {
-    public function addUnknownDeleteType()
+    public function addUnknownDeleteType(): void
     {
         $this->buffer[] = new DeleteDummy();
     }

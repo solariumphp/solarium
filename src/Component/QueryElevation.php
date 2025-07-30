@@ -60,7 +60,7 @@ class QueryElevation extends AbstractComponent
      *
      * @param string $transformer
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function addTransformer(string $transformer): self
     {
@@ -111,7 +111,7 @@ class QueryElevation extends AbstractComponent
     /**
      * Remove all document transformers.
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function clearTransformers(): self
     {
@@ -332,10 +332,40 @@ class QueryElevation extends AbstractComponent
     }
 
     /**
+     * Set tags of filter queries to exclude for elevated documents.
+     *
+     * @param string|array $tags can be an array or string with comma separated tags
+     *
+     * @return self Provides fluent interface
+     */
+    public function setExcludeTags($tags): self
+    {
+        if (\is_string($tags)) {
+            $tags = explode(',', $tags);
+            $tags = array_map('trim', $tags);
+        }
+
+        $this->setOption('excludeTags', $tags);
+
+        return $this;
+    }
+
+    /**
+     * Get tags of filter queries to exclude for elevated documents.
+     *
+     * @return array|null
+     */
+    public function getExcludeTags(): ?array
+    {
+        return $this->getOption('excludeTags');
+    }
+
+    /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Options that influence transformers need additional setup work.
+     *            Options that set a list of ids need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {
@@ -352,6 +382,9 @@ class QueryElevation extends AbstractComponent
                     break;
                 case 'excludeIds':
                     $this->setExcludeIds($value);
+                    break;
+                case 'excludeTags':
+                    $this->setExcludeTags($value);
                     break;
             }
         }

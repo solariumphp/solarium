@@ -126,7 +126,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
      *
      * @param string $name
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setName(string $name): self
     {
@@ -150,7 +150,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
      *
      * @param string $term
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setTerm(string $term): self
     {
@@ -162,7 +162,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Remove the name of the child resource. This reverts to querying the entire managed resource.
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function removeTerm(): self
     {
@@ -174,14 +174,14 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Create a command instance.
      *
-     * @param string $type
-     * @param mixed  $options
+     * @param string     $type
+     * @param array|null $options
      *
      * @throws \Solarium\Exception\InvalidArgumentException
      *
      * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand
      */
-    public function createCommand($type, $options = null): AbstractCommand
+    public function createCommand(string $type, ?array $options = null): AbstractCommand
     {
         $type = strtolower($type);
 
@@ -235,9 +235,9 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Create an init args instance.
      *
-     * @param array $initArgs
+     * @param array|null $initArgs
      *
      * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
-    abstract public function createInitArgs(array $initArgs = null): InitArgsInterface;
+    abstract public function createInitArgs(?array $initArgs = null): InitArgsInterface;
 }

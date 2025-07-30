@@ -60,7 +60,7 @@ interface QueryInterface extends ConfigurableInterface
      * or a manual require before calling this method. This is your
      * responsibility.
      *
-     * Also you need to make sure this class implements the ResultInterface
+     * Also you need to make sure this class implements the ResultInterface.
      *
      * @param string $classname
      *

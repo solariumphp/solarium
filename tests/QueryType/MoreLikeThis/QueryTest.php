@@ -3,7 +3,15 @@
 namespace Solarium\Tests\QueryType\MoreLikeThis;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Debug;
+use Solarium\Component\DisMax;
+use Solarium\Component\DistributedSearch;
+use Solarium\Component\FacetSet;
+use Solarium\Component\Grouping;
+use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\MoreLikeThis;
+use Solarium\Component\Spellcheck;
+use Solarium\Component\Stats\Stats;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\DomainException;
 use Solarium\Exception\InvalidArgumentException;
@@ -451,10 +459,7 @@ class QueryTest extends TestCase
 
         $components = $query->getComponents();
         $this->assertCount(1, $components);
-        $this->assertThat(
-            array_pop($components),
-            $this->isInstanceOf('Solarium\Component\FacetSet')
-        );
+        $this->assertInstanceOf(FacetSet::class, array_pop($components));
     }
 
     public function testSetAndGetComponents()
@@ -530,41 +535,33 @@ class QueryTest extends TestCase
 
     public function testGetMoreLikeThis()
     {
-        $mlt = $this->query->getMoreLikeThis();
-
-        $this->assertSame(
-            'Solarium\Component\MoreLikeThis',
-            \get_class($mlt)
+        $this->assertInstanceOf(
+            MoreLikeThis::class,
+            $this->query->getMoreLikeThis()
         );
     }
 
     public function testGetDisMax()
     {
-        $dismax = $this->query->getDisMax();
-
-        $this->assertSame(
-            'Solarium\Component\DisMax',
-            \get_class($dismax)
+        $this->assertInstanceOf(
+            DisMax::class,
+            $this->query->getDisMax()
         );
     }
 
     public function testGetHighlighting()
     {
-        $hlt = $this->query->getHighlighting();
-
-        $this->assertSame(
-            'Solarium\Component\Highlighting\Highlighting',
-            \get_class($hlt)
+        $this->assertInstanceOf(
+            Highlighting::class,
+            $this->query->getHighlighting()
         );
     }
 
     public function testGetGrouping()
     {
-        $grouping = $this->query->getGrouping();
-
-        $this->assertSame(
-            'Solarium\Component\Grouping',
-            \get_class($grouping)
+        $this->assertInstanceOf(
+            Grouping::class,
+            $this->query->getGrouping()
         );
     }
 
@@ -587,7 +584,7 @@ class QueryTest extends TestCase
         $fq = $this->query->createFilterQuery($options);
 
         // check class
-        $this->assertThat($fq, $this->isInstanceOf('Solarium\QueryType\Select\Query\FilterQuery'));
+        $this->assertInstanceOf(FilterQuery::class, $fq);
 
         // check option forwarding
         $fqOptions = $fq->getOptions();
@@ -599,41 +596,33 @@ class QueryTest extends TestCase
 
     public function testGetSpellcheck()
     {
-        $spellcheck = $this->query->getSpellcheck();
-
-        $this->assertSame(
-            'Solarium\Component\Spellcheck',
-            \get_class($spellcheck)
+        $this->assertInstanceOf(
+            Spellcheck::class,
+            $this->query->getSpellcheck()
         );
     }
 
     public function testGetDistributedSearch()
     {
-        $spellcheck = $this->query->getDistributedSearch();
-
-        $this->assertSame(
-            'Solarium\Component\DistributedSearch',
-            \get_class($spellcheck)
+        $this->assertInstanceOf(
+            DistributedSearch::class,
+            $this->query->getDistributedSearch()
         );
     }
 
     public function testGetStats()
     {
-        $stats = $this->query->getStats();
-
-        $this->assertSame(
-            'Solarium\Component\Stats\Stats',
-            \get_class($stats)
+        $this->assertInstanceOf(
+            Stats::class,
+            $this->query->getStats()
         );
     }
 
     public function testGetDebug()
     {
-        $stats = $this->query->getDebug();
-
-        $this->assertSame(
-            'Solarium\Component\Debug',
-            \get_class($stats)
+        $this->assertInstanceOf(
+            Debug::class,
+            $this->query->getDebug()
         );
     }
 

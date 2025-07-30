@@ -19,6 +19,7 @@ use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
 use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
 use Solarium\Component\Result\Stats\Stats;
 use Solarium\Component\Result\Suggester\Result as SuggesterResult;
+use Solarium\Component\Result\TermVector\Result as TermVectorResult;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 
@@ -84,49 +85,55 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     protected $components;
 
     /**
-     * Status code returned by Solr.
+     * Return the value of the partialResults header if present in the response header.
      *
-     * @var int
+     * @return bool|null
      */
-    protected $status;
-
-    /**
-     * Solr index queryTime.
-     *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
-     *
-     * @var int
-     */
-    protected $queryTime;
-
-    /**
-     * Get Solr status code.
-     *
-     * This is not the HTTP status code! The normal value for success is 0.
-     *
-     * @return int
-     */
-    public function getStatus(): int
+    public function getPartialResults(): ?bool
     {
         $this->parseResponse();
 
-        return $this->status;
+        return $this->responseHeader['partialResults'] ?? null;
     }
 
     /**
-     * Get Solr query time.
+     * Was a query execution limit reached for this search?
      *
-     * This doesn't include things like the HTTP responsetime. Purely the Solr
-     * query execution time.
+     * This method can only return a correct result if the query had omitHeader=false.
      *
-     * @return int
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/common-query-parameters.html#partialresults-parameter
+     *
+     * @return bool
      */
-    public function getQueryTime(): int
+    public function isPartialResults(): bool
+    {
+        return (bool) $this->getPartialResults();
+    }
+
+    /**
+     * Return the value of the segmentTerminatedEarly header if present in the response header.
+     *
+     * @return bool|null
+     */
+    public function getSegmentTerminatedEarly(): ?bool
     {
         $this->parseResponse();
 
-        return $this->queryTime;
+        return $this->responseHeader['segmentTerminatedEarly'] ?? null;
+    }
+
+    /**
+     * Did early segment termination happen for this search?
+     *
+     * This method can only return a correct result if the query had omitHeader=false.
+     *
+     * @see https://solr.apache.org/guide/solr/latest/query-guide/common-query-parameters.html#segmentterminateearly-parameter
+     *
+     * @return bool
+     */
+    public function isSegmentTerminatedEarly(): bool
+    {
+        return (bool) $this->getSegmentTerminatedEarly();
     }
 
     /**
@@ -344,5 +351,17 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     public function getAnalytics(): ?AnalyticsResult
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_ANALYTICS);
+    }
+
+    /**
+     * Get term vector component result.
+     *
+     * This is a convenience method that maps presets to getComponent
+     *
+     * @return TermVectorResult|null
+     */
+    public function getTermVector(): ?TermVectorResult
+    {
+        return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMVECTOR);
     }
 }

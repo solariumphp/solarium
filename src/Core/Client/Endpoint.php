@@ -44,7 +44,7 @@ class Endpoint extends Configurable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $output = __CLASS__.'::__toString'."\n".'host: '.$this->getHost()."\n".'port: '.$this->getPort()."\n".'path: '.$this->getPath()."\n".'context: '.$this->getContext()."\n".'collection: '.$this->getCollection()."\n".'core: '.$this->getCore()."\n".'authentication: '.print_r($this->getAuthentication() + $this->getAuthorizationToken(), true);
 
@@ -358,8 +358,11 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAuthentication(string $username, string $password): self
-    {
+    public function setAuthentication(
+        string $username,
+        #[\SensitiveParameter]
+        string $password
+    ): self {
         $this->setOption('username', $username);
         $this->setOption('password', $password);
 
@@ -389,8 +392,11 @@ class Endpoint extends Configurable
      *
      * @return self Provides fluent interface
      */
-    public function setAuthorizationToken(string $tokenname, string $token): self
-    {
+    public function setAuthorizationToken(
+        string $tokenname,
+        #[\SensitiveParameter]
+        string $token
+    ): self {
         $this->setOption('tokenname', $tokenname);
         $this->setOption('token', $token);
 
@@ -437,8 +443,8 @@ class Endpoint extends Configurable
     /**
      * Initialization hook.
      *
-     * In this case the path needs to be cleaned of trailing slashes.
-     * The context needs to be cleaned of leading and trailing slashes.
+     * The path will be cleaned of trailing slashes.
+     * The context will be cleaned of leading and trailing slashes.
      *
      * @see setPath()
      * @see setContext()

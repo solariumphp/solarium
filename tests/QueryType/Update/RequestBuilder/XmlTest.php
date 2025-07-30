@@ -522,6 +522,55 @@ class XmlTest extends TestCase
         );
     }
 
+    public function testBuildAddXmlWithStringableObject()
+    {
+        $value = new class() implements \Stringable {
+            public function __toString(): string
+            {
+                return 'My value';
+            }
+        };
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'my_field' => $value])
+        );
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field><field name="my_field">My value</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
+    /**
+     * Test that \Stringable takes precedence over \JsonSerializable for
+     * consistency across request format.
+     */
+    public function testBuildAddXmlWithJsonSerializableAndStringableObject()
+    {
+        $value = new class() implements \JsonSerializable, \Stringable {
+            public function jsonSerialize(): mixed
+            {
+                return 'My JSON value';
+            }
+
+            public function __toString(): string
+            {
+                return 'My string value';
+            }
+        };
+
+        $command = new AddCommand();
+        $command->addDocument(
+            new Document(['id' => 1, 'my_field' => $value])
+        );
+
+        $this->assertSame(
+            '<add><doc><field name="id">1</field><field name="my_field">My string value</field></doc></add>',
+            $this->builder->buildAddXml($command)
+        );
+    }
+
     public function testBuildAddXmlWithFieldModifierAndNullValue()
     {
         $doc = new Document();

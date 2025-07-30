@@ -46,7 +46,7 @@ class PreExecuteRequestTest extends TestCase
      */
     public function testSetAndGetResponse($event)
     {
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $event->setResponse($response);
         $this->assertSame($response, $event->getResponse());
     }

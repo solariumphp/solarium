@@ -35,16 +35,16 @@ class CustomizeRequest extends AbstractPlugin
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the Customization
      * and it will be added to this plugin.
-     * If you supply an options array/object that contains a key the Customization will also be added to the plugin.
+     * If you supply an options array that contains a key the Customization will also be added to the plugin.
      *
      * When no key is supplied the Customization cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addCustomization method.
      *
-     * @param mixed $options
+     * @param string|array|null $options
      *
      * @return Customization
      */
-    public function createCustomization($options = null): Customization
+    public function createCustomization(string|array|null $options = null): Customization
     {
         if (\is_string($options)) {
             $fq = new Customization();

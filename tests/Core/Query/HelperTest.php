@@ -412,7 +412,7 @@ class HelperTest extends TestCase
     /**
      * @see https://solr.apache.org/guide/the-standard-query-parser.html#escaping-special-characters
      */
-    public function escapeTermProvider(): array
+    public static function escapeTermProvider(): array
     {
         return [
             ' ' => ['a b', 'a\\ b'],
@@ -435,6 +435,17 @@ class HelperTest extends TestCase
             ':' => ['a:b', 'a\\:b'],
             '/' => ['a/b', 'a\\/b'],
             '\\' => ['a\b', 'a\\\b'],
+            'and' => ['and', '"and"'],
+            'AND' => ['AND', '"AND"'],
+            'or' => ['or', '"or"'],
+            'OR' => ['OR', '"OR"'],
+            'to' => ['to', '"to"'],
+            'TO' => ['TO', '"TO"'],
+            ' AnD ' => [' AnD ', '" AnD "'],
+            'AND or' => ['AND or', '"AND or"'],
+            'Animals and plants' => ['Animals and plants', '"Animals and plants"'],
+            'boring' => ['boring', 'boring'],
+            'Band' => ['Band', 'Band'],
         ];
     }
 
@@ -457,7 +468,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function escapePhraseProvider(): array
+    public static function escapePhraseProvider(): array
     {
         return [
             '"' => ['a+"b', '"a+\\"b"'],
@@ -484,7 +495,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function escapeLocalParamValueProvider(): array
+    public static function escapeLocalParamValueProvider(): array
     {
         return [
             'space' => ['a b', "'a b'"],
@@ -493,6 +504,34 @@ class HelperTest extends TestCase
             "\\'" => ["a\\'b", "'a\\\\\\'b'"],
             '\\"' => ['a\\"b', "'a\\\\\"b'"],
             '}' => ['ab}', "'ab}'"],
+        ];
+    }
+
+    /**
+     * @dataProvider escapeLocalParamValuePreEscapedSeparatorProvider
+     */
+    public function testEscapeLocalParamValuePreEscapedSeparator(string $value, string $separator, string $expectedWithoutSeparator, string $expectedWithSeparator)
+    {
+        $this->assertSame(
+            $expectedWithoutSeparator,
+            $this->helper->escapeLocalParamValue($value)
+        );
+
+        $this->assertSame(
+            $expectedWithSeparator,
+            $this->helper->escapeLocalParamValue($value, $separator)
+        );
+    }
+
+    public static function escapeLocalParamValuePreEscapedSeparatorProvider(): array
+    {
+        return [
+            'no other escapes needed' => ['a\\,b', ',', 'a\\,b', 'a\\,b'],
+            'other escapes needed' => ['a b\\,c', ',', "'a b\\\\,c'", "'a b\\,c'"],
+            'unescaped separator left alone' => ['a b\\,c,d', ',', "'a b\\\\,c,d'", "'a b\\,c,d'"],
+            'multiple escaped separators' => ['a b\\,c\\,d', ',', "'a b\\\\,c\\\\,d'", "'a b\\,c\\,d'"],
+            'separator can be only 1 char' => ['a b\\,\\;c', ',;', "'a b\\\\,\\\\;c'", "'a b\\,\\\\;c'"],
+            'separator is also regex syntax' => ['a b\\|c', '|', "'a b\\\\|c'", "'a b\\|c'"],
         ];
     }
 
@@ -717,7 +756,7 @@ class HelperTest extends TestCase
         );
     }
 
-    protected function mockFormatDateOutput($timestamp)
+    protected function mockFormatDateOutput($timestamp): string
     {
         $date = new \DateTime('@'.$timestamp);
 

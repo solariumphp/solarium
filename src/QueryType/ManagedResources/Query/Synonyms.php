@@ -99,11 +99,11 @@ class Synonyms extends AbstractQuery
     /**
      * Create an init args instance.
      *
-     * @param array $initArgs
+     * @param array|null $initArgs
      *
      * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs
      */
-    public function createInitArgs(array $initArgs = null): InitArgsInterface
+    public function createInitArgs(?array $initArgs = null): InitArgsInterface
     {
         return new InitArgs($initArgs);
     }

@@ -39,14 +39,14 @@ class ValueGroupResult extends StandardValueGroup
     /**
      * Constructor.
      *
-     * @param string     $value
-     * @param int        $numFound
-     * @param int        $start
-     * @param array      $documents
-     * @param float|null $maximumScore
-     * @param Query      $query
+     * @param string|null $value
+     * @param int         $numFound
+     * @param int         $start
+     * @param array       $documents
+     * @param float|null  $maximumScore
+     * @param Query       $query
      */
-    public function __construct(string $value, int $numFound, int $start, array $documents, ?float $maximumScore, Query $query)
+    public function __construct(?string $value, int $numFound, int $start, array $documents, ?float $maximumScore, Query $query)
     {
         $this->filterMode = $query->getFilterMode();
         $this->filterRatio = $query->getFilterRatio();

@@ -24,7 +24,7 @@ trait ConnectionTimeoutAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setConnectionTimeout(?int $timeoutInSeconds)
+    public function setConnectionTimeout(?int $timeoutInSeconds): self
     {
         $this->connectionTimeout = $timeoutInSeconds;
 

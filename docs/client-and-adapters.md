@@ -170,6 +170,11 @@ PSR-18 adapter
 
 Since Solarium 5.2 there is also a `Psr18Adapter` which can be used with any [PSR-18](https://www.php-fig.org/psr/psr-18/) compliant HTTP client.
 
+```sh
+composer require php-http/guzzle7-adapter
+composer require nyholm/psr7
+```
+
 ```php
 <?php
 
@@ -177,7 +182,7 @@ require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a PSR-18 adapter instance
-$httpClient = new Http\Adapter\Guzzle6\Client();
+$httpClient = new Http\Adapter\Guzzle7\Client();
 $factory = new Nyholm\Psr7\Factory\Psr17Factory();
 $adapter = new Solarium\Core\Client\Adapter\Psr18Adapter($httpClient, $factory, $factory);
 
@@ -193,7 +198,6 @@ If your application does many Solr requests during a single PHP process, conside
 Below example registers such a PSR-18 Client with a timeout of 120 seconds.
 
 ```sh
-composer require psr/http-client
 composer require nyholm/psr7
 composer require symfony/http-client
 ```
@@ -220,7 +224,7 @@ $httpClient = new Psr18Client(HttpClient::create([ 'timeout' => 120 ]));
 $factory = new Psr17Factory();
 $adapter = new Psr18Adapter($httpClient, $factory, $factory);
 
-$client = new Client($adapter, new EventDispatcher, $config);
+$client = new Client($adapter, new EventDispatcher(), $config);
 ```
 
 **Note:** If you don't reuse your created client instance, you might end up with many open HTTP connection handles, which can lead to **"too many open files"**.

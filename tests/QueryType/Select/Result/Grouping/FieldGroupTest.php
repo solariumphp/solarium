@@ -59,6 +59,6 @@ class FieldGroupTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->items), $this->group);
+        $this->assertSameSize($this->items, $this->group);
     }
 }

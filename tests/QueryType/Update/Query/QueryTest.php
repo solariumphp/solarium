@@ -28,17 +28,17 @@ class QueryTest extends TestCase
     public function testDefaultRequestFormat()
     {
         $this->assertSame(
-            Query::REQUEST_FORMAT_XML,
+            Query::REQUEST_FORMAT_JSON,
             $this->query->getRequestFormat(),
             // some tests will still pass but no longer be reliable if they're suddenly testing against the default
-            'Update all tests that assume REQUEST_FORMAT_XML is the default if this is changed (including tests for plugins)'
+            'Update all tests that assume REQUEST_FORMAT_JSON is the default if this is changed (including tests for plugins)'
         );
     }
 
     public function testSetAndGetRequestFormat()
     {
-        $this->query->setRequestFormat(Query::REQUEST_FORMAT_JSON);
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->query->getRequestFormat());
+        $this->query->setRequestFormat(Query::REQUEST_FORMAT_XML);
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->query->getRequestFormat());
     }
 
     public function testSetUnsupportedRequestFormat()
@@ -69,7 +69,7 @@ class QueryTest extends TestCase
     {
         $options = [
             'handler' => 'myHandler',
-            'requestformat' => Query::REQUEST_FORMAT_JSON,
+            'requestformat' => Query::REQUEST_FORMAT_XML,
             'resultclass' => 'myResult',
             'command' => [
                 'key1' => [
@@ -103,7 +103,7 @@ class QueryTest extends TestCase
         );
 
         $this->assertSame(
-            Query::REQUEST_FORMAT_JSON,
+            Query::REQUEST_FORMAT_XML,
             $this->query->getRequestFormat()
         );
 
@@ -146,9 +146,9 @@ class QueryTest extends TestCase
         );
 
         $rollback = $commands['key4'];
-        $this->assertSame(
+        $this->assertInstanceOf(
             Rollback::class,
-            get_class($rollback)
+            $rollback
         );
     }
 
@@ -522,7 +522,7 @@ class QueryTest extends TestCase
     public function testCreateDocument()
     {
         $doc = $this->query->createDocument();
-        $this->assertThat($doc, $this->isInstanceOf($this->query->getDocumentClass()));
+        $this->assertInstanceOf($this->query->getDocumentClass(), $doc);
     }
 
     public function testCreateDocumentWithCustomClass()
@@ -530,7 +530,7 @@ class QueryTest extends TestCase
         $this->query->setDocumentClass(__NAMESPACE__.'\\MyCustomDoc');
 
         $doc = $this->query->createDocument();
-        $this->assertThat($doc, $this->isInstanceOf(__NAMESPACE__.'\\MyCustomDoc'));
+        $this->assertInstanceOf(__NAMESPACE__.'\\MyCustomDoc', $doc);
     }
 
     public function testCreateDocumentWithFieldsAndBoostsAndModifiers()
@@ -542,7 +542,7 @@ class QueryTest extends TestCase
         $doc = $this->query->createDocument($fields, $boosts, $modifiers);
         $doc->setKey('id');
 
-        $this->assertThat($doc, $this->isInstanceOf($this->query->getDocumentClass()));
+        $this->assertInstanceOf($this->query->getDocumentClass(), $doc);
 
         $this->assertSame(
             $fields,

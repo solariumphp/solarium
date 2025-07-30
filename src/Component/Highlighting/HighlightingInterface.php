@@ -143,7 +143,7 @@ interface HighlightingInterface
      *
      * @deprecated Use {@link setMethod()} for Solr 6.4 and higher
      */
-    public function setUseFastVectorHighlighter(bool $use): HighlightingInterface;
+    public function setUseFastVectorHighlighter(bool $use): self;
 
     /**
      * Get useFastVectorHighlighter option.
@@ -161,7 +161,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMethod(string $method): HighlightingInterface;
+    public function setMethod(string $method): self;
 
     /**
      * Get highlighter method.
@@ -177,7 +177,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setUsePhraseHighlighter(bool $use): HighlightingInterface;
+    public function setUsePhraseHighlighter(bool $use): self;
 
     /**
      * Get usePhraseHighlighter option.
@@ -193,7 +193,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setHighlightMultiTerm(bool $highlight): HighlightingInterface;
+    public function setHighlightMultiTerm(bool $highlight): self;
 
     /**
      * Get HighlightMultiTerm option.
@@ -211,7 +211,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setSnippets(int $maximum): HighlightingInterface;
+    public function setSnippets(int $maximum): self;
 
     /**
      * Get snippets option.
@@ -229,7 +229,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFragSize(int $size): HighlightingInterface;
+    public function setFragSize(int $size): self;
 
     /**
      * Get fragsize option.
@@ -247,7 +247,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTagPrefix(string $prefix): HighlightingInterface;
+    public function setTagPrefix(string $prefix): self;
 
     /**
      * Get tag prefix option.
@@ -267,7 +267,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTagPostfix(string $postfix): HighlightingInterface;
+    public function setTagPostfix(string $postfix): self;
 
     /**
      * Get tag postfix option.
@@ -287,7 +287,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setEncoder(string $encoder): HighlightingInterface;
+    public function setEncoder(string $encoder): self;
 
     /**
      * Get encoder option.
@@ -305,7 +305,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxAnalyzedChars(int $chars): HighlightingInterface;
+    public function setMaxAnalyzedChars(int $chars): self;
 
     /**
      * Get maxAnalyzedChars option.
@@ -323,7 +323,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setOffsetSource(string $offsetSource): HighlightingInterface;
+    public function setOffsetSource(string $offsetSource): self;
 
     /**
      * Get offsetSource option.
@@ -341,7 +341,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFragAlignRatio(float $fragAlignRatio): HighlightingInterface;
+    public function setFragAlignRatio(float $fragAlignRatio): self;
 
     /**
      * Get fragAlignRatio option.
@@ -357,7 +357,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFragsizeIsMinimum(bool $isMinimum): HighlightingInterface;
+    public function setFragsizeIsMinimum(bool $isMinimum): self;
 
     /**
      * Get fragsizeIsMinimum option.
@@ -373,7 +373,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTagEllipsis(string $ellipsis): HighlightingInterface;
+    public function setTagEllipsis(string $ellipsis): self;
 
     /**
      * Get tag.ellipsis option.
@@ -389,7 +389,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDefaultSummary(bool $defaultSummary): HighlightingInterface;
+    public function setDefaultSummary(bool $defaultSummary): self;
 
     /**
      * Get defaultSummary option.
@@ -407,7 +407,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setScoreK1(float $k1): HighlightingInterface;
+    public function setScoreK1(float $k1): self;
 
     /**
      * Get score.k1 option.
@@ -425,7 +425,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setScoreB(float $b): HighlightingInterface;
+    public function setScoreB(float $b): self;
 
     /**
      * Get score.b option.
@@ -443,7 +443,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setScorePivot(int $pivot): HighlightingInterface;
+    public function setScorePivot(int $pivot): self;
 
     /**
      * Get score.pivot option.
@@ -459,7 +459,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerLanguage(string $language): HighlightingInterface;
+    public function setBoundaryScannerLanguage(string $language): self;
 
     /**
      * Get breakIterator boundary scanner language option.
@@ -475,7 +475,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerCountry(string $country): HighlightingInterface;
+    public function setBoundaryScannerCountry(string $country): self;
 
     /**
      * Get breakIterator boundary scanner country option.
@@ -491,7 +491,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerVariant(string $variant): HighlightingInterface;
+    public function setBoundaryScannerVariant(string $variant): self;
 
     /**
      * Get breakIterator boundary scanner variant option.
@@ -509,7 +509,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerType(string $type): HighlightingInterface;
+    public function setBoundaryScannerType(string $type): self;
 
     /**
      * Get breakIterator boundary scanner type option.
@@ -527,7 +527,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerSeparator(string $separator): HighlightingInterface;
+    public function setBoundaryScannerSeparator(string $separator): self;
 
     /**
      * Get breakIterator boundary scanner separator option.
@@ -545,7 +545,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setWeightMatches(bool $weightMatches): HighlightingInterface;
+    public function setWeightMatches(bool $weightMatches): self;
 
     /**
      * Get weightMatches option.
@@ -563,7 +563,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMergeContiguous(bool $merge): HighlightingInterface;
+    public function setMergeContiguous(bool $merge): self;
 
     /**
      * Get mergeContiguous option.
@@ -581,7 +581,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxMultiValuedToExamine(int $maximum): HighlightingInterface;
+    public function setMaxMultiValuedToExamine(int $maximum): self;
 
     /**
      * Get maxMultiValuedToExamine option.
@@ -599,7 +599,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxMultiValuedToMatch(int $maximum): HighlightingInterface;
+    public function setMaxMultiValuedToMatch(int $maximum): self;
 
     /**
      * Get maxMultiValuedToMatch option.
@@ -615,7 +615,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setAlternateField(string $field): HighlightingInterface;
+    public function setAlternateField(string $field): self;
 
     /**
      * Get alternateField option.
@@ -631,7 +631,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMaxAlternateFieldLength(int $length): HighlightingInterface;
+    public function setMaxAlternateFieldLength(int $length): self;
 
     /**
      * Get maxAlternateFieldLength option.
@@ -647,7 +647,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setHighlightAlternate(bool $highlight): HighlightingInterface;
+    public function setHighlightAlternate(bool $highlight): self;
 
     /**
      * Get highlightAlternate option.
@@ -665,7 +665,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFormatter(string $formatter = HighlightingInterface::FORMATTER_SIMPLE): HighlightingInterface;
+    public function setFormatter(string $formatter = self::FORMATTER_SIMPLE): self;
 
     /**
      * Get formatter option.
@@ -683,7 +683,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setSimplePrefix(string $prefix): HighlightingInterface;
+    public function setSimplePrefix(string $prefix): self;
 
     /**
      * Get simple prefix option.
@@ -703,7 +703,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setSimplePostfix(string $postfix): HighlightingInterface;
+    public function setSimplePostfix(string $postfix): self;
 
     /**
      * Get simple postfix option.
@@ -723,7 +723,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFragmenter(string $fragmenter): HighlightingInterface;
+    public function setFragmenter(string $fragmenter): self;
 
     /**
      * Get fragmenter option.
@@ -739,7 +739,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setRegexSlop(float $slop): HighlightingInterface;
+    public function setRegexSlop(float $slop): self;
 
     /**
      * Get regex.slop option.
@@ -755,7 +755,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setRegexPattern(string $pattern): HighlightingInterface;
+    public function setRegexPattern(string $pattern): self;
 
     /**
      * Get regex.pattern option.
@@ -771,7 +771,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setRegexMaxAnalyzedChars(int $chars): HighlightingInterface;
+    public function setRegexMaxAnalyzedChars(int $chars): self;
 
     /**
      * Get regex.maxAnalyzedChars option.
@@ -787,7 +787,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setPreserveMulti(bool $preservemulti): HighlightingInterface;
+    public function setPreserveMulti(bool $preservemulti): self;
 
     /**
      * Get preserveMulti option.
@@ -803,7 +803,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setPayloads(bool $payloads): HighlightingInterface;
+    public function setPayloads(bool $payloads): self;
 
     /**
      * Get payloads option.
@@ -821,7 +821,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFragListBuilder(string $builder): HighlightingInterface;
+    public function setFragListBuilder(string $builder): self;
 
     /**
      * Get fragListBuilder option.
@@ -839,7 +839,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setFragmentsBuilder(string $builder): HighlightingInterface;
+    public function setFragmentsBuilder(string $builder): self;
 
     /**
      * Get fragmentsBuilder option.
@@ -857,7 +857,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScanner(string $scanner): HighlightingInterface;
+    public function setBoundaryScanner(string $scanner): self;
 
     /**
      * Get boundaryScanner option.
@@ -873,7 +873,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerMaxScan(int $maximum): HighlightingInterface;
+    public function setBoundaryScannerMaxScan(int $maximum): self;
 
     /**
      * Get simple boundary scanner maxScan option.
@@ -889,7 +889,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setBoundaryScannerChars(string $chars): HighlightingInterface;
+    public function setBoundaryScannerChars(string $chars): self;
 
     /**
      * Get simple boundary scanner cgars option.
@@ -907,7 +907,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setPhraseLimit(int $maximum): HighlightingInterface;
+    public function setPhraseLimit(int $maximum): self;
 
     /**
      * Get phraseLimit option.
@@ -925,7 +925,7 @@ interface HighlightingInterface
      *
      * @return self Provides fluent interface
      */
-    public function setMultiValuedSeparatorChar(string $separator): HighlightingInterface;
+    public function setMultiValuedSeparatorChar(string $separator): self;
 
     /**
      * Get multiValuedSeparatorChar option.

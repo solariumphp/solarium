@@ -9,8 +9,6 @@
 
 namespace Solarium\Component\ComponentTraits;
 
-use Solarium\Component\TermsInterface;
-
 /**
  * Terms component.
  *
@@ -30,7 +28,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setFields($value): TermsInterface
+    public function setFields($value): self
     {
         if (\is_string($value)) {
             $value = explode(',', $value);
@@ -62,7 +60,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setLowerbound(string $value): TermsInterface
+    public function setLowerbound(string $value): self
     {
         return $this->setOption('lowerbound', $value);
     }
@@ -84,7 +82,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setLowerboundInclude(bool $value): TermsInterface
+    public function setLowerboundInclude(bool $value): self
     {
         return $this->setOption('lowerboundinclude', $value);
     }
@@ -106,7 +104,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMinCount(int $value): TermsInterface
+    public function setMinCount(int $value): self
     {
         return $this->setOption('mincount', $value);
     }
@@ -128,7 +126,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setMaxCount(int $value): TermsInterface
+    public function setMaxCount(int $value): self
     {
         return $this->setOption('maxcount', $value);
     }
@@ -150,7 +148,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setPrefix(string $value): TermsInterface
+    public function setPrefix(string $value): self
     {
         return $this->setOption('prefix', $value);
     }
@@ -172,7 +170,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegex(string $value): TermsInterface
+    public function setRegex(string $value): self
     {
         return $this->setOption('regex', $value);
     }
@@ -196,7 +194,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRegexFlags($value): TermsInterface
+    public function setRegexFlags($value): self
     {
         if (\is_string($value)) {
             $value = explode(',', $value);
@@ -230,7 +228,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setLimit(int $value): TermsInterface
+    public function setLimit(int $value): self
     {
         return $this->setOption('limit', $value);
     }
@@ -252,7 +250,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setUpperbound(string $value): TermsInterface
+    public function setUpperbound(string $value): self
     {
         return $this->setOption('upperbound', $value);
     }
@@ -274,7 +272,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setUpperboundInclude(bool $value): TermsInterface
+    public function setUpperboundInclude(bool $value): self
     {
         return $this->setOption('upperboundinclude', $value);
     }
@@ -296,7 +294,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setRaw(bool $value): TermsInterface
+    public function setRaw(bool $value): self
     {
         return $this->setOption('raw', $value);
     }
@@ -318,7 +316,7 @@ trait TermsTrait
      *
      * @return self Provides fluent interface
      */
-    public function setSort(string $value): TermsInterface
+    public function setSort(string $value): self
     {
         return $this->setOption('sort', $value);
     }

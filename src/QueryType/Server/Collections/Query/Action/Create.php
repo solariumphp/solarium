@@ -39,7 +39,7 @@ class Create extends AbstractAsyncAction
      *
      * @param string $routerName
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setRouterName(string $routerName): self
     {
@@ -64,7 +64,7 @@ class Create extends AbstractAsyncAction
      *
      * @param int $numShards
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setNumShards(int $numShards): self
     {
@@ -89,7 +89,7 @@ class Create extends AbstractAsyncAction
      *
      * @param string $shards
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setShards(string $shards): self
     {

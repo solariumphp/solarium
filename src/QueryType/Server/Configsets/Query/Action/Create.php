@@ -38,7 +38,7 @@ class Create extends AbstractAction
      *
      * @param string $baseConfigSet
      *
-     * @return self $this
+     * @return self Provides fluent interface
      */
     public function setBaseConfigSet(string $baseConfigSet): self
     {

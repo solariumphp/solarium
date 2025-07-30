@@ -4,6 +4,8 @@ namespace Solarium\Tests\QueryType\Ping;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
+use Solarium\QueryType\Ping\RequestBuilder;
+use Solarium\QueryType\Ping\ResponseParser;
 use Solarium\QueryType\Ping\Query;
 
 class QueryTest extends TestCase
@@ -20,14 +22,14 @@ class QueryTest extends TestCase
         $this->assertSame(Client::QUERY_PING, $this->query->getType());
     }
 
-    public function testGetResponseParser()
-    {
-        $this->assertNull($this->query->getResponseParser());
-    }
-
     public function testGetRequestBuilder()
     {
-        $this->assertInstanceOf('Solarium\QueryType\Ping\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
+    }
+
+    public function testGetResponseParser()
+    {
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testConfigMode()

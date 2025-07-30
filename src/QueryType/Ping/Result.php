@@ -9,26 +9,41 @@
 
 namespace Solarium\QueryType\Ping;
 
-use Solarium\Core\Query\Result\Result as BaseResult;
+use Solarium\Core\Query\Result\QueryType as BaseResult;
 
 /**
  * Ping query result.
- *
- * A ping query has no useful result so only a dummy status var is available.
- * If you don't get an exception for a ping query it was successful.
  */
 class Result extends BaseResult
 {
     /**
-     * Get Solr status code.
-     *
-     * Since no status is returned for a ping, a default of 0 is used.
-     * If you don't get an exception for a ping query it was successful.
-     *
-     * @return int
+     * @var string
      */
-    public function getStatus(): int
+    protected $status;
+
+    /**
+     * Return the ping status.
+     *
+     * This is different from the Solr status code you get with {@link getStatus()}.
+     *
+     * @return string
+     */
+    public function getPingStatus(): string
     {
-        return 0;
+        $this->parseResponse();
+
+        return $this->status;
+    }
+
+    /**
+     * Return whether the node was connected with ZooKeeper for a distributed request.
+     *
+     * @return bool|null
+     */
+    public function getZkConnected(): ?bool
+    {
+        $this->parseResponse();
+
+        return $this->responseHeader['zkConnected'] ?? null;
     }
 }

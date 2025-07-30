@@ -8,10 +8,7 @@ use Solarium\Client;
 
 class ClientTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected static $installedVersion;
+    protected static string $installedVersion;
 
     public static function setUpBeforeClass(): void
     {
@@ -23,11 +20,8 @@ class ClientTest extends TestCase
         ;
 
         if (!preg_match($semverRegex, self::$installedVersion)) {
-            self::assertSame(self::$installedVersion, Client::getVersion());
             self::markTestSkipped(sprintf('Skipping tests against non-semantic version string %s.', self::$installedVersion));
         }
-
-        parent::setUpBeforeClass();
     }
 
     public function testGetVersion()
@@ -37,17 +31,6 @@ class ClientTest extends TestCase
             Client::getVersion()
         );
     }
-
-//    /**
-//     * @deprecated The class constant will be removed in Solarium 6.3.0.
-//     */
-//    public function testVersionConstant()
-//    {
-//        $this->assertSame(
-//            self::$installedVersion,
-//            Client::VERSION
-//        );
-//    }
 
     public function testCheckExact()
     {

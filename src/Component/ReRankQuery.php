@@ -11,6 +11,7 @@ namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\ReRankQuery as RequestBuilder;
+use Solarium\Exception\DomainException;
 
 /**
  * Rerank query.
@@ -20,6 +21,21 @@ use Solarium\Component\RequestBuilder\ReRankQuery as RequestBuilder;
 class ReRankQuery extends AbstractComponent implements QueryInterface
 {
     use QueryTrait;
+
+    /**
+     * Add the score from the reRankQuery multiplied by the reRankWeight to the original score.
+     */
+    public const OPERATOR_ADD = 'add';
+
+    /**
+     * Multiply the score from the reRankQuery, the reRankWeight, and the original score.
+     */
+    public const OPERATOR_MULTIPLY = 'multiply';
+
+    /**
+     * Replace the original score with the score from the reRankQuery multiplied by the reRankWeight.
+     */
+    public const OPERATOR_REPLACE = 'replace';
 
     /**
      * Get component type.
@@ -56,7 +72,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
      *
      * @param int $value
      *
-     * @return self
+     * @return self Provides fluent interface
      */
     public function setDocs(int $value): self
     {
@@ -87,5 +103,109 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
         $this->setOption('weight', $value);
 
         return $this;
+    }
+
+    /**
+     * Get reRankScale value.
+     *
+     * @return string|null
+     */
+    public function getScale(): ?string
+    {
+        return $this->getOption('scale');
+    }
+
+    /**
+     * Set reRankScale value.
+     *
+     * The format of this parameter value is 'min-max' where min and max are positive integers.
+     *
+     * @param string $value
+     *
+     * @throws DomainException if the value has an invalid format
+     *
+     * @return self Provides fluent interface
+     */
+    public function setScale(string $value): self
+    {
+        if (!self::isValidScale($value)) {
+            throw new DomainException(sprintf('\'%s\' doesn\'t match the format \'min-max\' where min and max are positive integers.', $value));
+        }
+
+        $this->setOption('scale', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get reRankMainScale value.
+     *
+     * @return string|null
+     */
+    public function getMainScale(): ?string
+    {
+        return $this->getOption('mainscale');
+    }
+
+    /**
+     * Set reRankMainScale value.
+     *
+     * The format of this parameter value is 'min-max' where min and max are positive integers.
+     *
+     * @param string $value
+     *
+     * @throws DomainException if the value has an invalid format
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMainScale(string $value): self
+    {
+        if (!self::isValidScale($value)) {
+            throw new DomainException(sprintf('\'%s\' doesn\'t match the format \'min-max\' where min and max are positive integers.', $value));
+        }
+
+        $this->setOption('mainscale', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get reRankOperator value.
+     *
+     * @return string|null
+     */
+    public function getOperator(): ?string
+    {
+        return $this->getOption('operator');
+    }
+
+    /**
+     * Set reRankOperator value.
+     *
+     * Use one of the OPERATOR_* constants as value.
+     *
+     * @param string $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setOperator(string $value): self
+    {
+        $this->setOption('operator', $value);
+
+        return $this;
+    }
+
+    /**
+     * Check if a value is valid for a scale parameter.
+     *
+     * The format of a valid parameter value is 'min-max' where min and max are positive integers.
+     *
+     * @param string $value
+     *
+     * @return bool
+     */
+    public static function isValidScale(string $value): bool
+    {
+        return 1 === preg_match('/^\d+-\d+$/', $value);
     }
 }

@@ -13,6 +13,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
 use Solarium\Core\Query\Result\Result;
+use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ManagedResource;
 
 /**
  * ResourceList.
@@ -29,15 +30,15 @@ class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * List items.
      *
-     * @var \Solarium\QueryType\ManagedResources\Result\Resources\Resource[]
+     * @var ManagedResource[]
      */
     protected $items = [];
 
     /**
      * Constructor.
      *
-     * @param \Solarium\Core\Query\AbstractQuery $query
-     * @param \Solarium\Core\Client\Response     $response
+     * @param AbstractQuery $query
+     * @param Response      $response
      */
     public function __construct(AbstractQuery $query, Response $response)
     {
@@ -57,7 +58,7 @@ class ResourceList extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get all items.
      *
-     * @return \Solarium\QueryType\ManagedResources\Result\Resources\Resource[]
+     * @return ManagedResource[]
      */
     public function getItems(): array
     {

@@ -13,6 +13,7 @@ Options
 | markExcludes               | boolean | null          | You can include documents that the elevation configuration would normally exclude by using true. The [excluded] transformer is added to each document. |
 | elevateIds                 | string  | null          | Comma separated list of documents to elevate. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
 | excludeIds                 | string  | null          | Comma separated list of documents to exclude. This overrides the elevations _and_ exclusions that are configured for the query in the elevation file.  |
+| excludeTags                | string  | null          | Comma separated list of filter query tags to exclude. This excludes filter queries from being applied to elevated documents.                           |
 ||
 
 Example

@@ -35,6 +35,15 @@ class BufferedAddLiteTest extends TestCase
         $this->plugin->initPlugin(TestClientFactory::createWithCurlAdapter(), []);
     }
 
+    public static function updateRequestFormatProvider(): array
+    {
+        return [
+            [Query::REQUEST_FORMAT_XML],
+            [Query::REQUEST_FORMAT_JSON],
+            [Query::REQUEST_FORMAT_CBOR],
+        ];
+    }
+
     public function testInitPlugin()
     {
         $client = TestClientFactory::createWithCurlAdapter();
@@ -75,7 +84,7 @@ class BufferedAddLiteTest extends TestCase
     {
         $options = [
             'endpoint' => new Endpoint(),
-            'requestformat' => Query::REQUEST_FORMAT_JSON,
+            'requestformat' => Query::REQUEST_FORMAT_XML,
             'buffersize' => 200,
         ];
 
@@ -180,12 +189,18 @@ class BufferedAddLiteTest extends TestCase
         $doc2->id = '234';
         $doc2->name = 'test2';
 
+        $docs = [$doc1, $doc2];
+
         $updateQuery = $this->createMock(Query::class);
         $updateQuery->expects($this->exactly(2))
             ->method('add')
-            ->withConsecutive(
-                [null, (new AddCommand())->addDocument($doc1)],
-                [null, (new AddCommand())->addDocument($doc2)],
+            ->with(
+                $this->equalTo(null),
+                $this->callback(function (AddCommand $command) use ($docs): bool {
+                    static $i = 0;
+
+                    return [$docs[$i++]] === $command->getDocuments();
+                })
             );
 
         $mockResult = $this->createMock(Result::class);
@@ -203,7 +218,7 @@ class BufferedAddLiteTest extends TestCase
         $plugin = new $pluginClass();
         $plugin->initPlugin($client, []);
         $plugin->setBufferSize(1);
-        $plugin->addDocuments([$doc1, $doc2]);
+        $plugin->addDocuments($docs);
     }
 
     public function testSetBufferSizeAutoFlush()
@@ -300,10 +315,10 @@ class BufferedAddLiteTest extends TestCase
 
     public function testClearKeepsRequestFormat()
     {
-        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
         $this->plugin->clear();
 
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
     }
 
     public function testFlushEmptyBuffer()
@@ -311,13 +326,19 @@ class BufferedAddLiteTest extends TestCase
         $this->assertFalse($this->plugin->flush());
     }
 
-    public function testFlush()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testFlush(string $requestFormat)
     {
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
         $doc3 = new Document(['id' => '789', 'name' => 'test 3']);
 
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
@@ -334,28 +355,41 @@ class BufferedAddLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDocuments([$doc1, $doc2]);
         $plugin->addDocument($doc3);
 
         $this->assertSame($mockResult, $plugin->flush(true, 12));
     }
 
-    public function testCommit()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommit(string $requestFormat)
     {
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
         $doc3 = new Document(['id' => '789', 'name' => 'test 3']);
 
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
                 $this->equalTo(null),
                 $this->equalTo((new AddCommand())->setOverwrite(true)->addDocuments([$doc1, $doc2, $doc3])),
             );
-        $mockUpdate->expects($this->once())
-            ->method('addCommit')
-            ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $mockUpdate->expects($this->never())
+                ->method('addCommit');
+        } else {
+            $mockUpdate->expects($this->once())
+                ->method('addCommit')
+                ->with($this->equalTo(false), $this->equalTo(true), $this->equalTo(false));
+        }
 
         $mockResult = $this->createMock(Result::class);
 
@@ -366,27 +400,49 @@ class BufferedAddLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDocument($doc1);
         $plugin->addDocuments([$doc2, $doc3]);
 
         $this->assertSame($mockResult, $plugin->commit(true, false, true, false));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $params = $mockUpdate->getParams();
+
+            $this->assertTrue($params['commit']);
+            $this->assertFalse($params['softCommit']);
+            $this->assertTrue($params['waitSearcher']);
+            $this->assertFalse($params['expungeDeletes']);
+        }
     }
 
-    public function testCommitWithOptionalValues()
+    /**
+     * @dataProvider updateRequestFormatProvider
+     */
+    public function testCommitWithOptionalValues(string $requestFormat)
     {
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
 
-        $mockUpdate = $this->createMock(Query::class);
+        /** @var Query|MockObject $mockUpdate */
+        $mockUpdate = $this->getMockBuilder(Query::class)
+            ->onlyMethods(['add', 'addCommit'])
+            ->getMock();
         $mockUpdate->expects($this->once())
             ->method('add')
             ->with(
                 $this->equalTo(null),
                 $this->equalTo((new AddCommand())->setOverwrite(true)->addDocuments([$doc1, $doc2])),
             );
-        $mockUpdate->expects($this->once())
-            ->method('addCommit')
-            ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $mockUpdate->expects($this->never())
+                ->method('addCommit');
+        } else {
+            $mockUpdate->expects($this->once())
+                ->method('addCommit')
+                ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null));
+        }
 
         $mockResult = $this->createMock(Result::class);
 
@@ -397,11 +453,22 @@ class BufferedAddLiteTest extends TestCase
         $pluginClass = \get_class($this->plugin);
         $plugin = new $pluginClass();
         $plugin->initPlugin($mockClient, []);
+        $plugin->setRequestFormat($requestFormat);
         $plugin->addDocument($doc1);
         $plugin->addDocument($doc2);
         $plugin->setOverwrite(true);
 
         $this->assertSame($mockResult, $plugin->commit(null, null, null, null));
+
+        if (Query::REQUEST_FORMAT_CBOR === $requestFormat) {
+            $params = $mockUpdate->getParams();
+
+            $this->assertTrue($params['commit']);
+            // explicitly null or omitted is an implementation detail with the same end result
+            $this->assertNull($params['softCommit'] ?? null);
+            $this->assertNull($params['waitSearcher'] ?? null);
+            $this->assertNull($params['expungeDeletes'] ?? null);
+        }
     }
 
     public function testSetAndGetEndpoint()
@@ -414,13 +481,13 @@ class BufferedAddLiteTest extends TestCase
 
     public function testDefaultRequestFormat()
     {
-        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
+        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
     }
 
     public function testSetAndGetRequestFormat()
     {
-        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_JSON);
-        $this->assertSame(Query::REQUEST_FORMAT_JSON, $this->plugin->getRequestFormat());
+        $this->plugin->setRequestFormat(Query::REQUEST_FORMAT_XML);
+        $this->assertSame(Query::REQUEST_FORMAT_XML, $this->plugin->getRequestFormat());
     }
 
     public function testSetUnsupportedRequestFormat()
@@ -433,9 +500,9 @@ class BufferedAddLiteTest extends TestCase
     /**
      * @param EventDispatcherInterface|null $dispatcher
      *
-     * @return Client|MockObject
+     * @return Client&MockObject
      */
-    protected function getClient(EventDispatcherInterface $dispatcher = null): ClientInterface
+    protected function getClient(?EventDispatcherInterface $dispatcher = null): ClientInterface
     {
         if (!$dispatcher) {
             $dispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -443,7 +510,7 @@ class BufferedAddLiteTest extends TestCase
                 ->method('dispatch');
         }
 
-        /** @var Client|MockObject $client */
+        /** @var Client&MockObject $client */
         $client = $this->createMock(ClientInterface::class);
 
         $client->expects($this->any())

@@ -27,7 +27,7 @@ class FieldTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->items), $this->result);
+        $this->assertSameSize($this->items, $this->result);
     }
 
     public function testIterator()
@@ -64,7 +64,6 @@ class FieldDummy extends Field
     public function __construct($status, $queryTime, $items)
     {
         $this->items = $items;
-        $this->queryTime = $queryTime;
-        $this->status = $status;
+        $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
     }
 }

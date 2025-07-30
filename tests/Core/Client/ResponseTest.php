@@ -19,7 +19,10 @@ class ResponseTest extends TestCase
 
     public function setUp(): void
     {
-        $this->headers = ['HTTP/1.0 304 Not Modified'];
+        $this->headers = [
+            'HTTP/1.0 304 Not Modified',
+            'X-Header: value',
+        ];
         $this->data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"mdsfgdsfgdf"}},'.
             '"response":{"numFound":0,"start":0,"docs":[]}}';
         $this->response = new Response($this->data, $this->headers);
@@ -43,6 +46,12 @@ class ResponseTest extends TestCase
     public function testGetBody()
     {
         $this->assertSame($this->data, $this->response->getBody());
+    }
+
+    public function testSetBody()
+    {
+        $this->response->setBody('test body');
+        $this->assertSame('test body', $this->response->getBody());
     }
 
     public function testMissingStatusCode()

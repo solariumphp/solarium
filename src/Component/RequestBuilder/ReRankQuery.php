@@ -32,6 +32,9 @@ class ReRankQuery implements ComponentRequestBuilderInterface
         $subRequest->addParam('reRankQuery', '$rqq');
         $subRequest->addParam('reRankDocs', $component->getDocs());
         $subRequest->addParam('reRankWeight', $component->getWeight());
+        $subRequest->addParam('reRankScale', $component->getScale());
+        $subRequest->addParam('reRankMainScale', $component->getMainScale());
+        $subRequest->addParam('reRankOperator', $component->getOperator());
 
         $request->addParam('rq', $subRequest->getSubQuery());
         $request->addParam('rqq', $component->getQuery());

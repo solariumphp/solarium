@@ -34,7 +34,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacet($facet): FacetSetInterface
+    public function addFacet($facet): self
     {
         if (\is_array($facet)) {
             $facet = $this->createFacet($facet['type'], $facet, false);
@@ -63,7 +63,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function addFacets(array $facets): FacetSetInterface
+    public function addFacets(array $facets): self
     {
         foreach ($facets as $key => $facet) {
             // in case of a config array: add key to config
@@ -108,7 +108,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function removeFacet($facet): FacetSetInterface
+    public function removeFacet($facet): self
     {
         if (\is_object($facet)) {
             $facet = $facet->getKey();
@@ -126,7 +126,7 @@ trait FacetSetTrait
      *
      * @return self Provides fluent interface
      */
-    public function clearFacets(): FacetSetInterface
+    public function clearFacets(): self
     {
         $this->facets = [];
 
@@ -140,9 +140,9 @@ trait FacetSetTrait
      *
      * @param array $facets
      *
-     * @return self
+     * @return self Provides fluent interface
      */
-    public function setFacets(array $facets): FacetSetInterface
+    public function setFacets(array $facets): self
     {
         $this->clearFacets();
         $this->addFacets($facets);
@@ -155,20 +155,20 @@ trait FacetSetTrait
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the facet
      * and it will be added to this query.
-     * If you supply an options array/object that contains a key the facet will also be added to the query.
+     * If you supply an options array that contains a key the facet will also be added to the query.
      *
      * When no key is supplied the facet cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFacet method.
      *
      * @param string            $type
-     * @param array|object|null $options
+     * @param string|array|null $options
      * @param bool              $add
      *
      * @throws OutOfBoundsException
      *
      * @return \Solarium\Component\Facet\FacetInterface
      */
-    public function createFacet(string $type, $options = null, bool $add = true): FacetInterface
+    public function createFacet(string $type, string|array|null $options = null, bool $add = true): FacetInterface
     {
         $type = strtolower($type);
 
@@ -196,8 +196,7 @@ trait FacetSetTrait
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal The 'facet' option needs additional setup work.}
      */
     protected function init()
     {

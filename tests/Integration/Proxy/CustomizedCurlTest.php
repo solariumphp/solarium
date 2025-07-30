@@ -11,6 +11,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  * Test connecting through a proxy with a customized Curl adapter that sets the proxy options differently.
  *
  * @group integration
+ * @group proxy
  */
 class CustomizedCurlTest extends CurlTest
 {
@@ -35,8 +36,10 @@ class CustomizedCurl extends Curl
      * the {@see Curl} adapter's regular proxy handling.
      *
      * @param mixed|array $proxy An associative array with keys 'server' and 'port'
+     *
+     * @return self Provides fluent interface
      */
-    public function setProxy($proxy)
+    public function setProxy($proxy): self
     {
         $this->myProxyOptions = $proxy;
 
@@ -48,7 +51,7 @@ class CustomizedCurl extends Curl
         return $this->myProxyOptions;
     }
 
-    public function createHandle(Request $request, Endpoint $endpoint)
+    public function createHandle(Request $request, Endpoint $endpoint): \CurlHandle
     {
         $handle = parent::createHandle($request, $endpoint);
 

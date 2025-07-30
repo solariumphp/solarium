@@ -14,6 +14,7 @@ use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\CoreActionInterface;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query;
+use Solarium\QueryType\Server\CoreAdmin\Result\InitFailureResult;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 use Solarium\QueryType\Server\CoreAdmin\Result\StatusResult;
 
@@ -34,8 +35,47 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     public function parse(ResultInterface $result): array
     {
         $data = $result->getData();
+        $data = $this->parseInitFailures($data, $result);
         $data = $this->parseStatus($data, $result);
-        $data = $this->addHeaderInfo($data, $data);
+
+        return $data;
+    }
+
+    /**
+     * @param array                  $data
+     * @param Result|ResultInterface $result
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    protected function parseInitFailures(array $data, ResultInterface $result): array
+    {
+        /** @var Query $query */
+        $query = $result->getQuery();
+        /** @var CoreActionInterface $action */
+        $action = $query->getAction();
+        $type = $action->getType();
+
+        if (Query::ACTION_STATUS !== $type) {
+            return $data;
+        }
+
+        if (!\is_array($data['initFailures'])) {
+            return $data;
+        }
+
+        $initFailureResults = [];
+
+        foreach ($data['initFailures'] as $coreName => $exception) {
+            $initFailure = new InitFailureResult();
+            $initFailure->setCoreName($coreName);
+            $initFailure->setException($exception);
+
+            $initFailureResults[] = $initFailure;
+        }
+
+        $data['initFailureResults'] = $initFailureResults;
 
         return $data;
     }

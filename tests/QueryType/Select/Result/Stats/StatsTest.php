@@ -35,6 +35,20 @@ class StatsTest extends TestCase
         $this->assertNull($this->stats->getResult('key3'));
     }
 
+    public function testSetResult()
+    {
+        $this->stats->setResult('key1', new Result('field3', ['mean' => 42.0]));
+
+        $this->assertSame('field3', $this->stats->getResult('key1')->getName());
+        $this->assertSame(42.0, $this->stats->getResult('key1')->getMean());
+    }
+
+    public function testRemoveResult()
+    {
+        $this->stats->removeResult('key1');
+        $this->assertNull($this->stats->getResult('key1'));
+    }
+
     public function testGetResults()
     {
         $this->assertSame($this->data, $this->stats->getResults());
@@ -52,6 +66,6 @@ class StatsTest extends TestCase
 
     public function testCount()
     {
-        $this->assertCount(count($this->data), $this->stats);
+        $this->assertSameSize($this->data, $this->stats);
     }
 }

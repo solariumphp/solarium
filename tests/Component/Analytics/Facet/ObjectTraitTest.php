@@ -18,14 +18,21 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class ObjectTraitTest extends TestCase
 {
+    protected object $objectTrait;
+
+    public function setUp(): void
+    {
+        $this->objectTrait = new class() {
+            use ObjectTrait;
+        };
+    }
+
     /**
      * @throws \PHPUnit\Framework\ExpectationFailedException
      */
     public function testNullReturn(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
-        $this->assertNull($mock->ensureObject(AbstractFacet::class, null));
+        $this->assertNull($this->objectTrait->ensureObject(AbstractFacet::class, null));
     }
 
     /**
@@ -34,9 +41,7 @@ class ObjectTraitTest extends TestCase
      */
     public function testReturnVariable(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
-        $this->assertInstanceOf(PivotFacet::class, $mock->ensureObject(AbstractFacet::class, new PivotFacet()));
+        $this->assertInstanceOf(PivotFacet::class, $this->objectTrait->ensureObject(AbstractFacet::class, new PivotFacet()));
     }
 
     /**
@@ -44,11 +49,8 @@ class ObjectTraitTest extends TestCase
      */
     public function testNonExistingClass(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
         $this->expectException(InvalidArgumentException::class);
-
-        $mock->ensureObject('Foo\Bar', new PivotFacet());
+        $this->objectTrait->ensureObject('Foo\Bar', new PivotFacet());
     }
 
     /**
@@ -57,9 +59,7 @@ class ObjectTraitTest extends TestCase
      */
     public function testFromArray(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
-        $this->assertInstanceOf(Sort::class, $mock->ensureObject(Sort::class, []));
+        $this->assertInstanceOf(Sort::class, $this->objectTrait->ensureObject(Sort::class, []));
     }
 
     /**
@@ -68,9 +68,7 @@ class ObjectTraitTest extends TestCase
      */
     public function testFromClassMap(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
-        $this->assertInstanceOf(PivotFacet::class, $mock->ensureObject(AbstractFacet::class, ['type' => AbstractFacet::TYPE_PIVOT]));
+        $this->assertInstanceOf(PivotFacet::class, $this->objectTrait->ensureObject(AbstractFacet::class, ['type' => AbstractFacet::TYPE_PIVOT]));
     }
 
     /**
@@ -78,11 +76,8 @@ class ObjectTraitTest extends TestCase
      */
     public function testInvalidVariableType(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
         $this->expectException(InvalidArgumentException::class);
-
-        $mock->ensureObject(PivotFacet::class, true);
+        $this->objectTrait->ensureObject(PivotFacet::class, true);
     }
 
     /**
@@ -90,9 +85,7 @@ class ObjectTraitTest extends TestCase
      */
     public function testInvalidMappingType(): void
     {
-        $mock = $this->getMockForTrait(ObjectTrait::class);
-
         $this->expectException(InvalidArgumentException::class);
-        $mock->ensureObject(AbstractFacet::class, ['type' => 'foo']);
+        $this->objectTrait->ensureObject(AbstractFacet::class, ['type' => 'foo']);
     }
 }

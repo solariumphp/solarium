@@ -7,9 +7,10 @@ The options below can be set as query option values, but also by using the set/g
 
 Only the facet-type specific options are listed. See [FacetSet component](facetset-component.md) for the options shared by all facet types.
 
-| Name  | Type   | Default value | Description                    |
-|-------|--------|---------------|--------------------------------|
-| field | string | id            | The index field for the facet. |
+| Name        | Type   | Default value | Description                                                                                         |
+|-------------|--------|---------------|-----------------------------------------------------------------------------------------------------|
+| field       | string | id            | The index field for the facet.                                                                      |
+| local_terms | string | null          | Limit field facet to specified terms. Specify a comma separated list. Use `\,` for a literal comma. |
 ||
 
 Example

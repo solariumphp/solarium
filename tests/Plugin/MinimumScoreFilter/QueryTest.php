@@ -6,9 +6,9 @@ use Solarium\Component\Grouping;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\QueryGroupResult;
 use Solarium\Plugin\MinimumScoreFilter\ValueGroupResult;
-use Solarium\Tests\QueryType\Select\Query\AbstractQueryTest;
+use Solarium\Tests\QueryType\Select\Query\AbstractQueryTestCase;
 
-class QueryTest extends AbstractQueryTest
+class QueryTest extends AbstractQueryTestCase
 {
     public function setUp(): void
     {
@@ -72,16 +72,26 @@ class QueryTest extends AbstractQueryTest
 
     public function testGetComponentsWithGrouping()
     {
-        /** @var Grouping|MockObject $mockComponent */
+        /** @var Grouping&MockObject $mock */
         $mock = $this->getMockBuilder(Grouping::class)
             ->onlyMethods(['setOption'])
             ->getMock();
 
         $mock->expects($this->exactly(2))
             ->method('setOption')
-            ->withConsecutive(
-                ['resultquerygroupclass', QueryGroupResult::class],
-                ['resultvaluegroupclass', ValueGroupResult::class],
+            ->with(
+                $this->callback(function (string $option): bool {
+                    static $i = 0;
+                    static $options = ['resultquerygroupclass', 'resultvaluegroupclass'];
+
+                    return $options[$i++] === $option;
+                }),
+                $this->callback(function (string $className): bool {
+                    static $j = 0;
+                    static $classNames = [QueryGroupResult::class, ValueGroupResult::class];
+
+                    return $classNames[$j++] === $className;
+                })
             );
 
         $this->query->setComponent(Query::COMPONENT_GROUPING, $mock);

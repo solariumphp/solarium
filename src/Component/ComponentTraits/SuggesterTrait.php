@@ -135,4 +135,26 @@ trait SuggesterTrait
     {
         return $this->getOption('reload');
     }
+
+    /**
+     * Set buildAll option.
+     *
+     * @param bool $buildAll
+     *
+     * @return SuggesterInterface Provides fluent interface
+     */
+    public function setBuildAll(bool $buildAll): SuggesterInterface
+    {
+        return $this->setOption('buildAll', $buildAll);
+    }
+
+    /**
+     * Get buildAll option.
+     *
+     * @return bool|null
+     */
+    public function getBuildAll(): ?bool
+    {
+        return $this->getOption('buildAll');
+    }
 }

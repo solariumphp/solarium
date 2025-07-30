@@ -104,7 +104,7 @@ class Grouping extends AbstractComponent
      *
      * @param string $field
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function addField(string $field): self
     {
@@ -147,7 +147,7 @@ class Grouping extends AbstractComponent
     /**
      * Remove all fields.
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function clearFields(): self
     {
@@ -180,7 +180,7 @@ class Grouping extends AbstractComponent
      *
      * @param string $query
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function addQuery(string $query): self
     {
@@ -220,7 +220,7 @@ class Grouping extends AbstractComponent
     /**
      * Remove all queries.
      *
-     * @return self fluent interface
+     * @return self Provides fluent interface
      */
     public function clearQueries(): self
     {
@@ -571,8 +571,9 @@ class Grouping extends AbstractComponent
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal The 'query' option needs additional setup work.
+     *            Options that set a list of fields need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {

@@ -38,11 +38,13 @@ use Solarium\Component\QueryTraits\SpatialTrait;
 use Solarium\Component\QueryTraits\SpellcheckTrait;
 use Solarium\Component\QueryTraits\StatsTrait;
 use Solarium\Component\QueryTraits\SuggesterTrait;
+use Solarium\Component\QueryTraits\TermVectorTrait;
 use Solarium\Component\ReRankQuery;
 use Solarium\Component\Spatial;
 use Solarium\Component\Spellcheck;
 use Solarium\Component\Stats\Stats;
 use Solarium\Component\Suggester;
+use Solarium\Component\TermVector;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
@@ -80,6 +82,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     use SpellcheckTrait;
     use StatsTrait;
     use SuggesterTrait;
+    use TermVectorTrait;
 
     /**
      * Solr sort mode descending.
@@ -148,7 +151,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * @param array|null $options
      */
-    public function __construct(array $options = null)
+    public function __construct(?array $options = null)
     {
         $this->componentTypes = [
             ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS => MoreLikeThis::class,
@@ -166,6 +169,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
             ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION => QueryElevation::class,
             ComponentAwareQueryInterface::COMPONENT_RERANKQUERY => ReRankQuery::class,
             ComponentAwareQueryInterface::COMPONENT_ANALYTICS => Analytics::class,
+            ComponentAwareQueryInterface::COMPONENT_TERMVECTOR => TermVector::class,
         ];
 
         parent::__construct($options);
@@ -199,6 +203,34 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function getResponseParser(): ?ResponseParserInterface
     {
         return new ResponseParser();
+    }
+
+    /**
+     * Set a custom document class.
+     *
+     * This class should implement the document interface
+     *
+     * @param string $value classname
+     *
+     * @return self Provides fluent interface
+     */
+    public function setDocumentClass(string $value): self
+    {
+        $this->setOption('documentclass', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the current documentclass option.
+     *
+     * The value is a classname, not an instance
+     *
+     * @return string|null
+     */
+    public function getDocumentClass(): ?string
+    {
+        return $this->getOption('documentclass');
     }
 
     /**
@@ -276,34 +308,6 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     }
 
     /**
-     * Set a custom document class.
-     *
-     * This class should implement the document interface
-     *
-     * @param string $value classname
-     *
-     * @return self Provides fluent interface
-     */
-    public function setDocumentClass(string $value): self
-    {
-        $this->setOption('documentclass', $value);
-
-        return $this;
-    }
-
-    /**
-     * Get the current documentclass option.
-     *
-     * The value is a classname, not an instance
-     *
-     * @return string|null
-     */
-    public function getDocumentClass(): ?string
-    {
-        return $this->getOption('documentclass');
-    }
-
-    /**
      * Set the number of rows to fetch.
      *
      * @param int $rows
@@ -325,6 +329,54 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     public function getRows(): ?int
     {
         return $this->getOption('rows');
+    }
+
+    /**
+     * Set the canCancel option.
+     *
+     * @param bool $canCancel
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCanCancel(bool $canCancel): self
+    {
+        $this->setOption('cancancel', $canCancel);
+
+        return $this;
+    }
+
+    /**
+     * Get the canCancel option.
+     *
+     * @return bool|null
+     */
+    public function getCanCancel(): ?bool
+    {
+        return $this->getOption('cancancel');
+    }
+
+    /**
+     * Set the queryUUID option.
+     *
+     * @param string $queryUuid
+     *
+     * @return self Provides fluent interface
+     */
+    public function setQueryUuid(string $queryUuid): self
+    {
+        $this->setOption('queryuuid', $queryUuid);
+
+        return $this;
+    }
+
+    /**
+     * Get the queryUUID option.
+     *
+     * @return string|null
+     */
+    public function getQueryUuid(): ?string
+    {
+        return $this->getOption('queryuuid');
     }
 
     /**
@@ -511,16 +563,16 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the filterquery
      * and it will be added to this query.
-     * If you supply an options array/object that contains a key the filterquery will also be added to the query.
+     * If you supply an options array that contains a key the filterquery will also be added to the query.
      *
      * When no key is supplied the filterquery cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addFilterQuery method.
      *
-     * @param mixed $options
+     * @param string|array|null $options
      *
      * @return FilterQuery
      */
-    public function createFilterQuery($options = null): FilterQuery
+    public function createFilterQuery(string|array|null $options = null): FilterQuery
     {
         if (\is_string($options)) {
             $fq = new FilterQuery();
@@ -776,6 +828,154 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     }
 
     /**
+     * Set the partialResults option.
+     *
+     * @param bool $partialResults
+     *
+     * @return self Provides fluent interface
+     */
+    public function setPartialResults(bool $partialResults): self
+    {
+        $this->setOption('partialresults', $partialResults);
+
+        return $this;
+    }
+
+    /**
+     * Get the partalResults option.
+     *
+     * @return bool|null
+     */
+    public function getPartialResults(): ?bool
+    {
+        return $this->getOption('partialresults');
+    }
+
+    /**
+     * Set timeAllowed option.
+     *
+     * @param int $value
+     *
+     * @return self Provides fluent interface
+     *
+     * @not-deprecated
+     */
+    public function setTimeAllowed(int $value): self
+    {
+        $this->setOption('timeallowed', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get timeAllowed option.
+     *
+     * @return int|null
+     *
+     * @not-deprecated
+     */
+    public function getTimeAllowed(): ?int
+    {
+        return $this->getOption('timeallowed');
+    }
+
+    /**
+     * Set cpuAllowed option.
+     *
+     * @param int $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setCpuAllowed(int $value): self
+    {
+        $this->setOption('cpuallowed', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get cpuAllowed option.
+     *
+     * @return int|null
+     */
+    public function getCpuAllowed(): ?int
+    {
+        return $this->getOption('cpuallowed');
+    }
+
+    /**
+     * Set memAllowed option.
+     *
+     * @param float $value
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMemAllowed(float $value): self
+    {
+        $this->setOption('memallowed', $value);
+
+        return $this;
+    }
+
+    /**
+     * Get memAllowed option.
+     *
+     * @return float|null
+     */
+    public function getMemAllowed(): ?float
+    {
+        return $this->getOption('memallowed');
+    }
+
+    /**
+     * Set the segmentTerminateEarly option.
+     *
+     * @param bool $segmentTerminateEarly
+     *
+     * @return self Provides fluent interface
+     */
+    public function setSegmentTerminateEarly(bool $segmentTerminateEarly): self
+    {
+        $this->setOption('segmentterminateearly', $segmentTerminateEarly);
+
+        return $this;
+    }
+
+    /**
+     * Get the segmentTerminateEarly option.
+     *
+     * @return bool|null
+     */
+    public function getSegmentTerminateEarly(): ?bool
+    {
+        return $this->getOption('segmentterminateearly');
+    }
+
+    /**
+     * Set the multiThreaded option.
+     *
+     * @param bool $multiThreaded
+     *
+     * @return self Provides fluent interface
+     */
+    public function setMultiThreaded(bool $multiThreaded): self
+    {
+        $this->setOption('multithreaded', $multiThreaded);
+
+        return $this;
+    }
+
+    /**
+     * Get the multiThreaded option.
+     *
+     * @return bool|null
+     */
+    public function getMultiThreaded(): ?bool
+    {
+        return $this->getOption('multithreaded');
+    }
+
+    /**
      * Set the cursor mark to fetch.
      *
      * Cursor functionality requires a sort containing a uniqueKey field as tie breaker on top of your desired
@@ -847,8 +1047,8 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Several options need some extra checks or setup work,
+     *            for these options the setters are called.}
      */
     protected function init()
     {

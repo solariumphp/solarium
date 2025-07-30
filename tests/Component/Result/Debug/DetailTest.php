@@ -112,8 +112,14 @@ class DetailTest extends TestCase
 
     public function testOffsetGetUnknown()
     {
-        $this->expectError();
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_WARNING);
+
+        $this->expectExceptionMessage('Undefined property');
         $this->result->offsetGet('unknown');
+
+        restore_error_handler();
     }
 
     public function testOffsetSetImmutable()

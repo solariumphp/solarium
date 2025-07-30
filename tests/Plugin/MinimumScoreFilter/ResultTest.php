@@ -6,9 +6,9 @@ use Solarium\Exception\OutOfBoundsException;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\Result;
 use Solarium\QueryType\Select\Result\Document;
-use Solarium\Tests\QueryType\Select\Result\AbstractResultTest;
+use Solarium\Tests\QueryType\Select\Result\AbstractResultTestCase;
 
-class ResultTest extends AbstractResultTest
+class ResultTest extends AbstractResultTestCase
 {
     public function setUp(): void
     {
@@ -22,7 +22,7 @@ class ResultTest extends AbstractResultTest
             new Document(['id' => 4, 'title' => 'doc4', 'score' => 0.08]),
         ];
 
-        $this->result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_MARK);
+        $this->result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_MARK);
     }
 
     public function testIterator()
@@ -30,18 +30,18 @@ class ResultTest extends AbstractResultTest
         /** @var \Solarium\Plugin\MinimumScoreFilter\Document $doc */
         foreach ($this->result as $key => $doc) {
             $this->assertSame($this->docs[$key]->title, $doc->title);
-            $this->assertSame((3 === $key), $doc->markedAsLowScore());
+            $this->assertSame(3 === $key, $doc->markedAsLowScore());
         }
     }
 
     public function testGetDocuments()
     {
-        $this->assertCount(count($this->docs), $this->result->getDocuments());
+        $this->assertSameSize($this->docs, $this->result->getDocuments());
     }
 
     public function testIteratorWithRemoveFilter()
     {
-        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
+        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = [];
         foreach ($result as $key => $doc) {
             $docs[$key] = $doc;
@@ -55,7 +55,7 @@ class ResultTest extends AbstractResultTest
 
     public function testGetDocumentsWithRemoveFilter()
     {
-        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
+        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = $result->getDocuments();
 
         $this->assertCount(3, $docs);
@@ -67,7 +67,7 @@ class ResultTest extends AbstractResultTest
     public function testFilterWithInvalidMode()
     {
         $this->expectException(OutOfBoundsException::class);
-        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->docs, $this->components, 'invalid_filter_name');
+        $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, 'invalid_filter_name');
     }
 }
 
@@ -75,14 +75,14 @@ class FilterResultDummy extends Result
 {
     protected $parsed = true;
 
-    public function __construct($status, $queryTime, $numfound, $maxscore, $docs, $components, $mode)
+    public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components, $mode)
     {
         $this->numfound = $numfound;
         $this->maxscore = $maxscore;
+        $this->nextcursormark = $nextcursormark;
         $this->documents = $docs;
         $this->components = $components;
-        $this->queryTime = $queryTime;
-        $this->status = $status;
+        $this->responseHeader = ['status' => $status, 'QTime' => $queryTime];
 
         $this->query = new Query();
         $this->query->setFilterRatio(0.2)->setFilterMode($mode);

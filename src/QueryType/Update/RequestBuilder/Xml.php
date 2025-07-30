@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Update\RequestBuilder;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
@@ -30,11 +29,11 @@ class Xml extends AbstractRequestBuilder
     /**
      * Build request for an update query.
      *
-     * @param QueryInterface|AbstractQuery|UpdateQuery $query
+     * @param QueryInterface|UpdateQuery $query
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|UpdateQuery $query): Request
     {
         $request = parent::build($query);
         $request->setMethod(Request::METHOD_POST);
@@ -305,8 +304,7 @@ class Xml extends AbstractRequestBuilder
             } else {
                 $xml .= '<doc';
                 if ('_childDocuments_' !== $key) {
-                    // labelled single nested child documents can't be indexed in XML, but
-                    // we aim for forward compatibility with the proposed syntax in SOLR-16183
+                    // labelled single nested child documents can be indexed in XML since Solr 9.3 (SOLR-16183)
                     $xml .= ' name="'.$key.'"';
                 }
                 $xml .= '>';

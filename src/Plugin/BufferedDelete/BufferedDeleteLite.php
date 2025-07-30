@@ -9,6 +9,7 @@
 
 namespace Solarium\Plugin\BufferedDelete;
 
+use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\AbstractBufferedUpdate\AbstractBufferedUpdate;
 use Solarium\Plugin\BufferedDelete\Delete\Id as DeleteById;
@@ -40,7 +41,7 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteById($id)
+    public function addDeleteById($id): self
     {
         $this->buffer[] = new DeleteById($id);
 
@@ -74,7 +75,7 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteQuery(string $query)
+    public function addDeleteQuery(string $query): self
     {
         $this->buffer[] = new DeleteQuery($query);
 
@@ -114,11 +115,31 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
     }
 
     /**
+     * Set the request format for the updates.
+     *
+     * Use UpdateQuery::REQUEST_FORMAT_JSON or UpdateQuery::REQUEST_FORMAT_XML as value.
+     *
+     * @param string $requestFormat
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return self Provides fluent interface
+     */
+    public function setRequestFormat(string $requestFormat): self
+    {
+        if ($this->updateQuery::REQUEST_FORMAT_CBOR === strtolower($requestFormat)) {
+            throw new InvalidArgumentException('Unsupported request format: CBOR can only be used to add documents');
+        }
+
+        return parent::setRequestFormat($requestFormat);
+    }
+
+    /**
      * Flush any buffered deletes to Solr.
      *
      * @return UpdateResult|false
      */
-    public function flush()
+    public function flush(): UpdateResult|false
     {
         if (0 === \count($this->buffer)) {
             // nothing to do

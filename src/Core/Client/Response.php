@@ -99,6 +99,20 @@ class Response
     }
 
     /**
+     * Set body data.
+     *
+     * @param string $body
+     *
+     * @return self Provides fluent interface
+     */
+    public function setBody(string $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
      * Set headers.
      *
      * @param array $headers
@@ -114,7 +128,7 @@ class Response
         // get the status header
         $statusHeader = null;
         foreach ($headers as $header) {
-            if (0 === strpos($header, 'HTTP')) {
+            if (str_starts_with($header, 'HTTP')) {
                 $statusHeader = $header;
                 break;
             }

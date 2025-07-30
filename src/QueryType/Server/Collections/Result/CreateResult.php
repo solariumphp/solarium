@@ -19,9 +19,25 @@ class CreateResult extends AbstractResult
     /**
      * Returns the status of the request and the new core names.
      *
+     * {@internal Deprecated in Solarium 7. Shouldn't override generic method
+     *            {@link \Solarium\Core\Query\Result\QueryType::getStatus()}
+     *            that returns the status code from the response header.}
+     *
      * @return array status of the request and the new core names
+     *
+     * @deprecated Will be removed in Solarium 8. Use {@link getCreateStatus()} instead.
      */
     public function getStatus(): array
+    {
+        return $this->getCreateStatus();
+    }
+
+    /**
+     * Returns the status of the request and the new core names.
+     *
+     * @return array status of the request and the new core names
+     */
+    public function getCreateStatus(): array
     {
         $this->parseResponse();
 

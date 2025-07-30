@@ -35,14 +35,14 @@ abstract class AbstractServerQuery extends AbstractQuery implements ActionInterf
     /**
      * Create a command instance.
      *
-     * @param string $type
-     * @param mixed  $options
+     * @param string     $type
+     * @param array|null $options
      *
      * @throws InvalidArgumentException
      *
      * @return ActionInterface
      */
-    public function createAction($type, $options = null): ActionInterface
+    public function createAction(string $type, ?array $options = null): ActionInterface
     {
         if (!isset($this->actionTypes[$type])) {
             throw new InvalidArgumentException(sprintf('Action unknown: %s', $type));

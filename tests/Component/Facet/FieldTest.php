@@ -23,6 +23,7 @@ class FieldTest extends TestCase
         $options = [
             'local_key' => 'myKey',
             'local_exclude' => ['e1', 'e2'],
+            'local_terms' => ['t1', 't2'],
             'field' => 'text',
             'prefix' => 'xyz',
             'contains' => 'foobar',
@@ -45,7 +46,8 @@ class FieldTest extends TestCase
         $this->facet->setOptions($options);
 
         $this->assertSame($options['local_key'], $this->facet->getKey());
-        $this->assertSame($options['local_exclude'], $this->facet->getLocalParameters()->getExcludes());
+        $this->assertSame($options['local_exclude'], $this->facet->getExcludes());
+        $this->assertSame($options['local_terms'], $this->facet->getTerms());
         $this->assertSame($options['field'], $this->facet->getField());
         $this->assertSame($options['prefix'], $this->facet->getPrefix());
         $this->assertSame($options['contains'], $this->facet->getContains());
@@ -77,6 +79,66 @@ class FieldTest extends TestCase
     {
         $this->facet->setField('category');
         $this->assertSame('category', $this->facet->getField());
+    }
+
+    public function testAddTerm()
+    {
+        $this->facet->addTerm('t1');
+        $this->assertEquals(['t1'], $this->facet->getTerms());
+        $this->assertEquals(['t1'], $this->facet->getLocalParameters()->getTerms());
+
+        $this->facet->addTerm('t2');
+        $this->assertEquals(['t1', 't2'], $this->facet->getTerms());
+        $this->assertEquals(['t1', 't2'], $this->facet->getLocalParameters()->getTerms());
+    }
+
+    public function testAddTerms()
+    {
+        $this->facet->addTerms(['t1', 't2']);
+        $this->assertEquals(['t1', 't2'], $this->facet->getTerms());
+        $this->assertEquals(['t1', 't2'], $this->facet->getLocalParameters()->getTerms());
+
+        $this->facet->addTerms('t3,t4');
+        $this->assertEquals(['t1', 't2', 't3', 't4'], $this->facet->getTerms());
+        $this->assertEquals(['t1', 't2', 't3', 't4'], $this->facet->getLocalParameters()->getTerms());
+    }
+
+    public function testSetTerms()
+    {
+        $this->facet->setTerms(['t1', 't2']);
+        $this->assertEquals(['t1', 't2'], $this->facet->getTerms());
+        $this->assertEquals(['t1', 't2'], $this->facet->getLocalParameters()->getTerms());
+
+        $this->facet->setTerms('t3,t4');
+        $this->assertEquals(['t3', 't4'], $this->facet->getTerms());
+        $this->assertEquals(['t3', 't4'], $this->facet->getLocalParameters()->getTerms());
+    }
+
+    public function testSetAndAddTermsWithEscapedSeparator()
+    {
+        $this->facet->setTerms('t1\,t2,t3');
+        $this->assertEquals(['t1\,t2', 't3'], $this->facet->getTerms());
+        $this->assertEquals(['t1\,t2', 't3'], $this->facet->getLocalParameters()->getTerms());
+
+        $this->facet->addTerms('t4\,t5,t6');
+        $this->assertEquals(['t1\,t2', 't3', 't4\,t5', 't6'], $this->facet->getTerms());
+        $this->assertEquals(['t1\,t2', 't3', 't4\,t5', 't6'], $this->facet->getLocalParameters()->getTerms());
+    }
+
+    public function testRemoveTerm()
+    {
+        $this->facet->setTerms(['t1', 't2']);
+        $this->facet->removeTerm('t1');
+        $this->assertEquals(['t2'], $this->facet->getTerms());
+        $this->assertEquals(['t2'], $this->facet->getLocalParameters()->getTerms());
+    }
+
+    public function testClearTerms()
+    {
+        $this->facet->setTerms(['t1', 't2']);
+        $this->facet->clearTerms();
+        $this->assertEquals([], $this->facet->getTerms());
+        $this->assertEquals([], $this->facet->getLocalParameters()->getTerms());
     }
 
     public function testSetAndGetPrefix()

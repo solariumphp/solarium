@@ -24,7 +24,7 @@ trait ProxyAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setProxy($proxy)
+    public function setProxy($proxy): self
     {
         $this->proxy = $proxy;
 

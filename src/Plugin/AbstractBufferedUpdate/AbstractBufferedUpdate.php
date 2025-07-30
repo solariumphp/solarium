@@ -166,7 +166,7 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
      *
      * @return UpdateResult|false
      */
-    abstract public function flush();
+    abstract public function flush(): UpdateResult|false;
 
     /**
      * Commit changes.

@@ -13,10 +13,11 @@ This can be done very easily with this plugin, you can simply keep feeding docum
 
 ### Some notes
 
--   Solarium issues XML formatted update requests by default. If you don't need XML specific behaviour, you can get better performance by switching to JSON formatted update requests.
+-   Solarium issues JSON formatted update requests by default. If you require XML specific functionality, you can set the request format to XML on the plugin instance. XML requests are slower than JSON.
+-   Solr 9.3 and higher also supports CBOR formatted update requests. You can set the request format to CBOR on the plugin instance if your documents adhere to [current limitations](queries/update-query/best-practices-for-updates.md#known-cbor-limitations).
 -   You can set a custom buffer size. The default is 100 documents, a safe value. By increasing this you can get even better performance, but depending on your document size at some level you will run into memory or request limits. A value of 1000 has been successfully used for indexing 200k documents.
 -   You can use the createDocument method with array input, but you can also manually create document instance and use the addDocument(s) method.
--   With buffer size X an update request with be sent to Solr for each X docs. You can just keep feeding docs. These buffer flushes don’t include a commit. This is done on purpose. You can add a commit when you’re done, or you can use the Solr auto commit feature.
+-   With buffer size X an update request will be sent to Solr for each X docs. You can just keep feeding docs. These buffer flushes don’t include a commit. This is done on purpose. You can add a commit when you’re done, or you can use the Solr auto commit feature.
 -   When you are done with feeding the buffer you need to manually flush it one time. This is because there might still be some docs in the buffer that haven’t been flushed yet.
 -   Alternatively you can end with a commit call. This will also flush the docs, and adds a commit command.
 -   The buffer also has a clear method to reset the buffer contents. However documents that have already been flushed cannot be cleared.
@@ -60,7 +61,6 @@ htmlHeader();
 // create a client instance and autoload the buffered add plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('bufferedadd');
-$buffer->setRequestFormat(Query::REQUEST_FORMAT_JSON); // JSON formatted requests are faster than XML
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
@@ -111,9 +111,6 @@ When you need to delete a lot of documents, this can also be done in batches.
 
 You can feed the IDs of the documents to delete, queries to delete matching documents, or both.
 
-Solarium issues XML formatted update requests by default. You can get better performance by switching to
-JSON formatted update requests.
-
 The default buffer size is 100 deletes, a safe value. By increasing this you can get even better performance.
 Delete commands send very little data to Solr, so you can set this to a much higher value than the document
 buffer size for `BufferedAdd`.
@@ -160,7 +157,6 @@ htmlHeader();
 // create a client instance and autoload the buffered delete plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $buffer = $client->getPlugin('buffereddelete');
-$buffer->setRequestFormat(Query::REQUEST_FORMAT_JSON); // JSON formatted requests are faster than XML
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
@@ -274,16 +270,45 @@ This plugin is a code based loadbalancer for when you do need the redundancy and
 
 -   support for multiple servers, each with their own ‘weight’
 -   ability to use a failover mode (try another server on query failure)
--   block querytypes from loadbalancing (update queries are blocked by default)
+-   block query types from loadbalancing (`Update` and `Extract` queries are blocked by default)
 -   force a specific server for the next query
 
-All blocked query types (updates by default) are excluded from loadbalancing so they will use the default adapter settings that point to the master. All other queries will be load balanced.
+All blocked query types (`Update` and `Extract` by default) are excluded from loadbalancing so they will use the default adapter settings that point to the master. All other queries will be load balanced.
+
+If you want to load balance a blocked query type anyway (e.g. when extracting without indexing), you can unblock it.
+
+```php
+$loadbalancer = $client->getPlugin('loadbalancer');
+$loadbalancer->removeBlockedQueryType($client::QUERY_EXTRACT);
+```
+
+Failover mode is disabled by default. If enabled, a query will be retried on another endpoint if a connection to the endpoint can't be established.
+You can optionally specify HTTP response status codes for which you also want to failover to another endpoint. The list of failover status codes is empty by default.
 
 ### Events
 
 #### solarium.loadbalancer.endpointFailure
 
-An 'EndpointFailure' event is triggered when a HTTP exception occurs on one of the backends. This event has access to the Endpoint object and the exception that occurred.
+An `EndpointFailure` event is triggered when an HTTP exception occurs on one of the backends. This event has access to the `Endpoint` object and the `HttpException` that occurred.
+
+```php
+// what is the key of the failing endpoint?
+$event->getEndpoint()->getKey();
+// what is the exception message?
+$event->getException()->getMessage();
+```
+
+#### solarium.loadbalancer.statusCodeFailure
+
+A `StatusCodeFailure` event is triggered when an HTTP response status code is encountered that is in the list of failover error codes. This event has access to the `Endpoint` object and the `Response` that was received.
+
+```php
+// what is the key of the erroring endpoint?
+$event->getEndpoint()->getKey();
+// what is the response status code & message?
+$event->getResponse()->getStatusCode();
+$event->getResponse()->getStatusMessage();
+```
 
 ### Example usage
 
@@ -305,6 +330,11 @@ $loadbalancer = $client->getPlugin('loadbalancer');
 $loadbalancer->addEndpoint($endpoint1, 100);
 $loadbalancer->addEndpoint($endpoint2, 100);
 $loadbalancer->addEndpoint($endpoint3, 1);
+
+// you can optionally enable failover mode for unresponsive endpoints, and additionally HTTP status codes of your choosing
+$loadbalancer->setFailoverEnabled(true);
+$loadbalancer->setFailoverMaxRetries(3);
+$loadbalancer->addFailoverStatusCode(504);
 
 // create a basic query to execute
 $query = $client->createSelect();
@@ -410,6 +440,36 @@ htmlFooter();
 
 ```
 
+NoWaitForResponseRequest plugin
+-------------------------------
+
+Long-running requests like suggest.buildAll might exceed timeouts. This plugin "tries" to convert the request in a kind of fire-and-forget and doesn't wait for Solr's response. Most reliable if the [cURL client adapter](client-and-adapters.md#curl-adapter) is used.
+
+```php
+<?php
+
+require_once __DIR__.'/init.php';
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+
+// get a suggester query instance and add setting to build all suggesters
+$suggester = $client->createSuggester();
+$suggester->setBuildAll(true);
+
+// don't wait until all suggesters have been built
+$plugin = $client->getPlugin('nowaitforresponserequest');
+
+// this executes the query without waiting for the response
+$client->suggester($suggester);
+
+// don't forget to remove the plugin again if you do need the response from further requests
+$client->removePlugin($plugin);
+
+htmlFooter();
+```
+
 ParallelExecution plugin
 ------------------------
 
@@ -421,7 +481,7 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 -   If you construct the client with a different adapter, this plugin will replace it with a cURL adapter. Construct the client with a properly configured cURL adapter if you need proxy support.
 -   Only request execution is parallel, request preparation and result parsing cannot be done parallelly. Luckily these parts cost very little time, far more time is in the requests.
 -   The execution time is limited by the slowest request. If you execute 3 queries with timings of 0.2, 0.4 and 1.2 seconds the execution time for all will be (near) 1.2 seconds.
--   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an exception instead of a result object. It's your own responsibility to check the result type.
+-   If one of the requests fails the other requests will still be executed and the results parsed. In the result array the entry for the failed query will contain an `HttpException` instead of a `Result` object. It's your own responsibility to check the result type.
 -   All query types are supported, and you can even mix query types in the same `execute` call.
 -   For testing this plugin you can use a special Solr delay component I’ve created (and used to develop the plugin). For more info see [this archived blog post](https://web.archive.org/web/20170904162800/http://www.raspberry.nl/2012/01/04/solr-delay-component/).
 -   Add queries using the `addQuery` method. Supply at least a key and a query instance. Optionally you can supply a client instance as third argument. This can be used to execute queries on different cores or even servers. If omitted the plugin will use its own client instance.

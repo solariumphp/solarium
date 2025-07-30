@@ -264,6 +264,7 @@ class ExpressionBuilder
             if (\is_string($value)) {
                 $value = trim($value);
             }
+
             // Eliminate empty string arguments.
             return '' !== $value;
         })).')';

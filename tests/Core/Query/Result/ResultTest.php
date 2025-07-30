@@ -122,14 +122,34 @@ class ResultTest extends TestCase
         $result->getData();
     }
 
-    public function testGetInvalidData()
+    public function testGetInvalidJsonData()
     {
+        $this->query->setResponseWriter($this->query::WT_JSON);
+
         $data = 'invalid';
         $this->response = new Response($data, $this->headers);
         $this->result = new Result($this->query, $this->response);
 
         $this->expectException(UnexpectedValueException::class);
         $this->result->getData();
+    }
+
+    public function testGetInvalidPhpsData()
+    {
+        set_error_handler(static function (int $errno, string $errstr): void {
+            // ignore E_NOTICE or E_WARNING from unserialize() to check that we throw an exception
+        }, version_compare(PHP_VERSION, '8.3.0', '>=') ? \E_WARNING : \E_NOTICE);
+
+        $this->query->setResponseWriter($this->query::WT_PHPS);
+
+        $data = 'invalid';
+        $this->response = new Response($data, $this->headers);
+        $this->result = new Result($this->query, $this->response);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->result->getData();
+
+        restore_error_handler();
     }
 
     public function testJsonSerialize()

@@ -68,16 +68,16 @@ class Stats extends AbstractComponent
      *
      * If you supply a string as the first arguments ($options) it will be used as the key for the field
      * and it will be added to this query component.
-     * If you supply an options array/object that contains a key the field will also be added to the component.
+     * If you supply an options array that contains a key the field will also be added to the component.
      *
      * When no key is supplied the field cannot be added, in that case you will need to add it manually
      * after setting the key, by using the addField method.
      *
-     * @param mixed $options
+     * @param string|array|null $options
      *
      * @return Field
      */
-    public function createField($options = null): Field
+    public function createField(string|array|null $options = null): Field
     {
         if (\is_string($options)) {
             $fq = new Field();
@@ -224,8 +224,8 @@ class Stats extends AbstractComponent
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Options that set a list of field or facet names need additional setup work
+     *            because they can be an array or a comma separated string.}
      */
     protected function init()
     {

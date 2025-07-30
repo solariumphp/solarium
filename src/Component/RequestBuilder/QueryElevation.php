@@ -46,6 +46,9 @@ class QueryElevation implements ComponentRequestBuilderInterface
         $request->addParam('elevateIds', null === ($ids = $component->getElevateIds()) ? null : implode(',', $ids));
         $request->addParam('excludeIds', null === ($ids = $component->getExcludeIds()) ? null : implode(',', $ids));
 
+        // add tags of filter queries to exclude for elevated documents
+        $request->addParam('elevate.excludeTags', null === ($tags = $component->getExcludeTags()) ? null : implode(',', $tags));
+
         return $request;
     }
 }

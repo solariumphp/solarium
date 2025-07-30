@@ -24,7 +24,7 @@ class ResponseParserTest extends TestCase
         $this->parser = new TestResponseParser();
     }
 
-    public function testBuild()
+    public function testConvertToKeyValueArray()
     {
         $input = [
             'key1',
@@ -44,6 +44,74 @@ class ResponseParserTest extends TestCase
         $this->assertSame(
             $expected,
             $this->parser->convertToKeyValueArray($input)
+        );
+    }
+
+    public function testConvertToKeyValueArrayWithRepeatingKey()
+    {
+        $input = [
+            'key1',
+            'value1',
+            'key2',
+            'value2',
+            'key2',
+            'value3',
+        ];
+
+        $expected = [
+            'key1' => 'value1',
+            'key2' => ['value2', 'value3'],
+        ];
+
+        $this->assertSame(
+            $expected,
+            $this->parser->convertToKeyValueArray($input)
+        );
+    }
+
+    public function testConvertToValueArray()
+    {
+        $input = [
+            'key1',
+            'value1',
+            'key2',
+            'value2',
+            'key3',
+            'value3',
+        ];
+
+        $expected = [
+            'value1',
+            'value2',
+            'value3',
+        ];
+
+        $this->assertSame(
+            $expected,
+            $this->parser->convertToValueArray($input)
+        );
+    }
+
+    public function testConvertToValueArrayWithRepeatingKey()
+    {
+        $input = [
+            'key1',
+            'value1',
+            'key2',
+            'value2',
+            'key2',
+            'value3',
+        ];
+
+        $expected = [
+            'value1',
+            'value2',
+            'value3',
+        ];
+
+        $this->assertSame(
+            $expected,
+            $this->parser->convertToValueArray($input)
         );
     }
 
@@ -67,37 +135,6 @@ class ResponseParserTest extends TestCase
             $expected,
             $this->parser->parse($result)
         );
-    }
-
-    public function testAddHeaderInfo()
-    {
-        $data = [
-            'responseHeader' => [
-                'status' => 0,
-                'QTime' => 5,
-            ],
-        ];
-        $result = ['key' => 'value'];
-        $expected = [
-            'key' => 'value',
-            'status' => 0,
-            'queryTime' => 5,
-        ];
-
-        $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
-    }
-
-    public function testAddHeaderInfoEmpty()
-    {
-        $data = [];
-        $result = ['key' => 'value'];
-        $expected = [
-            'key' => 'value',
-            'status' => null,
-            'queryTime' => null,
-        ];
-
-        $this->assertSame($expected, $this->parser->addHeaderInfo($data, $result));
     }
 }
 

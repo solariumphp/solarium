@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Update\RequestBuilder;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
@@ -28,13 +27,13 @@ class Json extends AbstractRequestBuilder
     /**
      * Build request for an update query.
      *
-     * @param QueryInterface|AbstractQuery|UpdateQuery $query
+     * @param QueryInterface|UpdateQuery $query
      *
      * @throws RuntimeException
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|UpdateQuery $query): Request
     {
         $inputEncoding = $query->getInputEncoding();
 
@@ -127,7 +126,7 @@ class Json extends AbstractRequestBuilder
      */
     public function buildDeleteJson(Delete $command, array &$json): void
     {
-        if (0 !== count($ids = $command->getIds())) {
+        if (0 !== \count($ids = $command->getIds())) {
             $json[] = '"delete":'.json_encode($ids);
         }
 
@@ -137,7 +136,7 @@ class Json extends AbstractRequestBuilder
     }
 
     /**
-     * Build JSON for an optimize command.
+     * Add JSON for an optimize command.
      *
      * @param Optimize $command
      * @param array    $json
@@ -162,7 +161,7 @@ class Json extends AbstractRequestBuilder
     }
 
     /**
-     * Build JSON for a commit command.
+     * Add JSON for a commit command.
      *
      * @param Commit $command
      * @param array  $json
@@ -187,7 +186,7 @@ class Json extends AbstractRequestBuilder
     }
 
     /**
-     * Build JSON for a rollback command.
+     * Add JSON for a rollback command.
      *
      * @param array $json
      */

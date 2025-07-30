@@ -10,7 +10,6 @@
 namespace Solarium\QueryType\Select;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -27,7 +26,7 @@ class RequestBuilder extends BaseRequestBuilder
      *
      * @return Request
      */
-    public function build(AbstractQuery $query): Request
+    public function build(QueryInterface|SelectQuery $query): Request
     {
         $request = parent::build($query);
 
@@ -41,9 +40,17 @@ class RequestBuilder extends BaseRequestBuilder
         );
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
+        $request->addParam('canCancel', $query->getCanCancel());
+        $request->addParam('queryUUID', $query->getQueryUUID());
         $request->addParam('fl', implode(',', $query->getFields()));
         $request->addParam('q.op', $query->getQueryDefaultOperator());
         $request->addParam('df', $query->getQueryDefaultField());
+        $request->addParam('partialResults', $query->getPartialResults());
+        $request->addParam('timeAllowed', $query->getTimeAllowed());
+        $request->addParam('cpuAllowed', $query->getCpuAllowed());
+        $request->addParam('memAllowed', $query->getMemAllowed());
+        $request->addParam('segmentTerminateEarly', $query->getSegmentTerminateEarly());
+        $request->addParam('multiThreaded', $query->getMultiThreaded());
         $request->addParam('cursorMark', $query->getCursorMark());
         $request->addParam('sow', $query->getSplitOnWhitespace());
 

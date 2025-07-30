@@ -51,25 +51,19 @@ abstract class AbstractResponseParser
     }
 
     /**
-     * Parses header data (if available) and adds it to result data.
+     * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a numerically indexed value array, disregarding keys.
      *
      * @param array $data
-     * @param array $result
      *
      * @return array
      */
-    public function addHeaderInfo(array $data, array $result): array
+    public function convertToValueArray(array $data): array
     {
-        $status = null;
-        $queryTime = null;
-
-        if (isset($data['responseHeader'])) {
-            $status = $data['responseHeader']['status'];
-            $queryTime = $data['responseHeader']['QTime'];
+        $dataCount = \count($data);
+        $result = [];
+        for ($i = 0; $i < $dataCount; $i += 2) {
+            $result[] = $data[$i + 1];
         }
-
-        $result['status'] = $status;
-        $result['queryTime'] = $queryTime;
 
         return $result;
     }

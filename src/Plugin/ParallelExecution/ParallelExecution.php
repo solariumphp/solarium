@@ -19,6 +19,7 @@ use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Core\Query\QueryInterface;
+use Solarium\Core\Query\Result\Result;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Plugin\ParallelExecution\Event\ExecuteEnd as ExecuteEndEvent;
@@ -60,7 +61,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function addQuery(string $key, QueryInterface $query, $endpoint = null)
+    public function addQuery(string $key, QueryInterface $query, $endpoint = null): self
     {
         if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -105,7 +106,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @throws RuntimeException
      *
-     * @return \Solarium\Core\Query\Result\Result[]
+     * @return (Result|HttpException)[]
      */
     public function execute(): array
     {
@@ -165,6 +166,10 @@ class ParallelExecution extends AbstractPlugin
             do {
                 $mrc = curl_multi_exec($multiHandle, $active);
             } while (CURLM_CALL_MULTI_PERFORM === $mrc);
+        }
+
+        while (false !== curl_multi_info_read($multiHandle)) {
+            // ↑ this loops over messages from the individual transfers so we can get curl_errno() for each handle
         }
 
         $event = new ExecuteEndEvent();

@@ -22,7 +22,7 @@ $facetSet = $query->getFacetSet();
 $facetSet->createFacetField('category')->setField('cat');
 
 // addExcludes will exclude filters by tag
-$facetSet->createFacetField('unfiltered')->setField('cat')->getLocalParameters()->addExcludes(['electronics']);
+$facetSet->createFacetField('unfiltered')->setField('cat')->addExcludes(['electronics']);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

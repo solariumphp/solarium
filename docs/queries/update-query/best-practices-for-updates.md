@@ -30,8 +30,41 @@ While 'optimizing' sounds like it's always a good thing to do, you should use it
 
 ### XML vs JSON formatted update requests
 
-Solarium issues XML formatted update requests by default. This will change to JSON format when Solarium 7 is released. You can set this to JSON if you want to test your code in advance. If you require XML specific functionality, you should already set this to XML explicitly to ensure a seamless transition.
+Solarium issues JSON formatted update requests by default since Solarium 6.3. If you do require XML specific functionality, set the request format to XML explicitly.
 
-### Raw XML update commands
+```php
+// get an update query instance
+$update = $client->createUpdate();
 
-Solarium makes it easy to build update commands without having to know the underlying XML structure. If you already have XML formatted update commands, you can add them directly to an update query. Make sure they are valid as Solarium will not check this.
+// set XML request format
+$update->setRequestFormat($update::REQUEST_FORMAT_XML);
+```
+
+#### Raw XML update commands
+
+Solarium makes it easy to build update commands without having to know the underlying XML structure. If you already have XML formatted update commands, you can add them directly to an update query. Make sure they are valid as Solarium will not check this, and set the [XML request format](#xml-vs-json-formatted-update-requests) on the update query.
+
+### CBOR formatted update requests
+
+Since Solr 9.3, Solr also supports the [CBOR format for indexing](https://solr.apache.org/guide/solr/latest/indexing-guide/indexing-with-cbor.html). While CBOR requests might be faster to handle by Solr, they are significantly slower and require more memory to build in Solarium than JSON or XML requests. Benchmark your own use cases to determine if this is the right choice for you.
+
+In order to use CBOR with Solarium, you need to install the `spomky-labs/cbor-php` library separately.
+
+```sh
+composer require spomky-labs/cbor-php
+```
+
+```php
+// get an update query instance
+$update = $client->createUpdate();
+
+// set CBOR request format
+$update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+```
+
+#### Known CBOR limitations
+
+As outlined in [SOLR-17510](https://issues.apache.org/jira/browse/SOLR-17510?focusedCommentId=17892000#comment-17892000), CBOR formatted updates currently have some limitations.
+
+- You can only add documents, other commands such as delete and commit aren't supported yet.
+- There is no support for atomic updates.

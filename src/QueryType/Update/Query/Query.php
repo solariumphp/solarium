@@ -23,6 +23,7 @@ use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
 use Solarium\QueryType\Update\Query\Command\Optimize as OptimizeCommand;
 use Solarium\QueryType\Update\Query\Command\RawXml as RawXmlCommand;
 use Solarium\QueryType\Update\Query\Command\Rollback as RollbackCommand;
+use Solarium\QueryType\Update\RequestBuilder\Cbor as CborRequestBuilder;
 use Solarium\QueryType\Update\RequestBuilder\Json as JsonRequestBuilder;
 use Solarium\QueryType\Update\RequestBuilder\Xml as XmlRequestBuilder;
 use Solarium\QueryType\Update\ResponseParser;
@@ -68,6 +69,11 @@ class Query extends BaseQuery
     const COMMAND_ROLLBACK = 'rollback';
 
     /**
+     * CBOR request format.
+     */
+    const REQUEST_FORMAT_CBOR = 'cbor';
+
+    /**
      * JSON request format.
      */
     const REQUEST_FORMAT_JSON = 'json';
@@ -97,6 +103,7 @@ class Query extends BaseQuery
      * @var array
      */
     protected $requestFormats = [
+        self::REQUEST_FORMAT_CBOR => CborRequestBuilder::class,
         self::REQUEST_FORMAT_JSON => JsonRequestBuilder::class,
         self::REQUEST_FORMAT_XML => XmlRequestBuilder::class,
     ];
@@ -108,7 +115,7 @@ class Query extends BaseQuery
      */
     protected $options = [
         'handler' => 'update',
-        'requestformat' => self::REQUEST_FORMAT_XML,
+        'requestformat' => self::REQUEST_FORMAT_JSON,
         'resultclass' => Result::class,
         'documentclass' => Document::class,
         'omitheader' => false,
@@ -193,14 +200,14 @@ class Query extends BaseQuery
     /**
      * Create a command instance.
      *
-     * @param string $type
-     * @param array  $options
+     * @param string     $type
+     * @param array|null $options
      *
      * @throws InvalidArgumentException
      *
      * @return AbstractCommand
      */
-    public function createCommand(string $type, array $options = null): AbstractCommand
+    public function createCommand(string $type, ?array $options = null): AbstractCommand
     {
         $type = strtolower($type);
 
@@ -291,12 +298,12 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param string $query
-     * @param array  $bind  Bind values for placeholders in the query string
+     * @param string     $query
+     * @param array|null $bind  Bind values for placeholders in the query string
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteQuery(string $query, array $bind = null): self
+    public function addDeleteQuery(string $query, ?array $bind = null): self
     {
         if (null !== $bind) {
             $query = $this->getHelper()->assemble($query, $bind);
@@ -369,12 +376,12 @@ class Query extends BaseQuery
      * create you own command instance and use the add method.
      *
      * @param DocumentInterface $document
-     * @param bool              $overwrite
-     * @param int               $commitWithin
+     * @param bool|null         $overwrite
+     * @param int|null          $commitWithin
      *
      * @return self Provides fluent interface
      */
-    public function addDocument(DocumentInterface $document, bool $overwrite = null, int $commitWithin = null): self
+    public function addDocument(DocumentInterface $document, ?bool $overwrite = null, ?int $commitWithin = null): self
     {
         return $this->addDocuments([$document], $overwrite, $commitWithin);
     }
@@ -385,13 +392,13 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param array $documents
-     * @param bool  $overwrite
-     * @param int   $commitWithin
+     * @param array     $documents
+     * @param bool|null $overwrite
+     * @param int|null  $commitWithin
      *
      * @return self Provides fluent interface
      */
-    public function addDocuments(array $documents, bool $overwrite = null, int $commitWithin = null): self
+    public function addDocuments(array $documents, ?bool $overwrite = null, ?int $commitWithin = null): self
     {
         $add = new AddCommand();
 
@@ -414,13 +421,13 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param bool $softCommit
-     * @param bool $waitSearcher
-     * @param bool $expungeDeletes
+     * @param bool|null $softCommit
+     * @param bool|null $waitSearcher
+     * @param bool|null $expungeDeletes
      *
      * @return self Provides fluent interface
      */
-    public function addCommit(bool $softCommit = null, bool $waitSearcher = null, bool $expungeDeletes = null): self
+    public function addCommit(?bool $softCommit = null, ?bool $waitSearcher = null, ?bool $expungeDeletes = null): self
     {
         $commit = new CommitCommand();
 
@@ -445,13 +452,13 @@ class Query extends BaseQuery
      * If you need more control, like choosing a key for the command you need to
      * create you own command instance and use the add method.
      *
-     * @param bool $softCommit
-     * @param bool $waitSearcher
-     * @param int  $maxSegments
+     * @param bool|null $softCommit
+     * @param bool|null $waitSearcher
+     * @param int|null  $maxSegments
      *
      * @return self Provides fluent interface
      */
-    public function addOptimize(bool $softCommit = null, bool $waitSearcher = null, int $maxSegments = null): self
+    public function addOptimize(?bool $softCommit = null, ?bool $waitSearcher = null, ?int $maxSegments = null): self
     {
         $optimize = new OptimizeCommand();
 
@@ -579,8 +586,8 @@ class Query extends BaseQuery
     /**
      * Initialize options.
      *
-     * Several options need some extra checks or setup work, for these options
-     * the setters are called.
+     * {@internal Several options need some extra checks or setup work,
+     *            for these options the setters are called.}
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException

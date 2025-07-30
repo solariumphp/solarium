@@ -11,6 +11,7 @@ use Solarium\Tests\Integration\TestClientFactory;
  * Test connecting through a proxy with a customized Http adapter that sets the proxy options differently.
  *
  * @group integration
+ * @group proxy
  */
 class CustomizedHttpTest extends HttpTest
 {
@@ -35,8 +36,10 @@ class CustomizedHttp extends Http
      * the {@see Http} adapter's regular proxy handling.
      *
      * @param mixed|array $proxy An associative array with keys 'server' and 'port'
+     *
+     * @return self Provides fluent interface
      */
-    public function setProxy($proxy)
+    public function setProxy($proxy): self
     {
         $this->myProxyOptions = $proxy;
 

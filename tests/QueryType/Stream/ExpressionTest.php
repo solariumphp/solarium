@@ -88,7 +88,7 @@ class ExpressionTest extends TestCase
 
 class CollectionDummy
 {
-    public function __toString()
+    public function __toString(): string
     {
         return 'dummy';
     }

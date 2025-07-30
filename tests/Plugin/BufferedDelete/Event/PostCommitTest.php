@@ -14,7 +14,7 @@ class PostCommitTest extends TestCase
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createUpdate();
-        $response = new Response('', ['HTTP 1.0 200 OK']);
+        $response = new Response('', ['HTTP/1.0 200 OK']);
         $result = new Result($query, $response);
 
         $event = new PostCommit($result);

@@ -46,6 +46,7 @@ class Query extends BaseQuery implements SuggesterInterface, QueryInterface
         'omitheader' => true,
         'build' => false,
         'reload' => false,
+        'buildAll' => false,
     ];
 
     /**

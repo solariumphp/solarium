@@ -16,6 +16,9 @@ use Solarium\Exception\HttpException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\Exception\RuntimeException;
+use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as EndpointFailureEvent;
+use Solarium\Plugin\Loadbalancer\Event\Events as LoadbalancerEvents;
+use Solarium\Plugin\Loadbalancer\Event\StatusCodeFailure as StatusCodeFailureEvent;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -32,6 +35,16 @@ class LoadbalancerTest extends TestCase
      * @var Client
      */
     protected $client;
+
+    /**
+     * Query types that are blocked by default according to the documentation.
+     *
+     * @var array
+     */
+    protected $expectedDefaultBlockedQueryTypes = [
+        Client::QUERY_UPDATE,
+        Client::QUERY_EXTRACT,
+    ];
 
     public function setUp(): void
     {
@@ -52,7 +65,7 @@ class LoadbalancerTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->any())
             ->method('execute')
-            ->willReturn(new Response('dummyresult'));
+            ->willReturn(new Response('dummyresult', ['HTTP/1.1 200 OK']));
         $this->client->setAdapter($adapter);
         $this->plugin->initPlugin($this->client, []);
     }
@@ -60,6 +73,9 @@ class LoadbalancerTest extends TestCase
     public function testConfigMode()
     {
         $options = [
+            'failoverenabled' => true,
+            'failovermaxretries' => 5,
+            'failoverstatuscodes' => '402, 403',
             'endpoint' => [
                 'server1' => 10,
                 'server2' => 5,
@@ -68,6 +84,10 @@ class LoadbalancerTest extends TestCase
         ];
 
         $this->plugin->setOptions($options);
+
+        $this->assertTrue($this->plugin->getFailoverEnabled());
+        $this->assertSame(5, $this->plugin->getFailoverMaxRetries());
+        $this->assertSame([402, 403], $this->plugin->getFailoverStatusCodes());
 
         $this->assertSame(
             ['server1' => 10, 'server2' => 5],
@@ -123,6 +143,11 @@ class LoadbalancerTest extends TestCase
         );
     }
 
+    public function testDefaultFailoverEnabled()
+    {
+        $this->assertFalse($this->plugin->getFailoverEnabled());
+    }
+
     public function testSetAndGetFailoverEnabled()
     {
         $this->plugin->setFailoverEnabled(true);
@@ -133,6 +158,47 @@ class LoadbalancerTest extends TestCase
     {
         $this->plugin->setFailoverMaxRetries(16);
         $this->assertSame(16, $this->plugin->getFailoverMaxRetries());
+    }
+
+    public function testDefaultFailoverStatusCodes()
+    {
+        $this->assertSame([], $this->plugin->getFailoverStatusCodes());
+    }
+
+    public function testAddFailoverStatusCode()
+    {
+        $this->plugin->addFailoverStatusCode(400);
+        $this->plugin->addFailoverStatusCode(401);
+        $this->assertSame([400, 401], $this->plugin->getFailoverStatusCodes());
+    }
+
+    public function testAddFailoverStatusCodes()
+    {
+        $this->plugin->addFailoverStatusCodes([400, 401]);
+        $this->plugin->addFailoverStatusCodes('500, 501');
+        $this->assertSame([400, 401, 500, 501], $this->plugin->getFailoverStatusCodes());
+    }
+
+    public function testClearFailoverStatusCodes()
+    {
+        $this->plugin->addFailoverStatusCode(400);
+        $this->plugin->clearFailoverStatusCodes();
+        $this->assertSame([], $this->plugin->getFailoverStatusCodes());
+    }
+
+    public function testRemoveFailoverStatusCode()
+    {
+        $this->plugin->addFailoverStatusCodes([400, 401]);
+        $this->plugin->removeFailoverStatusCode(400);
+        $this->assertSame([401], $this->plugin->getFailoverStatusCodes());
+    }
+
+    public function testSetFailoverStatusCodes()
+    {
+        $this->plugin->setFailoverStatusCodes([400, 401]);
+        $this->assertSame([400, 401], $this->plugin->getFailoverStatusCodes());
+        $this->plugin->setFailoverStatusCodes('500, 501');
+        $this->assertSame([500, 501], $this->plugin->getFailoverStatusCodes());
     }
 
     public function testAddEndpoint()
@@ -270,13 +336,21 @@ class LoadbalancerTest extends TestCase
         $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 
+    public function testDefaultBlockedQueryTypes()
+    {
+        $this->assertEqualsCanonicalizing(
+            $this->expectedDefaultBlockedQueryTypes,
+            $this->plugin->getBlockedQueryTypes()
+        );
+    }
+
     public function testAddBlockedQueryType()
     {
         $this->plugin->addBlockedQueryType('type1');
         $this->plugin->addBlockedQueryType('type2');
 
-        $this->assertSame(
-            [Client::QUERY_UPDATE, 'type1', 'type2'],
+        $this->assertEqualsCanonicalizing(
+            array_merge($this->expectedDefaultBlockedQueryTypes, ['type1', 'type2']),
             $this->plugin->getBlockedQueryTypes()
         );
     }
@@ -433,10 +507,10 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testFailover()
+    public function testFailoverOnEndpointFailure()
     {
         $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
-        $this->client->setAdapter(new TestAdapterForFailover()); // set special mock that fails once
+        $this->client->setAdapter(new TestAdapterForFailover(true)); // set special mock that fails once with an HTTP exception
         $this->plugin->initPlugin($this->client, []);
 
         $request = new Request();
@@ -447,6 +521,16 @@ class LoadbalancerTest extends TestCase
         $this->plugin->setEndpoints($endpoints);
         $this->plugin->setFailoverEnabled(true);
 
+        $endpointFailureListenerCalled = 0;
+        $this->client->getEventDispatcher()->addListener(
+            LoadbalancerEvents::ENDPOINT_FAILURE,
+            function (EndpointFailureEvent $event) use (&$endpointFailureListenerCalled) {
+                ++$endpointFailureListenerCalled;
+                $this->assertSame('server1', $event->getEndpoint()->getKey());
+                $this->assertSame('failover exception', $event->getException()->getStatusMessage());
+            }
+        );
+
         $query = new SelectQuery();
         $event = new PreCreateRequestEvent($query);
         $this->plugin->preCreateRequest($event);
@@ -454,10 +538,44 @@ class LoadbalancerTest extends TestCase
         $event = new PreExecuteRequestEvent($request, new Endpoint());
         $this->plugin->preExecuteRequest($event);
 
-        $this->assertSame(
-            'server2',
-            $this->plugin->getLastEndpoint()
+        $this->assertSame(1, $endpointFailureListenerCalled);
+        $this->assertSame('server2', $this->plugin->getLastEndpoint());
+    }
+
+    public function testFailoverOnStatusCodeFailure()
+    {
+        $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
+        $this->client->setAdapter(new TestAdapterForFailover(false)); // set special mock that fails once with an HTTP status error
+        $this->plugin->initPlugin($this->client, []);
+
+        $request = new Request();
+        $endpoints = [
+           'server1' => 1,
+           'server2' => 1,
+        ];
+        $this->plugin->setEndpoints($endpoints);
+        $this->plugin->setFailoverEnabled(true);
+        $this->plugin->addFailoverStatusCode(504);
+
+        $statusCodeFailureListenerCalled = 0;
+        $this->client->getEventDispatcher()->addListener(
+            LoadbalancerEvents::STATUS_CODE_FAILURE,
+            function (StatusCodeFailureEvent $event) use (&$statusCodeFailureListenerCalled) {
+                ++$statusCodeFailureListenerCalled;
+                $this->assertSame('server1', $event->getEndpoint()->getKey());
+                $this->assertSame(504, $event->getResponse()->getStatusCode());
+            }
         );
+
+        $query = new SelectQuery();
+        $event = new PreCreateRequestEvent($query);
+        $this->plugin->preCreateRequest($event);
+
+        $event = new PreExecuteRequestEvent($request, new Endpoint());
+        $this->plugin->preExecuteRequest($event);
+
+        $this->assertSame(1, $statusCodeFailureListenerCalled);
+        $this->assertSame('server2', $this->plugin->getLastEndpoint());
     }
 
     public function testFailoverMaxRetries()
@@ -511,22 +629,41 @@ class TestLoadbalancer extends Loadbalancer
 
 class TestAdapterForFailover extends HttpAdapter
 {
+    protected $endpointFailure;
+
     protected $counter = 0;
 
     protected $failCount = 1;
 
-    public function setFailCount($count)
+    /**
+     * Constructor.
+     *
+     * @param bool $endpointFailure Fail with an endpoint failure (true) or an HTTP status error (false)?
+     */
+    public function __construct(bool $endpointFailure = true)
+    {
+        $this->endpointFailure = $endpointFailure;
+    }
+
+    public function setFailCount(int $count): self
     {
         $this->failCount = $count;
+
+        return $this;
     }
 
     public function execute(Request $request, Endpoint $endpoint): Response
     {
         ++$this->counter;
+
         if ($this->counter <= $this->failCount) {
-            throw new HttpException('failover exception');
+            if ($this->endpointFailure) {
+                throw new HttpException('failover exception');
+            } else {
+                return new Response('dummyvalue', ['HTTP/1.1 504 Gateway Timeout']);
+            }
         }
 
-        return new Response('dummyvalue');
+        return new Response('dummyvalue', ['HTTP/1.1 200 OK']);
     }
 }

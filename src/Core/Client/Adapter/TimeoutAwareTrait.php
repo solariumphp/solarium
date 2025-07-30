@@ -24,7 +24,7 @@ trait TimeoutAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setTimeout(int $timeoutInSeconds)
+    public function setTimeout(int $timeoutInSeconds): self
     {
         $this->timeout = $timeoutInSeconds;
 

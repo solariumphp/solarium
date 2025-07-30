@@ -9,8 +9,6 @@
 
 namespace Solarium\Core;
 
-use Solarium\Exception\InvalidArgumentException;
-
 /**
  * Base class for configurable classes.
  *
@@ -35,11 +33,9 @@ class Configurable implements ConfigurableInterface
      *
      * After handling the options the {@link _init()} method is called.
      *
-     * @param array|\Zend_Config $options
-     *
-     * @throws InvalidArgumentException
+     * @param array|null $options
      */
-    public function __construct($options = null)
+    public function __construct(?array $options = null)
     {
         if (null !== $options) {
             $this->setOptions($options);
@@ -51,44 +47,25 @@ class Configurable implements ConfigurableInterface
     /**
      * Set options.
      *
-     * If $options is an object, it will be converted into an array by calling
-     * its toArray method. This is compatible with the Zend_Config classes in
-     * Zend Framework, but can also easily be implemented in any other object.
-     * If $options does not have the toArray method, the internal method will
-     * be used instead.
+     * @param array $options
+     * @param bool  $overwrite True for overwriting existing options, false for
+     *                         merging (new values overwrite old ones if needed)
      *
-     * @param array|\Zend_Config $options
-     * @param bool               $overwrite True for overwriting existing options, false
-     *                                      for merging (new values overwrite old ones if needed)
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return self
+     * @return self Provides fluent interface
      */
-    public function setOptions($options, bool $overwrite = false): ConfigurableInterface
+    public function setOptions(array $options, bool $overwrite = false): self
     {
-        if (null !== $options) {
-            // first convert to array if needed
-            if (!\is_array($options)) {
-                if (\is_object($options)) {
-                    $options = (!method_exists($options, 'toArray') ? $this->toArray($options) : $options->toArray());
-                } else {
-                    throw new InvalidArgumentException('Options value given to the setOptions() method must be an array or a Zend_Config object');
-                }
-            }
-
-            if (true === $overwrite) {
-                $this->options = $options;
-            } else {
-                $this->options = array_merge($this->options, $options);
-            }
-
-            if (true === \is_callable([$this, 'initLocalParameters'])) {
-                $this->initLocalParameters();
-            }
-            // re-init for new options
-            $this->init();
+        if (true === $overwrite) {
+            $this->options = $options;
+        } else {
+            $this->options = array_merge($this->options, $options);
         }
+
+        if (true === \is_callable([$this, 'initLocalParameters'])) {
+            $this->initLocalParameters();
+        }
+        // re-init for new options
+        $this->init();
 
         return $this;
     }
@@ -100,9 +77,9 @@ class Configurable implements ConfigurableInterface
      *
      * @param string $name
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function getOption(string $name)
+    public function getOption(string $name): mixed
     {
         return $this->options[$name] ?? null;
     }
@@ -143,31 +120,10 @@ class Configurable implements ConfigurableInterface
      *
      * @return self Provides fluent interface
      */
-    protected function setOption(string $name, $value): self
+    protected function setOption(string $name, mixed $value): self
     {
         $this->options[$name] = $value;
 
         return $this;
-    }
-
-    /**
-     * Turns an object array into an associative multidimensional array.
-     *
-     * @param $object object|object[]
-     *
-     * @return array
-     */
-    protected function toArray($object): array
-    {
-        if (\is_object($object)) {
-            return (array) $object;
-        }
-
-        /*
-        * Return array converted to object
-        * Using __METHOD__ (Magic constant)
-        * for recursive call
-        */
-        return array_map(__METHOD__, $object);
     }
 }

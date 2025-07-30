@@ -123,4 +123,15 @@ class SuggesterTest extends TestCase
             $this->suggester->getCount()
         );
     }
+
+    public function testSetAndGetBuildAll()
+    {
+        $value = true;
+        $this->suggester->setBuildAll($value);
+
+        $this->assertEquals(
+            $value,
+            $this->suggester->getBuildAll()
+        );
+    }
 }

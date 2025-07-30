@@ -107,7 +107,7 @@ Solarium can throw two types of logic exceptions. Both extend their SPL counterp
 
 ### Runtime exceptions
 
-Runtime exceptions represent errors that can only be found on runtime.
+Runtime exceptions represent errors that can only be found at runtime.
 
 Solarium can throw a number of runtime exceptions. All of them implement `Solarium\Exception\ExceptionInterface` and `Solarium\Exception\RuntimeExceptionInterface`.
 
@@ -125,6 +125,8 @@ Those that extend their SPL counterparts do so to implement the marker interface
 #### `HttpException`
 
 This exception indicates that a problem occurred in the communication with the Solr server. You should catch this (or a more generic exception) for every request that is executed.
+
+When using the [ParallelExecution plugin](plugins.md#parallelexecution-plugin), this exception isn't thrown. Instead it's added to the result array and you have to check the type in your code.
 
 
 #### `StreamException`

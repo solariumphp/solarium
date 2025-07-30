@@ -51,7 +51,7 @@ class SuggesterTest extends TestCase
         $this->assertEquals($allExpected, $result->getAll());
     }
 
-    public function providerParse()
+    public static function providerParse(): array
     {
         return [
             0 => [

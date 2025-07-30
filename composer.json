@@ -12,27 +12,34 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^8.1",
         "ext-json": "*",
+        "halaxa/json-machine": "^1.1",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0",
+        "symfony/event-dispatcher-contracts": "^2.0 || ^3.0",
         "composer-runtime-api": ">=2.0"
     },
     "require-dev": {
+        "ext-curl": "*",
         "ext-iconv": "*",
+        "2tvenom/cborencode": "^1.0",
         "escapestudios/symfony2-coding-standard": "^3.11",
-        "guzzlehttp/guzzle": "^7.2",
-        "nyholm/psr7": "^1.2",
-        "php-http/guzzle7-adapter": "^0.1",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^1.0",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5",
+        "nyholm/psr7": "^1.8",
+        "php-http/guzzle7-adapter": "^1.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^10.5",
+        "rawr/phpunit-data-provider": "^3.3",
         "roave/security-advisories": "dev-master",
-        "symfony/event-dispatcher": "^4.3 || ^5.0 || ^6.0"
+        "spomky-labs/cbor-php": "^3.1",
+        "symfony/event-dispatcher": "^5.0 || ^6.0 || ^7.0"
+    },
+    "suggest": {
+        "spomky-labs/cbor-php": "Needed to use CBOR formatted requests with Solr 9.3+"
     },
     "prefer-stable": true,
     "config": {
