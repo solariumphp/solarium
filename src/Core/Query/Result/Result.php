@@ -131,6 +131,8 @@ class Result implements ResultInterface, \JsonSerializable
     #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function jsonSerialize()
     {
