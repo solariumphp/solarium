@@ -897,7 +897,6 @@ class LocalParameters implements \ArrayAccess
         return isset($this->parameters[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -905,6 +904,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->parameters[$offset] ?? null;

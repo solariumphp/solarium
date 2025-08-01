@@ -100,7 +100,6 @@ class Field implements \IteratorAggregate, \Countable, \ArrayAccess
         return \array_key_exists($offset, $this->terms);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -108,6 +107,7 @@ class Field implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->terms[$offset];

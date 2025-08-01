@@ -100,7 +100,6 @@ class Result implements \IteratorAggregate, \Countable, \ArrayAccess
         return \array_key_exists($offset, $this->documents);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -108,6 +107,7 @@ class Result implements \IteratorAggregate, \Countable, \ArrayAccess
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->documents[$offset];

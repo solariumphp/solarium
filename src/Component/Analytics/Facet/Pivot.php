@@ -99,10 +99,10 @@ class Pivot extends Configurable implements \JsonSerializable
         return $this;
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter([

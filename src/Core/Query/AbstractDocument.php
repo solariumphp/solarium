@@ -120,7 +120,6 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
         $this->__set($offset, null);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -128,14 +127,15 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->__get($offset);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     abstract public function jsonSerialize();
 }

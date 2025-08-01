@@ -123,7 +123,6 @@ class Detail implements \ArrayAccess
         return \in_array($offset, ['match', 'value', 'description']);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -131,6 +130,7 @@ class Detail implements \ArrayAccess
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->{$offset};
