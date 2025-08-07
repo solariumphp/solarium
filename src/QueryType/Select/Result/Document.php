@@ -53,10 +53,10 @@ class Document extends AbstractDocument
         throw new RuntimeException('A readonly document cannot be altered');
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->getFields();
