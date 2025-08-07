@@ -20,12 +20,12 @@ class DocumentTest extends TestCase
         $this->query = new Document();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_ANALYSIS_DOCUMENT, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\QueryType\Analysis\ResponseParser\Document',
@@ -33,7 +33,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\QueryType\Analysis\RequestBuilder\Document',
@@ -41,7 +41,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddAndGetDocument()
+    public function testAddAndGetDocument(): void
     {
         $doc = new ReadOnlyDocument(['id' => 1]);
         $this->query->addDocument($doc);
@@ -51,7 +51,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddAndGetDocuments()
+    public function testAddAndGetDocuments(): void
     {
         $doc1 = new ReadOnlyDocument(['id' => 1]);
         $doc2 = new ReadOnlyDocument(['id' => 2]);
@@ -62,7 +62,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testAddInvalidDocument()
+    public function testAddInvalidDocument(): void
     {
         $doc1 = new ReadOnlyDocument(['id' => 1]);
         $doc2 = ['id' => 2];

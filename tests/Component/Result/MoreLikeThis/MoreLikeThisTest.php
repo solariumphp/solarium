@@ -39,12 +39,12 @@ class MoreLikeThisTest extends TestCase
         $this->mlt = new MoreLikeThis($this->results, $this->interestingTerms);
     }
 
-    public function testGetResults()
+    public function testGetResults(): void
     {
         $this->assertEquals($this->results, $this->mlt->getResults());
     }
 
-    public function testGetResult()
+    public function testGetResult(): void
     {
         $this->assertEquals(
             $this->results['key1'],
@@ -52,19 +52,19 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testGetInvalidResult()
+    public function testGetInvalidResult(): void
     {
         $this->assertNull(
             $this->mlt->getResult('invalid')
         );
     }
 
-    public function testGetInterestingTerms()
+    public function testGetInterestingTerms(): void
     {
         $this->assertEquals($this->interestingTerms, $this->mlt->getInterestingTerms());
     }
 
-    public function testGetInterestingTermsNone()
+    public function testGetInterestingTermsNone(): void
     {
         $mlt = new MoreLikeThis($this->results, null);
 
@@ -73,7 +73,7 @@ class MoreLikeThisTest extends TestCase
         $mlt->getInterestingTerms();
     }
 
-    public function testGetInterestingTerm()
+    public function testGetInterestingTerm(): void
     {
         $this->assertEquals(
             $this->interestingTerms['key1'],
@@ -81,14 +81,14 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testGetInvalidInterestingTerm()
+    public function testGetInvalidInterestingTerm(): void
     {
         $this->assertNull(
             $this->mlt->getInterestingTerm('invalid')
         );
     }
 
-    public function testGetInterestingTermNone()
+    public function testGetInterestingTermNone(): void
     {
         $mlt = new MoreLikeThis($this->results, null);
 
@@ -97,7 +97,7 @@ class MoreLikeThisTest extends TestCase
         $mlt->getInterestingTerm('key1');
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->mlt as $key => $item) {
@@ -107,7 +107,7 @@ class MoreLikeThisTest extends TestCase
         $this->assertEquals($this->results, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->results, $this->mlt);
     }

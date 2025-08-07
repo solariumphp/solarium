@@ -36,34 +36,34 @@ class ResultTest extends TestCase
         $this->result = new Result($this->documents, $this->warnings);
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertSame($this->documents, $this->result->getDocuments());
     }
 
-    public function testGetDocument()
+    public function testGetDocument(): void
     {
         $this->assertSame($this->documents['key1'], $this->result->getDocument('key1'));
     }
 
-    public function testGetDocumentInvalid()
+    public function testGetDocumentInvalid(): void
     {
         $this->assertNull($this->result->getDocument('invalidkey'));
     }
 
-    public function testGetWarnings()
+    public function testGetWarnings(): void
     {
         $this->assertSame($this->warnings, $this->result->getWarnings());
     }
 
-    public function testGetWarningsNull()
+    public function testGetWarningsNull(): void
     {
         $termVector = new Result([], null);
 
         $this->assertNull($termVector->getWarnings());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $documents = [];
         foreach ($this->result as $key => $document) {
@@ -73,27 +73,27 @@ class ResultTest extends TestCase
         $this->assertSame($this->documents, $documents);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertCount(\count($this->documents), $this->result);
     }
 
-    public function testOffsetExists()
+    public function testOffsetExists(): void
     {
         $this->assertTrue($this->result->offsetExists('key1'));
     }
 
-    public function testOffsetExistsUnknown()
+    public function testOffsetExistsUnknown(): void
     {
         $this->assertFalse($this->result->offsetExists('unknown'));
     }
 
-    public function testOffsetGet()
+    public function testOffsetGet(): void
     {
         $this->assertSame($this->documents['key1'], $this->result->offsetGet('key1'));
     }
 
-    public function testOffsetGetUnknown()
+    public function testOffsetGetUnknown(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -105,13 +105,13 @@ class ResultTest extends TestCase
         restore_error_handler();
     }
 
-    public function testOffsetSetImmutable()
+    public function testOffsetSetImmutable(): void
     {
         $this->result->offsetSet('key1', new Document(null, []));
         $this->assertSame($this->documents['key1'], $this->result['key1']);
     }
 
-    public function testOffsetUnsetImmutable()
+    public function testOffsetUnsetImmutable(): void
     {
         $this->result->offsetUnset('key1');
         $this->assertSame($this->documents['key1'], $this->result['key1']);

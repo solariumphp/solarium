@@ -9,7 +9,7 @@ use Solarium\QueryType\MoreLikeThis\Result;
 
 class ResponseParserTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'response' => [

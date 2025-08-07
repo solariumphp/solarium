@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $this->query->setStart(12);
         $this->query->setMltFields('description,name');
@@ -75,7 +75,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
-    public function testBuildWithQueryStream()
+    public function testBuildWithQueryStream(): void
     {
         $content = 'test content';
 

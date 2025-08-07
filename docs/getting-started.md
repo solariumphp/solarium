@@ -90,6 +90,14 @@ Upgrading
 
 When upgrading from an earlier version, you should be aware of a number of pitfalls.
 
+### Pitfall when upgrading to 6.3.8
+
+Plugins extending from `Solarium\Core\Plugin\AbstractPlugin` must add `void` return types to the signatures for
+the following methods (when defined):
+- `initPlugin()`
+- `deinitPlugin()`
+- `initPluginType()`
+
 ### Pitfall when upgrading to 6.3.6
 
 Using a config object is no longer supported. You have to convert it to an array before passing

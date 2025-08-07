@@ -26,12 +26,12 @@ class FacetSetTest extends TestCase
         $this->result = new FacetSet($this->facets);
     }
 
-    public function testGetFacets()
+    public function testGetFacets(): void
     {
         $this->assertSame($this->facets, $this->result->getFacets());
     }
 
-    public function testGetFacet()
+    public function testGetFacet(): void
     {
         $this->assertSame(
             $this->facets['facet2'],
@@ -39,14 +39,14 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testGetInvalidFacet()
+    public function testGetInvalidFacet(): void
     {
         $this->assertNull(
             $this->result->getFacet('invalid')
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -56,7 +56,7 @@ class FacetSetTest extends TestCase
         $this->assertSame($this->facets, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->facets, $this->result);
     }

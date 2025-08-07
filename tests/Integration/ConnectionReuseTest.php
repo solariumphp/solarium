@@ -224,7 +224,7 @@ class ConnectionReuseTest extends TestCase
     /**
      * @dataProvider createAdapterProvider
      */
-    public function testConnectionReuse(string $createFunction, int $expectedCount)
+    public function testConnectionReuse(string $createFunction, int $expectedCount): void
     {
         // make sure the next logged timestamp is not on the same millisecond as self::$since
         usleep(1000);

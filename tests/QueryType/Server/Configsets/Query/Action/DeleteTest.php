@@ -19,18 +19,18 @@ class DeleteTest extends TestCase
         $this->action = new Delete();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(ConfigsetsQuery::ACTION_DELETE, $this->action->getType());
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->action->setName('test');
         $this->assertSame('test', $this->action->getName());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(ConfigsetsResult::class, $this->action->getResultClass());
     }

@@ -18,12 +18,12 @@ class ReloadTest extends TestCase
         $this->action = new Reload();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_RELOAD, $this->action->getType());
     }
 
-    public function testSetCore()
+    public function testSetCore(): void
     {
         $this->action->setCore('test');
         $this->assertSame('test', $this->action->getCore());

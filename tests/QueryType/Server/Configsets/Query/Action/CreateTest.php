@@ -19,30 +19,30 @@ class CreateTest extends TestCase
         $this->action = new Create();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(ConfigsetsQuery::ACTION_CREATE, $this->action->getType());
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->action->setName('test');
         $this->assertSame('test', $this->action->getName());
     }
 
-    public function testSetBaseConfigSet()
+    public function testSetBaseConfigSet(): void
     {
         $this->action->setBaseConfigSet('test');
         $this->assertSame('test', $this->action->getBaseConfigSet());
     }
 
-    public function testSetProperty()
+    public function testSetProperty(): void
     {
         $this->action->setProperty('foo', 'bar');
         $this->assertSame('bar', $this->action->getProperty('foo'));
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(ConfigsetsResult::class, $this->action->getResultClass());
     }

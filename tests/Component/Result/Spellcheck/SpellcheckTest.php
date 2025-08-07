@@ -36,48 +36,48 @@ class SpellcheckTest extends TestCase
         $this->result = new Result($this->suggestions, $this->collations, $this->correctlySpelled);
     }
 
-    public function testGetCollation()
+    public function testGetCollation(): void
     {
         $this->assertEquals(reset($this->collations), $this->result->getCollation());
     }
 
-    public function testGetCollationWithoutData()
+    public function testGetCollationWithoutData(): void
     {
         $result = new Result($this->suggestions, [], $this->correctlySpelled);
         $this->assertNull($result->getCollation());
     }
 
-    public function testGetCollationWithKey()
+    public function testGetCollationWithKey(): void
     {
         $this->assertEquals($this->collations[0], $this->result->getCollation(0));
     }
 
-    public function testGetCollations()
+    public function testGetCollations(): void
     {
         $this->assertEquals($this->collations, $this->result->getCollations());
     }
 
-    public function testGetCorrectlySpelled()
+    public function testGetCorrectlySpelled(): void
     {
         $this->assertEquals($this->correctlySpelled, $this->result->getCorrectlySpelled());
     }
 
-    public function testGetSuggestion()
+    public function testGetSuggestion(): void
     {
         $this->assertEquals($this->suggestions['key1'], $this->result->getSuggestion('key1'));
     }
 
-    public function testGetInvalidSuggestion()
+    public function testGetInvalidSuggestion(): void
     {
         $this->assertNull($this->result->getSuggestion('key3'));
     }
 
-    public function testGetSuggestions()
+    public function testGetSuggestions(): void
     {
         $this->assertEquals($this->suggestions, $this->result->getSuggestions());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -87,7 +87,7 @@ class SpellcheckTest extends TestCase
         $this->assertEquals($this->suggestions, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->suggestions, $this->result);
     }

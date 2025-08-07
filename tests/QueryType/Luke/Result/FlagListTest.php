@@ -31,7 +31,7 @@ class FlagListTest extends TestCase
         ]);
     }
 
-    public function testIsIndexed()
+    public function testIsIndexed(): void
     {
         $flags = new FlagList('I', ['I' => new Flag('I', '...')]);
         $this->assertTrue($flags->isIndexed());
@@ -40,7 +40,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isIndexed());
     }
 
-    public function testIsTokenized()
+    public function testIsTokenized(): void
     {
         $flags = new FlagList('T', ['T' => new Flag('T', '...')]);
         $this->assertTrue($flags->isTokenized());
@@ -49,7 +49,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isTokenized());
     }
 
-    public function testIsStored()
+    public function testIsStored(): void
     {
         $flags = new FlagList('S', ['S' => new Flag('S', '...')]);
         $this->assertTrue($flags->isStored());
@@ -58,7 +58,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isStored());
     }
 
-    public function testIsDocValues()
+    public function testIsDocValues(): void
     {
         $flags = new FlagList('D', ['D' => new Flag('D', '...')]);
         $this->assertTrue($flags->isDocValues());
@@ -67,7 +67,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isDocValues());
     }
 
-    public function testIsUninvertible()
+    public function testIsUninvertible(): void
     {
         $flags = new FlagList('U', ['U' => new Flag('U', '...')]);
         $this->assertTrue($flags->isUninvertible());
@@ -76,7 +76,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isUninvertible());
     }
 
-    public function testIsMultiValued()
+    public function testIsMultiValued(): void
     {
         $flags = new FlagList('M', ['M' => new Flag('M', '...')]);
         $this->assertTrue($flags->isMultiValued());
@@ -85,7 +85,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isMultiValued());
     }
 
-    public function testIsTermVectors()
+    public function testIsTermVectors(): void
     {
         $flags = new FlagList('V', ['V' => new Flag('V', '...')]);
         $this->assertTrue($flags->isTermVectors());
@@ -94,7 +94,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isTermVectors());
     }
 
-    public function testIsTermOffsets()
+    public function testIsTermOffsets(): void
     {
         $flags = new FlagList('o', ['o' => new Flag('o', '...')]);
         $this->assertTrue($flags->isTermOffsets());
@@ -103,7 +103,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isTermOffsets());
     }
 
-    public function testIsTermPositions()
+    public function testIsTermPositions(): void
     {
         $flags = new FlagList('p', ['p' => new Flag('p', '...')]);
         $this->assertTrue($flags->isTermPositions());
@@ -112,7 +112,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isTermPositions());
     }
 
-    public function testIsTermPayloads()
+    public function testIsTermPayloads(): void
     {
         $flags = new FlagList('y', ['y' => new Flag('y', '...')]);
         $this->assertTrue($flags->isTermPayloads());
@@ -121,7 +121,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isTermPayloads());
     }
 
-    public function testIsOmitNorms()
+    public function testIsOmitNorms(): void
     {
         $flags = new FlagList('O', ['O' => new Flag('O', '...')]);
         $this->assertTrue($flags->isOmitNorms());
@@ -130,7 +130,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isOmitNorms());
     }
 
-    public function testIsOmitTermFreqAndPositions()
+    public function testIsOmitTermFreqAndPositions(): void
     {
         $flags = new FlagList('F', ['F' => new Flag('F', '...')]);
         $this->assertTrue($flags->isOmitTermFreqAndPositions());
@@ -139,7 +139,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isOmitTermFreqAndPositions());
     }
 
-    public function testIsOmitPositions()
+    public function testIsOmitPositions(): void
     {
         $flags = new FlagList('P', ['P' => new Flag('P', '...')]);
         $this->assertTrue($flags->isOmitPositions());
@@ -148,7 +148,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isOmitPositions());
     }
 
-    public function testIsStoreOffsetsWithPositions()
+    public function testIsStoreOffsetsWithPositions(): void
     {
         $flags = new FlagList('H', ['H' => new Flag('H', '...')]);
         $this->assertTrue($flags->isStoreOffsetsWithPositions());
@@ -157,7 +157,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isStoreOffsetsWithPositions());
     }
 
-    public function testIsLazy()
+    public function testIsLazy(): void
     {
         $flags = new FlagList('L', ['L' => new Flag('L', '...')]);
         $this->assertTrue($flags->isLazy());
@@ -166,7 +166,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isLazy());
     }
 
-    public function testIsBinary()
+    public function testIsBinary(): void
     {
         $flags = new FlagList('B', ['B' => new Flag('B', '...')]);
         $this->assertTrue($flags->isBinary());
@@ -175,7 +175,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isBinary());
     }
 
-    public function testIsSortMissingFirst()
+    public function testIsSortMissingFirst(): void
     {
         $flags = new FlagList('f', ['f' => new Flag('f', '...')]);
         $this->assertTrue($flags->isSortMissingFirst());
@@ -184,7 +184,7 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isSortMissingFirst());
     }
 
-    public function testIsSortMissingLast()
+    public function testIsSortMissingLast(): void
     {
         $flags = new FlagList('l', ['l' => new Flag('l', '...')]);
         $this->assertTrue($flags->isSortMissingLast());
@@ -193,12 +193,12 @@ class FlagListTest extends TestCase
         $this->assertFalse($flags->isSortMissingLast());
     }
 
-    public function testCountable()
+    public function testCountable(): void
     {
         $this->assertCount(2, $this->flagList);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $expected = [
             0 => ['A', new Flag('A', 'A Flag')],
@@ -213,7 +213,7 @@ class FlagListTest extends TestCase
         }
     }
 
-    public function testArrayAccess()
+    public function testArrayAccess(): void
     {
         $this->assertArrayHasKey('O', $this->flagList);
         $this->assertArrayNotHasKey('U', $this->flagList);
@@ -221,7 +221,7 @@ class FlagListTest extends TestCase
         $this->assertNull($this->flagList['U']);
     }
 
-    public function testArrayAccessImmutable()
+    public function testArrayAccessImmutable(): void
     {
         $this->flagList['N'] = new Flag('N', 'New Flag');
         $this->assertArrayNotHasKey('N', $this->flagList);
@@ -229,7 +229,7 @@ class FlagListTest extends TestCase
         $this->assertArrayHasKey('A', $this->flagList);
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('AO-', (string) $this->flagList);
     }

@@ -17,17 +17,17 @@ class DeleteTest extends TestCase
         $this->delete = new Delete();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_DELETE, $this->delete->getType());
     }
 
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_DELETE, $this->delete->getRequestMethod());
     }
 
-    public function testSetAndGetTerm()
+    public function testSetAndGetTerm(): void
     {
         $this->delete->setTerm('test');
         $this->assertSame('test', $this->delete->getTerm());

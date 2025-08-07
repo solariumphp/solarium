@@ -10,13 +10,13 @@ use Solarium\QueryType\Select\Query\Query;
 
 class ComponentTest extends TestCase
 {
-    public function testGetType()
+    public function testGetType(): void
     {
         $component = new TestComponent();
         $this->assertEquals('testtype', $component->getType());
     }
 
-    public function testSetAndGetQueryInstance()
+    public function testSetAndGetQueryInstance(): void
     {
         $query = new Query();
         $component = new TestComponent();

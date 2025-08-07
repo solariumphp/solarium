@@ -19,54 +19,54 @@ class CreateTest extends TestCase
         $this->action = new Create();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CollectionsQuery::ACTION_CREATE, $this->action->getType());
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->action->setName('test');
         $this->assertSame('test', $this->action->getName());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testSetRouterName()
+    public function testSetRouterName(): void
     {
         $this->action->setRouterName('testrouter');
         $this->assertSame('testrouter', $this->action->getRouterName());
     }
 
-    public function testSetNumShards()
+    public function testSetNumShards(): void
     {
         $this->action->setNumShards(5);
         $this->assertSame(5, $this->action->getNumShards());
     }
 
-    public function testSetShards()
+    public function testSetShards(): void
     {
         $this->action->setShards('shard-a,shard-b');
         $this->assertSame('shard-a,shard-b', $this->action->getShards());
     }
 
-    public function testSetCollectionConfigName()
+    public function testSetCollectionConfigName(): void
     {
         $this->action->setCollectionConfigName('testconfigname');
         $this->assertSame('testconfigname', $this->action->getCollectionConfigName());
     }
 
-    public function testSetProperty()
+    public function testSetProperty(): void
     {
         $this->action->setProperty('foo', 'bar');
         $this->assertSame('bar', $this->action->getProperty('foo'));
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(CreateResult::class, $this->action->getResultClass());
     }

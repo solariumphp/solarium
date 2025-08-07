@@ -64,7 +64,7 @@ class ClientTest extends TestCase
         $this->client = new Client(new MyAdapter(), new EventDispatcher());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'endpoint' => [
@@ -105,7 +105,7 @@ class ClientTest extends TestCase
         $this->assertSame($options['plugin']['myplugin']['options'], $plugin->getOptions());
     }
 
-    public function testGetEventDispatcher()
+    public function testGetEventDispatcher(): void
     {
         $this->assertInstanceOf(EventDispatcherInterface::class, $this->client->getEventDispatcher());
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -114,14 +114,14 @@ class ClientTest extends TestCase
         $this->assertSame($eventDispatcher, $this->client->getEventDispatcher());
     }
 
-    public function testEventDispatcherInjection()
+    public function testEventDispatcherInjection(): void
     {
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $client = new Client(new MyAdapter(), $eventDispatcher);
         $this->assertSame($eventDispatcher, $client->getEventDispatcher());
     }
 
-    public function testConfigModeWithoutKeys()
+    public function testConfigModeWithoutKeys(): void
     {
         $options = [
             'endpoint' => [
@@ -167,28 +167,28 @@ class ClientTest extends TestCase
         $this->assertSame($options['plugin'][0]['options'], $plugin->getOptions());
     }
 
-    public function testCreateEndpoint()
+    public function testCreateEndpoint(): void
     {
         $endpoint = $this->client->createEndpoint();
         $this->assertNull($endpoint->getKey());
         $this->assertInstanceOf(Endpoint::class, $endpoint);
     }
 
-    public function testCreateEndpointWithKey()
+    public function testCreateEndpointWithKey(): void
     {
         $endpoint = $this->client->createEndpoint('key1');
         $this->assertSame('key1', $endpoint->getKey());
         $this->assertInstanceOf(Endpoint::class, $endpoint);
     }
 
-    public function testCreateEndpointWithSetAsDefault()
+    public function testCreateEndpointWithSetAsDefault(): void
     {
         $this->client->createEndpoint('key3', true);
         $endpoint = $this->client->getEndpoint();
         $this->assertSame('key3', $endpoint->getKey());
     }
 
-    public function testCreateEndpointWithArray()
+    public function testCreateEndpointWithArray(): void
     {
         $options = [
             'key' => 'server2',
@@ -201,7 +201,7 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(Endpoint::class, $endpoint);
     }
 
-    public function testAddAndGetEndpoint()
+    public function testAddAndGetEndpoint(): void
     {
         $endpoint = $this->client->createEndpoint();
         $endpoint->setKey('s3');
@@ -221,7 +221,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testAddEndpointWithArray()
+    public function testAddEndpointWithArray(): void
     {
         $options = [
             'key' => 'server2',
@@ -237,7 +237,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testAddEndpointWithoutKey()
+    public function testAddEndpointWithoutKey(): void
     {
         $endpoint = $this->client->createEndpoint();
 
@@ -245,20 +245,20 @@ class ClientTest extends TestCase
         $this->client->addEndpoint($endpoint);
     }
 
-    public function testAddEndpointWithEmptyKey()
+    public function testAddEndpointWithEmptyKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->client->createEndpoint('');
     }
 
-    public function testAddEndpointWithDuplicateKey()
+    public function testAddEndpointWithDuplicateKey(): void
     {
         $this->client->createEndpoint('s1');
         $this->expectException(InvalidArgumentException::class);
         $this->client->createEndpoint('s1');
     }
 
-    public function testAddAndGetEndpoints()
+    public function testAddAndGetEndpoints(): void
     {
         $options = [
             // use array key
@@ -275,7 +275,7 @@ class ClientTest extends TestCase
         $this->assertSame('s2.local', $endpoints['s2']->getHost());
     }
 
-    public function testGetEndpointWithInvalidKey()
+    public function testGetEndpointWithInvalidKey(): void
     {
         $this->client->createEndpoint('s1');
 
@@ -283,7 +283,7 @@ class ClientTest extends TestCase
         $this->client->getEndpoint('s2');
     }
 
-    public function testSetAndGetEndpoints()
+    public function testSetAndGetEndpoints(): void
     {
         $endpoint1 = $this->client->createEndpoint('s1');
         $this->client->addEndpoint($endpoint1);
@@ -298,7 +298,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testRemoveEndpointWithKey()
+    public function testRemoveEndpointWithKey(): void
     {
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
@@ -312,7 +312,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testRemoveEndpointWithObject()
+    public function testRemoveEndpointWithObject(): void
     {
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
@@ -326,7 +326,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testClearEndpoints()
+    public function testClearEndpoints(): void
     {
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
@@ -340,7 +340,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testSetDefaultEndpointWithKey()
+    public function testSetDefaultEndpointWithKey(): void
     {
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
@@ -352,7 +352,7 @@ class ClientTest extends TestCase
         $this->assertSame($endpoint2, $this->client->getEndpoint());
     }
 
-    public function testSetDefaultEndpointWithObject()
+    public function testSetDefaultEndpointWithObject(): void
     {
         $endpoint1 = $this->client->createEndpoint('s1');
         $endpoint2 = $this->client->createEndpoint('s2');
@@ -364,20 +364,20 @@ class ClientTest extends TestCase
         $this->assertSame($endpoint2, $this->client->getEndpoint());
     }
 
-    public function testSetDefaultEndpointWithInvalidKey()
+    public function testSetDefaultEndpointWithInvalidKey(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $this->client->setDefaultEndpoint('invalidkey');
     }
 
-    public function testSetAndGetAdapterWithObject()
+    public function testSetAndGetAdapterWithObject(): void
     {
         $adapterClass = MyAdapter::class;
         $this->client->setAdapter(new $adapterClass());
         $this->assertInstanceOf($adapterClass, $this->client->getAdapter());
     }
 
-    public function testRegisterQueryTypeAndGetQueryTypes()
+    public function testRegisterQueryTypeAndGetQueryTypes(): void
     {
         $queryTypes = $this->client->getQueryTypes();
 
@@ -391,7 +391,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testRegisterAndGetPlugin()
+    public function testRegisterAndGetPlugin(): void
     {
         $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
@@ -401,32 +401,32 @@ class ClientTest extends TestCase
         $this->assertSame($options, $plugin->getOptions());
     }
 
-    public function testRegisterInvalidPlugin()
+    public function testRegisterInvalidPlugin(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->client->registerPlugin('testplugin', 'StdClass');
     }
 
-    public function testGetInvalidPlugin()
+    public function testGetInvalidPlugin(): void
     {
         $this->assertNull(
             $this->client->getPlugin('invalidplugin', false)
         );
     }
 
-    public function testAutoloadPlugin()
+    public function testAutoloadPlugin(): void
     {
         $loadbalancer = $this->client->getPlugin('loadbalancer');
         $this->assertInstanceOf(Loadbalancer::class, $loadbalancer);
     }
 
-    public function testAutoloadInvalidPlugin()
+    public function testAutoloadInvalidPlugin(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $this->client->getPlugin('invalidpluginname');
     }
 
-    public function testRemoveAndGetPlugins()
+    public function testRemoveAndGetPlugins(): void
     {
         $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
@@ -448,7 +448,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testDeinitPluginAndGetPluginsWithObjectInput()
+    public function testDeinitPluginAndGetPluginsWithObjectInput(): void
     {
         $options = ['option1' => 1];
         $this->client->registerPlugin('testplugin', MyClientPlugin::class, $options);
@@ -470,7 +470,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testCreateRequest()
+    public function testCreateRequest(): void
     {
         $queryStub = $this->createMock(SelectQuery::class);
 
@@ -491,7 +491,7 @@ class ClientTest extends TestCase
         $this->client->createRequest($queryStub);
     }
 
-    public function testCreateRequestInvalidQueryType()
+    public function testCreateRequestInvalidQueryType(): void
     {
         $queryStub = $this->createMock(\stdClass::class);
 
@@ -499,7 +499,7 @@ class ClientTest extends TestCase
         $this->client->createRequest($queryStub);
     }
 
-    public function testCreateRequestPrePlugin()
+    public function testCreateRequestPrePlugin(): void
     {
         $query = new SelectQuery();
         $expectedEvent = new PreCreateRequestEvent($query);
@@ -529,7 +529,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testCreateRequestPostPlugin()
+    public function testCreateRequestPostPlugin(): void
     {
         $query = new SelectQuery();
         $request = $this->client->createRequest($query);
@@ -560,7 +560,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testCreateRequestWithOverridingPlugin()
+    public function testCreateRequestWithOverridingPlugin(): void
     {
         $expectedRequest = new Request();
         $expectedRequest->setHandler('something-unique-345978');
@@ -589,7 +589,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testCreateResult()
+    public function testCreateResult(): void
     {
         $query = new SelectQuery();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -598,7 +598,7 @@ class ClientTest extends TestCase
         $this->assertInstanceOf($query->getResultClass(), $result);
     }
 
-    public function testCreateResultPrePlugin()
+    public function testCreateResultPrePlugin(): void
     {
         $query = new SelectQuery();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -629,7 +629,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testCreateResultPostPlugin()
+    public function testCreateResultPostPlugin(): void
     {
         $query = new SelectQuery();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -661,7 +661,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testCreateResultWithOverridingPlugin()
+    public function testCreateResultWithOverridingPlugin(): void
     {
         $query = new SelectQuery();
         $response = new Response('test 1234', ['HTTP/1.0 200 OK']);
@@ -689,7 +689,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testCreateResultWithInvalidResultClass()
+    public function testCreateResultWithInvalidResultClass(): void
     {
         $query = new SelectQuery();
         $query->setResultClass(\stdClass::class);
@@ -700,7 +700,7 @@ class ClientTest extends TestCase
         $this->client->createResult($query, $response);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $query = new PingQuery();
         $request = new Request();
@@ -730,7 +730,7 @@ class ClientTest extends TestCase
         $observer->execute($query);
     }
 
-    public function testExecutePrePlugin()
+    public function testExecutePrePlugin(): void
     {
         $query = new PingQuery();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -776,7 +776,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testExecutePostPlugin()
+    public function testExecutePostPlugin(): void
     {
         $query = new PingQuery();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -822,7 +822,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testExecuteWithOverridingPlugin()
+    public function testExecuteWithOverridingPlugin(): void
     {
         $query = new PingQuery();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -850,7 +850,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testExecuteRequest()
+    public function testExecuteRequest(): void
     {
         $request = new Request();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -872,7 +872,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testExecuteRequestPrePlugin()
+    public function testExecuteRequestPrePlugin(): void
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
@@ -912,7 +912,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testExecuteRequestPostPlugin()
+    public function testExecuteRequestPostPlugin(): void
     {
         $request = new Request();
         $endpoint = $this->client->createEndpoint('s1');
@@ -952,7 +952,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testExecuteRequestWithOverridingPlugin()
+    public function testExecuteRequestWithOverridingPlugin(): void
     {
         $request = new Request();
         $response = new Response('', ['HTTP/1.0 200 OK']);
@@ -980,7 +980,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testPing()
+    public function testPing(): void
     {
         $query = new PingQuery();
 
@@ -996,7 +996,7 @@ class ClientTest extends TestCase
         $observer->ping($query);
     }
 
-    public function testSelect()
+    public function testSelect(): void
     {
         $query = new SelectQuery();
 
@@ -1012,7 +1012,7 @@ class ClientTest extends TestCase
         $observer->select($query);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $query = new UpdateQuery();
 
@@ -1028,7 +1028,7 @@ class ClientTest extends TestCase
         $observer->update($query);
     }
 
-    public function testMoreLikeThis()
+    public function testMoreLikeThis(): void
     {
         $query = new MoreLikeThisQuery();
 
@@ -1044,7 +1044,7 @@ class ClientTest extends TestCase
         $observer->moreLikeThis($query);
     }
 
-    public function testAnalyze()
+    public function testAnalyze(): void
     {
         $query = new AnalysisQueryField();
 
@@ -1060,7 +1060,7 @@ class ClientTest extends TestCase
         $observer->analyze($query);
     }
 
-    public function testTerms()
+    public function testTerms(): void
     {
         $query = new TermsQuery();
 
@@ -1076,7 +1076,7 @@ class ClientTest extends TestCase
         $observer->terms($query);
     }
 
-    public function testSpellcheck()
+    public function testSpellcheck(): void
     {
         $query = new SpellcheckQuery();
 
@@ -1092,7 +1092,7 @@ class ClientTest extends TestCase
         $observer->spellcheck($query);
     }
 
-    public function testSuggester()
+    public function testSuggester(): void
     {
         $query = new SuggesterQuery();
 
@@ -1108,7 +1108,7 @@ class ClientTest extends TestCase
         $observer->suggester($query);
     }
 
-    public function testExtract()
+    public function testExtract(): void
     {
         $query = new ExtractQuery();
 
@@ -1124,7 +1124,7 @@ class ClientTest extends TestCase
         $observer->extract($query);
     }
 
-    public function testRealtimeGet()
+    public function testRealtimeGet(): void
     {
         $query = new RealtimeGetQuery();
 
@@ -1140,7 +1140,7 @@ class ClientTest extends TestCase
         $observer->realtimeGet($query);
     }
 
-    public function testLuke()
+    public function testLuke(): void
     {
         $query = new LukeQuery();
 
@@ -1156,7 +1156,7 @@ class ClientTest extends TestCase
         $observer->luke($query);
     }
 
-    public function testCoreAdmin()
+    public function testCoreAdmin(): void
     {
         $query = new CoreAdminQuery();
 
@@ -1172,7 +1172,7 @@ class ClientTest extends TestCase
         $observer->coreAdmin($query);
     }
 
-    public function testCollections()
+    public function testCollections(): void
     {
         $query = new CollectionsQuery();
 
@@ -1188,7 +1188,7 @@ class ClientTest extends TestCase
         $observer->collections($query);
     }
 
-    public function testConfigsets()
+    public function testConfigsets(): void
     {
         $query = new ConfigsetsQuery();
 
@@ -1204,7 +1204,7 @@ class ClientTest extends TestCase
         $observer->configsets($query);
     }
 
-    public function testCreateQuery()
+    public function testCreateQuery(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
         $query = $this->client->createQuery(Client::QUERY_SELECT, $options);
@@ -1220,20 +1220,20 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testCreateQueryWithInvalidQueryType()
+    public function testCreateQueryWithInvalidQueryType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->client->createQuery('invalidtype');
     }
 
-    public function testCreateQueryWithInvalidClass()
+    public function testCreateQueryWithInvalidClass(): void
     {
         $this->client->registerQueryType('invalidquery', '\\StdClass');
         $this->expectException(UnexpectedValueException::class);
         $this->client->createQuery('invalidquery');
     }
 
-    public function testCreateQueryPrePlugin()
+    public function testCreateQueryPrePlugin(): void
     {
         $type = Client::QUERY_SELECT;
         $options = ['optionA' => 1, 'optionB' => 2];
@@ -1263,7 +1263,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testCreateQueryWithOverridingPlugin()
+    public function testCreateQueryWithOverridingPlugin(): void
     {
         $type = Client::QUERY_SELECT;
         $options = ['query' => 'test789'];
@@ -1292,7 +1292,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testCreateQueryPostPlugin()
+    public function testCreateQueryPostPlugin(): void
     {
         $type = Client::QUERY_SELECT;
         $options = ['optionA' => 1, 'optionB' => 2];
@@ -1323,7 +1323,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedEvent, $observer->event);
     }
 
-    public function testCreateSelect()
+    public function testCreateSelect(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1339,7 +1339,7 @@ class ClientTest extends TestCase
         $observer->createSelect($options);
     }
 
-    public function testCreateUpdate()
+    public function testCreateUpdate(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1355,7 +1355,7 @@ class ClientTest extends TestCase
         $observer->createUpdate($options);
     }
 
-    public function testCreatePing()
+    public function testCreatePing(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1371,7 +1371,7 @@ class ClientTest extends TestCase
         $observer->createPing($options);
     }
 
-    public function testCreateMoreLikeThis()
+    public function testCreateMoreLikeThis(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1387,7 +1387,7 @@ class ClientTest extends TestCase
         $observer->createMoreLikeThis($options);
     }
 
-    public function testCreateAnalysisField()
+    public function testCreateAnalysisField(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1403,7 +1403,7 @@ class ClientTest extends TestCase
         $observer->createAnalysisField($options);
     }
 
-    public function testCreateAnalysisDocument()
+    public function testCreateAnalysisDocument(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1419,7 +1419,7 @@ class ClientTest extends TestCase
         $observer->createAnalysisDocument($options);
     }
 
-    public function testCreateTerms()
+    public function testCreateTerms(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1435,7 +1435,7 @@ class ClientTest extends TestCase
         $observer->createTerms($options);
     }
 
-    public function testCreateSpellcheck()
+    public function testCreateSpellcheck(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1451,7 +1451,7 @@ class ClientTest extends TestCase
         $observer->createSpellcheck($options);
     }
 
-    public function testCreateSuggester()
+    public function testCreateSuggester(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1467,7 +1467,7 @@ class ClientTest extends TestCase
         $observer->createSuggester($options);
     }
 
-    public function testCreateExtract()
+    public function testCreateExtract(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1483,7 +1483,7 @@ class ClientTest extends TestCase
         $observer->createExtract($options);
     }
 
-    public function testCreateStream()
+    public function testCreateStream(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1499,7 +1499,7 @@ class ClientTest extends TestCase
         $observer->createStream($options);
     }
 
-    public function testCreateGraph()
+    public function testCreateGraph(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1515,7 +1515,7 @@ class ClientTest extends TestCase
         $observer->createGraph($options);
     }
 
-    public function testCreateRealtimeGet()
+    public function testCreateRealtimeGet(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1531,7 +1531,7 @@ class ClientTest extends TestCase
         $observer->createRealtimeGet($options);
     }
 
-    public function testCreateLuke()
+    public function testCreateLuke(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1547,7 +1547,7 @@ class ClientTest extends TestCase
         $observer->createLuke($options);
     }
 
-    public function testCreateCoreAdmin()
+    public function testCreateCoreAdmin(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1563,7 +1563,7 @@ class ClientTest extends TestCase
         $observer->createCoreAdmin($options);
     }
 
-    public function testCreateCollections()
+    public function testCreateCollections(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1579,7 +1579,7 @@ class ClientTest extends TestCase
         $observer->createCollections($options);
     }
 
-    public function testCreateConfigsets()
+    public function testCreateConfigsets(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1595,7 +1595,7 @@ class ClientTest extends TestCase
         $observer->createConfigsets($options);
     }
 
-    public function testCreateApi()
+    public function testCreateApi(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1611,7 +1611,7 @@ class ClientTest extends TestCase
         $observer->createApi($options);
     }
 
-    public function testCreateManagedResources()
+    public function testCreateManagedResources(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1627,7 +1627,7 @@ class ClientTest extends TestCase
         $observer->createManagedResources($options);
     }
 
-    public function testCreateManagedStopwords()
+    public function testCreateManagedStopwords(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 
@@ -1643,7 +1643,7 @@ class ClientTest extends TestCase
         $observer->createManagedStopwords($options);
     }
 
-    public function testCreateManagedSynonyms()
+    public function testCreateManagedSynonyms(): void
     {
         $options = ['optionA' => 1, 'optionB' => 2];
 

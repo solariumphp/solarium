@@ -9,7 +9,7 @@ use Solarium\QueryType\Terms\Result;
 
 class ResponseParserTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'responseHeader' => [

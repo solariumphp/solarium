@@ -18,7 +18,7 @@ class EDisMaxTest extends TestCase
         $this->eDisMax = new EdisMax();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'queryparser' => 'edismax',
@@ -58,7 +58,7 @@ class EDisMaxTest extends TestCase
         $this->assertSame($options['userfields'], $this->eDisMax->getUserFields());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMPONENT_EDISMAX,
@@ -66,7 +66,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\EdisMax',
@@ -74,7 +74,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryParser()
+    public function testSetAndGetQueryParser(): void
     {
         $value = 'dummyparser';
         $this->eDisMax->setQueryParser($value);
@@ -85,7 +85,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryAlternative()
+    public function testSetAndGetQueryAlternative(): void
     {
         $value = '*:*';
         $this->eDisMax->setQueryAlternative($value);
@@ -96,7 +96,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryFields()
+    public function testSetAndGetQueryFields(): void
     {
         $value = 'title^2.0 description';
         $this->eDisMax->setQueryFields($value);
@@ -107,7 +107,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetMinimumMatch()
+    public function testSetAndGetMinimumMatch(): void
     {
         $value = '2.0';
         $this->eDisMax->setMinimumMatch($value);
@@ -126,7 +126,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseFields()
+    public function testSetAndGetPhraseFields(): void
     {
         $value = 'title^2.0 description^3.5';
         $this->eDisMax->setPhraseFields($value);
@@ -137,7 +137,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseSlop()
+    public function testSetAndGetPhraseSlop(): void
     {
         $value = 2;
         $this->eDisMax->setPhraseSlop($value);
@@ -148,7 +148,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseBigramFields()
+    public function testSetAndGetPhraseBigramFields(): void
     {
         $value = 'description^1.3 date^4.3 field_text2^1.3';
         $this->eDisMax->setPhraseBigramFields($value);
@@ -159,7 +159,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseBigramSlop()
+    public function testSetAndGetPhraseBigramSlop(): void
     {
         $value = 3;
         $this->eDisMax->setPhraseBigramSlop($value);
@@ -170,7 +170,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseTrigramFields()
+    public function testSetAndGetPhraseTrigramFields(): void
     {
         $value = 'datetime^4 field1^5 myotherfield^9';
         $this->eDisMax->setPhraseTrigramFields($value);
@@ -181,7 +181,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetPhraseTrigramSlop()
+    public function testSetAndGetPhraseTrigramSlop(): void
     {
         $value = 5;
         $this->eDisMax->setPhraseTrigramSlop($value);
@@ -192,7 +192,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryPhraseSlop()
+    public function testSetAndGetQueryPhraseSlop(): void
     {
         $value = 3;
         $this->eDisMax->setQueryPhraseSlop($value);
@@ -203,7 +203,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetTie()
+    public function testSetAndGetTie(): void
     {
         $value = 2.1;
         $this->eDisMax->setTie($value);
@@ -214,7 +214,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetBoostQuery()
+    public function testSetAndGetBoostQuery(): void
     {
         $value = 'cat:1^3';
         $this->eDisMax->setBoostQuery($value);
@@ -225,7 +225,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetBoostFunctions()
+    public function testSetAndGetBoostFunctions(): void
     {
         $value = 'funcA(arg1,arg2)^1.2 funcB(arg3,arg4)^2.2';
         $this->eDisMax->setBoostFunctions($value);
@@ -236,7 +236,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetBoostFunctionsMult()
+    public function testSetAndGetBoostFunctionsMult(): void
     {
         $value = 'funcC(arg5,arg6)^4.3 funcD(arg7,arg8)^3.4';
         $this->eDisMax->setBoostFunctionsMult($value);
@@ -247,7 +247,7 @@ class EDisMaxTest extends TestCase
         );
     }
 
-    public function testSetAndGetUserFields()
+    public function testSetAndGetUserFields(): void
     {
         $value = 'date *_ul';
         $this->eDisMax->setUserFields($value);

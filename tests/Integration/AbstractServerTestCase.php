@@ -45,7 +45,7 @@ abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
         self::$client->coreAdmin($coreAdminQuery);
     }
 
-    public function testCanReloadCore()
+    public function testCanReloadCore(): void
     {
         $coreAdminQuery = self::$client->createCoreAdmin();
         $reloadAction = $coreAdminQuery->createReload();
@@ -63,7 +63,7 @@ abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
         self::$client->coreAdmin($coreAdminQuery);
     }
 
-    public function testCoreAdminStatus()
+    public function testCoreAdminStatus(): void
     {
         $coreAdminQuery = self::$client->createCoreAdmin();
         $statusAction = $coreAdminQuery->createStatus();
@@ -94,7 +94,7 @@ abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
         $this->assertNull($response->getStatusResult()->getStartTime());
     }
 
-    public function testSplitAndMerge()
+    public function testSplitAndMerge(): void
     {
         $coreAdminQuery = self::$client->createCoreAdmin();
         // create core *_a
@@ -172,7 +172,7 @@ abstract class AbstractServerTestCase extends AbstractTechproductsTestCase
         $this->assertTrue($response->getWasSuccessful());
     }
 
-    public function testGetStatusFromAllCoresWhenNoCoreNameWasSet()
+    public function testGetStatusFromAllCoresWhenNoCoreNameWasSet(): void
     {
         $coreAdminQuery = self::$client->createCoreAdmin();
 

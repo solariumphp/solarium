@@ -52,42 +52,42 @@ class DebugTest extends TestCase
         );
     }
 
-    public function testGetQueryString()
+    public function testGetQueryString(): void
     {
         $this->assertEquals($this->queryString, $this->result->getQueryString());
     }
 
-    public function testGetParsedQuery()
+    public function testGetParsedQuery(): void
     {
         $this->assertEquals($this->parsedQuery, $this->result->getParsedQuery());
     }
 
-    public function testGetQueryParser()
+    public function testGetQueryParser(): void
     {
         $this->assertEquals($this->queryParser, $this->result->getQueryParser());
     }
 
-    public function testGetOtherQuery()
+    public function testGetOtherQuery(): void
     {
         $this->assertEquals($this->otherQuery, $this->result->getOtherQuery());
     }
 
-    public function testGetExplain()
+    public function testGetExplain(): void
     {
         $this->assertEquals($this->explain, $this->result->getExplain());
     }
 
-    public function testGetExplainOther()
+    public function testGetExplainOther(): void
     {
         $this->assertEquals($this->explainOther, $this->result->getExplainOther());
     }
 
-    public function testGetTiming()
+    public function testGetTiming(): void
     {
         $this->assertEquals($this->timing, $this->result->getTiming());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -97,7 +97,7 @@ class DebugTest extends TestCase
         $this->assertEquals($this->explainData, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->explain, $this->result);
     }

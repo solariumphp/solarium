@@ -15,25 +15,25 @@ class InitArgsTest extends TestCase
         $this->initArgs = new InitArgs();
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $initArgs = new InitArgs();
         $this->assertSame([], $initArgs->getInitArgs());
     }
 
-    public function testConstructorWithInitArgs()
+    public function testConstructorWithInitArgs(): void
     {
         $initArgs = new InitArgs(['ignoreCase' => true]);
         $this->assertSame(['ignoreCase' => true], $initArgs->getInitArgs());
     }
 
-    public function testSetAndGetIgnoreCase()
+    public function testSetAndGetIgnoreCase(): void
     {
         $this->initArgs->setIgnoreCase(true);
         $this->assertTrue($this->initArgs->getIgnoreCase());
     }
 
-    public function testSetAndGetInitArgs()
+    public function testSetAndGetInitArgs(): void
     {
         $this->initArgs->setInitArgs(['ignoreCase' => false]);
         $this->assertSame(['ignoreCase' => false], $this->initArgs->getInitArgs());

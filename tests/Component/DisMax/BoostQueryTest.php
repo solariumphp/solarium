@@ -14,7 +14,7 @@ class BoostQueryTest extends TestCase
         $this->boostQuery = new BoostQuery();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $fq = new BoostQuery(['key' => 'k1', 'query' => 'id:[10 TO 20]']);
 
@@ -22,19 +22,19 @@ class BoostQueryTest extends TestCase
         $this->assertSame('id:[10 TO 20]', $fq->getQuery());
     }
 
-    public function testSetAndGetKey()
+    public function testSetAndGetKey(): void
     {
         $this->boostQuery->setKey('testkey');
         $this->assertSame('testkey', $this->boostQuery->getKey());
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $this->boostQuery->setQuery('category:1');
         $this->assertSame('category:1', $this->boostQuery->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->boostQuery->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->boostQuery->getQuery());

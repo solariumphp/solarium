@@ -18,66 +18,66 @@ class CreateTest extends TestCase
         $this->action = new Create();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_CREATE, $this->action->getType());
     }
 
-    public function testSetCore()
+    public function testSetCore(): void
     {
         $this->action->setCore('myCore');
         $this->assertSame('myCore', $this->action->getCore());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testSetInstanceDir()
+    public function testSetInstanceDir(): void
     {
         $this->action->setInstanceDir('myDir');
         $this->assertSame('myDir', $this->action->getInstanceDir());
     }
 
-    public function testSetConfig()
+    public function testSetConfig(): void
     {
         $this->action->setConfig('myConfig');
         $this->assertSame('myConfig', $this->action->getConfig());
     }
 
-    public function testSetSchema()
+    public function testSetSchema(): void
     {
         $this->action->setSchema('mySchema');
         $this->assertSame('mySchema', $this->action->getSchema());
     }
 
-    public function testSetDataDir()
+    public function testSetDataDir(): void
     {
         $this->action->setDataDir('myDataDir');
         $this->assertSame('myDataDir', $this->action->getDataDir());
     }
 
-    public function testSetConfigSet()
+    public function testSetConfigSet(): void
     {
         $this->action->setConfigSet('myConfigSet');
         $this->assertSame('myConfigSet', $this->action->getConfigSet());
     }
 
-    public function testSetCollection()
+    public function testSetCollection(): void
     {
         $this->action->setCollection('myCollection');
         $this->assertSame('myCollection', $this->action->getCollection());
     }
 
-    public function testSetShard()
+    public function testSetShard(): void
     {
         $this->action->setShard('myShard');
         $this->assertSame('myShard', $this->action->getShard());
     }
 
-    public function testSetCoreProperty()
+    public function testSetCoreProperty(): void
     {
         $this->action->setCoreProperty('foo', 'bar');
         $this->assertSame('bar', $this->action->getCoreProperty('foo'));

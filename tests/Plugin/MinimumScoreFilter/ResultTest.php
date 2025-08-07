@@ -25,7 +25,7 @@ class ResultTest extends AbstractResultTestCase
         $this->result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_MARK);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         /** @var \Solarium\Plugin\MinimumScoreFilter\Document $doc */
         foreach ($this->result as $key => $doc) {
@@ -34,12 +34,12 @@ class ResultTest extends AbstractResultTestCase
         }
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertSameSize($this->docs, $this->result->getDocuments());
     }
 
-    public function testIteratorWithRemoveFilter()
+    public function testIteratorWithRemoveFilter(): void
     {
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = [];
@@ -53,7 +53,7 @@ class ResultTest extends AbstractResultTestCase
         $this->assertArrayNotHasKey(3, $docs);
     }
 
-    public function testGetDocumentsWithRemoveFilter()
+    public function testGetDocumentsWithRemoveFilter(): void
     {
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, Query::FILTER_MODE_REMOVE);
         $docs = $result->getDocuments();
@@ -64,7 +64,7 @@ class ResultTest extends AbstractResultTestCase
         $this->assertSame($docs[2]->title, $this->docs[2]->title);
     }
 
-    public function testFilterWithInvalidMode()
+    public function testFilterWithInvalidMode(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $result = new FilterResultDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components, 'invalid_filter_name');

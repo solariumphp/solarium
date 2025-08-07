@@ -83,42 +83,42 @@ abstract class AbstractResultTestCase extends TestCase
         $this->result = new SelectDummy(1, 12, $this->numFound, $this->maxScore, $this->nextCursorMark, $this->docs, $this->components);
     }
 
-    public function testGetNumFound()
+    public function testGetNumFound(): void
     {
         $this->assertSame($this->numFound, $this->result->getNumFound());
     }
 
-    public function testGetMaxScore()
+    public function testGetMaxScore(): void
     {
         $this->assertSame($this->maxScore, $this->result->getMaxScore());
     }
 
-    public function testGetNextCursorMark()
+    public function testGetNextCursorMark(): void
     {
         $this->assertSame($this->nextCursorMark, $this->result->getNextCursorMark());
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertSame($this->docs, $this->result->getDocuments());
     }
 
-    public function testGetFacetSet()
+    public function testGetFacetSet(): void
     {
         $this->assertSame($this->facetSet, $this->result->getFacetSet());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->docs, $this->result);
     }
 
-    public function testGetComponents()
+    public function testGetComponents(): void
     {
         $this->assertSame($this->components, $this->result->getComponents());
     }
 
-    public function testGetComponent()
+    public function testGetComponent(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS],
@@ -126,14 +126,14 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetInvalidComponent()
+    public function testGetInvalidComponent(): void
     {
         $this->assertNull(
             $this->result->getComponent('invalid')
         );
     }
 
-    public function testGetMoreLikeThis()
+    public function testGetMoreLikeThis(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_MORELIKETHIS],
@@ -141,7 +141,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetHighlighting()
+    public function testGetHighlighting(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_HIGHLIGHTING],
@@ -149,7 +149,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetGrouping()
+    public function testGetGrouping(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_GROUPING],
@@ -157,7 +157,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetSpellcheck()
+    public function testGetSpellcheck(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_SPELLCHECK],
@@ -165,7 +165,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetSuggester()
+    public function testGetSuggester(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_SUGGESTER],
@@ -173,7 +173,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetStats()
+    public function testGetStats(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_STATS],
@@ -181,7 +181,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetDebug()
+    public function testGetDebug(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_DEBUG],
@@ -189,7 +189,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetAnalytics()
+    public function testGetAnalytics(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_ANALYTICS],
@@ -197,7 +197,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetTermVector()
+    public function testGetTermVector(): void
     {
         $this->assertSame(
             $this->components[ComponentAwareQueryInterface::COMPONENT_TERMVECTOR],
@@ -205,7 +205,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $docs = [];
         foreach ($this->result as $key => $doc) {
@@ -215,7 +215,7 @@ abstract class AbstractResultTestCase extends TestCase
         $this->assertSame($this->docs, $docs);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -223,7 +223,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,
@@ -231,7 +231,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testNoPartialResults()
+    public function testNoPartialResults(): void
     {
         $this->assertNull(
             $this->result->getPartialResults()
@@ -242,7 +242,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetAndIsPartialResults()
+    public function testGetAndIsPartialResults(): void
     {
         $result = new SelectPartialResultsDummy(0, 5, 0, null, null, [], []);
 
@@ -255,7 +255,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testNoSegmentTerminatedEarly()
+    public function testNoSegmentTerminatedEarly(): void
     {
         $this->assertNull(
             $this->result->getSegmentTerminatedEarly()
@@ -266,7 +266,7 @@ abstract class AbstractResultTestCase extends TestCase
         );
     }
 
-    public function testGetSegmentTerminatedEarly()
+    public function testGetSegmentTerminatedEarly(): void
     {
         $result = new SelectSegmentTerminatedEarlyDummy(0, 5, 0, null, null, [], []);
 

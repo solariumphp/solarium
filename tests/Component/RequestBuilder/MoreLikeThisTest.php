@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class MoreLikeThisTest extends TestCase
 {
-    public function testBuildComponent()
+    public function testBuildComponent(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -52,7 +52,7 @@ class MoreLikeThisTest extends TestCase
         );
     }
 
-    public function testBuildComponentWithoutFieldsAndQueryFields()
+    public function testBuildComponentWithoutFieldsAndQueryFields(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

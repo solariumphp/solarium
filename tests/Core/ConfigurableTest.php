@@ -8,7 +8,7 @@ use Solarium\Exception\RuntimeException;
 
 class ConfigurableTest extends TestCase
 {
-    public function testConstructorNoConfig()
+    public function testConstructorNoConfig(): void
     {
         $configTest = new ConfigTest();
         $defaultOptions = [
@@ -19,7 +19,7 @@ class ConfigurableTest extends TestCase
         $this->assertSame($configTest->getOptions(), $defaultOptions);
     }
 
-    public function testConstructorWithConfig()
+    public function testConstructorWithConfig(): void
     {
         $configTest = new ConfigTest(
             ['option2' => 'newvalue2', 'option3' => 3]
@@ -36,26 +36,26 @@ class ConfigurableTest extends TestCase
         $this->assertSame($expectedOptions, $configTest->getOptions());
     }
 
-    public function testGetOption()
+    public function testGetOption(): void
     {
         $configTest = new ConfigTest();
         $this->assertSame(1, $configTest->getOption('option1'));
     }
 
-    public function testGetOptionWithInvalidName()
+    public function testGetOptionWithInvalidName(): void
     {
         $configTest = new ConfigTest();
         $this->assertNull($configTest->getOption('invalidoptionname'));
     }
 
-    public function testInitialisation()
+    public function testInitialisation(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('test init');
         new ConfigTestInit();
     }
 
-    public function testSetOptions()
+    public function testSetOptions(): void
     {
         $configTest = new ConfigTest();
         $configTest->setOptions(['option2' => 2, 'option3' => 3]);
@@ -66,13 +66,13 @@ class ConfigurableTest extends TestCase
         );
     }
 
-    public function testSetOptionsReturnsSelf()
+    public function testSetOptionsReturnsSelf(): void
     {
         $configTest = new ConfigTest();
         $this->assertSame($configTest, $configTest->setOptions([]));
     }
 
-    public function testSetOptionsWithOverride()
+    public function testSetOptionsWithOverride(): void
     {
         $configTest = new ConfigTest();
         $configTest->setOptions(['option2' => 2, 'option3' => 3], true);
@@ -83,7 +83,7 @@ class ConfigurableTest extends TestCase
         );
     }
 
-    public function testSetOptionsCallsInitLocalParameters()
+    public function testSetOptionsCallsInitLocalParameters(): void
     {
         $configTest = new ConfigTestInitLocalParameters();
 
@@ -92,7 +92,7 @@ class ConfigurableTest extends TestCase
         $configTest->setOptions([]);
     }
 
-    public function testSetOption()
+    public function testSetOption(): void
     {
         $configTest = new ConfigTest();
         $configTest->setOption('option2', 'newvalue');
@@ -100,7 +100,7 @@ class ConfigurableTest extends TestCase
         $this->assertSame('newvalue', $configTest->getOption('option2'));
     }
 
-    public function testSetOptionReturnsSelf()
+    public function testSetOptionReturnsSelf(): void
     {
         $configTest = new ConfigTest();
         $this->assertSame($configTest, $configTest->setOption('option', 'value'));

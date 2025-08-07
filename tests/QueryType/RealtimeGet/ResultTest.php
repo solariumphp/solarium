@@ -18,17 +18,17 @@ class ResultTest extends TestCase
         $this->result = new ResultDummy([$this->doc]);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(1, $this->result->getStatus());
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(12, $this->result->getQueryTime());
     }
 
-    public function testGetDocument()
+    public function testGetDocument(): void
     {
         $this->assertSame($this->doc, $this->result->getDocument());
     }

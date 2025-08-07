@@ -10,7 +10,7 @@ use Solarium\QueryType\Update\Result;
 
 class ResponseParserTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{}';
 

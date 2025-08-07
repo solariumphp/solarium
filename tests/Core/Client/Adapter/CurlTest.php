@@ -30,7 +30,7 @@ class CurlTest extends TestCase
         $this->adapter = new Curl();
     }
 
-    public function testSetProxyConstructor()
+    public function testSetProxyConstructor(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -43,7 +43,7 @@ class CurlTest extends TestCase
         restore_error_handler();
     }
 
-    public function testSetProxyConfigMode()
+    public function testSetProxyConfigMode(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -56,7 +56,7 @@ class CurlTest extends TestCase
         restore_error_handler();
     }
 
-    public function testSetProxyOption()
+    public function testSetProxyOption(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -72,13 +72,13 @@ class CurlTest extends TestCase
     /**
      * Verify that options besides 'proxy' are handled as usual.
      */
-    public function testSetNonProxyOption()
+    public function testSetNonProxyOption(): void
     {
         $this->adapter->setOption('foo', 'bar');
         $this->assertSame('bar', $this->adapter->getOption('foo'));
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $headers = ['HTTP/1.0 200 OK'];
         $body = 'data';
@@ -102,7 +102,7 @@ class CurlTest extends TestCase
         $this->assertSame($data, $response);
     }
 
-    public function testGetResponseThrowsOnFailure()
+    public function testGetResponseThrowsOnFailure(): void
     {
         $handle = curl_init('example.invalid');
         curl_exec($handle);
@@ -116,7 +116,7 @@ class CurlTest extends TestCase
     /**
      * @dataProvider methodProvider
      */
-    public function testCreateHandleForRequestMethod(string $method)
+    public function testCreateHandleForRequestMethod(string $method): void
     {
         $request = new Request();
         $request->setMethod($method);
@@ -141,7 +141,7 @@ class CurlTest extends TestCase
         ];
     }
 
-    public function testCreateHandleForPostRequestWithFileUpload()
+    public function testCreateHandleForPostRequestWithFileUpload(): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
         file_put_contents($tmpfname, 'Test file contents');
@@ -159,7 +159,7 @@ class CurlTest extends TestCase
         curl_close($handle);
     }
 
-    public function testCreateHandleWithCustomRequestHeaders()
+    public function testCreateHandleWithCustomRequestHeaders(): void
     {
         $request = new Request();
         $request->addHeader('X-Header: value');
@@ -173,7 +173,7 @@ class CurlTest extends TestCase
         curl_close($handle);
     }
 
-    public function testCreateHandleWithUnknownMethod()
+    public function testCreateHandleWithUnknownMethod(): void
     {
         $request = new Request();
         $request->setMethod('PSOT');
@@ -187,7 +187,7 @@ class CurlTest extends TestCase
         curl_close($handle);
     }
 
-    public function testRequestBasicAuthentication()
+    public function testRequestBasicAuthentication(): void
     {
         $request = new Request();
         $request->setIsServerRequest(true);
@@ -201,7 +201,7 @@ class CurlTest extends TestCase
         curl_close($handle);
     }
 
-    public function testEndpointBasicAuthentication()
+    public function testEndpointBasicAuthentication(): void
     {
         $request = new Request();
         $request->setIsServerRequest(true);
@@ -215,7 +215,7 @@ class CurlTest extends TestCase
         curl_close($handle);
     }
 
-    public function testAuthorizationToken()
+    public function testAuthorizationToken(): void
     {
         $request = new Request();
         $request->setIsServerRequest(true);

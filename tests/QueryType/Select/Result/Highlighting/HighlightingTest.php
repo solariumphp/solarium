@@ -25,12 +25,12 @@ class HighlightingTest extends TestCase
         $this->result = new Highlighting($this->items);
     }
 
-    public function testGetResults()
+    public function testGetResults(): void
     {
         $this->assertSame($this->items, $this->result->getResults());
     }
 
-    public function testGetResult()
+    public function testGetResult(): void
     {
         $this->assertSame(
             $this->items['key2'],
@@ -38,14 +38,14 @@ class HighlightingTest extends TestCase
         );
     }
 
-    public function testGetInvalidResult()
+    public function testGetInvalidResult(): void
     {
         $this->assertNull(
             $this->result->getResult('invalid')
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -55,7 +55,7 @@ class HighlightingTest extends TestCase
         $this->assertSame($this->items, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->result);
     }

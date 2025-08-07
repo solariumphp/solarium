@@ -34,7 +34,7 @@ class AdapterHelperTest extends TestCase
         $this->request->addParam('foo', 'bar');
     }
 
-    public function testBuildUriWithCore()
+    public function testBuildUriWithCore(): void
     {
         $this->endpoint->setCore('testcore');
 
@@ -43,7 +43,7 @@ class AdapterHelperTest extends TestCase
         $this->assertSame('scheme://example.org:1701/testpath/index/testcore/test?foo=bar', $uri);
     }
 
-    public function testBuildUriWithCollection()
+    public function testBuildUriWithCollection(): void
     {
         $this->endpoint->setCollection('testcollection');
 
@@ -52,7 +52,7 @@ class AdapterHelperTest extends TestCase
         $this->assertSame('scheme://example.org:1701/testpath/index/testcollection/test?foo=bar', $uri);
     }
 
-    public function testBuildUriApiV1()
+    public function testBuildUriApiV1(): void
     {
         $this->request->setIsServerRequest(true);
         $this->request->setApi(Request::API_V1);
@@ -62,7 +62,7 @@ class AdapterHelperTest extends TestCase
         $this->assertSame('scheme://example.org:1701/testpath/index/test?foo=bar', $uri);
     }
 
-    public function testBuildUriApiV2()
+    public function testBuildUriApiV2(): void
     {
         $this->request->setIsServerRequest(true);
         $this->request->setApi(Request::API_V2);
@@ -72,7 +72,7 @@ class AdapterHelperTest extends TestCase
         $this->assertSame('scheme://example.org:1701/testpath/api/test?foo=bar', $uri);
     }
 
-    public function testBuildUriWithInvalidBaseUri()
+    public function testBuildUriWithInvalidBaseUri(): void
     {
         $this->expectException(HttpException::class);
         AdapterHelper::buildUri($this->request, $this->endpoint);

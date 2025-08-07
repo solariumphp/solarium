@@ -34,7 +34,7 @@ class JsonTest extends TestCase
         $this->builder = new JsonRequestBuilder();
     }
 
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -43,7 +43,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testGetContentType()
+    public function testGetContentType(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -52,7 +52,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -67,7 +67,7 @@ class JsonTest extends TestCase
      *
      * @see https://www.rfc-editor.org/rfc/rfc8259#section-8.1
      */
-    public function testBuildWithInputEncoding()
+    public function testBuildWithInputEncoding(): void
     {
         // not setting an input encoding is fine
         $this->builder->build($this->query);
@@ -85,7 +85,7 @@ class JsonTest extends TestCase
         $this->builder->build($this->query);
     }
 
-    public function testBuildWithUnsupportedCommandType()
+    public function testBuildWithUnsupportedCommandType(): void
     {
         $this->query->add(null, new RawXmlCommand());
 
@@ -94,7 +94,7 @@ class JsonTest extends TestCase
         $this->builder->build($this->query);
     }
 
-    public function testBuildAddJsonNoParamsSingleDocument()
+    public function testBuildAddJsonNoParamsSingleDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1]));
@@ -115,7 +115,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithScalarValues()
+    public function testBuildAddJsonWithScalarValues(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document([
@@ -152,7 +152,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithEmptyValues()
+    public function testBuildAddJsonWithEmptyValues(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 0, 'empty_string' => '', 'empty_array' => [], 'array_of_empty_string' => [''], 'null' => null]));
@@ -178,7 +178,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithParams()
+    public function testBuildAddJsonWithParams(): void
     {
         $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
         $command->addDocument(new Document(['id' => 1]));
@@ -201,7 +201,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonMultivalueField()
+    public function testBuildAddJsonMultivalueField(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => ['test < 123 '.chr(8).' test', 'test '.chr(15).' 123 > test']]));
@@ -223,7 +223,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonMultivalueFieldWithEmptyArray()
+    public function testBuildAddJsonMultivalueFieldWithEmptyArray(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => []]));
@@ -245,7 +245,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonMultivalueFieldWithNonConsecutiveArrayIndices()
+    public function testBuildAddJsonMultivalueFieldWithNonConsecutiveArrayIndices(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [0 => 1, 4 => 2, 6 => 3], 'text' => [1 => 'a', 2 => 'b', 3 => 'c']]));
@@ -267,7 +267,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithEmptyStrings()
+    public function testBuildAddJsonWithEmptyStrings(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => '', 'text' => ['']]));
@@ -289,7 +289,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithSingleNestedDocument()
+    public function testBuildAddJsonWithSingleNestedDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -327,7 +327,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithNestedDocuments()
+    public function testBuildAddJsonWithNestedDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -384,7 +384,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithSingleAnonymouslyNestedDocument()
+    public function testBuildAddJsonWithSingleAnonymouslyNestedDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -423,7 +423,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithAnonymouslyNestedDocuments()
+    public function testBuildAddJsonWithAnonymouslyNestedDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -479,7 +479,7 @@ class JsonTest extends TestCase
      *
      * @deprecated No longer supported since Solr 7
      */
-    public function testBuildAddJsonSingleDocumentWithBoost()
+    public function testBuildAddJsonSingleDocumentWithBoost(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setBoost(2.5);
@@ -505,7 +505,7 @@ class JsonTest extends TestCase
     /**
      * Field boosts aren't supported in JSON update requests.
      */
-    public function testBuildAddJsonSingleDocumentWithFieldBoost()
+    public function testBuildAddJsonSingleDocumentWithFieldBoost(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setFieldBoost('id', 2.1);
@@ -528,7 +528,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonMultipleDocuments()
+    public function testBuildAddJsonMultipleDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1]));
@@ -560,7 +560,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithFieldModifiers()
+    public function testBuildAddJsonWithFieldModifiers(): void
     {
         $doc = new Document();
         $doc->setKey('id', 1);
@@ -594,7 +594,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithFieldModifiersAndMultivalueFields()
+    public function testBuildAddJsonWithFieldModifiersAndMultivalueFields(): void
     {
         $doc = new Document();
         $doc->setKey('id', 1);
@@ -625,7 +625,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithVersionedDocument()
+    public function testBuildAddJsonWithVersionedDocument(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setVersion(42);
@@ -650,7 +650,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithVersionMustNotExist()
+    public function testBuildAddJsonWithVersionMustNotExist(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
@@ -675,7 +675,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithDateTime()
+    public function testBuildAddJsonWithDateTime(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -699,7 +699,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithDateTimeImmutable()
+    public function testBuildAddJsonWithDateTimeImmutable(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -723,7 +723,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithMultivalueDateTimes()
+    public function testBuildAddJsonWithMultivalueDateTimes(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -750,7 +750,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithJsonSerializableObject()
+    public function testBuildAddJsonWithJsonSerializableObject(): void
     {
         $value = new class() implements \JsonSerializable {
             public function jsonSerialize(): mixed
@@ -781,7 +781,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithStringableObject()
+    public function testBuildAddJsonWithStringableObject(): void
     {
         $value = new class() implements \Stringable {
             public function __toString(): string
@@ -816,7 +816,7 @@ class JsonTest extends TestCase
      * Test that \Stringable takes precedence over \JsonSerializable for
      * consistency across request format.
      */
-    public function testBuildAddJsonWithJsonSerializableAndStringableObject()
+    public function testBuildAddJsonWithJsonSerializableAndStringableObject(): void
     {
         $value = new class() implements \JsonSerializable, \Stringable {
             public function jsonSerialize(): mixed
@@ -856,7 +856,7 @@ class JsonTest extends TestCase
      * Test that the \Stringable precedence on an also \JsonSerializable object
      * can be overridden by explicitly calling jsonSerialize().
      */
-    public function testBuildAddJsonWithJsonSerializableAndStringableObjectWithExplicitJsonSerialize()
+    public function testBuildAddJsonWithJsonSerializableAndStringableObjectWithExplicitJsonSerialize(): void
     {
         $value = new class() implements \JsonSerializable, \Stringable {
             public function jsonSerialize(): mixed
@@ -892,7 +892,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildAddJsonWithFieldModifierAndNullValue()
+    public function testBuildAddJsonWithFieldModifierAndNullValue(): void
     {
         $doc = new Document();
         $doc->setKey('employeeId', '05991');
@@ -918,7 +918,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildDeleteJsonEmpty()
+    public function testBuildDeleteJsonEmpty(): void
     {
         $command = new DeleteCommand();
         $json = [];
@@ -928,7 +928,7 @@ class JsonTest extends TestCase
         $this->assertCount(0, $json);
     }
 
-    public function testBuildDeleteJsonSingleId()
+    public function testBuildDeleteJsonSingleId(): void
     {
         $command = new DeleteCommand();
         $command->addId(123);
@@ -945,7 +945,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildDeleteJsonMultipleIds()
+    public function testBuildDeleteJsonMultipleIds(): void
     {
         $command = new DeleteCommand();
         $command->addId(123);
@@ -963,7 +963,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildDeleteJsonSingleQuery()
+    public function testBuildDeleteJsonSingleQuery(): void
     {
         $command = new DeleteCommand();
         $command->addQuery('*:*');
@@ -982,7 +982,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildDeleteJsonMultipleQueries()
+    public function testBuildDeleteJsonMultipleQueries(): void
     {
         $command = new DeleteCommand();
         $command->addQuery('published:false');
@@ -1010,7 +1010,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildDeleteJsonIdsAndQueries()
+    public function testBuildDeleteJsonIdsAndQueries(): void
     {
         $command = new DeleteCommand();
         $command->addId(123);
@@ -1046,7 +1046,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildOptimizeJson()
+    public function testBuildOptimizeJson(): void
     {
         $command = new OptimizeCommand();
         $json = [];
@@ -1062,7 +1062,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildOptimizeJsonWithParams()
+    public function testBuildOptimizeJsonWithParams(): void
     {
         $command = new OptimizeCommand(['softcommit' => true, 'waitsearcher' => false, 'maxsegments' => 10]);
         $json = [];
@@ -1082,7 +1082,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildCommitJson()
+    public function testBuildCommitJson(): void
     {
         $command = new CommitCommand();
         $json = [];
@@ -1098,7 +1098,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildCommitJsonWithParams()
+    public function testBuildCommitJsonWithParams(): void
     {
         $command = new CommitCommand(['softcommit' => true, 'waitsearcher' => false, 'expungedeletes' => true]);
         $json = [];
@@ -1118,7 +1118,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testBuildRollbackJson()
+    public function testBuildRollbackJson(): void
     {
         $json = [];
 
@@ -1133,7 +1133,7 @@ class JsonTest extends TestCase
         );
     }
 
-    public function testCompleteRequest()
+    public function testCompleteRequest(): void
     {
         $this->query->addDeleteById(1);
         $this->query->addDeleteById(2);

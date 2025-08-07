@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CBOR formatted update requests
 
 ### Changed
+ - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
+ - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
+ - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
 
 ### Removed
 

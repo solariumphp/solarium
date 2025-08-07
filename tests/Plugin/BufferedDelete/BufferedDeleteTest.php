@@ -22,7 +22,7 @@ class BufferedDeleteTest extends BufferedDeleteLiteTest
      */
     protected $plugin;
 
-    public function testInitPlugin()
+    public function testInitPlugin(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('buffereddelete');
@@ -30,7 +30,7 @@ class BufferedDeleteTest extends BufferedDeleteLiteTest
         $this->assertInstanceOf(BufferedDelete::class, $plugin);
     }
 
-    public function testAddDeleteByIdEventIsTriggered()
+    public function testAddDeleteByIdEventIsTriggered(): void
     {
         $expectedEvent = new AddDeleteById(new DeleteById(123));
 
@@ -46,7 +46,7 @@ class BufferedDeleteTest extends BufferedDeleteLiteTest
         $plugin->addDeleteById(123);
     }
 
-    public function testAddDeleteQueryEventIsTriggered()
+    public function testAddDeleteQueryEventIsTriggered(): void
     {
         $expectedEvent = new AddDeleteQuery(new DeleteQuery('cat:abc'));
 

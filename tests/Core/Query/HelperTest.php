@@ -25,7 +25,7 @@ class HelperTest extends TestCase
         $this->helper = new Helper($this->query);
     }
 
-    public function testRangeQuery()
+    public function testRangeQuery(): void
     {
         $this->assertEquals(
             'field:[1 TO 2]',
@@ -48,7 +48,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryInclusive()
+    public function testRangeQueryInclusive(): void
     {
         $this->assertEquals(
             'field:[1 TO 2]',
@@ -71,7 +71,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryExclusive()
+    public function testRangeQueryExclusive(): void
     {
         $this->assertSame(
             'field:{1 TO 2}',
@@ -94,7 +94,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftInclusiveRightInclusive()
+    public function testRangeQueryLeftInclusiveRightInclusive(): void
     {
         $this->assertEquals(
             'field:[1 TO 2]',
@@ -117,7 +117,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftInclusiveRightExclusive()
+    public function testRangeQueryLeftInclusiveRightExclusive(): void
     {
         $this->assertEquals(
             'field:[1 TO 2}',
@@ -140,7 +140,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftExclusiveRightInclusive()
+    public function testRangeQueryLeftExclusiveRightInclusive(): void
     {
         $this->assertEquals(
             'field:{1 TO 2]',
@@ -163,7 +163,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftExclusiveRightExclusive()
+    public function testRangeQueryLeftExclusiveRightExclusive(): void
     {
         $this->assertEquals(
             'field:{1 TO 2}',
@@ -186,7 +186,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryNullValues()
+    public function testRangeQueryNullValues(): void
     {
         $this->assertSame(
             'field:[1 TO *]',
@@ -199,7 +199,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryInclusiveNullValues()
+    public function testRangeQueryInclusiveNullValues(): void
     {
         $this->assertSame(
             'field:[1 TO *]',
@@ -212,7 +212,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryExclusiveNullValues()
+    public function testRangeQueryExclusiveNullValues(): void
     {
         $this->assertSame(
             'field:{1 TO *}',
@@ -225,7 +225,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftInclusiveRightInclusiveNullValues()
+    public function testRangeQueryLeftInclusiveRightInclusiveNullValues(): void
     {
         $this->assertSame(
             'field:[1 TO *]',
@@ -238,7 +238,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftInclusiveRightExclusiveNullValues()
+    public function testRangeQueryLeftInclusiveRightExclusiveNullValues(): void
     {
         $this->assertSame(
             'field:[1 TO *}',
@@ -251,7 +251,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftExclusiveRightInclusiveNullValues()
+    public function testRangeQueryLeftExclusiveRightInclusiveNullValues(): void
     {
         $this->assertSame(
             'field:{1 TO *]',
@@ -264,7 +264,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testRangeQueryLeftExclusiveRightExclusiveNullValues()
+    public function testRangeQueryLeftExclusiveRightExclusiveNullValues(): void
     {
         $this->assertSame(
             'field:{1 TO *}',
@@ -277,7 +277,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testGeofilt()
+    public function testGeofilt(): void
     {
         $this->assertSame(
             '{!geofilt pt=45.15,-93.85 sfield=store d=5}',
@@ -285,7 +285,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testGeofiltDereferenced()
+    public function testGeofiltDereferenced(): void
     {
         $this->assertSame(
             '{!geofilt}',
@@ -298,7 +298,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testBbox()
+    public function testBbox(): void
     {
         $this->assertSame(
             '{!bbox pt=45.15,-93.85 sfield=store d=5}',
@@ -306,7 +306,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testBboxDereferenced()
+    public function testBboxDereferenced(): void
     {
         $this->assertSame(
             '{!bbox}',
@@ -319,7 +319,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testGeodist()
+    public function testGeodist(): void
     {
         $this->assertSame(
             'geodist(store,45.15,-93.85)',
@@ -327,7 +327,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testGeodistDereferenced()
+    public function testGeodistDereferenced(): void
     {
         $this->assertSame(
             'geodist()',
@@ -340,7 +340,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testQparserNoParams()
+    public function testQparserNoParams(): void
     {
         $this->assertSame(
             '{!parser}',
@@ -348,7 +348,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testQparser()
+    public function testQparser(): void
     {
         $this->assertSame(
             '{!parser a=1 b=0 c=test d=tag1,tag2 e=true f=false}',
@@ -356,14 +356,14 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testQparserDereferencedNoQuery()
+    public function testQparserDereferencedNoQuery(): void
     {
         $helper = new Helper();
         $this->expectException(InvalidArgumentException::class);
         $helper->qparser('join', ['from' => 'manu_id', 'to' => 'id'], true);
     }
 
-    public function testQparserDereferenced()
+    public function testQparserDereferenced(): void
     {
         $this->assertSame(
             '{!join from=$deref_1 to=$deref_2}',
@@ -388,12 +388,12 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFunctionCallNoParams()
+    public function testFunctionCallNoParams(): void
     {
         $this->assertSame('sum()', $this->helper->functionCall('sum'));
     }
 
-    public function testFunctionCall()
+    public function testFunctionCall(): void
     {
         $this->assertSame('sum(1,2)', $this->helper->functionCall('sum', [1, 2]));
     }
@@ -401,7 +401,7 @@ class HelperTest extends TestCase
     /**
      * @dataProvider escapeTermProvider
      */
-    public function testEscapeTerm(string $term, string $expected)
+    public function testEscapeTerm(string $term, string $expected): void
     {
         $this->assertSame(
             $expected,
@@ -449,7 +449,7 @@ class HelperTest extends TestCase
         ];
     }
 
-    public function testEscapeTermNoEscape()
+    public function testEscapeTermNoEscape(): void
     {
         $this->assertSame(
             'abc',
@@ -460,7 +460,7 @@ class HelperTest extends TestCase
     /**
      * @dataProvider escapePhraseProvider
      */
-    public function testEscapePhrase(string $phrase, string $expected)
+    public function testEscapePhrase(string $phrase, string $expected): void
     {
         $this->assertSame(
             $expected,
@@ -476,7 +476,7 @@ class HelperTest extends TestCase
         ];
     }
 
-    public function testEscapePhraseNoEscape()
+    public function testEscapePhraseNoEscape(): void
     {
         $this->assertSame(
             '"a+b"',
@@ -487,7 +487,7 @@ class HelperTest extends TestCase
     /**
      * @dataProvider escapeLocalParamValueProvider
      */
-    public function testEscapeLocalParamValue(string $value, string $expected)
+    public function testEscapeLocalParamValue(string $value, string $expected): void
     {
         $this->assertSame(
             $expected,
@@ -510,7 +510,7 @@ class HelperTest extends TestCase
     /**
      * @dataProvider escapeLocalParamValuePreEscapedSeparatorProvider
      */
-    public function testEscapeLocalParamValuePreEscapedSeparator(string $value, string $separator, string $expectedWithoutSeparator, string $expectedWithSeparator)
+    public function testEscapeLocalParamValuePreEscapedSeparator(string $value, string $separator, string $expectedWithoutSeparator, string $expectedWithSeparator): void
     {
         $this->assertSame(
             $expectedWithoutSeparator,
@@ -540,7 +540,7 @@ class HelperTest extends TestCase
      *           ["a\\b"]
      *           ["{!ab"]
      */
-    public function testEscapeLocalParamValueNoEscape(string $value)
+    public function testEscapeLocalParamValueNoEscape(string $value): void
     {
         $this->assertSame(
             $value,
@@ -548,7 +548,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFormatDateInputTimestamp()
+    public function testFormatDateInputTimestamp(): void
     {
         $this->assertFalse(
             $this->helper->formatDate(strtotime('2011---')),
@@ -575,7 +575,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFormatDateInputString()
+    public function testFormatDateInputString(): void
     {
         $this->assertFalse(
             $this->helper->formatDate('2011-13-31'),
@@ -589,7 +589,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFormatDateInputDateTime()
+    public function testFormatDateInputDateTime(): void
     {
         date_default_timezone_set('UTC'); // prevent timezone differences
 
@@ -605,7 +605,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFormatDateInputDateTimeImmutable()
+    public function testFormatDateInputDateTimeImmutable(): void
     {
         date_default_timezone_set('UTC'); // prevent timezone differences
 
@@ -621,7 +621,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFormatDate()
+    public function testFormatDate(): void
     {
         $timestamp = time();
         // check if timezone is stripped
@@ -635,7 +635,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFormatDateDoesntModifyPassedObject()
+    public function testFormatDateDoesntModifyPassedObject(): void
     {
         $timezone = new \DateTimeZone('+02:00');
         $date = new \DateTime('2013-01-15 14:41:58', $timezone);
@@ -644,7 +644,7 @@ class HelperTest extends TestCase
         $this->assertEquals('2013-01-15T14:41:58+02:00', $date->format(\DateTimeInterface::ATOM));
     }
 
-    public function testAssemble()
+    public function testAssemble(): void
     {
         // test single basic placeholder
         $this->assertSame(
@@ -683,13 +683,13 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testAssembleInvalidPartNumber()
+    public function testAssembleInvalidPartNumber(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->helper->assemble('cat:%1% AND content:%2%', ['value1']);
     }
 
-    public function testJoin()
+    public function testJoin(): void
     {
         $this->assertSame(
             '{!join from=manu_id to=id}',
@@ -697,7 +697,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testJoinDereferenced()
+    public function testJoinDereferenced(): void
     {
         $this->assertSame(
             '{!join from=$deref_1 to=$deref_2}',
@@ -710,7 +710,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testQparserTerm()
+    public function testQparserTerm(): void
     {
         $this->assertSame(
             '{!term f=weight}1.5',
@@ -721,7 +721,7 @@ class HelperTest extends TestCase
     /**
      * @deprecated Will be removed in Solarium 6
      */
-    public function testCacheControlWithCost()
+    public function testCacheControlWithCost(): void
     {
         $this->assertSame(
             '{!cache=false cost=6}',
@@ -732,7 +732,7 @@ class HelperTest extends TestCase
     /**
      * @deprecated Will be removed in Solarium 6
      */
-    public function testCacheControlWithoutCost()
+    public function testCacheControlWithoutCost(): void
     {
         $this->assertSame(
             '{!cache=true}',
@@ -740,7 +740,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testFilterControlCharacters()
+    public function testFilterControlCharacters(): void
     {
         $this->assertSame(
             'my string',
@@ -748,7 +748,7 @@ class HelperTest extends TestCase
         );
     }
 
-    public function testEscapeXMLCharacterData()
+    public function testEscapeXMLCharacterData(): void
     {
         $this->assertSame(
             '&lt;&amp;&gt;',

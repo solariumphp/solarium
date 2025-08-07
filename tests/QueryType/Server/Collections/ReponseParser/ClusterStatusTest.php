@@ -10,7 +10,7 @@ use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
 
 class ClusterStatusTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'responseHeader' => [
@@ -100,7 +100,7 @@ class ClusterStatusTest extends TestCase
         $this->assertEquals(new ClusterState($data['cluster']), $result->getClusterState());
     }
 
-    public function testParseNoCluster()
+    public function testParseNoCluster(): void
     {
         $data = [
             'responseHeader' => [

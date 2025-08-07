@@ -15,7 +15,7 @@ class DeleteTest extends TestCase
         $this->command = new Delete();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMMAND_DELETE,
@@ -23,7 +23,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'id' => 1,
@@ -43,7 +43,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testConfigModeMultiValue()
+    public function testConfigModeMultiValue(): void
     {
         $options = [
             'id' => [1, 2],
@@ -63,7 +63,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testAddId()
+    public function testAddId(): void
     {
         $this->command->addId(1);
         $this->assertSame(
@@ -72,7 +72,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testAddIds()
+    public function testAddIds(): void
     {
         $this->command->addId(1);
         $this->command->addIds([2, 3]);
@@ -82,7 +82,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testAddQuery()
+    public function testAddQuery(): void
     {
         $this->command->addQuery('*:*');
         $this->assertSame(
@@ -91,7 +91,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testAddQueries()
+    public function testAddQueries(): void
     {
         $this->command->addQuery('*:*');
         $this->command->addQueries(['id:1', 'id:2']);
@@ -101,7 +101,7 @@ class DeleteTest extends TestCase
         );
     }
 
-    public function testClear()
+    public function testClear(): void
     {
         $this->command->addIds([1, 2]);
         $this->command->addQueries(['id:1', 'id:2']);

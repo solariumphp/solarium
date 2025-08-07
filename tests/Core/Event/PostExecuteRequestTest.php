@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PostExecuteRequestTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $request = new Request();

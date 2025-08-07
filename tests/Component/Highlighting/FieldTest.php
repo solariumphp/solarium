@@ -16,7 +16,7 @@ class FieldTest extends AbstractHighlightingTestCase
         $this->hlt = new Field();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'usefastvectorhighlighter' => true,
@@ -117,7 +117,7 @@ class FieldTest extends AbstractHighlightingTestCase
         $this->assertSame($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
     }
 
-    public function testSetAndGetName()
+    public function testSetAndGetName(): void
     {
         $value = 'testname';
         $this->hlt->setName($value);

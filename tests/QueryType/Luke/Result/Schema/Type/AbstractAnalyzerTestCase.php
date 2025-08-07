@@ -17,7 +17,7 @@ abstract class AbstractAnalyzerTestCase extends TestCase
 
     abstract public function testGetClassName();
 
-    public function testSetAndGetCharFilters()
+    public function testSetAndGetCharFilters(): void
     {
         $charFilters = [
             'FirstCharFilterFactory' => new CharFilter('FirstCharFilterFactory'),
@@ -27,14 +27,14 @@ abstract class AbstractAnalyzerTestCase extends TestCase
         $this->assertSame($charFilters, $this->analyzer->getCharFilters());
     }
 
-    public function testSetAndGetTokenizer()
+    public function testSetAndGetTokenizer(): void
     {
         $tokenizer = new Tokenizer('org.example.tokenizerFactory');
         $this->assertSame($this->analyzer, $this->analyzer->setTokenizer($tokenizer));
         $this->assertSame($tokenizer, $this->analyzer->getTokenizer());
     }
 
-    public function testSetAndGetFilters()
+    public function testSetAndGetFilters(): void
     {
         $filters = [
             'FirstFilterFactory' => new Filter('FirstFilterFactory'),

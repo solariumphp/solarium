@@ -19,24 +19,24 @@ class DeleteTest extends TestCase
         $this->action = new Delete();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CollectionsQuery::ACTION_DELETE, $this->action->getType());
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->action->setName('test');
         $this->assertSame('test', $this->action->getName());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(DeleteResult::class, $this->action->getResultClass());
     }

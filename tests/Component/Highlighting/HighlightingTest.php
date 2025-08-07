@@ -19,7 +19,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->hlt = new Highlighting();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'usefastvectorhighlighter' => true,
@@ -139,12 +139,12 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame($options['multivaluedseparatorchar'], $this->hlt->getMultiValuedSeparatorChar());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMPONENT_HIGHLIGHTING, $this->hlt->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\ResponseParser\Highlighting',
@@ -152,7 +152,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Highlighting',
@@ -160,7 +160,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         );
     }
 
-    public function testGetFieldAutocreate()
+    public function testGetFieldAutocreate(): void
     {
         $name = 'test';
         $field = $this->hlt->getField($name);
@@ -168,7 +168,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame($name, $field->getName());
     }
 
-    public function testGetFieldNoAutocreate()
+    public function testGetFieldNoAutocreate(): void
     {
         $name = 'test';
         $field = $this->hlt->getField($name, false);
@@ -176,7 +176,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertNull($field);
     }
 
-    public function testAddFieldWithObject()
+    public function testAddFieldWithObject(): void
     {
         $field = new Field();
         $field->setName('test');
@@ -186,7 +186,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame($field, $this->hlt->getField('test'));
     }
 
-    public function testAddFieldWithString()
+    public function testAddFieldWithString(): void
     {
         $name = 'test';
         $this->hlt->addField($name);
@@ -194,7 +194,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame([$name], array_keys($this->hlt->getFields()));
     }
 
-    public function testAddFieldWithArray()
+    public function testAddFieldWithArray(): void
     {
         $config = [
             'name' => 'fieldA',
@@ -205,14 +205,14 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame(6, $this->hlt->getField('fieldA')->getSnippets());
     }
 
-    public function testAddFieldWithObjectWithoutName()
+    public function testAddFieldWithObjectWithoutName(): void
     {
         $field = new Field();
         $this->expectException(InvalidArgumentException::class);
         $this->hlt->addField($field);
     }
 
-    public function testAddsFieldsWithString()
+    public function testAddsFieldsWithString(): void
     {
         $fields = 'test1,test2';
         $this->hlt->addFields($fields);
@@ -220,7 +220,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
     }
 
-    public function testAddsFieldsWithArray()
+    public function testAddsFieldsWithArray(): void
     {
         $fields = [
             'test1' => ['snippets' => 2],
@@ -232,7 +232,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame(5, $this->hlt->getField('test2')->getSnippets());
     }
 
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $fields = [
             'test1' => ['snippets' => 2],
@@ -246,7 +246,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame(['test2'], array_keys($this->hlt->getFields()));
     }
 
-    public function testRemoveFieldWithInvalidName()
+    public function testRemoveFieldWithInvalidName(): void
     {
         $fields = [
             'test1' => ['snippets' => 2],
@@ -260,7 +260,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame(['test1', 'test2'], array_keys($this->hlt->getFields()));
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $fields = [
             'test1' => ['snippets' => 2],
@@ -274,7 +274,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame([], array_keys($this->hlt->getFields()));
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $fields = [
             'test1' => ['snippets' => 2],
@@ -293,7 +293,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         $this->assertSame(['test3', 'test4'], array_keys($this->hlt->getFields()));
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $value = 'text:myvalue';
         $this->hlt->setQuery($value);
@@ -304,7 +304,7 @@ class HighlightingTest extends AbstractHighlightingTestCase
         );
     }
 
-    public function testSetAndGetQueryParser()
+    public function testSetAndGetQueryParser(): void
     {
         $value = 'myparser';
         $this->hlt->setQueryParser($value);
@@ -315,19 +315,19 @@ class HighlightingTest extends AbstractHighlightingTestCase
         );
     }
 
-    public function testSetAndGetRequireFieldMatch()
+    public function testSetAndGetRequireFieldMatch(): void
     {
         $this->hlt->setRequireFieldMatch(true);
         $this->assertTrue($this->hlt->getRequireFieldMatch());
     }
 
-    public function testSetAndGetQueryFieldPatternWithString()
+    public function testSetAndGetQueryFieldPatternWithString(): void
     {
         $this->hlt->setQueryFieldPattern('fieldA,fieldB');
         $this->assertSame(['fieldA', 'fieldB'], $this->hlt->getQueryFieldPattern());
     }
 
-    public function testSetAndGetQueryFieldPatternWithArray()
+    public function testSetAndGetQueryFieldPatternWithArray(): void
     {
         $this->hlt->setQueryFieldPattern(['fieldA', 'fieldB']);
         $this->assertSame(['fieldA', 'fieldB'], $this->hlt->getQueryFieldPattern());

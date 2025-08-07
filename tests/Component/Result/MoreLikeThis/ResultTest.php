@@ -28,22 +28,22 @@ class ResultTest extends TestCase
         $this->mltResult = new Result(2, 5.13, $this->docs);
     }
 
-    public function testGetNumFound()
+    public function testGetNumFound(): void
     {
         $this->assertEquals(2, $this->mltResult->getNumFound());
     }
 
-    public function testGetMaximumScore()
+    public function testGetMaximumScore(): void
     {
         $this->assertEquals(5.13, $this->mltResult->getMaximumScore());
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertEquals($this->docs, $this->mltResult->getDocuments());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $docs = [];
         foreach ($this->mltResult as $key => $doc) {
@@ -53,7 +53,7 @@ class ResultTest extends TestCase
         $this->assertEquals($this->docs, $docs);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->docs, $this->mltResult);
     }

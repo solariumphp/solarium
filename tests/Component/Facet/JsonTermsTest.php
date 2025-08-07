@@ -18,7 +18,7 @@ class JsonTermsTest extends TestCase
         $this->facet = new JsonTerms();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -57,7 +57,7 @@ class JsonTermsTest extends TestCase
         $this->assertSame($options['prelim_sort'], $this->facet->getPrelimSort());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::JSON_FACET_TERMS,
@@ -65,85 +65,85 @@ class JsonTermsTest extends TestCase
         );
     }
 
-    public function testSetAndGetField()
+    public function testSetAndGetField(): void
     {
         $this->facet->setField('category');
         $this->assertSame('category', $this->facet->getField());
     }
 
-    public function testSetAndGetOffset()
+    public function testSetAndGetOffset(): void
     {
         $this->facet->setOffset(40);
         $this->assertSame(40, $this->facet->getOffset());
     }
 
-    public function testSetAndGetLimit()
+    public function testSetAndGetLimit(): void
     {
         $this->facet->setLimit(12);
         $this->assertSame(12, $this->facet->getLimit());
     }
 
-    public function testSetAndGetSort()
+    public function testSetAndGetSort(): void
     {
         $this->facet->setSort('index asc');
         $this->assertSame('index asc', $this->facet->getSort());
     }
 
-    public function testSetAndGetOverRequest()
+    public function testSetAndGetOverRequest(): void
     {
         $this->facet->setOverRequest(5);
         $this->assertSame(5, $this->facet->getOverRequest());
     }
 
-    public function testSetAndGetRefine()
+    public function testSetAndGetRefine(): void
     {
         $this->facet->setRefine(true);
         $this->assertTrue($this->facet->getRefine());
     }
 
-    public function testSetAndGetOverRefine()
+    public function testSetAndGetOverRefine(): void
     {
         $this->facet->setOverRefine(15);
         $this->assertSame(15, $this->facet->getOverRefine());
     }
 
-    public function testSetAndGetMinCount()
+    public function testSetAndGetMinCount(): void
     {
         $this->facet->setMinCount(100);
         $this->assertSame(100, $this->facet->getMinCount());
     }
 
-    public function testSetAndGetMissing()
+    public function testSetAndGetMissing(): void
     {
         $this->facet->setMissing(true);
         $this->assertTrue($this->facet->getMissing());
     }
 
-    public function testSetAndGetNumBuckets()
+    public function testSetAndGetNumBuckets(): void
     {
         $this->facet->setNumBuckets(true);
         $this->assertTrue($this->facet->getNumBuckets());
     }
 
-    public function testSetAndGetAllBuckets()
+    public function testSetAndGetAllBuckets(): void
     {
         $this->facet->setAllBuckets(true);
         $this->assertTrue($this->facet->getAllBuckets());
     }
 
-    public function testSetAndGetPrefix()
+    public function testSetAndGetPrefix(): void
     {
         $this->facet->setPrefix('xyz');
         $this->assertSame('xyz', $this->facet->getPrefix());
     }
 
-    public function testSetAndGetMethod()
+    public function testSetAndGetMethod(): void
     {
         $this->facet->setMethod('enum');
         $this->assertSame('enum', $this->facet->getMethod());
     }
 
-    public function testSetAndGetPrelimSort()
+    public function testSetAndGetPrelimSort(): void
     {
         $this->facet->setPrelimSort('count desc');
         $this->assertSame('count desc', $this->facet->getPrelimSort());

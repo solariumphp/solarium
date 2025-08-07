@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class DistributedSearchTest extends TestCase
 {
-    public function testBuildComponentWithShards()
+    public function testBuildComponentWithShards(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -35,7 +35,7 @@ class DistributedSearchTest extends TestCase
         );
     }
 
-    public function testBuildComponentWithCollections()
+    public function testBuildComponentWithCollections(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -55,7 +55,7 @@ class DistributedSearchTest extends TestCase
         $this->assertEquals(['collection' => $url.'1,'.$url.'2,'.$url.'3'], $request->getParams());
     }
 
-    public function testBuildComponentWithReplicas()
+    public function testBuildComponentWithReplicas(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -75,7 +75,7 @@ class DistributedSearchTest extends TestCase
         $this->assertEquals(['shards' => $url.'1|'.$url.'2|'.$url.'3'], $request->getParams());
     }
 
-    public function testBuildComponentWithReplicasAndShard()
+    public function testBuildComponentWithReplicasAndShard(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

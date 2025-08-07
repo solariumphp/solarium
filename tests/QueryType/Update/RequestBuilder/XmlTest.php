@@ -35,7 +35,7 @@ class XmlTest extends TestCase
         $this->builder = new XmlRequestBuilder();
     }
 
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -44,7 +44,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testGetContentType()
+    public function testGetContentType(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -53,7 +53,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(
@@ -62,7 +62,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildWithUnsupportedCommandType()
+    public function testBuildWithUnsupportedCommandType(): void
     {
         $this->query->add(null, new UnsupportedCommand());
 
@@ -71,7 +71,7 @@ class XmlTest extends TestCase
         $this->builder->build($this->query);
     }
 
-    public function testBuildAddXmlNoParamsSingleDocument()
+    public function testBuildAddXmlNoParamsSingleDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1]));
@@ -82,7 +82,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithBooleanValues()
+    public function testBuildAddXmlWithBooleanValues(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1, 'visible' => true, 'forsale' => false]));
@@ -93,7 +93,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithEmptyValues()
+    public function testBuildAddXmlWithEmptyValues(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 0, 'empty_string' => '', 'empty_array' => [], 'array_of_empty_string' => [''], 'null' => null]));
@@ -105,7 +105,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithParams()
+    public function testBuildAddXmlWithParams(): void
     {
         $command = new AddCommand(['overwrite' => true, 'commitwithin' => 100]);
         $command->addDocument(new Document(['id' => 1]));
@@ -116,7 +116,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlFilterControlCharacters()
+    public function testBuildAddXmlFilterControlCharacters(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1, 'text' => 'test '.chr(15).' 123 '.chr(8).' test']));
@@ -127,7 +127,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlEscapeCharacters()
+    public function testBuildAddXmlEscapeCharacters(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1, 'text' => 'test < 123 > test']));
@@ -138,7 +138,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlMultivalueField()
+    public function testBuildAddXmlMultivalueField(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => ['test < 123 '.chr(8).' test', 'test '.chr(15).' 123 > test']]));
@@ -157,7 +157,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlMultivalueFieldWithEmptyArray()
+    public function testBuildAddXmlMultivalueFieldWithEmptyArray(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [1, 2, 3], 'text' => []]));
@@ -174,7 +174,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlMultivalueFieldWithNonConsecutiveArrayIndices()
+    public function testBuildAddXmlMultivalueFieldWithNonConsecutiveArrayIndices(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => [0 => 1, 4 => 2, 6 => 3], 'text' => [1 => 'a', 2 => 'b', 3 => 'c']]));
@@ -194,7 +194,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithEmptyStrings()
+    public function testBuildAddXmlWithEmptyStrings(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => '', 'text' => ['']]));
@@ -210,7 +210,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithSingleNestedDocument()
+    public function testBuildAddXmlWithSingleNestedDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -243,7 +243,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithNestedDocuments()
+    public function testBuildAddXmlWithNestedDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -296,7 +296,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithSingleAnonymouslyNestedDocument()
+    public function testBuildAddXmlWithSingleAnonymouslyNestedDocument(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -330,7 +330,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithAnonymouslyNestedDocuments()
+    public function testBuildAddXmlWithAnonymouslyNestedDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -377,7 +377,7 @@ class XmlTest extends TestCase
     /**
      * @deprecated No longer supported since Solr 7
      */
-    public function testBuildAddXmlSingleDocumentWithBoost()
+    public function testBuildAddXmlSingleDocumentWithBoost(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setBoost(2.5);
@@ -390,7 +390,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlSingleDocumentWithFieldBoost()
+    public function testBuildAddXmlSingleDocumentWithFieldBoost(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setFieldBoost('id', 2.1);
@@ -403,7 +403,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlMultipleDocuments()
+    public function testBuildAddXmlMultipleDocuments(): void
     {
         $command = new AddCommand();
         $command->addDocument(new Document(['id' => 1]));
@@ -415,7 +415,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithFieldModifiers()
+    public function testBuildAddXmlWithFieldModifiers(): void
     {
         $doc = new Document();
         $doc->setKey('id', 1);
@@ -443,7 +443,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithFieldModifiersAndMultivalueFields()
+    public function testBuildAddXmlWithFieldModifiersAndMultivalueFields(): void
     {
         $doc = new Document();
         $doc->setKey('id', 1);
@@ -469,7 +469,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithVersionedDocument()
+    public function testBuildAddXmlWithVersionedDocument(): void
     {
         $doc = new Document(['id' => 1]);
         $doc->setVersion(Document::VERSION_MUST_NOT_EXIST);
@@ -483,7 +483,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithDateTime()
+    public function testBuildAddXmlWithDateTime(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -496,7 +496,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithDateTimeImmutable()
+    public function testBuildAddXmlWithDateTimeImmutable(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -509,7 +509,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithMultivalueDateTimes()
+    public function testBuildAddXmlWithMultivalueDateTimes(): void
     {
         $command = new AddCommand();
         $command->addDocument(
@@ -522,7 +522,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithStringableObject()
+    public function testBuildAddXmlWithStringableObject(): void
     {
         $value = new class() implements \Stringable {
             public function __toString(): string
@@ -546,7 +546,7 @@ class XmlTest extends TestCase
      * Test that \Stringable takes precedence over \JsonSerializable for
      * consistency across request format.
      */
-    public function testBuildAddXmlWithJsonSerializableAndStringableObject()
+    public function testBuildAddXmlWithJsonSerializableAndStringableObject(): void
     {
         $value = new class() implements \JsonSerializable, \Stringable {
             public function jsonSerialize(): mixed
@@ -571,7 +571,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildAddXmlWithFieldModifierAndNullValue()
+    public function testBuildAddXmlWithFieldModifierAndNullValue(): void
     {
         $doc = new Document();
         $doc->setKey('employeeId', '05991');
@@ -591,7 +591,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlEmpty()
+    public function testBuildDeleteXmlEmpty(): void
     {
         $command = new DeleteCommand();
 
@@ -601,7 +601,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlSingleId()
+    public function testBuildDeleteXmlSingleId(): void
     {
         $command = new DeleteCommand();
         $command->addId(123);
@@ -612,7 +612,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlMultipleIds()
+    public function testBuildDeleteXmlMultipleIds(): void
     {
         $command = new DeleteCommand();
         $command->addId(123);
@@ -624,7 +624,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlSingleQuery()
+    public function testBuildDeleteXmlSingleQuery(): void
     {
         $command = new DeleteCommand();
         $command->addQuery('*:*');
@@ -635,7 +635,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlMultipleQueries()
+    public function testBuildDeleteXmlMultipleQueries(): void
     {
         $command = new DeleteCommand();
         $command->addQuery('published:false');
@@ -647,7 +647,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlIdsAndQueries()
+    public function testBuildDeleteXmlIdsAndQueries(): void
     {
         $command = new DeleteCommand();
         $command->addId(123);
@@ -661,7 +661,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildDeleteXmlIdAndQuerySpecialChars()
+    public function testBuildDeleteXmlIdAndQuerySpecialChars(): void
     {
         $command = new DeleteCommand();
         $command->addId('special<char>id');
@@ -673,7 +673,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildOptimizeXml()
+    public function testBuildOptimizeXml(): void
     {
         $command = new OptimizeCommand();
 
@@ -683,7 +683,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildOptimizeXmlWithParams()
+    public function testBuildOptimizeXmlWithParams(): void
     {
         $command = new OptimizeCommand(['softcommit' => true, 'waitsearcher' => false, 'maxsegments' => 10]);
 
@@ -693,7 +693,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildCommitXml()
+    public function testBuildCommitXml(): void
     {
         $command = new CommitCommand();
 
@@ -703,7 +703,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildCommitXmlWithParams()
+    public function testBuildCommitXmlWithParams(): void
     {
         $command = new CommitCommand(['softcommit' => true, 'waitsearcher' => false, 'expungedeletes' => true]);
 
@@ -713,7 +713,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildRollbackXml()
+    public function testBuildRollbackXml(): void
     {
         $this->assertSame(
             '<rollback/>',
@@ -721,7 +721,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildRawXmlXmlSingleCommand()
+    public function testBuildRawXmlXmlSingleCommand(): void
     {
         $command = new RawXmlCommand();
         $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
@@ -732,7 +732,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildRawXmlXmlMultipleCommands()
+    public function testBuildRawXmlXmlMultipleCommands(): void
     {
         $command = new RawXmlCommand();
         $command->addCommand('<add><doc><field name="id">1</field></doc></add>');
@@ -744,7 +744,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildRawXmlXmlGroupedCommands()
+    public function testBuildRawXmlXmlGroupedCommands(): void
     {
         $command = new RawXmlCommand();
         $command->addCommand('<update><add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add></update>');
@@ -755,7 +755,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildRawXmlXmlGroupedCommandsWithCommentsInsignificantWhitespace()
+    public function testBuildRawXmlXmlGroupedCommandsWithCommentsInsignificantWhitespace(): void
     {
         $command = new RawXmlCommand();
         $command->addCommand(' <update ><add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add></update> ');
@@ -766,7 +766,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testBuildRawXmlXmlGroupedCommandsWithComments()
+    public function testBuildRawXmlXmlGroupedCommandsWithComments(): void
     {
         $command = new RawXmlCommand();
         $command->addCommand('<!-- comment --><update><add><doc><field name="id">1</field></doc></add><add><doc><field name="id">2</field></doc></add></update><!-- -->');
@@ -777,7 +777,7 @@ class XmlTest extends TestCase
         );
     }
 
-    public function testCompleteRequest()
+    public function testCompleteRequest(): void
     {
         $this->query->addDeleteById(1);
         $this->query->addRollback();

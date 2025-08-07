@@ -21,12 +21,12 @@ class WordSetTest extends TestCase
         $this->wordSet = new WordSet($query, $response);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('wordSet', $this->wordSet->getName());
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $items = [
             0 => 'a',
@@ -38,7 +38,7 @@ class WordSetTest extends TestCase
         $this->assertSame($items, $this->wordSet->getItems());
     }
 
-    public function testGetIterator()
+    public function testGetIterator(): void
     {
         $items = [
             0 => 'a',
@@ -52,32 +52,32 @@ class WordSetTest extends TestCase
         }
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertCount(4, $this->wordSet);
     }
 
-    public function testIsIgnoreCase()
+    public function testIsIgnoreCase(): void
     {
         $this->assertTrue($this->wordSet->isIgnoreCase());
     }
 
-    public function testGetInitializedOn()
+    public function testGetInitializedOn(): void
     {
         $this->assertSame('2014-03-28T20:53:53.058Z', $this->wordSet->getInitializedOn());
     }
 
-    public function testUpdatedSinceInit()
+    public function testUpdatedSinceInit(): void
     {
         $this->assertSame('2020-02-03T15:00:25.558Z', $this->wordSet->getUpdatedSinceInit());
     }
 
-    public function testGetWasSuccessful()
+    public function testGetWasSuccessful(): void
     {
         $this->assertTrue($this->wordSet->getWasSuccessful());
     }
 
-    public function testGetStatusMessage()
+    public function testGetStatusMessage(): void
     {
         $this->assertSame('OK', $this->wordSet->getStatusMessage());
     }

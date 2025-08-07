@@ -14,7 +14,7 @@ class MySelect extends Select
 // this very simple plugin that modifies the default querytype mapping
 class QueryCustomizer extends AbstractPlugin
 {
-    public function initPlugin($client, $options)
+    public function initPlugin($client, $options): void
     {
         $client->registerQueryType(
             Client::QUERY_SELECT,

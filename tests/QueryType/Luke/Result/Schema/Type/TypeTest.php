@@ -22,12 +22,12 @@ class TypeTest extends TestCase
         $this->type = new Type('my_type');
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('my_type', $this->type->getName());
     }
 
-    public function testAddAndGetFields()
+    public function testAddAndGetFields(): void
     {
         $copyDests = [
             $field = new Field('field_a'),
@@ -42,46 +42,46 @@ class TypeTest extends TestCase
      * If a type has no associated fields, Solr returns null rather than an empty array.
      * We normalise this to an empty array to avoid TypeErrors with array functions.
      */
-    public function testGetNoFields()
+    public function testGetNoFields(): void
     {
         $this->assertSame([], $this->type->getFields());
     }
 
-    public function testSetAndGetAndIsTokenized()
+    public function testSetAndGetAndIsTokenized(): void
     {
         $this->assertSame($this->type, $this->type->setTokenized(true));
         $this->assertTrue($this->type->getTokenized());
         $this->assertTrue($this->type->isTokenized());
     }
 
-    public function testSetAndGetClassName()
+    public function testSetAndGetClassName(): void
     {
         $this->assertSame($this->type, $this->type->setClassName('org.example.MyClass'));
         $this->assertSame('org.example.MyClass', $this->type->getClassName());
     }
 
-    public function testSetAndGetIndexAnalyzer()
+    public function testSetAndGetIndexAnalyzer(): void
     {
         $indexAnalyzer = new IndexAnalyzer('org.example.IndexAnalyzerClass');
         $this->assertSame($this->type, $this->type->setIndexAnalyzer($indexAnalyzer));
         $this->assertSame($indexAnalyzer, $this->type->getIndexAnalyzer());
     }
 
-    public function testSetAndGetQueryAnalyzer()
+    public function testSetAndGetQueryAnalyzer(): void
     {
         $queryAnalyzer = new QueryAnalyzer('org.example.QueryAnalyzerClass');
         $this->assertSame($this->type, $this->type->setQueryAnalyzer($queryAnalyzer));
         $this->assertSame($queryAnalyzer, $this->type->getQueryAnalyzer());
     }
 
-    public function testSetAndGetSimilarity()
+    public function testSetAndGetSimilarity(): void
     {
         $similarity = new Similarity();
         $this->assertSame($this->type, $this->type->setSimilarity($similarity));
         $this->assertSame($similarity, $this->type->getSimilarity());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('my_type', (string) $this->type);
     }

@@ -16,38 +16,38 @@ class InitArgsTest extends TestCase
         $this->initArgs = new InitArgs();
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $initArgs = new InitArgs();
         $this->assertSame([], $initArgs->getInitArgs());
     }
 
-    public function testConstructorWithInitArgs()
+    public function testConstructorWithInitArgs(): void
     {
         $initArgs = new InitArgs(['ignoreCase' => true, 'format' => InitArgs::FORMAT_SOLR]);
         $this->assertSame(['ignoreCase' => true, 'format' => 'solr'], $initArgs->getInitArgs());
     }
 
-    public function testSetAndGetIgnoreCase()
+    public function testSetAndGetIgnoreCase(): void
     {
         $this->initArgs->setIgnoreCase(true);
         $this->assertTrue($this->initArgs->getIgnoreCase());
     }
 
-    public function testSetAndGetFormat()
+    public function testSetAndGetFormat(): void
     {
         $this->initArgs->setFormat(InitArgs::FORMAT_SOLR);
         $this->assertSame('solr', $this->initArgs->getFormat());
     }
 
-    public function testSetUnknownFormat()
+    public function testSetUnknownFormat(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Format unknown: unknown');
         $this->initArgs->setFormat('unknown');
     }
 
-    public function testSetAndGetInitArgs()
+    public function testSetAndGetInitArgs(): void
     {
         $this->initArgs->setInitArgs(['ignoreCase' => false, 'format' => InitArgs::FORMAT_SOLR]);
         $this->assertSame(['ignoreCase' => false, 'format' => 'solr'], $this->initArgs->getInitArgs());

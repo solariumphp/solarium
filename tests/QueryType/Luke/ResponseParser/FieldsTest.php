@@ -56,7 +56,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testParsePhps(array $fields)
+    public function testParsePhps(array $fields): void
     {
         $data = [
             'responseHeader' => [
@@ -94,7 +94,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testName(array $fields)
+    public function testName(array $fields): void
     {
         $this->assertSame('field', $fields['field']->getName());
     }
@@ -102,7 +102,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testType(array $fields)
+    public function testType(array $fields): void
     {
         $this->assertSame('type_a', $fields['field']->getType());
     }
@@ -110,7 +110,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testSchema(array $fields)
+    public function testSchema(array $fields): void
     {
         $schema = $fields['field']->getSchema();
 
@@ -124,7 +124,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDynamicBase(array $fields)
+    public function testDynamicBase(array $fields): void
     {
         $this->assertNull($fields['field']->getDynamicBase());
         $this->assertSame('*_field', $fields['dynamic_field']->getDynamicBase());
@@ -133,7 +133,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testIndex(array $fields)
+    public function testIndex(array $fields): void
     {
         $index = $fields['field']->getIndex();
 
@@ -151,7 +151,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDocs(array $fields)
+    public function testDocs(array $fields): void
     {
         $this->assertSame(25, $fields['field']->getDocs());
         $this->assertNull($fields['field_unindexed']->getDocs());
@@ -160,7 +160,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDistinct(array $fields)
+    public function testDistinct(array $fields): void
     {
         $this->assertSame(70, $fields['field']->getDistinct());
         $this->assertNull($fields['field_unindexed']->getDistinct());
@@ -169,7 +169,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testTopTerms(array $fields)
+    public function testTopTerms(array $fields): void
     {
         $this->assertSame([
             'a' => 18,
@@ -181,7 +181,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testHistogram(array $fields)
+    public function testHistogram(array $fields): void
     {
         $this->assertSame([
             '1' => 0,
@@ -194,7 +194,7 @@ class FieldsTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testToString(array $fields)
+    public function testToString(array $fields): void
     {
         $this->assertSame('field', (string) $fields['field']);
     }

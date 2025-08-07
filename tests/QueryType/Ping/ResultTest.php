@@ -17,7 +17,7 @@ class ResultTest extends TestCase
         $this->result = new PingDummy();
     }
 
-    public function testGetPingStatus()
+    public function testGetPingStatus(): void
     {
         $this->assertSame(
             'OK',
@@ -25,14 +25,14 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetZkConnected()
+    public function testGetZkConnected(): void
     {
         $this->assertTrue(
             $this->result->getZkConnected()
         );
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -40,7 +40,7 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,

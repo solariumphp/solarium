@@ -10,7 +10,7 @@ use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
 class StopwordTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{ "responseHeader":{ "status":0, "QTime":1}, "such":"such"}';
 

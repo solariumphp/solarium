@@ -17,7 +17,7 @@ class UserDataTest extends TestCase
         $this->userData = new UserData();
     }
 
-    public function testSetAndGetCommitCommandVer()
+    public function testSetAndGetCommitCommandVer(): void
     {
         $this->assertSame($this->userData, $this->userData->setCommitCommandVer('123456789123456789'));
         $this->assertSame('123456789123456789', $this->userData->getCommitCommandVer());
@@ -26,7 +26,7 @@ class UserDataTest extends TestCase
         $this->assertNull($this->userData->getCommitCommandVer());
     }
 
-    public function testSetAndGetCommitTimeMSec()
+    public function testSetAndGetCommitTimeMSec(): void
     {
         $this->assertSame($this->userData, $this->userData->setCommitTimeMSec('123456789'));
         $this->assertSame('123456789', $this->userData->getCommitTimeMSec());

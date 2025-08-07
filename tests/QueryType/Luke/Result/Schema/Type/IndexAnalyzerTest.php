@@ -16,12 +16,12 @@ class IndexAnalyzerTest extends AbstractAnalyzerTestCase
         $this->analyzer = new IndexAnalyzer('org.example.IndexAnalyzerClass');
     }
 
-    public function testGetClassName()
+    public function testGetClassName(): void
     {
         $this->assertSame('org.example.IndexAnalyzerClass', $this->analyzer->getClassName());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('org.example.IndexAnalyzerClass', (string) $this->analyzer);
     }

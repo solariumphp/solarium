@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $reload = $this->query->createReload();
         $reload->setCore('foobar');
@@ -48,7 +48,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('admin/cores?wt=json&json.nl=flat&action=RELOAD&core=foobar', $request->getUri());
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $create = $this->query->createCreate();
         $create->setCore('myNewCore');
@@ -63,7 +63,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testStatus()
+    public function testStatus(): void
     {
         $status = $this->query->createStatus();
         $status->setCore('statusCore');
@@ -76,7 +76,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testReload()
+    public function testReload(): void
     {
         $reload = $this->query->createReload();
         $reload->setCore('reloadMe');
@@ -88,7 +88,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testRename()
+    public function testRename(): void
     {
         $rename = $this->query->createRename();
         $rename->setCore('oldCore');
@@ -101,7 +101,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testSwap()
+    public function testSwap(): void
     {
         $swap = $this->query->createSwap();
         $swap->setCore('swapSource');
@@ -115,7 +115,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testUnload()
+    public function testUnload(): void
     {
         $unload = $this->query->createUnload();
         $unload->setCore('unloadMe');
@@ -128,7 +128,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testMergeIndexesBySrcCore()
+    public function testMergeIndexesBySrcCore(): void
     {
         $mergeIndexes = $this->query->createMergeIndexes();
         $mergeIndexes->setCore('targetCore');
@@ -141,7 +141,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testMergeIndexesByIndexDir()
+    public function testMergeIndexesByIndexDir(): void
     {
         $mergeIndexes = $this->query->createMergeIndexes();
         $mergeIndexes->setCore('targetCore');
@@ -154,7 +154,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testSplitIntoTargetCore()
+    public function testSplitIntoTargetCore(): void
     {
         $split = $this->query->createSplit();
         $split->setCore('splitMe');
@@ -168,7 +168,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testSplitIntoTargetPath()
+    public function testSplitIntoTargetPath(): void
     {
         $split = $this->query->createSplit();
         $split->setCore('splitMe');
@@ -182,7 +182,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testSplitByKey()
+    public function testSplitByKey(): void
     {
         $split = $this->query->createSplit();
         $split->setCore('splitMe');
@@ -195,7 +195,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testRequestStatus()
+    public function testRequestStatus(): void
     {
         $requestStatus = $this->query->createRequestStatus();
         $requestStatus->setRequestId('myAsyncIdentifier');
@@ -207,7 +207,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testRequestRecovery()
+    public function testRequestRecovery(): void
     {
         $requestRecovery = $this->query->createRequestRecovery();
         $requestRecovery->setCore('coreToRecover');

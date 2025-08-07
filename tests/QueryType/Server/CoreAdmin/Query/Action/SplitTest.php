@@ -18,42 +18,42 @@ class SplitTest extends TestCase
         $this->action = new Split();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_SPLIT, $this->action->getType());
     }
 
-    public function testSetCore()
+    public function testSetCore(): void
     {
         $this->action->setCore('test');
         $this->assertSame('test', $this->action->getCore());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testSetPath()
+    public function testSetPath(): void
     {
         $this->action->setPath(['/index1', '/index2']);
         $this->assertSame(['/index1', '/index2'], $this->action->getPath());
     }
 
-    public function testSetTargetCore()
+    public function testSetTargetCore(): void
     {
         $this->action->setTargetCore(['targetCoreA', 'targetCoreB']);
         $this->assertSame(['targetCoreA', 'targetCoreB'], $this->action->getTargetCore());
     }
 
-    public function testSetRanges()
+    public function testSetRanges(): void
     {
         $this->action->setRanges('0-1f4,1f5-3e8,3e9-5dc');
         $this->assertSame('0-1f4,1f5-3e8,3e9-5dc', $this->action->getRanges());
     }
 
-    public function testSetSplitKey()
+    public function testSetSplitKey(): void
     {
         $this->action->setSplitKey('A!');
         $this->assertSame('A!', $this->action->getSplitKey());

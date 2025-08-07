@@ -236,7 +236,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         );
     }
 
-    public function testUpdateHandlerConfiguredCorrectly()
+    public function testUpdateHandlerConfiguredCorrectly(): void
     {
         $message = 'Solr update handler not configured correctly.';
 
@@ -259,7 +259,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $config['updateHandler']['autoSoftCommit'], $message);
     }
 
-    public function testSampleDataIndexedProperly()
+    public function testSampleDataIndexedProperly(): void
     {
         $message = 'Solr techproducts sample data not indexed properly.';
 
@@ -286,7 +286,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testPing(string $responseWriter)
+    public function testPing(string $responseWriter): void
     {
         $ping = self::$client->createPing();
         $ping->setResponseWriter($responseWriter);
@@ -304,7 +304,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testSelect(string $responseWriter)
+    public function testSelect(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -332,7 +332,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             ], $ids);
     }
 
-    public function testJsonSerializeSelectResult()
+    public function testJsonSerializeSelectResult(): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter(AbstractQuery::WT_JSON);
@@ -354,7 +354,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testEscapes(string $requestFormat, string $responseWriter)
+    public function testEscapes(string $requestFormat, string $responseWriter): void
     {
         $escapeChars = [' ', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', '\\'];
         $cat = [implode('', $escapeChars)];
@@ -410,7 +410,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testPhraseQuery(string $requestFormat, string $responseWriter)
+    public function testPhraseQuery(string $requestFormat, string $responseWriter): void
     {
         $phrase = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$";
 
@@ -469,7 +469,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testLocalParamValueEscapes(string $requestFormat, string $responseWriter)
+    public function testLocalParamValueEscapes(string $requestFormat, string $responseWriter): void
     {
         $categories = [
             'solarium-test-localparamvalue-escapes',
@@ -538,7 +538,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testRangeQueries(string $responseWriter)
+    public function testRangeQueries(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -673,7 +673,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $iterator->current());
     }
 
-    public function testFacetHighlightSpellcheckComponent()
+    public function testFacetHighlightSpellcheckComponent(): void
     {
         $select = self::$client->createSelect();
         // In the techproducts example, the request handler "select" doesn't neither contain a spellcheck component nor
@@ -776,7 +776,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @dataProvider responseWriterProvider
      */
-    public function testFacetPivotsWithStatsComponent(string $responseWriter)
+    public function testFacetPivotsWithStatsComponent(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -810,7 +810,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider crossHighlightingMethodResponseWriterProvider
      */
-    public function testHighlightingComponentMethods(string $method, string $responseWriter)
+    public function testHighlightingComponentMethods(string $method, string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -873,7 +873,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @see https://github.com/solariumphp/solarium/issues/184
      */
-    public function testSpellCheckComponentWithSameWordMisspelledMultipleTimes()
+    public function testSpellCheckComponentWithSameWordMisspelledMultipleTimes(): void
     {
         $select = self::$client->createSelect();
         $select->setHandler('spell');
@@ -938,7 +938,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testGroupingComponent(string $responseWriter)
+    public function testGroupingComponent(string $responseWriter): void
     {
         self::$client->registerQueryType('grouping', GroupingTestQuery::class);
         /** @var GroupingTestQuery $select */
@@ -1070,7 +1070,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testGroupingComponentFixForSolr13839(string $responseWriter)
+    public function testGroupingComponentFixForSolr13839(string $responseWriter): void
     {
         self::$client->registerQueryType('grouping', GroupingTestQuery::class);
         /** @var GroupingTestQuery $select */
@@ -1121,7 +1121,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testMoreLikeThisComponent(string $responseWriter)
+    public function testMoreLikeThisComponent(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -1200,7 +1200,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testMoreLikeThisQuery(string $responseWriter)
+    public function testMoreLikeThisQuery(string $responseWriter): void
     {
         $query = self::$client->createMoreLikethis();
         $query->setResponseWriter($responseWriter);
@@ -1258,7 +1258,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testMoreLikeThisStream(string $responseWriter)
+    public function testMoreLikeThisStream(string $responseWriter): void
     {
         $query = self::$client->createMoreLikethis();
         $query->setResponseWriter($responseWriter);
@@ -1316,7 +1316,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testQueryElevation(string $responseWriter)
+    public function testQueryElevation(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -1352,7 +1352,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testSpatial(string $responseWriter)
+    public function testSpatial(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -1372,7 +1372,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(10, $result);
     }
 
-    public function testSpellcheck()
+    public function testSpellcheck(): void
     {
         $spellcheck = self::$client->createSpellcheck();
         $spellcheck->setQuery('power cort');
@@ -1413,7 +1413,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testSuggester(string $responseWriter)
+    public function testSuggester(string $responseWriter): void
     {
         $suggester = self::$client->createSuggester();
         $suggester->setResponseWriter($responseWriter);
@@ -1438,7 +1438,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertContains('electronics and stuff2', $phrases);
     }
 
-    public function testSuggesterBuildAll()
+    public function testSuggesterBuildAll(): void
     {
         $adapter = self::$client->getAdapter();
         $timeout = $adapter instanceof TimeoutAwareInterface ? $adapter->getTimeout() : 0;
@@ -1470,7 +1470,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testTerms(string $responseWriter)
+    public function testTerms(string $responseWriter): void
     {
         $terms = self::$client->createTerms();
         $terms->setResponseWriter($responseWriter);
@@ -1500,7 +1500,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testTermsComponent(string $responseWriter)
+    public function testTermsComponent(string $responseWriter): void
     {
         self::$client->registerQueryType('test', TermsTestQuery::class);
         $select = self::$client->createQuery('test');
@@ -1566,7 +1566,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testTermVectorComponent(string $responseWriter)
+    public function testTermVectorComponent(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -1623,7 +1623,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testPartialResults(string $responseWriter)
+    public function testPartialResults(string $responseWriter): void
     {
         // create an expensive query
         $select = self::$client->createSelect();
@@ -1658,7 +1658,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider crossRequestFormatResponseWriterProvider
      */
-    public function testUpdate(string $requestFormat, string $responseWriter)
+    public function testUpdate(string $requestFormat, string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -1772,7 +1772,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testUpdateRawXml(string $responseWriter)
+    public function testUpdateRawXml(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -1886,7 +1886,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider updateRequestFormatProvider
      */
-    public function testModifiers(string $requestFormat)
+    public function testModifiers(string $requestFormat): void
     {
         $select = self::$client->createSelect();
         $select->setQuery('id:solarium-test');
@@ -2163,7 +2163,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider updateRequestFormatProvider
      */
-    public function testNestedDocuments(string $requestFormat)
+    public function testNestedDocuments(string $requestFormat): void
     {
         $data = [
             'id' => 'solarium-parent',
@@ -3040,7 +3040,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider updateRequestFormatProvider
      */
-    public function testAnonymouslyNestedDocuments(string $requestFormat)
+    public function testAnonymouslyNestedDocuments(string $requestFormat): void
     {
         $data = [
             'id' => 'solarium-parent',
@@ -3199,7 +3199,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testUpdateCbor()
+    public function testUpdateCbor(): void
     {
         // support for CBOR format was added in Solr 9.3, pass tacitly for older versions
         if (9 > self::$solrVersion) {
@@ -3358,7 +3358,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testUpdateWithoutControlCharacterFiltering()
+    public function testUpdateWithoutControlCharacterFiltering(): void
     {
         $data = [
             'id' => 'solarium-unfiltered-control-chars',
@@ -3380,7 +3380,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testReRankQuery(string $responseWriter)
+    public function testReRankQuery(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -3422,7 +3422,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * Dependencies and data providers don't mix in the way that we need them to
      * to repeat these tests for multiple request formats.
      */
-    public function testBufferedAdd()
+    public function testBufferedAdd(): void
     {
         $bufferSize = 10;
         $totalDocs = 25;
@@ -3598,7 +3598,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @depends testBufferedAdd
      */
-    public function testBufferedDelete()
+    public function testBufferedDelete(): void
     {
         $bufferSize = 3;
 
@@ -3676,7 +3676,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider updateRequestFormatProvider
      */
-    public function testBufferedAddAndDelete(string $requestFormat)
+    public function testBufferedAddAndDelete(string $requestFormat): void
     {
         $bufferSize = 10;
 
@@ -3895,7 +3895,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @param int $totalDocs Total number of docs added by {@see testBufferedAddLite()}
      */
-    public function testBufferedDeleteLite(int $totalDocs)
+    public function testBufferedDeleteLite(int $totalDocs): void
     {
         $bufferSize = 20;
 
@@ -3941,7 +3941,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider updateRequestFormatProvider
      */
-    public function testBufferedAddAndDeleteLite(string $requestFormat)
+    public function testBufferedAddAndDeleteLite(string $requestFormat): void
     {
         $bufferSize = 10;
 
@@ -4041,7 +4041,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame(0, $result->getNumFound());
     }
 
-    public function testBufferedAddCbor()
+    public function testBufferedAddCbor(): void
     {
         // support for CBOR format was added in Solr 9.3, pass tacitly for older versions
         if (9 > self::$solrVersion) {
@@ -4125,7 +4125,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(0, $result);
     }
 
-    public function testLoadbalancerFailover()
+    public function testLoadbalancerFailover(): void
     {
         $invalidEndpointConfig = self::$config['endpoint']['localhost'];
         $invalidEndpointConfig['host'] = 'server.invalid';
@@ -4166,7 +4166,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testMinimumScoreFilterWithGrouping(string $responseWriter)
+    public function testMinimumScoreFilterWithGrouping(string $responseWriter): void
     {
         /** @var MinimumScoreFilter $filter */
         $filter = self::$client->getPlugin('minimumscorefilter');
@@ -4203,7 +4203,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removePlugin('minimumscorefilter');
     }
 
-    public function testParallelExecution()
+    public function testParallelExecution(): void
     {
         // ParallelExecution only works with Curl, pass tacitly for other adapters
         if (!(self::$client->getAdapter() instanceof Curl)) {
@@ -4328,7 +4328,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testPrefetchIterator(string $responseWriter)
+    public function testPrefetchIterator(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -4354,7 +4354,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * @dataProvider responseWriterProvider
      */
-    public function testPrefetchIteratorWithCursorMark(string $responseWriter)
+    public function testPrefetchIteratorWithCursorMark(string $responseWriter): void
     {
         $select = self::$client->createSelect();
         $select->setResponseWriter($responseWriter);
@@ -4378,7 +4378,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removePlugin('prefetchiterator');
     }
 
-    public function testPrefetchIteratorWithoutAndWithCursorMark()
+    public function testPrefetchIteratorWithoutAndWithCursorMark(): void
     {
         $select = self::$client->createSelect();
         $select->addSort('id', SelectQuery::SORT_ASC);
@@ -4407,7 +4407,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->removePlugin('prefetchiterator');
     }
 
-    public function testPrefetchIteratorManualRewind()
+    public function testPrefetchIteratorManualRewind(): void
     {
         $select = self::$client->createSelect();
         $select->addSort('id', SelectQuery::SORT_ASC);
@@ -4451,7 +4451,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith [false]
      *           [true]
      */
-    public function testExtractIntoDocument(bool $usePostBigExtractRequestPlugin)
+    public function testExtractIntoDocument(bool $usePostBigExtractRequestPlugin): void
     {
         if ($usePostBigExtractRequestPlugin) {
             /** @var PostBigExtractRequest $postBigExtractRequest */
@@ -4556,7 +4556,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith [false]
      *           [true]
      */
-    public function testExtractOnlyText(bool $usePostBigExtractRequestPlugin)
+    public function testExtractOnlyText(bool $usePostBigExtractRequestPlugin): void
     {
         if ($usePostBigExtractRequestPlugin) {
             /** @var PostBigExtractRequest $postBigExtractRequest */
@@ -4594,7 +4594,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith [false]
      *           [true]
      */
-    public function testExtractOnlyXml(bool $usePostBigExtractRequestPlugin)
+    public function testExtractOnlyXml(bool $usePostBigExtractRequestPlugin): void
     {
         if ($usePostBigExtractRequestPlugin) {
             /** @var PostBigExtractRequest $postBigExtractRequest */
@@ -4645,7 +4645,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith [false]
      *           [true]
      */
-    public function testExtractInputEncoding(bool $usePostBigExtractRequestPlugin)
+    public function testExtractInputEncoding(bool $usePostBigExtractRequestPlugin): void
     {
         if ($usePostBigExtractRequestPlugin) {
             /** @var PostBigExtractRequest $postBigExtractRequest */
@@ -4789,7 +4789,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * We don't test this with PostBigExtractRequest because we can't remove the plugin after an Exception.
      */
-    public function testExtractInvalidFile()
+    public function testExtractInvalidFile(): void
     {
         $extract = self::$client->createExtract();
         $extract->setFile(__DIR__.DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR.'nosuchfile');
@@ -4816,7 +4816,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @group skip_for_solr_cloud
      */
-    public function testLuke(string $responseWriter)
+    public function testLuke(string $responseWriter): void
     {
         $luke = self::$client->createLuke();
         $luke->setResponseWriter($responseWriter);
@@ -5004,7 +5004,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertEquals($doc, $resultShowDocDocId->getDoc());
     }
 
-    public function testV2Api()
+    public function testV2Api(): void
     {
         if (7 <= self::$solrVersion) {
             $query = self::$client->createApi([
@@ -5048,7 +5048,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      *
      * @see https://www.rfc-editor.org/rfc/rfc8259#section-8.1
      */
-    public function testInputEncoding()
+    public function testInputEncoding(): void
     {
         $select = self::$client->createSelect();
         $select->addSort('id', $select::SORT_ASC);
@@ -5147,7 +5147,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         return [];
     }
 
-    public function testManagedStopwords()
+    public function testManagedStopwords(): void
     {
         $query = self::$client->createManagedStopwords();
         $query->setName('english');
@@ -5213,7 +5213,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith ["testlist", "managed_stopword_test"]
      *           ["list res-chars :/?#[]@%", "term res-chars :?#[]@%"]
      */
-    public function testManagedStopwordsCreation(string $name, string $term)
+    public function testManagedStopwordsCreation(string $name, string $term): void
     {
         // don't use invalid filename characters in list name on Windows to avoid running into SOLR-15895
         if (self::$isSolrOnWindows) {
@@ -5295,7 +5295,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame([], $result->getItems());
     }
 
-    public function testManagedSynonyms()
+    public function testManagedSynonyms(): void
     {
         $query = self::$client->createManagedSynonyms();
         $query->setName('english');
@@ -5378,7 +5378,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith ["testmap", "managed_synonyms_test"]
      *           ["map res-chars :/?#[]@%", "term res-chars :?#[]@%"]
      */
-    public function testManagedSynonymsCreation(string $name, string $term)
+    public function testManagedSynonymsCreation(string $name, string $term): void
     {
         // don't use invalid filename characters in map name on Windows to avoid running into SOLR-15895
         if (self::$isSolrOnWindows) {
@@ -5465,7 +5465,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame([], $result->getItems());
     }
 
-    public function testManagedResources()
+    public function testManagedResources(): void
     {
         $query = self::$client->createManagedResources();
         $result = self::$client->execute($query);
@@ -5521,7 +5521,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
      * @testWith ["stopwords"]
      *           ["synonyms"]
      */
-    public function testManagedResourcesSolr6853(string $resourceType)
+    public function testManagedResourcesSolr6853(string $resourceType): void
     {
         if (7 >= self::$solrVersion) {
             $this->expectNotToPerformAssertions();
@@ -5551,7 +5551,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         self::$client->createResult($query, $response);
     }
 
-    public function testGetBodyOnHttpError()
+    public function testGetBodyOnHttpError(): void
     {
         /** @var \Solarium\Core\Query\Status4xxNoExceptionInterface $query */
         $query = self::$client->createManagedSynonyms();
@@ -5564,7 +5564,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertNotSame('', $result->getResponse()->getBody());
     }
 
-    public function testEventDispatching()
+    public function testEventDispatching(): void
     {
         $eventTimer = new EventTimer();
         self::$client->registerPlugin('eventtimer', $eventTimer);

@@ -17,22 +17,22 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_PING, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'handler' => 'myHandler',

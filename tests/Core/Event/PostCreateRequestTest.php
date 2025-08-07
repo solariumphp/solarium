@@ -9,7 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class PostCreateRequestTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): void
     {
         $query = new Query();
         $query->setQuery('test123');

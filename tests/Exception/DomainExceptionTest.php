@@ -7,31 +7,31 @@ use Solarium\Exception\DomainException;
 
 class DomainExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\DomainException');
         throw new DomainException();
     }
 
-    public function testSPLException()
+    public function testSPLException(): void
     {
         $this->expectException('\DomainException');
         throw new DomainException();
     }
 
-    public function testSPLParentException()
+    public function testSPLParentException(): void
     {
         $this->expectException('\LogicException');
         throw new DomainException();
     }
 
-    public function testLogicMarkerInterface()
+    public function testLogicMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\LogicExceptionInterface');
         throw new DomainException();
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new DomainException();

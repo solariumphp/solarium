@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class TermVectorTest extends TestCase
 {
-    public function testBuildComponent()
+    public function testBuildComponent(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

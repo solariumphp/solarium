@@ -18,24 +18,24 @@ class SwapTest extends TestCase
         $this->action = new Swap();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_SWAP, $this->action->getType());
     }
 
-    public function testSetCore()
+    public function testSetCore(): void
     {
         $this->action->setCore('test');
         $this->assertSame('test', $this->action->getCore());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testSetOther()
+    public function testSetOther(): void
     {
         $this->action->setOther('targetCore');
         $this->assertSame('targetCore', $this->action->getOther());

@@ -30,7 +30,7 @@ class PreExecuteRequestTest extends TestCase
      *
      * @param PreExecuteRequest $event
      */
-    public function testSetAndGetRequest($event)
+    public function testSetAndGetRequest($event): void
     {
         $request = new Request();
         $request->addParam('newparam', 'new value');
@@ -44,7 +44,7 @@ class PreExecuteRequestTest extends TestCase
      *
      * @param PreExecuteRequest $event
      */
-    public function testSetAndGetResponse($event)
+    public function testSetAndGetResponse($event): void
     {
         $response = new Response('', ['HTTP/1.0 200 OK']);
         $event->setResponse($response);

@@ -23,27 +23,27 @@ class WildcardTest extends TestCase
         $this->field = new WildcardField('field_*');
     }
 
-    public function testNotCopyFieldDest()
+    public function testNotCopyFieldDest(): void
     {
         $this->assertNotInstanceOf(CopyFieldDestInterface::class, $this->field);
     }
 
-    public function testCopyFieldSource()
+    public function testCopyFieldSource(): void
     {
         $this->assertInstanceOf(CopyFieldSourceInterface::class, $this->field);
     }
 
-    public function testNotSchemaField()
+    public function testNotSchemaField(): void
     {
         $this->assertNotInstanceOf(SchemaFieldInterface::class, $this->field);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('field_*', $this->field->getName());
     }
 
-    public function testAddAndGetCopyDests()
+    public function testAddAndGetCopyDests(): void
     {
         $copyDests = [
             $field = new Field('field_a'),
@@ -56,7 +56,7 @@ class WildcardTest extends TestCase
         $this->assertSame($copyDests, $this->field->getCopyDests());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('field_*', (string) $this->field);
     }

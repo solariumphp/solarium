@@ -24,7 +24,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $query = 'cat:1';
         $showMatch = true;

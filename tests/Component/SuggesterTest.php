@@ -20,12 +20,12 @@ class SuggesterTest extends TestCase
         $this->suggester->setQueryInstance(new Query());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_SUGGESTER, $this->suggester->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\ResponseParser\Suggester',
@@ -33,7 +33,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Suggester',
@@ -41,7 +41,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $value = 'testquery';
         $this->suggester->setQuery($value);
@@ -52,13 +52,13 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->suggester->setQuery('id:%1%', [678]);
         $this->assertEquals('id:678', $this->suggester->getQuery());
     }
 
-    public function testSetAndGetContextFilterQuery()
+    public function testSetAndGetContextFilterQuery(): void
     {
         $value = 'context filter query';
         $this->suggester->setContextFilterQuery($value);
@@ -69,7 +69,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetBuild()
+    public function testSetAndGetBuild(): void
     {
         $value = true;
         $this->suggester->setBuild($value);
@@ -80,7 +80,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetReload()
+    public function testSetAndGetReload(): void
     {
         $value = false;
         $this->suggester->setReload($value);
@@ -91,7 +91,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetDictionary()
+    public function testSetAndGetDictionary(): void
     {
         $value = 'myDictionary';
         $this->suggester->setDictionary($value);
@@ -102,7 +102,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetDictionaries()
+    public function testSetAndGetDictionaries(): void
     {
         $value = ['myDictionary1', 'myDictionary2'];
         $this->suggester->setDictionary($value);
@@ -113,7 +113,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetCount()
+    public function testSetAndGetCount(): void
     {
         $value = 11;
         $this->suggester->setCount($value);
@@ -124,7 +124,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testSetAndGetBuildAll()
+    public function testSetAndGetBuildAll(): void
     {
         $value = true;
         $this->suggester->setBuildAll($value);

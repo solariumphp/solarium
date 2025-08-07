@@ -18,18 +18,18 @@ class StatusTest extends TestCase
         $this->action = new Status();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_STATUS, $this->action->getType());
     }
 
-    public function testSetCore()
+    public function testSetCore(): void
     {
         $this->action->setCore('test');
         $this->assertSame('test', $this->action->getCore());
     }
 
-    public function testSetIndexInfo()
+    public function testSetIndexInfo(): void
     {
         $this->action->setIndexInfo(true);
         $this->assertTrue($this->action->getIndexInfo());

@@ -18,7 +18,7 @@ class RequestTest extends TestCase
         $this->request = new Request();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'handler' => 'myHandler',
@@ -95,7 +95,7 @@ class RequestTest extends TestCase
         );
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $options = [
             'handler' => '/myHandler',
@@ -143,7 +143,7 @@ EOF;
         $this->assertSame(sprintf($request, __FILE__), (string) $this->request);
     }
 
-    public function testSetAndGetHandler()
+    public function testSetAndGetHandler(): void
     {
         $this->request->setHandler('myhandler');
 
@@ -153,7 +153,7 @@ EOF;
         );
     }
 
-    public function testGetDefaultMethod()
+    public function testGetDefaultMethod(): void
     {
         $this->assertSame(
             Request::METHOD_GET,
@@ -161,7 +161,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetMethod()
+    public function testSetAndGetMethod(): void
     {
         $this->request->setMethod(Request::METHOD_POST);
 
@@ -171,7 +171,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetContentType()
+    public function testSetAndGetContentType(): void
     {
         $this->request->setContentType('example/test');
 
@@ -185,7 +185,7 @@ EOF;
         );
     }
 
-    public function testSetContentTypeWithParams()
+    public function testSetContentTypeWithParams(): void
     {
         $this->request->setContentType('example/params', ['param' => 'value']);
 
@@ -200,7 +200,7 @@ EOF;
         );
     }
 
-    public function testSetContentTypeWithParamsOverridesParams()
+    public function testSetContentTypeWithParamsOverridesParams(): void
     {
         $this->request->setContentTypeParams(['param' => 'value']);
         $this->request->setContentType('example/params', ['newparam' => 'newvalue']);
@@ -219,7 +219,7 @@ EOF;
     /**
      * Test that we don't lose the parameters if they are set before the Content-Type.
      */
-    public function testSetContentTypeWithoutParamsDoesntOverrideParams()
+    public function testSetContentTypeWithoutParamsDoesntOverrideParams(): void
     {
         $this->request->setContentTypeParams(['param' => 'value']);
         $this->request->setContentType('example/params');
@@ -235,7 +235,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetContentTypeParams()
+    public function testSetAndGetContentTypeParams(): void
     {
         $this->request->setContentTypeParams(['param' => 'value']);
 
@@ -245,7 +245,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetRawData()
+    public function testSetAndGetRawData(): void
     {
         $data = '1234567890';
         $this->request->setRawData($data);
@@ -256,7 +256,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetFileUpload()
+    public function testSetAndGetFileUpload(): void
     {
         $this->request->setFileUpload(__FILE__);
         $this->assertSame(
@@ -265,13 +265,13 @@ EOF;
         );
     }
 
-    public function testSetAndGetFileUploadWithInvalidFile()
+    public function testSetAndGetFileUploadWithInvalidFile(): void
     {
         $this->expectException(RuntimeException::class);
         $this->request->setFileUpload('invalid-filename.dummy');
     }
 
-    public function testSetAndGetFileUploadWithResourceInReadMode()
+    public function testSetAndGetFileUploadWithResourceInReadMode(): void
     {
         $file = fopen(__FILE__, 'r');
         $this->request->setFileUpload($file);
@@ -282,7 +282,7 @@ EOF;
         fclose($file);
     }
 
-    public function testSetAndGetFileUploadWithResourceInReadWriteMode()
+    public function testSetAndGetFileUploadWithResourceInReadWriteMode(): void
     {
         // we use append lest we overwrite __FILE__
         $file = fopen(__FILE__, 'a+');
@@ -294,7 +294,7 @@ EOF;
         fclose($file);
     }
 
-    public function testSetAndGetFileUploadWithResourceInWriteMode()
+    public function testSetAndGetFileUploadWithResourceInWriteMode(): void
     {
         // we use append lest we overwrite __FILE__
         $file = fopen(__FILE__, 'a');
@@ -303,7 +303,7 @@ EOF;
         fclose($file);
     }
 
-    public function testSetAndGetHeaders()
+    public function testSetAndGetHeaders(): void
     {
         $headers = [
             'User-Agent: My Agent',
@@ -317,7 +317,7 @@ EOF;
         );
     }
 
-    public function testGetHeadersUnique()
+    public function testGetHeadersUnique(): void
     {
         $headers = [
             'X-MyHeader: value',
@@ -333,7 +333,7 @@ EOF;
         );
     }
 
-    public function testGetHeadersWithContentTypeAndContentTypeParams()
+    public function testGetHeadersWithContentTypeAndContentTypeParams(): void
     {
         $this->request->addParam('ie', 'us-ascii');
         $this->request->setContentType('example/test');
@@ -347,7 +347,7 @@ EOF;
         );
     }
 
-    public function testGetHeadersWithContentTypeWithoutContentTypeParams()
+    public function testGetHeadersWithContentTypeWithoutContentTypeParams(): void
     {
         $this->request->addParam('ie', 'us-ascii');
         $this->request->setContentType('example/test');
@@ -360,7 +360,7 @@ EOF;
         );
     }
 
-    public function testGetHeadersWithContentTypeWithoutContentTypeParamsWithDefaultCharset()
+    public function testGetHeadersWithContentTypeWithoutContentTypeParamsWithDefaultCharset(): void
     {
         $this->request->setContentType('example/test');
 
@@ -372,7 +372,7 @@ EOF;
         );
     }
 
-    public function testGetHeadersWithContentTypeWithEmptyContentTypeParams()
+    public function testGetHeadersWithContentTypeWithEmptyContentTypeParams(): void
     {
         $this->request->addParam('ie', 'us-ascii');
         $this->request->setContentType('example/test');
@@ -389,7 +389,7 @@ EOF;
     /**
      * Test that a raw Content-Type header always takes precedence over the 'contenttype' option.
      */
-    public function testGetHeadersWithRawContentTypeHeaderAndContentType()
+    public function testGetHeadersWithRawContentTypeHeaderAndContentType(): void
     {
         $this->request->addHeader('Content-Type: example/raw');
         $this->request->setContentType('example/option');
@@ -405,7 +405,7 @@ EOF;
     /**
      * Test that a raw Content-Type header always takes precedence over the 'contenttype' option.
      */
-    public function testGetHeadersWithContentTypeAndRawContentTypeHeader()
+    public function testGetHeadersWithContentTypeAndRawContentTypeHeader(): void
     {
         $this->request->setContentType('example/option');
         $this->request->addHeader('Content-Type: example/raw');
@@ -418,7 +418,7 @@ EOF;
         );
     }
 
-    public function testAddHeader()
+    public function testAddHeader(): void
     {
         $headers = [
             'User-Agent: My Agent',
@@ -435,7 +435,7 @@ EOF;
         );
     }
 
-    public function testAddHeaders()
+    public function testAddHeaders(): void
     {
         $headers = [
             'User-Agent: My Agent',
@@ -472,7 +472,7 @@ EOF;
         $this->assertSame($replacement, $this->request->getHeader('Content-Type'));
     }
 
-    public function testClearHeaders()
+    public function testClearHeaders(): void
     {
         $headers = [
             'User-Agent: My Agent',
@@ -494,7 +494,7 @@ EOF;
         );
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $this->assertSame(
             '',
@@ -502,7 +502,7 @@ EOF;
         );
     }
 
-    public function testGetUriWithHandler()
+    public function testGetUriWithHandler(): void
     {
         $this->request->setHandler('myHandler');
         $this->assertSame(
@@ -511,7 +511,7 @@ EOF;
         );
     }
 
-    public function testGetUriWithHandlerAndParams()
+    public function testGetUriWithHandlerAndParams(): void
     {
         $params = [
             'param1' => 1,
@@ -527,7 +527,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetAuthentication()
+    public function testSetAndGetAuthentication(): void
     {
         $user = 'someone';
         $pass = 'S0M3p455';
@@ -546,7 +546,7 @@ EOF;
     /**
      * @requires PHP >= 8.2
      */
-    public function testSetAuthenticationSensitiveParameter()
+    public function testSetAuthenticationSensitiveParameter(): void
     {
         try {
             // trigger a \TypeError with the $user argument
@@ -559,7 +559,7 @@ EOF;
         }
     }
 
-    public function testSetAndGetIsServerRequest()
+    public function testSetAndGetIsServerRequest(): void
     {
         $this->request->setIsServerRequest();
 
@@ -574,7 +574,7 @@ EOF;
         );
     }
 
-    public function testGetDefaultApi()
+    public function testGetDefaultApi(): void
     {
         $this->assertSame(
             Request::API_V1,
@@ -582,7 +582,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetApi()
+    public function testSetAndGetApi(): void
     {
         $this->request->setApi(Request::API_V2);
 
@@ -592,7 +592,7 @@ EOF;
         );
     }
 
-    public function testGetHash()
+    public function testGetHash(): void
     {
         $hash1 = $this->request->getHash();
         $hash2 = (new Request())->getHash();
@@ -603,7 +603,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetParams()
+    public function testSetAndGetParams(): void
     {
         $params = [
             'param1' => 1,
@@ -618,7 +618,7 @@ EOF;
         );
     }
 
-    public function testSetAndGetParam()
+    public function testSetAndGetParam(): void
     {
         $params = [
             'param1' => 1,
@@ -633,14 +633,14 @@ EOF;
         );
     }
 
-    public function testGetInvalidParam()
+    public function testGetInvalidParam(): void
     {
         $this->assertNull(
             $this->request->getParam('invalidname')
         );
     }
 
-    public function testAddParam()
+    public function testAddParam(): void
     {
         $params = [
             'param1' => 1,
@@ -658,7 +658,7 @@ EOF;
         );
     }
 
-    public function testAddParamBoolean()
+    public function testAddParamBoolean(): void
     {
         $params = [
             'param1' => true,
@@ -676,7 +676,7 @@ EOF;
         );
     }
 
-    public function testAddParamMultivalue()
+    public function testAddParamMultivalue(): void
     {
         $params = [
             'param1' => 1,
@@ -694,7 +694,7 @@ EOF;
         );
     }
 
-    public function testAddParamNoValue()
+    public function testAddParamNoValue(): void
     {
         $params = [
             'param1' => 1,
@@ -719,7 +719,7 @@ EOF;
         );
     }
 
-    public function testAddParamOverwrite()
+    public function testAddParamOverwrite(): void
     {
         $params = [
             'param1' => 1,
@@ -734,7 +734,7 @@ EOF;
         );
     }
 
-    public function testAddParams()
+    public function testAddParams(): void
     {
         $params = [
             'param1' => 1,
@@ -757,7 +757,7 @@ EOF;
         );
     }
 
-    public function testAddParamsOverwrite()
+    public function testAddParamsOverwrite(): void
     {
         $params = [
             'param1' => 1,
@@ -780,7 +780,7 @@ EOF;
         );
     }
 
-    public function testRemoveParam()
+    public function testRemoveParam(): void
     {
         $params = [
             'param1' => 1,
@@ -796,7 +796,7 @@ EOF;
         );
     }
 
-    public function testClearParams()
+    public function testClearParams(): void
     {
         $params = [
             'param1' => 1,

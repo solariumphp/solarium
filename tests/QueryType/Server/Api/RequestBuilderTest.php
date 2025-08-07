@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $request = $this->builder->build($this->query);
 
@@ -39,7 +39,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('?wt=json&json.nl=flat', $request->getUri());
     }
 
-    public function testBuildHandler()
+    public function testBuildHandler(): void
     {
         $this->query->setHandler('dummy');
         $request = $this->builder->build($this->query);
@@ -47,21 +47,21 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('dummy?wt=json&json.nl=flat', $request->getUri());
     }
 
-    public function testBuildIsServerRequest()
+    public function testBuildIsServerRequest(): void
     {
         $request = $this->builder->build($this->query);
 
         $this->assertTrue($request->getIsServerRequest());
     }
 
-    public function testBuildApiDefault()
+    public function testBuildApiDefault(): void
     {
         $request = $this->builder->build($this->query);
 
         $this->assertSame(Request::API_V1, $request->getApi());
     }
 
-    public function testBuildApiV1()
+    public function testBuildApiV1(): void
     {
         $this->query->setVersion(Request::API_V1);
         $request = $this->builder->build($this->query);
@@ -69,7 +69,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::API_V1, $request->getApi());
     }
 
-    public function testBuildApiV2()
+    public function testBuildApiV2(): void
     {
         $this->query->setVersion(Request::API_V2);
         $request = $this->builder->build($this->query);
@@ -77,14 +77,14 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::API_V2, $request->getApi());
     }
 
-    public function testBuildMethodDefault()
+    public function testBuildMethodDefault(): void
     {
         $request = $this->builder->build($this->query);
 
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
-    public function testBuildMethodGet()
+    public function testBuildMethodGet(): void
     {
         $this->query->setMethod(Request::METHOD_GET);
         $request = $this->builder->build($this->query);
@@ -92,7 +92,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
-    public function testBuildMethodHead()
+    public function testBuildMethodHead(): void
     {
         $this->query->setMethod(Request::METHOD_HEAD);
         $request = $this->builder->build($this->query);
@@ -100,7 +100,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::METHOD_HEAD, $request->getMethod());
     }
 
-    public function testBuildMethodPost()
+    public function testBuildMethodPost(): void
     {
         $this->query->setMethod(Request::METHOD_POST);
         $request = $this->builder->build($this->query);
@@ -109,7 +109,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::CONTENT_TYPE_APPLICATION_JSON, $request->getContentType());
     }
 
-    public function testBuildMethodPut()
+    public function testBuildMethodPut(): void
     {
         $this->query->setMethod(Request::METHOD_PUT);
         $request = $this->builder->build($this->query);
@@ -118,7 +118,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(Request::CONTENT_TYPE_APPLICATION_OCTET_STREAM, $request->getContentType());
     }
 
-    public function testBuildAccept()
+    public function testBuildAccept(): void
     {
         $this->query->setAccept('foo/bar');
         $request = $this->builder->build($this->query);
@@ -126,7 +126,7 @@ class RequestBuilderTest extends TestCase
         $this->assertArrayHasKey('Accept: foo/bar', array_flip($request->getHeaders()));
     }
 
-    public function testBuildContentType()
+    public function testBuildContentType(): void
     {
         $this->query->setContentType('example/test');
         $request = $this->builder->build($this->query);
@@ -144,7 +144,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('example/test', $request->getContentType());
     }
 
-    public function testBuildContentTypeWithParams()
+    public function testBuildContentTypeWithParams(): void
     {
         $this->query->setContentType('example/test', ['foo' => 'bar']);
         $request = $this->builder->build($this->query);
@@ -165,7 +165,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $request->getContentTypeParams());
     }
 
-    public function testBuildContentTypeParams()
+    public function testBuildContentTypeParams(): void
     {
         $this->query->setContentTypeParams(['foo' => 'bar']);
         $request = $this->builder->build($this->query);
@@ -185,7 +185,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $request->getContentTypeParams());
     }
 
-    public function testBuildRawData()
+    public function testBuildRawData(): void
     {
         $this->query->setRawData('some data');
         $request = $this->builder->build($this->query);
@@ -193,7 +193,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('some data', $request->getRawData());
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $this->query->setHandler('dummy');
         $this->query->setVersion(Request::API_V2);
