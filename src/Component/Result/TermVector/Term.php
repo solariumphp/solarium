@@ -167,7 +167,6 @@ class Term implements \ArrayAccess
         return \in_array($offset, ['tf', 'positions', 'offsets', 'payloads', 'df', 'tf-idf']);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -175,6 +174,7 @@ class Term implements \ArrayAccess
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if ('tf-idf' === $offset) {

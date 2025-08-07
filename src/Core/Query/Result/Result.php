@@ -134,10 +134,10 @@ class Result implements ResultInterface, \JsonSerializable
         return $this->data;
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->getData();
