@@ -564,4 +564,120 @@ class Helper
 
         return $value;
     }
+
+    /**
+     * Render a knn filter.
+     *
+     * The knn k-nearest neighbors query parser matches k-nearest documents to
+     * the target vector.
+     *
+     * @param string            $field
+     * @param float[]           $vector
+     * @param int|null          $topK
+     * @param string|null       $preFilter
+     * @param array|string|null $includeTags
+     * @param array|string|null $excludeTags
+     *
+     * @return string
+     */
+    public function knn(string $field, array $vector, ?int $topK = null, ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
+    {
+        $params = $this->getCommonVectorParams($field, $preFilter, $includeTags, $excludeTags);
+        if (null !== $topK) {
+            $params['topK'] = $topK;
+        }
+
+        return $this->qparser(
+            'knn',
+            $params,
+        ).'['.implode(', ', $vector).']';
+    }
+
+    /**
+     * Render a knn_text_to_vector filter.
+     *
+     * The knn_text_to_vector query parser encode a textual query to a vector
+     * using a dedicated Large Language Model(fine tuned for the task of
+     * encoding text to vector for sentence similarity) and matches k-nearest
+     * neighbours documents to such query vector.
+     *
+     * @param string            $model
+     * @param string            $field
+     * @param string            $query
+     * @param int|null          $topK
+     * @param string|null       $preFilter
+     * @param array|string|null $includeTags
+     * @param array|string|null $excludeTags
+     *
+     * @return string
+     */
+    public function knnTextToVector(string $model, string $field, string $query, ?int $topK = null, ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
+    {
+        $params = $this->getCommonVectorParams($field, $preFilter, $includeTags, $excludeTags);
+        $params['model'] = $model;
+        if (null !== $topK) {
+            $params['topK'] = $topK;
+        }
+
+        return $this->qparser(
+            'knn_text_to_vector',
+            $params,
+        ).$query;
+    }
+
+    /**
+     * Render a vectorSimilarity filter.
+     *
+     * The vectorSimilarity vector similarity query parser matches documents
+     * whose similarity with the target vector is a above a minimum threshold.
+     *
+     * @param string            $field
+     * @param float[]           $vector
+     * @param float             $minReturn
+     * @param string            $minTraverse
+     * @param string|null       $preFilter
+     * @param array|string|null $includeTags
+     * @param array|string|null $excludeTags
+     *
+     * @return string
+     */
+    public function vectorSimilarity(string $field, array $vector, float $minReturn, string $minTraverse = '-Infinity', ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
+    {
+        $params = $this->getCommonVectorParams($field, $preFilter, $includeTags, $excludeTags);
+        $params['minReturn'] = $minReturn;
+        $params['minTraverse'] = $minTraverse;
+
+        return $this->qparser(
+            'vectorSimilarity',
+            $params,
+        ).'['.implode(', ', $vector).']';
+    }
+
+    /**
+     * Get common knn and vector filter parameters.
+     *
+     * @param string            $field
+     * @param string|null       $preFilter
+     * @param array|string|null $includeTags
+     * @param array|string|null $excludeTags
+     *
+     * @return array
+     */
+    protected function getCommonVectorParams (string $field, ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): array
+    {
+        $params = [
+            'f' => $field,
+        ];
+        if (null !== $preFilter) {
+            $params['preFilter'] = $preFilter;
+        }
+        if (null !== $includeTags) {
+            $params['includeTags'] = $includeTags;
+        }
+        if (null !== $excludeTags) {
+            $params['excludeTags'] = $excludeTags;
+        }
+
+        return $params;
+    }
 }
