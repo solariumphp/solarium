@@ -699,6 +699,7 @@ class Helper
             if ($value == (int) $value) {
                 return number_format($value, 1, '.', '');
             }
+
             return (string) $value;
         }, $values)).']';
     }
