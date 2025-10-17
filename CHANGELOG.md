@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.4.0]
 ### Added
 - CBOR formatted update requests
+- Solarium\Core\Query\Helper::knn()
+- Solarium\Core\Query\Helper::knnTextToVector()
+- Solarium\Core\Query\Helper::vectorSimilarity()
 
 ### Changed
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature

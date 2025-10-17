@@ -762,4 +762,48 @@ class HelperTest extends TestCase
 
         return strstr($date->format(\DateTime::ISO8601), '+', true).'Z';
     }
+
+    public function testKnn(): void
+    {
+        $this->assertSame(
+            '{!knn f=vector topK=10}[1.0, 2.0, 3.0, 4.0]',
+            $this->helper->knn('vector', [1.0, 2.0, 3.0, 4.0], 10)
+        );
+
+        $this->assertSame(
+            '{!knn f=vector preFilter=category:AAA includeTags=tagA excludeTags=tagB topK=10}[1.0, 2.0, 3.0, 4.0]',
+            $this->helper->knn('vector', [1.0, 2.0, 3.0, 4.0], 10, 'category:AAA', 'tagA', 'tagB')
+        );
+
+        $this->assertSame(
+            '{!knn f=vector preFilter=category:AAA preFilter=inStock:true includeTags=tagA,tagB topK=10}[1.0, 2.0, 3.0, 4.0]',
+            $this->helper->knn('vector', [1.0, 2.0, 3.0, 4.0], 10, ['category:AAA', 'inStock:true'], ['tagA', 'tagB'])
+        );
+    }
+
+    public function testKnnTextToVector(): void
+    {
+        $this->assertSame(
+            '{!knn_text_to_vector f=vector model=a-model topK=10}hello world query',
+            $this->helper->knnTextToVector('a-model', 'vector', 'hello world query', 10)
+        );
+
+        $this->assertSame(
+            '{!knn_text_to_vector f=vector preFilter=category:AAA model=a-model topK=10}hello world query',
+            $this->helper->knnTextToVector('a-model', 'vector', 'hello world query', 10, 'category:AAA')
+        );
+    }
+
+    public function testVectorSimilarity(): void
+    {
+        $this->assertSame(
+            '{!vectorSimilarity f=vector minReturn=0.7 minTraverse=-Infinity}[1.0, 2.0, 3.0, 4.0]',
+            $this->helper->vectorSimilarity('vector', [1.0, 2.0, 3.0, 4.0], 0.7)
+        );
+
+        $this->assertSame(
+            '{!vectorSimilarity f=vector preFilter=category:AAA minReturn=0.7 minTraverse=-Infinity}[1.0, 2.0, 3.0, 4.0]',
+            $this->helper->vectorSimilarity('vector', [1.0, 2.0, 3.0, 4.0], 0.7, '-Infinity', 'category:AAA')
+        );
+    }
 }
