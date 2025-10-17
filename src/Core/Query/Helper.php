@@ -590,7 +590,7 @@ class Helper
         return $this->qparser(
             'knn',
             $params,
-        ).'['.implode(', ', $vector).']';
+        ).$this->getFloatList($vector);
     }
 
     /**
@@ -650,7 +650,7 @@ class Helper
         return $this->qparser(
             'vectorSimilarity',
             $params,
-        ).'['.implode(', ', $vector).']';
+        ).$this->getFloatList($vector);
     }
 
     /**
@@ -679,5 +679,22 @@ class Helper
         }
 
         return $params;
+    }
+
+    /**
+     * Get a float list as a string.
+     *
+     * @param float[] $values
+     *
+     * @return string
+     */
+    protected function getFloatList(array $values): string
+    {
+        return '['.implode(', ', array_map(function ($value) {
+            if ($value == (int) $value) {
+                return number_format($value, 1, '.', '');
+            }
+            return (string) $value;
+        }, $values)).']';
     }
 }

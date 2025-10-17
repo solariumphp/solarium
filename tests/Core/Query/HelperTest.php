@@ -779,12 +779,12 @@ class HelperTest extends TestCase
     public function testKnnTextToVector(): void
     {
         $this->assertSame(
-            '{!knn_text_to_vector f=vector model=a-model, topK=10}hello world query',
+            '{!knn_text_to_vector f=vector model=a-model topK=10}hello world query',
             $this->helper->knnTextToVector('a-model', 'vector', 'hello world query', 10)
         );
 
         $this->assertSame(
-            '{!knn_text_to_vector f=vector preFilter=category:AAA preFilter=inStock:true model=a-model, topK=10}hello world query',
+            '{!knn_text_to_vector f=vector preFilter=category:AAA preFilter=inStock:true model=a-model topK=10}hello world query',
             $this->helper->knnTextToVector('a-model', 'vector', 'hello world query', 10, 'category:AAA', 'inStock:true')
         );
     }
