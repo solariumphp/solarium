@@ -15,7 +15,7 @@ class CommitTest extends TestCase
         $this->command = new Commit();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMMAND_COMMIT,
@@ -23,7 +23,7 @@ class CommitTest extends TestCase
         );
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'softcommit' => true,
@@ -46,7 +46,7 @@ class CommitTest extends TestCase
         );
     }
 
-    public function testGetAndSetSoftCommit()
+    public function testGetAndSetSoftCommit(): void
     {
         $this->command->setSoftCommit(false);
         $this->assertFalse(
@@ -54,7 +54,7 @@ class CommitTest extends TestCase
         );
     }
 
-    public function testGetAndSetWaitSearcher()
+    public function testGetAndSetWaitSearcher(): void
     {
         $this->command->setWaitSearcher(false);
         $this->assertFalse(
@@ -62,7 +62,7 @@ class CommitTest extends TestCase
         );
     }
 
-    public function testGetAndSetExpungeDeletes()
+    public function testGetAndSetExpungeDeletes(): void
     {
         $this->command->setExpungeDeletes(true);
         $this->assertTrue(

@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class HighlightingTest extends TestCase
 {
-    public function testBuildComponent()
+    public function testBuildComponent(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -118,7 +118,7 @@ class HighlightingTest extends TestCase
     /**
      * @deprecated Since Solr 6.4
      */
-    public function testBuildComponentWithUseFastVectorHighlighter()
+    public function testBuildComponentWithUseFastVectorHighlighter(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -143,7 +143,7 @@ class HighlightingTest extends TestCase
         );
     }
 
-    public function testBuildComponentWithUnifiedHighlighter()
+    public function testBuildComponentWithUnifiedHighlighter(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -214,7 +214,7 @@ class HighlightingTest extends TestCase
         );
     }
 
-    public function testBuildComponentWithOriginalHighlighter()
+    public function testBuildComponentWithOriginalHighlighter(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -283,7 +283,7 @@ class HighlightingTest extends TestCase
         );
     }
 
-    public function testBuildComponentWithFastVectorHighlighter()
+    public function testBuildComponentWithFastVectorHighlighter(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

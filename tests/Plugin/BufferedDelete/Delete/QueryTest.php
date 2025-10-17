@@ -18,24 +18,24 @@ class QueryTest extends TestCase
         $this->query = new Query('cat:abc');
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(AbstractDelete::TYPE_QUERY, $this->query->getType());
     }
 
-    public function testGetQuery()
+    public function testGetQuery(): void
     {
         $this->assertSame('cat:abc', $this->query->getQuery());
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $this->assertSame($this->query, $this->query->setQuery('cat:def'));
 
         $this->assertSame('cat:def', $this->query->getQuery());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('cat:abc', (string) $this->query);
     }

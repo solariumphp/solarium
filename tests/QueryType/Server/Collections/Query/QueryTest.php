@@ -24,40 +24,40 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_COLLECTIONS, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
-    public function testCreateCreate()
+    public function testCreateCreate(): void
     {
         $action = $this->query->createCreate();
         $this->assertInstanceOf(Create::class, $action, 'Can not create create action');
     }
 
-    public function testCreateDelete()
+    public function testCreateDelete(): void
     {
         $action = $this->query->createDelete();
         $this->assertInstanceOf(Delete::class, $action, 'Can not create delete action');
     }
 
-    public function testCreateReload()
+    public function testCreateReload(): void
     {
         $action = $this->query->createReload();
         $this->assertInstanceOf(Reload::class, $action, 'Can not create reload action');
     }
 
-    public function testCreateClusterStatus()
+    public function testCreateClusterStatus(): void
     {
         $action = $this->query->createClusterStatus();
         $this->assertInstanceOf(ClusterStatus::class, $action, 'Can not create status action');

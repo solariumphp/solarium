@@ -67,10 +67,10 @@ class PivotFacet extends AbstractFacet
         return $this;
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_filter([

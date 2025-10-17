@@ -44,7 +44,7 @@ class ResultTest extends TestCase
         $this->result = new SuggesterDummy($this->data, $this->allData);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -52,7 +52,7 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,
@@ -60,33 +60,33 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetResults()
+    public function testGetResults(): void
     {
         $this->assertSame($this->data, $this->result->getResults());
     }
 
-    public function testGetAll()
+    public function testGetAll(): void
     {
         $this->assertSame($this->allData, $this->result->getAll());
     }
 
-    public function testGetDictionary()
+    public function testGetDictionary(): void
     {
         $dictionary = $this->result->getDictionary('dictionary1');
         $this->assertSame('data1', $dictionary->getTerm('term1')->getSuggestions()[0]['term']);
     }
 
-    public function testGetDictionaryWithInvalidFieldName()
+    public function testGetDictionaryWithInvalidFieldName(): void
     {
         $this->assertNull($this->result->getDictionary('dictionary3'));
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->data, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $results = [];
         foreach ($this->result as $key => $doc) {

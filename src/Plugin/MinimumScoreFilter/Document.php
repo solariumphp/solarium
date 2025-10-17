@@ -151,7 +151,6 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
         $this->document->offsetUnset($offset);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -159,6 +158,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->document->offsetGet($offset);
@@ -185,10 +185,10 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
         return $this->document->getFields();
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->document;

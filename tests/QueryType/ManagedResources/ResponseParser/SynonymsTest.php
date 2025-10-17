@@ -11,7 +11,7 @@ use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
 class SynonymsTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{ "responseHeader":{ "status":0, "QTime":3}, "synonymMappings":{ "initArgs":{ "ignoreCase":true, "format":"solr"}, "initializedOn":"2014-12-16T22:44:05.33Z", "updatedSinceInit":"2020-02-03T00:54:53.049Z", "managedMap":{ "GB": ["GiB", "Gigabyte"], "TV": ["Television"], "happy": ["glad", "joyful"]}}}';
 

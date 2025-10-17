@@ -25,7 +25,7 @@ class ResourcesTest extends TestCase
         $this->builder = new ResourcesRequestBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $handler = 'schema/managed';
 

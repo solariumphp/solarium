@@ -24,19 +24,19 @@ class IdTest extends TestCase
         $this->stringId = new Id('abc');
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(AbstractDelete::TYPE_ID, $this->intId->getType());
         $this->assertSame(AbstractDelete::TYPE_ID, $this->stringId->getType());
     }
 
-    public function testGetId()
+    public function testGetId(): void
     {
         $this->assertSame(123, $this->intId->getId());
         $this->assertSame('abc', $this->stringId->getId());
     }
 
-    public function testSetAndGetId()
+    public function testSetAndGetId(): void
     {
         $this->assertSame($this->intId, $this->intId->setId(456));
         $this->assertSame($this->stringId, $this->stringId->setId('def'));
@@ -45,7 +45,7 @@ class IdTest extends TestCase
         $this->assertSame('def', $this->stringId->getId());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('123', (string) $this->intId);
         $this->assertSame('abc', (string) $this->stringId);

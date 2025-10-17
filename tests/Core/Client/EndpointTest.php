@@ -18,7 +18,7 @@ class EndpointTest extends TestCase
         $this->endpoint = new Endpoint();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'scheme' => 'http',
@@ -42,25 +42,25 @@ class EndpointTest extends TestCase
         $this->assertSame($options, $this->endpoint->getOptions());
     }
 
-    public function testSetAndGetHost()
+    public function testSetAndGetHost(): void
     {
         $this->endpoint->setHost('myhost');
         $this->assertSame('myhost', $this->endpoint->getHost());
     }
 
-    public function testSetAndGetPort()
+    public function testSetAndGetPort(): void
     {
         $this->endpoint->setPort(8080);
         $this->assertSame(8080, $this->endpoint->getPort());
     }
 
-    public function testSetAndGetPath()
+    public function testSetAndGetPath(): void
     {
         $this->endpoint->setPath('/mysolr');
         $this->assertSame('/mysolr', $this->endpoint->getPath());
     }
 
-    public function testSetAndGetPathWithTrailingSlash()
+    public function testSetAndGetPathWithTrailingSlash(): void
     {
         $this->endpoint->setPath('/mysolr/');
         $this->assertSame('/mysolr', $this->endpoint->getPath());
@@ -72,71 +72,71 @@ class EndpointTest extends TestCase
      *           ["/lunr"]
      *           ["/lunr/"]
      */
-    public function testSetAndGetContext(string $context)
+    public function testSetAndGetContext(string $context): void
     {
         $this->endpoint->setContext($context);
         $this->assertSame('lunr', $this->endpoint->getContext());
     }
 
-    public function testSetAndGetCollection()
+    public function testSetAndGetCollection(): void
     {
         $this->endpoint->setCollection('collection1');
         $this->assertSame('collection1', $this->endpoint->getCollection());
     }
 
-    public function testSetAndGetCore()
+    public function testSetAndGetCore(): void
     {
         $this->endpoint->setCore('core1');
         $this->assertSame('core1', $this->endpoint->getCore());
     }
 
-    public function testSetAndGetScheme()
+    public function testSetAndGetScheme(): void
     {
         $this->endpoint->setScheme('https');
         $this->assertSame('https', $this->endpoint->getScheme());
     }
 
-    public function testGetCollectionBaseUri()
+    public function testGetCollectionBaseUri(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
         $this->assertSame('http://myserver:123/mypath/lunr/collection1/', $this->endpoint->getCollectionBaseUri());
     }
 
-    public function testGetCollectionBaseUriWithHttps()
+    public function testGetCollectionBaseUriWithHttps(): void
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
 
         $this->assertSame('https://myserver:123/mypath/lunr/collection1/', $this->endpoint->getCollectionBaseUri());
     }
 
-    public function testGetCollectionBaseUriException()
+    public function testGetCollectionBaseUriException(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->expectException(UnexpectedValueException::class);
         $this->endpoint->getCollectionBaseUri();
     }
 
-    public function testGetCoreBaseUri()
+    public function testGetCoreBaseUri(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
         $this->assertSame('http://myserver:123/mypath/lunr/core1/', $this->endpoint->getCoreBaseUri());
     }
 
-    public function testGetCoreBaseUriWithHttps()
+    public function testGetCoreBaseUriWithHttps(): void
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
 
         $this->assertSame('https://myserver:123/mypath/lunr/core1/', $this->endpoint->getCoreBaseUri());
     }
 
-    public function testGetCoreBaseUriException()
+    public function testGetCoreBaseUriException(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->expectException(UnexpectedValueException::class);
         $this->endpoint->getCoreBaseUri();
     }
 
-    public function testGetBaseUri()
+    public function testGetBaseUri(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
 
@@ -147,7 +147,7 @@ class EndpointTest extends TestCase
         $this->assertSame('http://myserver:123/mypath/lunr/collection1/', $this->endpoint->getBaseUri());
     }
 
-    public function testGetBaseUriWithHttps()
+    public function testGetBaseUriWithHttps(): void
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
 
@@ -158,97 +158,97 @@ class EndpointTest extends TestCase
         $this->assertSame('https://myserver:123/mypath/lunr/collection1/', $this->endpoint->getBaseUri());
     }
 
-    public function testGetBaseUriException()
+    public function testGetBaseUriException(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->expectException(UnexpectedValueException::class);
         $this->endpoint->getBaseUri();
     }
 
-    public function testGetV1BaseUri()
+    public function testGetV1BaseUri(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->assertSame('http://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
     }
 
-    public function testGetV1BaseUriWithHttps()
+    public function testGetV1BaseUriWithHttps(): void
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->assertSame('https://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
     }
 
-    public function testV1BaseUriDoesNotContainCollectionSegment()
+    public function testV1BaseUriDoesNotContainCollectionSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
         $this->assertSame('http://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
     }
 
-    public function testV1BaseUriDoesNotContainCoreSegment()
+    public function testV1BaseUriDoesNotContainCoreSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
         $this->assertSame('http://myserver:123/mypath/lunr/', $this->endpoint->getV1BaseUri());
     }
 
-    public function testGetV2BaseUri()
+    public function testGetV2BaseUri(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
     }
 
-    public function testGetV2BaseUriWithHttps()
+    public function testGetV2BaseUriWithHttps(): void
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
         $this->assertSame('https://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
     }
 
-    public function testV2BaseUriDoesNotContainCollectionSegment()
+    public function testV2BaseUriDoesNotContainCollectionSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCollection('collection1');
         $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
     }
 
-    public function testV2BaseUriDoesNotContainCoreSegment()
+    public function testV2BaseUriDoesNotContainCoreSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123)->setCore('core1');
         $this->assertSame('http://myserver:123/mypath/api/', $this->endpoint->getV2BaseUri());
     }
 
-    public function testGetServerUri()
+    public function testGetServerUri(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setContext('lunr')->setPort(123);
 
         $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
-    public function testGetServerUriWithHttps()
+    public function testGetServerUriWithHttps(): void
     {
         $this->endpoint->setScheme('https')->setHost('myserver')->setPath('/mypath')->setPort(123);
 
         $this->assertSame('https://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
-    public function testServerUriDoesNotContainContextSegment()
+    public function testServerUriDoesNotContainContextSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setContext('lunr');
 
         $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
-    public function testServerUriDoesNotContainCollectionSegment()
+    public function testServerUriDoesNotContainCollectionSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCollection('mycollection');
 
         $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
-    public function testServerUriDoesNotContainCoreSegment()
+    public function testServerUriDoesNotContainCoreSegment(): void
     {
         $this->endpoint->setHost('myserver')->setPath('/mypath')->setPort(123)->setCore('mycore');
 
         $this->assertSame('http://myserver:123/mypath/', $this->endpoint->getServerUri());
     }
 
-    public function testGetAndSetAuthentication()
+    public function testGetAndSetAuthentication(): void
     {
         $user = 'someone';
         $pass = 'S0M3p455';
@@ -267,7 +267,7 @@ class EndpointTest extends TestCase
     /**
      * @requires PHP >= 8.2
      */
-    public function testSetAuthenticationSensitiveParameter()
+    public function testSetAuthenticationSensitiveParameter(): void
     {
         try {
             // trigger a \TypeError with the $user argument
@@ -280,7 +280,7 @@ class EndpointTest extends TestCase
         }
     }
 
-    public function testGetAndSetAuthorizationToken()
+    public function testGetAndSetAuthorizationToken(): void
     {
         $tokenname = 'Token';
         $token = '1234567890ABCDEFG';
@@ -299,7 +299,7 @@ class EndpointTest extends TestCase
     /**
      * @requires PHP >= 8.2
      */
-    public function testSetAuthorizationTokenSensitiveParameter()
+    public function testSetAuthorizationTokenSensitiveParameter(): void
     {
         try {
             // trigger a \TypeError with the $tokenname argument
@@ -312,13 +312,13 @@ class EndpointTest extends TestCase
         }
     }
 
-    public function testIsAndSetLeader()
+    public function testIsAndSetLeader(): void
     {
         $this->endpoint->setLeader(true);
         $this->assertTrue($this->endpoint->isLeader());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $options = [
             'host' => '192.168.0.1',

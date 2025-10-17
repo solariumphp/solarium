@@ -14,19 +14,19 @@ class ResultTest extends TestCase
         $this->result = new ResultDummy();
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(1, $this->result->getStatus());
     }
 
-    public function testGetWarning()
+    public function testGetWarning(): void
     {
         $expected = 'This response format is experimental.  It is likely to change in the future.';
 
         $this->assertSame($expected, $this->result->getWarning());
     }
 
-    public function testGetData()
+    public function testGetData(): void
     {
         $expected = ['foo' => 'bar'];
 

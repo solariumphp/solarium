@@ -7,31 +7,31 @@ use Solarium\Exception\OutOfBoundsException;
 
 class OutOfBoundsExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\OutOfBoundsException');
         throw new OutOfBoundsException();
     }
 
-    public function testSPLException()
+    public function testSPLException(): void
     {
         $this->expectException('\OutOfBoundsException');
         throw new OutOfBoundsException();
     }
 
-    public function testSPLParentException()
+    public function testSPLParentException(): void
     {
         $this->expectException('\RuntimeException');
         throw new OutOfBoundsException();
     }
 
-    public function testRuntimeMarkerInterface()
+    public function testRuntimeMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\RuntimeExceptionInterface');
         throw new OutOfBoundsException();
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new OutOfBoundsException();

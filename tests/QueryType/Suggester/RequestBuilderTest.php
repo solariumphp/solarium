@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $this->query->setDictionary('suggest');
         $this->query->setQuery('ap ip');

@@ -22,37 +22,37 @@ class ConfigTest extends TestCase
         $this->initArgs = new DummyInitArgs();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_CONFIG, $this->config->getType());
     }
 
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_PUT, $this->config->getRequestMethod());
     }
 
-    public function testSetAndGetInitArgs()
+    public function testSetAndGetInitArgs(): void
     {
         $this->config->setInitArgs($this->initArgs);
         $this->assertSame($this->initArgs, $this->config->getInitArgs());
     }
 
-    public function testGetRawData()
+    public function testGetRawData(): void
     {
         $this->initArgs->setInitArgs(['ignoreCase' => true]);
         $this->config->setInitArgs($this->initArgs);
         $this->assertSame('{"initArgs":{"ignoreCase":true}}', $this->config->getRawData());
     }
 
-    public function testGetRawDataEmptyInitArgs()
+    public function testGetRawDataEmptyInitArgs(): void
     {
         $this->initArgs->setInitArgs([]);
         $this->config->setInitArgs($this->initArgs);
         $this->assertNull($this->config->getRawData());
     }
 
-    public function testGetRawDataNoInitArgs()
+    public function testGetRawDataNoInitArgs(): void
     {
         $this->assertNull($this->config->getRawData());
     }

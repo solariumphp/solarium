@@ -25,17 +25,17 @@ class DocumentTest extends TestCase
         $this->result = new DocumentDummy(1, 12, $this->items);
     }
 
-    public function testGetDocuments()
+    public function testGetDocuments(): void
     {
         $this->assertSame($this->items, $this->result->getDocuments());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $docs = [];
         foreach ($this->result as $key => $doc) {
@@ -45,7 +45,7 @@ class DocumentTest extends TestCase
         $this->assertSame($this->items, $docs);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -53,7 +53,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,
@@ -61,7 +61,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testGetDocument()
+    public function testGetDocument(): void
     {
         $this->assertSame(
             $this->items['key2'],
@@ -69,7 +69,7 @@ class DocumentTest extends TestCase
         );
     }
 
-    public function testGetInvalidDocument()
+    public function testGetInvalidDocument(): void
     {
         $this->assertNull(
             $this->result->getDocument('invalidkey')

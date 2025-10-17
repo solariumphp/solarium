@@ -28,27 +28,27 @@ class DictionaryTest extends TestCase
         $this->dictionary = new Dictionary($this->terms);
     }
 
-    public function testGetTerms()
+    public function testGetTerms(): void
     {
         $this->assertSame($this->terms, $this->dictionary->getTerms());
     }
 
-    public function testGetTerm()
+    public function testGetTerm(): void
     {
         $this->assertSame($this->terms['zoo'], $this->dictionary->getTerm('zoo'));
     }
 
-    public function testGetTermWithUnknownKey()
+    public function testGetTermWithUnknownKey(): void
     {
         $this->assertNull($this->dictionary->getTerm('bar'));
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->terms, $this->dictionary);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $results = [];
         foreach ($this->dictionary as $key => $doc) {

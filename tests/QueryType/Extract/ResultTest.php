@@ -13,17 +13,17 @@ class ResultTest extends AbstractResultTestCase
         $this->result = new ExtractResultDummy();
     }
 
-    public function testGetFile()
+    public function testGetFile(): void
     {
         $this->assertSame('dummy data', $this->result->getFile());
     }
 
-    public function testGetFileMetadata()
+    public function testGetFileMetadata(): void
     {
         $this->assertSame(['foo' => 'bar'], $this->result->getFileMetadata());
     }
 
-    public function testGetDataOldStyle()
+    public function testGetDataOldStyle(): void
     {
         $result = new ExtractResultDummyPre8Point6();
         $data = $result->getData();
@@ -35,7 +35,7 @@ class ResultTest extends AbstractResultTestCase
         $this->assertSame(['foo', 'bar'], $data['file_metadata']);
     }
 
-    public function testGetDataNewStyle()
+    public function testGetDataNewStyle(): void
     {
         $result = new ExtractResultDummyPost8Point6();
         $data = $result->getData();

@@ -487,10 +487,10 @@ class Document extends AbstractDocument
         return $this->version;
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $fields = $this->getFields();

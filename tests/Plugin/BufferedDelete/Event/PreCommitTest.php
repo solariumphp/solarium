@@ -29,7 +29,7 @@ class PreCommitTest extends TestCase
      *
      * @param PreCommit $event
      */
-    public function testSetAndGetBuffer($event)
+    public function testSetAndGetBuffer($event): void
     {
         $buffer = [4, 5, 6];
         $event->setBuffer($buffer);
@@ -41,7 +41,7 @@ class PreCommitTest extends TestCase
      *
      * @param PreCommit $event
      */
-    public function testSetAndGetSoftCommit($event)
+    public function testSetAndGetSoftCommit($event): void
     {
         $event->setSoftCommit(true);
         $this->assertTrue($event->getSoftCommit());
@@ -52,7 +52,7 @@ class PreCommitTest extends TestCase
      *
      * @param PreCommit $event
      */
-    public function testSetAndGetWaitSearcher($event)
+    public function testSetAndGetWaitSearcher($event): void
     {
         $event->setWaitSearcher(false);
         $this->assertFalse($event->getWaitSearcher());
@@ -63,7 +63,7 @@ class PreCommitTest extends TestCase
      *
      * @param PreCommit $event
      */
-    public function testSetAndGetExpungeDeletes($event)
+    public function testSetAndGetExpungeDeletes($event): void
     {
         $event->setExpungeDeletes(true);
         $this->assertTrue($event->getExpungeDeletes());

@@ -24,7 +24,7 @@ class PreCreateRequestTest extends TestCase
      *
      * @param PreCreateRequest $event
      */
-    public function testSetAndGetRequest($event)
+    public function testSetAndGetRequest($event): void
     {
         $request = new Request();
         $request->addParam('testparam', 'test value');

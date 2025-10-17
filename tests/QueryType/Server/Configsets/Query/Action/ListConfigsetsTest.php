@@ -19,12 +19,12 @@ class ListConfigsetsTest extends TestCase
         $this->action = new ListConfigsets();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(ConfigsetsQuery::ACTION_LIST, $this->action->getType());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(ListConfigsetsResult::class, $this->action->getResultClass());
     }

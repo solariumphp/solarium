@@ -7,31 +7,31 @@ use Solarium\Exception\InvalidArgumentException;
 
 class InvalidArgumentExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\InvalidArgumentException');
         throw new InvalidArgumentException();
     }
 
-    public function testSPLException()
+    public function testSPLException(): void
     {
         $this->expectException('\InvalidArgumentException');
         throw new InvalidArgumentException();
     }
 
-    public function testSPLParentException()
+    public function testSPLParentException(): void
     {
         $this->expectException('\LogicException');
         throw new InvalidArgumentException();
     }
 
-    public function testLogicMarkerInterface()
+    public function testLogicMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\LogicExceptionInterface');
         throw new InvalidArgumentException();
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new InvalidArgumentException();

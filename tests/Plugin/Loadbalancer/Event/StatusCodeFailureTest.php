@@ -9,7 +9,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class StatusCodeFailureTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $endpoint = $client->getEndpoint();

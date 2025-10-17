@@ -18,7 +18,7 @@ class SpatialTest extends TestCase
         $this->spatial = new Spatial();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'sfield' => 'geo',
@@ -33,7 +33,7 @@ class SpatialTest extends TestCase
         $this->assertEquals($options['pt'], $this->spatial->getPoint());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(
             Query::COMPONENT_SPATIAL,
@@ -41,12 +41,12 @@ class SpatialTest extends TestCase
         );
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertNull($this->spatial->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Spatial',
@@ -54,7 +54,7 @@ class SpatialTest extends TestCase
         );
     }
 
-    public function testSetAndGetField()
+    public function testSetAndGetField(): void
     {
         $value = 'geo';
         $this->spatial->setField($value);
@@ -62,7 +62,7 @@ class SpatialTest extends TestCase
         $this->assertEquals($value, $this->spatial->getField());
     }
 
-    public function testSetAndGetDistance()
+    public function testSetAndGetDistance(): void
     {
         $value = 5.9438;
         $this->spatial->setDistance($value);
@@ -70,7 +70,7 @@ class SpatialTest extends TestCase
         $this->assertEquals($value, $this->spatial->getDistance());
     }
 
-    public function testSetAndGetPoint()
+    public function testSetAndGetPoint(): void
     {
         $value = '52,13';
         $this->spatial->setPoint($value);

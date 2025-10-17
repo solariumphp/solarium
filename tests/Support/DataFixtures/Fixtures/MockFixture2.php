@@ -10,7 +10,7 @@ class MockFixture2 implements FixtureInterface
     /**
      * @param ClientInterface $client
      */
-    public function load(ClientInterface $client)
+    public function load(ClientInterface $client): void
     {
         // Not needed in unit test
     }
@@ -21,7 +21,7 @@ class MockFixture3 implements FixtureInterface
     /**
      * @param ClientInterface $client
      */
-    public function load(ClientInterface $client)
+    public function load(ClientInterface $client): void
     {
         // Not needed in unit test
     }

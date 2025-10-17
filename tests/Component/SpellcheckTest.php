@@ -20,12 +20,12 @@ class SpellcheckTest extends TestCase
         $this->spellCheck->setQueryInstance(new Query());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK, $this->spellCheck->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\ResponseParser\Spellcheck',
@@ -33,7 +33,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Spellcheck',
@@ -41,7 +41,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $value = 'testquery';
         $this->spellCheck->setQuery($value);
@@ -52,13 +52,13 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->spellCheck->setQuery('id:%1%', [678]);
         $this->assertEquals('id:678', $this->spellCheck->getQuery());
     }
 
-    public function testSetAndGetBuild()
+    public function testSetAndGetBuild(): void
     {
         $value = true;
         $this->spellCheck->setBuild($value);
@@ -69,7 +69,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetReload()
+    public function testSetAndGetReload(): void
     {
         $value = false;
         $this->spellCheck->setReload($value);
@@ -80,7 +80,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetDictionary()
+    public function testSetAndGetDictionary(): void
     {
         $value = 'myDictionary';
         $this->spellCheck->setDictionary($value);
@@ -91,7 +91,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetCount()
+    public function testSetAndGetCount(): void
     {
         $value = 11;
         $this->spellCheck->setCount($value);
@@ -102,7 +102,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetOnlyMorePopular()
+    public function testSetAndGetOnlyMorePopular(): void
     {
         $value = false;
         $this->spellCheck->setOnlyMorePopular($value);
@@ -113,7 +113,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetAlternativeTermCount()
+    public function testSetAndGetAlternativeTermCount(): void
     {
         $value = 5;
         $this->spellCheck->setAlternativeTermCount($value);
@@ -124,7 +124,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetExtendedResults()
+    public function testSetAndGetExtendedResults(): void
     {
         $value = false;
         $this->spellCheck->setExtendedResults($value);
@@ -135,7 +135,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetCollate()
+    public function testSetAndGetCollate(): void
     {
         $value = false;
         $this->spellCheck->setCollate($value);
@@ -146,7 +146,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaxCollations()
+    public function testSetAndGetMaxCollations(): void
     {
         $value = 23;
         $this->spellCheck->setMaxCollations($value);
@@ -157,7 +157,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaxCollationTries()
+    public function testSetAndGetMaxCollationTries(): void
     {
         $value = 10;
         $this->spellCheck->setMaxCollationTries($value);
@@ -168,7 +168,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaxCollationEvaluations()
+    public function testSetAndGetMaxCollationEvaluations(): void
     {
         $value = 10;
         $this->spellCheck->setMaxCollationEvaluations($value);
@@ -179,7 +179,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetCollateExtendedResults()
+    public function testSetAndGetCollateExtendedResults(): void
     {
         $value = true;
         $this->spellCheck->setCollateExtendedResults($value);
@@ -190,7 +190,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetAccuracy()
+    public function testSetAndGetAccuracy(): void
     {
         $value = .1;
         $this->spellCheck->setAccuracy($value);
@@ -201,7 +201,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testSetAndGetCollateParams()
+    public function testSetAndGetCollateParams(): void
     {
         $this->assertEquals(
             $this->spellCheck,

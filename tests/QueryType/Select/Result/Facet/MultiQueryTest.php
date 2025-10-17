@@ -21,17 +21,17 @@ class MultiQueryTest extends TestCase
         $this->facet = new MultiQuery($this->values);
     }
 
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $this->assertSame($this->values, $this->facet->getValues());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->values, $this->facet);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $values = [];
         foreach ($this->facet as $key => $value) {

@@ -17,22 +17,22 @@ class ResourcesTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testName()
+    public function testName(): void
     {
         $this->assertEquals('resources', $this->query->getName());
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $this->assertEquals(Client::QUERY_MANAGED_RESOURCES, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }

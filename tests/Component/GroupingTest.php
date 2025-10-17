@@ -20,7 +20,7 @@ class GroupingTest extends TestCase
         $this->grouping->setQueryInstance(new Query());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'fields' => 'field1,field2',
@@ -57,12 +57,12 @@ class GroupingTest extends TestCase
         $this->assertSame('MyValueGroupClass', $this->grouping->getResultValueGroupClass());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_GROUPING, $this->grouping->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\ResponseParser\Grouping',
@@ -70,7 +70,7 @@ class GroupingTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\Grouping',
@@ -78,139 +78,139 @@ class GroupingTest extends TestCase
         );
     }
 
-    public function testAddField()
+    public function testAddField(): void
     {
         $this->grouping->addField('field1');
         $this->grouping->addField('field2');
         $this->assertSame(['field1', 'field2'], $this->grouping->getFields());
     }
 
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $this->grouping->addFields(['field1', 'field2']);
         $this->assertSame(['field1', 'field2'], $this->grouping->getFields());
     }
 
-    public function testAddFieldsAsStringWithTrim()
+    public function testAddFieldsAsStringWithTrim(): void
     {
         $this->grouping->addFields('field1, field2');
         $this->assertSame(['field1', 'field2'], $this->grouping->getFields());
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $this->grouping->addFields(['field1', 'field2']);
         $this->grouping->clearFields();
         $this->assertSame([], $this->grouping->getFields());
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $this->grouping->addFields(['field1', 'field2']);
         $this->grouping->setFields(['field3', 'field4']);
         $this->assertSame(['field3', 'field4'], $this->grouping->getFields());
     }
 
-    public function testAddQuery()
+    public function testAddQuery(): void
     {
         $this->grouping->addQuery('cat:A');
         $this->grouping->addQuery('cat:B');
         $this->assertSame(['cat:A', 'cat:B'], $this->grouping->getQueries());
     }
 
-    public function testAddQueries()
+    public function testAddQueries(): void
     {
         $this->grouping->addQueries(['cat:A', 'cat:B']);
         $this->assertSame(['cat:A', 'cat:B'], $this->grouping->getQueries());
     }
 
-    public function testAddQueriesAsString()
+    public function testAddQueriesAsString(): void
     {
         $this->grouping->addQueries('cat:A');
         $this->assertSame(['cat:A'], $this->grouping->getQueries());
     }
 
-    public function testClearQueries()
+    public function testClearQueries(): void
     {
         $this->grouping->addQueries(['cat:A', 'cat:B']);
         $this->grouping->clearQueries();
         $this->assertSame([], $this->grouping->getQueries());
     }
 
-    public function testSetQueries()
+    public function testSetQueries(): void
     {
         $this->grouping->addQueries(['cat:A', 'cat:B']);
         $this->grouping->setQueries(['cat:C', 'cat:D']);
         $this->assertSame(['cat:C', 'cat:D'], $this->grouping->getQueries());
     }
 
-    public function testSetAndGetLimit()
+    public function testSetAndGetLimit(): void
     {
         $this->grouping->setLimit(5);
         $this->assertSame(5, $this->grouping->getLimit());
     }
 
-    public function testSetAndGetOffset()
+    public function testSetAndGetOffset(): void
     {
         $this->grouping->setOffset(20);
         $this->assertSame(20, $this->grouping->getOffset());
     }
 
-    public function testSetAndGetSort()
+    public function testSetAndGetSort(): void
     {
         $this->grouping->setSort('sortfield asc');
         $this->assertSame('sortfield asc', $this->grouping->getSort());
     }
 
-    public function testSetAndGetMainResult()
+    public function testSetAndGetMainResult(): void
     {
         $this->grouping->setMainResult(true);
         $this->assertTrue($this->grouping->getMainResult());
     }
 
-    public function testSetAndGetNumberOfGroups()
+    public function testSetAndGetNumberOfGroups(): void
     {
         $this->grouping->setNumberOfGroups(true);
         $this->assertTrue($this->grouping->getNumberOfGroups());
     }
 
-    public function testSetAndGetCachePercentage()
+    public function testSetAndGetCachePercentage(): void
     {
         $this->grouping->setCachePercentage(50);
         $this->assertSame(50, $this->grouping->getCachePercentage());
     }
 
-    public function testSetAndGetTruncate()
+    public function testSetAndGetTruncate(): void
     {
         $this->grouping->setTruncate(true);
         $this->assertTrue($this->grouping->getTruncate());
     }
 
-    public function testSetAndGetFunction()
+    public function testSetAndGetFunction(): void
     {
         $this->grouping->setFunction('myfunc()');
         $this->assertSame('myfunc()', $this->grouping->getFunction());
     }
 
-    public function testSetAndGetFacet()
+    public function testSetAndGetFacet(): void
     {
         $this->grouping->setFacet(true);
         $this->assertTrue($this->grouping->getFacet());
     }
 
-    public function testSetAndGetFormat()
+    public function testSetAndGetFormat(): void
     {
         $this->grouping->setFormat(Grouping::FORMAT_SIMPLE);
         $this->assertSame('simple', $this->grouping->getFormat());
     }
 
-    public function testSetAndGetResultQueryGroupClass()
+    public function testSetAndGetResultQueryGroupClass(): void
     {
         $this->grouping->setResultQueryGroupClass('MyQueryGroupClass');
         $this->assertSame('MyQueryGroupClass', $this->grouping->getResultQueryGroupClass());
     }
 
-    public function testSetAndGetResultQueryValueClass()
+    public function testSetAndGetResultQueryValueClass(): void
     {
         $this->grouping->setResultValueGroupClass('MyValueGroupClass');
         $this->assertSame('MyValueGroupClass', $this->grouping->getResultValueGroupClass());

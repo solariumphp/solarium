@@ -8,7 +8,7 @@ use Solarium\QueryType\Analysis\ResponseParser\Document;
 
 class DocumentTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'analysis' => [

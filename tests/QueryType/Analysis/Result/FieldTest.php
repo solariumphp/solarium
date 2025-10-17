@@ -20,17 +20,17 @@ class FieldTest extends TestCase
         $this->result = new FieldDummy(1, 12, $this->items);
     }
 
-    public function testGetLists()
+    public function testGetLists(): void
     {
         $this->assertSame($this->items, $this->result->getLists());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $lists = [];
         foreach ($this->result as $key => $list) {
@@ -40,7 +40,7 @@ class FieldTest extends TestCase
         $this->assertSame($this->items, $lists);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -48,7 +48,7 @@ class FieldTest extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,

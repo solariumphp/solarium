@@ -70,7 +70,7 @@ class LoadbalancerTest extends TestCase
         $this->plugin->initPlugin($this->client, []);
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'failoverenabled' => true,
@@ -133,7 +133,7 @@ class LoadbalancerTest extends TestCase
     /**
      * @depends testInitPlugin
      */
-    public function testDeinitPlugin(Client $client)
+    public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('loadbalancer');
 
@@ -143,57 +143,57 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testDefaultFailoverEnabled()
+    public function testDefaultFailoverEnabled(): void
     {
         $this->assertFalse($this->plugin->getFailoverEnabled());
     }
 
-    public function testSetAndGetFailoverEnabled()
+    public function testSetAndGetFailoverEnabled(): void
     {
         $this->plugin->setFailoverEnabled(true);
         $this->assertTrue($this->plugin->getFailoverEnabled());
     }
 
-    public function testSetAndGetFailoverMaxRetries()
+    public function testSetAndGetFailoverMaxRetries(): void
     {
         $this->plugin->setFailoverMaxRetries(16);
         $this->assertSame(16, $this->plugin->getFailoverMaxRetries());
     }
 
-    public function testDefaultFailoverStatusCodes()
+    public function testDefaultFailoverStatusCodes(): void
     {
         $this->assertSame([], $this->plugin->getFailoverStatusCodes());
     }
 
-    public function testAddFailoverStatusCode()
+    public function testAddFailoverStatusCode(): void
     {
         $this->plugin->addFailoverStatusCode(400);
         $this->plugin->addFailoverStatusCode(401);
         $this->assertSame([400, 401], $this->plugin->getFailoverStatusCodes());
     }
 
-    public function testAddFailoverStatusCodes()
+    public function testAddFailoverStatusCodes(): void
     {
         $this->plugin->addFailoverStatusCodes([400, 401]);
         $this->plugin->addFailoverStatusCodes('500, 501');
         $this->assertSame([400, 401, 500, 501], $this->plugin->getFailoverStatusCodes());
     }
 
-    public function testClearFailoverStatusCodes()
+    public function testClearFailoverStatusCodes(): void
     {
         $this->plugin->addFailoverStatusCode(400);
         $this->plugin->clearFailoverStatusCodes();
         $this->assertSame([], $this->plugin->getFailoverStatusCodes());
     }
 
-    public function testRemoveFailoverStatusCode()
+    public function testRemoveFailoverStatusCode(): void
     {
         $this->plugin->addFailoverStatusCodes([400, 401]);
         $this->plugin->removeFailoverStatusCode(400);
         $this->assertSame([401], $this->plugin->getFailoverStatusCodes());
     }
 
-    public function testSetFailoverStatusCodes()
+    public function testSetFailoverStatusCodes(): void
     {
         $this->plugin->setFailoverStatusCodes([400, 401]);
         $this->assertSame([400, 401], $this->plugin->getFailoverStatusCodes());
@@ -201,7 +201,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame([500, 501], $this->plugin->getFailoverStatusCodes());
     }
 
-    public function testAddEndpoint()
+    public function testAddEndpoint(): void
     {
         $this->plugin->addEndpoint('s1', 10);
 
@@ -211,7 +211,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testAddEndpointWithObject()
+    public function testAddEndpointWithObject(): void
     {
         $this->plugin->addEndpoint($this->client->getEndpoint('server1'), 10);
 
@@ -221,7 +221,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testAddEndpoints()
+    public function testAddEndpoints(): void
     {
         $endpoints = ['s1' => 10, 's2' => 8];
         $this->plugin->addEndpoints($endpoints);
@@ -232,7 +232,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testAddEndpointWithDuplicateKey()
+    public function testAddEndpointWithDuplicateKey(): void
     {
         $this->plugin->addEndpoint('s1', 10);
 
@@ -240,14 +240,14 @@ class LoadbalancerTest extends TestCase
         $this->plugin->addEndpoint('s1', 20);
     }
 
-    public function testClearEndpoints()
+    public function testClearEndpoints(): void
     {
         $this->plugin->addEndpoint('s1', 10);
         $this->plugin->clearEndpoints();
         $this->assertSame([], $this->plugin->getEndpoints());
     }
 
-    public function testRemoveEndpoint()
+    public function testRemoveEndpoint(): void
     {
         $endpoints = [
             's1' => 10,
@@ -263,7 +263,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testRemoveEndpointWithObject()
+    public function testRemoveEndpointWithObject(): void
     {
         $endpoints = [
             'server1' => 10,
@@ -279,7 +279,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testSetEndpoints()
+    public function testSetEndpoints(): void
     {
         $endpoints1 = [
             's1' => 10,
@@ -300,7 +300,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testSetAndGetForcedEndpointForNextQuery()
+    public function testSetAndGetForcedEndpointForNextQuery(): void
     {
         $endpoints1 = [
             's1' => 10,
@@ -312,7 +312,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame('s2', $this->plugin->getForcedEndpointForNextQuery());
     }
 
-    public function testSetAndGetForcedEndpointForNextQueryWithObject()
+    public function testSetAndGetForcedEndpointForNextQueryWithObject(): void
     {
         $endpoints1 = [
             'server1' => 10,
@@ -324,7 +324,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame('server2', $this->plugin->getForcedEndpointForNextQuery());
     }
 
-    public function testSetForcedEndpointForNextQueryWithInvalidKey()
+    public function testSetForcedEndpointForNextQueryWithInvalidKey(): void
     {
         $endpoints1 = [
             's1' => 10,
@@ -336,7 +336,7 @@ class LoadbalancerTest extends TestCase
         $this->plugin->setForcedEndpointForNextQuery('s3');
     }
 
-    public function testDefaultBlockedQueryTypes()
+    public function testDefaultBlockedQueryTypes(): void
     {
         $this->assertEqualsCanonicalizing(
             $this->expectedDefaultBlockedQueryTypes,
@@ -344,7 +344,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testAddBlockedQueryType()
+    public function testAddBlockedQueryType(): void
     {
         $this->plugin->addBlockedQueryType('type1');
         $this->plugin->addBlockedQueryType('type2');
@@ -355,7 +355,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testClearBlockedQueryTypes()
+    public function testClearBlockedQueryTypes(): void
     {
         $this->plugin->addBlockedQueryType('type1');
         $this->plugin->addBlockedQueryType('type2');
@@ -363,7 +363,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame([], $this->plugin->getBlockedQueryTypes());
     }
 
-    public function testAddBlockedQueryTypes()
+    public function testAddBlockedQueryTypes(): void
     {
         $blockedQueryTypes = ['type1', 'type2', 'type3'];
 
@@ -372,7 +372,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame($blockedQueryTypes, $this->plugin->getBlockedQueryTypes());
     }
 
-    public function testRemoveBlockedQueryType()
+    public function testRemoveBlockedQueryType(): void
     {
         $blockedQueryTypes = ['type1', 'type2', 'type3'];
 
@@ -386,7 +386,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testSetBlockedQueryTypes()
+    public function testSetBlockedQueryTypes(): void
     {
         $blockedQueryTypes = ['type1', 'type2', 'type3'];
 
@@ -398,7 +398,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testPreExecuteRequestWithForcedEndpoint()
+    public function testPreExecuteRequestWithForcedEndpoint(): void
     {
         $endpoints = [
            'server1' => 100,
@@ -422,7 +422,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testDefaultEndpointRestore()
+    public function testDefaultEndpointRestore(): void
     {
         $originalHost = $this->client->getEndpoint()->getHost();
         $endpoints = [
@@ -459,7 +459,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testBlockedQueryTypeNotLoadbalanced()
+    public function testBlockedQueryTypeNotLoadbalanced(): void
     {
         $originalHost = $this->client->getEndpoint()->getHost();
         $endpoints = [
@@ -486,7 +486,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testLoadbalancerRandomizing()
+    public function testLoadbalancerRandomizing(): void
     {
         $endpoints = [
            'server1' => 1,
@@ -507,7 +507,7 @@ class LoadbalancerTest extends TestCase
         );
     }
 
-    public function testFailoverOnEndpointFailure()
+    public function testFailoverOnEndpointFailure(): void
     {
         $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
         $this->client->setAdapter(new TestAdapterForFailover(true)); // set special mock that fails once with an HTTP exception
@@ -542,7 +542,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame('server2', $this->plugin->getLastEndpoint());
     }
 
-    public function testFailoverOnStatusCodeFailure()
+    public function testFailoverOnStatusCodeFailure(): void
     {
         $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
         $this->client->setAdapter(new TestAdapterForFailover(false)); // set special mock that fails once with an HTTP status error
@@ -578,7 +578,7 @@ class LoadbalancerTest extends TestCase
         $this->assertSame('server2', $this->plugin->getLastEndpoint());
     }
 
-    public function testFailoverMaxRetries()
+    public function testFailoverMaxRetries(): void
     {
         $this->plugin = new TestLoadbalancer(); // special loadbalancer that returns endpoints in fixed order
 

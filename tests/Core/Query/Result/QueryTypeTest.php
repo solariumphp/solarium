@@ -24,17 +24,17 @@ class QueryTypeTest extends TestCase
         $this->result = new TestStubResult($query, $response);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(1, $this->result->getStatus());
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(12, $this->result->getQueryTime());
     }
 
-    public function testParseResponse()
+    public function testParseResponse(): void
     {
         $query = new TestStubQuery();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP/1.1 200 OK']);
@@ -44,12 +44,7 @@ class QueryTypeTest extends TestCase
         $result->parse();
     }
 
-    public function testParseResponseInvalidQuerytype()
-    {
-        $this->assertNull($this->result->parse());
-    }
-
-    public function testParseResponseResponseHeaderFallback()
+    public function testParseResponseResponseHeaderFallback(): void
     {
         $query = new SelectQuery();
         $response = new Response('{"responseHeader":{"status":1,"QTime":12}}', ['HTTP/1.1 200 OK']);
@@ -59,7 +54,7 @@ class QueryTypeTest extends TestCase
         $this->assertSame(12, $result->getQueryTime());
     }
 
-    public function testParseLazyLoading()
+    public function testParseLazyLoading(): void
     {
         $this->assertSame(0, $this->result->parseCount);
 
@@ -70,7 +65,7 @@ class QueryTypeTest extends TestCase
         $this->assertSame(1, $this->result->parseCount);
     }
 
-    public function testMapData()
+    public function testMapData(): void
     {
         $this->result->mapData(['dummyvar' => 'dummyvalue']);
 
@@ -97,12 +92,12 @@ class TestStubResult extends QueryTypeResult
 
     protected $dummyvar;
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseResponse();
     }
 
-    public function mapData(array $data)
+    public function mapData(array $data): void
     {
         ++$this->parseCount;
         parent::mapData($data);

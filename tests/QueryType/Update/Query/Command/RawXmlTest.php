@@ -16,7 +16,7 @@ class RawXmlTest extends TestCase
         $this->command = new RawXml();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMMAND_RAWXML,
@@ -24,7 +24,7 @@ class RawXmlTest extends TestCase
         );
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'command' => '<add><doc><field name="id">1</field></doc></add>',
@@ -38,7 +38,7 @@ class RawXmlTest extends TestCase
         );
     }
 
-    public function testConfigModeMultiValue()
+    public function testConfigModeMultiValue(): void
     {
         $options = [
             'command' => ['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>'],
@@ -52,7 +52,7 @@ class RawXmlTest extends TestCase
         );
     }
 
-    public function testAddCommand()
+    public function testAddCommand(): void
     {
         $this->command->addCommand('<add><doc><field name="id">1</field></doc></add>');
         $this->assertSame(
@@ -61,7 +61,7 @@ class RawXmlTest extends TestCase
         );
     }
 
-    public function testAddCommands()
+    public function testAddCommands(): void
     {
         $this->command->addCommand('<add><doc><field name="id">1</field></doc></add>');
         $this->command->addCommands(['<add><doc><field name="id">2</field></doc></add>', '<add><doc><field name="id">3</field></doc></add>']);
@@ -71,7 +71,7 @@ class RawXmlTest extends TestCase
         );
     }
 
-    public function testAddCommandFromFile()
+    public function testAddCommandFromFile(): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
         file_put_contents($tmpfname, '<add><doc><field name="id">1</field></doc></add>');
@@ -86,7 +86,7 @@ class RawXmlTest extends TestCase
         unlink($tmpfname);
     }
 
-    public function testAddCommandFromFileWithUtf8Bom()
+    public function testAddCommandFromFileWithUtf8Bom(): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
         file_put_contents($tmpfname, pack('CCC', 0xEF, 0xBB, 0xBF).'<add><doc><field name="id">1</field></doc></add>');
@@ -101,7 +101,7 @@ class RawXmlTest extends TestCase
         unlink($tmpfname);
     }
 
-    public function testAddCommandFromFileWithXmlDeclaration()
+    public function testAddCommandFromFileWithXmlDeclaration(): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
         file_put_contents($tmpfname, '<?xml version="1.0" encoding="UTF-8"?><add><doc><field name="id">1</field></doc></add>');
@@ -116,7 +116,7 @@ class RawXmlTest extends TestCase
         unlink($tmpfname);
     }
 
-    public function testAddCommandFromFileWithUtf8BomAndXmlDeclaration()
+    public function testAddCommandFromFileWithUtf8BomAndXmlDeclaration(): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'xml');
         file_put_contents($tmpfname, pack('CCC', 0xEF, 0xBB, 0xBF).'<?xml version="1.0" encoding="UTF-8"?><add><doc><field name="id">1</field></doc></add>');
@@ -131,13 +131,13 @@ class RawXmlTest extends TestCase
         unlink($tmpfname);
     }
 
-    public function testAddCommandFromFileFailure()
+    public function testAddCommandFromFileFailure(): void
     {
         $this->expectException(RuntimeException::class);
         $this->command->addCommandFromFile('nonexistent.xml');
     }
 
-    public function testClear()
+    public function testClear(): void
     {
         $this->command->addCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
         $this->assertCount(2, $this->command->getCommands());

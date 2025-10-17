@@ -18,22 +18,22 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_SUGGESTER, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Suggester\ResponseParser', $this->query->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Suggester\RequestBuilder', $this->query->getRequestBuilder());
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $value = 'testquery';
         $this->query->setQuery($value);
@@ -44,7 +44,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetDictionary()
+    public function testSetAndGetDictionary(): void
     {
         $value = 'myDictionary';
         $this->query->setDictionary($value);
@@ -55,7 +55,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetDictionaries()
+    public function testSetAndGetDictionaries(): void
     {
         $value = ['myDictionary1', 'myDictionary1'];
         $this->query->setDictionary($value);
@@ -66,7 +66,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetCount()
+    public function testSetAndGetCount(): void
     {
         $value = 11;
         $this->query->setCount($value);
@@ -77,7 +77,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetContextFilterQuery()
+    public function testSetAndGetContextFilterQuery(): void
     {
         $value = 'context filter query';
         $this->query->setContextFilterQuery($value);
@@ -88,21 +88,21 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndBuild()
+    public function testSetAndBuild(): void
     {
         $this->assertFalse($this->query->getBuild());
         $this->query->setBuild(true);
         $this->assertTrue($this->query->getBuild());
     }
 
-    public function testSetAndReload()
+    public function testSetAndReload(): void
     {
         $this->assertFalse($this->query->getReload());
         $this->query->setReload(true);
         $this->assertTrue($this->query->getReload());
     }
 
-    public function testSetAndBuildAll()
+    public function testSetAndBuildAll(): void
     {
         $this->assertFalse($this->query->getBuildAll());
         $this->query->setBuildAll(true);

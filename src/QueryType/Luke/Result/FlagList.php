@@ -281,7 +281,6 @@ class FlagList implements \ArrayAccess, \Countable, \Iterator
         return \in_array($offset, $this->lookup);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -289,6 +288,7 @@ class FlagList implements \ArrayAccess, \Countable, \Iterator
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $value = null;

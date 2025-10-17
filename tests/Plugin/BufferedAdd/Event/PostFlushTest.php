@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PostFlushTest extends TestCase
 {
-    public function testConstructorAndGetter()
+    public function testConstructorAndGetter(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createUpdate();

@@ -61,7 +61,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testParsePhps(Schema $schema)
+    public function testParsePhps(Schema $schema): void
     {
         $data = [
             'responseHeader' => [
@@ -97,7 +97,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testFields(Schema $schema)
+    public function testFields(Schema $schema): void
     {
         $fields = $schema->getFields();
 
@@ -137,7 +137,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testFieldFlags(Schema $schema)
+    public function testFieldFlags(Schema $schema): void
     {
         $flags = $schema->getField('flags_a')->getFlags();
 
@@ -189,7 +189,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testFieldCopyDests(Schema $schema)
+    public function testFieldCopyDests(Schema $schema): void
     {
         $copyDests = $schema->getField('copy_from')->getCopyDests();
 
@@ -200,7 +200,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testFieldCopySources(Schema $schema)
+    public function testFieldCopySources(Schema $schema): void
     {
         $copySources = $schema->getField('copy_to')->getCopySources();
 
@@ -213,7 +213,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDynamicFields(Schema $schema)
+    public function testDynamicFields(Schema $schema): void
     {
         $dynamicFields = $schema->getDynamicFields();
 
@@ -248,7 +248,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDynamicFieldFlags(Schema $schema)
+    public function testDynamicFieldFlags(Schema $schema): void
     {
         // flags are covered exhaustively in testFieldFlags()
         $this->assertTrue($schema->getDynamicField('*_pos_inc_gap')->getFlags()->isTokenized());
@@ -258,7 +258,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDynamicFieldCopyDests(Schema $schema)
+    public function testDynamicFieldCopyDests(Schema $schema): void
     {
         $copyDests = $schema->getDynamicField('*_copy_from')->getCopyDests();
 
@@ -270,7 +270,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testDynamicFieldCopySources(Schema $schema)
+    public function testDynamicFieldCopySources(Schema $schema): void
     {
         $copySources = $schema->getDynamicField('*_copy_to')->getCopySources();
 
@@ -281,7 +281,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testUniqueKeyField(Schema $schema)
+    public function testUniqueKeyField(Schema $schema): void
     {
         $this->assertSame('uniquekey', (string) $schema->getUniqueKeyField());
     }
@@ -289,7 +289,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testSimilarity(Schema $schema)
+    public function testSimilarity(Schema $schema): void
     {
         $similarity = $schema->getSimilarity();
 
@@ -300,7 +300,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testTypes(Schema $schema)
+    public function testTypes(Schema $schema): void
     {
         $types = $schema->getTypes();
 
@@ -351,7 +351,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testIndexAnalyzer
      */
-    public function testIndexAnalyzerCharFilters(IndexAnalyzer $indexAnalyzer)
+    public function testIndexAnalyzerCharFilters(IndexAnalyzer $indexAnalyzer): void
     {
         $charFilter = $indexAnalyzer->getCharFilters()['FirstCharFilterFactory'];
 
@@ -368,7 +368,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testIndexAnalyzer
      */
-    public function testIndexAnalyzerTokenizer(IndexAnalyzer $indexAnalyzer)
+    public function testIndexAnalyzerTokenizer(IndexAnalyzer $indexAnalyzer): void
     {
         $tokenizer = $indexAnalyzer->getTokenizer();
 
@@ -385,7 +385,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testIndexAnalyzer
      */
-    public function testIndexAnalyzerFilters(IndexAnalyzer $indexAnalyzer)
+    public function testIndexAnalyzerFilters(IndexAnalyzer $indexAnalyzer): void
     {
         $filter = $indexAnalyzer->getFilters()['FirstFilterFactory'];
 
@@ -424,7 +424,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testQueryAnalyzer
      */
-    public function testQueryAnalyzerCharFilters(QueryAnalyzer $queryAnalyzer)
+    public function testQueryAnalyzerCharFilters(QueryAnalyzer $queryAnalyzer): void
     {
         $charFilter = $queryAnalyzer->getCharFilters()['FirstCharFilterFactory'];
 
@@ -441,7 +441,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testQueryAnalyzer
      */
-    public function testQueryAnalyzerTokenizer(QueryAnalyzer $queryAnalyzer)
+    public function testQueryAnalyzerTokenizer(QueryAnalyzer $queryAnalyzer): void
     {
         $tokenizer = $queryAnalyzer->getTokenizer();
 
@@ -458,7 +458,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testQueryAnalyzer
      */
-    public function testQueryAnalyzerFilters(QueryAnalyzer $queryAnalyzer)
+    public function testQueryAnalyzerFilters(QueryAnalyzer $queryAnalyzer): void
     {
         $filter = $queryAnalyzer->getFilters()['FirstFilterFactory'];
 
@@ -475,7 +475,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testTypeSimilarity(Schema $schema)
+    public function testTypeSimilarity(Schema $schema): void
     {
         $similarity = $schema->getType('type_untokenized')->getSimilarity();
 
@@ -491,7 +491,7 @@ class SchemaTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testReferences(Schema $schema)
+    public function testReferences(Schema $schema): void
     {
         $this->assertSame($schema->getType('type_untokenized'), $schema->getField('flags_a')->getType());
 
@@ -523,7 +523,7 @@ class SchemaTest extends TestCase
     /**
      * A schema isn't required to have a uniqueKey field.
      */
-    public function testParseSchemaWithoutUniqueKey()
+    public function testParseSchemaWithoutUniqueKey(): void
     {
         $schemaData = $this->getSchemaData();
         $schemaData['uniqueKeyField'] = null;
@@ -567,7 +567,7 @@ class SchemaTest extends TestCase
      * @testWith ["copy_from", "copyDests"]
      *           ["copy_to", "copySources"]
      */
-    public function testParseUndefinedCopyField(string $fieldName, string $destOrSource)
+    public function testParseUndefinedCopyField(string $fieldName, string $destOrSource): void
     {
         $schemaData = $this->getSchemaData();
         $schemaData['fields'][$fieldName][$destOrSource][] = 'undefined_field';

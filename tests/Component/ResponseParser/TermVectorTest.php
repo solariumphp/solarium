@@ -31,7 +31,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultProvider
      */
-    public function testParseWtJson(Result $expectedResult)
+    public function testParseWtJson(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -153,7 +153,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultProvider
      */
-    public function testParseWtPhps(Result $expectedResult)
+    public function testParseWtPhps(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -309,7 +309,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultAmbiguousKeysProvider
      */
-    public function testParseAmbiguousKeysWtJson(Result $expectedResult)
+    public function testParseAmbiguousKeysWtJson(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -337,7 +337,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultAmbiguousKeysProvider
      */
-    public function testParseAmbiguousKeysWtPhps(Result $expectedResult)
+    public function testParseAmbiguousKeysWtPhps(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -393,7 +393,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultDoubleKeysProvider
      */
-    public function testParseDoubleKeysWtJson(Result $expectedResult)
+    public function testParseDoubleKeysWtJson(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -430,7 +430,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultDoubleKeysProvider
      */
-    public function testParseDoubleKeysWtPhps(Result $expectedResult)
+    public function testParseDoubleKeysWtPhps(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -497,7 +497,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultNoDocumentsProvider
      */
-    public function testParseNoDocumentsWtJson(Result $expectedResult)
+    public function testParseNoDocumentsWtJson(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -521,7 +521,7 @@ class TermVectorTest extends TestCase
     /**
      * @dataProvider expectedResultNoDocumentsProvider
      */
-    public function testParseNoDocumentsWtPhps(Result $expectedResult)
+    public function testParseNoDocumentsWtPhps(Result $expectedResult): void
     {
         $data = [
             'termVectors' => [
@@ -557,14 +557,14 @@ class TermVectorTest extends TestCase
         ];
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, $this->tv, []);
 
         $this->assertNull($result);
     }
 
-    public function testParseNoQuery()
+    public function testParseNoQuery(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A valid query object needs to be provided.');

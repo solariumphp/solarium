@@ -48,7 +48,7 @@ class PrefetchIteratorTest extends TestCase
         ];
     }
 
-    public function testInitPlugin()
+    public function testInitPlugin(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('prefetchiterator');
@@ -56,19 +56,19 @@ class PrefetchIteratorTest extends TestCase
         $this->assertInstanceOf(PrefetchIterator::class, $plugin);
     }
 
-    public function testSetAndGetPrefetch()
+    public function testSetAndGetPrefetch(): void
     {
         $this->plugin->setPrefetch(120);
         $this->assertSame(120, $this->plugin->getPrefetch());
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $this->plugin->setQuery($this->query);
         $this->assertSame($this->query, $this->plugin->getQuery());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $result = $this->getPartialResult(0, 2);
         $mockClient = $this->createMock(Client::class);
@@ -84,7 +84,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertCount(5, $this->plugin);
     }
 
-    public function testIteratorFlow()
+    public function testIteratorFlow(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 2),
@@ -150,7 +150,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame(0, $this->plugin->key());
     }
 
-    public function testIteratorEmptyResultFlow()
+    public function testIteratorEmptyResultFlow(): void
     {
         $result = $this->getEmptyResult();
         $mockClient = $this->createMock(Client::class);
@@ -168,7 +168,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertFalse($this->plugin->valid());
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 2),
@@ -216,7 +216,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testIteratorWithCursorMark()
+    public function testIteratorWithCursorMark(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 2)->setNextCursorMark('AoEhMg=='),
@@ -269,7 +269,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testIteratorExactMultiple()
+    public function testIteratorExactMultiple(): void
     {
         // add an extra document so we hit a multiple of prefetch size 2
         $this->documents[] = new Document(['id' => 6, 'title' => 'doc6']);
@@ -322,7 +322,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testIteratorExactMultipleWithCursorMark()
+    public function testIteratorExactMultipleWithCursorMark(): void
     {
         // add an extra document so we hit a multiple of prefetch size 2
         $this->documents[] = new Document(['id' => 6, 'title' => 'doc6']);
@@ -380,7 +380,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testIteratorEmptyResult()
+    public function testIteratorEmptyResult(): void
     {
         $result = $this->getEmptyResult();
 
@@ -402,7 +402,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame([], $results);
     }
 
-    public function testIteratorEmptyResultWithCursorMark()
+    public function testIteratorEmptyResultWithCursorMark(): void
     {
         $result = $this->getEmptyResult()->setNextCursorMark('*');
 
@@ -426,7 +426,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame([], $results);
     }
 
-    public function testIteratorAndRewind()
+    public function testIteratorAndRewind(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 3),
@@ -480,7 +480,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results2);
     }
 
-    public function testIteratorAndRewindWithCursorMark()
+    public function testIteratorAndRewindWithCursorMark(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 3)->setNextCursorMark('AoEhMw=='),
@@ -539,7 +539,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results2);
     }
 
-    public function testPrefetchTrumpsStartAndRows()
+    public function testPrefetchTrumpsStartAndRows(): void
     {
         $result = $this->getEmptyResult();
 
@@ -561,7 +561,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame(3, $this->query->getRows());
     }
 
-    public function testPrefetchTrumpsRowsWithCursorMark()
+    public function testPrefetchTrumpsRowsWithCursorMark(): void
     {
         $result = $this->getEmptyResult();
 
@@ -582,7 +582,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame(3, $this->query->getRows());
     }
 
-    public function testIteratorDoesntResetOnCount()
+    public function testIteratorDoesntResetOnCount(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 2),
@@ -613,7 +613,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testIteratorResetOnSetPrefetch()
+    public function testIteratorResetOnSetPrefetch(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 2),
@@ -646,7 +646,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testIteratorResetOnSetQuery()
+    public function testIteratorResetOnSetQuery(): void
     {
         $resultSets = [
             $this->getPartialResult(0, 3),
@@ -679,14 +679,14 @@ class PrefetchIteratorTest extends TestCase
         $this->assertSame($this->documents, $results);
     }
 
-    public function testSetAndGetEndpointAsString()
+    public function testSetAndGetEndpointAsString(): void
     {
         $this->assertNull($this->plugin->getEndpoint());
         $this->plugin->setEndpoint('s1');
         $this->assertSame('s1', $this->plugin->getEndpoint());
     }
 
-    public function testWithSpecificEndpoint()
+    public function testWithSpecificEndpoint(): void
     {
         $result = $this->getResult();
         $mockClient = $this->createMock(Client::class);
@@ -700,7 +700,7 @@ class PrefetchIteratorTest extends TestCase
         $this->assertCount(5, $this->plugin);
     }
 
-    public function testWithSpecificEndpointOption()
+    public function testWithSpecificEndpointOption(): void
     {
         $result = $this->getResult();
         $mockClient = $this->createMock(Client::class);

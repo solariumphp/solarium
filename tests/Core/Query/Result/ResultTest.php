@@ -43,7 +43,7 @@ class ResultTest extends TestCase
         $this->result = new Result($this->query, $this->response);
     }
 
-    public function testResultWithErrorResponse()
+    public function testResultWithErrorResponse(): void
     {
         $headers = ['HTTP/1.0 404 Not Found'];
         $response = new Response('Error message', $headers);
@@ -52,7 +52,7 @@ class ResultTest extends TestCase
         new Result($this->query, $response);
     }
 
-    public function testExceptionGetBody()
+    public function testExceptionGetBody(): void
     {
         $headers = ['HTTP/1.0 404 Not Found'];
         $response = new Response('Error message', $headers);
@@ -64,17 +64,17 @@ class ResultTest extends TestCase
         }
     }
 
-    public function testGetResponse()
+    public function testGetResponse(): void
     {
         $this->assertSame($this->response, $this->result->getResponse());
     }
 
-    public function testGetQuery()
+    public function testGetQuery(): void
     {
         $this->assertSame($this->query, $this->result->getQuery());
     }
 
-    public function testGetData()
+    public function testGetData(): void
     {
         $data = [
             'responseHeader' => ['status' => 0, 'QTime' => 1, 'params' => ['wt' => 'json', 'q' => 'xyz']],
@@ -84,7 +84,7 @@ class ResultTest extends TestCase
         $this->assertEquals($data, $this->result->getData());
     }
 
-    public function testGetDataWithPhps()
+    public function testGetDataWithPhps(): void
     {
         $phpsData = 'a:2:{s:14:"responseHeader";a:3:{s:6:"status";i:0;s:5:"QTime";i:0;s:6:"params";'.
             'a:6:{s:6:"indent";s:2:"on";s:5:"start";s:1:"0";s:1:"q";s:3:"*:*";s:2:"wt";s:4:"phps";s:7:"version";'.
@@ -113,7 +113,7 @@ class ResultTest extends TestCase
         $this->assertEquals($resultData, $result->getData());
     }
 
-    public function testGetDataWithUnkownResponseWriter()
+    public function testGetDataWithUnkownResponseWriter(): void
     {
         $this->query->setResponseWriter('asdf');
         $result = new Result($this->query, $this->response);
@@ -122,7 +122,7 @@ class ResultTest extends TestCase
         $result->getData();
     }
 
-    public function testGetInvalidJsonData()
+    public function testGetInvalidJsonData(): void
     {
         $this->query->setResponseWriter($this->query::WT_JSON);
 
@@ -134,7 +134,7 @@ class ResultTest extends TestCase
         $this->result->getData();
     }
 
-    public function testGetInvalidPhpsData()
+    public function testGetInvalidPhpsData(): void
     {
         set_error_handler(static function (int $errno, string $errstr): void {
             // ignore E_NOTICE or E_WARNING from unserialize() to check that we throw an exception
@@ -152,7 +152,7 @@ class ResultTest extends TestCase
         restore_error_handler();
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->assertJsonStringEqualsJsonString($this->data, json_encode($this->result));
     }

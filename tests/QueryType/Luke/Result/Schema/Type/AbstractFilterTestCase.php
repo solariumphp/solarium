@@ -14,7 +14,7 @@ abstract class AbstractFilterTestCase extends TestCase
 
     abstract public function testGetName();
 
-    public function testSetAndGetArgs()
+    public function testSetAndGetArgs(): void
     {
         $args = [
             'class' => 'solr.FilterFactory',
@@ -24,7 +24,7 @@ abstract class AbstractFilterTestCase extends TestCase
         $this->assertSame($args, $this->filter->getArgs());
     }
 
-    public function testSetAndGetClassName()
+    public function testSetAndGetClassName(): void
     {
         $this->assertSame($this->filter, $this->filter->setClassName('org.example.FilterFactory'));
         $this->assertSame('org.example.FilterFactory', $this->filter->getClassName());

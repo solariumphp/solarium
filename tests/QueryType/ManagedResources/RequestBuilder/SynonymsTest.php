@@ -35,7 +35,7 @@ class SynonymsTest extends TestCase
         $this->builder = new SynonymsRequestBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $handler = 'schema/analysis/synonyms/dutch';
         $request = $this->builder->build($this->query);
@@ -52,7 +52,7 @@ class SynonymsTest extends TestCase
         $this->assertSame($handler, $request->getHandler());
     }
 
-    public function testNoName()
+    public function testNoName(): void
     {
         $this->query->setName('');
         $this->expectException(RuntimeException::class);
@@ -60,7 +60,7 @@ class SynonymsTest extends TestCase
         $this->builder->build($this->query);
     }
 
-    public function testUnsupportedCommand()
+    public function testUnsupportedCommand(): void
     {
         $command = new UnsupportedSynonymsCommand();
 
@@ -70,7 +70,7 @@ class SynonymsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
@@ -78,7 +78,7 @@ class SynonymsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testQueryWithTerm()
+    public function testQueryWithTerm(): void
     {
         $this->query->setTerm('mad');
         $request = $this->builder->build($this->query);
@@ -87,7 +87,7 @@ class SynonymsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testAdd()
+    public function testAdd(): void
     {
         $synonyms = new SynonymsQuery\Synonyms();
         $synonyms->setTerm('mad');
@@ -104,7 +104,7 @@ class SynonymsTest extends TestCase
         $this->assertSame('{"mad":["angry","upset"]}', $request->getRawData());
     }
 
-    public function testAddSymmetrical()
+    public function testAddSymmetrical(): void
     {
         $synonyms = new SynonymsQuery\Synonyms();
         $synonyms->setSynonyms(['funny', 'entertaining', 'whimsical', 'jocular']);
@@ -120,7 +120,7 @@ class SynonymsTest extends TestCase
         $this->assertSame('["funny","entertaining","whimsical","jocular"]', $request->getRawData());
     }
 
-    public function testAddWithoutSynonyms()
+    public function testAddWithoutSynonyms(): void
     {
         $command = new AddCommand();
 
@@ -130,7 +130,7 @@ class SynonymsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testConfig()
+    public function testConfig(): void
     {
         $initArgs = new InitArgs();
         $initArgs->setInitArgs(['ignoreCase' => true, 'format' => $initArgs::FORMAT_SOLR]);
@@ -146,7 +146,7 @@ class SynonymsTest extends TestCase
         $this->assertSame('{"initArgs":{"ignoreCase":true,"format":"solr"}}', $request->getRawData());
     }
 
-    public function testConfigWithoutInitArgs()
+    public function testConfigWithoutInitArgs(): void
     {
         $command = new ConfigCommand();
 
@@ -156,7 +156,7 @@ class SynonymsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $command = new CreateCommand();
 
@@ -168,7 +168,7 @@ class SynonymsTest extends TestCase
         $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager"}', $request->getRawData());
     }
 
-    public function testCreateWithoutClass()
+    public function testCreateWithoutClass(): void
     {
         $command = new UnsupportedSynonymsCreateCommand();
 
@@ -178,7 +178,7 @@ class SynonymsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $command = new DeleteCommand();
         $command->setTerm('mad');
@@ -190,7 +190,7 @@ class SynonymsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testDeleteWithoutTerm()
+    public function testDeleteWithoutTerm(): void
     {
         $command = new DeleteCommand();
 
@@ -200,7 +200,7 @@ class SynonymsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testExists()
+    public function testExists(): void
     {
         $command = new ExistsCommand();
         $command->setTerm('mad');
@@ -213,7 +213,7 @@ class SynonymsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testExistsWithoutTerm()
+    public function testExistsWithoutTerm(): void
     {
         $command = new ExistsCommand();
 
@@ -225,7 +225,7 @@ class SynonymsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testExistsWithUseHeadRequest()
+    public function testExistsWithUseHeadRequest(): void
     {
         $command = new ExistsCommand();
         $command->setUseHeadRequest(true);
@@ -237,7 +237,7 @@ class SynonymsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $command = new RemoveCommand();
 
@@ -259,7 +259,7 @@ class SynonymsTest extends TestCase
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-2
      * @see https://issues.apache.org/jira/browse/SOLR-6853
      */
-    public function testReservedCharacters()
+    public function testReservedCharacters(): void
     {
         $unencoded = ':/?#[]@% ';
         $encoded = '%253A%252F%253F%2523%255B%255D%2540%2525%2520';

@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class SpellcheckTest extends TestCase
 {
-    public function testBuildComponent()
+    public function testBuildComponent(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -56,7 +56,7 @@ class SpellcheckTest extends TestCase
         );
     }
 
-    public function testBuildComponentMulipleDictionaries()
+    public function testBuildComponentMulipleDictionaries(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

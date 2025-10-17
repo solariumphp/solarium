@@ -28,41 +28,41 @@ class DocumentTest extends TestCase
         $this->document = new Document('key', $this->fields);
     }
 
-    public function testGetUniqueKey()
+    public function testGetUniqueKey(): void
     {
         $this->assertSame('key', $this->document->getUniqueKey());
     }
 
-    public function testGetUniqueKeyNull()
+    public function testGetUniqueKeyNull(): void
     {
         $document = new Document(null, $this->fields);
 
         $this->assertNull($document->getUniqueKey());
     }
 
-    public function testGetFields()
+    public function testGetFields(): void
     {
         $this->assertSame($this->fields, $this->document->getFields());
     }
 
-    public function testGetFieldsEmpty()
+    public function testGetFieldsEmpty(): void
     {
         $document = new Document('key', []);
 
         $this->assertSame([], $document->getFields());
     }
 
-    public function testGetField()
+    public function testGetField(): void
     {
         $this->assertSame($this->fields['fieldA'], $this->document->getField('fieldA'));
     }
 
-    public function testGetFieldInvalid()
+    public function testGetFieldInvalid(): void
     {
         $this->assertNull($this->document->getField('invalidfield'));
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $fields = [];
         foreach ($this->document as $name => $field) {
@@ -72,23 +72,23 @@ class DocumentTest extends TestCase
         $this->assertSame($this->fields, $fields);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertCount(\count($this->fields), $this->document);
     }
 
-    public function testOffsetExists()
+    public function testOffsetExists(): void
     {
         $this->assertTrue($this->document->offsetExists('fieldA'));
         $this->assertFalse($this->document->offsetExists('fieldZ'));
     }
 
-    public function testOffsetGet()
+    public function testOffsetGet(): void
     {
         $this->assertSame($this->fields['fieldA'], $this->document->offsetGet('fieldA'));
     }
 
-    public function testOffsetGetUnknown()
+    public function testOffsetGetUnknown(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -100,13 +100,13 @@ class DocumentTest extends TestCase
         restore_error_handler();
     }
 
-    public function testOffsetSetImmutable()
+    public function testOffsetSetImmutable(): void
     {
         $this->document->offsetSet('fieldA', new Field('fieldZ', []));
         $this->assertSame($this->fields['fieldA'], $this->document['fieldA']);
     }
 
-    public function testOffsetUnsetImmutable()
+    public function testOffsetUnsetImmutable(): void
     {
         $this->document->offsetUnset('fieldA');
         $this->assertSame($this->fields['fieldA'], $this->document['fieldA']);

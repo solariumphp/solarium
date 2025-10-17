@@ -68,7 +68,7 @@ class NoWaitForResponseRequestTest extends TestCase
     /**
      * @depends testInitPlugin
      */
-    public function testDeinitPlugin(Client $client)
+    public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('nowaitforresponserequest');
 
@@ -78,7 +78,7 @@ class NoWaitForResponseRequestTest extends TestCase
         );
     }
 
-    public function testExecuteRequest()
+    public function testExecuteRequest(): void
     {
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
@@ -101,7 +101,7 @@ class NoWaitForResponseRequestTest extends TestCase
         $this->assertTrue($this->client->getAdapter()->getOption('return_transfer'));
     }
 
-    public function testSetFastTimeout()
+    public function testSetFastTimeout(): void
     {
         $observer = new class() extends Http {
             public $newTimeout;
@@ -126,7 +126,7 @@ class NoWaitForResponseRequestTest extends TestCase
         $this->assertSame(TimeoutAwareInterface::FAST_TIMEOUT, $observer->newTimeout);
     }
 
-    public function testSetFastTimeoutWithConnectionTimeout()
+    public function testSetFastTimeoutWithConnectionTimeout(): void
     {
         $observer = new class() extends Curl {
             public $newTimeout;
@@ -152,7 +152,7 @@ class NoWaitForResponseRequestTest extends TestCase
         $this->assertSame(1 + TimeoutAwareInterface::FAST_TIMEOUT, $observer->newTimeout);
     }
 
-    public function testUnrelatedHttpExceptionIsRethrown()
+    public function testUnrelatedHttpExceptionIsRethrown(): void
     {
         $requestOutput = $this->client->createRequest($this->query);
         $endpoint = $this->client->getEndpoint();
@@ -164,7 +164,7 @@ class NoWaitForResponseRequestTest extends TestCase
         $this->plugin->preExecuteRequest($event);
     }
 
-    public function testUnrelatedExceptionIsRethrown()
+    public function testUnrelatedExceptionIsRethrown(): void
     {
         $requestOutput = $this->client->createRequest($this->query);
         $endpoint = $this->client->getEndpoint();
@@ -180,7 +180,7 @@ class NoWaitForResponseRequestTest extends TestCase
         $this->plugin->preExecuteRequest($event);
     }
 
-    public function testPluginIntegration()
+    public function testPluginIntegration(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = new NoWaitForResponseRequest();

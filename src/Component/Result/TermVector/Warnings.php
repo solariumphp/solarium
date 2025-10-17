@@ -100,7 +100,6 @@ class Warnings implements \ArrayAccess
         return \in_array($offset, ['noTermVectors', 'noPositions', 'noOffsets', 'noPayloads']);
     }
 
-    #[\ReturnTypeWillChange]
     /**
      * ArrayAccess implementation.
      *
@@ -108,6 +107,7 @@ class Warnings implements \ArrayAccess
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->{$offset};

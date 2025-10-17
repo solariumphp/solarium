@@ -15,7 +15,7 @@ class OptimizeTest extends TestCase
         $this->command = new Optimize();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'softcommit' => true,
@@ -39,7 +39,7 @@ class OptimizeTest extends TestCase
         );
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             Query::COMMAND_OPTIMIZE,
@@ -47,7 +47,7 @@ class OptimizeTest extends TestCase
         );
     }
 
-    public function testGetAndSetSoftCommit()
+    public function testGetAndSetSoftCommit(): void
     {
         $this->command->setSoftCommit(false);
         $this->assertFalse(
@@ -55,7 +55,7 @@ class OptimizeTest extends TestCase
         );
     }
 
-    public function testGetAndSetWaitSearcher()
+    public function testGetAndSetWaitSearcher(): void
     {
         $this->command->setWaitSearcher(false);
         $this->assertFalse(
@@ -63,7 +63,7 @@ class OptimizeTest extends TestCase
         );
     }
 
-    public function testGetAndSetMaxSegments()
+    public function testGetAndSetMaxSegments(): void
     {
         $this->command->setMaxSegments(12);
         $this->assertSame(

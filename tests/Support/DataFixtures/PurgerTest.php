@@ -10,7 +10,7 @@ use Solarium\Support\DataFixtures\Purger;
 
 class PurgerTest extends TestCase
 {
-    public function testPurge()
+    public function testPurge(): void
     {
         $client = $this->createMock(ClientInterface::class);
 

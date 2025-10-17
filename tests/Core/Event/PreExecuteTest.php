@@ -28,7 +28,7 @@ class PreExecuteTest extends TestCase
      *
      * @param PreExecute $event
      */
-    public function testSetAndGetResult($event)
+    public function testSetAndGetResult($event): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();

@@ -23,7 +23,7 @@ class ParallelExecutionTest extends TestCase
         $this->plugin = new ParallelExecution();
     }
 
-    public function testInitPlugin()
+    public function testInitPlugin(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('parallelexecution');
@@ -31,7 +31,7 @@ class ParallelExecutionTest extends TestCase
         $this->assertInstanceOf(ParallelExecution::class, $plugin);
     }
 
-    public function testInitPluginTypeKeepsCurlAdapter()
+    public function testInitPluginTypeKeepsCurlAdapter(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $adapter = $client->getAdapter();
@@ -40,7 +40,7 @@ class ParallelExecutionTest extends TestCase
         $this->assertSame($adapter, $client->getAdapter());
     }
 
-    public function testInitPluginTypeSetsCurlAdapter()
+    public function testInitPluginTypeSetsCurlAdapter(): void
     {
         $client = TestClientFactory::createWithPsr18Adapter();
         $adapter = $client->getAdapter();
@@ -50,7 +50,7 @@ class ParallelExecutionTest extends TestCase
         $this->assertInstanceOf(Curl::class, $client->getAdapter());
     }
 
-    public function testInitPluginTypeKeepsTimeoutOptions()
+    public function testInitPluginTypeKeepsTimeoutOptions(): void
     {
         $adapter = new TimeoutAndConnectionTimeoutAwareAdapter();
         $adapter->setTimeout(15);
@@ -64,7 +64,7 @@ class ParallelExecutionTest extends TestCase
         $this->assertSame(5, $client->getAdapter()->getConnectionTimeOut());
     }
 
-    public function testAddAndGetQueries()
+    public function testAddAndGetQueries(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $client->clearEndpoints();
@@ -88,7 +88,7 @@ class ParallelExecutionTest extends TestCase
         );
     }
 
-    public function testClearQueries()
+    public function testClearQueries(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $this->plugin->initPlugin($client, []);
@@ -106,7 +106,7 @@ class ParallelExecutionTest extends TestCase
         );
     }
 
-    public function testExecuteWithUnsupportedAdapter()
+    public function testExecuteWithUnsupportedAdapter(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $this->plugin->initPlugin($client, []);

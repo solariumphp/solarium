@@ -22,27 +22,27 @@ class ServerQueryTest extends TestCase
         $this->query = new ServerQuery();
     }
 
-    public function testCreateAction()
+    public function testCreateAction(): void
     {
         $action = $this->query->createAction(ServerQuery::ACTION_DUMMY);
         $this->assertInstanceOf(DummyAction::class, $action);
     }
 
-    public function testCreateUnknownAction()
+    public function testCreateUnknownAction(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Action unknown: UNKNOWN');
         $this->query->createAction('UNKNOWN');
     }
 
-    public function testSetAction()
+    public function testSetAction(): void
     {
         $action = new DummyAction();
         $this->query->setAction($action);
         $this->assertSame($action, $this->query->getAction());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $action = new DummyAction();
         $this->query->setAction($action);

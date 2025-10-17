@@ -20,7 +20,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new TestRequestBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -34,7 +34,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithBoolean()
+    public function testBuildWithBoolean(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -49,7 +49,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithInteger()
+    public function testBuildWithInteger(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -64,7 +64,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithArray()
+    public function testBuildWithArray(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -78,7 +78,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithHeader()
+    public function testBuildWithHeader(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -92,7 +92,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithNow()
+    public function testBuildWithNow(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -106,7 +106,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithTimeZone()
+    public function testBuildWithTimeZone(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -120,7 +120,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithDistributed()
+    public function testBuildWithDistributed(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -134,7 +134,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildWithInputEncoding()
+    public function testBuildWithInputEncoding(): void
     {
         $query = new SelectQuery();
         $query->addParam('p1', 'v1');
@@ -148,7 +148,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParams()
+    public function testRenderLocalParams(): void
     {
         $myParams = ['l' => 0, 'u' => 1, 'tag' => 'mytag', 'ex' => ['exclude1', 'exclude2'], 'yes' => true, 'no' => false];
 
@@ -158,7 +158,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParamsWithEscapes()
+    public function testRenderLocalParamsWithEscapes(): void
     {
         $myParams = [
             'as.is' => 'as-is',
@@ -176,7 +176,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParamsWithSplitSmart()
+    public function testRenderLocalParamsWithSplitSmart(): void
     {
         $splitSmartParam = LocalParameter::IS_SPLIT_SMART[0];
 
@@ -191,7 +191,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParamsWithoutParams()
+    public function testRenderLocalParamsWithoutParams(): void
     {
         $this->assertSame(
             'myValue',
@@ -199,7 +199,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParamsWithEmptyValue()
+    public function testRenderLocalParamsWithEmptyValue(): void
     {
         $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];
 
@@ -209,7 +209,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParamsWithEmptyParams()
+    public function testRenderLocalParamsWithEmptyParams(): void
     {
         $myParams = ['tag' => 'mytag', 'ex' => [], 'empty' => '', 'null' => null];
 
@@ -219,7 +219,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testRenderLocalParamsWithParamBlockInValue()
+    public function testRenderLocalParamsWithParamBlockInValue(): void
     {
         $myParams = ['tag' => 'mytag', 'ex' => ['exclude1', 'exclude2']];
 
@@ -229,7 +229,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBoolAttribWithNull()
+    public function testBoolAttribWithNull(): void
     {
         $this->assertSame(
             '',
@@ -237,7 +237,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBoolAttribWithString()
+    public function testBoolAttribWithString(): void
     {
         $this->assertSame(
             ' myattrib="true"',
@@ -245,7 +245,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBoolAttribWithBool()
+    public function testBoolAttribWithBool(): void
     {
         $this->assertSame(
             ' myattrib="false"',
@@ -253,7 +253,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testAttribWithNull()
+    public function testAttribWithNull(): void
     {
         $this->assertSame(
             '',
@@ -261,7 +261,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testAttribWithString()
+    public function testAttribWithString(): void
     {
         $this->assertSame(
             ' myattrib="myvalue"',
@@ -269,7 +269,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testGetHelper()
+    public function testGetHelper(): void
     {
         $helper = $this->builder->getHelper();
 

@@ -17,7 +17,7 @@ class InfoTest extends TestCase
         $this->info = new Info();
     }
 
-    public function testSetAndGetKey()
+    public function testSetAndGetKey(): void
     {
         $key = [
             'A' => 'A Flag',
@@ -27,7 +27,7 @@ class InfoTest extends TestCase
         $this->assertSame($key, $this->info->getKey());
     }
 
-    public function testSetAndGetNote()
+    public function testSetAndGetNote(): void
     {
         $this->assertSame($this->info, $this->info->setNote('This is a note.'));
         $this->assertSame('This is a note.', $this->info->getNote());

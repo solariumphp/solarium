@@ -18,7 +18,7 @@ class PivotTest extends TestCase
         $this->facet = new Pivot();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'fields' => ['abc', 'def'],
@@ -41,7 +41,7 @@ class PivotTest extends TestCase
         $this->assertSame($options['overrequest.ratio'], $this->facet->getOverrequestRatio());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::FACET_PIVOT,
@@ -52,49 +52,49 @@ class PivotTest extends TestCase
     /**
      * @deprecated
      */
-    public function testSetAndGetMinCount()
+    public function testSetAndGetMinCount(): void
     {
         $this->facet->setMinCount(5);
         $this->assertSame(5, $this->facet->getMinCount());
     }
 
-    public function testSetAndGetPivotMinCount()
+    public function testSetAndGetPivotMinCount(): void
     {
         $this->facet->setPivotMinCount(5);
         $this->assertSame(5, $this->facet->getPivotMinCount());
     }
 
-    public function testSetAndGetLimit()
+    public function testSetAndGetLimit(): void
     {
         $this->facet->setLimit(12);
         $this->assertSame(12, $this->facet->getLimit());
     }
 
-    public function testSetAndGetOffset()
+    public function testSetAndGetOffset(): void
     {
         $this->facet->setOffset(40);
         $this->assertSame(40, $this->facet->getOffset());
     }
 
-    public function testSetAndGetSort()
+    public function testSetAndGetSort(): void
     {
         $this->facet->setSort('index');
         $this->assertSame('index', $this->facet->getSort());
     }
 
-    public function testSetAndGetOverrequestCount()
+    public function testSetAndGetOverrequestCount(): void
     {
         $this->facet->setOverrequestCount(20);
         $this->assertSame(20, $this->facet->getOverrequestCount());
     }
 
-    public function testSetAndGetOverrequestRatio()
+    public function testSetAndGetOverrequestRatio(): void
     {
         $this->facet->setOverrequestRatio(2.5);
         $this->assertSame(2.5, $this->facet->getOverrequestRatio());
     }
 
-    public function testAddField()
+    public function testAddField(): void
     {
         $expectedFields = $this->facet->getFields();
         $expectedFields[] = 'newfield';
@@ -102,14 +102,14 @@ class PivotTest extends TestCase
         $this->assertSame($expectedFields, $this->facet->getFields());
     }
 
-    public function testClearFields()
+    public function testClearFields(): void
     {
         $this->facet->addField('newfield');
         $this->facet->clearFields();
         $this->assertSame([], $this->facet->getFields());
     }
 
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $fields = ['field1', 'field2'];
 
@@ -118,14 +118,14 @@ class PivotTest extends TestCase
         $this->assertSame($fields, $this->facet->getFields());
     }
 
-    public function testAddFieldsAsStringWithTrim()
+    public function testAddFieldsAsStringWithTrim(): void
     {
         $this->facet->clearFields();
         $this->facet->addFields('field1, field2');
         $this->assertSame(['field1', 'field2'], $this->facet->getFields());
     }
 
-    public function testRemoveField()
+    public function testRemoveField(): void
     {
         $this->facet->clearFields();
         $this->facet->addFields(['field1', 'field2']);
@@ -133,7 +133,7 @@ class PivotTest extends TestCase
         $this->assertSame(['field2'], $this->facet->getFields());
     }
 
-    public function testSetFields()
+    public function testSetFields(): void
     {
         $this->facet->clearFields();
         $this->facet->addFields(['field1', 'field2']);
@@ -141,7 +141,7 @@ class PivotTest extends TestCase
         $this->assertSame(['field3', 'field4'], $this->facet->getFields());
     }
 
-    public function testAddStat()
+    public function testAddStat(): void
     {
         $expectedStats = $this->facet->getLocalParameters()->getStats();
         $expectedStats[] = 'newstat';
@@ -150,7 +150,7 @@ class PivotTest extends TestCase
         $this->assertSame($expectedStats, $this->facet->getLocalParameters()->getStats());
     }
 
-    public function testClearStats()
+    public function testClearStats(): void
     {
         $this->facet->addStat('newstat');
         $this->facet->clearStats();
@@ -158,7 +158,7 @@ class PivotTest extends TestCase
         $this->assertSame([], $this->facet->getLocalParameters()->getStats());
     }
 
-    public function testAddStats()
+    public function testAddStats(): void
     {
         $stats = ['stat1', 'stat2'];
 
@@ -168,7 +168,7 @@ class PivotTest extends TestCase
         $this->assertSame($stats, $this->facet->getLocalParameters()->getStats());
     }
 
-    public function testAddStatsAsString()
+    public function testAddStatsAsString(): void
     {
         $this->facet->clearStats();
         $this->facet->addStats('stat1, stat2');
@@ -176,7 +176,7 @@ class PivotTest extends TestCase
         $this->assertSame(['stat1', 'stat2'], $this->facet->getLocalParameters()->getStats());
     }
 
-    public function testRemoveStat()
+    public function testRemoveStat(): void
     {
         $this->facet->clearStats();
         $this->facet->addStats(['stat1', 'stat2']);
@@ -185,7 +185,7 @@ class PivotTest extends TestCase
         $this->assertSame(['stat2'], $this->facet->getLocalParameters()->getStats());
     }
 
-    public function testSetStats()
+    public function testSetStats(): void
     {
         $this->facet->clearStats();
         $this->facet->setStats(['stat1', 'stat2']);

@@ -19,7 +19,7 @@ class ReRankQueryTest extends TestCase
         $this->reRankQuery = new ReRankQuery();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'query' => 'foo:bar',
@@ -40,7 +40,7 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($options['operator'], $this->reRankQuery->getOperator());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(
             Query::COMPONENT_RERANKQUERY,
@@ -48,12 +48,12 @@ class ReRankQueryTest extends TestCase
         );
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertNull($this->reRankQuery->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\ReRankQuery',
@@ -61,19 +61,19 @@ class ReRankQueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $this->reRankQuery->setQuery('category:1');
         $this->assertSame('category:1', $this->reRankQuery->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->reRankQuery->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->reRankQuery->getQuery());
     }
 
-    public function testSetAndGetDocs()
+    public function testSetAndGetDocs(): void
     {
         $value = 42;
         $this->reRankQuery->setDocs($value);
@@ -81,7 +81,7 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($value, $this->reRankQuery->getDocs());
     }
 
-    public function testSetAndGetWeight()
+    public function testSetAndGetWeight(): void
     {
         $value = '52.13';
         $this->reRankQuery->setWeight($value);
@@ -89,7 +89,7 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($value, $this->reRankQuery->getWeight());
     }
 
-    public function testSetAndGetScale()
+    public function testSetAndGetScale(): void
     {
         $value = '0-1';
         $this->reRankQuery->setScale($value);
@@ -97,13 +97,13 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($value, $this->reRankQuery->getScale());
     }
 
-    public function testSetInvalidScale()
+    public function testSetInvalidScale(): void
     {
         $this->expectException(DomainException::class);
         $this->reRankQuery->setScale('-1-0');
     }
 
-    public function testSetAndGetMainScale()
+    public function testSetAndGetMainScale(): void
     {
         $value = '1-10';
         $this->reRankQuery->setMainScale($value);
@@ -111,13 +111,13 @@ class ReRankQueryTest extends TestCase
         $this->assertEquals($value, $this->reRankQuery->getMainScale());
     }
 
-    public function testSetInvalidMainScale()
+    public function testSetInvalidMainScale(): void
     {
         $this->expectException(DomainException::class);
         $this->reRankQuery->setMainScale('a-z');
     }
 
-    public function testSetAndGetOperator()
+    public function testSetAndGetOperator(): void
     {
         $value = ReRankQuery::OPERATOR_REPLACE;
         $this->reRankQuery->setOperator($value);
@@ -129,7 +129,7 @@ class ReRankQueryTest extends TestCase
      * @testWith ["0-1"]
      *           ["1-10"]
      */
-    public function testIsValidScale(string $value)
+    public function testIsValidScale(string $value): void
     {
         $this->assertTrue(ReRankQuery::isValidScale($value));
     }
@@ -141,7 +141,7 @@ class ReRankQueryTest extends TestCase
      *           ["a-z"]
      *           [""]
      */
-    public function testIsInvalidScale(string $value)
+    public function testIsInvalidScale(string $value): void
     {
         $this->assertFalse(ReRankQuery::isValidScale($value));
     }
