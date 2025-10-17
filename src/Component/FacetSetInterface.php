@@ -74,19 +74,15 @@ interface FacetSetInterface
      * @param FacetInterface|array $facet
      *
      * @throws InvalidArgumentException
-     *
-     * @return self Provides fluent interface
      */
-    public function addFacet($facet): self;
+    public function addFacet($facet): static;
 
     /**
      * Add multiple facets.
      *
      * @param array $facets
-     *
-     * @return self Provides fluent interface
      */
-    public function addFacets(array $facets): self;
+    public function addFacets(array $facets): static;
 
     /**
      * Get a facet.
@@ -110,17 +106,13 @@ interface FacetSetInterface
      * You can remove a facet by passing its key or the facet instance
      *
      * @param string|FacetInterface $facet
-     *
-     * @return self Provides fluent interface
      */
-    public function removeFacet($facet): self;
+    public function removeFacet($facet): static;
 
     /**
      * Remove all facets.
-     *
-     * @return self Provides fluent interface
      */
-    public function clearFacets(): self;
+    public function clearFacets(): static;
 
     /**
      * Set multiple facets.
@@ -128,10 +120,8 @@ interface FacetSetInterface
      * This overwrites any existing facets
      *
      * @param FacetInterface[] $facets
-     *
-     * @return self Provides fluent interface
      */
-    public function setFacets(array $facets): self;
+    public function setFacets(array $facets): static;
 
     /**
      * Create a facet instance.

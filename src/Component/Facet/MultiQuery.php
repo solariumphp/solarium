@@ -50,10 +50,8 @@ class MultiQuery extends AbstractFacet
      * @param array  $excludes
      *
      * @throws OutOfBoundsException
-     *
-     * @return self Provides fluent interface
      */
-    public function createQuery(string $key, string $query, array $excludes = []): self
+    public function createQuery(string $key, string $query, array $excludes = []): static
     {
         // merge excludes with shared excludes
         $excludes = array_merge($this->getLocalParameters()->getExcludes(), $excludes);
@@ -76,10 +74,8 @@ class MultiQuery extends AbstractFacet
      *
      * @throws OutOfBoundsException
      * @throws InvalidArgumentException
-     *
-     * @return self Provides fluent interface
      */
-    public function addQuery($facetQuery): self
+    public function addQuery($facetQuery): static
     {
         if (\is_array($facetQuery)) {
             $facetQuery = new FacetQuery($facetQuery);
@@ -111,10 +107,8 @@ class MultiQuery extends AbstractFacet
      * Add multiple facetqueries.
      *
      * @param array $facetQueries Instances or config array
-     *
-     * @return self Provides fluent interface
      */
-    public function addQueries(array $facetQueries): self
+    public function addQueries(array $facetQueries): static
     {
         foreach ($facetQueries as $key => $facetQuery) {
             // in case of a config array: add key to config
@@ -156,10 +150,8 @@ class MultiQuery extends AbstractFacet
      * You can remove a facetquery by passing its key or the facetquery instance.
      *
      * @param string|FacetQuery $query
-     *
-     * @return self Provides fluent interface
      */
-    public function removeQuery($query): self
+    public function removeQuery($query): static
     {
         if (\is_object($query)) {
             $query = $query->getKey();
@@ -174,10 +166,8 @@ class MultiQuery extends AbstractFacet
 
     /**
      * Remove all facetqueries.
-     *
-     * @return self Provides fluent interface
      */
-    public function clearQueries(): self
+    public function clearQueries(): static
     {
         $this->facetQueries = [];
 
@@ -190,10 +180,8 @@ class MultiQuery extends AbstractFacet
      * This overwrites any existing facetqueries
      *
      * @param array $facetQueries
-     *
-     * @return self Provides fluent interface
      */
-    public function setQueries(array $facetQueries): self
+    public function setQueries(array $facetQueries): static
     {
         $this->clearQueries();
 
@@ -210,10 +198,8 @@ class MultiQuery extends AbstractFacet
      * specific FacetQuery instance instead.
      *
      * @param string $exclude
-     *
-     * @return self Provides fluent interface
      */
-    public function addExclude(string $exclude): self
+    public function addExclude(string $exclude): static
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->addExclude($exclude);
@@ -234,10 +220,8 @@ class MultiQuery extends AbstractFacet
      * specific FacetQuery instance instead.
      *
      * @param array|string $excludes array or string with comma separated exclude tags
-     *
-     * @return self Provides fluent interface
      */
-    public function addExcludes($excludes): self
+    public function addExcludes($excludes): static
     {
         if (\is_string($excludes)) {
             $excludes = preg_split('/(?<!\\\\),/', $excludes);
@@ -262,10 +246,8 @@ class MultiQuery extends AbstractFacet
      * specific FacetQuery instance instead.
      *
      * @param array|string $excludes array or string with comma separated exclude tags
-     *
-     * @return self Provides fluent interface
      */
-    public function setExcludes($excludes): self
+    public function setExcludes($excludes): static
     {
         if (\is_string($excludes)) {
             $excludes = preg_split('/(?<!\\\\),/', $excludes);
@@ -288,12 +270,8 @@ class MultiQuery extends AbstractFacet
      *
      * If you don't want this use the removeExclude method of a
      * specific FacetQuery instance instead.
-     *
-     * @param string $exclude
-     *
-     * @return self Provides fluent interface
      */
-    public function removeExclude(string $exclude): self
+    public function removeExclude(string $exclude): static
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->removeExclude($exclude);
@@ -312,10 +290,8 @@ class MultiQuery extends AbstractFacet
      *
      * If you don't want this use the clearExcludes method of a
      * specific FacetQuery instance instead.
-     *
-     * @return self Provides fluent interface
      */
-    public function clearExcludes(): self
+    public function clearExcludes(): static
     {
         foreach ($this->facetQueries as $facetQuery) {
             $facetQuery->clearExcludes();
