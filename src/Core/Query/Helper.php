@@ -346,7 +346,13 @@ class Helper
         foreach ($params as $key => $value) {
             if (!$dereferenced || $forceKeys || \is_int($key)) {
                 if (\is_array($value)) {
-                    $value = implode(',', $value);
+                    if ('preFilter' === $key) {
+                        // preFilter is a special case, it needs to be split into multiple params
+                        $value = implode(' preFilter=', $value);
+                    }
+                    else {
+                        $value = implode(',', $value);
+                    }
                 } elseif (\is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 }
@@ -669,9 +675,6 @@ class Helper
             'f' => $field,
         ];
         if (null !== $preFilter) {
-            if (\is_array($preFilter)) {
-                $preFilter = implode(' preFilter=', $preFilter);
-            }
             $params['preFilter'] = $preFilter;
         }
         if (null !== $includeTags) {
