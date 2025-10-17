@@ -668,7 +668,7 @@ class Helper
      *
      * @return array
      */
-    protected function getCommonVectorParams (string $field, array|string|null $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): array
+    protected function getCommonVectorParams(string $field, array|string|null $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): array
     {
         $params = [
             'f' => $field,
