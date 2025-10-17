@@ -348,11 +348,10 @@ class Helper
                 if (\is_array($value)) {
                     if ('preFilter' === $key) {
                         // preFilter is a special case, it needs to be split into multiple params
-                        $value = implode(' preFilter=', $value);
+                        $output .= ' '.$key.'='.implode(' '.$key.'=', $value);
+                        continue;
                     }
-                    else {
-                        $value = implode(',', $value);
-                    }
+                    $value = implode(',', $value);
                 } elseif (\is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 }
