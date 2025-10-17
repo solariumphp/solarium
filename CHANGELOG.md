@@ -4,7 +4,7 @@ All notable changes to the Solarium library will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [6.4.0]
 ### Added
 - CBOR formatted update requests
 
@@ -12,9 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
  - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
-
-### Removed
-
+ - Changed return type of some Facets methods from `self`to `static`
 
 ## [6.3.7]
 ### Added
