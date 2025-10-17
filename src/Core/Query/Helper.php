@@ -574,13 +574,13 @@ class Helper
      * @param string            $field
      * @param float[]           $vector
      * @param int|null          $topK
-     * @param string|null       $preFilter
+     * @param array|string|null $preFilter
      * @param array|string|null $includeTags
      * @param array|string|null $excludeTags
      *
      * @return string
      */
-    public function knn(string $field, array $vector, ?int $topK = null, ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
+    public function knn(string $field, array $vector, ?int $topK = null, array|string|null $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
     {
         $params = $this->getCommonVectorParams($field, $preFilter, $includeTags, $excludeTags);
         if (null !== $topK) {
@@ -605,13 +605,13 @@ class Helper
      * @param string            $field
      * @param string            $query
      * @param int|null          $topK
-     * @param string|null       $preFilter
+     * @param array|string|null $preFilter
      * @param array|string|null $includeTags
      * @param array|string|null $excludeTags
      *
      * @return string
      */
-    public function knnTextToVector(string $model, string $field, string $query, ?int $topK = null, ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
+    public function knnTextToVector(string $model, string $field, string $query, ?int $topK = null, array|string|null $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
     {
         $params = $this->getCommonVectorParams($field, $preFilter, $includeTags, $excludeTags);
         $params['model'] = $model;
@@ -635,13 +635,13 @@ class Helper
      * @param float[]           $vector
      * @param float             $minReturn
      * @param string            $minTraverse
-     * @param string|null       $preFilter
+     * @param array|string|null $preFilter
      * @param array|string|null $includeTags
      * @param array|string|null $excludeTags
      *
      * @return string
      */
-    public function vectorSimilarity(string $field, array $vector, float $minReturn, string $minTraverse = '-Infinity', ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
+    public function vectorSimilarity(string $field, array $vector, float $minReturn, string $minTraverse = '-Infinity', array|string|null $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): string
     {
         $params = $this->getCommonVectorParams($field, $preFilter, $includeTags, $excludeTags);
         $params['minReturn'] = $minReturn;
@@ -657,18 +657,21 @@ class Helper
      * Get common knn and vector filter parameters.
      *
      * @param string            $field
-     * @param string|null       $preFilter
+     * @param array|string|null $preFilter
      * @param array|string|null $includeTags
      * @param array|string|null $excludeTags
      *
      * @return array
      */
-    protected function getCommonVectorParams (string $field, ?string $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): array
+    protected function getCommonVectorParams (string $field, array|string|null $preFilter = null, array|string|null $includeTags = null, array|string|null $excludeTags = null): array
     {
         $params = [
             'f' => $field,
         ];
         if (null !== $preFilter) {
+            if (\is_array($preFilter)) {
+                $preFilter = implode(' preFilter=', $preFilter);
+            }
             $params['preFilter'] = $preFilter;
         }
         if (null !== $includeTags) {
