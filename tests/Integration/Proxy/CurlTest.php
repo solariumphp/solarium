@@ -24,7 +24,7 @@ class CurlTest extends AbstractProxyTestCase
         self::$client->getAdapter()->setProxy(sprintf('%s:%d', self::$proxy_server, self::$proxy_port));
     }
 
-    public function testParallelConnections()
+    public function testParallelConnections(): void
     {
         $query1 = self::$client->createApi([
             'version' => Request::API_V1,

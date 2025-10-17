@@ -18,7 +18,7 @@ class FieldTest extends TestCase
         $this->facet = new Field();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -67,7 +67,7 @@ class FieldTest extends TestCase
         $this->assertSame($options['threads'], $this->facet->getThreads());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::FACET_FIELD,
@@ -75,13 +75,13 @@ class FieldTest extends TestCase
         );
     }
 
-    public function testSetAndGetField()
+    public function testSetAndGetField(): void
     {
         $this->facet->setField('category');
         $this->assertSame('category', $this->facet->getField());
     }
 
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->facet->addTerm('t1');
         $this->assertEquals(['t1'], $this->facet->getTerms());
@@ -92,7 +92,7 @@ class FieldTest extends TestCase
         $this->assertEquals(['t1', 't2'], $this->facet->getLocalParameters()->getTerms());
     }
 
-    public function testAddTerms()
+    public function testAddTerms(): void
     {
         $this->facet->addTerms(['t1', 't2']);
         $this->assertEquals(['t1', 't2'], $this->facet->getTerms());
@@ -103,7 +103,7 @@ class FieldTest extends TestCase
         $this->assertEquals(['t1', 't2', 't3', 't4'], $this->facet->getLocalParameters()->getTerms());
     }
 
-    public function testSetTerms()
+    public function testSetTerms(): void
     {
         $this->facet->setTerms(['t1', 't2']);
         $this->assertEquals(['t1', 't2'], $this->facet->getTerms());
@@ -114,7 +114,7 @@ class FieldTest extends TestCase
         $this->assertEquals(['t3', 't4'], $this->facet->getLocalParameters()->getTerms());
     }
 
-    public function testSetAndAddTermsWithEscapedSeparator()
+    public function testSetAndAddTermsWithEscapedSeparator(): void
     {
         $this->facet->setTerms('t1\,t2,t3');
         $this->assertEquals(['t1\,t2', 't3'], $this->facet->getTerms());
@@ -125,7 +125,7 @@ class FieldTest extends TestCase
         $this->assertEquals(['t1\,t2', 't3', 't4\,t5', 't6'], $this->facet->getLocalParameters()->getTerms());
     }
 
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->facet->setTerms(['t1', 't2']);
         $this->facet->removeTerm('t1');
@@ -133,7 +133,7 @@ class FieldTest extends TestCase
         $this->assertEquals(['t2'], $this->facet->getLocalParameters()->getTerms());
     }
 
-    public function testClearTerms()
+    public function testClearTerms(): void
     {
         $this->facet->setTerms(['t1', 't2']);
         $this->facet->clearTerms();
@@ -141,97 +141,97 @@ class FieldTest extends TestCase
         $this->assertEquals([], $this->facet->getLocalParameters()->getTerms());
     }
 
-    public function testSetAndGetPrefix()
+    public function testSetAndGetPrefix(): void
     {
         $this->facet->setPrefix('xyz');
         $this->assertSame('xyz', $this->facet->getPrefix());
     }
 
-    public function testSetAndGetContains()
+    public function testSetAndGetContains(): void
     {
         $this->facet->setContains('foobar');
         $this->assertSame('foobar', $this->facet->getContains());
     }
 
-    public function testSetAndGetContainsIgnoreCase()
+    public function testSetAndGetContainsIgnoreCase(): void
     {
         $this->facet->setContainsIgnoreCase(true);
         $this->assertTrue($this->facet->getContainsIgnoreCase());
     }
 
-    public function testSetAndGetMatches()
+    public function testSetAndGetMatches(): void
     {
         $this->facet->setMatches('^foo.*');
         $this->assertSame('^foo.*', $this->facet->getMatches());
     }
 
-    public function testSetAndGetSort()
+    public function testSetAndGetSort(): void
     {
         $this->facet->setSort('index');
         $this->assertSame('index', $this->facet->getSort());
     }
 
-    public function testSetAndGetLimit()
+    public function testSetAndGetLimit(): void
     {
         $this->facet->setLimit(12);
         $this->assertSame(12, $this->facet->getLimit());
     }
 
-    public function testSetAndGetOffset()
+    public function testSetAndGetOffset(): void
     {
         $this->facet->setOffset(40);
         $this->assertSame(40, $this->facet->getOffset());
     }
 
-    public function testSetAndGetMinCount()
+    public function testSetAndGetMinCount(): void
     {
         $this->facet->setMinCount(100);
         $this->assertSame(100, $this->facet->getMinCount());
     }
 
-    public function testSetAndGetMissing()
+    public function testSetAndGetMissing(): void
     {
         $this->facet->setMissing(true);
         $this->assertTrue($this->facet->getMissing());
     }
 
-    public function testSetAndGetMethod()
+    public function testSetAndGetMethod(): void
     {
         $this->facet->setMethod('enum');
         $this->assertSame('enum', $this->facet->getMethod());
     }
 
-    public function testSetAndGetEnumCacheMinimmumDocumentFrequency()
+    public function testSetAndGetEnumCacheMinimmumDocumentFrequency(): void
     {
         $this->facet->setEnumCacheMinimumDocumentFrequency(15);
         $this->assertSame(15, $this->facet->getEnumCacheMinimumDocumentFrequency());
     }
 
-    public function testSetAndGetExists()
+    public function testSetAndGetExists(): void
     {
         $this->facet->setExists(true);
         $this->assertTrue($this->facet->getExists());
     }
 
-    public function testSetAndGetExcludeTerms()
+    public function testSetAndGetExcludeTerms(): void
     {
         $this->facet->setExcludeTerms('foo,bar');
         $this->assertSame('foo,bar', $this->facet->getExcludeTerms());
     }
 
-    public function testSetAndGetOverrequestCount()
+    public function testSetAndGetOverrequestCount(): void
     {
         $this->facet->setOverrequestCount(20);
         $this->assertSame(20, $this->facet->getOverrequestCount());
     }
 
-    public function testSetAndGetOverrequestRatio()
+    public function testSetAndGetOverrequestRatio(): void
     {
         $this->facet->setOverrequestRatio(2.5);
         $this->assertSame(2.5, $this->facet->getOverrequestRatio());
     }
 
-    public function testSetAndGetThreads()
+    public function testSetAndGetThreads(): void
     {
         $this->facet->setThreads(42);
         $this->assertSame(42, $this->facet->getThreads());

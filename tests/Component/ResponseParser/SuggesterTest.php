@@ -25,7 +25,7 @@ class SuggesterTest extends TestCase
      *
      * @param mixed $data
      */
-    public function testParse($data)
+    public function testParse($data): void
     {
         $result = $this->parser->parse($this->query, null, $data);
 
@@ -97,7 +97,7 @@ class SuggesterTest extends TestCase
         ];
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, null, []);
 

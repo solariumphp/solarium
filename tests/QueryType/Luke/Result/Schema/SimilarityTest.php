@@ -17,7 +17,7 @@ class SimilarityTest extends TestCase
         $this->similarity = new Similarity();
     }
 
-    public function testSetAndGetClassName()
+    public function testSetAndGetClassName(): void
     {
         $this->assertSame($this->similarity, $this->similarity->setClassName('org.example.SimilarityClass'));
         $this->assertSame('org.example.SimilarityClass', $this->similarity->getClassName());
@@ -26,7 +26,7 @@ class SimilarityTest extends TestCase
         $this->assertNull($this->similarity->getClassName());
     }
 
-    public function testSetAndGetDetails()
+    public function testSetAndGetDetails(): void
     {
         $this->assertSame($this->similarity, $this->similarity->setDetails('similarity details'));
         $this->assertSame('similarity details', $this->similarity->getDetails());
@@ -35,7 +35,7 @@ class SimilarityTest extends TestCase
         $this->assertNull($this->similarity->getDetails());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->similarity->setClassName('org.example.SimilarityClass');
         $this->assertSame('org.example.SimilarityClass', (string) $this->similarity);

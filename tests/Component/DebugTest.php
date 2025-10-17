@@ -20,7 +20,7 @@ class DebugTest extends TestCase
         $this->debug = new Debug();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'explainother' => 'id:12',
@@ -31,7 +31,7 @@ class DebugTest extends TestCase
         $this->assertEquals($options['explainother'], $this->debug->getExplainOther());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(
             ComponentAwareQueryInterface::COMPONENT_DEBUG,
@@ -39,17 +39,17 @@ class DebugTest extends TestCase
         );
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(DebugParser::class, $this->debug->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(DebugBuilder::class, $this->debug->getRequestBuilder());
     }
 
-    public function testSetAndGetExplainOther()
+    public function testSetAndGetExplainOther(): void
     {
         $value = 'id:24';
         $this->debug->setExplainOther($value);

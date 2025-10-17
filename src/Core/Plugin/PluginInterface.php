@@ -25,12 +25,12 @@ interface PluginInterface extends ConfigurableInterface
      * @param ClientInterface $client
      * @param array           $options
      */
-    public function initPlugin(ClientInterface $client, array $options);
+    public function initPlugin(ClientInterface $client, array $options): void;
 
     /**
      * Cleanup.
      *
      * This method is called if the plugin is removed from a client instance.
      */
-    public function deinitPlugin();
+    public function deinitPlugin(): void;
 }

@@ -17,17 +17,17 @@ class CreateTest extends TestCase
         $this->create = new Create();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_CREATE, $this->create->getType());
     }
 
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_PUT, $this->create->getRequestMethod());
     }
 
-    public function testGetRawData()
+    public function testGetRawData(): void
     {
         $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedSynonymGraphFilterFactory$SynonymManager"}', $this->create->getRawData());
     }

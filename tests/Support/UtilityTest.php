@@ -18,7 +18,7 @@ class UtilityTest extends TestCase
         $this->fixtures = realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Integration'.DIRECTORY_SEPARATOR.'Fixtures');
     }
 
-    public function testGetXmlEncodingNoFile()
+    public function testGetXmlEncodingNoFile(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
@@ -32,21 +32,21 @@ class UtilityTest extends TestCase
         restore_error_handler();
     }
 
-    public function testGetXmlEncodingWithoutUtf8BomWithoutXmlDeclaration()
+    public function testGetXmlEncodingWithoutUtf8BomWithoutXmlDeclaration(): void
     {
         $this->assertNull(
             Utility::getXmlEncoding($this->fixtures.DIRECTORY_SEPARATOR.'testxml1-add.xml')
         );
     }
 
-    public function testGetXmlEncodingWithUtf8BomWithoutXmlDeclaration()
+    public function testGetXmlEncodingWithUtf8BomWithoutXmlDeclaration(): void
     {
         $this->assertNull(
             Utility::getXmlEncoding($this->fixtures.DIRECTORY_SEPARATOR.'testxml2-add-bom.xml')
         );
     }
 
-    public function testGetXmlEncodingWithoutUtf8BomWithXmlDeclaration()
+    public function testGetXmlEncodingWithoutUtf8BomWithXmlDeclaration(): void
     {
         $this->assertSame(
             'UTF-8',
@@ -54,7 +54,7 @@ class UtilityTest extends TestCase
         );
     }
 
-    public function testGetXmlEncodingWithUtf8BomWithXmlDeclaration()
+    public function testGetXmlEncodingWithUtf8BomWithXmlDeclaration(): void
     {
         $this->assertSame(
             'UTF-8',
@@ -62,7 +62,7 @@ class UtilityTest extends TestCase
         );
     }
 
-    public function testGetXmlEncodingNonUtf8()
+    public function testGetXmlEncodingNonUtf8(): void
     {
         $this->assertSame(
             'ISO-8859-1',
@@ -70,7 +70,7 @@ class UtilityTest extends TestCase
         );
     }
 
-    public function testIsPointValue()
+    public function testIsPointValue(): void
     {
         // geodetic, non-geodetic PointType
         $values = ['45,93', '45,-93', '-45,93', '-45,-93', '45.15,93.85', '45.15,-93.85', '-45.15,93.85', '-45.15,-93.85', '-45,93.85', '-45.15,93'];
@@ -100,7 +100,7 @@ class UtilityTest extends TestCase
      *           ["a_**", false]
      *           ["**_a", false]
      */
-    public function testIsWildcardPattern(string $fieldName, bool $expected)
+    public function testIsWildcardPattern(string $fieldName, bool $expected): void
     {
         $this->assertSame($expected, Utility::isWildcardPattern($fieldName));
     }
@@ -114,7 +114,7 @@ class UtilityTest extends TestCase
      *           ["a_*", "b_field", false]
      *           ["*_a", "field_b", false]
      */
-    public function testFieldMatchesWildcard(string $wildcardPattern, string $fieldName, bool $expected)
+    public function testFieldMatchesWildcard(string $wildcardPattern, string $fieldName, bool $expected): void
     {
         $this->assertSame($expected, Utility::fieldMatchesWildcard($wildcardPattern, $fieldName));
     }
@@ -126,7 +126,7 @@ class UtilityTest extends TestCase
      *           ["a_**"]
      *           ["**_a"]
      */
-    public function testFieldMatchesWildcardInvalidWildcardPattern(string $wildcardPattern)
+    public function testFieldMatchesWildcardInvalidWildcardPattern(string $wildcardPattern): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Wildcard pattern must have a "*" only at the start or the end.');
@@ -145,7 +145,7 @@ class UtilityTest extends TestCase
      *           ["ClassName$1", "ClassName$1"]
      *           ["", ""]
      */
-    public function testCompactSolrClassName(string $className, string $expected)
+    public function testCompactSolrClassName(string $className, string $expected): void
     {
         $this->assertSame($expected, Utility::compactSolrClassName($className));
     }
@@ -153,7 +153,7 @@ class UtilityTest extends TestCase
     /**
      * @dataProvider recursiveKeySortProvider
      */
-    public function testRecursiveKeySort(array $array, array $expected)
+    public function testRecursiveKeySort(array $array, array $expected): void
     {
         $this->assertTrue(Utility::recursiveKeySort($array));
         $this->assertSame($expected, $array);

@@ -18,7 +18,7 @@ class QueryElevationTest extends TestCase
         $this->queryelevation = new QueryElevation();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'transformers' => '[transformer]',
@@ -45,17 +45,17 @@ class QueryElevationTest extends TestCase
         $this->assertSame(['tagA', 'tagB'], $this->queryelevation->getExcludeTags());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals(ComponentAwareQueryInterface::COMPONENT_QUERYELEVATION, $this->queryelevation->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertNull($this->queryelevation->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\QueryElevation',
@@ -63,7 +63,7 @@ class QueryElevationTest extends TestCase
         );
     }
 
-    public function testAddTransformer()
+    public function testAddTransformer(): void
     {
         $expectedTrans = $this->queryelevation->getTransformers();
         $expectedTrans[] = '[newtrans]';
@@ -71,14 +71,14 @@ class QueryElevationTest extends TestCase
         $this->assertSame($expectedTrans, $this->queryelevation->getTransformers());
     }
 
-    public function testClearTransformers()
+    public function testClearTransformers(): void
     {
         $this->queryelevation->addTransformer('[newtrans]');
         $this->queryelevation->clearTransformers();
         $this->assertSame([], $this->queryelevation->getTransformers());
     }
 
-    public function testAddTransformers()
+    public function testAddTransformers(): void
     {
         $transformers = ['[trans1]', '[trans2]'];
 
@@ -87,14 +87,14 @@ class QueryElevationTest extends TestCase
         $this->assertSame($transformers, $this->queryelevation->getTransformers());
     }
 
-    public function testAddTransformersAsStringWithTrim()
+    public function testAddTransformersAsStringWithTrim(): void
     {
         $this->queryelevation->clearTransformers();
         $this->queryelevation->addTransformers('[trans1], [trans2]');
         $this->assertSame(['[trans1]', '[trans2]'], $this->queryelevation->getTransformers());
     }
 
-    public function testRemoveTransformer()
+    public function testRemoveTransformer(): void
     {
         $this->queryelevation->clearTransformers();
         $this->queryelevation->addTransformers(['[trans1]', '[trans2]']);
@@ -102,7 +102,7 @@ class QueryElevationTest extends TestCase
         $this->assertSame(['[trans2]'], $this->queryelevation->getTransformers());
     }
 
-    public function testSetTransformers()
+    public function testSetTransformers(): void
     {
         $this->queryelevation->clearTransformers();
         $this->queryelevation->addTransformers(['[trans1]', '[trans2]']);
@@ -110,31 +110,31 @@ class QueryElevationTest extends TestCase
         $this->assertSame(['[trans3]', '[trans4]'], $this->queryelevation->getTransformers());
     }
 
-    public function testSetAndGetEnableElevation()
+    public function testSetAndGetEnableElevation(): void
     {
         $this->queryelevation->setEnableElevation(false);
         $this->assertFalse($this->queryelevation->getEnableElevation());
     }
 
-    public function testSetAndGetForceElevation()
+    public function testSetAndGetForceElevation(): void
     {
         $this->queryelevation->setForceElevation(true);
         $this->assertTrue($this->queryelevation->getForceElevation());
     }
 
-    public function testSetAndGetExclusive()
+    public function testSetAndGetExclusive(): void
     {
         $this->queryelevation->setExclusive(true);
         $this->assertTrue($this->queryelevation->getExclusive());
     }
 
-    public function testSetAndGetUseConfiguredElevatedOrder()
+    public function testSetAndGetUseConfiguredElevatedOrder(): void
     {
         $this->queryelevation->setUseConfiguredElevatedOrder(false);
         $this->assertFalse($this->queryelevation->getUseConfiguredElevatedOrder());
     }
 
-    public function testSetMarkExcludesTrue()
+    public function testSetMarkExcludesTrue(): void
     {
         $this->queryelevation->removeTransformer('[excluded]');
         $this->queryelevation->setMarkExcludes(true);
@@ -142,7 +142,7 @@ class QueryElevationTest extends TestCase
         $this->assertContains('[excluded]', $this->queryelevation->getTransformers());
     }
 
-    public function testSetMarkExcludesFalse()
+    public function testSetMarkExcludesFalse(): void
     {
         $this->queryelevation->addTransformer('[excluded]');
         $this->queryelevation->setMarkExcludes(false);
@@ -150,7 +150,7 @@ class QueryElevationTest extends TestCase
         $this->assertNotContains('[excluded]', $this->queryelevation->getTransformers());
     }
 
-    public function testSetAndGetElevateIds()
+    public function testSetAndGetElevateIds(): void
     {
         $ids = ['doc1', 'doc2'];
 
@@ -158,13 +158,13 @@ class QueryElevationTest extends TestCase
         $this->assertSame($ids, $this->queryelevation->getElevateIds());
     }
 
-    public function testSetElevateIdsAsStringWithTrim()
+    public function testSetElevateIdsAsStringWithTrim(): void
     {
         $this->queryelevation->setElevateIds('doc1, doc2');
         $this->assertSame(['doc1', 'doc2'], $this->queryelevation->getElevateIds());
     }
 
-    public function testSetAndGetExcludeIds()
+    public function testSetAndGetExcludeIds(): void
     {
         $ids = ['doc3', 'doc4'];
 
@@ -172,13 +172,13 @@ class QueryElevationTest extends TestCase
         $this->assertSame($ids, $this->queryelevation->getExcludeIds());
     }
 
-    public function testSetExcludeIdsAsStringWithTrim()
+    public function testSetExcludeIdsAsStringWithTrim(): void
     {
         $this->queryelevation->setExcludeIds('doc3, doc4');
         $this->assertSame(['doc3', 'doc4'], $this->queryelevation->getExcludeIds());
     }
 
-    public function testSetAndGetExcludeTags()
+    public function testSetAndGetExcludeTags(): void
     {
         $tags = ['tagA', 'tagB'];
 
@@ -186,7 +186,7 @@ class QueryElevationTest extends TestCase
         $this->assertSame($tags, $this->queryelevation->getExcludeTags());
     }
 
-    public function testSetExcludeTagsAsStringWithTrim()
+    public function testSetExcludeTagsAsStringWithTrim(): void
     {
         $this->queryelevation->setExcludeTags('tagA, tagB');
         $this->assertSame(['tagA', 'tagB'], $this->queryelevation->getExcludeTags());

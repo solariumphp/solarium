@@ -24,7 +24,7 @@ class ClientTest extends TestCase
         }
     }
 
-    public function testGetVersion()
+    public function testGetVersion(): void
     {
         $this->assertSame(
             self::$installedVersion,
@@ -32,56 +32,56 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testCheckExact()
+    public function testCheckExact(): void
     {
         $this->assertTrue(
             Client::checkExact(self::$installedVersion)
         );
     }
 
-    public function testCheckExactPartial()
+    public function testCheckExactPartial(): void
     {
         $this->assertTrue(
             Client::checkExact(substr(self::$installedVersion, 0, 1))
         );
     }
 
-    public function testCheckExactLower()
+    public function testCheckExactLower(): void
     {
         $this->assertFalse(
             Client::checkExact('0.1')
         );
     }
 
-    public function testCheckExactHigher()
+    public function testCheckExactHigher(): void
     {
         $this->assertFalse(
             Client::checkExact('99.0')
         );
     }
 
-    public function testCheckMinimal()
+    public function testCheckMinimal(): void
     {
         $this->assertTrue(
             Client::checkMinimal(self::$installedVersion)
         );
     }
 
-    public function testCheckMinimalPartial()
+    public function testCheckMinimalPartial(): void
     {
         $this->assertTrue(
             Client::checkMinimal(substr(self::$installedVersion, 0, 1))
         );
     }
 
-    public function testCheckMinimalLower()
+    public function testCheckMinimalLower(): void
     {
         $this->assertTrue(
             Client::checkMinimal('0.1.0')
         );
     }
 
-    public function testCheckMinimalHigher()
+    public function testCheckMinimalHigher(): void
     {
         $this->assertFalse(
             Client::checkMinimal('99.0')

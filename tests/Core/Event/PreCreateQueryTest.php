@@ -28,7 +28,7 @@ class PreCreateQueryTest extends TestCase
      *
      * @param PreCreateQuery $event
      */
-    public function testSetAndGetQuery($event)
+    public function testSetAndGetQuery($event): void
     {
         $query = new Query();
         $query->setQuery('test123');

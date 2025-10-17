@@ -8,7 +8,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class PostCreateQueryTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): void
     {
         $type = 'testtype';
         $options = ['key' => 'value'];

@@ -24,7 +24,7 @@ class ResponseParserTest extends TestCase
         $this->parser = new TestResponseParser();
     }
 
-    public function testConvertToKeyValueArray()
+    public function testConvertToKeyValueArray(): void
     {
         $input = [
             'key1',
@@ -47,7 +47,7 @@ class ResponseParserTest extends TestCase
         );
     }
 
-    public function testConvertToKeyValueArrayWithRepeatingKey()
+    public function testConvertToKeyValueArrayWithRepeatingKey(): void
     {
         $input = [
             'key1',
@@ -69,7 +69,7 @@ class ResponseParserTest extends TestCase
         );
     }
 
-    public function testConvertToValueArray()
+    public function testConvertToValueArray(): void
     {
         $input = [
             'key1',
@@ -92,7 +92,7 @@ class ResponseParserTest extends TestCase
         );
     }
 
-    public function testConvertToValueArrayWithRepeatingKey()
+    public function testConvertToValueArrayWithRepeatingKey(): void
     {
         $input = [
             'key1',
@@ -119,7 +119,7 @@ class ResponseParserTest extends TestCase
      * @testWith [200, true]
      *           [400, false]
      */
-    public function testParseStatus(int $statusCode, bool $expectedSuccess)
+    public function testParseStatus(int $statusCode, bool $expectedSuccess): void
     {
         $result = new Result(
             new TestQueryForResponseParser(),

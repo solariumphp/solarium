@@ -17,17 +17,17 @@ class FlagTest extends TestCase
         $this->flag = new Flag('A', 'A Flag');
     }
 
-    public function testGetAbbreviation()
+    public function testGetAbbreviation(): void
     {
         $this->assertSame('A', $this->flag->getAbbreviation());
     }
 
-    public function testGetDisplay()
+    public function testGetDisplay(): void
     {
         $this->assertSame('A Flag', $this->flag->getDisplay());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('A Flag', (string) $this->flag);
     }

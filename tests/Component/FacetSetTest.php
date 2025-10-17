@@ -30,7 +30,7 @@ class FacetSetTest extends TestCase
         $this->facetSet = new FacetSet();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'facet' => [
@@ -81,12 +81,12 @@ class FacetSetTest extends TestCase
         $this->assertSame($options['pivot.mincount'], $this->facetSet->getPivotMinCount());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMPONENT_FACETSET, $this->facetSet->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\ResponseParser\FacetSet',
@@ -94,7 +94,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(
             'Solarium\Component\RequestBuilder\FacetSet',
@@ -102,109 +102,109 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testSetAndGetPrefix()
+    public function testSetAndGetPrefix(): void
     {
         $this->facetSet->setPrefix('xyz');
         $this->assertSame('xyz', $this->facetSet->getPrefix());
     }
 
-    public function testSetAndGetContains()
+    public function testSetAndGetContains(): void
     {
         $this->facetSet->setContains('foobar');
         $this->assertSame('foobar', $this->facetSet->getContains());
     }
 
-    public function testSetAndGetContainsIgnoreCase()
+    public function testSetAndGetContainsIgnoreCase(): void
     {
         $this->facetSet->setContainsIgnoreCase(true);
         $this->assertTrue($this->facetSet->getContainsIgnoreCase());
     }
 
-    public function testSetAndGetMatches()
+    public function testSetAndGetMatches(): void
     {
         $this->facetSet->setMatches('^foo.*');
         $this->assertSame('^foo.*', $this->facetSet->getMatches());
     }
 
-    public function testSetAndGetSort()
+    public function testSetAndGetSort(): void
     {
         $this->facetSet->setSort('index');
         $this->assertSame('index', $this->facetSet->getSort());
     }
 
-    public function testSetAndGetLimit()
+    public function testSetAndGetLimit(): void
     {
         $this->facetSet->setLimit(12);
         $this->assertSame(12, $this->facetSet->getLimit());
     }
 
-    public function testSetAndGetOffset()
+    public function testSetAndGetOffset(): void
     {
         $this->facetSet->setOffset(40);
         $this->assertSame(40, $this->facetSet->getOffset());
     }
 
-    public function testSetAndGetMinCount()
+    public function testSetAndGetMinCount(): void
     {
         $this->facetSet->setMinCount(100);
         $this->assertSame(100, $this->facetSet->getMinCount());
     }
 
-    public function testSetAndGetMissing()
+    public function testSetAndGetMissing(): void
     {
         $this->facetSet->setMissing(true);
         $this->assertTrue($this->facetSet->getMissing());
     }
 
-    public function testSetAndGetMethod()
+    public function testSetAndGetMethod(): void
     {
         $this->facetSet->setMethod('enum');
         $this->assertSame('enum', $this->facetSet->getMethod());
     }
 
-    public function testSetAndGetEnumCacheMinimmumDocumentFrequency()
+    public function testSetAndGetEnumCacheMinimmumDocumentFrequency(): void
     {
         $this->facetSet->setEnumCacheMinimumDocumentFrequency(15);
         $this->assertSame(15, $this->facetSet->getEnumCacheMinimumDocumentFrequency());
     }
 
-    public function testSetAndGetExists()
+    public function testSetAndGetExists(): void
     {
         $this->facetSet->setExists(true);
         $this->assertTrue($this->facetSet->getExists());
     }
 
-    public function testSetAndGetExcludeTerms()
+    public function testSetAndGetExcludeTerms(): void
     {
         $this->facetSet->setExcludeTerms('foo,bar');
         $this->assertSame('foo,bar', $this->facetSet->getExcludeTerms());
     }
 
-    public function testSetAndGetOverrequestCount()
+    public function testSetAndGetOverrequestCount(): void
     {
         $this->facetSet->setOverrequestCount(20);
         $this->assertSame(20, $this->facetSet->getOverrequestCount());
     }
 
-    public function testSetAndGetOverrequestRatio()
+    public function testSetAndGetOverrequestRatio(): void
     {
         $this->facetSet->setOverrequestRatio(2.5);
         $this->assertSame(2.5, $this->facetSet->getOverrequestRatio());
     }
 
-    public function testSetAndGetThreads()
+    public function testSetAndGetThreads(): void
     {
         $this->facetSet->setThreads(42);
         $this->assertSame(42, $this->facetSet->getThreads());
     }
 
-    public function testSetAndGetPivotMinCount()
+    public function testSetAndGetPivotMinCount(): void
     {
         $this->facetSet->setPivotMinCount(5);
         $this->assertSame(5, $this->facetSet->getPivotMinCount());
     }
 
-    public function testAddAndGetFacet()
+    public function testAddAndGetFacet(): void
     {
         $fq = new FacetQuery();
         $fq->setKey('f1')->setQuery('category:1');
@@ -216,7 +216,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testAddFacetWithoutKey()
+    public function testAddFacetWithoutKey(): void
     {
         $fq = new FacetQuery();
         $fq->setQuery('category:1');
@@ -225,7 +225,7 @@ class FacetSetTest extends TestCase
         $this->facetSet->addFacet($fq);
     }
 
-    public function testAddFacetWithEmptyKey()
+    public function testAddFacetWithEmptyKey(): void
     {
         $fq = new FacetQuery();
         $fq->setKey('')->setQuery('category:1');
@@ -234,7 +234,7 @@ class FacetSetTest extends TestCase
         $this->facetSet->addFacet($fq);
     }
 
-    public function testAddFacetWithUsedKey()
+    public function testAddFacetWithUsedKey(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -247,14 +247,14 @@ class FacetSetTest extends TestCase
         $this->facetSet->addFacet($fq2);
     }
 
-    public function testGetInvalidFacet()
+    public function testGetInvalidFacet(): void
     {
         $this->assertNull(
             $this->facetSet->getFacet('invalidtag')
         );
     }
 
-    public function testAddFacets()
+    public function testAddFacets(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -271,7 +271,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testAddFacetsWithConfig()
+    public function testAddFacetsWithConfig(): void
     {
         $facets = [
             ['type' => 'query', 'local_key' => 'f1', 'query' => 'category:1'],
@@ -283,7 +283,7 @@ class FacetSetTest extends TestCase
         $this->assertCount(2, $this->facetSet->getFacets());
     }
 
-    public function testRemoveFacet()
+    public function testRemoveFacet(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -301,7 +301,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testRemoveFacetWithObjectInput()
+    public function testRemoveFacetWithObjectInput(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -319,7 +319,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testRemoveInvalidFacet()
+    public function testRemoveInvalidFacet(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -337,7 +337,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testClearFacets()
+    public function testClearFacets(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -355,7 +355,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testSetFacets()
+    public function testSetFacets(): void
     {
         $fq1 = new FacetQuery();
         $fq1->setKey('f1')->setQuery('category:1');
@@ -383,7 +383,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testCreateFacet()
+    public function testCreateFacet(): void
     {
         $type = FacetSet::FACET_FIELD;
         $options = ['optionA' => 1, 'optionB' => 2];
@@ -403,7 +403,7 @@ class FacetSetTest extends TestCase
         );
     }
 
-    public function testCreateFacetAdd()
+    public function testCreateFacetAdd(): void
     {
         $type = FacetSet::FACET_FIELD;
         $options = ['local_key' => 'mykey', 'optionA' => 1, 'optionB' => 2];
@@ -412,7 +412,7 @@ class FacetSetTest extends TestCase
         $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
     }
 
-    public function testCreateFacetAddWithString()
+    public function testCreateFacetAddWithString(): void
     {
         $type = FacetSet::FACET_FIELD;
         $options = 'mykey';
@@ -421,7 +421,7 @@ class FacetSetTest extends TestCase
         $this->assertSame($facet, $this->facetSet->getFacet('mykey'));
     }
 
-    public function testCreateFacetWithInvalidType()
+    public function testCreateFacetWithInvalidType(): void
     {
         $this->expectException(OutOfBoundsException::class);
         $this->facetSet->createFacet('invalidtype');
@@ -440,7 +440,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateFacetField(bool $add)
+    public function testCreateFacetField(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
@@ -464,7 +464,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateFacetQuery(bool $add)
+    public function testCreateFacetQuery(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
@@ -487,7 +487,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateFacetMultiQuery(bool $add)
+    public function testCreateFacetMultiQuery(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
@@ -509,7 +509,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateFacetRange(bool $add)
+    public function testCreateFacetRange(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
@@ -531,7 +531,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateFacetPivot(bool $add)
+    public function testCreateFacetPivot(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
@@ -553,7 +553,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateFacetInterval(bool $add)
+    public function testCreateFacetInterval(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
         $facetSet = new FacetSet([]);
@@ -575,7 +575,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateJsonFacetAggregation(bool $add)
+    public function testCreateJsonFacetAggregation(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
@@ -598,7 +598,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateJsonFacetTerms(bool $add)
+    public function testCreateJsonFacetTerms(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
@@ -622,7 +622,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateJsonFacetQuery(bool $add)
+    public function testCreateJsonFacetQuery(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
@@ -646,7 +646,7 @@ class FacetSetTest extends TestCase
      *
      * @param bool $add
      */
-    public function testCreateJsonFacetRange(bool $add)
+    public function testCreateJsonFacetRange(bool $add): void
     {
         $options = ['optionA' => 1, 'optionB' => 2, 'local_key' => 'key'];
 
@@ -664,7 +664,7 @@ class FacetSetTest extends TestCase
         }
     }
 
-    public function testSetAndGetExtractFromResponse()
+    public function testSetAndGetExtractFromResponse(): void
     {
         $this->facetSet->setExtractFromResponse(true);
         $this->assertTrue($this->facetSet->getExtractFromResponse());

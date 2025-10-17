@@ -8,7 +8,7 @@ use Solarium\QueryType\RealtimeGet\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
-    public function testBuildSingleId()
+    public function testBuildSingleId(): void
     {
         $query = new Query();
         $query->addId(123);
@@ -26,7 +26,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testBuildMultiId()
+    public function testBuildMultiId(): void
     {
         $query = new Query();
         $query->addId(123)->addId(456);

@@ -10,7 +10,7 @@ use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
 class StopwordsTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{ "responseHeader":{ "status":0, "QTime":1 }, "wordSet":{ "initArgs":{"ignoreCase":true}, "initializedOn":"2014-03-28T20:53:53.058Z", "updatedSinceInit":"2020-02-03T15:00:25.558Z", "managedList":[ "a", "an", "and", "are" ]}}';
 

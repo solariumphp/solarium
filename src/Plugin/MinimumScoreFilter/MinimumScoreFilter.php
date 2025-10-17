@@ -28,7 +28,7 @@ class MinimumScoreFilter extends AbstractPlugin
      *
      * Register query type.
      */
-    protected function initPluginType()
+    protected function initPluginType(): void
     {
         $this->client->registerQueryType(self::QUERY_TYPE, Query::class);
     }

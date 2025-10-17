@@ -29,13 +29,13 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
     }
 
-    public function testSelectUrlWithDefaultValues()
+    public function testSelectUrlWithDefaultValues(): void
     {
         $request = $this->builder->build($this->query);
 
@@ -46,7 +46,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testSelectUrlWithSort()
+    public function testSelectUrlWithSort(): void
     {
         $this->query->addSort('id', Query::SORT_ASC);
         $this->query->addSort('name', Query::SORT_DESC);
@@ -60,7 +60,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testSelectUrlWithQueryDefaultFieldAndOperator()
+    public function testSelectUrlWithQueryDefaultFieldAndOperator(): void
     {
         $this->query->setQueryDefaultField('mydefault');
         $this->query->setQueryDefaultOperator(Query::QUERY_OPERATOR_AND);
@@ -74,7 +74,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testSelectUrlWithSortAndFilters()
+    public function testSelectUrlWithSortAndFilters(): void
     {
         $this->query->addSort('id', Query::SORT_ASC);
         $this->query->addSort('name', Query::SORT_DESC);
@@ -93,7 +93,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testSelectUrlWithCachedFilters()
+    public function testSelectUrlWithCachedFilters(): void
     {
         $this->query->addFilterQuery(
             new FilterQuery(['key' => 'f1', 'query' => 'published:true', 'local_cache' => false, 'local_cost' => 95])
@@ -112,7 +112,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testWithComponentNoBuilder()
+    public function testWithComponentNoBuilder(): void
     {
         $this->builder->build($this->query);
         $this->query->registerComponentType('testcomponent', __NAMESPACE__.'\\TestDummyComponent');
@@ -122,7 +122,7 @@ class RequestBuilderTest extends TestCase
         $this->builder->build($this->query);
     }
 
-    public function testWithComponent()
+    public function testWithComponent(): void
     {
         $this->query->getDisMax();
         $request = $this->builder->build($this->query);
@@ -130,7 +130,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('dismax', $request->getParam('defType'));
     }
 
-    public function testWithEdismaxComponent()
+    public function testWithEdismaxComponent(): void
     {
         $this->query->getEDisMax();
         $request = $this->builder->build($this->query);
@@ -138,7 +138,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('edismax', $request->getParam('defType'));
     }
 
-    public function testWithSuggesterComponent()
+    public function testWithSuggesterComponent(): void
     {
         $suggester = $this->query->getSuggester();
         $suggester->setDictionary(['dict1', 'dict2']);
@@ -151,7 +151,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testWithCancellableQuery()
+    public function testWithCancellableQuery(): void
     {
         $this->query->setCanCancel(true);
         $this->query->setQueryUuid('foobar');
@@ -163,7 +163,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testWithTags()
+    public function testWithTags(): void
     {
         $this->query->setTags(['t1', 't2']);
         $this->query->setQuery('cat:1');
@@ -172,7 +172,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('{!tag=t1,t2}cat:1', $request->getParam('q'));
     }
 
-    public function testWithExecutionLimits()
+    public function testWithExecutionLimits(): void
     {
         $this->query->setPartialResults(true);
         $this->query->setTimeAllowed(1000);
@@ -186,7 +186,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testWithSegmentTerminateEarly()
+    public function testWithSegmentTerminateEarly(): void
     {
         $this->query->setSegmentTerminateEarly(true);
         $request = $this->builder->build($this->query);
@@ -197,7 +197,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testWithMultiThreaded()
+    public function testWithMultiThreaded(): void
     {
         $this->query->setMultiThreaded(true);
         $request = $this->builder->build($this->query);
@@ -208,7 +208,7 @@ class RequestBuilderTest extends TestCase
         );
     }
 
-    public function testWithCursorMark()
+    public function testWithCursorMark(): void
     {
         $this->query->setCursorMark('*');
         $request = $this->builder->build($this->query);
@@ -216,7 +216,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('*', $request->getParam('cursorMark'));
     }
 
-    public function testWithSplitOnWhitespace()
+    public function testWithSplitOnWhitespace(): void
     {
         $this->query->setSplitOnWhitespace(false);
         $request = $this->builder->build($this->query);

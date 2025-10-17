@@ -18,30 +18,30 @@ class MergeIndexesTest extends TestCase
         $this->action = new MergeIndexes();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CoreAdminQuery::ACTION_MERGE_INDEXES, $this->action->getType());
     }
 
-    public function testSetCore()
+    public function testSetCore(): void
     {
         $this->action->setCore('test');
         $this->assertSame('test', $this->action->getCore());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testSetIndexDir()
+    public function testSetIndexDir(): void
     {
         $this->action->setIndexDir(['/dirA', '/dirB']);
         $this->assertSame(['/dirA', '/dirB'], $this->action->getIndexDir());
     }
 
-    public function testSetSrcCore()
+    public function testSetSrcCore(): void
     {
         $this->action->setSrcCore(['coreA', 'coreB']);
         $this->assertSame(['coreA', 'coreB'], $this->action->getSrcCore());

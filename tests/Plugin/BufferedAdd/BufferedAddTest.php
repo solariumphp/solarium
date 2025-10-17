@@ -20,7 +20,7 @@ class BufferedAddTest extends BufferedAddLiteTest
      */
     protected $plugin;
 
-    public function testInitPlugin()
+    public function testInitPlugin(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('bufferedadd');
@@ -28,7 +28,7 @@ class BufferedAddTest extends BufferedAddLiteTest
         $this->assertInstanceOf(BufferedAdd::class, $plugin);
     }
 
-    public function testAddDocumentEventIsTriggered()
+    public function testAddDocumentEventIsTriggered(): void
     {
         $data = ['id' => '123', 'name' => 'test'];
         $doc = new Document($data);

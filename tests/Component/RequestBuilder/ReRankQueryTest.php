@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class ReRankQueryTest extends TestCase
 {
-    public function testBuildComponent()
+    public function testBuildComponent(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -33,7 +33,7 @@ class ReRankQueryTest extends TestCase
         );
     }
 
-    public function testBuildComponentWithRangeQuery()
+    public function testBuildComponentWithRangeQuery(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

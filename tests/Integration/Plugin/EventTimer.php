@@ -56,7 +56,7 @@ class EventTimer extends AbstractPlugin
      *
      * Unregister event listeners.
      */
-    public function deinitPlugin()
+    public function deinitPlugin(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, $this->events['preCrReq']);

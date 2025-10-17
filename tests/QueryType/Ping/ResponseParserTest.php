@@ -10,7 +10,7 @@ use Solarium\QueryType\Ping\Result;
 
 class ResponseParserTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = '{"status":"OK"}';
 

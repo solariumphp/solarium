@@ -26,7 +26,7 @@ class DocumentTest extends TestCase
         $this->builder = new DocumentBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $request = $this->builder->build($this->query);
 
@@ -35,7 +35,7 @@ class DocumentTest extends TestCase
         $this->assertSame($this->builder->getRawData($this->query), $request->getRawData());
     }
 
-    public function testGetRawData()
+    public function testGetRawData(): void
     {
         // this doc tests data escaping
         $doc1 = new InputDocument(['id' => 1, 'name' => 'doc1', 'cat' => 'my > cat']);

@@ -210,7 +210,7 @@ class ParallelExecution extends AbstractPlugin
      * Set cURL adapter (the only type that supports ParallelExecution)
      * if $this->client uses another adapter.
      */
-    protected function initPluginType()
+    protected function initPluginType(): void
     {
         $adapter = $this->client->getAdapter();
 

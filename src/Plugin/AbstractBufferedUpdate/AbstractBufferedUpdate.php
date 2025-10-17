@@ -180,7 +180,7 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
     /**
      * Initialize options.
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

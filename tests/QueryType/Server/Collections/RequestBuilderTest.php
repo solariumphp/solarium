@@ -25,7 +25,7 @@ class RequestBuilderTest extends TestCase
         $this->builder = new RequestBuilder();
     }
 
-    public function testBuildParams()
+    public function testBuildParams(): void
     {
         $clusterStatus = $this->query->createClusterStatus();
 
@@ -47,7 +47,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame('admin/collections?wt=json&json.nl=flat&action=CLUSTERSTATUS', $request->getUri());
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $create = $this->query->createCreate();
         $create->setName('test');
@@ -101,7 +101,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testClusterStatus()
+    public function testClusterStatus(): void
     {
         $status = $this->query->createClusterStatus();
         $status->setCollection('somecollection');
@@ -115,7 +115,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $delete = $this->query->createDelete();
         $delete->setName('somecollection');
@@ -126,7 +126,7 @@ class RequestBuilderTest extends TestCase
         $this->assertSame($expectedUri, $request->getUri());
     }
 
-    public function testReload()
+    public function testReload(): void
     {
         $reload = $this->query->createReload();
         $reload->setName('somecollection');

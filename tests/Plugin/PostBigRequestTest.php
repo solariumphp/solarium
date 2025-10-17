@@ -64,7 +64,7 @@ class PostBigRequestTest extends TestCase
     /**
      * @depends testInitPlugin
      */
-    public function testDeinitPlugin(Client $client)
+    public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('postbigrequest');
 
@@ -74,13 +74,13 @@ class PostBigRequestTest extends TestCase
         );
     }
 
-    public function testSetAndGetMaxQueryStringLength()
+    public function testSetAndGetMaxQueryStringLength(): void
     {
         $this->plugin->setMaxQueryStringLength(512);
         $this->assertSame(512, $this->plugin->getMaxQueryStringLength());
     }
 
-    public function testPreExecuteRequest()
+    public function testPreExecuteRequest(): void
     {
         // create a very long query
         $fq = '';
@@ -105,7 +105,7 @@ class PostBigRequestTest extends TestCase
         $this->assertSame('', $requestOutput->getQueryString());
     }
 
-    public function testPreExecuteRequestUnalteredSmallRequest()
+    public function testPreExecuteRequestUnalteredSmallRequest(): void
     {
         $requestOutput = $this->client->createRequest($this->query);
         $requestInput = clone $requestOutput;
@@ -116,7 +116,7 @@ class PostBigRequestTest extends TestCase
         $this->assertEquals($requestInput, $requestOutput);
     }
 
-    public function testPreExecuteRequestUnalteredPostRequest()
+    public function testPreExecuteRequestUnalteredPostRequest(): void
     {
         $query = $this->client->createUpdate();
         $query->addDeleteById(1);
@@ -130,7 +130,7 @@ class PostBigRequestTest extends TestCase
         $this->assertEquals($requestInput, $requestOutput);
     }
 
-    public function testPluginIntegration()
+    public function testPluginIntegration(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $client->registerPlugin('testplugin', $this->plugin);

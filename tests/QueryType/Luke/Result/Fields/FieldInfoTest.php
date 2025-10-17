@@ -18,25 +18,25 @@ class FieldInfoTest extends TestCase
         $this->fieldInfo = new FieldInfo('fieldA');
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('fieldA', $this->fieldInfo->getName());
     }
 
-    public function testSetAndGetType()
+    public function testSetAndGetType(): void
     {
         $this->assertSame($this->fieldInfo, $this->fieldInfo->setType('my_type'));
         $this->assertSame('my_type', $this->fieldInfo->getType());
     }
 
-    public function testSetAndGetSchema()
+    public function testSetAndGetSchema(): void
     {
         $schema = new FlagList('-', []);
         $this->assertSame($this->fieldInfo, $this->fieldInfo->setSchema($schema));
         $this->assertSame($schema, $this->fieldInfo->getSchema());
     }
 
-    public function testSetAndGetDynamicBase()
+    public function testSetAndGetDynamicBase(): void
     {
         $this->assertSame($this->fieldInfo, $this->fieldInfo->setDynamicBase('field_*'));
         $this->assertSame('field_*', $this->fieldInfo->getDynamicBase());
@@ -45,7 +45,7 @@ class FieldInfoTest extends TestCase
         $this->assertNull($this->fieldInfo->getDynamicBase());
     }
 
-    public function testSetAndGetIndex()
+    public function testSetAndGetIndex(): void
     {
         $index = new FlagList('-', []);
         $this->assertSame($this->fieldInfo, $this->fieldInfo->setIndex($index));
@@ -58,7 +58,7 @@ class FieldInfoTest extends TestCase
         $this->assertNull($this->fieldInfo->getIndex());
     }
 
-    public function testSetAndGetDocs()
+    public function testSetAndGetDocs(): void
     {
         $this->assertSame($this->fieldInfo, $this->fieldInfo->setDocs(42));
         $this->assertSame(42, $this->fieldInfo->getDocs());
@@ -67,7 +67,7 @@ class FieldInfoTest extends TestCase
         $this->assertNull($this->fieldInfo->getDocs());
     }
 
-    public function testSetAndGetDistinct()
+    public function testSetAndGetDistinct(): void
     {
         $this->assertSame($this->fieldInfo, $this->fieldInfo->setDistinct(24));
         $this->assertSame(24, $this->fieldInfo->getDistinct());
@@ -76,7 +76,7 @@ class FieldInfoTest extends TestCase
         $this->assertNull($this->fieldInfo->getDistinct());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('fieldA', (string) $this->fieldInfo);
     }

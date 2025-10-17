@@ -19,24 +19,24 @@ class ReloadTest extends TestCase
         $this->action = new Reload();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(CollectionsQuery::ACTION_RELOAD, $this->action->getType());
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->action->setName('test');
         $this->assertSame('test', $this->action->getName());
     }
 
-    public function testSetAsync()
+    public function testSetAsync(): void
     {
         $this->action->setAsync('fooXyz');
         $this->assertSame('fooXyz', $this->action->getAsync());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(ReloadResult::class, $this->action->getResultClass());
     }

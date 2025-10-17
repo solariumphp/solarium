@@ -18,7 +18,7 @@ class IntervalTest extends TestCase
         $this->facet = new Interval();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -33,23 +33,23 @@ class IntervalTest extends TestCase
         $this->assertSame($options['set'], $this->facet->getSet());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(FacetSet::FACET_INTERVAL, $this->facet->getType());
     }
 
-    public function testSetAndGetSet()
+    public function testSetAndGetSet(): void
     {
         $this->facet->setSet('interval1,interval2');
         $this->assertEquals(['interval1', 'interval2'], $this->facet->getSet());
     }
 
-    public function testEmptySet()
+    public function testEmptySet(): void
     {
         $this->assertEquals([], $this->facet->getSet());
     }
 
-    public function testSetAndGetField()
+    public function testSetAndGetField(): void
     {
         $this->facet->setField('field1');
         $this->assertSame('field1', $this->facet->getField());

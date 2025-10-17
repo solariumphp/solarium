@@ -33,7 +33,7 @@ class TermTest extends TestCase
         $this->result = new Term($this->numFound, $this->suggestions);
     }
 
-    public function testGetNumFound()
+    public function testGetNumFound(): void
     {
         $this->assertSame(
             $this->numFound,
@@ -41,7 +41,7 @@ class TermTest extends TestCase
         );
     }
 
-    public function testGetSuggestions()
+    public function testGetSuggestions(): void
     {
         $this->assertSame(
             $this->suggestions,
@@ -49,12 +49,12 @@ class TermTest extends TestCase
         );
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->suggestions, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $results = [];
         foreach ($this->result as $key => $doc) {

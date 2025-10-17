@@ -25,7 +25,7 @@ class MoreLikeThisTest extends TestCase
         $this->mlt = new MoreLikeThis();
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'moreLikeThis' => [
@@ -49,14 +49,14 @@ class MoreLikeThisTest extends TestCase
         $this->assertEquals($expected, $result->getResults());
     }
 
-    public function testParseNoData()
+    public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, $this->mlt, []);
 
         $this->assertEquals([], $result->getResults());
     }
 
-    public function testParseWithoutMaxScore()
+    public function testParseWithoutMaxScore(): void
     {
         $data = [
             'moreLikeThis' => [
@@ -79,7 +79,7 @@ class MoreLikeThisTest extends TestCase
         $this->assertEquals($expected, $result->getResults());
     }
 
-    public function testParseInterestingTermsNone()
+    public function testParseInterestingTermsNone(): void
     {
         $this->mlt->setInterestingTerms('none');
 
@@ -102,7 +102,7 @@ class MoreLikeThisTest extends TestCase
         $this->assertNull($result->getInterestingTerms());
     }
 
-    public function testParseInterestingTermsList()
+    public function testParseInterestingTermsList(): void
     {
         $this->mlt->setInterestingTerms('list');
 
@@ -136,7 +136,7 @@ class MoreLikeThisTest extends TestCase
         $this->assertEquals($expected, $result->getInterestingTerms());
     }
 
-    public function testParseInterestingTermsDetails()
+    public function testParseInterestingTermsDetails(): void
     {
         $this->mlt->setInterestingTerms('list');
 

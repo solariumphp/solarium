@@ -9,7 +9,7 @@ use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
 
 class ResourcesTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'managedResources' => [

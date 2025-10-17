@@ -12,7 +12,7 @@ use Solarium\QueryType\Update\Query\Document;
 
 class ResponseParserTest extends TestCase
 {
-    public function testParse()
+    public function testParse(): void
     {
         $data = [
             'response' => [
@@ -58,7 +58,7 @@ class ResponseParserTest extends TestCase
         $this->assertEquals($components, $result['components']);
     }
 
-    public function testParseWithoutScore()
+    public function testParseWithoutScore(): void
     {
         $data = [
             'response' => [
@@ -103,7 +103,7 @@ class ResponseParserTest extends TestCase
         $this->assertEquals($components, $result['components']);
     }
 
-    public function testParseWithInvalidDocumentClass()
+    public function testParseWithInvalidDocumentClass(): void
     {
         $data = [
             'response' => [
@@ -136,7 +136,7 @@ class ResponseParserTest extends TestCase
         $parser->parse($resultStub);
     }
 
-    public function testParseWithoutNumFound()
+    public function testParseWithoutNumFound(): void
     {
         $data = [
             'response' => [

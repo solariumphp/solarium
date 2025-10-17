@@ -17,12 +17,12 @@ class RemoveTest extends TestCase
         $this->remove = new Remove();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Query::COMMAND_REMOVE, $this->remove->getType());
     }
 
-    public function testGetRequestMethod()
+    public function testGetRequestMethod(): void
     {
         $this->assertSame(Request::METHOD_DELETE, $this->remove->getRequestMethod());
     }

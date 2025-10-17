@@ -18,7 +18,7 @@ class CustomQueryClassTest extends TestCase
      *
      * @dataProvider customQueryClassProvider
      */
-    public function testCustomQueryClassSetQueryReturnType(string $queryClass)
+    public function testCustomQueryClassSetQueryReturnType(string $queryClass): void
     {
         $query = new $queryClass();
         $this->assertInstanceOf(QueryInterface::class, $query->setQuery('*:*'));

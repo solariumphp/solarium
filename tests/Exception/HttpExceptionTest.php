@@ -7,31 +7,31 @@ use Solarium\Exception\HttpException;
 
 class HttpExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\HttpException');
         throw new HttpException('message text');
     }
 
-    public function testSPLParentException()
+    public function testSPLParentException(): void
     {
         $this->expectException('\RuntimeException');
         throw new HttpException('message text');
     }
 
-    public function testRuntimeMarkerInterface()
+    public function testRuntimeMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\RuntimeExceptionInterface');
         throw new HttpException('message text');
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new HttpException('message text');
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $exception = new HttpException('message text');
 
@@ -62,7 +62,7 @@ class HttpExceptionTest extends TestCase
         );
     }
 
-    public function testGetStatusMessage()
+    public function testGetStatusMessage(): void
     {
         $exception = new HttpException('message text', 123);
 
@@ -72,7 +72,7 @@ class HttpExceptionTest extends TestCase
         );
     }
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $exception = new HttpException('message text', 123);
 

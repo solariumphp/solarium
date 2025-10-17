@@ -19,30 +19,30 @@ class UploadTest extends TestCase
         $this->action = new Upload();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(ConfigsetsQuery::ACTION_UPLOAD, $this->action->getType());
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->action->setName('test');
         $this->assertSame('test', $this->action->getName());
     }
 
-    public function testSetFile()
+    public function testSetFile(): void
     {
         $this->action->setFile('test');
         $this->assertSame('test', $this->action->getFile());
     }
 
-    public function testSetFilePath()
+    public function testSetFilePath(): void
     {
         $this->action->setFilePath('test');
         $this->assertSame('test', $this->action->getFilePath());
     }
 
-    public function testSetBaseConfigSet()
+    public function testSetBaseConfigSet(): void
     {
         $this->action->setOverwrite(true);
         $this->assertTrue($this->action->getOverwrite());
@@ -50,7 +50,7 @@ class UploadTest extends TestCase
         $this->assertFalse($this->action->getOverwrite());
     }
 
-    public function testSetCleanup()
+    public function testSetCleanup(): void
     {
         $this->action->setCleanup(true);
         $this->assertTrue($this->action->getCleanup());
@@ -58,7 +58,7 @@ class UploadTest extends TestCase
         $this->assertFalse($this->action->getCleanup());
     }
 
-    public function testGetResultClass()
+    public function testGetResultClass(): void
     {
         $this->assertSame(ConfigsetsResult::class, $this->action->getResultClass());
     }

@@ -24,22 +24,22 @@ class GroupingTest extends TestCase
         $this->grouping = new Result($this->items);
     }
 
-    public function testGetGroups()
+    public function testGetGroups(): void
     {
         $this->assertSame($this->items, $this->grouping->getGroups());
     }
 
-    public function testGetGroup()
+    public function testGetGroup(): void
     {
         $this->assertSame($this->items['key1'], $this->grouping->getGroup('key1'));
     }
 
-    public function testGetGroupInvalid()
+    public function testGetGroupInvalid(): void
     {
         $this->assertNull($this->grouping->getGroup('invalidkey'));
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->grouping as $key => $item) {
@@ -49,7 +49,7 @@ class GroupingTest extends TestCase
         $this->assertSame($this->items, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->items, $this->grouping);
     }

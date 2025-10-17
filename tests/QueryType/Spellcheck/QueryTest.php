@@ -18,22 +18,22 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_SPELLCHECK, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Spellcheck\ResponseParser', $this->query->getResponseParser());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\Spellcheck\RequestBuilder', $this->query->getRequestBuilder());
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $value = 'testquery';
         $this->query->setQuery($value);
@@ -44,7 +44,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetDictionary()
+    public function testSetAndGetDictionary(): void
     {
         $value = 'myDictionary';
         $this->query->setDictionary($value);
@@ -55,7 +55,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetCount()
+    public function testSetAndGetCount(): void
     {
         $value = 11;
         $this->query->setCount($value);
@@ -66,13 +66,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetOnlyMorePopular()
+    public function testSetAndGetOnlyMorePopular(): void
     {
         $this->query->setOnlyMorePopular(false);
         $this->assertFalse($this->query->getOnlyMorePopular());
     }
 
-    public function testSetAndGetAlternativeTermCount()
+    public function testSetAndGetAlternativeTermCount(): void
     {
         $value = 5;
         $this->query->setAlternativeTermCount($value);
@@ -83,13 +83,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetExtendedResults()
+    public function testSetAndGetExtendedResults(): void
     {
         $this->query->setExtendedResults(false);
         $this->assertFalse($this->query->getExtendedResults());
     }
 
-    public function testSetAndGetCollate()
+    public function testSetAndGetCollate(): void
     {
         $this->query->setCollate(false);
         $this->assertFalse($this->query->getCollate());

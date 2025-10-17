@@ -39,7 +39,7 @@ class ResultTest extends TestCase
         $this->result = new SpellcheckDummy($this->data, $this->allData, $this->collation);
     }
 
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertSame(
             1,
@@ -47,7 +47,7 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetQueryTime()
+    public function testGetQueryTime(): void
     {
         $this->assertSame(
             12,
@@ -55,32 +55,32 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetResults()
+    public function testGetResults(): void
     {
         $this->assertSame($this->data, $this->result->getResults());
     }
 
-    public function testGetAll()
+    public function testGetAll(): void
     {
         $this->assertSame($this->allData, $this->result->getAll());
     }
 
-    public function testGetTerm()
+    public function testGetTerm(): void
     {
         $this->assertSame($this->data['term1'], $this->result->getTerm('term1'));
     }
 
-    public function testGetTermsWithInvalidFieldName()
+    public function testGetTermsWithInvalidFieldName(): void
     {
         $this->assertNull($this->result->getTerm('term3'));
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->data, $this->result);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $results = [];
         foreach ($this->result as $key => $doc) {
@@ -90,7 +90,7 @@ class ResultTest extends TestCase
         $this->assertSame($this->data, $results);
     }
 
-    public function testGetCollation()
+    public function testGetCollation(): void
     {
         $this->assertSame($this->collation, $this->result->getCollation());
     }

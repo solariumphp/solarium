@@ -9,7 +9,7 @@ use Solarium\Support\DataFixtures\FixtureInterface;
 
 class ExecutorTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $client = $this->createMock(ClientInterface::class);
 

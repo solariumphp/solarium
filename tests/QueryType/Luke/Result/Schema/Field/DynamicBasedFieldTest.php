@@ -20,34 +20,34 @@ class DynamicBasedFieldTest extends AbstractFieldTestCase
         $this->field = new DynamicBasedField('fieldA');
     }
 
-    public function testCopyFieldDest()
+    public function testCopyFieldDest(): void
     {
         $this->assertInstanceOf(CopyFieldDestInterface::class, $this->field);
     }
 
-    public function testCopyFieldSource()
+    public function testCopyFieldSource(): void
     {
         $this->assertInstanceOf(CopyFieldSourceInterface::class, $this->field);
     }
 
-    public function testNotSchemaField()
+    public function testNotSchemaField(): void
     {
         $this->assertNotInstanceOf(SchemaFieldInterface::class, $this->field);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertSame('fieldA', $this->field->getName());
     }
 
-    public function testSetAndGetDynamicBase()
+    public function testSetAndGetDynamicBase(): void
     {
         $dynamicBase = new DynamicField('*_a');
         $this->assertSame($this->field, $this->field->setDynamicBase($dynamicBase));
         $this->assertSame($dynamicBase, $this->field->getDynamicBase());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('fieldA', (string) $this->field);
     }

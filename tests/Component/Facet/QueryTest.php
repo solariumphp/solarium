@@ -18,7 +18,7 @@ class QueryTest extends TestCase
         $this->facet = new Query();
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $options = [
             'local_key' => 'myKey',
@@ -33,7 +33,7 @@ class QueryTest extends TestCase
         $this->assertSame($options['query'], $this->facet->getQuery());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(
             FacetSet::FACET_QUERY,
@@ -41,13 +41,13 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testSetAndGetQuery()
+    public function testSetAndGetQuery(): void
     {
         $this->facet->setQuery('category:1');
         $this->assertSame('category:1', $this->facet->getQuery());
     }
 
-    public function testSetAndGetQueryWithBind()
+    public function testSetAndGetQueryWithBind(): void
     {
         $this->facet->setQuery('id:%1%', [678]);
         $this->assertSame('id:678', $this->facet->getQuery());

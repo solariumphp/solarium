@@ -26,7 +26,7 @@ class PreFlushTest extends TestCase
      *
      * @param PreFlush $event
      */
-    public function testSetAndGetBuffer($event)
+    public function testSetAndGetBuffer($event): void
     {
         $buffer = [4, 5, 6];
         $event->setBuffer($buffer);
@@ -38,7 +38,7 @@ class PreFlushTest extends TestCase
      *
      * @param PreFlush $event
      */
-    public function testSetAndGetOverwrite($event)
+    public function testSetAndGetOverwrite($event): void
     {
         $event->setOverwrite(false);
         $this->assertFalse($event->getOverwrite());
@@ -49,7 +49,7 @@ class PreFlushTest extends TestCase
      *
      * @param PreFlush $event
      */
-    public function testSetAndGetCommitWithin($event)
+    public function testSetAndGetCommitWithin($event): void
     {
         $commitWithin = 321;
         $event->setCommitWithin($commitWithin);

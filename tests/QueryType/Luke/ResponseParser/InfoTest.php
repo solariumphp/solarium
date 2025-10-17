@@ -48,7 +48,7 @@ class InfoTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testParsePhps(Info $info)
+    public function testParsePhps(Info $info): void
     {
         $data = [
             'responseHeader' => [
@@ -81,7 +81,7 @@ class InfoTest extends TestCase
     /**
      * @depends testParseJson
      */
-    public function testInfo(Info $info)
+    public function testInfo(Info $info): void
     {
         $infoData = $this->getInfoData();
 

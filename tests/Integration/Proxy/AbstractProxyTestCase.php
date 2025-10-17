@@ -54,7 +54,7 @@ abstract class AbstractProxyTestCase extends TestCase
         );
     }
 
-    public function testConnection()
+    public function testConnection(): void
     {
         $query = self::$client->createApi([
             'version' => Request::API_V1,

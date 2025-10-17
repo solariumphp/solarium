@@ -24,12 +24,12 @@ class ResultTest extends TestCase
         $this->result = new Result($this->fields);
     }
 
-    public function testGetFields()
+    public function testGetFields(): void
     {
         $this->assertSame($this->fields, $this->result->getFields());
     }
 
-    public function testGetField()
+    public function testGetField(): void
     {
         $this->assertSame(
             $this->fields['field2'],
@@ -37,7 +37,7 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testGetInvalidField()
+    public function testGetInvalidField(): void
     {
         $this->assertSame(
             [],
@@ -45,7 +45,7 @@ class ResultTest extends TestCase
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $items = [];
         foreach ($this->result as $key => $item) {
@@ -55,7 +55,7 @@ class ResultTest extends TestCase
         $this->assertSame($this->fields, $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertSameSize($this->fields, $this->result);
     }

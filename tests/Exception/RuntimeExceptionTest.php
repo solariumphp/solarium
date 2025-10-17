@@ -7,25 +7,25 @@ use Solarium\Exception\RuntimeException;
 
 class RuntimeExceptionTest extends TestCase
 {
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('Solarium\Exception\RuntimeException');
         throw new RuntimeException();
     }
 
-    public function testSPLException()
+    public function testSPLException(): void
     {
         $this->expectException('\RuntimeException');
         throw new RuntimeException();
     }
 
-    public function testRuntimeMarkerInterface()
+    public function testRuntimeMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\RuntimeExceptionInterface');
         throw new RuntimeException();
     }
 
-    public function testMarkerInterface()
+    public function testMarkerInterface(): void
     {
         $this->expectException('Solarium\Exception\ExceptionInterface');
         throw new RuntimeException();

@@ -29,32 +29,32 @@ class ItemTest extends TestCase
         $this->item = new Item($this->data);
     }
 
-    public function testGetText()
+    public function testGetText(): void
     {
         $this->assertSame($this->data['text'], $this->item->getText());
     }
 
-    public function testGetStart()
+    public function testGetStart(): void
     {
         $this->assertSame($this->data['start'], $this->item->getStart());
     }
 
-    public function testGetEnd()
+    public function testGetEnd(): void
     {
         $this->assertSame($this->data['end'], $this->item->getEnd());
     }
 
-    public function testGetPosition()
+    public function testGetPosition(): void
     {
         $this->assertSame($this->data['position'], $this->item->getPosition());
     }
 
-    public function testGetPositionHistory()
+    public function testGetPositionHistory(): void
     {
         $this->assertSame($this->data['positionHistory'], $this->item->getPositionHistory());
     }
 
-    public function testGetPositionHistoryFallbackValue()
+    public function testGetPositionHistoryFallbackValue(): void
     {
         $data = $this->data;
         $data['positionHistory'] = '';
@@ -62,17 +62,17 @@ class ItemTest extends TestCase
         $this->assertSame([], $item->getPositionHistory());
     }
 
-    public function testGetRawText()
+    public function testGetRawText(): void
     {
         $this->assertSame($this->data['raw_text'], $this->item->getRawText());
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame($this->data['type'], $this->item->getType());
     }
 
-    public function testGetRawTextEmpty()
+    public function testGetRawTextEmpty(): void
     {
         $data = [
             'text' => 'dummytest',
@@ -86,7 +86,7 @@ class ItemTest extends TestCase
         $this->assertNull($item->getRawText());
     }
 
-    public function testGetMatch()
+    public function testGetMatch(): void
     {
         $this->assertSame($this->data['match'], $this->item->getMatch());
     }

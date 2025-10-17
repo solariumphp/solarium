@@ -24,7 +24,7 @@ class AddDeleteByIdTest extends TestCase
      *
      * @param AddDeleteById $event
      */
-    public function testSetAndGetId($event)
+    public function testSetAndGetId($event): void
     {
         $event->setId(456);
         $this->assertSame(456, $event->getId());

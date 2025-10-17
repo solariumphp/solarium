@@ -18,12 +18,12 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_REALTIME_GET, $this->query->getType());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertInstanceOf(
             'Solarium\QueryType\Select\ResponseParser',
@@ -31,23 +31,23 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf('Solarium\QueryType\RealtimeGet\RequestBuilder', $this->query->getRequestBuilder());
     }
 
-    public function testSetAndGetDocumentClass()
+    public function testSetAndGetDocumentClass(): void
     {
         $this->query->setDocumentClass('MyDocument');
         $this->assertSame('MyDocument', $this->query->getDocumentClass());
     }
 
-    public function testGetComponents()
+    public function testGetComponents(): void
     {
         $this->assertSame([], $this->query->getComponents());
     }
 
-    public function testAddId()
+    public function testAddId(): void
     {
         $expectedIds = $this->query->getIds();
         $expectedIds[] = 'newid';
@@ -55,14 +55,14 @@ class QueryTest extends TestCase
         $this->assertSame($expectedIds, $this->query->getIds());
     }
 
-    public function testClearIds()
+    public function testClearIds(): void
     {
         $this->query->addId('newid');
         $this->query->clearIds();
         $this->assertSame([], $this->query->getIds());
     }
 
-    public function testAddIds()
+    public function testAddIds(): void
     {
         $ids = ['id1', 'id2'];
 
@@ -71,14 +71,14 @@ class QueryTest extends TestCase
         $this->assertSame($ids, $this->query->getIds());
     }
 
-    public function testAddIdsAsStringWithTrim()
+    public function testAddIdsAsStringWithTrim(): void
     {
         $this->query->clearIds();
         $this->query->addIds('id1, id2');
         $this->assertSame(['id1', 'id2'], $this->query->getIds());
     }
 
-    public function testRemoveId()
+    public function testRemoveId(): void
     {
         $this->query->clearIds();
         $this->query->addIds(['id1', 'id2']);
@@ -86,7 +86,7 @@ class QueryTest extends TestCase
         $this->assertSame(['id2'], $this->query->getIds());
     }
 
-    public function testSetIds()
+    public function testSetIds(): void
     {
         $this->query->clearIds();
         $this->query->addIds(['id1', 'id2']);

@@ -9,7 +9,7 @@ use Solarium\Core\Client\Request;
 
 class SuggesterTest extends TestCase
 {
-    public function testBuildComponent()
+    public function testBuildComponent(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();
@@ -38,7 +38,7 @@ class SuggesterTest extends TestCase
         );
     }
 
-    public function testBuildComponentMulipleDictionaries()
+    public function testBuildComponentMulipleDictionaries(): void
     {
         $builder = new RequestBuilder();
         $request = new Request();

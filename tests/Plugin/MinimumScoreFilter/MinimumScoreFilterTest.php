@@ -9,7 +9,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class MinimumScoreFilterTest extends TestCase
 {
-    public function testInitPlugin()
+    public function testInitPlugin(): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('minimumscorefilter');

@@ -19,29 +19,29 @@ class QueryTest extends TestCase
         $this->query = new Query();
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame(Client::QUERY_GRAPH, $this->query->getType());
     }
 
-    public function testGetRequestBuilder()
+    public function testGetRequestBuilder(): void
     {
         $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
-    public function testGetResponseParser()
+    public function testGetResponseParser(): void
     {
         $this->assertNull($this->query->getResponseParser());
     }
 
-    public function testConfigMode()
+    public function testConfigMode(): void
     {
         $q = new Query(['expr' => 'e1']);
 
         $this->assertSame('e1', $q->getExpression());
     }
 
-    public function testSetAndGetExpression()
+    public function testSetAndGetExpression(): void
     {
         $this->query->setExpression('testexpression');
         $this->assertSame('testexpression', $this->query->getExpression());

@@ -35,7 +35,7 @@ class StopwordsTest extends TestCase
         $this->builder = new StopwordsRequestBuilder();
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $handler = 'schema/analysis/stopwords/dutch';
         $request = $this->builder->build($this->query);
@@ -52,7 +52,7 @@ class StopwordsTest extends TestCase
         $this->assertSame($handler, $request->getHandler());
     }
 
-    public function testNoName()
+    public function testNoName(): void
     {
         $this->query->setName('');
         $this->expectException(RuntimeException::class);
@@ -60,7 +60,7 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testUnsupportedCommand()
+    public function testUnsupportedCommand(): void
     {
         $command = new UnsupportedStopwordsCommand();
 
@@ -70,7 +70,7 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
@@ -78,7 +78,7 @@ class StopwordsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testQueryWithTerm()
+    public function testQueryWithTerm(): void
     {
         $this->query->setTerm('de');
         $request = $this->builder->build($this->query);
@@ -87,7 +87,7 @@ class StopwordsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testAdd()
+    public function testAdd(): void
     {
         $command = new AddCommand();
         $command->setStopwords(['de']);
@@ -100,7 +100,7 @@ class StopwordsTest extends TestCase
         $this->assertSame('["de"]', $request->getRawData());
     }
 
-    public function testAddWithoutStopwords()
+    public function testAddWithoutStopwords(): void
     {
         $command = new AddCommand();
 
@@ -110,7 +110,7 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testConfig()
+    public function testConfig(): void
     {
         $initArgs = new InitArgs();
         $initArgs->setInitArgs(['ignoreCase' => true]);
@@ -126,7 +126,7 @@ class StopwordsTest extends TestCase
         $this->assertSame('{"initArgs":{"ignoreCase":true}}', $request->getRawData());
     }
 
-    public function testConfigWithoutInitArgs()
+    public function testConfigWithoutInitArgs(): void
     {
         $command = new ConfigCommand();
 
@@ -136,7 +136,7 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $command = new CreateCommand();
 
@@ -148,7 +148,7 @@ class StopwordsTest extends TestCase
         $this->assertSame('{"class":"org.apache.solr.rest.schema.analysis.ManagedWordSetResource"}', $request->getRawData());
     }
 
-    public function testCreateWithoutClass()
+    public function testCreateWithoutClass(): void
     {
         $command = new UnsupportedStopwordsCreateCommand();
 
@@ -158,7 +158,7 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $command = new DeleteCommand();
         $command->setTerm('de');
@@ -170,7 +170,7 @@ class StopwordsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testDeleteWithoutTerm()
+    public function testDeleteWithoutTerm(): void
     {
         $command = new DeleteCommand();
 
@@ -180,7 +180,7 @@ class StopwordsTest extends TestCase
         $request = $this->builder->build($this->query);
     }
 
-    public function testExists()
+    public function testExists(): void
     {
         $command = new ExistsCommand();
         $command->setTerm('de');
@@ -193,7 +193,7 @@ class StopwordsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testExistsWithoutTerm()
+    public function testExistsWithoutTerm(): void
     {
         $command = new ExistsCommand();
 
@@ -205,7 +205,7 @@ class StopwordsTest extends TestCase
         $this->assertNull($request->getRawData());
     }
 
-    public function testExistsWithUseHeadRequest()
+    public function testExistsWithUseHeadRequest(): void
     {
         $command = new ExistsCommand();
         $command->setUseHeadRequest(true);
@@ -228,7 +228,7 @@ class StopwordsTest extends TestCase
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-2
      * @see https://issues.apache.org/jira/browse/SOLR-6853
      */
-    public function testReservedCharacters()
+    public function testReservedCharacters(): void
     {
         $unencoded = ':/?#[]@% ';
         $encoded = '%253A%252F%253F%2523%255B%255D%2540%2525%2520';
@@ -240,7 +240,7 @@ class StopwordsTest extends TestCase
         $this->assertStringEndsWith('/'.$encoded.'/'.$encoded, $request->getHandler());
     }
 
-    public function testRemove()
+    public function testRemove(): void
     {
         $command = new RemoveCommand();
 

@@ -14,7 +14,7 @@ class DocumentTest extends AbstractDocumentTestCase
         $this->doc = new FilterDocument($doc, true);
     }
 
-    public function testMarkedAsLowScore()
+    public function testMarkedAsLowScore(): void
     {
         $this->assertTrue($this->doc->markedAsLowScore());
 
