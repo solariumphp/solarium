@@ -4,6 +4,18 @@ All notable changes to the Solarium library will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [6.4.1]
+### Added
+- CBOR formatted update requests
+- Solarium\Core\Query\Helper::knn()
+- Solarium\Core\Query\Helper::knnTextToVector()
+- Solarium\Core\Query\Helper::vectorSimilarity()
+
+### Removed
+- Some return type changes that were added to 6.4.0 but should go into 7.0.0
+
+
 ## [6.4.0]
 ### Added
 - CBOR formatted update requests
