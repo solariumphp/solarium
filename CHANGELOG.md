@@ -4,6 +4,25 @@ All notable changes to the Solarium library will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0]
+### Changed
+ - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
+ - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
+ - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
+ - Changed return type of some Facets methods from `self`to `static`
+
+
+## [6.4.1]
+### Added
+- CBOR formatted update requests
+- Solarium\Core\Query\Helper::knn()
+- Solarium\Core\Query\Helper::knnTextToVector()
+- Solarium\Core\Query\Helper::vectorSimilarity()
+
+### Removed
+- Some return type changes that were added to 6.4.0 but should go into 7.0.0
+
+
 ## [6.4.0]
 ### Added
 - CBOR formatted update requests
@@ -11,11 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\Core\Query\Helper::knnTextToVector()
 - Solarium\Core\Query\Helper::vectorSimilarity()
 
-### Changed
- - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
- - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
- - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
- - Changed return type of some Facets methods from `self`to `static`
 
 ## [6.3.7]
 ### Added
