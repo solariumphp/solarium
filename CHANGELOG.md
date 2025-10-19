@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
  - Changed return type of some Facets methods from `self`to `static`
 
+### Removed
+- Solarium\Component\Result\Stats\FacetValue::getFacets(), always returned `null`
+- Solarium\Core\Query\AbstractQuery::setTimeAllowed() and getTimeAllowed(), moved to Solarium\QueryType\Select\Query\Query
+- Solarium\Core\Query\Helper::cacheControl(), use Solarium\QueryType\Select\Query\FilterQuery::setCache() and setCost() instead
+
 
 ## [6.4.1]
 ### Added

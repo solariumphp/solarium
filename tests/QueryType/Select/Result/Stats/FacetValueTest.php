@@ -109,14 +109,6 @@ class FacetValueTest extends TestCase
         $this->assertSame($this->stats['cardinality'], $this->result->getCardinality());
     }
 
-    /**
-     * @deprecated Will be removed in Solarium 7
-     */
-    public function testGetFacets(): void
-    {
-        $this->assertNull($this->result->getFacets());
-    }
-
     public function testGetStatValue(): void
     {
         $this->assertSame($this->stats['dummy'], $this->result->getStatValue('dummy'));

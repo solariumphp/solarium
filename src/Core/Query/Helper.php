@@ -458,37 +458,6 @@ class Helper
     }
 
     /**
-     * Render cache control param for use in filterquery.
-     *
-     * This is a Solr 3.4+ feature.
-     *
-     * @see https://solr.apache.org/guide/common-query-parameters.html#cache-parameter
-     *
-     * @param bool       $useCache
-     * @param float|null $cost
-     *
-     * @return string
-     *
-     * @deprecated Will be removed in Solarium 6. Use FilterQuery::setCache() and FilterQuery::setCost() instead.
-     */
-    public function cacheControl(bool $useCache, ?float $cost = null): string
-    {
-        $cache = 'false';
-
-        if (true === $useCache) {
-            $cache = 'true';
-        }
-
-        $result = '{!cache='.$cache;
-        if (null !== $cost) {
-            $result .= ' cost='.$cost;
-        }
-        $result .= '}';
-
-        return $result;
-    }
-
-    /**
      * Filters control characters that cause issues with servlet containers.
      *
      * Mainly useful to filter data before adding it to a document for the update query.

@@ -44,16 +44,4 @@ class FacetValue
     {
         return $this->value;
     }
-
-    /**
-     * Get facet stats.
-     *
-     * @return array|null
-     *
-     * @deprecated Will be removed in Solarium 7
-     */
-    public function getFacets(): ?array
-    {
-        return null;
-    }
 }
