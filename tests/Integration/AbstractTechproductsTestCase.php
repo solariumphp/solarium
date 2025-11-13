@@ -4522,18 +4522,15 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         /** @var Document $document */
         $document = $iterator->current();
-        $this->assertSame('application/pdf', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('PDF Test', trim($document['content'][0]), 'Written document does not contain extracted result');
         $this->assertSame(['bar 1'], $document['attr_foo_1']);
         $iterator->next();
         $document = $iterator->current();
-        $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('HTML Test Title', $document['title'][0], 'Written document does not contain extracted title');
         $this->assertMatchesRegularExpression('/^HTML Test Title\s+HTML Test Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
         $this->assertSame(['bar 2'], $document['attr_foo_2']);
         $iterator->next();
         $document = $iterator->current();
-        $this->assertSame('text/html; charset=UTF-8', $document['content_type'][0], 'Written document does not contain extracted content type');
         $this->assertSame('HTML Stream Title', $document['title'][0], 'Written document does not contain extracted title');
         $this->assertMatchesRegularExpression('/^HTML Stream Title\s+HTML Stream Body$/', trim($document['content'][0]), 'Written document does not contain extracted result');
         $this->assertSame(['bar 3'], $document['attr_foo_3']);

@@ -127,6 +127,18 @@ class RequestBuilderTest extends TestCase
         );
     }
 
+    public function testGetUriWithStreamType(): void
+    {
+        $query = $this->query;
+        $query->setStreamType('application/x-test');
+        $request = $this->builder->build($query);
+        $this->assertSame(
+            'update/extract?omitHeader=true&param1=value1&wt=json&json.nl=flat&extractOnly=false&stream.type=application%2Fx-test&fmap.from-field=to-field'.
+            '&resource.name=RequestBuilderTest.php',
+            $request->getUri()
+        );
+    }
+
     public function testGetUriWithExtractFormat(): void
     {
         $query = $this->query;
