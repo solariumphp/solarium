@@ -41,6 +41,7 @@ class RequestBuilder extends BaseRequestBuilder
         $request->addParam('defaultField', $query->getDefaultField());
         $request->addParam('extractOnly', $query->getExtractOnly());
         $request->addParam('extractFormat', $query->getExtractFormat());
+        $request->addParam('stream.type', $query->getStreamType());
 
         foreach ($query->getFieldMappings() as $fromField => $toField) {
             $request->addParam('fmap.'.$fromField, $toField);
