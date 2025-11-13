@@ -146,6 +146,30 @@ class Query extends BaseQuery
     }
 
     /**
+     * Set an explicit MIME type for Tika.
+     *
+     * @param string $type
+     *
+     * @return self Provides fluent interface
+     */
+    public function setStreamType(string $type): self
+    {
+        $this->setOption('stream.type', $type);
+
+        return $this;
+    }
+
+    /**
+     * Get the explicit MIME type for Tika.
+     *
+     * @return string|null
+     */
+    public function getStreamType(): ?string
+    {
+        return $this->getOption('stream.type');
+    }
+
+    /**
      * Set the prefix for fields that are not defined in the schema.
      *
      * @param string $uprefix

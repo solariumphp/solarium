@@ -82,6 +82,12 @@ class QueryTest extends TestCase
         fclose($file);
     }
 
+    public function testSetAndGetStreamType(): void
+    {
+        $this->query->setStreamType('application/x-test');
+        $this->assertSame('application/x-test', $this->query->getStreamType());
+    }
+
     public function testSetAndGetUprefix(): void
     {
         $this->query->setUprefix('dyn_');

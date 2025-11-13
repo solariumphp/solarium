@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [7.0.0]
+### Added
+- Solarium\QueryType\Extract\Query::setStreamType()
+
 ### Changed
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
