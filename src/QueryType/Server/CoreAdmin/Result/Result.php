@@ -132,4 +132,25 @@ class Result extends BaseResult
     {
         return $this->statusResults[$coreName] ?? null;
     }
+
+    /**
+     * Magic method for getting inaccessible or non-existent properties.
+     *
+     * @see \Solarium\QueryType\Server\CoreAdmin\ResponseParser
+     *
+     * @param string $name
+     *
+     * @return mixed|null
+     */
+    public function __get(string $name)
+    {
+        /*
+         * Revert the workaround from ResponseParser::parse() to make
+         * Result::$response publicly accessible without conflicting with
+         * the actual protected property of that name.
+         */
+        if ('response' === $name && isset($this->_original_response)) {
+            return $this->_original_response;
+        }
+    }
 }
