@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Solarium\QueryType\Extract\Query::setStreamType()
 
+### Fixed
+- Solarium\QueryType\Server\CoreAdmin\Result\Result::getResponse() always returns a Solarium\Core\Client\Response object, even if the response data contains a field named `"response"`
+- Solarium\QueryType\Server\CoreAdmin\Result\Result::$response publicly exposes the `"response"` field from the response data
+
 ### Changed
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature

@@ -38,6 +38,20 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $data = $this->parseInitFailures($data, $result);
         $data = $this->parseStatus($data, $result);
 
+        if (isset($data['response'])) {
+            /*
+             * The protected property Result::$response always holds the
+             * Response object for the Query and is accessible through
+             * Result::getResponse().
+             *
+             * We store this value as a different property and revert this in
+             * Result::__get() to make it accessible as if it were the public
+             * property Result::$response.
+             */
+            $data['_original_response'] = $data['response'];
+            unset($data['response']);
+        }
+
         return $data;
     }
 
