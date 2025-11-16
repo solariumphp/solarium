@@ -18,10 +18,8 @@ class Result implements \IteratorAggregate, \Countable
 {
     /**
      * Group results array.
-     *
-     * @var array
      */
-    protected $groups;
+    protected array $groups;
 
     /**
      * Constructor.
@@ -50,7 +48,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return FieldGroup|QueryGroup|null
      */
-    public function getGroup(string $key)
+    public function getGroup(string $key): FieldGroup|QueryGroup|null
     {
         if (isset($this->groups[$key])) {
             return $this->groups[$key];

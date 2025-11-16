@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class DeleteTest extends TestCase
 {
-    protected $command;
+    protected Delete $command;
 
     public function setUp(): void
     {

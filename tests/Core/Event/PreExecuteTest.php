@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PreExecuteTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreExecute
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();
@@ -25,10 +25,8 @@ class PreExecuteTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreExecute $event
      */
-    public function testSetAndGetResult($event): void
+    public function testSetAndGetResult(PreExecute $event): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();

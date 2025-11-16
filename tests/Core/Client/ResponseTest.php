@@ -8,14 +8,11 @@ use Solarium\Exception\HttpException;
 
 class ResponseTest extends TestCase
 {
-    protected $headers;
+    protected array $headers;
 
-    protected $data;
+    protected string $data;
 
-    /**
-     * @var Response
-     */
-    protected $response;
+    protected Response $response;
 
     public function setUp(): void
     {

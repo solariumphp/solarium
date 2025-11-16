@@ -15,13 +15,13 @@ $parallel = $client->getPlugin('parallelexecution');
 // If you don't have to plugin the example still works, just without the delay.
 $customizer = $client->getPlugin('customizerequest');
 $customizer->createCustomization(
-    array(
+    [
         'key' => 'delay',
         'type' => 'param',
         'name' => 'delay',
         'value' => '500',
-        'persistent' => true
-    )
+        'persistent' => true,
+    ]
 );
 
 // create two queries to execute

@@ -8,15 +8,12 @@ use Solarium\Component\Result\TermVector\Term;
 
 class FieldTest extends TestCase
 {
-    /**
-     * @var Field
-     */
-    protected $field;
+    protected Field $field;
 
     /**
      * @var Term[]
      */
-    protected $terms;
+    protected array $terms;
 
     public function setUp(): void
     {

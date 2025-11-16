@@ -22,8 +22,6 @@ abstract class AbstractEvents
      * This event is called before a buffer flush.
      *
      * The event listener receives the buffer (array).
-     *
-     * @var string
      */
     public const PRE_FLUSH = AbstractPreFlush::class;
 
@@ -31,8 +29,6 @@ abstract class AbstractEvents
      * This event is called after a buffer flush.
      *
      * The event listener receives the Result.
-     *
-     * @var string
      */
     public const POST_FLUSH = AbstractPostFlush::class;
 
@@ -40,8 +36,6 @@ abstract class AbstractEvents
      * This event is called before a buffer commit.
      *
      * The event listener receives the buffer (array).
-     *
-     * @var string
      */
     public const PRE_COMMIT = AbstractPreCommit::class;
 
@@ -49,8 +43,6 @@ abstract class AbstractEvents
      * This event is called after a buffer commit.
      *
      * The event listener receives the Result.
-     *
-     * @var string
      */
     public const POST_COMMIT = AbstractPostCommit::class;
 

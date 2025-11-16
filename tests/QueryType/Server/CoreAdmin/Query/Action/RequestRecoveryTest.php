@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class RequestRecoveryTest extends TestCase
 {
-    /**
-     * @var RequestRecovery
-     */
-    protected $action;
+    protected RequestRecovery $action;
 
     public function setUp(): void
     {

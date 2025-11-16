@@ -9,8 +9,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Exists;
 
 class ExistsTest extends TestCase
 {
-    /** @var Exists */
-    protected $exists;
+    protected Exists $exists;
 
     public function setUp(): void
     {

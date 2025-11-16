@@ -1,12 +1,12 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Composer\InstalledVersions;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreExecuteRequest;
 use Solarium\QueryType\Update\Query\Query;
+
+require_once(__DIR__.'/init.php');
 
 set_time_limit(0);
 ini_set('memory_limit', -1);
@@ -46,7 +46,7 @@ $buildTimes = [];
 
 $client->getEventDispatcher()->addListener(
     Events::PRE_EXECUTE_REQUEST,
-    function (PreExecuteRequest $event) use ($response, &$start, &$buildTimes) {
+    function (PreExecuteRequest $event) use ($response, &$start, &$buildTimes): void {
         $buildTimes[] = (hrtime(true) - $start) / 1000000;
         $event->setResponse($response);
         $start = hrtime(true);

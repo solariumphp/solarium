@@ -7,10 +7,7 @@ use Solarium\Component\Result\TermVector\Term;
 
 class TermTest extends TestCase
 {
-    /**
-     * @var Term
-     */
-    protected $term;
+    protected Term $term;
 
     public function setUp(): void
     {

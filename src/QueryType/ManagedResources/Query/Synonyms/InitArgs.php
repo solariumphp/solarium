@@ -24,24 +24,18 @@ class InitArgs implements InitArgsInterface
 
     /**
      * Whether or not to ignore the case.
-     *
-     * @var bool
      */
-    protected $ignoreCase;
+    protected bool $ignoreCase;
 
     /**
      * Format.
-     *
-     * @var string
      */
-    protected $format;
+    protected string $format;
 
     /**
      * Formats.
-     *
-     * @var array
      */
-    protected $formats = [
+    protected array $formats = [
         self::FORMAT_SOLR => 'solr',
     ];
 
@@ -88,7 +82,7 @@ class InitArgs implements InitArgsInterface
      *
      * @param string $format
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return self Provides fluent interface
      */

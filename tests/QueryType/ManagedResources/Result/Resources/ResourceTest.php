@@ -7,8 +7,7 @@ use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceRes
 
 class ResourceTest extends TestCase
 {
-    /** @var ResourceResultItem */
-    protected $resource;
+    protected ResourceResultItem $resource;
 
     public function setUp(): void
     {

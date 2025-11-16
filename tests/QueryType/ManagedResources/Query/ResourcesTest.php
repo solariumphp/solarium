@@ -10,7 +10,7 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Resources as ResponsePars
 
 class ResourcesTest extends TestCase
 {
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

@@ -17,40 +17,22 @@ use Solarium\QueryType\Luke\Result\Schema\Similarity;
  */
 class Type
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
     /**
      * @var SchemaFieldInterface[]
      */
-    protected $fields = [];
+    protected array $fields = [];
 
-    /**
-     * @var bool
-     */
-    protected $tokenized;
+    protected bool $tokenized;
 
-    /**
-     * @var string
-     */
-    protected $className;
+    protected string $className;
 
-    /**
-     * @var IndexAnalyzer
-     */
-    protected $indexAnalyzer;
+    protected IndexAnalyzer $indexAnalyzer;
 
-    /**
-     * @var QueryAnalyzer
-     */
-    protected $queryAnalyzer;
+    protected QueryAnalyzer $queryAnalyzer;
 
-    /**
-     * @var Similarity
-     */
-    protected $similarity;
+    protected Similarity $similarity;
 
     /**
      * Constructor.

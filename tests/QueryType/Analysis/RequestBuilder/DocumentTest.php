@@ -10,15 +10,9 @@ use Solarium\QueryType\Update\Query\Document as InputDocument;
 
 class DocumentTest extends TestCase
 {
-    /**
-     * @var Document
-     */
-    protected $query;
+    protected Document $query;
 
-    /**
-     * @var DocumentBuilder
-     */
-    protected $builder;
+    protected DocumentBuilder $builder;
 
     public function setUp(): void
     {

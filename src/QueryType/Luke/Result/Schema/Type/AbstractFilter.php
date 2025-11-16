@@ -14,20 +14,11 @@ namespace Solarium\QueryType\Luke\Result\Schema\Type;
  */
 abstract class AbstractFilter
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var array
-     */
-    protected $args;
+    protected array $args;
 
-    /**
-     * @var string
-     */
-    protected $className;
+    protected string $className;
 
     /**
      * Constructor.

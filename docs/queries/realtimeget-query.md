@@ -53,7 +53,7 @@ $client->update($update);
 
 // try to get the document using a normal select, this should return 0 results
 $query = $client->createSelect();
-$query->setQuery('id:%1%', array($id));
+$query->setQuery('id:%1%', [$id]);
 $resultset = $client->select($query);
 echo 'NumFound with standard select: '.$resultset->getNumFound().'<br/>';
 

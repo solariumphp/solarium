@@ -18,6 +18,7 @@ use Solarium\Component\Facet\JsonAggregation;
 use Solarium\Component\Facet\JsonFacetInterface;
 use Solarium\Component\Facet\JsonRange as QueryFacetJsonRange;
 use Solarium\Component\Facet\MultiQuery as QueryFacetMultiQuery;
+use Solarium\Component\Facet\Pivot as QueryFacetPivot;
 use Solarium\Component\Facet\Query as QueryFacetQuery;
 use Solarium\Component\Facet\Range as QueryFacetRange;
 use Solarium\Component\FacetSet as QueryFacetSet;
@@ -93,7 +94,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     foreach ($facets as $k => $facet) {
                         $facetObject = $facetSet->$method($k);
                         if ('facet_pivot' === $key) {
-                            /* @var \Solarium\Component\Facet\Pivot $facetObject */
+                            /* @var QueryFacetPivot $facetObject */
                             $facetObject->setFields($k);
                         }
                     }

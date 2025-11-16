@@ -62,6 +62,11 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
             }
         }
 
+        // maxScore can be "NaN" (as a string) instead of being omitted
+        if (isset($data['response']['maxScore']) && 'NaN' === $data['response']['maxScore']) {
+            unset($data['response']['maxScore']);
+        }
+
         return [
             'numfound' => $data['response']['numFound'] ?? null,
             'maxscore' => $data['response']['maxScore'] ?? null,

@@ -21,20 +21,11 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PostBigExtractRequestTest extends TestCase
 {
-    /**
-     * @var PostBigExtractRequest
-     */
-    protected $plugin;
+    protected PostBigExtractRequest $plugin;
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

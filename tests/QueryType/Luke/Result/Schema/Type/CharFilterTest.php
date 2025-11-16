@@ -2,14 +2,12 @@
 
 namespace Solarium\Tests\QueryType\Luke\Result\Schema\Type;
 
+use Solarium\QueryType\Luke\Result\Schema\Type\AbstractFilter;
 use Solarium\QueryType\Luke\Result\Schema\Type\CharFilter;
 
 class CharFilterTest extends AbstractFilterTestCase
 {
-    /**
-     * @var CharFilter
-     */
-    protected $filter;
+    protected AbstractFilter|CharFilter $filter;
 
     public function setUp(): void
     {

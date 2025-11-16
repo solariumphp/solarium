@@ -50,10 +50,8 @@ class Query extends AbstractServerQuery
 
     /**
      * Action types.
-     *
-     * @var array
      */
-    protected $actionTypes = [
+    protected array $actionTypes = [
         self::ACTION_LIST => ListConfigsets::class,
         self::ACTION_UPLOAD => Upload::class,
         self::ACTION_CREATE => Create::class,
@@ -62,10 +60,8 @@ class Query extends AbstractServerQuery
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'admin/configs',
     ];
 

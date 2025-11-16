@@ -22,10 +22,8 @@ class Query extends AbstractQuery
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'stream',
         'resultclass' => Result::class,
         'documentclass' => Document::class,

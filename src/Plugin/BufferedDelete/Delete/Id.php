@@ -18,17 +18,15 @@ class Id extends AbstractDelete
 {
     /**
      * Document id to delete.
-     *
-     * @var int|string
      */
-    protected $id;
+    protected int|string $id;
 
     /**
      * Constructor.
      *
      * @param int|string $id
      */
-    public function __construct($id)
+    public function __construct(int|string $id)
     {
         $this->id = $id;
     }
@@ -48,7 +46,7 @@ class Id extends AbstractDelete
      *
      * @return self Provides fluent interface
      */
-    public function setId($id): self
+    public function setId(int|string $id): self
     {
         $this->id = $id;
 
@@ -60,7 +58,7 @@ class Id extends AbstractDelete
      *
      * @return int|string
      */
-    public function getId()
+    public function getId(): int|string
     {
         return $this->id;
     }

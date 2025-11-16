@@ -1,11 +1,9 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedAdd\Event\Events;
-use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Query;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
@@ -17,7 +15,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // this only works with 'bufferedadd', 'bufferedaddlite' doesn't trigger events
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function (PreFlushEvent $event) {
+    function (PreFlush $event): void {
         echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
     }
 );
@@ -26,11 +24,11 @@ $client->getEventDispatcher()->addListener(
 for ($i=1; $i<=25; $i++) {
 
     // create a new document with dummy data and add it to the buffer
-    $data = array(
+    $data = [
         'id' => 'test_'.$i,
         'name' => 'test for buffered add',
         'price' => $i,
-    );
+    ];
     $buffer->createDocument($data);
 
     // alternatively you could create document instances yourself and use the addDocument(s) method

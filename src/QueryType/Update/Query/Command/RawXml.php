@@ -21,10 +21,8 @@ class RawXml extends AbstractCommand
 {
     /**
      * XML command strings to send.
-     *
-     * @var array
      */
-    protected $commands = [];
+    protected array $commands = [];
 
     /**
      * Get command type.

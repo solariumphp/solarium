@@ -10,6 +10,7 @@
 namespace Solarium\QueryType\ManagedResources\ResponseParser;
 
 use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
 /**
  * Parse ManagedResources Exists Command response data.
@@ -19,7 +20,7 @@ class Exists extends Command
     /**
      * Parse response data.
      *
-     * @param \Solarium\QueryType\ManagedResources\Result\Command $result
+     * @param CommandResult $result
      *
      * @return array
      */

@@ -25,10 +25,8 @@ class Query extends AbstractFacet implements QueryInterface
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'query' => '*:*',
     ];
 
@@ -45,7 +43,7 @@ class Query extends AbstractFacet implements QueryInterface
     /**
      * Returns a query helper.
      *
-     * @return \Solarium\Core\Query\Helper
+     * @return Helper
      */
     public function getHelper(): Helper
     {

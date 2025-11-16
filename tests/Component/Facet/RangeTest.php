@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class RangeTest extends TestCase
 {
-    /**
-     * @var Range
-     */
-    protected $facet;
+    protected Range $facet;
 
     public function setUp(): void
     {
@@ -49,13 +46,19 @@ class RangeTest extends TestCase
 
     public function testConfigModeWithExclude(): void
     {
+        set_error_handler(static function (int $errno, string $errstr): void {
+            // ignore deprecation so we can test deprecated functionality
+        }, \E_USER_DEPRECATED);
+
         $options = [
             'exclude' => 'e1\,e2,e3',
         ];
 
-        @$this->facet->setOptions($options);
+        $this->facet->setOptions($options);
 
         $this->assertSame(['e1\,e2', 'e3'], $this->facet->getExcludes());
+
+        restore_error_handler();
     }
 
     public function testConfigModeWithExcludeThrowsDeprecation(): void

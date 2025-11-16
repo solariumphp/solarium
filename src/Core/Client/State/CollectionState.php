@@ -17,14 +17,14 @@ use Solarium\Exception\RuntimeException;
 class CollectionState extends AbstractState
 {
     /**
-     * @var string Name of the collection
+     * Name of the collection.
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var ShardState[]
      */
-    protected $shards;
+    protected array $shards;
 
     /**
      * Magic method enables a object to be transformed to a string.
@@ -205,7 +205,7 @@ class CollectionState extends AbstractState
     /**
      * Clear and set shards.
      */
-    protected function setShards()
+    protected function setShards(): void
     {
         // Clear shards first
         $this->shards = [];
@@ -218,7 +218,7 @@ class CollectionState extends AbstractState
     /**
      * init.
      */
-    protected function init()
+    protected function init(): void
     {
         $this->name = key($this->stateRaw);
         $this->setShards();

@@ -7,16 +7,13 @@ use Solarium\Component\Result\Grouping\FieldGroup;
 
 class FieldGroupTest extends TestCase
 {
-    /**
-     * @var FieldGroup
-     */
-    protected $group;
+    protected FieldGroup $group;
 
-    protected $matches;
+    protected int $matches;
 
-    protected $numberOfGroups;
+    protected int $numberOfGroups;
 
-    protected $items;
+    protected array $items;
 
     public function setUp(): void
     {

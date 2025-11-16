@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class JsonRangeTest extends TestCase
 {
-    /**
-     * @var JsonRange
-     */
-    protected $facet;
+    protected JsonRange $facet;
 
     public function setUp(): void
     {

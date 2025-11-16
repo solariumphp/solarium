@@ -47,7 +47,7 @@ htmlFooter();
  *
  * @param $pivot
  */
-function displayPivotFacet($pivot)
+function displayPivotFacet($pivot): void
 {
     echo '<ul>';
     echo '<li>Field: '.$pivot->getField().'</li>';

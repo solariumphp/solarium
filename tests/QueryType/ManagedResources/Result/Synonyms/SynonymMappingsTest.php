@@ -10,8 +10,7 @@ use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms;
 
 class SynonymMappingsTest extends TestCase
 {
-    /** @var SynonymMappings */
-    protected $synonymMappings;
+    protected SynonymMappings $synonymMappings;
 
     public function setUp(): void
     {

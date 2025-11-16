@@ -12,10 +12,7 @@ use Solarium\Core\Query\LocalParameters\LocalParameter;
  */
 class LocalParameterTest extends TestCase
 {
-    /**
-     * @var LocalParameter
-     */
-    protected $parameter;
+    protected LocalParameter $parameter;
 
     public function setUp(): void
     {

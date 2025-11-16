@@ -5,10 +5,10 @@ There are multiple ways to do this, depending on your use case and personal pref
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
 
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance
@@ -18,7 +18,7 @@ $client = new Client($adapter, $eventDispatcher, $config);
 // first create a base query as a query class
 class PriceQuery extends Select
 {
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 
@@ -29,7 +29,7 @@ class PriceQuery extends Select
         $this->setStart(2)->setRows(20);
 
         // set fields to fetch (this overrides the default setting 'all fields')
-        $this->setFields(array('id','name','price'));
+        $this->setFields(['id', 'name', 'price']);
 
         // sort the results by price ascending
         $this->addSort('price', self::SORT_ASC);
@@ -48,7 +48,7 @@ if (isset($_GET['start']) && is_numeric($_GET['start'])) {
 // the var $query with an instance of this class...
 class LowerPriceQuery extends PriceQuery
 {
-    protected function init()
+    protected function init(): void
     {
         // this call makes sure we get all the settings of the parent class
         parent::init();

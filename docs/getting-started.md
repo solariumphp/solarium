@@ -90,13 +90,27 @@ Upgrading
 
 When upgrading from an earlier version, you should be aware of a number of pitfalls.
 
-### Pitfall when upgrading to 6.3.8
+### Pitfalls when upgrading to 7.0.0
+
+Solarium 7.0.0 added type declarations throughout the codebase for:
+- class properties
+- union types in method signatures
+- `void` return types
 
 Plugins extending from `Solarium\Core\Plugin\AbstractPlugin` must add `void` return types to the signatures for
 the following methods (when defined):
 - `initPlugin()`
 - `deinitPlugin()`
 - `initPluginType()`
+
+Any other classes extending from the codebase will run into fatal errors if they violate PHP's
+[variance](https://www.php.net/manual/en/language.oop5.variance.php) rules. Inherited properties
+must add an invariant type declaration. Inherited methods that didn't declare a return type must
+add one that's covariant. Method parameters don't need to have a type declaration, but if they
+do have one it must be contravariant.
+
+Code that calls a method with parameters of an incompatible type will result in a `TypeError` where
+they were previously coerced into a compatible type by PHP's type juggling.
 
 ### Pitfall when upgrading to 6.3.6
 
@@ -289,9 +303,9 @@ The `$config` array has the following contents:
 ```php
 <?php
 
-$config = array(
-    'endpoint' => array(
-        'localhost' => array(
+$config = [
+    'endpoint' => [
+        'localhost' => [
             'host' => '127.0.0.1',
             'port' => 8983,
             'path' => '/',
@@ -300,9 +314,9 @@ $config = array(
             // 'collection' => 'techproducts',
             // Set the `hostContext` for the Solr web application if it's not the default 'solr':
             // 'context' => 'solr',
-        )
-    )
-);
+        ],
+    ],
+];
 ```
 
 ### Selecting documents
@@ -491,7 +505,7 @@ $doc2->name = 'testdoc-2';
 $doc2->price = 340;
 
 // add the documents and a commit command to the update query
-$update->addDocuments(array($doc1, $doc2));
+$update->addDocuments([$doc1, $doc2]);
 $update->addCommit();
 
 // this executes the query and returns the result

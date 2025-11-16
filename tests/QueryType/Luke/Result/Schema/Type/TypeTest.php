@@ -12,10 +12,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Type;
 
 class TypeTest extends TestCase
 {
-    /**
-     * @var Type
-     */
-    protected $type;
+    protected Type $type;
 
     public function setUp(): void
     {

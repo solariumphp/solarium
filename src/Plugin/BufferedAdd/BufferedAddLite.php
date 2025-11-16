@@ -29,7 +29,7 @@ class BufferedAddLite extends AbstractBufferedUpdate
      *
      * @var DocumentInterface[]
      */
-    protected $buffer = [];
+    protected array $buffer = [];
 
     /**
      * Set commitWithin time option.

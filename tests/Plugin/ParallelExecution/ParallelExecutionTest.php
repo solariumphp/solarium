@@ -13,10 +13,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class ParallelExecutionTest extends TestCase
 {
-    /**
-     * @var ParallelExecution
-     */
-    protected $plugin;
+    protected ParallelExecution $plugin;
 
     public function setUp(): void
     {

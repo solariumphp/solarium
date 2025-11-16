@@ -9,15 +9,9 @@ use Solarium\QueryType\ManagedResources\RequestBuilder\Resources as ResourcesReq
 
 class ResourcesTest extends TestCase
 {
-    /**
-     * @var ResourcesQuery
-     */
-    protected $query;
+    protected ResourcesQuery $query;
 
-    /**
-     * @var ResourcesRequestBuilder
-     */
-    protected $builder;
+    protected ResourcesRequestBuilder $builder;
 
     public function setUp(): void
     {

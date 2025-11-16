@@ -1,8 +1,8 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\QueryType\Update\Query\Query;
+
+require_once(__DIR__.'/init.php');
 
 $weight = 'lite';
 // CBOR can only be used to add documents (SOLR-17510)

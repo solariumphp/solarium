@@ -39,8 +39,8 @@ $elevate = $query->getQueryElevation();
 $elevate->setForceElevation(true);
 
 // specify documents to elevate and/or exclude if you don't use an elevation file or want to override it at request time
-$elevate->setElevateIds(array('VS1GB400C3', 'VDBDB1A16'));
-$elevate->setExcludeIds(array('SP2514N', '6H500F0'));
+$elevate->setElevateIds(['VS1GB400C3', 'VDBDB1A16']);
+$elevate->setExcludeIds(['SP2514N', '6H500F0']);
 
 // document transformers can be omitted from the results
 //$elevate->clearTransformers();

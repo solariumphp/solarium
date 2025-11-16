@@ -64,11 +64,11 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      *
      * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
-     * @param string|array $fields
+     * @param string|string[] $fields
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields): self
+    public function setFields(string|array $fields): self
     {
         if (\is_string($fields)) {
             $fields = explode(',', $fields);
@@ -197,7 +197,7 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      * {@internal Options that set a list of fields need additional setup work
      *            because they can be an array or a comma separated string.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

@@ -22,5 +22,5 @@ class PreFlush extends AbstractPreFlush
     /**
      * @var AbstractDelete[]
      */
-    protected $buffer;
+    protected array $buffer;
 }

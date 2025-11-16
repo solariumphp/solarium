@@ -10,8 +10,7 @@ use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList;
 
 class ResourceListTest extends TestCase
 {
-    /** @var ResourceList */
-    protected $resourceList;
+    protected ResourceList $resourceList;
 
     public function setUp(): void
     {

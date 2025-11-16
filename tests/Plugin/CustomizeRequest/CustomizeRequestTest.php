@@ -16,10 +16,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class CustomizeRequestTest extends TestCase
 {
-    /**
-     * @var CustomizeRequest
-     */
-    protected $plugin;
+    protected CustomizeRequest $plugin;
 
     public function setUp(): void
     {

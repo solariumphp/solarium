@@ -13,7 +13,7 @@ $query = $client->createSelect();
 // apply settings using the API
 $query->setQuery('*:*');
 $query->setStart(2)->setRows(20);
-$query->setFields(array('id','name','price'));
+$query->setFields(['id', 'name', 'price']);
 $query->addSort('price', $query::SORT_ASC);
 
 // create a filterquery using the API

@@ -131,15 +131,15 @@ interface ComponentAwareQueryInterface
      * You can optionally supply an autoload class to create a new component
      * instance if there is no registered component for the given key yet.
      *
-     * @param string      $key      Use one of the constants
-     * @param string|bool $autoload Class to autoload if component needs to be created
-     * @param array|null  $config   Configuration to use for autoload
+     * @param string     $key      Use one of the constants
+     * @param bool       $autoload Autoload if component needs to be created
+     * @param array|null $config   Configuration to use for autoload
      *
      * @throws OutOfBoundsException
      *
-     * @return object|null
+     * @return AbstractComponent|null
      */
-    public function getComponent(string $key, $autoload = false, ?array $config = null);
+    public function getComponent(string $key, ?bool $autoload = false, ?array $config = null): ?AbstractComponent;
 
     /**
      * Set a component instance.
@@ -162,5 +162,5 @@ interface ComponentAwareQueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeComponent($component): self;
+    public function removeComponent(string|AbstractComponent $component): self;
 }

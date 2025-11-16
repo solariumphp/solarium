@@ -16,17 +16,13 @@ class Result implements \IteratorAggregate, \Countable
 {
     /**
      * Terms results.
-     *
-     * @var array
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Terms flat results.
-     *
-     * @var array
      */
-    protected $all;
+    protected array $all;
 
     /**
      * Constructor.
@@ -67,7 +63,7 @@ class Result implements \IteratorAggregate, \Countable
      *
      * @return Field|null
      */
-    public function getField($field): ?Field
+    public function getField(string $field): ?Field
     {
         return $this->results[$field] ?? null;
     }

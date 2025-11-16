@@ -7,20 +7,11 @@ use Solarium\QueryType\Suggester\Result\Term;
 
 class TermTest extends TestCase
 {
-    /**
-     * @var Term
-     */
-    protected $result;
+    protected Term $result;
 
-    /**
-     * @var int
-     */
-    protected $numFound;
+    protected int $numFound;
 
-    /**
-     * @var array
-     */
-    protected $suggestions;
+    protected array $suggestions;
 
     public function setUp(): void
     {

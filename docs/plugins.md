@@ -50,12 +50,10 @@ Triggered just after a commit. Has access to the commit (update query) result.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedAdd\Event\Events;
-use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Query;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
@@ -66,7 +64,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // also register an event hook to display what is happening
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function (PreFlushEvent $event) {
+    function (PreFlush $event): void {
         echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
     }
 );
@@ -75,11 +73,11 @@ $client->getEventDispatcher()->addListener(
 for ($i=1; $i<=25; $i++) {
 
     // create a new document with dummy data and add it to the buffer
-    $data = array(
+    $data = [
         'id' => 'test_'.$i,
         'name' => 'test for buffered add',
         'price' => $i,
-    );
+    ];
     $buffer->createDocument($data);
 
     // alternatively you could create document instances yourself and use the addDocument(s) method
@@ -146,12 +144,10 @@ Triggered just after a commit. Has access to the commit (update query) result.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedDelete\Event\Events;
-use Solarium\Plugin\BufferedDelete\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Query;
+use Solarium\Plugin\BufferedDelete\Event\PreFlush;
 
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the buffered delete plugin
@@ -162,7 +158,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // also register an event hook to display what is happening
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function (PreFlushEvent $event) {
+    function (PreFlush $event): void {
         echo 'Flushing buffer (' . count($event->getBuffer()) . ' deletes)<br/>';
     }
 );
@@ -222,13 +218,13 @@ $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)
 $customizer->createCustomization(
-    array(
+    [
         'key' => 'auth',
         'type' => 'header',
         'name' => 'X-my-auth',
         'value' => 'mypassword',
-        'persistent' => true
-    )
+        'persistent' => true,
+    ]
 );
 
 // add a persistent GET param (using fluent interface)
@@ -402,7 +398,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $filter = $client->getPlugin('minimumscorefilter');
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setQuery('a');
-$query->setFields(array('id'));
+$query->setFields(['id']);
 $query->setFilterRatio(.5);
 $query->setFilterMode($query::FILTER_MODE_MARK);
 
@@ -508,13 +504,13 @@ $parallel = $client->getPlugin('parallelexecution');
 // If you don't have to plugin the example still works, just without the delay.
 $customizer = $client->getPlugin('customizerequest');
 $customizer->createCustomization(
-    array(
+    [
         'key' => 'delay',
         'type' => 'param',
         'name' => 'delay',
         'value' => '500',
-        'persistent' => true
-    )
+        'persistent' => true,
+    ]
 );
 
 // create two queries to execute
@@ -697,7 +693,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
-$query->setFields(array('id'));
+$query->setFields(['id']);
 
 // cursor functionality can be used for efficient deep paging (since Solr 4.7)
 $query->setCursorMark('*');

@@ -8,10 +8,7 @@ use Solarium\QueryType\Stream\ExpressionBuilder;
 
 class ExpressionTest extends TestCase
 {
-    /**
-     * @var ExpressionBuilder
-     */
-    protected $exp;
+    protected ExpressionBuilder $exp;
 
     public function setUp(): void
     {

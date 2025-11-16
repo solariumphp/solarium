@@ -10,18 +10,19 @@
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Component\ComponentAwareQueryInterface;
-use Solarium\Component\Result\Analytics\Result as AnalyticsResult;
-use Solarium\Component\Result\Debug\Result as DebugResult;
-use Solarium\Component\Result\FacetSet as FacetSetResult;
-use Solarium\Component\Result\Grouping\Result as GroupingResult;
+use Solarium\Component\Result\Analytics\Result as Analytics;
+use Solarium\Component\Result\Debug\Result as Debug;
+use Solarium\Component\Result\FacetSet;
+use Solarium\Component\Result\Grouping\Result as Grouping;
 use Solarium\Component\Result\Highlighting\Highlighting;
 use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
-use Solarium\Component\Result\Spellcheck\Result as SpellcheckResult;
+use Solarium\Component\Result\Spellcheck\Result as Spellcheck;
 use Solarium\Component\Result\Stats\Stats;
-use Solarium\Component\Result\Suggester\Result as SuggesterResult;
-use Solarium\Component\Result\TermVector\Result as TermVectorResult;
+use Solarium\Component\Result\Suggester\Result as Suggester;
+use Solarium\Component\Result\TermVector\Result as TermVector;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Select query result.
@@ -49,40 +50,32 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      * Solr numFound.
      *
      * This is NOT the number of document fetched from Solr!
-     *
-     * @var int
      */
-    protected $numfound;
+    protected ?int $numfound;
 
     /**
      * Solr maxscore.
      *
      * Will only be available if 'score' was one of the requested fields in your query
-     *
-     * @var float
      */
-    protected $maxscore;
+    protected ?float $maxscore;
 
     /**
      * Solr nextcursormark.
      *
      * Will only be available if 'cursormark' was set for your query
-     *
-     * @var string
      */
-    protected $nextcursormark;
+    protected ?string $nextcursormark = null;
 
     /**
      * Document instances array.
-     *
-     * @var array
      */
-    protected $documents;
+    protected array $documents;
 
     /**
      * Component results.
      */
-    protected $components;
+    protected array $components;
 
     /**
      * Return the value of the partialResults header if present in the response header.
@@ -234,7 +227,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @param string $key
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return mixed
      */
@@ -274,9 +267,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return GroupingResult|null
+     * @return Grouping|null
      */
-    public function getGrouping(): ?GroupingResult
+    public function getGrouping(): ?Grouping
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
     }
@@ -286,9 +279,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return FacetSetResult|null
+     * @return FacetSet|null
      */
-    public function getFacetSet(): ?FacetSetResult
+    public function getFacetSet(): ?FacetSet
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_FACETSET);
     }
@@ -298,9 +291,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return SpellcheckResult|null
+     * @return Spellcheck|null
      */
-    public function getSpellcheck(): ?SpellcheckResult
+    public function getSpellcheck(): ?Spellcheck
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SPELLCHECK);
     }
@@ -310,9 +303,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return SuggesterResult|null
+     * @return Suggester|null
      */
-    public function getSuggester(): ?SuggesterResult
+    public function getSuggester(): ?Suggester
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_SUGGESTER);
     }
@@ -334,9 +327,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return DebugResult|null
+     * @return Debug|null
      */
-    public function getDebug(): ?DebugResult
+    public function getDebug(): ?Debug
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_DEBUG);
     }
@@ -346,9 +339,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\Result\Analytics\Result|null
+     * @return Analytics|null
      */
-    public function getAnalytics(): ?AnalyticsResult
+    public function getAnalytics(): ?Analytics
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_ANALYTICS);
     }
@@ -358,9 +351,9 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return TermVectorResult|null
+     * @return TermVector|null
      */
-    public function getTermVector(): ?TermVectorResult
+    public function getTermVector(): ?TermVector
     {
         return $this->getComponent(ComponentAwareQueryInterface::COMPONENT_TERMVECTOR);
     }

@@ -35,7 +35,7 @@ $query = $client->createSelect();
 // apply settings using the API
 $query->setQuery('*:*');
 $query->setStart(2)->setRows(20);
-$query->setFields(array('id','name','price'));
+$query->setFields(['id', 'name', 'price']);
 $query->addSort('price', $query::SORT_ASC);
 
 // create a filterquery using the API
@@ -80,26 +80,26 @@ htmlFooter();
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-$select = array(
+$select = [
     'query'         => '*:*',
     'start'         => 2,
     'rows'          => 20,
-    'fields'        => array('id','name','price'),
-    'sort'          => array('price' => 'asc'),
-    'filterquery' => array(
-        'maxprice' => array(
-            'query' => 'price:[1 TO 300]'
-        ),
-    ),
-    'component' => array(
-        'facetset' => array(
-            'facet' => array(
+    'fields'        => ['id', 'name', 'price'],
+    'sort'          => ['price' => 'asc'],
+    'filterquery' => [
+        'maxprice' => [
+            'query' => 'price:[1 TO 300]',
+        ],
+    ],
+    'component' => [
+        'facetset' => [
+            'facet' => [
                 // notice this config uses an inline key value under 'local_key', instead of array key like the filterquery
-                array('type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'),
-            )
-        ),
-    ),
-);
+                ['type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'],
+            ],
+        ],
+    ],
+];
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -139,24 +139,24 @@ htmlFooter();
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
 
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
 // This makes it possible to create 'query inheritance' like in this example.
 class ProductQuery extends Select
 {
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 
         // basic params
         $this->setQuery('*:*');
         $this->setStart(2)->setRows(20);
-        $this->setFields(array('id','name','price'));
+        $this->setFields(['id', 'name', 'price']);
         $this->addSort('price', self::SORT_ASC);
 
         // create a facet field instance and set options
@@ -169,7 +169,7 @@ class ProductQuery extends Select
 // Ofcourse it could also alter or remove settings
 class ProductPriceLimitedQuery extends ProductQuery
 {
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 
@@ -253,4 +253,4 @@ However this comes at the cost of a possible security risk in PHP deserializatio
 
 You can switch to the phps responseparser by setting a query option:
 
-`$query = $client->createQuery($client::QUERY_SELECT, array('responsewriter' => 'phps'));`
+`$query = $client->createQuery($client::QUERY_SELECT, ['responsewriter' => 'phps']);`

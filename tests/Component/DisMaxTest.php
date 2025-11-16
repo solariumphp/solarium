@@ -10,10 +10,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class DisMaxTest extends TestCase
 {
-    /**
-     * @var DisMax
-     */
-    protected $disMax;
+    protected DisMax $disMax;
 
     public function setUp(): void
     {

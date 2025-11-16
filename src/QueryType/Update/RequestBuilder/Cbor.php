@@ -35,10 +35,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
  */
 class Cbor extends AbstractRequestBuilder
 {
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected Request $request;
 
     /**
      * Build request for an update query.

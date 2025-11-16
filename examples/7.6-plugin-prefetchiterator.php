@@ -9,7 +9,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
-$query->setFields(array('id'));
+$query->setFields(['id']);
 
 // cursor functionality can be used for efficient deep paging (since Solr 4.7)
 $query->setCursorMark('*');

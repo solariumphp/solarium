@@ -24,9 +24,9 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
     /**
      * Parse result data into result objects.
      *
-     * @param \Solarium\Component\ComponentAwareQueryInterface|null $query
-     * @param \Solarium\Component\AbstractComponent|null            $suggester
-     * @param array                                                 $data
+     * @param ComponentAwareQueryInterface|null $query
+     * @param AbstractComponent|null            $suggester
+     * @param array                             $data
      *
      * @return Result|null
      */
@@ -54,7 +54,7 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
     /**
      * @param array $terms
      *
-     * @return \Solarium\QueryType\Suggester\Result\Dictionary
+     * @return Dictionary
      */
     private function createDictionary(array $terms): Dictionary
     {
@@ -66,7 +66,7 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
     /**
      * @param array $termData
      *
-     * @return \Solarium\QueryType\Suggester\Result\Term
+     * @return Term
      */
     private function createTerm(array $termData): Term
     {

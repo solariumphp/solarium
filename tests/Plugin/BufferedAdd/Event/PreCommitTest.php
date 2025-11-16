@@ -7,7 +7,7 @@ use Solarium\Plugin\BufferedAdd\Event\PreCommit;
 
 class PreCommitTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreCommit
     {
         $buffer = [1, 2, 3];
         $overwrite = true;
@@ -28,10 +28,8 @@ class PreCommitTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCommit $event
      */
-    public function testSetAndGetBuffer($event): void
+    public function testSetAndGetBuffer(PreCommit $event): void
     {
         $buffer = [4, 5, 6];
         $event->setBuffer($buffer);
@@ -40,10 +38,8 @@ class PreCommitTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCommit $event
      */
-    public function testSetAndGetOverwrite($event): void
+    public function testSetAndGetOverwrite(PreCommit $event): void
     {
         $event->setOverwrite(false);
         $this->assertFalse($event->getOverwrite());
@@ -51,10 +47,8 @@ class PreCommitTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCommit $event
      */
-    public function testSetAndGetSoftCommit($event): void
+    public function testSetAndGetSoftCommit(PreCommit $event): void
     {
         $event->setSoftCommit(true);
         $this->assertTrue($event->getSoftCommit());
@@ -62,10 +56,8 @@ class PreCommitTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCommit $event
      */
-    public function testSetAndGetWaitSearcher($event): void
+    public function testSetAndGetWaitSearcher(PreCommit $event): void
     {
         $event->setWaitSearcher(false);
         $this->assertFalse($event->getWaitSearcher());
@@ -73,10 +65,8 @@ class PreCommitTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCommit $event
      */
-    public function testSetAndGetExpungeDeletes($event): void
+    public function testSetAndGetExpungeDeletes(PreCommit $event): void
     {
         $event->setExpungeDeletes(true);
         $this->assertTrue($event->getExpungeDeletes());

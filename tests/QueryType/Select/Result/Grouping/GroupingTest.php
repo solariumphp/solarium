@@ -3,22 +3,20 @@
 namespace Solarium\Tests\QueryType\Select\Result\Grouping;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\Result;
 
 class GroupingTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $grouping;
+    protected Result $grouping;
 
-    protected $items;
+    protected array $items;
 
     public function setUp(): void
     {
         $this->items = [
-            'key1' => 'content1',
-            'key2' => 'content2',
+            'key1' => new FieldGroup(12, 6, []),
+            'key2' => new FieldGroup(18, 3, []),
         ];
 
         $this->grouping = new Result($this->items);

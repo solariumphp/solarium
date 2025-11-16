@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class JsonAggregationTest extends TestCase
 {
-    /**
-     * @var JsonAggregation
-     */
-    protected $facet;
+    protected JsonAggregation $facet;
 
     public function setUp(): void
     {

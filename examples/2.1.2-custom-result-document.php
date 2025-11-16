@@ -7,7 +7,7 @@ htmlHeader();
 // this is the custom result document class
 class MyDoc extends Solarium\QueryType\Select\Result\Document
 {
-    public function getSpecialPrice()
+    public function getSpecialPrice(): float
     {
         return round(($this->price * .95), 2);
     }

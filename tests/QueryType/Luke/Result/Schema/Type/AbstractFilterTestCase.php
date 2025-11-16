@@ -7,10 +7,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\AbstractFilter;
 
 abstract class AbstractFilterTestCase extends TestCase
 {
-    /**
-     * @var AbstractFilter
-     */
-    protected $filter;
+    protected AbstractFilter $filter;
 
     abstract public function testGetName();
 

@@ -7,12 +7,9 @@ use Solarium\QueryType\Analysis\Result\Field;
 
 class FieldTest extends TestCase
 {
-    /**
-     * @var FieldDummy
-     */
-    protected $result;
+    protected FieldDummy $result;
 
-    protected $items;
+    protected array $items;
 
     public function setUp(): void
     {
@@ -59,7 +56,7 @@ class FieldTest extends TestCase
 
 class FieldDummy extends Field
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($status, $queryTime, $items)
     {

@@ -7,14 +7,11 @@ use Solarium\Component\Result\Stats\FacetValue;
 
 class FacetValueTest extends TestCase
 {
-    /**
-     * @var FacetValue
-     */
-    protected $result;
+    protected FacetValue $result;
 
-    protected $value;
+    protected string $value;
 
-    protected $stats;
+    protected array $stats;
 
     public function setUp(): void
     {

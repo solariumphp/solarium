@@ -13,7 +13,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createSelect();
 $helper = $query->getHelper();
 
-$join = $helper->qparser('join', array('from' => 'manu_id', 'to' => 'id'), true);
+$join = $helper->qparser('join', ['from' => 'manu_id', 'to' => 'id'], true);
 $queryString = $join . 'id:1';
 $query->setQuery($queryString);
 $request = $client->createRequest($query);

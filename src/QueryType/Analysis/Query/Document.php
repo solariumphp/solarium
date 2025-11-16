@@ -28,14 +28,12 @@ class Document extends AbstractQuery
      *
      * @var DocumentInterface[]
      */
-    protected $documents = [];
+    protected array $documents = [];
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'analysis/document',
         'resultclass' => ResultDocument::class,
         'omitheader' => true,

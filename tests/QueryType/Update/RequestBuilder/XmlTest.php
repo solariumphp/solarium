@@ -17,15 +17,9 @@ use Solarium\QueryType\Update\RequestBuilder\Xml as XmlRequestBuilder;
 
 class XmlTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
-    /**
-     * @var XmlRequestBuilder
-     */
-    protected $builder;
+    protected XmlRequestBuilder $builder;
 
     public function setUp(): void
     {

@@ -22,7 +22,7 @@ trait ReRankQueryTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\ReRankQuery
+     * @return ReRankQuery
      */
     public function getReRankQuery(): ReRankQuery
     {

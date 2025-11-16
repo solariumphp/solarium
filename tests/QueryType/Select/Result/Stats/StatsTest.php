@@ -8,12 +8,12 @@ use Solarium\Component\Result\Stats\Stats;
 
 class StatsTest extends TestCase
 {
-    protected $data;
+    protected Stats $stats;
 
     /**
-     * @var Stats
+     * @var Result[]
      */
-    protected $stats;
+    protected array $data;
 
     public function setUp(): void
     {

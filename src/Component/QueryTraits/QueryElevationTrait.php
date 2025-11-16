@@ -22,7 +22,7 @@ trait QueryElevationTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\QueryElevation
+     * @return QueryElevation
      */
     public function getQueryElevation(): QueryElevation
     {

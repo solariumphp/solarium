@@ -49,7 +49,7 @@ $input = 'ATA "133';
 
 // the placeholder syntax applies phrase escaping to the first term
 // see the manual for all supported formats
-$query->setQuery('features: %p1% AND inStock:%2%', array($input, 1));
+$query->setQuery('features: %p1% AND inStock:%2%', [$input, 1]);
 
 // show the result after replacing the placeholders with values
 echo $query->getQuery() . '<br/>';

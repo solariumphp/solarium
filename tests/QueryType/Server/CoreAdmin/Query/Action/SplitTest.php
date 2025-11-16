@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class SplitTest extends TestCase
 {
-    /**
-     * @var Split
-     */
-    protected $action;
+    protected Split $action;
 
     public function setUp(): void
     {

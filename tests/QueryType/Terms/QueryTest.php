@@ -8,10 +8,7 @@ use Solarium\QueryType\Terms\Query;
 
 class QueryTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {
@@ -47,7 +44,6 @@ class QueryTest extends TestCase
 
     public function testGetFieldsAlwaysReturnsArray(): void
     {
-        $this->query->setFields(null);
         $this->assertSame([], $this->query->getFields());
     }
 
@@ -101,7 +97,6 @@ class QueryTest extends TestCase
 
     public function testGetRegexFlagsAlwaysReturnsArray(): void
     {
-        $this->query->setRegexFlags(null);
         $this->assertSame([], $this->query->getRegexFlags());
     }
 

@@ -44,7 +44,7 @@ $query->setShowMatch(true);
 $query->setQuery('ipod');
 
 $doc = new Solarium\QueryType\Update\Query\Document(
-    array(
+    [
         'id' => 'MA147LL',
         'name' => 'Apple 60 GB iPod with Video Playback Black',
         'manu' => 'Apple Computer Inc.',
@@ -63,7 +63,7 @@ $doc = new Solarium\QueryType\Update\Query\Document(
         'price' => 399.00,
         'popularity' => 10,
         'inStock' => true,
-    )
+    ]
 );
 
 $query->addDocument($doc);

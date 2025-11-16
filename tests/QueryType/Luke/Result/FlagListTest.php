@@ -8,15 +8,9 @@ use Solarium\QueryType\Luke\Result\FlagList;
 
 class FlagListTest extends TestCase
 {
-    /**
-     * @var array
-     */
-    protected $flags;
+    protected array $flags;
 
-    /**
-     * @var FlagList
-     */
-    protected $flagList;
+    protected FlagList $flagList;
 
     public function setUp(): void
     {

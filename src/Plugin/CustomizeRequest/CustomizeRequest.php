@@ -28,7 +28,7 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @var Customization[]
      */
-    protected $customizations = [];
+    protected array $customizations = [];
 
     /**
      * Create a Customization instance.
@@ -72,7 +72,7 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function addCustomization($customization): self
+    public function addCustomization(Customization|array $customization): self
     {
         if (\is_array($customization)) {
             $customization = new Customization($customization);
@@ -150,7 +150,7 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function removeCustomization($customization): self
+    public function removeCustomization(string|Customization $customization): self
     {
         if (\is_object($customization)) {
             $customization = $customization->getKey();
@@ -201,7 +201,7 @@ class CustomizeRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function postCreateRequest($event): self
+    public function postCreateRequest(object $event): self
     {
         // We need to accept event proxies or decorators.
         /* @var PostCreateRequest $event */
@@ -238,7 +238,7 @@ class CustomizeRequest extends AbstractPlugin
     /**
      * Initialize options.
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

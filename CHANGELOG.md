@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
  - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
  - Changed return type of some Facets methods from `self`to `static`
+ - Replaced class property type hints with type declarations
+ - Added union type declarations to method signatures
+ - Solarium\Core\Query\Helper::formatDate() throws a `TypeError` instead of returning `false` if called with an incompatibly typed parameter
 
 ### Removed
 - Solarium\Component\Result\Stats\FacetValue::getFacets(), always returned `null`

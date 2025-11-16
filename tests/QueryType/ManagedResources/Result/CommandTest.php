@@ -7,7 +7,7 @@ use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
 class CommandTest extends TestCase
 {
-    protected $result;
+    protected CommandResultDummy $result;
 
     public function setUp(): void
     {
@@ -27,7 +27,7 @@ class CommandTest extends TestCase
 
 class CommandResultDummy extends CommandResult
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct()
     {

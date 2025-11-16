@@ -32,7 +32,7 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
      *
      * @var AbstractDelete[]
      */
-    protected $buffer = [];
+    protected array $buffer = [];
 
     /**
      * Add a document id to delete.
@@ -41,7 +41,7 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteById($id): self
+    public function addDeleteById(int|string $id): self
     {
         $this->buffer[] = new DeleteById($id);
 

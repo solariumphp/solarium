@@ -7,24 +7,21 @@ use Solarium\Component\Result\Facet\Range;
 
 class RangeTest extends TestCase
 {
-    /**
-     * @var Range
-     */
-    protected $facet;
+    protected Range $facet;
 
-    protected $values;
+    protected array $values;
 
-    protected $before;
+    protected int $before;
 
-    protected $after;
+    protected int $after;
 
-    protected $between;
+    protected int $between;
 
-    protected $start;
+    protected string|int $start;
 
-    protected $end;
+    protected string|int $end;
 
-    protected $gap;
+    protected string|int $gap;
 
     public function setUp(): void
     {

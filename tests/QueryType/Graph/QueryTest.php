@@ -9,10 +9,7 @@ use Solarium\QueryType\Stream\RequestBuilder;
 
 class QueryTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

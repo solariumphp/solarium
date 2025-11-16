@@ -20,15 +20,9 @@ use Solarium\Builder\ExpressionInterface;
  */
 class FunctionBuilder
 {
-    /**
-     * @var \Solarium\Builder\ExpressionInterface
-     */
-    private $function;
+    private ExpressionInterface $function;
 
-    /**
-     * @var \Solarium\Builder\Analytics\ExpressionBuilder
-     */
-    private static $expressionBuilder;
+    private static ?ExpressionBuilder $expressionBuilder = null;
 
     /**
      * @return static
@@ -39,7 +33,7 @@ class FunctionBuilder
     }
 
     /**
-     * @return \Solarium\Builder\Analytics\ExpressionBuilder
+     * @return ExpressionBuilder
      */
     public static function expr(): ExpressionBuilder
     {
@@ -51,9 +45,9 @@ class FunctionBuilder
     }
 
     /**
-     * @param \Solarium\Builder\ExpressionInterface $function
+     * @param ExpressionInterface $function
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function where(ExpressionInterface $function): self
     {
@@ -63,7 +57,7 @@ class FunctionBuilder
     }
 
     /**
-     * @return \Solarium\Builder\ExpressionInterface
+     * @return ExpressionInterface
      */
     public function getFunction(): ExpressionInterface
     {

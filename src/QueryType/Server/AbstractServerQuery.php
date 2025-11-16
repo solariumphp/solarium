@@ -20,17 +20,13 @@ abstract class AbstractServerQuery extends AbstractQuery implements ActionInterf
 {
     /**
      * Action that should be performed on the CoreAdmin API.
-     *
-     * @var ActionInterface
      */
-    protected $action;
+    protected ActionInterface $action;
 
     /**
      * Action types.
-     *
-     * @var array
      */
-    protected $actionTypes = [];
+    protected array $actionTypes = [];
 
     /**
      * Create a command instance.

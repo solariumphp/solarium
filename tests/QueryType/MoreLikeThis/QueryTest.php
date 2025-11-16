@@ -21,7 +21,7 @@ use Solarium\QueryType\Select\Query\FilterQuery;
 
 class QueryTest extends TestCase
 {
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {
@@ -769,8 +769,6 @@ class QueryTest extends TestCase
 
     public function testGetQueryFieldsAlwaysReturnsArray(): void
     {
-        $this->query->setQueryFields(null);
-
         $this->assertSame(
             [],
             $this->query->getQueryFields()

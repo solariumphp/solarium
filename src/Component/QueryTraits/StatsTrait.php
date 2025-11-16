@@ -22,7 +22,7 @@ trait StatsTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\Stats\Stats
+     * @return Stats
      */
     public function getStats(): Stats
     {

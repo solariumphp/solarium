@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class RenameTest extends TestCase
 {
-    /**
-     * @var Rename
-     */
-    protected $action;
+    protected Rename $action;
 
     public function setUp(): void
     {

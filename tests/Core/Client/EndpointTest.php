@@ -8,10 +8,7 @@ use Solarium\Exception\UnexpectedValueException;
 
 class EndpointTest extends TestCase
 {
-    /**
-     * @var Endpoint
-     */
-    protected $endpoint;
+    protected Endpoint $endpoint;
 
     public function setUp(): void
     {

@@ -22,7 +22,7 @@ trait FacetSetTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\FacetSet
+     * @return FacetSet
      */
     public function getFacetSet(): FacetSet
     {

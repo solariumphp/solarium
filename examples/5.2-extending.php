@@ -1,9 +1,9 @@
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
 
+require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // This is a custom query class that could have some customized logic
@@ -20,9 +20,9 @@ class MyClient extends Client
     /**
      * Querytype mappings
      */
-    protected $queryTypes = array(
+    protected array $queryTypes = [
         self::QUERY_SELECT => MyQuery::class,
-    );
+    ];
 }
 
 

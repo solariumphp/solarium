@@ -76,7 +76,7 @@ class ObjectTraitTest extends TestCase
      */
     public function testInvalidVariableType(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $this->objectTrait->ensureObject(PivotFacet::class, true);
     }
 
