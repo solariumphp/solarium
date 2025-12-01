@@ -109,8 +109,6 @@ class CurlTest extends TestCase
 
         $this->expectException(HttpException::class);
         $this->adapter->getResponse($handle, false);
-
-        curl_close($handle);
     }
 
     /**
@@ -126,8 +124,6 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
-
-        curl_close($handle);
     }
 
     public static function methodProvider(): array
@@ -155,8 +151,6 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
-
-        curl_close($handle);
     }
 
     public function testCreateHandleWithCustomRequestHeaders(): void
@@ -169,8 +163,6 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
-
-        curl_close($handle);
     }
 
     public function testCreateHandleWithUnknownMethod(): void
@@ -182,9 +174,7 @@ class CurlTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('unsupported method: PSOT');
-        $handle = $this->adapter->createHandle($request, $endpoint);
-
-        curl_close($handle);
+        $this->adapter->createHandle($request, $endpoint);
     }
 
     public function testRequestBasicAuthentication(): void
@@ -197,8 +187,6 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
-
-        curl_close($handle);
     }
 
     public function testEndpointBasicAuthentication(): void
@@ -211,8 +199,6 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
-
-        curl_close($handle);
     }
 
     public function testAuthorizationToken(): void
@@ -225,7 +211,5 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
-
-        curl_close($handle);
     }
 }
