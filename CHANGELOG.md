@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [7.0.0]
 ### Added
+- PHP 8.5 support
 - Solarium\QueryType\Extract\Query::setStreamType()
 
 ### Fixed
