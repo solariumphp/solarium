@@ -161,8 +161,14 @@ class Http implements AdapterInterface, TimeoutAwareInterface, ProxyAwareInterfa
     {
         $data = @file_get_contents($uri, false, $context);
 
+        // $http_response_header is deprecated as of PHP 8.5
+        // http_get_last_response_headers() was introduced in PHP 8.4
+        if (\function_exists('http_get_last_response_headers')) {
+            return [$data, http_get_last_response_headers() ?? []];
+        }
+
         // @see https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
-        // @phpstan-ignore-next-line https://github.com/phpstan/phpstan/issues/3213
+        // @phpstan-ignore nullCoalesce.variable (https://github.com/phpstan/phpstan/issues/3213)
         return [$data, $http_response_header ?? []];
     }
 }
