@@ -11,7 +11,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $filter = $client->getPlugin('minimumscorefilter');
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setQuery('a');
-$query->setFields(['id']);
+$query->setFields(array('id'));
 $query->setFilterRatio(.5);
 $query->setFilterMode($query::FILTER_MODE_MARK);
 

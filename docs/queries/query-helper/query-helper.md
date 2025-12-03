@@ -8,10 +8,11 @@ Helper methods for general use
 ------------------------------
 
 -   rangeQuery($field, $from, $to, $inclusive = true)
--   qparser($name, $params = [])
--   functionCall($name, $params = [])
+-   qparser($name, $params = array())
+-   functionCall($name, $params = array())
 -   join($from, $to, $dereferenced = false)
 -   formatDate($input)
+-   cacheControl($useCache, $cost)
 -   qparserTerm($field, $weight)
 
 See the API docs (linked at the bottom of this page) for more details.

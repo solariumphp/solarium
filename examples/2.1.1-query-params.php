@@ -17,7 +17,7 @@ $query->setQuery('price:[12 TO *]');
 $query->setStart(2)->setRows(20);
 
 // set fields to fetch (this overrides the default setting 'all fields')
-$query->setFields(['id', 'name', 'price', 'score']);
+$query->setFields(array('id','name','price', 'score'));
 
 // sort the results by price ascending
 $query->addSort('price', $query::SORT_ASC);

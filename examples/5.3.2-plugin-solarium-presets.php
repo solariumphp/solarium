@@ -1,10 +1,9 @@
 <?php
 
+require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Select\Query\Query as Select;
-
-require_once(__DIR__.'/init.php');
 
 // This is a custom query class that could have some customized logic
 class MySelect extends Select

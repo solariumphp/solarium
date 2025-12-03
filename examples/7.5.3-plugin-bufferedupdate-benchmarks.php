@@ -1,11 +1,11 @@
 <?php
 
+require_once(__DIR__.'/init.php');
+
 use Composer\InstalledVersions;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Query;
-
-require_once(__DIR__.'/init.php');
 
 set_time_limit(0);
 ini_set('memory_limit', -1);

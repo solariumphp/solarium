@@ -16,7 +16,7 @@ The options below can be set as query option values, but also by using the set/g
 | cancancel             | bool             | null                                          | Is this a cancellable query?                                                                                                                                               |
 | queryuuid             | string           | null                                          | Custom UUID to identify a cancellable query with                                                                                                                           |
 | fields                | string           | \*,score                                      | Comma separated list of fields to fetch from Solr. There are two special values: '\*' meaning 'all fields' and 'score' to also fetch the Solr document score value.        |
-| sort                  | array            | empty array                                   | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: ['price' =&gt; 'asc']                  |
+| sort                  | array            | empty array                                   | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: array('price' =&gt; 'asc')             |
 | querydefaultoperator  | string           | null                                          | With a null value the default of your Solr config will be used. If you want to override this supply 'AND' or 'OR' as the value.                                            |
 | querydefaultfield     | string           | null                                          | With a null value the default of your Solr config will be used. If you want to override this supply a field name as the value.                                             |
 | responsewriter        | string           | json                                          | You can set this to 'phps' for improved response parsing performance, at the cost of a (possible) security risk. Only use 'phps' for trusted Solr instances.               |
@@ -56,7 +56,7 @@ $query->setQuery('price:[12 TO *]');
 $query->setStart(2)->setRows(20);
 
 // set fields to fetch (this overrides the default setting 'all fields')
-$query->setFields(['id', 'name', 'price', 'score']);
+$query->setFields(array('id','name','price', 'score'));
 
 // sort the results by price ascending
 $query->addSort('price', $query::SORT_ASC);
@@ -102,26 +102,26 @@ htmlHeader();
 
 // In this case an array is used for configuration to keep the example simple.
 // You can also call setters on the query instance for each option.
-$select = [
+$select = array(
     'query'         => '*:*',
     'start'         => 2,
     'rows'          => 20,
-    'fields'        => ['id', 'name', 'price'],
-    'sort'          => ['price' => 'asc'],
-    'filterquery' => [
-        'maxprice' => [
-            'query' => 'price:[1 TO 300]',
-        ],
-    ],
-    'component' => [
-        'facetset' => [
-            'facet' => [
+    'fields'        => array('id','name','price'),
+    'sort'          => array('price' => 'asc'),
+    'filterquery' => array(
+        'maxprice' => array(
+            'query' => 'price:[1 TO 300]'
+        ),
+    ),
+    'component' => array(
+        'facetset' => array(
+            'facet' => array(
                 // notice this config uses an inline key value under 'local_key', instead of array key like the filterquery
-                ['type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'],
-            ],
-        ],
-    ],
-];
+                array('type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'),
+            )
+        ),
+    ),
+);
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);

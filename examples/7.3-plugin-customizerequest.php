@@ -10,13 +10,13 @@ $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)
 $customizer->createCustomization(
-    [
+    array(
         'key' => 'auth',
         'type' => 'header',
         'name' => 'X-my-auth',
         'value' => 'mypassword',
-        'persistent' => true,
-    ]
+        'persistent' => true
+    )
 );
 
 // add a persistent GET param (using fluent interface)

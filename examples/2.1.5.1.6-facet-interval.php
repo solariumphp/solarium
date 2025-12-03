@@ -15,7 +15,7 @@ $facetSet = $query->getFacetSet();
 // create a facet interval instance and set options
 $facet = $facetSet->createFacetInterval('price');
 $facet->setField('price');
-$facet->setSet(['1-9' => '[1,10)', '10-49' => '[10,50)', '49>' => '[50,*)']);
+$facet->setSet(array('1-9' => '[1,10)', '10-49' => '[10,50)', '49>' => '[50,*)'));
 
 // this executes the query and returns the result
 $resultset = $client->select($query);

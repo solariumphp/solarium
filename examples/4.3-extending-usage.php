@@ -1,9 +1,9 @@
 <?php
 
+require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
 
-require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // In most cases using the API or config is advisable, however in some cases it can make sense to extend classes.
@@ -17,7 +17,7 @@ class ProductQuery extends Select
         // basic params
         $this->setQuery('*:*');
         $this->setStart(2)->setRows(20);
-        $this->setFields(['id', 'name', 'price']);
+        $this->setFields(array('id','name','price'));
         $this->addSort('price', self::SORT_ASC);
 
         // create a facet field instance and set options

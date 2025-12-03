@@ -303,9 +303,9 @@ The `$config` array has the following contents:
 ```php
 <?php
 
-$config = [
-    'endpoint' => [
-        'localhost' => [
+$config = array(
+    'endpoint' => array(
+        'localhost' => array(
             'host' => '127.0.0.1',
             'port' => 8983,
             'path' => '/',
@@ -314,9 +314,9 @@ $config = [
             // 'collection' => 'techproducts',
             // Set the `hostContext` for the Solr web application if it's not the default 'solr':
             // 'context' => 'solr',
-        ],
-    ],
-];
+        )
+    )
+);
 ```
 
 ### Selecting documents
@@ -505,7 +505,7 @@ $doc2->name = 'testdoc-2';
 $doc2->price = 340;
 
 // add the documents and a commit command to the update query
-$update->addDocuments([$doc1, $doc2]);
+$update->addDocuments(array($doc1, $doc2));
 $update->addCommit();
 
 // this executes the query and returns the result

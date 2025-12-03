@@ -1,9 +1,10 @@
 <?php
 
+require_once(__DIR__.'/init.php');
+
 use Solarium\Plugin\BufferedDelete\Event\Events;
 use Solarium\Plugin\BufferedDelete\Event\PreFlush;
 
-require_once(__DIR__.'/init.php');
 htmlHeader();
 
 // create a client instance and autoload the buffered delete plugin

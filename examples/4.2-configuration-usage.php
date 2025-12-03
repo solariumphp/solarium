@@ -3,26 +3,26 @@
 require_once(__DIR__.'/init.php');
 htmlHeader();
 
-$select = [
+$select = array(
     'query'         => '*:*',
     'start'         => 2,
     'rows'          => 20,
-    'fields'        => ['id', 'name', 'price'],
-    'sort'          => ['price' => 'asc'],
-    'filterquery' => [
-        'maxprice' => [
-            'query' => 'price:[1 TO 300]',
-        ],
-    ],
-    'component' => [
-        'facetset' => [
-            'facet' => [
+    'fields'        => array('id','name','price'),
+    'sort'          => array('price' => 'asc'),
+    'filterquery' => array(
+        'maxprice' => array(
+            'query' => 'price:[1 TO 300]'
+        ),
+    ),
+    'component' => array(
+        'facetset' => array(
+            'facet' => array(
                 // notice this config uses an inline key value under 'local_key', instead of array key like the filterquery
-                ['type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'],
-            ],
-        ],
-    ],
-];
+                array('type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'),
+            )
+        ),
+    ),
+);
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
