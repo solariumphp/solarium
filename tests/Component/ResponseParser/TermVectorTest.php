@@ -15,11 +15,11 @@ use Solarium\QueryType\Select\Query\Query;
 
 class TermVectorTest extends TestCase
 {
-    protected $parser;
+    protected Parser $parser;
 
-    protected $query;
+    protected Query $query;
 
-    protected $tv;
+    protected TermVector $tv;
 
     public function setUp(): void
     {

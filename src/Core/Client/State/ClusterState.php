@@ -65,29 +65,29 @@ class ClusterState
     const ZNODE_VERSION = 'znodeVersion';
 
     /**
-     * @var array CLUSTERSTATUS array of parsed json
+     * CLUSTERSTATUS array of parsed JSON.
      */
-    protected $clusterStatus;
+    protected array $clusterStatus;
 
     /*
      * @var string[]
      */
-    protected $aliases;
+    protected array $aliases;
 
     /**
      * @var CollectionState[]
      */
-    protected $collections;
+    protected array $collections;
 
     /**
      * @var string[]
      */
-    protected $liveNodes;
+    protected array $liveNodes;
 
     /**
      * @var string[]
      */
-    protected $roles;
+    protected array $roles;
 
     /**
      * ClusterState constructor.

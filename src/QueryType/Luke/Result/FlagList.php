@@ -14,34 +14,27 @@ namespace Solarium\QueryType\Luke\Result;
  */
 class FlagList implements \ArrayAccess, \Countable, \Iterator
 {
-    /**
-     * @var string
-     */
-    protected $flags;
+    protected string $flags;
 
     /**
      * @var Flag[]
      */
-    protected $list = [];
+    protected array $list = [];
 
     /**
      * @var string[]
      */
-    protected $lookup = [];
+    protected array $lookup = [];
 
     /**
      * Iterator position.
-     *
-     * @var int
      */
-    protected $position = 0;
+    protected int $position = 0;
 
     /**
      * Iterator length.
-     *
-     * @var int
      */
-    protected $length;
+    protected int $length;
 
     /**
      * Constructor.

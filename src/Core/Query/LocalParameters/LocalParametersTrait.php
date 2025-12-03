@@ -20,13 +20,10 @@ use Solarium\Exception\OutOfBoundsException;
  */
 trait LocalParametersTrait
 {
-    /**
-     * @var \Solarium\Core\Query\LocalParameters\LocalParameters
-     */
-    private $localParameters;
+    private ?LocalParameters $localParameters = null;
 
     /**
-     * @return \Solarium\Core\Query\LocalParameters\LocalParameters
+     * @return LocalParameters
      */
     public function getLocalParameters(): LocalParameters
     {

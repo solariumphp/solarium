@@ -25,54 +25,42 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'prefetch' => 100,
     ];
 
     /**
      * Query instance to execute.
-     *
-     * @var SelectQuery
      */
-    protected $query;
+    protected SelectQuery $query;
 
     /**
      * Start position (offset).
-     *
-     * @var int
      */
-    protected $start = 0;
+    protected int $start = 0;
 
     /**
      * Last resultset from the query instance.
-     *
-     * @var SelectResult
      */
-    protected $result;
+    protected ?SelectResult $result = null;
 
     /**
      * Iterator position.
-     *
-     * @var int
      */
-    protected $position = 0;
+    protected int $position = 0;
 
     /**
      * Cursor mark.
-     *
-     * @var string
      */
-    protected $cursormark;
+    protected ?string $cursormark = null;
 
     /**
      * Documents from the last resultset.
      *
      * @var DocumentInterface[]
      */
-    protected $documents;
+    protected ?array $documents = null;
 
     /**
      * Set prefetch option.
@@ -134,7 +122,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @return self Provides fluent interface
      */
-    public function setEndpoint($endpoint): self
+    public function setEndpoint(string|Endpoint $endpoint): self
     {
         $this->setOption('endpoint', $endpoint);
 
@@ -146,7 +134,7 @@ class PrefetchIterator extends AbstractPlugin implements \Iterator, \Countable
      *
      * @return string|Endpoint|null
      */
-    public function getEndpoint()
+    public function getEndpoint(): string|Endpoint|null
     {
         return $this->getOption('endpoint');
     }

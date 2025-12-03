@@ -19,18 +19,16 @@ class MoreLikeThis implements \IteratorAggregate, \Countable
     /**
      * Result array.
      *
-     * @var array
+     * @var Result[]
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Interesting terms.
      *
      * Only available if mlt.interestingTerms wasn't 'none'.
-     *
-     * @var array|null
      */
-    protected $interestingTerms;
+    protected ?array $interestingTerms;
 
     /**
      * Constructor.

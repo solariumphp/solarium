@@ -20,10 +20,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class FacetSetTest extends TestCase
 {
-    /**
-     * @var FacetSet
-     */
-    protected $facetSet;
+    protected FacetSet $facetSet;
 
     public function setUp(): void
     {
@@ -437,8 +434,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateFacetField(bool $add): void
     {
@@ -461,8 +456,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateFacetQuery(bool $add): void
     {
@@ -484,8 +477,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateFacetMultiQuery(bool $add): void
     {
@@ -506,8 +497,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateFacetRange(bool $add): void
     {
@@ -528,8 +517,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateFacetPivot(bool $add): void
     {
@@ -550,8 +537,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateFacetInterval(bool $add): void
     {
@@ -572,8 +557,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateJsonFacetAggregation(bool $add): void
     {
@@ -595,8 +578,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateJsonFacetTerms(bool $add): void
     {
@@ -619,8 +600,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateJsonFacetQuery(bool $add): void
     {
@@ -643,8 +622,6 @@ class FacetSetTest extends TestCase
 
     /**
      * @dataProvider createFacetAddProvider
-     *
-     * @param bool $add
      */
     public function testCreateJsonFacetRange(bool $add): void
     {

@@ -22,7 +22,7 @@ trait DistributedSearchTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\DistributedSearch
+     * @return DistributedSearch
      */
     public function getDistributedSearch(): DistributedSearch
     {

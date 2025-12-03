@@ -9,7 +9,7 @@ use Solarium\QueryType\Analysis\Query\AbstractQuery;
 
 class QueryTest extends TestCase
 {
-    protected $query;
+    protected TestAnalysisQuery $query;
 
     public function setUp(): void
     {

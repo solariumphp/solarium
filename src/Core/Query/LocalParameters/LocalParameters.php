@@ -23,16 +23,16 @@ use Solarium\Exception\OutOfBoundsException;
 class LocalParameters implements \ArrayAccess
 {
     /**
-     * @var \Solarium\Core\Query\LocalParameters\LocalParameterInterface[]
+     * @var LocalParameterInterface[]
      */
-    private $parameters = [];
+    private array $parameters = [];
 
     /**
      * @param string $key
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setKey(string $key): self
     {
@@ -44,7 +44,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addKeys(array $keys): self
     {
@@ -56,7 +56,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeKey(string $key): self
     {
@@ -66,7 +66,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearKeys(): self
     {
@@ -88,7 +88,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setExclude(string $exclude): self
     {
@@ -100,7 +100,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setExcludes(array $excludes): self
     {
@@ -112,7 +112,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addExcludes(array $excludes): self
     {
@@ -124,7 +124,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeExclude(string $exclude): self
     {
@@ -134,7 +134,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearExcludes(): self
     {
@@ -156,7 +156,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setRange(string $range): self
     {
@@ -168,7 +168,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setRanges(array $ranges): self
     {
@@ -180,7 +180,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addRanges(array $ranges): self
     {
@@ -192,7 +192,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeRange(string $range): self
     {
@@ -202,7 +202,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearRanges(): self
     {
@@ -224,7 +224,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setTag(string $tag): self
     {
@@ -236,7 +236,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setTags(array $tags): self
     {
@@ -248,7 +248,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addTags(array $tags): self
     {
@@ -260,7 +260,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeTag(string $tag): self
     {
@@ -270,7 +270,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearTags(): self
     {
@@ -292,7 +292,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setTerm(string $term): self
     {
@@ -304,7 +304,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setTerms(array $terms): self
     {
@@ -316,7 +316,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addTerms(array $terms): self
     {
@@ -328,7 +328,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      *
      * @deprecated Will be removed in Solarium 8. Use {@see removeTerm()} instead.
      */
@@ -342,7 +342,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeTerm(string $term): self
     {
@@ -352,7 +352,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearTerms(): self
     {
@@ -374,7 +374,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setQuery(string $query): self
     {
@@ -386,7 +386,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setQueries(array $queries): self
     {
@@ -398,7 +398,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addQueries(array $queries): self
     {
@@ -410,7 +410,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeQuery(string $query): self
     {
@@ -420,7 +420,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearQueries(): self
     {
@@ -442,7 +442,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setStat(string $stat): self
     {
@@ -452,9 +452,9 @@ class LocalParameters implements \ArrayAccess
     /**
      * @param array $stats
      *
-     * @throws \Solarium\Exception\OutOfBoundsException
+     * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setStats(array $stats): self
     {
@@ -466,7 +466,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addStats(array $stats): self
     {
@@ -478,7 +478,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeStat(string $stats): self
     {
@@ -488,7 +488,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearStats(): self
     {
@@ -510,7 +510,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setMin(string $min): self
     {
@@ -520,7 +520,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearMin(): self
     {
@@ -542,7 +542,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setMax(string $max): self
     {
@@ -552,7 +552,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearMax(): self
     {
@@ -574,7 +574,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setMean(string $mean): self
     {
@@ -584,7 +584,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearMean(): self
     {
@@ -606,7 +606,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setDefaultField(string $defaultField): self
     {
@@ -618,7 +618,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addDefaultFields(array $defaultFields): self
     {
@@ -630,7 +630,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeDefaultField(string $defaultField): self
     {
@@ -640,7 +640,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearDefaultFields(): self
     {
@@ -662,7 +662,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setQueryField(string $queryField): self
     {
@@ -674,7 +674,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addQueryFields(array $queryFields): self
     {
@@ -686,7 +686,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeQueryField(string $queryField): self
     {
@@ -696,7 +696,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearQueryFields(): self
     {
@@ -718,7 +718,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setType(string $type): self
     {
@@ -730,7 +730,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addTypes(array $types): self
     {
@@ -742,7 +742,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeType(string $type): self
     {
@@ -752,7 +752,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearTypes(): self
     {
@@ -774,7 +774,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setLocalValue(string $value): self
     {
@@ -786,7 +786,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addLocalValues(array $values): self
     {
@@ -798,7 +798,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeLocalValue(string $value): self
     {
@@ -808,7 +808,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearLocalValues(): self
     {
@@ -830,7 +830,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setCache(bool $cache): self
     {
@@ -840,7 +840,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearCache(): self
     {
@@ -862,7 +862,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setCost(int $cost): self
     {
@@ -872,7 +872,7 @@ class LocalParameters implements \ArrayAccess
     /**
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearCost(): self
     {
@@ -949,7 +949,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     private function addValue(string $type, $value): self
     {
@@ -964,7 +964,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     private function addValues(string $type, array $values): self
     {
@@ -979,7 +979,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     private function removeValue(string $type, $value): self
     {
@@ -993,7 +993,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     private function clearValues(string $type): self
     {
@@ -1020,7 +1020,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     private function setValues(string $type, array $values): self
     {
@@ -1034,7 +1034,7 @@ class LocalParameters implements \ArrayAccess
      *
      * @throws OutOfBoundsException
      *
-     * @return \Solarium\Core\Query\LocalParameters\LocalParameterInterface
+     * @return LocalParameterInterface
      */
     private function getParameter(string $type): LocalParameterInterface
     {

@@ -13,6 +13,7 @@ use Solarium\Core\Client\Request;
 use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Update\Query\Document;
 
 /**
  * Build an extract request.
@@ -48,7 +49,7 @@ class RequestBuilder extends BaseRequestBuilder
         }
 
         // add document settings to request
-        /** @var \Solarium\QueryType\Update\Query\Document $doc */
+        /** @var Document $doc */
         $doc = $query->getDocument();
         if (null !== $doc) {
             // @phpstan-ignore-next-line we're calling a deprecated method on purpose

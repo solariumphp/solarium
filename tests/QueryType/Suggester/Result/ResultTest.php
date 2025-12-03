@@ -9,20 +9,17 @@ use Solarium\QueryType\Suggester\Result\Term;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var SuggesterDummy
-     */
-    protected $result;
+    protected SuggesterDummy $result;
 
     /**
-     * @var array
+     * @var Dictionary[]
      */
-    protected $data;
+    protected array $data;
 
     /**
-     * @var array
+     * @var Term[]
      */
-    protected $allData;
+    protected array $allData;
 
     public function setUp(): void
     {
@@ -99,7 +96,7 @@ class ResultTest extends TestCase
 
 class SuggesterDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($results, $all)
     {

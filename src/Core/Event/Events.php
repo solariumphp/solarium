@@ -21,8 +21,6 @@ class Events
      * requestbuilder.
      *
      * The event listener receives a QueryInterface instance.
-     *
-     * @var string
      */
     public const PRE_CREATE_REQUEST = PreCreateRequest::class;
 
@@ -31,8 +29,6 @@ class Events
      * requestbuilder.
      *
      * The event listener receives a QueryInterface instance and a Request instance.
-     *
-     * @var string
      */
     public const POST_CREATE_REQUEST = PostCreateRequest::class;
 
@@ -40,8 +36,6 @@ class Events
      * The preExecuteRequest event is thrown just before a request is sent to Solr.
      *
      * The event listener receives a Request instance.
-     *
-     * @var string
      */
     public const PRE_EXECUTE_REQUEST = PreExecuteRequest::class;
 
@@ -49,8 +43,6 @@ class Events
      * The postExecuteRequest event is thrown just after a request has been sent to Solr.
      *
      * The event listener receives a Request instance and a Response instance.
-     *
-     * @var string
      */
     public const POST_EXECUTE_REQUEST = PostExecuteRequest::class;
 
@@ -58,8 +50,6 @@ class Events
      * The preCreateResult event is before the Solr response data is parsed into a result object.
      *
      * The event listener receives a Query and a Response instance.
-     *
-     * @var string
      */
     public const PRE_CREATE_RESULT = PreCreateResult::class;
 
@@ -67,8 +57,6 @@ class Events
      * The postCreateResult event is thrown just after the Solr response data was parsed into a result object.
      *
      * The event listener receives a Query, Response and Result instance.
-     *
-     * @var string
      */
     public const POST_CREATE_RESULT = PostCreateResult::class;
 
@@ -78,8 +66,6 @@ class Events
      * the standard execution flow.
      *
      * The event listener receives a Query instance.
-     *
-     * @var string
      */
     public const PRE_EXECUTE = PreExecute::class;
 
@@ -87,8 +73,6 @@ class Events
      * The postExecute event is thrown just after all execution is done.
      *
      * The event listener receives a Query instance and a Result instance.
-     *
-     * @var string
      */
     public const POST_EXECUTE = PostExecute::class;
 
@@ -97,8 +81,6 @@ class Events
      * for instance customize the returned query.
      *
      * The event listener receives a QueryType string and an Options array.
-     *
-     * @var string
      */
     public const PRE_CREATE_QUERY = PreCreateQuery::class;
 
@@ -107,8 +89,6 @@ class Events
      * for instance customize the returned query.
      *
      * The event listener receives a querytype string, an Options array and the resulting QueryType instance.
-     *
-     * @var string
      */
     public const POST_CREATE_QUERY = PostCreateQuery::class;
 

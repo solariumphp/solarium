@@ -16,17 +16,13 @@ class Term implements \IteratorAggregate, \Countable
 {
     /**
      * NumFound.
-     *
-     * @var int
      */
-    protected $numFound;
+    protected int $numFound;
 
     /**
      * Suggestions.
-     *
-     * @var array
      */
-    protected $suggestions;
+    protected array $suggestions;
 
     /**
      * Constructor.

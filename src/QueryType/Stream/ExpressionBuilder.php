@@ -257,7 +257,7 @@ class ExpressionBuilder
      */
     public function __call(string $name, array $arguments): string
     {
-        return $name.'('.implode(', ', array_filter($arguments, function ($value) {
+        return $name.'('.implode(', ', array_filter($arguments, function ($value): bool {
             if (\is_array($value) || (\is_object($value) && !method_exists($value, '__toString'))) {
                 throw new InvalidArgumentException('An expression argument must be a scalar value or an object that provides a __toString() method.');
             }

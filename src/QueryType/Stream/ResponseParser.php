@@ -15,6 +15,7 @@ use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\StreamException;
+use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\Result\Result;
 
 /**
@@ -27,9 +28,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      *
      * @param Result|ResultInterface $result
      *
-     * @throws \Solarium\Exception\RuntimeException
-     * @throws \Solarium\Exception\StreamException
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws RuntimeException
+     * @throws StreamException
+     * @throws UnexpectedValueException
      *
      * @return array
      */

@@ -10,14 +10,14 @@ use Solarium\QueryType\Select\Result\Document;
 
 class MoreLikeThisTest extends TestCase
 {
+    protected MoreLikeThis $mlt;
+
     /**
-     * @var MoreLikeThis
+     * @var Result[]
      */
-    protected $mlt;
+    protected array $results;
 
-    protected $results;
-
-    protected $interestingTerms;
+    protected array $interestingTerms;
 
     public function setUp(): void
     {

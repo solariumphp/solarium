@@ -25,17 +25,13 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
 
     /**
      * Helper instance.
-     *
-     * @var Helper
      */
-    protected $helper;
+    protected ?Helper $helper = null;
 
     /**
      * Extra query params (e.g. dereferenced params).
-     *
-     * @var array
      */
-    protected $params = [];
+    protected array $params = [];
 
     /**
      * Set handler option.
@@ -250,7 +246,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      *
      * @return self Provides fluent interface
      */
-    public function setTimeZone($timezone): self
+    public function setTimeZone(string|\DateTimeZone $timezone): self
     {
         if ($timezone instanceof \DateTimeZone) {
             $this->setOption('timezone', $timezone->getName());

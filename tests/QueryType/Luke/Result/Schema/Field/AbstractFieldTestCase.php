@@ -13,10 +13,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Type;
 
 abstract class AbstractFieldTestCase extends TestCase
 {
-    /**
-     * @var AbstractField
-     */
-    protected $field;
+    protected AbstractField $field;
 
     abstract public function testGetName();
 

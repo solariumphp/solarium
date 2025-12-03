@@ -7,10 +7,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Tokenizer;
 
 class TokenizerTest extends TestCase
 {
-    /**
-     * @var Tokenizer
-     */
-    protected $tokenizer;
+    protected Tokenizer $tokenizer;
 
     public function setUp(): void
     {

@@ -16,59 +16,43 @@ class Item
 {
     /**
      * Text string.
-     *
-     * @var string
      */
-    protected $text;
+    protected string $text;
 
     /**
      * RawText string.
-     *
-     * @var string
      */
-    protected $rawText;
+    protected ?string $rawText = null;
 
     /**
      * Start.
-     *
-     * @var int
      */
-    protected $start;
+    protected ?int $start;
 
     /**
      * End.
-     *
-     * @var int
      */
-    protected $end;
+    protected ?int $end;
 
     /**
      * Position.
-     *
-     * @var int
      */
-    protected $position;
+    protected ?int $position;
 
     /**
      * Position history.
-     *
-     * @var array
      */
-    protected $positionHistory;
+    protected ?array $positionHistory;
 
     /**
      * Type.
-     *
-     * @var string
      */
-    protected $type;
+    protected ?string $type;
 
     /**
      * Match.
-     *
-     * @var bool
      */
-    protected $match = false;
+    protected bool $match = false;
 
     /**
      * Constructor.
@@ -118,9 +102,9 @@ class Item
     /**
      * Get start value.
      *
-     * @return int
+     * @return int|null
      */
-    public function getStart(): int
+    public function getStart(): ?int
     {
         return $this->start;
     }
@@ -128,9 +112,9 @@ class Item
     /**
      * Get end value.
      *
-     * @return int
+     * @return int|null
      */
-    public function getEnd(): int
+    public function getEnd(): ?int
     {
         return $this->end;
     }
@@ -138,9 +122,9 @@ class Item
     /**
      * Get postion value.
      *
-     * @return int
+     * @return int|null
      */
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
@@ -152,19 +136,15 @@ class Item
      */
     public function getPositionHistory(): array
     {
-        if (\is_array($this->positionHistory)) {
-            return $this->positionHistory;
-        }
-
-        return [];
+        return $this->positionHistory ?? [];
     }
 
     /**
      * Get type value.
      *
-     * @return string
+     * @return string|null
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -172,9 +152,9 @@ class Item
     /**
      * Get match value.
      *
-     * @return bool|null
+     * @return bool
      */
-    public function getMatch(): ?bool
+    public function getMatch(): bool
     {
         return $this->match;
     }

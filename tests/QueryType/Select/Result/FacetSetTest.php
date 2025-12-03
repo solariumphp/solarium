@@ -9,12 +9,12 @@ use Solarium\Component\Result\FacetSet;
 
 class FacetSetTest extends TestCase
 {
-    /**
-     * @var FacetSet
-     */
-    protected $result;
+    protected FacetSet $result;
 
-    protected $facets;
+    /**
+     * @var DummyFacet[]
+     */
+    protected array $facets;
 
     public function setUp(): void
     {

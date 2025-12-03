@@ -8,8 +8,7 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\InitArgs;
 
 class InitArgsTest extends TestCase
 {
-    /** @var InitArgs */
-    protected $initArgs;
+    protected InitArgs $initArgs;
 
     public function setUp(): void
     {

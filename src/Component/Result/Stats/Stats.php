@@ -19,7 +19,7 @@ class Stats implements \IteratorAggregate, \Countable
      *
      * @var Result[]
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Constructor.
@@ -47,7 +47,7 @@ class Stats implements \IteratorAggregate, \Countable
      * @param string $key
      * @param Result $result
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setResult(string $key, Result $result): self
     {
@@ -61,7 +61,7 @@ class Stats implements \IteratorAggregate, \Countable
      *
      * @param string $key
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeResult(string $key): self
     {

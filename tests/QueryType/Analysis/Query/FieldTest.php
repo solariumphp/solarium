@@ -8,10 +8,7 @@ use Solarium\QueryType\Analysis\Query\Field;
 
 class FieldTest extends TestCase
 {
-    /**
-     * @var Field
-     */
-    protected $query;
+    protected Field $query;
 
     public function setUp(): void
     {

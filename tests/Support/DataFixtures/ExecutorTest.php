@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Support\DataFixtures;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Support\DataFixtures\Executor;
@@ -22,8 +23,12 @@ class ExecutorTest extends TestCase
         $executor->execute($mockFixtures);
     }
 
-    private function getMockFixture($client)
+    /**
+     * @return MockObject&FixtureInterface
+     */
+    private function getMockFixture(ClientInterface $client)
     {
+        /** @var MockObject&FixtureInterface $fixture */
         $fixture = $this->createMock(FixtureInterface::class);
         $fixture->expects($this->once())
             ->method('load')

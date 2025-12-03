@@ -16,10 +16,7 @@ use Solarium\QueryType\Server\Query\AbstractResult;
  */
 class Result extends AbstractResult
 {
-    /**
-     * @var string|null
-     */
-    protected $WARNING;
+    protected ?string $WARNING;
 
     /**
      * Returns a warning for the result or null if Solr didn't set a warning.

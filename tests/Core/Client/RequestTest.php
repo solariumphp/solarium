@@ -8,10 +8,7 @@ use Solarium\Exception\RuntimeException;
 
 class RequestTest extends TestCase
 {
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected Request $request;
 
     public function setUp(): void
     {

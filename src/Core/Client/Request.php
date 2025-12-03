@@ -93,10 +93,8 @@ class Request extends Configurable implements RequestParamsInterface
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'method' => self::METHOD_GET,
         'api' => self::API_V1,
     ];
@@ -104,14 +102,12 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Request headers.
      */
-    protected $headers = [];
+    protected array $headers = [];
 
     /**
      * Raw POST data.
-     *
-     * @var string
      */
-    protected $rawData;
+    protected ?string $rawData = null;
 
     /**
      * Magic method enables a object to be transformed to a string.
@@ -376,7 +372,7 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @return self Provides fluent interface
      */
-    public function addHeader($value): self
+    public function addHeader(string|array $value): self
     {
         $this->headers[] = $value;
 
@@ -388,7 +384,7 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @param string $header
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function replaceOrAddHeader(string $header): self
     {
@@ -516,7 +512,7 @@ class Request extends Configurable implements RequestParamsInterface
      *
      * @return self Provides fluent interface
      */
-    public function setApi($api): self
+    public function setApi(string $api): self
     {
         $this->setOption('api', $api);
 
@@ -544,7 +540,7 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Initialization hook.
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

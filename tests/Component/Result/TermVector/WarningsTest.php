@@ -7,10 +7,7 @@ use Solarium\Component\Result\TermVector\Warnings;
 
 class WarningsTest extends TestCase
 {
-    /**
-     * @var Warnings
-     */
-    protected $warnings;
+    protected Warnings $warnings;
 
     public function setUp(): void
     {

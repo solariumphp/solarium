@@ -4,45 +4,55 @@ namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Result\Analytics\Result as Analytics;
+use Solarium\Component\Result\Debug\Result as Debug;
+use Solarium\Component\Result\FacetSet;
+use Solarium\Component\Result\Grouping\Result as Grouping;
+use Solarium\Component\Result\Highlighting\Highlighting;
+use Solarium\Component\Result\MoreLikeThis\MoreLikeThis;
+use Solarium\Component\Result\Spellcheck\Result as Spellcheck;
+use Solarium\Component\Result\Stats\Stats;
+use Solarium\Component\Result\Suggester\Result as Suggester;
+use Solarium\Component\Result\TermVector\Result as TermVector;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result;
 
 abstract class AbstractResultTestCase extends TestCase
 {
+    protected Result $result;
+
+    protected int $numFound;
+
+    protected float $maxScore;
+
+    protected ?string $nextCursorMark;
+
     /**
-     * @var SelectDummy
+     * @var Document[]
      */
-    protected $result;
+    protected array $docs;
 
-    protected $numFound;
+    protected array $components;
 
-    protected $maxScore;
+    protected ?FacetSet $facetSet;
 
-    protected $nextCursorMark;
+    protected ?MoreLikeThis $moreLikeThis;
 
-    protected $docs;
+    protected ?Highlighting $highlighting;
 
-    protected $components;
+    protected ?Grouping $grouping;
 
-    protected $facetSet;
+    protected ?Spellcheck $spellcheck;
 
-    protected $moreLikeThis;
+    protected ?Suggester $suggester;
 
-    protected $highlighting;
+    protected ?Stats $stats;
 
-    protected $grouping;
+    protected ?Debug $debug;
 
-    protected $spellcheck;
+    protected ?Analytics $analytics;
 
-    protected $suggester;
-
-    protected $stats;
-
-    protected $debug;
-
-    protected $analytics;
-
-    protected $termVector;
+    protected ?TermVector $termVector;
 
     public function setUp(): void
     {
@@ -282,7 +292,7 @@ abstract class AbstractResultTestCase extends TestCase
 
 class SelectDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components)
     {

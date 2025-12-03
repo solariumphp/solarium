@@ -30,10 +30,8 @@ class Query extends BaseQuery implements TermsInterface
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'resultclass' => Result::class,
         'handler' => 'terms',
         'omitheader' => true,

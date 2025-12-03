@@ -109,7 +109,7 @@ class ConfigurableTest extends TestCase
 
 class ConfigTest extends Configurable
 {
-    protected $options = [
+    protected array $options = [
         'option1' => 1,
         'option2' => 'value 2',
     ];
@@ -125,7 +125,7 @@ class ConfigTest extends Configurable
 
 class ConfigTestInit extends ConfigTest
 {
-    protected function init()
+    protected function init(): void
     {
         throw new RuntimeException('test init');
     }
@@ -133,7 +133,7 @@ class ConfigTestInit extends ConfigTest
 
 class ConfigTestInitLocalParameters extends ConfigTest
 {
-    protected function initLocalParameters()
+    protected function initLocalParameters(): void
     {
         throw new RuntimeException('test initLocalParameters');
     }

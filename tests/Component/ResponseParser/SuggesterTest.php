@@ -3,21 +3,21 @@
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\ResponseParser\Suggester;
+use Solarium\Component\ResponseParser\Suggester as Parser;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
 
 class SuggesterTest extends TestCase
 {
-    protected $parser;
+    protected Parser $parser;
 
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {
         $this->query = new Query();
-        $this->parser = new Suggester();
+        $this->parser = new Parser();
     }
 
     /**

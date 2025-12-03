@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class FieldTest extends TestCase
 {
-    /**
-     * @var Field
-     */
-    protected $facet;
+    protected Field $facet;
 
     public function setUp(): void
     {

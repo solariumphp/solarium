@@ -4,15 +4,13 @@ namespace Solarium\Tests\Component\Highlighting;
 
 use Solarium\Component\Highlighting\Field;
 use Solarium\Component\Highlighting\Highlighting;
+use Solarium\Component\Highlighting\HighlightingInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
 class HighlightingTest extends AbstractHighlightingTestCase
 {
-    /**
-     * @var Highlighting
-     */
-    protected $hlt;
+    protected HighlightingInterface|Highlighting $hlt;
 
     public function setUp(): void
     {

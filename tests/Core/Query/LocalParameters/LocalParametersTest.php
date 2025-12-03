@@ -18,10 +18,7 @@ use Solarium\Exception\OutOfBoundsException;
  */
 class LocalParametersTest extends TestCase
 {
-    /**
-     * @var LocalParameters
-     */
-    protected $parameters;
+    protected LocalParameters $parameters;
 
     public function setUp(): void
     {
@@ -538,5 +535,5 @@ class DummyTraitUse
     use LocalParametersTrait;
 
     // trait assumes this is inherited from Configurable
-    protected $options = [];
+    protected array $options = [];
 }

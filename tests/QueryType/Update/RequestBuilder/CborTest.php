@@ -19,15 +19,9 @@ use Solarium\QueryType\Update\RequestBuilder\Cbor as CborRequestBuilder;
 
 class CborTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
-    /**
-     * @var CborRequestBuilder
-     */
-    protected $builder;
+    protected CborRequestBuilder $builder;
 
     public function setUp(): void
     {

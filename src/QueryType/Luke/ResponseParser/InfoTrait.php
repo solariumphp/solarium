@@ -18,10 +18,8 @@ trait InfoTrait
 {
     /**
      * A key to what each character in the field flags means.
-     *
-     * @var array
      */
-    protected $key;
+    protected array $key;
 
     /**
      * @param array $infoData

@@ -11,10 +11,7 @@ use Solarium\QueryType\Update\Query\Document;
 
 class QueryTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {
@@ -133,7 +130,7 @@ class QueryTest extends TestCase
         $this->assertSame(458, $this->query->getCommitWithin());
     }
 
-    public function testSetAndGetDocumentClass()
+    public function testSetAndGetDocumentClass(): Query
     {
         $this->query->setDocumentClass('Solarium\Tests\QueryType\Extract\MyCustomDoc');
         $this->assertSame('Solarium\Tests\QueryType\Extract\MyCustomDoc', $this->query->getDocumentClass());
@@ -143,10 +140,8 @@ class QueryTest extends TestCase
 
     /**
      * @depends testSetAndGetDocumentClass
-     *
-     * @param mixed $query
      */
-    public function testCreateDocument($query): void
+    public function testCreateDocument(Query $query): void
     {
         $fields = ['key1' => 'value1', 'key2' => 'value2'];
         $boosts = ['key1' => 1.0, 'key2' => 2.0];
@@ -157,7 +152,7 @@ class QueryTest extends TestCase
         $this->assertSame($fields, $document->getFields());
     }
 
-    public function testAddFieldMapping()
+    public function testAddFieldMapping(): Query
     {
         $expectedFields = $this->query->getFieldMappings();
         $expectedFields['newfield'] = 'tofield';
@@ -169,10 +164,8 @@ class QueryTest extends TestCase
 
     /**
      * @depends testAddFieldMapping
-     *
-     * @param Query $query
      */
-    public function testClearFieldMappingss($query)
+    public function testClearFieldMappingss(Query $query): Query
     {
         $query->clearFieldMappings();
         $this->assertSame([], $query->getFieldMappings());
@@ -182,10 +175,8 @@ class QueryTest extends TestCase
 
     /**
      * @depends testClearFieldMappingss
-     *
-     * @param Query $query
      */
-    public function testAddFieldMappings($query)
+    public function testAddFieldMappings(Query $query): Query
     {
         $fields = ['field1' => 'target1', 'field2' => 'target2'];
         $query->addFieldMappings($fields);
@@ -196,10 +187,8 @@ class QueryTest extends TestCase
 
     /**
      * @depends testAddFieldMappings
-     *
-     * @param Query $query
      */
-    public function testRemoveFieldMapping($query)
+    public function testRemoveFieldMapping(Query $query): Query
     {
         $query->removeFieldMapping('field1');
         $this->assertSame(['field2' => 'target2'], $query->getFieldMappings());
@@ -209,10 +198,8 @@ class QueryTest extends TestCase
 
     /**
      * @depends testRemoveFieldMapping
-     *
-     * @param Query $query
      */
-    public function testSetFields($query): void
+    public function testSetFields(Query $query): void
     {
         $fields = ['field3' => 'target3', 'field4' => 'target4'];
         $query->setFieldMappings($fields);

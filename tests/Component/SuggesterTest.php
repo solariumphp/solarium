@@ -9,10 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class SuggesterTest extends TestCase
 {
-    /**
-     * @var Suggester
-     */
-    protected $suggester;
+    protected Suggester $suggester;
 
     public function setUp(): void
     {

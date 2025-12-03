@@ -7,10 +7,7 @@ use Solarium\Component\Highlighting\HighlightingInterface;
 
 abstract class AbstractHighlightingTestCase extends TestCase
 {
-    /**
-     * @var HighlightingInterface
-     */
-    protected $hlt;
+    protected HighlightingInterface $hlt;
 
     abstract public function testConfigMode();
 

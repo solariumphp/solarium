@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Core\Query\Result;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 use Solarium\Exception\HttpException;
@@ -13,23 +14,17 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
-    protected $client;
+    protected Client $client;
 
-    /**
-     * @var SelectQuery
-     */
-    protected $query;
+    protected SelectQuery $query;
 
-    protected $response;
+    protected Response $response;
 
-    protected $data;
+    protected string $data;
 
-    protected $headers;
+    protected array $headers;
 
     public function setUp(): void
     {

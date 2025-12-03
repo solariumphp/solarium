@@ -19,20 +19,11 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PostCreateResult extends Event
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $query;
+    protected QueryInterface $query;
 
-    /**
-     * @var Response
-     */
-    protected $response;
+    protected Response $response;
 
-    /**
-     * @var ResultInterface
-     */
-    protected $result;
+    protected ResultInterface $result;
 
     /**
      * Event constructor.

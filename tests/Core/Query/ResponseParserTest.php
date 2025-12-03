@@ -14,10 +14,7 @@ use Solarium\Core\Query\Status4xxNoExceptionInterface;
 
 class ResponseParserTest extends TestCase
 {
-    /**
-     * @var TestResponseParser
-     */
-    protected $parser;
+    protected TestResponseParser $parser;
 
     public function setUp(): void
     {

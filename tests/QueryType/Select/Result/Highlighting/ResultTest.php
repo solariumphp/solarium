@@ -7,12 +7,9 @@ use Solarium\Component\Result\Highlighting\Result;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
-    protected $fields;
+    protected array $fields;
 
     public function setUp(): void
     {

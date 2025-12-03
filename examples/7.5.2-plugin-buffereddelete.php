@@ -3,8 +3,7 @@
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedDelete\Event\Events;
-use Solarium\Plugin\BufferedDelete\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Query;
+use Solarium\Plugin\BufferedDelete\Event\PreFlush;
 
 htmlHeader();
 
@@ -17,7 +16,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // this only works with 'buffereddelete', 'buffereddeletelite' doesn't trigger events
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function (PreFlushEvent $event) {
+    function (PreFlush $event): void {
         echo 'Flushing buffer (' . count($event->getBuffer()) . ' deletes)<br/>';
     }
 );

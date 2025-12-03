@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
 use Solarium\Exception\OutOfBoundsException;
+use Solarium\Plugin\MinimumScoreFilter\Document as MinimumScoreFilterDocument;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\Result;
 use Solarium\QueryType\Select\Result\Document;
@@ -27,7 +28,7 @@ class ResultTest extends AbstractResultTestCase
 
     public function testIterator(): void
     {
-        /** @var \Solarium\Plugin\MinimumScoreFilter\Document $doc */
+        /** @var MinimumScoreFilterDocument $doc */
         foreach ($this->result as $key => $doc) {
             $this->assertSame($this->docs[$key]->title, $doc->title);
             $this->assertSame(3 === $key, $doc->markedAsLowScore());
@@ -73,7 +74,7 @@ class ResultTest extends AbstractResultTestCase
 
 class FilterResultDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($status, $queryTime, $numfound, $maxscore, $nextcursormark, $docs, $components, $mode)
     {

@@ -7,10 +7,7 @@ use Solarium\QueryType\Luke\Result\Schema\Similarity;
 
 class SimilarityTest extends TestCase
 {
-    /**
-     * @var Similarity
-     */
-    protected $similarity;
+    protected Similarity $similarity;
 
     public function setUp(): void
     {

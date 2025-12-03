@@ -21,10 +21,8 @@ class EdisMax extends DisMax
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'queryparser' => 'edismax',
     ];
 

@@ -15,14 +15,14 @@ namespace Solarium\Core\Client\State;
 abstract class AbstractState implements StateInterface
 {
     /**
-     * @var array List of live nodes
+     * List of live nodes.
      */
-    protected $liveNodes;
+    protected array $liveNodes;
 
     /**
-     * @var array State array retrieved by ZkStateReader
+     * State array retrieved by ZkStateReader.
      */
-    protected $stateRaw;
+    protected array $stateRaw;
 
     /**
      * State constructor.

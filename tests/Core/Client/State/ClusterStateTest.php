@@ -10,12 +10,9 @@ use Solarium\Exception\RuntimeException;
 
 class ClusterStateTest extends TestCase
 {
-    /**
-     * @var ClusterState
-     */
-    private $clusterState;
+    protected ClusterState $clusterState;
 
-    private $json = '{
+    protected string $json = '{
   "cluster": {
     "collections": {
       "collection1": {

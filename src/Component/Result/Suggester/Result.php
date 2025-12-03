@@ -18,17 +18,13 @@ class Result implements \IteratorAggregate, \Countable
 {
     /**
      * Suggester results.
-     *
-     * @var array
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Suggester flat results.
-     *
-     * @var array
      */
-    protected $all;
+    protected array $all;
 
     /**
      * Constructor.

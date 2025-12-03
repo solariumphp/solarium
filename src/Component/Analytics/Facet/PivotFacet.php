@@ -21,9 +21,9 @@ class PivotFacet extends AbstractFacet
     use ObjectTrait;
 
     /**
-     * @var \Solarium\Component\Analytics\Facet\Pivot[]
+     * @var Pivot[]
      */
-    private $pivots = [];
+    private array $pivots = [];
 
     /**
      * {@inheritdoc}
@@ -34,7 +34,7 @@ class PivotFacet extends AbstractFacet
     }
 
     /**
-     * @return \Solarium\Component\Analytics\Facet\Pivot[]
+     * @return Pivot[]
      */
     public function getPivots(): array
     {
@@ -42,9 +42,9 @@ class PivotFacet extends AbstractFacet
     }
 
     /**
-     * @param \Solarium\Component\Analytics\Facet\Pivot[]|array $pivots
+     * @param Pivot[]|array $pivots
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setPivots(array $pivots): self
     {
@@ -56,9 +56,9 @@ class PivotFacet extends AbstractFacet
     }
 
     /**
-     * @param \Solarium\Component\Analytics\Facet\Pivot $pivot
+     * @param Pivot $pivot
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addPivot(Pivot $pivot): self
     {

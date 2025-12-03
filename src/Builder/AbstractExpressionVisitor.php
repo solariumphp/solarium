@@ -25,7 +25,7 @@ abstract class AbstractExpressionVisitor
     /**
      * Converts a comparison expression into Solr query language.
      *
-     * @param \Solarium\Builder\ExpressionInterface $expression
+     * @param ExpressionInterface $expression
      *
      * @return mixed
      */
@@ -34,23 +34,23 @@ abstract class AbstractExpressionVisitor
     /**
      * Converts a value expression into Solr query part.
      *
-     * @param \Solarium\Builder\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
     abstract public function walkValue(Value $value);
 
     /**
-     * @param \Solarium\Builder\ExpressionInterface $expr
+     * @param ExpressionInterface $expr
      *
      * @return mixed
      */
     abstract public function walkCompositeExpression(ExpressionInterface $expr);
 
     /**
-     * @param \Solarium\Builder\ExpressionInterface $expr
+     * @param ExpressionInterface $expr
      *
-     * @throws \Solarium\Exception\RuntimeException
+     * @throws RuntimeException
      *
      * @return mixed
      */

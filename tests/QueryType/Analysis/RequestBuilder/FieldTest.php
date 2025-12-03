@@ -8,15 +8,9 @@ use Solarium\QueryType\Analysis\RequestBuilder\Field as FieldBuilder;
 
 class FieldTest extends TestCase
 {
-    /**
-     * @var FieldQuery
-     */
-    protected $query;
+    protected FieldQuery $query;
 
-    /**
-     * @var FieldBuilder
-     */
-    protected $builder;
+    protected FieldBuilder $builder;
 
     public function setUp(): void
     {

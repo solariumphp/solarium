@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class PivotTest extends TestCase
 {
-    /**
-     * @var Pivot
-     */
-    protected $facet;
+    protected Pivot $facet;
 
     public function setUp(): void
     {

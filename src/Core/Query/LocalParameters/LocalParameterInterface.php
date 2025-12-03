@@ -33,7 +33,7 @@ interface LocalParameterInterface
     /**
      * @param array $values
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setValues(array $values): self;
 
@@ -43,28 +43,28 @@ interface LocalParameterInterface
     public function getValues(): array;
 
     /**
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function clearValues(): self;
 
     /**
      * @param $value
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addValue($value): self;
 
     /**
      * @param array $values
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addValues(array $values): self;
 
     /**
      * @param $value
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function removeValue($value): self;
 }

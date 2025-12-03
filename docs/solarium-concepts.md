@@ -149,7 +149,7 @@ htmlHeader();
 // This makes it possible to create 'query inheritance' like in this example.
 class ProductQuery extends Select
 {
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 
@@ -169,7 +169,7 @@ class ProductQuery extends Select
 // Ofcourse it could also alter or remove settings
 class ProductPriceLimitedQuery extends ProductQuery
 {
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 

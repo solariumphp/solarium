@@ -8,10 +8,7 @@ use Solarium\Component\Result\Debug\Detail;
 
 class DebugTest extends TestCase
 {
-    /**
-     * @var Parser
-     */
-    protected $parser;
+    protected Parser $parser;
 
     public function setUp(): void
     {

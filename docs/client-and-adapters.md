@@ -107,9 +107,12 @@ The cURL adapter supports the use of a proxy. Use `$adapter->setProxy($proxy)` t
 You can extend the cURL adapter and override the `createHandle()` method to set additional options you require for the cURL transfer.
 
 ```php
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
+
 class MyAdapter extends Solarium\Core\Client\Adapter\Curl
 {
-    public function createHandle($request, $endpoint)
+    public function createHandle(Request $request, Endpoint $endpoint): \CurlHandle
     {
         $handle = parent::createHandle($request, $endpoint);
 
@@ -151,9 +154,12 @@ The HTTP adapter supports the use of a proxy. Use `$adapter->setProxy($proxy)` t
 You can extend the HTTP adapter and override the `createContext()` method to set additional options you require for the stream.
 
 ```php
+use Solarium\Core\Client\Endpoint;
+use Solarium\Core\Client\Request;
+
 class MyAdapter extends Solarium\Core\Client\Adapter\Http
 {
-    public function createContext($request, $endpoint)
+    public function createContext(Request $request, Endpoint $endpoint)
     {
         $context = parent::createContext($request, $endpoint);
 

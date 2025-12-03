@@ -8,7 +8,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class PreCreateQueryTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreCreateQuery
     {
         $type = 'testtype';
         $options = ['key' => 'value'];
@@ -25,10 +25,8 @@ class PreCreateQueryTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCreateQuery $event
      */
-    public function testSetAndGetQuery($event): void
+    public function testSetAndGetQuery(PreCreateQuery $event): void
     {
         $query = new Query();
         $query->setQuery('test123');

@@ -18,15 +18,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PreExecute extends Event
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $query;
+    protected QueryInterface $query;
 
-    /**
-     * @var ResultInterface
-     */
-    protected $result;
+    protected ?ResultInterface $result = null;
 
     /**
      * Event constructor.

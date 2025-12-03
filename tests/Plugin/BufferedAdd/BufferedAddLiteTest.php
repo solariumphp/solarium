@@ -19,15 +19,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BufferedAddLiteTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $pluginClass = BufferedAddLite::class;
+    protected string $pluginClass = BufferedAddLite::class;
 
-    /**
-     * @var BufferedAddLite
-     */
-    protected $plugin;
+    protected BufferedAddLite $plugin;
 
     public function setUp(): void
     {
@@ -498,11 +492,9 @@ class BufferedAddLiteTest extends TestCase
     }
 
     /**
-     * @param EventDispatcherInterface|null $dispatcher
-     *
-     * @return Client&MockObject
+     * @return MockObject&Client
      */
-    protected function getClient(?EventDispatcherInterface $dispatcher = null): ClientInterface
+    protected function getClient(?EventDispatcherInterface $dispatcher = null)
     {
         if (!$dispatcher) {
             $dispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -510,7 +502,7 @@ class BufferedAddLiteTest extends TestCase
                 ->method('dispatch');
         }
 
-        /** @var Client&MockObject $client */
+        /** @var MockObject&Client $client */
         $client = $this->createMock(ClientInterface::class);
 
         $client->expects($this->any())

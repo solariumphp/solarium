@@ -12,25 +12,13 @@ use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends TestCase
 {
-    /**
-     * @var Parser
-     */
-    protected $parser;
+    protected Parser $parser;
 
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
-    /**
-     * @var Component
-     */
-    protected $grouping;
+    protected Component $grouping;
 
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
     public function setUp(): void
     {

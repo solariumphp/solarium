@@ -18,15 +18,9 @@ use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as StopwordsRequ
 
 class StopwordsTest extends TestCase
 {
-    /**
-     * @var StopwordsQuery
-     */
-    protected $query;
+    protected StopwordsQuery $query;
 
-    /**
-     * @var StopwordsRequestBuilder
-     */
-    protected $builder;
+    protected StopwordsRequestBuilder $builder;
 
     public function setUp(): void
     {

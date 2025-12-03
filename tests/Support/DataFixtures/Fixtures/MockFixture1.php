@@ -7,9 +7,6 @@ use Solarium\Support\DataFixtures\FixtureInterface;
 
 class MockFixture1 implements FixtureInterface
 {
-    /**
-     * @param ClientInterface $client
-     */
     public function load(ClientInterface $client): void
     {
         // Not needed in unit test

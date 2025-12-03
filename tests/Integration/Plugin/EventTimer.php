@@ -12,20 +12,17 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class EventTimer extends AbstractPlugin
 {
-    /**
-     * @var int|float
-     */
-    protected $start;
+    protected int|float $start;
 
     /**
      * @var array[]
      */
-    protected $log = [];
+    protected array $log = [];
 
     /**
      * @var Event[]
      */
-    protected $events = [];
+    protected array $events = [];
 
     /**
      * Plugin init function.

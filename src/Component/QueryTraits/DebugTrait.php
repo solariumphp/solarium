@@ -22,7 +22,7 @@ trait DebugTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\Debug
+     * @return Debug
      */
     public function getDebug(): Debug
     {

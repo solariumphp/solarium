@@ -16,63 +16,49 @@ class Result implements \IteratorAggregate, \Countable
 {
     /**
      * QueryString.
-     *
-     * @var string
      */
-    protected $queryString;
+    protected string $queryString;
 
     /**
      * ParsedQuery.
-     *
-     * @var string
      */
-    protected $parsedQuery;
+    protected string $parsedQuery;
 
     /**
      * QueryParser.
-     *
-     * @var string
      */
-    protected $queryParser;
+    protected string $queryParser;
 
     /**
      * OtherQuery.
-     *
-     * @var string
      */
-    protected $otherQuery;
+    protected string $otherQuery;
 
     /**
      * Explain instance.
-     *
-     * @var DocumentSet
      */
-    protected $explain;
+    protected DocumentSet $explain;
 
     /**
      * ExplainOther instance.
-     *
-     * @var DocumentSet
      */
-    protected $explainOther;
+    protected ?DocumentSet $explainOther;
 
     /**
      * Timing instance.
-     *
-     * @var Timing
      */
-    protected $timing;
+    protected ?Timing $timing;
 
     /**
      * Constructor.
      *
-     * @param string      $queryString
-     * @param string      $parsedQuery
-     * @param string      $queryParser
-     * @param string      $otherQuery
-     * @param DocumentSet $explain
-     * @param DocumentSet $explainOther
-     * @param Timing      $timing
+     * @param string           $queryString
+     * @param string           $parsedQuery
+     * @param string           $queryParser
+     * @param string           $otherQuery
+     * @param DocumentSet      $explain
+     * @param DocumentSet|null $explainOther
+     * @param Timing|null      $timing
      */
     public function __construct(string $queryString, string $parsedQuery, string $queryParser, string $otherQuery, DocumentSet $explain, ?DocumentSet $explainOther, ?Timing $timing)
     {

@@ -7,20 +7,17 @@ use Solarium\Component\Result\Grouping\QueryGroup;
 
 class QueryGroupTest extends TestCase
 {
-    /**
-     * @var QueryGroup
-     */
-    protected $group;
+    protected QueryGroup $group;
 
-    protected $matches;
+    protected int $matches;
 
-    protected $numFound;
+    protected int $numFound;
 
-    protected $start;
+    protected int $start;
 
-    protected $maximumScore;
+    protected float $maximumScore;
 
-    protected $items;
+    protected array $items;
 
     public function setUp(): void
     {

@@ -23,24 +23,18 @@ class Bucket implements \IteratorAggregate, \Countable
 {
     /**
      * Value.
-     *
-     * @var string
      */
-    protected $value;
+    protected string $value;
 
     /**
      * Count.
-     *
-     * @var int
      */
-    protected $count;
+    protected int $count;
 
     /**
      * Facet set.
-     *
-     * @var FacetSet
      */
-    protected $facetSet;
+    protected FacetSet $facetSet;
 
     /**
      * Bucket constructor.

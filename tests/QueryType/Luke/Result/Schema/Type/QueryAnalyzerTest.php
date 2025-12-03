@@ -2,14 +2,12 @@
 
 namespace Solarium\Tests\QueryType\Luke\Result\Schema\Type;
 
+use Solarium\QueryType\Luke\Result\Schema\Type\AbstractAnalyzer;
 use Solarium\QueryType\Luke\Result\Schema\Type\QueryAnalyzer;
 
 class QueryAnalyzerTest extends AbstractAnalyzerTestCase
 {
-    /**
-     * @var QueryAnalyzer
-     */
-    protected $analyzer;
+    protected AbstractAnalyzer|QueryAnalyzer $analyzer;
 
     public function setUp(): void
     {

@@ -11,10 +11,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Type;
 
 class SchemaTest extends TestCase
 {
-    /**
-     * @var Schema
-     */
-    protected $schema;
+    protected Schema $schema;
 
     public function setUp(): void
     {

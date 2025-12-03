@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class IntervalTest extends TestCase
 {
-    /**
-     * @var Interval
-     */
-    protected $facet;
+    protected Interval $facet;
 
     public function setUp(): void
     {

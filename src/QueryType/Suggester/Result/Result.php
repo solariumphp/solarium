@@ -10,6 +10,7 @@
 namespace Solarium\QueryType\Suggester\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Suggester query result.
@@ -18,22 +19,18 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
      * Suggester results.
-     *
-     * @var array
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Suggester flat results.
-     *
-     * @var array
      */
-    protected $all;
+    protected array $all;
 
     /**
      * Get all results.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return array
      */
@@ -47,7 +44,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Get flat results.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return array
      */
@@ -63,11 +60,11 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @param string $dictionary
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return Dictionary|null
      */
-    public function getDictionary($dictionary): ?Dictionary
+    public function getDictionary(string $dictionary): ?Dictionary
     {
         $this->parseResponse();
 
@@ -77,7 +74,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * IteratorAggregate implementation.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return \ArrayIterator
      */
@@ -91,7 +88,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Countable implementation.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return int
      */

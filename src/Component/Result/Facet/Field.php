@@ -20,17 +20,15 @@ class Field implements FacetResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Value array.
-     *
-     * @var array
      */
-    protected $values;
+    protected array $values;
 
     /**
      * Constructor.
      *
      * @param array $values
      */
-    public function __construct($values)
+    public function __construct(array $values)
     {
         $this->values = $values;
     }

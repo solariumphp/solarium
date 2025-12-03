@@ -8,10 +8,7 @@ use Solarium\QueryType\Luke\Result\FlagList;
 
 class DocFieldInfoTest extends TestCase
 {
-    /**
-     * @var DocFieldInfo
-     */
-    protected $docFieldInfo;
+    protected DocFieldInfo $docFieldInfo;
 
     public function setUp(): void
     {

@@ -7,15 +7,9 @@ use Solarium\QueryType\Terms\Result;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var TermsDummy
-     */
-    protected $result;
+    protected TermsDummy $result;
 
-    /**
-     * @var array
-     */
-    protected $data;
+    protected array $data;
 
     public function setUp(): void
     {
@@ -88,7 +82,7 @@ class ResultTest extends TestCase
 
 class TermsDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($results)
     {

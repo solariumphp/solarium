@@ -9,10 +9,7 @@ use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
 
 class ClusterStatusTest extends TestCase
 {
-    /**
-     * @var ClusterStatus
-     */
-    protected $action;
+    protected ClusterStatus $action;
 
     public function setUp(): void
     {

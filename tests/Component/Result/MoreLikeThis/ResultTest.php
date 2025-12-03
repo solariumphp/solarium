@@ -8,15 +8,12 @@ use Solarium\QueryType\Select\Result\Document;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    private $mltResult;
+    protected Result $mltResult;
 
     /**
-     * @var array
+     * @var Document[]
      */
-    private $docs;
+    protected array $docs;
 
     public function setUp(): void
     {

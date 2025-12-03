@@ -8,14 +8,14 @@ use Solarium\QueryType\Analysis\Result\Types;
 
 class TypesTest extends TestCase
 {
+    protected Types $result;
+
     /**
-     * @var Types
+     * @var ResultList[]
      */
-    protected $result;
+    protected array $items;
 
-    protected $items;
-
-    protected $name;
+    protected string $name;
 
     public function setUp(): void
     {

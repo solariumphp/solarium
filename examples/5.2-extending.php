@@ -20,7 +20,7 @@ class MyClient extends Client
     /**
      * Querytype mappings
      */
-    protected $queryTypes = array(
+    protected array $queryTypes = array(
         self::QUERY_SELECT => MyQuery::class,
     );
 }

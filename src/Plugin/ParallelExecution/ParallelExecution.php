@@ -38,19 +38,15 @@ class ParallelExecution extends AbstractPlugin
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'curlmultiselecttimeout' => 0.1,
     ];
 
     /**
      * Queries to execute coupled with the keys of the endpoints to execute them against.
-     *
-     * @var array
      */
-    protected $queries = [];
+    protected array $queries = [];
 
     /**
      * Add a query to execute.

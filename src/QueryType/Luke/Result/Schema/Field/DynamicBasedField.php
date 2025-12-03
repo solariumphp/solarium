@@ -17,10 +17,7 @@ namespace Solarium\QueryType\Luke\Result\Schema\Field;
  */
 class DynamicBasedField extends AbstractField implements CopyFieldDestInterface, CopyFieldSourceInterface
 {
-    /**
-     * @var DynamicField
-     */
-    protected $dynamicBase;
+    protected DynamicField $dynamicBase;
 
     /**
      * @return DynamicField

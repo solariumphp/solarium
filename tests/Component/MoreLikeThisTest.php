@@ -9,10 +9,7 @@ use Solarium\Exception\DomainException;
 
 class MoreLikeThisTest extends TestCase
 {
-    /**
-     * @var MoreLikeThis
-     */
-    protected $mlt;
+    protected MoreLikeThis $mlt;
 
     public function setUp(): void
     {
@@ -76,8 +73,6 @@ class MoreLikeThisTest extends TestCase
 
     public function testGetFieldsAlwaysReturnsArray(): void
     {
-        $this->mlt->setFields(null);
-
         $this->assertSame(
             [],
             $this->mlt->getFields()
@@ -216,8 +211,6 @@ class MoreLikeThisTest extends TestCase
 
     public function testGetQueryFieldsAlwaysReturnsArray(): void
     {
-        $this->mlt->setQueryFields(null);
-
         $this->assertSame(
             [],
             $this->mlt->getQueryFields()

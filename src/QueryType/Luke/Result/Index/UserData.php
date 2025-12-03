@@ -16,15 +16,9 @@ namespace Solarium\QueryType\Luke\Result\Index;
  */
 class UserData
 {
-    /**
-     * @var string|null
-     */
-    protected $commitCommandVer = null;
+    protected ?string $commitCommandVer = null;
 
-    /**
-     * @var string|null
-     */
-    protected $commitTimeMSec = null;
+    protected ?string $commitTimeMSec = null;
 
     /**
      * @return string|null

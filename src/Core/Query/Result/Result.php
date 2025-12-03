@@ -26,26 +26,20 @@ class Result implements ResultInterface, \JsonSerializable
 {
     /**
      * Response object.
-     *
-     * @var Response
      */
-    protected $response;
+    protected Response $response;
 
     /**
      * Decoded response data.
      *
      * This is lazy loaded, {@link getData()}
-     *
-     * @var array
      */
-    protected $data;
+    protected ?array $data = null;
 
     /**
      * Query used for this request.
-     *
-     * @var AbstractQuery
      */
-    protected $query;
+    protected AbstractQuery $query;
 
     /**
      * Constructor.
@@ -111,12 +105,13 @@ class Result implements ResultInterface, \JsonSerializable
         if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {
                 case AbstractQuery::WT_PHPS:
-                    $this->data = unserialize($this->response->getBody(), ['allowed_classes' => false]);
+                    $data = unserialize($this->response->getBody(), ['allowed_classes' => false]);
 
-                    if (false === $this->data) {
+                    if (false === $data) {
                         throw new UnexpectedValueException('Solr PHPS response could not be unserialized');
                     }
 
+                    $this->data = $data;
                     break;
                 case AbstractQuery::WT_JSON:
                     $this->data = json_decode($this->response->getBody(), true);

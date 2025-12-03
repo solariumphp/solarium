@@ -21,10 +21,8 @@ class Config extends AbstractCommand
 {
     /**
      * Configuration parameters to set.
-     *
-     * @var \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
      */
-    protected $initArgs;
+    protected ?InitArgsInterface $initArgs = null;
 
     /**
      * Returns command type, for use in adapters.
@@ -49,7 +47,7 @@ class Config extends AbstractCommand
     /**
      * Returns configuration parameters.
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface|null
+     * @return InitArgsInterface|null
      */
     public function getInitArgs(): ?InitArgsInterface
     {
@@ -59,7 +57,7 @@ class Config extends AbstractCommand
     /**
      * Set configuration parameters.
      *
-     * @param \Solarium\QueryType\ManagedResources\Query\InitArgsInterface $initArgs
+     * @param InitArgsInterface $initArgs
      *
      * @return self Provides fluent interface
      */

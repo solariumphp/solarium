@@ -16,17 +16,15 @@ class Timing implements \IteratorAggregate, \Countable
 {
     /**
      * Time.
-     *
-     * @var float
      */
-    protected $time;
+    protected float $time;
 
     /**
      * Timing phase array.
      *
-     * @var array
+     * @var TimingPhase[]
      */
-    protected $phases;
+    protected array $phases;
 
     /**
      * Constructor.
@@ -65,7 +63,7 @@ class Timing implements \IteratorAggregate, \Countable
     /**
      * Get timings.
      *
-     * @return array
+     * @return TimingPhase[]
      */
     public function getPhases(): array
     {

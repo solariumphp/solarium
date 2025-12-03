@@ -22,7 +22,7 @@ class Resources extends ResponseParserAbstract implements ResponseParserInterfac
     /**
      * Parse response data.
      *
-     * @param \Solarium\Core\Query\Result\ResultInterface $result
+     * @param ResultInterface $result
      *
      * @return array
      */

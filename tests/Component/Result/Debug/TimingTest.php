@@ -8,21 +8,21 @@ use Solarium\Component\Result\Debug\TimingPhase;
 
 class TimingTest extends TestCase
 {
+    protected Timing $result;
+
+    protected float $time;
+
     /**
-     * @var Timing
+     * @var TimingPhase[]
      */
-    protected $result;
-
-    protected $time;
-
-    protected $phases;
+    protected array $phases;
 
     public function setUp(): void
     {
         $this->time = 14;
         $this->phases = [
-            'key1' => new TimingPhase('dummy1', null, []),
-            'key2' => new TimingPhase('dummy2', null, []),
+            'key1' => new TimingPhase('dummy1', 1, []),
+            'key2' => new TimingPhase('dummy2', 3, []),
         ];
         $this->result = new Timing($this->time, $this->phases);
     }

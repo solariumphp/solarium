@@ -21,11 +21,11 @@ trait SuggesterTrait
      *
      * The name of the dictionary or dictionaries to use
      *
-     * @param string|array $dictionary
+     * @param string|string[] $dictionary
      *
      * @return SuggesterInterface Provides fluent interface
      */
-    public function setDictionary($dictionary): SuggesterInterface
+    public function setDictionary(string|array $dictionary): SuggesterInterface
     {
         if (\is_string($dictionary)) {
             $dictionary = [$dictionary];

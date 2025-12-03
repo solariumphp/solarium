@@ -3,13 +3,11 @@
 namespace Solarium\Tests\Component\Highlighting;
 
 use Solarium\Component\Highlighting\Field;
+use Solarium\Component\Highlighting\HighlightingInterface;
 
 class FieldTest extends AbstractHighlightingTestCase
 {
-    /**
-     * @var Field
-     */
-    protected $hlt;
+    protected HighlightingInterface|Field $hlt;
 
     public function setUp(): void
     {

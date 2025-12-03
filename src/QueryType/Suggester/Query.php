@@ -35,10 +35,8 @@ class Query extends BaseQuery implements SuggesterInterface, QueryInterface
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'suggest',
         'resultclass' => Result::class,
         'dictionaryclass' => Dictionary::class,

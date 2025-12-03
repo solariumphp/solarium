@@ -14,15 +14,9 @@ namespace Solarium\QueryType\ManagedResources\Result\Synonyms;
  */
 class Synonyms
 {
-    /**
-     * @var string
-     */
-    protected $term;
+    protected string $term;
 
-    /**
-     * @var array
-     */
-    protected $synonyms = [];
+    protected array $synonyms = [];
 
     /**
      * Synonyms constructor.

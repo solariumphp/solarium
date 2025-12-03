@@ -15,12 +15,12 @@ require $config['autoload'] ?? __DIR__.'/../vendor/autoload.php';
 $adapter = new Curl();
 $eventDispatcher = new EventDispatcher();
 
-function htmlHeader()
+function htmlHeader(): void
 {
     echo '<html><head><title>Solarium examples</title></head><body><nav><a href="index.html">Back to Overview</a></nav><br><article>';
 }
 
-function htmlFooter()
+function htmlFooter(): void
 {
     echo '</article><br><nav><a href="index.html">Back to Overview</a></nav></body></html>';
 }

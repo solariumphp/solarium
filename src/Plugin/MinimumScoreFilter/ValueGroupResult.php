@@ -16,25 +16,13 @@ use Solarium\Component\Result\Grouping\ValueGroup as StandardValueGroup;
  */
 class ValueGroupResult extends StandardValueGroup
 {
-    /**
-     * @var float
-     */
-    protected static $overallMaximumScore;
+    protected static float $overallMaximumScore = 0;
 
-    /**
-     * @var string
-     */
-    protected $filterMode;
+    protected string $filterMode;
 
-    /**
-     * @var float
-     */
-    protected $filterRatio;
+    protected float $filterRatio;
 
-    /**
-     * @var bool
-     */
-    protected $filtered = false;
+    protected bool $filtered = false;
 
     /**
      * Constructor.

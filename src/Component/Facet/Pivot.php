@@ -33,10 +33,8 @@ class Pivot extends AbstractFacet
 
     /**
      * Fields to use.
-     *
-     * @var array
      */
-    protected $fields = [];
+    protected array $fields = [];
 
     /**
      * Get the facet type.
@@ -203,10 +201,9 @@ class Pivot extends AbstractFacet
     /**
      * Specify multiple fields to return in the resultset.
      *
-     * @param string|array $fields can be an array or string with comma
-     *                             separated fieldnames
+     * @param string|string[] $fields can be an array or string with comma separated fieldnames
      */
-    public function addFields($fields): static
+    public function addFields(string|array $fields): static
     {
         if (\is_string($fields)) {
             $fields = explode(',', $fields);
@@ -224,7 +221,7 @@ class Pivot extends AbstractFacet
      *
      * @param string $field
      */
-    public function removeField($field): static
+    public function removeField(string $field): static
     {
         if (isset($this->fields[$field])) {
             unset($this->fields[$field]);
@@ -258,10 +255,9 @@ class Pivot extends AbstractFacet
      *
      * This overwrites any existing fields
      *
-     * @param array|string $fields can be an array or string with comma
-     *                             separated fieldnames
+     * @param string|string[] $fields can be an array or string with comma separated fieldnames
      */
-    public function setFields($fields): static
+    public function setFields(string|array $fields): static
     {
         $this->clearFields();
         $this->addFields($fields);
@@ -289,12 +285,11 @@ class Pivot extends AbstractFacet
     /**
      * Specify multiple Stats.
      *
-     * @param string|array $stats can be an array or string with comma
-     *                            separated statnames
+     * @param string|string[] $stats can be an array or string with comma separated statnames
      *
      * @throws OutOfBoundsException
      */
-    public function addStats($stats): static
+    public function addStats(string|array $stats): static
     {
         if (false === \is_array($stats)) {
             $stats = array_map('trim', explode(',', $stats));
@@ -315,7 +310,7 @@ class Pivot extends AbstractFacet
      *
      * @throws OutOfBoundsException
      */
-    public function removeStat($stat): static
+    public function removeStat(string $stat): static
     {
         $this
             ->getLocalParameters()
@@ -381,7 +376,7 @@ class Pivot extends AbstractFacet
      * {@internal Options that set a list of fields need additional setup work
      *            because they can be an array or a comma separated string.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

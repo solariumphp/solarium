@@ -20,10 +20,8 @@ class Delete extends AbstractCommand
 {
     /**
      * Term to be deleted.
-     *
-     * @var string
      */
-    protected $term;
+    protected ?string $term = null;
 
     /**
      * Returns command type, for use in adapters.

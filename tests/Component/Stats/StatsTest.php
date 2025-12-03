@@ -10,10 +10,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends TestCase
 {
-    /**
-     * @var Stats
-     */
-    protected $stats;
+    protected Stats $stats;
 
     public function setUp(): void
     {

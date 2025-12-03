@@ -7,10 +7,7 @@ use Solarium\QueryType\Server\CoreAdmin\Result\Result;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
     public function setUp(): void
     {
@@ -67,7 +64,7 @@ class ResultTest extends TestCase
 
 class CoreAdminDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct()
     {

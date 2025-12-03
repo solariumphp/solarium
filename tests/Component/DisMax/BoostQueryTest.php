@@ -7,7 +7,7 @@ use Solarium\Component\DisMax\BoostQuery;
 
 class BoostQueryTest extends TestCase
 {
-    protected $boostQuery;
+    protected BoostQuery $boostQuery;
 
     public function setUp(): void
     {

@@ -9,15 +9,12 @@ use Solarium\QueryType\Suggester\Result\Term;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    private $result;
+    protected Result $result;
 
     /**
-     * @var array
+     * @var Dictionary[]
      */
-    private $docs;
+    protected array $docs;
 
     public function setUp(): void
     {

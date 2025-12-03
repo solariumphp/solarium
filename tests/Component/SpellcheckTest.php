@@ -9,10 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends TestCase
 {
-    /**
-     * @var Spellcheck
-     */
-    protected $spellCheck;
+    protected Spellcheck $spellCheck;
 
     public function setUp(): void
     {

@@ -11,10 +11,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class TermVectorTest extends TestCase
 {
-    /**
-     * @var TermVector
-     */
-    protected $termVector;
+    protected TermVector $termVector;
 
     public function setUp(): void
     {
@@ -84,7 +81,6 @@ class TermVectorTest extends TestCase
 
     public function testGetDocIdsAlwaysReturnsArray(): void
     {
-        $this->termVector->setDocIds(null);
         $this->assertSame([], $this->termVector->getDocIds());
     }
 
@@ -102,7 +98,6 @@ class TermVectorTest extends TestCase
 
     public function testGetFieldsAlwaysReturnsArray(): void
     {
-        $this->termVector->setFields(null);
         $this->assertSame([], $this->termVector->getFields());
     }
 

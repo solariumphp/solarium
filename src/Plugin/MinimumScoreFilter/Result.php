@@ -23,7 +23,7 @@ class Result extends SelectResult
      *
      * @param array $mapData
      */
-    protected function mapData(array $mapData)
+    protected function mapData(array $mapData): void
     {
         foreach ($mapData as $key => $data) {
             if ('documents' === $key && $data) {

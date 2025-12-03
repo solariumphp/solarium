@@ -20,14 +20,12 @@ class Loader
     /**
      * @var FixtureInterface[]
      */
-    private $fixtures;
+    private array $fixtures;
 
     /**
      * The file extension of fixture files.
-     *
-     * @var string
      */
-    private $fileExtension = '.php';
+    private string $fileExtension = '.php';
 
     /**
      * constructor.

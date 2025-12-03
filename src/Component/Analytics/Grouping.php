@@ -26,24 +26,19 @@ class Grouping extends Configurable implements \JsonSerializable
     use ConfigurableInitTrait;
     use ObjectTrait;
 
-    /**
-     * @var string
-     */
-    private $key;
+    private string $key;
 
     /**
      * An array of expressions.
-     *
-     * @var array
      */
-    private $expressions = [];
+    private array $expressions = [];
 
     /**
      * An array of facets.
      *
-     * @var \Solarium\Component\Analytics\Facet\AbstractFacet[]
+     * @var AbstractFacet[]
      */
-    private $facets = [];
+    private array $facets = [];
 
     /**
      * @return string
@@ -56,7 +51,7 @@ class Grouping extends Configurable implements \JsonSerializable
     /**
      * @param string $key
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setKey(string $key): self
     {
@@ -76,7 +71,7 @@ class Grouping extends Configurable implements \JsonSerializable
     /**
      * @param array $expressions
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setExpressions(array $expressions): self
     {
@@ -91,7 +86,7 @@ class Grouping extends Configurable implements \JsonSerializable
      * @param string $key
      * @param string $expression
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addExpression(string $key, string $expression): self
     {
@@ -101,7 +96,7 @@ class Grouping extends Configurable implements \JsonSerializable
     }
 
     /**
-     * @return \Solarium\Component\Analytics\Facet\AbstractFacet[]
+     * @return AbstractFacet[]
      */
     public function getFacets(): array
     {
@@ -111,7 +106,7 @@ class Grouping extends Configurable implements \JsonSerializable
     /**
      * @param array $facets
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setFacets(array $facets): self
     {
@@ -123,9 +118,9 @@ class Grouping extends Configurable implements \JsonSerializable
     }
 
     /**
-     * @param \Solarium\Component\Analytics\Facet\AbstractFacet $facet
+     * @param AbstractFacet $facet
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addFacet(AbstractFacet $facet): self
     {

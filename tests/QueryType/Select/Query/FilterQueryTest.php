@@ -7,7 +7,7 @@ use Solarium\QueryType\Select\Query\FilterQuery;
 
 class FilterQueryTest extends TestCase
 {
-    protected $filterQuery;
+    protected FilterQuery $filterQuery;
 
     public function setUp(): void
     {

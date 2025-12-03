@@ -10,11 +10,9 @@ use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 
 class AddTest extends TestCase
 {
-    /** @var Add */
-    protected $add;
+    protected Add $add;
 
-    /** @var Synonyms */
-    protected $synonyms;
+    protected Synonyms $synonyms;
 
     public function setUp(): void
     {

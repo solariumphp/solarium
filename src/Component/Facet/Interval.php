@@ -56,9 +56,9 @@ class Interval extends AbstractFacet
      * Use one of the constants as value.
      * If you want to use multiple values supply an array or comma separated string
      *
-     * @param string|array $set
+     * @param string|string[] $set
      */
-    public function setSet($set): static
+    public function setSet(string|array $set): static
     {
         if (\is_string($set)) {
             $set = explode(',', $set);
@@ -91,7 +91,7 @@ class Interval extends AbstractFacet
      * {@internal Several options need some extra checks or setup work,
      *            for these options the setters are called.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

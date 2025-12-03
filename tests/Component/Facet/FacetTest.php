@@ -8,10 +8,7 @@ use Solarium\Component\Facet\FacetInterface;
 
 class FacetTest extends TestCase
 {
-    /**
-     * @var FacetInterface
-     */
-    protected $facet;
+    protected FacetInterface $facet;
 
     public function setUp(): void
     {

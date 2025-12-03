@@ -10,10 +10,7 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class RequestBuilderTest extends TestCase
 {
-    /**
-     * @var TestRequestBuilder
-     */
-    protected $builder;
+    protected TestRequestBuilder $builder;
 
     public function setUp(): void
     {

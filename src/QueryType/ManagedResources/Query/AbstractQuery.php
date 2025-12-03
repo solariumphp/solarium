@@ -54,38 +54,28 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
 
     /**
      * Command types.
-     *
-     * @var array
      */
-    protected $commandTypes;
+    protected array $commandTypes;
 
     /**
      * Name of the managed resource to query.
-     *
-     * @var string
      */
-    protected $name = '';
+    protected string $name = '';
 
     /**
      * Name of the child resource to query.
-     *
-     * @var string|null
      */
-    protected $term = null;
+    protected ?string $term = null;
 
     /**
      * Default result class if no command is set.
-     *
-     * @var string
      */
-    protected $defaultResultClass;
+    protected string $defaultResultClass;
 
     /**
      * Command.
-     *
-     * @var \Solarium\QueryType\ManagedResources\Query\AbstractCommand
      */
-    protected $command;
+    protected ?AbstractCommand $command = null;
 
     /**
      * Get query type.
@@ -97,7 +87,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Get the request builder class for this query.
      *
-     * @return \Solarium\QueryType\ManagedResources\RequestBuilder\Resource
+     * @return RequestBuilder
      */
     public function getRequestBuilder(): RequestBuilderInterface
     {
@@ -107,7 +97,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Get the response parser class for this query.
      *
-     * @return \Solarium\Core\Query\ResponseParserInterface
+     * @return ResponseParserInterface
      */
     abstract public function getResponseParser(): ResponseParserInterface;
 
@@ -177,9 +167,9 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
      * @param string     $type
      * @param array|null $options
      *
-     * @throws \Solarium\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand
+     * @return AbstractCommand
      */
     public function createCommand(string $type, ?array $options = null): AbstractCommand
     {
@@ -197,7 +187,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Get command for this query.
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\AbstractCommand|null
+     * @return AbstractCommand|null
      */
     public function getCommand(): ?AbstractCommand
     {
@@ -207,7 +197,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Set a command to the query.
      *
-     * @param \Solarium\QueryType\ManagedResources\Query\AbstractCommand $command
+     * @param AbstractCommand $command
      *
      * @return self Provides fluent interface
      */
@@ -237,7 +227,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
      *
      * @param array|null $initArgs
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\InitArgsInterface
+     * @return InitArgsInterface
      */
     abstract public function createInitArgs(?array $initArgs = null): InitArgsInterface;
 }

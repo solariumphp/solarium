@@ -9,10 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class TermsTest extends TestCase
 {
-    /**
-     * @var Terms
-     */
-    protected $terms;
+    protected Terms $terms;
 
     public function setUp(): void
     {
@@ -55,7 +52,6 @@ class TermsTest extends TestCase
 
     public function testGetFieldsAlwaysReturnsArray(): void
     {
-        $this->terms->setFields(null);
         $this->assertSame([], $this->terms->getFields());
     }
 
@@ -109,7 +105,6 @@ class TermsTest extends TestCase
 
     public function testGetRegexFlagsAlwaysReturnsArray(): void
     {
-        $this->terms->setRegexFlags(null);
         $this->assertSame([], $this->terms->getRegexFlags());
     }
 

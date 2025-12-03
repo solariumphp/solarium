@@ -7,12 +7,9 @@ use Solarium\QueryType\Analysis\Result\Item;
 
 class ItemTest extends TestCase
 {
-    /**
-     * @var Item
-     */
-    protected $item;
+    protected Item $item;
 
-    protected $data;
+    protected array $data;
 
     public function setUp(): void
     {
@@ -57,7 +54,7 @@ class ItemTest extends TestCase
     public function testGetPositionHistoryFallbackValue(): void
     {
         $data = $this->data;
-        $data['positionHistory'] = '';
+        $data['positionHistory'] = null;
         $item = new Item($data);
         $this->assertSame([], $item->getPositionHistory());
     }

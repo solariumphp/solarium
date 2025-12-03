@@ -8,15 +8,12 @@ use Solarium\QueryType\Suggester\Result\Term;
 
 class DictionaryTest extends TestCase
 {
+    protected Dictionary $dictionary;
+
     /**
      * @var Term[]
      */
-    protected $terms;
-
-    /**
-     * @var Dictionary
-     */
-    protected $dictionary;
+    protected array $terms;
 
     public function setUp(): void
     {

@@ -17,20 +17,11 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PostCreateQuery extends Event
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $query;
+    protected QueryInterface $query;
 
-    /**
-     * @var string
-     */
-    protected $type;
+    protected string $type;
 
-    /**
-     * @var array
-     */
-    protected $options;
+    protected ?array $options;
 
     /**
      * Event constructor.

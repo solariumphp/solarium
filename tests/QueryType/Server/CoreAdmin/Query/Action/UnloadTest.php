@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class UnloadTest extends TestCase
 {
-    /**
-     * @var Unload
-     */
-    protected $action;
+    protected Unload $action;
 
     public function setUp(): void
     {

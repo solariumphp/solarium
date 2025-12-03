@@ -14,70 +14,31 @@ namespace Solarium\QueryType\Luke\Result\Index;
  */
 class Index
 {
-    /**
-     * @var int
-     */
-    protected $numDocs;
+    protected int $numDocs;
 
-    /**
-     * @var int
-     */
-    protected $maxDoc;
+    protected int $maxDoc;
 
-    /**
-     * @var int
-     */
-    protected $deletedDocs;
+    protected int $deletedDocs;
 
-    /**
-     * @var int|null
-     */
-    protected $indexHeapUsageBytes;
+    protected ?int $indexHeapUsageBytes;
 
-    /**
-     * @var int
-     */
-    protected $version;
+    protected int $version;
 
-    /**
-     * @var int
-     */
-    protected $segmentCount;
+    protected int $segmentCount;
 
-    /**
-     * @var bool
-     */
-    protected $current;
+    protected bool $current;
 
-    /**
-     * @var bool
-     */
-    protected $hasDeletions;
+    protected bool $hasDeletions;
 
-    /**
-     * @var string
-     */
-    protected $directory;
+    protected string $directory;
 
-    /**
-     * @var string
-     */
-    protected $segmentsFile;
+    protected string $segmentsFile;
 
-    /**
-     * @var int
-     */
-    protected $segmentsFileSizeInBytes;
+    protected int $segmentsFileSizeInBytes;
 
-    /**
-     * @var UserData
-     */
-    protected $userData;
+    protected UserData $userData;
 
-    /**
-     * @var \DateTime|null
-     */
-    protected $lastModified;
+    protected ?\DateTime $lastModified;
 
     /**
      * @return int
@@ -346,7 +307,7 @@ class Index
     /**
      * @param \DateTime|null $lastModified
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setLastModified(?\DateTime $lastModified): self
     {

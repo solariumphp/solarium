@@ -20,10 +20,8 @@ class Configurable implements ConfigurableInterface
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [];
+    protected array $options = [];
 
     /**
      * Constructor.
@@ -108,7 +106,7 @@ class Configurable implements ConfigurableInterface
      * descending classes. It's not an abstract method on purpose, there are
      * many cases where no initialization is needed.
      */
-    protected function init()
+    protected function init(): void
     {
     }
 

@@ -54,10 +54,8 @@ class Query extends BaseQuery
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'resultclass' => Result::class,
         'documentclass' => Document::class,
         'handler' => 'admin/luke',
@@ -185,11 +183,11 @@ class Query extends BaseQuery
      *
      * @see setDocId() To set a Lucene documentID instead.
      *
-     * @param mixed $id
+     * @param int|string $id
      *
      * @return self Provides fluent interface
      */
-    public function setId($id): self
+    public function setId(int|string $id): self
     {
         $this->setOption('id', $id);
 
@@ -199,9 +197,9 @@ class Query extends BaseQuery
     /**
      * Get the id of the document to get.
      *
-     * @return mixed|null
+     * @return int|string|null
      */
-    public function getId()
+    public function getId(): int|string|null
     {
         return $this->getOption('id');
     }
@@ -237,11 +235,11 @@ class Query extends BaseQuery
      *
      * Separate multiple fields with commas if you use string input.
      *
-     * @param string|array $fields
+     * @param string|string[] $fields
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields): self
+    public function setFields(string|array $fields): self
     {
         if (\is_string($fields)) {
             $fields = explode(',', $fields);
@@ -314,7 +312,7 @@ class Query extends BaseQuery
     /**
      * Initialize options.
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

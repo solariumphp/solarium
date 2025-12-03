@@ -35,7 +35,7 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
      *
      * @throws InvalidArgumentException
      *
-     * @return ResultStats;
+     * @return ResultStats
      */
     public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $statsComponent, array $data): ResultStats
     {

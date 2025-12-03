@@ -75,12 +75,12 @@ interface FacetSetInterface
      *
      * @throws InvalidArgumentException
      */
-    public function addFacet($facet): static;
+    public function addFacet(FacetInterface|array $facet): static;
 
     /**
      * Add multiple facets.
      *
-     * @param array $facets
+     * @param FacetInterface[]|array[] $facets
      */
     public function addFacets(array $facets): static;
 
@@ -107,7 +107,7 @@ interface FacetSetInterface
      *
      * @param string|FacetInterface $facet
      */
-    public function removeFacet($facet): static;
+    public function removeFacet(string|FacetInterface $facet): static;
 
     /**
      * Remove all facets.
@@ -119,7 +119,7 @@ interface FacetSetInterface
      *
      * This overwrites any existing facets
      *
-     * @param FacetInterface[] $facets
+     * @param FacetInterface[]|array[] $facets
      */
     public function setFacets(array $facets): static;
 

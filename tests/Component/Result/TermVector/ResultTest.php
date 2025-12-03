@@ -9,20 +9,14 @@ use Solarium\Component\Result\TermVector\Warnings;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
     /**
      * @var Document[]
      */
-    protected $documents;
+    protected array $documents;
 
-    /**
-     * @var Warnings
-     */
-    protected $warnings;
+    protected Warnings $warnings;
 
     public function setUp(): void
     {

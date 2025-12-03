@@ -20,10 +20,7 @@ use Solarium\Core\Query\Helper;
  */
 abstract class AbstractComponent extends Configurable
 {
-    /**
-     * @var AbstractQuery
-     */
-    protected $queryInstance;
+    protected ?AbstractQuery $queryInstance = null;
 
     /**
      * Get component type.
@@ -42,7 +39,7 @@ abstract class AbstractComponent extends Configurable
     /**
      * This component has no response parser...
      *
-     * @return \Solarium\Component\ResponseParser\ComponentParserInterface|null
+     * @return ComponentParserInterface|null
      */
     public function getResponseParser(): ?ComponentParserInterface
     {
@@ -76,11 +73,11 @@ abstract class AbstractComponent extends Configurable
     /**
      * Returns a query helper.
      *
-     * @return \Solarium\Core\Query\Helper
+     * @return Helper
      */
     public function getHelper(): Helper
     {
-        if ($queryInstance = $this->getQueryInstance()) {
+        if (null !== $queryInstance = $this->getQueryInstance()) {
             return $queryInstance->getHelper();
         }
 

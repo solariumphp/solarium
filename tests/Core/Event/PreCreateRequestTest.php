@@ -9,7 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class PreCreateRequestTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreCreateRequest
     {
         $query = new Query();
         $query->setQuery('test123');
@@ -21,10 +21,8 @@ class PreCreateRequestTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCreateRequest $event
      */
-    public function testSetAndGetRequest($event): void
+    public function testSetAndGetRequest(PreCreateRequest $event): void
     {
         $request = new Request();
         $request->addParam('testparam', 'test value');

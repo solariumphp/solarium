@@ -21,7 +21,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
     /**
      * Get result data for the response.
      *
-     * @param \Solarium\Core\Query\Result\ResultInterface $result
+     * @param ResultInterface $result
      *
      * @return array
      */
@@ -72,9 +72,9 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
      * @param string $termClass
      * @param array  $termData
      *
-     * @return mixed
+     * @return object
      */
-    private function createTerm($termClass, array $termData)
+    private function createTerm(string $termClass, array $termData): object
     {
         return new $termClass(
             $termData['numFound'],

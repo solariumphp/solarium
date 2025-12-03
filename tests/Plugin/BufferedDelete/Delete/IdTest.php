@@ -8,15 +8,9 @@ use Solarium\Plugin\BufferedDelete\Delete\Id;
 
 class IdTest extends TestCase
 {
-    /**
-     * @var Id
-     */
-    protected $intId;
+    protected Id $intId;
 
-    /**
-     * @var Id
-     */
-    protected $stringId;
+    protected Id $stringId;
 
     public function setUp(): void
     {

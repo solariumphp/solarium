@@ -8,12 +8,12 @@ use Solarium\Component\Result\Highlighting\Result;
 
 class HighlightingTest extends TestCase
 {
-    /**
-     * @var Highlighting
-     */
-    protected $result;
+    protected Highlighting $result;
 
-    protected $items;
+    /**
+     * @var Result[]
+     */
+    protected array $items;
 
     public function setUp(): void
     {

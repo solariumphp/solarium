@@ -13,7 +13,7 @@ $client = new Client($adapter, $eventDispatcher, $config);
 // first create a base query as a query class
 class PriceQuery extends Select
 {
-    protected function init()
+    protected function init(): void
     {
         parent::init();
 
@@ -43,7 +43,7 @@ if (isset($_GET['start']) && is_numeric($_GET['start'])) {
 // the var $query with an instance of this class...
 class LowerPriceQuery extends PriceQuery
 {
-    protected function init()
+    protected function init(): void
     {
         // this call makes sure we get all the settings of the parent class
         parent::init();

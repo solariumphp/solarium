@@ -56,11 +56,11 @@ class TermVector extends AbstractComponent
      *
      * For multiple IDs use a comma-separated string or array.
      *
-     * @param string|array $docIds
+     * @param string|string[] $docIds
      *
      * @return self Provides fluent interface
      */
-    public function setDocIds($docIds): self
+    public function setDocIds(string|array $docIds): self
     {
         if (\is_string($docIds)) {
             $docIds = explode(',', $docIds);
@@ -85,11 +85,11 @@ class TermVector extends AbstractComponent
      *
      * For multiple fields use a comma-separated string or array.
      *
-     * @param string|array $fields
+     * @param string|string[] $fields
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields): self
+    public function setFields(string|array $fields): self
     {
         if (\is_string($fields)) {
             $fields = explode(',', $fields);
@@ -289,7 +289,7 @@ class TermVector extends AbstractComponent
      * {@internal Options that set a list of ids or fields need additional setup work
      *            because they can be an array or a comma separated string.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

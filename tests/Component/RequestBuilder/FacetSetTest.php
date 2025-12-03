@@ -21,20 +21,11 @@ use Solarium\Exception\UnexpectedValueException;
 
 class FacetSetTest extends TestCase
 {
-    /**
-     * @var RequestBuilder
-     */
-    protected $builder;
+    protected RequestBuilder $builder;
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected Request $request;
 
-    /**
-     * @var Component
-     */
-    protected $component;
+    protected Component $component;
 
     public function setUp(): void
     {

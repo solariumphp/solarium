@@ -10,10 +10,7 @@ use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
 
 class DocumentTest extends TestCase
 {
-    /**
-     * @var Document
-     */
-    protected $query;
+    protected Document $query;
 
     public function setUp(): void
     {

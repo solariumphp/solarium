@@ -9,8 +9,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Delete;
 
 class DeleteTest extends TestCase
 {
-    /** @var Delete */
-    protected $delete;
+    protected Delete $delete;
 
     public function setUp(): void
     {

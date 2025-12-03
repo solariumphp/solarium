@@ -18,15 +18,9 @@ use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as SynonymsReque
 
 class SynonymsTest extends TestCase
 {
-    /**
-     * @var SynonymsQuery
-     */
-    protected $query;
+    protected SynonymsQuery $query;
 
-    /**
-     * @var SynonymsRequestBuilder
-     */
-    protected $builder;
+    protected SynonymsRequestBuilder $builder;
 
     public function setUp(): void
     {

@@ -36,7 +36,7 @@ class BufferedDelete extends BufferedDeleteLite
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteById($id): self
+    public function addDeleteById(int|string $id): self
     {
         $delete = new DeleteById($id);
         $this->buffer[] = $delete;

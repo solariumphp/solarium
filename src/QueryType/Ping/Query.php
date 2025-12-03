@@ -25,10 +25,8 @@ class Query extends BaseQuery
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'resultclass' => Result::class,
         'handler' => 'admin/ping',
         'omitheader' => false,

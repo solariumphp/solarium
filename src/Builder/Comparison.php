@@ -80,20 +80,11 @@ class Comparison implements ExpressionInterface
      */
     public const MATCH = 'MATCH';
 
-    /**
-     * @var string
-     */
-    private $field;
+    private string $field;
 
-    /**
-     * @var string
-     */
-    private $operator;
+    private string $operator;
 
-    /**
-     * @var string
-     */
-    private $value;
+    private string $value;
 
     /**
      * @param string $field
@@ -128,7 +119,7 @@ class Comparison implements ExpressionInterface
     }
 
     /**
-     * @return \Solarium\Builder\Value
+     * @return Value
      */
     public function getValue(): Value
     {

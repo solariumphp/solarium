@@ -28,10 +28,8 @@ class PostBigRequest extends AbstractPlugin
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'maxquerystringlength' => 1024,
     ];
 
@@ -66,7 +64,7 @@ class PostBigRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest($event): self
+    public function preExecuteRequest(object $event): self
     {
         // We need to accept event proxies or decorators.
         /** @var PreExecuteRequest $event */

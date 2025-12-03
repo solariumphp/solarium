@@ -20,17 +20,13 @@ class QueryType extends Result
 {
     /**
      * Lazy load parsing indicator.
-     *
-     * @var bool
      */
-    protected $parsed = false;
+    protected bool $parsed = false;
 
     /**
      * Response header returned by Solr.
-     *
-     * @var array
      */
-    protected $responseHeader;
+    protected ?array $responseHeader = null;
 
     /**
      * Get Solr status code.
@@ -72,7 +68,7 @@ class QueryType extends Result
      *
      * @throws UnexpectedValueException
      */
-    protected function parseResponse()
+    protected function parseResponse(): void
     {
         if (!$this->parsed) {
             $responseParser = $this->query->getResponseParser();
@@ -96,7 +92,7 @@ class QueryType extends Result
      *
      * @param array $mapData
      */
-    protected function mapData(array $mapData)
+    protected function mapData(array $mapData): void
     {
         foreach ($mapData as $key => $data) {
             $this->{$key} = $data;

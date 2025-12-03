@@ -10,10 +10,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class AddTest extends TestCase
 {
-    /**
-     * @var Add
-     */
-    protected $command;
+    protected Add $command;
 
     public function setUp(): void
     {

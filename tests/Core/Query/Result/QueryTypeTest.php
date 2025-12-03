@@ -12,10 +12,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 class QueryTypeTest extends TestCase
 {
-    /**
-     * @var TestStubResult
-     */
-    protected $result;
+    protected TestStubResult $result;
 
     public function setUp(): void
     {
@@ -88,9 +85,9 @@ class TestStubQuery extends SelectQuery
 
 class TestStubResult extends QueryTypeResult
 {
-    public $parseCount = 0;
+    public int $parseCount = 0;
 
-    protected $dummyvar;
+    protected mixed $dummyvar;
 
     public function parse(): void
     {
@@ -103,7 +100,7 @@ class TestStubResult extends QueryTypeResult
         parent::mapData($data);
     }
 
-    public function getVar($name)
+    public function getVar(string $name): mixed
     {
         return $this->$name;
     }
@@ -111,7 +108,7 @@ class TestStubResult extends QueryTypeResult
 
 class TestNonDataMappingStubResult extends QueryTypeResult
 {
-    protected function mapData(array $mapData)
+    protected function mapData(array $mapData): void
     {
     }
 }

@@ -12,6 +12,7 @@ namespace Solarium\QueryType\ManagedResources\ResponseParser;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
+use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
 
 /**
  * Parse ManagedResources Command response data.
@@ -21,7 +22,7 @@ class Command extends ResponseParserAbstract implements ResponseParserInterface
     /**
      * Parse response data.
      *
-     * @param \Solarium\QueryType\ManagedResources\Result\Command $result
+     * @param CommandResult $result
      *
      * @return array
      */

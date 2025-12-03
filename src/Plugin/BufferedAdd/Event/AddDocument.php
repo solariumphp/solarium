@@ -19,10 +19,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class AddDocument extends Event
 {
-    /**
-     * @var DocumentInterface
-     */
-    protected $document;
+    protected DocumentInterface $document;
 
     /**
      * Event constructor.

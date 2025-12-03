@@ -7,16 +7,16 @@ use Solarium\Component\Result\Debug\TimingPhase;
 
 class TimingPhaseTest extends TestCase
 {
+    protected TimingPhase $result;
+
+    protected string $name;
+
+    protected float $time;
+
     /**
-     * @var TimingPhase
+     * @var float[]
      */
-    protected $result;
-
-    protected $name;
-
-    protected $time;
-
-    protected $timings;
+    protected array $timings;
 
     public function setUp(): void
     {

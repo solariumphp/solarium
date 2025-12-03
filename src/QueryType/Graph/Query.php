@@ -22,10 +22,8 @@ class Query extends AbstractQuery
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'graph',
         'resultclass' => Result::class,
     ];
@@ -53,7 +51,7 @@ class Query extends AbstractQuery
     /**
      * No response parser required since we pass through GraphML.
      *
-     * @return \Solarium\Core\Query\ResponseParserInterface|null
+     * @return ResponseParserInterface|null
      */
     public function getResponseParser(): ?ResponseParserInterface
     {

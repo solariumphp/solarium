@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Document;
 
 class AddDocumentTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): AddDocument
     {
         $document = new Document();
 

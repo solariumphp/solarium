@@ -23,26 +23,20 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'buffersize' => 100,
     ];
 
     /**
      * Update query instance.
-     *
-     * @var UpdateQuery
      */
-    protected $updateQuery;
+    protected UpdateQuery $updateQuery;
 
     /**
      * Buffer.
-     *
-     * @var array
      */
-    protected $buffer = [];
+    protected array $buffer = [];
 
     /**
      * Set the endpoint for the updates.

@@ -102,12 +102,13 @@ This example shows all available events and how to use the events to create a ve
 
 require_once(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PreExecuteRequest;
 
 // this very simple plugin shows a timing for each event and display some request debug info
 class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
 {
-    protected $start;
-    protected $output = array();
+    protected float $start;
+    protected array $output = array();
 
     // This method is called when the plugin is registered with the client.
     protected function initPluginType(): void
@@ -143,30 +144,30 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         $dispatcher->removeListener(Events::POST_CREATE_QUERY, array($this, 'postCreateQuery'));
     }
 
-    protected function timer($event)
+    protected function timer(string $event): void
     {
         $time = round(microtime(true) - $this->start, 5);
         $this->output[] = '['.$time.'] ' . $event;
     }
 
-    public function display()
+    public function display(): void
     {
         echo implode('<br/>', $this->output);
     }
 
-    public function preCreateRequest()
+    public function preCreateRequest(): void
     {
         $this->timer('preCreateRequest');
     }
 
-    public function postCreateRequest()
+    public function postCreateRequest(): void
     {
         $this->timer('postCreateRequest');
     }
 
     // This method uses the available param(s) (see plugin abstract class).
     // You can access or modify data this way.
-    public function preExecuteRequest($event)
+    public function preExecuteRequest(PreExecuteRequest $event): void
     {
         $this->timer('preExecuteRequest');
 
@@ -176,37 +177,37 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         $this->output[] = 'Request URI: ' . $event->getRequest()->getUri();
     }
 
-    public function postExecuteRequest()
+    public function postExecuteRequest(): void
     {
         $this->timer('postExecuteRequest');
     }
 
-    public function preCreateResult()
+    public function preCreateResult(): void
     {
         $this->timer('preCreateResult');
     }
 
-    public function postCreateResult()
+    public function postCreateResult(): void
     {
         $this->timer('postCreateResult');
     }
 
-    public function preExecute()
+    public function preExecute(): void
     {
         $this->timer('preExecute');
     }
 
-    public function postExecute()
+    public function postExecute(): void
     {
         $this->timer('postExecute');
     }
 
-    public function preCreateQuery()
+    public function preCreateQuery(): void
     {
         $this->timer('preCreateResult');
     }
 
-    public function postCreateQuery()
+    public function postCreateQuery(): void
     {
         $this->timer('postCreateResult');
     }
@@ -266,7 +267,7 @@ class MyQuery extends Select
 // this very simple plugin that modifies the default querytype mapping
 class QueryCustomizer extends AbstractPlugin
 {
-    public function initPlugin($client, $options)
+    public function initPlugin($client, array $options): void
     {
         $client->registerQueryType(
             Client::QUERY_SELECT,

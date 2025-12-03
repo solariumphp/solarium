@@ -7,16 +7,13 @@ use Solarium\Component\Result\Spellcheck\Collation;
 
 class CollationTest extends TestCase
 {
-    /**
-     * @var Collation
-     */
-    protected $result;
+    protected Collation $result;
 
-    protected $corrections;
+    protected array $corrections;
 
-    protected $hits;
+    protected int $hits;
 
-    protected $query;
+    protected string $query;
 
     public function setUp(): void
     {

@@ -14,15 +14,12 @@ namespace Solarium\Component\Result\TermVector;
  */
 class Result implements \IteratorAggregate, \Countable, \ArrayAccess
 {
-    /**
-     * @var Warnings
-     */
-    protected $warnings;
+    protected ?Warnings $warnings;
 
     /**
      * @var Document[]
      */
-    protected $documents;
+    protected array $documents;
 
     /**
      * Constructor.

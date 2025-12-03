@@ -9,8 +9,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create;
 
 class CreateTest extends TestCase
 {
-    /** @var Create */
-    protected $create;
+    protected Create $create;
 
     public function setUp(): void
     {

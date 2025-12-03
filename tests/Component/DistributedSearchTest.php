@@ -8,10 +8,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class DistributedSearchTest extends TestCase
 {
-    /**
-     * @var DistributedSearch
-     */
-    protected $distributedSearch;
+    protected DistributedSearch $distributedSearch;
 
     public function setUp(): void
     {

@@ -18,15 +18,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PreCreateRequest extends Event
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $query;
+    protected QueryInterface $query;
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected ?Request $request = null;
 
     /**
      * Event constructor.

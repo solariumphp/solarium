@@ -8,10 +8,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class SpatialTest extends TestCase
 {
-    /**
-     * @var Spatial
-     */
-    protected $spatial;
+    protected Spatial $spatial;
 
     public function setUp(): void
     {

@@ -8,9 +8,9 @@ use Solarium\QueryType\Select\Result\Document;
 
 class ResultTest extends TestCase
 {
-    protected $doc;
+    protected Document $doc;
 
-    protected $result;
+    protected ResultDummy $result;
 
     public function setUp(): void
     {
@@ -36,7 +36,7 @@ class ResultTest extends TestCase
 
 class ResultDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($docs)
     {

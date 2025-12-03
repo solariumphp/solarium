@@ -21,11 +21,11 @@ interface TermsInterface extends ConfigurableInterface
      *
      * For multiple fields use a comma-separated string or array
      *
-     * @param string|array $value
+     * @param string|string[] $value
      *
      * @return self Provides fluent interface
      */
-    public function setFields($value): self;
+    public function setFields(string|array $value): self;
 
     /**
      * Get the field name(s) to get the terms from.
@@ -135,11 +135,11 @@ interface TermsInterface extends ConfigurableInterface
      *
      * Use a comma-separated string or array for multiple entries
      *
-     * @param string|array $value
+     * @param string|string[] $value
      *
      * @return self Provides fluent interface
      */
-    public function setRegexFlags($value): self;
+    public function setRegexFlags(string|array $value): self;
 
     /**
      * Get regex flags.

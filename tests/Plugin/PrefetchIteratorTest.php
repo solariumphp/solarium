@@ -12,25 +12,16 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PrefetchIteratorTest extends TestCase
 {
-    /**
-     * @var PrefetchIterator
-     */
-    protected $plugin;
+    protected PrefetchIterator $plugin;
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     /**
      * @var Document[]
      */
-    protected $documents;
+    protected array $documents;
 
     public function setUp(): void
     {
@@ -741,7 +732,7 @@ class PrefetchIteratorTest extends TestCase
 
 class SelectResultDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($status, $queryTime, $numfound, $docs, $components)
     {

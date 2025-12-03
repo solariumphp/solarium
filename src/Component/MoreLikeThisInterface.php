@@ -10,6 +10,7 @@
 namespace Solarium\Component;
 
 use Solarium\Core\ConfigurableInterface;
+use Solarium\Exception\DomainException;
 
 /**
  * MoreLikeThis Interface.
@@ -89,7 +90,7 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      *
      * @param int $maximumpercentage A percentage between 0 and 100
      *
-     * @throws \Solarium\Exception\DomainException
+     * @throws DomainException
      *
      * @return self Provides fluent interface
      */
@@ -214,11 +215,11 @@ interface MoreLikeThisInterface extends ConfigurableInterface
      *
      * @see https://solr.apache.org/guide/morelikethis.html#common-handler-and-component-parameters
      *
-     * @param string|array $queryFields
+     * @param string|string[] $queryFields
      *
      * @return self Provides fluent interface
      */
-    public function setQueryFields($queryFields): self;
+    public function setQueryFields(string|array $queryFields): self;
 
     /**
      * Get queryfields option.

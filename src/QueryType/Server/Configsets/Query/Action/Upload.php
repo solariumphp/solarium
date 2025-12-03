@@ -26,10 +26,8 @@ class Upload extends AbstractAction
 
     /**
      * The File to be uploaded, a zipped configset or a non-zipped single file of a configset.
-     *
-     * @var string
      */
-    protected $file;
+    protected string $file;
 
     /**
      * Returns the action type of the Configsets API action.

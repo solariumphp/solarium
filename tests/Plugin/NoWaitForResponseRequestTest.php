@@ -3,36 +3,27 @@
 namespace Solarium\Tests\Plugin;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Client;
 use Solarium\Core\Client\Adapter\AdapterInterface;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Http;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
+use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Exception\HttpException;
 use Solarium\Plugin\NoWaitForResponseRequest;
-use Solarium\QueryType\Select\Query\Query;
+use Solarium\QueryType\Suggester\Query;
 use Solarium\Tests\Integration\TestClientFactory;
 
 class NoWaitForResponseRequestTest extends TestCase
 {
-    /**
-     * @var NoWaitForResponseRequest
-     */
-    protected $plugin;
+    protected NoWaitForResponseRequest $plugin;
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {
@@ -104,7 +95,7 @@ class NoWaitForResponseRequestTest extends TestCase
     public function testSetFastTimeout(): void
     {
         $observer = new class() extends Http {
-            public $newTimeout;
+            public int $newTimeout;
 
             public function setTimeout(int $timeoutInSeconds): self
             {
@@ -129,7 +120,7 @@ class NoWaitForResponseRequestTest extends TestCase
     public function testSetFastTimeoutWithConnectionTimeout(): void
     {
         $observer = new class() extends Curl {
-            public $newTimeout;
+            public int $newTimeout;
 
             public function setTimeout(int $timeoutInSeconds): self
             {

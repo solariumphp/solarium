@@ -13,10 +13,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\WildcardField;
 
 class WildcardTest extends TestCase
 {
-    /**
-     * @var WildcardField
-     */
-    protected $field;
+    protected WildcardField $field;
 
     public function setUp(): void
     {

@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PreExecuteRequestTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreExecuteRequest
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $request = new Request();
@@ -27,10 +27,8 @@ class PreExecuteRequestTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreExecuteRequest $event
      */
-    public function testSetAndGetRequest($event): void
+    public function testSetAndGetRequest(PreExecuteRequest $event): void
     {
         $request = new Request();
         $request->addParam('newparam', 'new value');
@@ -41,10 +39,8 @@ class PreExecuteRequestTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreExecuteRequest $event
      */
-    public function testSetAndGetResponse($event): void
+    public function testSetAndGetResponse(PreExecuteRequest $event): void
     {
         $response = new Response('', ['HTTP/1.0 200 OK']);
         $event->setResponse($response);

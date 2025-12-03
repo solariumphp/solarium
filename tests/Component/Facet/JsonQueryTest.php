@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class JsonQueryTest extends TestCase
 {
-    /**
-     * @var JsonQuery
-     */
-    protected $facet;
+    protected JsonQuery $facet;
 
     public function setUp(): void
     {

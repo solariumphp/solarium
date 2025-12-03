@@ -7,7 +7,7 @@ use Solarium\Plugin\BufferedDelete\Event\PreFlush;
 
 class PreFlushTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreFlush
     {
         $buffer = [1, 2, 3];
 
@@ -20,10 +20,8 @@ class PreFlushTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreFlush $event
      */
-    public function testSetAndGetBuffer($event): void
+    public function testSetAndGetBuffer(PreFlush $event): void
     {
         $buffer = [4, 5, 6];
         $event->setBuffer($buffer);

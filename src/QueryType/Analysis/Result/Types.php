@@ -19,7 +19,7 @@ class Types extends ResultList
      *
      * @var ResultList[]
      */
-    protected $items;
+    protected array $items;
 
     /**
      * Get index analysis list.

@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\QueryType\Luke\Result\Schema\Field;
 
+use Solarium\QueryType\Luke\Result\Schema\Field\AbstractField;
 use Solarium\QueryType\Luke\Result\Schema\Field\CopyFieldDestInterface;
 use Solarium\QueryType\Luke\Result\Schema\Field\CopyFieldSourceInterface;
 use Solarium\QueryType\Luke\Result\Schema\Field\DynamicBasedField;
@@ -10,10 +11,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\SchemaFieldInterface;
 
 class DynamicBasedFieldTest extends AbstractFieldTestCase
 {
-    /**
-     * @var DynamicBasedField
-     */
-    protected $field;
+    protected AbstractField|DynamicBasedField $field;
 
     public function setUp(): void
     {

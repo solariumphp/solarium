@@ -18,10 +18,8 @@ class FacetValue
 
     /**
      * Facet value.
-     *
-     * @var string
      */
-    protected $value;
+    protected string $value;
 
     /**
      * Constructor.

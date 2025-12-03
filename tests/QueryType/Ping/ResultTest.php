@@ -7,10 +7,7 @@ use Solarium\QueryType\Ping\Result;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
     public function setUp(): void
     {
@@ -51,7 +48,7 @@ class ResultTest extends TestCase
 
 class PingDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct()
     {

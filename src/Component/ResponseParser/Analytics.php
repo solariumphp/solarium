@@ -12,7 +12,8 @@ declare(strict_types=1);
 namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\AbstractComponent;
-use Solarium\Component\Analytics\Grouping as ComponentGrouping;
+use Solarium\Component\Analytics\Analytics as AnalyticsComponent;
+use Solarium\Component\Analytics\Grouping as GroupingComponent;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Analytics\Expression;
 use Solarium\Component\Result\Analytics\Facet;
@@ -39,7 +40,7 @@ class Analytics implements ComponentParserInterface
         $result = new Result();
         $results = [];
 
-        /** @var \Solarium\Component\Analytics\Analytics $component */
+        /** @var AnalyticsComponent $component */
         foreach ($component->getExpressions() as $name => $expression) {
             if (false === isset($response['results'][$name])) {
                 continue;
@@ -82,12 +83,12 @@ class Analytics implements ComponentParserInterface
     }
 
     /**
-     * @param \Solarium\Component\Analytics\Grouping $grouping
-     * @param array                                  $result
+     * @param GroupingComponent $grouping
+     * @param array             $result
      *
-     * @return \Solarium\Component\Result\Analytics\Facet
+     * @return Facet
      */
-    private function facet(ComponentGrouping $grouping, array $result): Facet
+    private function facet(GroupingComponent $grouping, array $result): Facet
     {
         $facet = new Facet($result['value'], $result['pivot'] ?? null);
 

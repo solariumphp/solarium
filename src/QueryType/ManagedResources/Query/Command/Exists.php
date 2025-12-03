@@ -20,19 +20,15 @@ class Exists extends AbstractCommand
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'useHeadRequest' => false,
     ];
 
     /**
      * Name of the child resource to be checked if exists.
-     *
-     * @var string|null
      */
-    protected $term = null;
+    protected ?string $term = null;
 
     /**
      * Returns command type, for use in adapters.

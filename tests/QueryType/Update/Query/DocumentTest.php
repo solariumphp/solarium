@@ -8,18 +8,15 @@ use Solarium\QueryType\Update\Query\Document;
 
 class DocumentTest extends TestCase
 {
-    /**
-     * @var Document
-     */
-    protected $doc;
+    protected Document $doc;
 
-    protected $fields = [
+    protected array $fields = [
         'id' => 123,
         'name' => 'Test document',
         'categories' => [1, 2, 3],
     ];
 
-    protected $childDocumentFields = [
+    protected array $childDocumentFields = [
         'id' => 'parent',
         'name' => 'Parent',
         'cat' => [1, 2],

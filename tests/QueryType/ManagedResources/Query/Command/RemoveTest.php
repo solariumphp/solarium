@@ -9,8 +9,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 
 class RemoveTest extends TestCase
 {
-    /** @var Remove */
-    protected $remove;
+    protected Remove $remove;
 
     public function setUp(): void
     {

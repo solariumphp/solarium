@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class CommitTest extends TestCase
 {
-    protected $command;
+    protected Commit $command;
 
     public function setUp(): void
     {

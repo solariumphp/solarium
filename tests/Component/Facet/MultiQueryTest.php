@@ -10,10 +10,7 @@ use Solarium\Exception\InvalidArgumentException;
 
 class MultiQueryTest extends TestCase
 {
-    /**
-     * @var MultiQuery
-     */
-    protected $facet;
+    protected MultiQuery $facet;
 
     public function setUp(): void
     {

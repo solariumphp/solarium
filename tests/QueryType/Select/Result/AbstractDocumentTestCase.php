@@ -3,17 +3,14 @@
 namespace Solarium\Tests\QueryType\Select\Result;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Query\DocumentInterface;
 use Solarium\Exception\RuntimeException;
-use Solarium\QueryType\Select\Result\Document;
 
 abstract class AbstractDocumentTestCase extends TestCase
 {
-    /**
-     * @var Document
-     */
-    protected $doc;
+    protected DocumentInterface $doc;
 
-    protected $fields = [
+    protected array $fields = [
         'id' => 123,
         'name' => 'Test document',
         'categories' => [1, 2, 3],

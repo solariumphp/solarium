@@ -24,20 +24,11 @@ class Resource
      */
     const TYPE_SYNONYMS = 'synonyms';
 
-    /**
-     * @var string
-     */
-    protected $resourceId;
+    protected string $resourceId;
 
-    /**
-     * @var int
-     */
-    protected $numObservers;
+    protected int $numObservers;
 
-    /**
-     * @var string
-     */
-    protected $class;
+    protected string $class;
 
     /**
      * Resource constructor.

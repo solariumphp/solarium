@@ -14,15 +14,9 @@ namespace Solarium\QueryType\Luke\Result\Schema\Type;
  */
 class Tokenizer
 {
-    /**
-     * @var string
-     */
-    protected $className;
+    protected string $className;
 
-    /**
-     * @var array
-     */
-    protected $args;
+    protected array $args;
 
     /**
      * Constructor.

@@ -22,17 +22,13 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
 {
     /**
      * Original document.
-     *
-     * @var SelectDocument
      */
-    protected $document;
+    protected SelectDocument $document;
 
     /**
      * Is this document marked as a low score?
-     *
-     * @var bool
      */
-    protected $marked;
+    protected bool $marked;
 
     /**
      * Constructor.
@@ -66,7 +62,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      *
      * @return mixed
      */
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->document->__get($name);
     }
@@ -78,7 +74,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      *
      * @return bool
      */
-    public function __isset($name): bool
+    public function __isset(string $name): bool
     {
         return $this->document->__isset($name);
     }
@@ -90,11 +86,11 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      * is a readonly document an exception will be thrown to prevent this.
      *
      * @param string $name
-     * @param string $value
+     * @param mixed  $value
      *
      * @throws RuntimeException
      */
-    public function __set($name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }

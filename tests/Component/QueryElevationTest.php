@@ -8,10 +8,7 @@ use Solarium\Component\QueryElevation;
 
 class QueryElevationTest extends TestCase
 {
-    /**
-     * @var QueryElevation
-     */
-    protected $queryelevation;
+    protected QueryElevation $queryelevation;
 
     public function setUp(): void
     {

@@ -18,24 +18,18 @@ class FieldGroup implements \IteratorAggregate, \Countable
 {
     /**
      * Match count.
-     *
-     * @var int
      */
-    protected $matches;
+    protected ?int $matches;
 
     /**
      * Number of groups.
-     *
-     * @var int
      */
-    protected $numberOfGroups;
+    protected ?int $numberOfGroups;
 
     /**
      * Value groups.
-     *
-     * @var array
      */
-    protected $valueGroups;
+    protected array $valueGroups;
 
     /**
      * Constructor.
@@ -54,9 +48,9 @@ class FieldGroup implements \IteratorAggregate, \Countable
     /**
      * Get matches value.
      *
-     * @return int
+     * @return int|null
      */
-    public function getMatches(): int
+    public function getMatches(): ?int
     {
         return $this->matches;
     }
@@ -66,9 +60,9 @@ class FieldGroup implements \IteratorAggregate, \Countable
      *
      * Only available if the numberofgroups option in the query was 'true'
      *
-     * @return int
+     * @return int|null
      */
-    public function getNumberOfGroups(): int
+    public function getNumberOfGroups(): ?int
     {
         return $this->numberOfGroups;
     }

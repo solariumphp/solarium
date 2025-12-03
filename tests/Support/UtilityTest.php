@@ -8,10 +8,7 @@ use Solarium\Support\Utility;
 
 class UtilityTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $fixtures;
+    protected string $fixtures;
 
     public function setUp(): void
     {

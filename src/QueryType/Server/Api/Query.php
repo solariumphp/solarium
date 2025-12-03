@@ -22,10 +22,8 @@ class Query extends AbstractQuery
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'version' => Request::API_V1,
         'method' => Request::METHOD_GET,
         'resultclass' => Result::class,

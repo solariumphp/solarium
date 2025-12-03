@@ -7,10 +7,7 @@ use Solarium\Component\Stats\Field;
 
 class FieldTest extends TestCase
 {
-    /**
-     * @var Field
-     */
-    protected $field;
+    protected Field $field;
 
     public function setUp(): void
     {

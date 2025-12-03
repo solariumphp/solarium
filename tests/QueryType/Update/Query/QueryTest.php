@@ -13,7 +13,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class QueryTest extends TestCase
 {
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

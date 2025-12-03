@@ -20,15 +20,12 @@ namespace Solarium\QueryType\Luke\Result\Schema\Field;
  */
 class WildcardField implements CopyFieldSourceInterface, FieldInterface
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
     /**
      * @var CopyFieldDestInterface[]
      */
-    protected $copyDests = [];
+    protected array $copyDests = [];
 
     /**
      * Constructor.

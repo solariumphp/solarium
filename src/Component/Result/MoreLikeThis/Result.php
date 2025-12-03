@@ -19,32 +19,28 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Document instances array.
      *
-     * @var array
+     * @var DocumentInterface[]
      */
-    protected $documents;
+    protected array $documents;
 
     /**
      * Solr numFound.
      *
      * This is NOT the number of MLT documents fetched from Solr!
-     *
-     * @var int
      */
-    protected $numFound;
+    protected int $numFound;
 
     /**
      * Maximum score in this MLT set.
-     *
-     * @var float
      */
-    protected $maximumScore;
+    protected ?float $maximumScore;
 
     /**
      * Constructor.
      *
-     * @param int        $numFound
-     * @param float|null $maxScore
-     * @param array      $documents
+     * @param int                 $numFound
+     * @param float|null          $maxScore
+     * @param DocumentInterface[] $documents
      */
     public function __construct(int $numFound, ?float $maxScore = null, array $documents = [])
     {
@@ -69,7 +65,7 @@ class Result implements \IteratorAggregate, \Countable
     /**
      * Get maximum score in the MLT document set.
      *
-     * @return float
+     * @return float|null
      */
     public function getMaximumScore(): ?float
     {

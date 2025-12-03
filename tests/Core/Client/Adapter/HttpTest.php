@@ -14,10 +14,7 @@ class HttpTest extends TestCase
     use TimeoutAwareTestTrait;
     use ProxyAwareTestTrait;
 
-    /**
-     * @var Http
-     */
-    protected $adapter;
+    protected Http $adapter;
 
     public function setUp(): void
     {

@@ -7,14 +7,11 @@ use Solarium\QueryType\Analysis\Result\ResultList;
 
 class ResultListTest extends TestCase
 {
-    /**
-     * @var ResultList
-     */
-    protected $result;
+    protected ResultList $result;
 
-    protected $items;
+    protected array $items;
 
-    protected $name;
+    protected string $name;
 
     public function setUp(): void
     {

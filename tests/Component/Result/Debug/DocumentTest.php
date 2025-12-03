@@ -7,20 +7,17 @@ use Solarium\Component\Result\Debug\Document;
 
 class DocumentTest extends TestCase
 {
-    /**
-     * @var Document
-     */
-    protected $result;
+    protected Document $result;
 
-    protected $value;
+    protected float $value;
 
-    protected $match;
+    protected bool $match;
 
-    protected $description;
+    protected string $description;
 
-    protected $key;
+    protected string $key;
 
-    protected $details;
+    protected array $details;
 
     public function setUp(): void
     {

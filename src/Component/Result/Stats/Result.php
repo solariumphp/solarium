@@ -18,10 +18,8 @@ class Result
 
     /**
      * Field name.
-     *
-     * @var string
      */
-    protected $field;
+    protected string $field;
 
     /**
      * Constructor.
