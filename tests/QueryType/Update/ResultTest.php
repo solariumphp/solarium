@@ -14,7 +14,7 @@ class ResultTest extends AbstractResultTestCase
 
 class UpdateDummy extends UpdateResult
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct()
     {

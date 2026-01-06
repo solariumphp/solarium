@@ -43,10 +43,8 @@ class Loadbalancer extends AbstractPlugin
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'failoverenabled' => false,
         'failovermaxretries' => 1,
         'failoverstatuscodes' => [],
@@ -57,14 +55,12 @@ class Loadbalancer extends AbstractPlugin
      *
      * @var Endpoint[]
      */
-    protected $endpoints = [];
+    protected array $endpoints = [];
 
     /**
      * Query types that are blocked from loadbalancing.
-     *
-     * @var array
      */
-    protected $blockedQueryTypes = [
+    protected array $blockedQueryTypes = [
         Client::QUERY_EXTRACT => true,
         Client::QUERY_UPDATE => true,
     ];
@@ -73,48 +69,36 @@ class Loadbalancer extends AbstractPlugin
      * Last used endpoint key.
      *
      * The value can be null if no queries have been executed, or if the last executed query didn't use loadbalancing.
-     *
-     * @var string|null
      */
-    protected $lastEndpoint;
+    protected ?string $lastEndpoint = null;
 
     /**
      * Endpoint key to use for next query (overrules randomizer).
-     *
-     * @var string
      */
-    protected $nextEndpoint;
+    protected ?string $nextEndpoint = null;
 
     /**
      * Default endpoint key.
      *
      * This endpoint is used for queries that cannot be loadbalanced
      * (for instance update queries that need to go to the master)
-     *
-     * @var string
      */
-    protected $defaultEndpoint;
+    protected ?string $defaultEndpoint = null;
 
     /**
      * Pool of endpoint keys to use for requests.
-     *
-     * @var WeightedRandomChoice
      */
-    protected $randomizer;
+    protected ?WeightedRandomChoice $randomizer = null;
 
     /**
      * Query type.
-     *
-     * @var string
      */
-    protected $queryType;
+    protected string $queryType;
 
     /**
      * Used for failover mechanism.
-     *
-     * @var array
      */
-    protected $endpointExcludes;
+    protected array $endpointExcludes;
 
     /**
      * Set failover enabled option.
@@ -181,12 +165,11 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Add multiple HTTP response status codes for which to failover.
      *
-     * @param int[]|string $statusCodes can be an array or string with comma
-     *                                  separated status codes
+     * @param string|int[] $statusCodes can be an array or string with comma separated status codes
      *
      * @return self Provides fluent interface
      */
-    public function addFailoverStatusCodes($statusCodes): self
+    public function addFailoverStatusCodes(string|array $statusCodes): self
     {
         if (\is_string($statusCodes)) {
             $statusCodes = explode(',', $statusCodes);
@@ -240,12 +223,11 @@ class Loadbalancer extends AbstractPlugin
      *
      * This overwrites any existing status codes.
      *
-     * @param int[]|string $statusCodes can be an array or string with comma
-     *                                  separated status codes
+     * @param string|int[] $statusCodes can be an array or string with comma separated status codes
      *
      * @return self Provides fluent interface
      */
-    public function setFailoverStatusCodes($statusCodes): self
+    public function setFailoverStatusCodes(string|array $statusCodes): self
     {
         $this->clearFailoverStatusCodes();
         $this->addFailoverStatusCodes($statusCodes);
@@ -256,14 +238,14 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Add an endpoint to the loadbalacing 'pool'.
      *
-     * @param Endpoint|string $endpoint
+     * @param string|Endpoint $endpoint
      * @param int             $weight   Must be a positive number
      *
      * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
-    public function addEndpoint($endpoint, int $weight = 1): self
+    public function addEndpoint(string|Endpoint $endpoint, int $weight = 1): self
     {
         if (!\is_string($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -322,11 +304,11 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Remove an endpoint by key.
      *
-     * @param Endpoint|string $endpoint
+     * @param string|Endpoint $endpoint
      *
      * @return self Provides fluent interface
      */
-    public function removeEndpoint($endpoint): self
+    public function removeEndpoint(string|Endpoint $endpoint): self
     {
         if (!\is_string($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -348,7 +330,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function setEndpoints($endpoints): self
+    public function setEndpoints(array $endpoints): self
     {
         $this->clearEndpoints();
         $this->addEndpoints($endpoints);
@@ -371,7 +353,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function setForcedEndpointForNextQuery($endpoint): self
+    public function setForcedEndpointForNextQuery(string|Endpoint|null $endpoint): self
     {
         if (!\is_string($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -504,7 +486,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function preCreateRequest($event): self
+    public function preCreateRequest(object $event): self
     {
         // We need to accept event proxies or decorators.
         /* @var PreCreateRequest $event */
@@ -520,7 +502,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * @return self Provides fluent interface
      */
-    public function preExecuteRequest($event): self
+    public function preExecuteRequest(object $event): self
     {
         // We need to accept event proxies or decorators.
         /* @var PreExecuteRequest $event */
@@ -638,7 +620,7 @@ class Loadbalancer extends AbstractPlugin
      * {@internal Several options need some extra checks or setup work,
      *            for these options the setters are called.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

@@ -10,6 +10,7 @@
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Terms query result.
@@ -18,15 +19,13 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
     /**
      * Term results.
-     *
-     * @var array
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Get all term results.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return array
      */
@@ -42,7 +41,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
      *
      * @param string $field
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return array
      */
@@ -60,7 +59,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * IteratorAggregate implementation.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return \ArrayIterator
      */
@@ -74,7 +73,7 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     /**
      * Countable implementation.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return int
      */

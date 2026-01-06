@@ -93,40 +93,19 @@ class RangeFacet extends AbstractFacet
         self::OTHER_ALL,
     ];
 
-    /**
-     * @var string
-     */
-    private $field;
+    private string $field;
 
-    /**
-     * @var int
-     */
-    private $start;
+    private int $start;
 
-    /**
-     * @var int
-     */
-    private $end;
+    private int $end;
 
-    /**
-     * @var array
-     */
-    private $gap = [];
+    private array $gap = [];
 
-    /**
-     * @var bool
-     */
-    private $hardend = false;
+    private bool $hardend = false;
 
-    /**
-     * @var array
-     */
-    private $include = [];
+    private array $include = [];
 
-    /**
-     * @var array
-     */
-    private $others = [];
+    private array $others = [];
 
     /**
      * {@inheritdoc}
@@ -147,7 +126,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param string $field
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setField(string $field): self
     {
@@ -167,7 +146,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param int $start
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setStart(int $start): self
     {
@@ -187,7 +166,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param int $end
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setEnd(int $end): self
     {
@@ -207,7 +186,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param array $gap
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setGap(array $gap): self
     {
@@ -227,7 +206,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param bool $hardend
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setHardend(bool $hardend): self
     {
@@ -247,7 +226,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param array $include
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setInclude(array $include): self
     {
@@ -267,7 +246,7 @@ class RangeFacet extends AbstractFacet
     /**
      * @param array $others
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setOthers(array $others): self
     {
@@ -293,7 +272,7 @@ class RangeFacet extends AbstractFacet
                 'include' => $this->include,
                 'others' => $this->others,
             ],
-            static function ($var) {
+            static function ($var): bool {
                 return null !== $var && (false === \is_array($var) || 0 !== \count($var));
             }
         );

@@ -25,25 +25,16 @@ use Solarium\Exception\HttpException;
  */
 final class Psr18Adapter implements AdapterInterface
 {
-    /**
-     * @var ClientInterface
-     */
-    private $httpClient;
+    private ClientInterface $httpClient;
+
+    private RequestFactoryInterface $requestFactory;
+
+    private StreamFactoryInterface $streamFactory;
 
     /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
-
-    /**
-     * @var StreamFactoryInterface
-     */
-    private $streamFactory;
-
-    /**
-     * @param \Psr\Http\Client\ClientInterface          $httpClient
-     * @param \Psr\Http\Message\RequestFactoryInterface $requestFactory
-     * @param \Psr\Http\Message\StreamFactoryInterface  $streamFactory
+     * @param ClientInterface         $httpClient
+     * @param RequestFactoryInterface $requestFactory
+     * @param StreamFactoryInterface  $streamFactory
      */
     public function __construct(ClientInterface $httpClient, RequestFactoryInterface $requestFactory, StreamFactoryInterface $streamFactory)
     {
@@ -53,12 +44,12 @@ final class Psr18Adapter implements AdapterInterface
     }
 
     /**
-     * @param \Solarium\Core\Client\Request  $request
-     * @param \Solarium\Core\Client\Endpoint $endpoint
+     * @param Request  $request
+     * @param Endpoint $endpoint
      *
-     * @throws \Solarium\Exception\HttpException
+     * @throws HttpException
      *
-     * @return \Solarium\Core\Client\Response
+     * @return Response
      */
     public function execute(Request $request, Endpoint $endpoint): Response
     {
@@ -70,12 +61,12 @@ final class Psr18Adapter implements AdapterInterface
     }
 
     /**
-     * @param \Solarium\Core\Client\Request  $request
-     * @param \Solarium\Core\Client\Endpoint $endpoint
+     * @param Request  $request
+     * @param Endpoint $endpoint
      *
-     * @throws \Solarium\Exception\HttpException
+     * @throws HttpException
      *
-     * @return \Psr\Http\Message\RequestInterface
+     * @return RequestInterface
      */
     private function createPsr7Request(Request $request, Endpoint $endpoint): RequestInterface
     {
@@ -100,9 +91,9 @@ final class Psr18Adapter implements AdapterInterface
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $psr7Response
+     * @param ResponseInterface $psr7Response
      *
-     * @return \Solarium\Core\Client\Response
+     * @return Response
      */
     private function createResponse(ResponseInterface $psr7Response): Response
     {
@@ -123,7 +114,7 @@ final class Psr18Adapter implements AdapterInterface
     }
 
     /**
-     * @param \Solarium\Core\Client\Request $request
+     * @param Request $request
      *
      * @return string|null
      */
@@ -145,8 +136,8 @@ final class Psr18Adapter implements AdapterInterface
     }
 
     /**
-     * @param \Solarium\Core\Client\Request  $request
-     * @param \Solarium\Core\Client\Endpoint $endpoint
+     * @param Request  $request
+     * @param Endpoint $endpoint
      *
      * @return array
      */

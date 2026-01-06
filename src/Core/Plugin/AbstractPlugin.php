@@ -19,10 +19,8 @@ abstract class AbstractPlugin extends Configurable implements PluginInterface
 {
     /**
      * Client instance.
-     *
-     * @var ClientInterface
      */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * Initialize.

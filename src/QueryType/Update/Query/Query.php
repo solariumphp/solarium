@@ -85,10 +85,8 @@ class Query extends BaseQuery
 
     /**
      * Update command types.
-     *
-     * @var array
      */
-    protected $commandTypes = [
+    protected array $commandTypes = [
         self::COMMAND_ADD => AddCommand::class,
         self::COMMAND_COMMIT => CommitCommand::class,
         self::COMMAND_DELETE => DeleteCommand::class,
@@ -99,10 +97,8 @@ class Query extends BaseQuery
 
     /**
      * Request formats.
-     *
-     * @var array
      */
-    protected $requestFormats = [
+    protected array $requestFormats = [
         self::REQUEST_FORMAT_CBOR => CborRequestBuilder::class,
         self::REQUEST_FORMAT_JSON => JsonRequestBuilder::class,
         self::REQUEST_FORMAT_XML => XmlRequestBuilder::class,
@@ -110,10 +106,8 @@ class Query extends BaseQuery
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'update',
         'requestformat' => self::REQUEST_FORMAT_JSON,
         'resultclass' => Result::class,
@@ -129,7 +123,7 @@ class Query extends BaseQuery
      *
      * @var AbstractCommand[]
      */
-    protected $commands = [];
+    protected array $commands = [];
 
     /**
      * Get type for this query.
@@ -261,7 +255,7 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function remove($keyOrCommand): self
+    public function remove(string|AbstractCommand $keyOrCommand): self
     {
         if (\is_object($keyOrCommand)) {
             foreach ($this->commands as $key => $instance) {
@@ -343,7 +337,7 @@ class Query extends BaseQuery
      *
      * @return self Provides fluent interface
      */
-    public function addDeleteById($id): self
+    public function addDeleteById(int|string $id): self
     {
         $delete = new DeleteCommand();
         $delete->addId($id);

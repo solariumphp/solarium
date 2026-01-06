@@ -22,10 +22,8 @@ class Endpoint extends Configurable
      *
      * The defaults match a standard Solr example instance as distributed by
      * the Apache Lucene Solr project.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'scheme' => 'http',
         'host' => '127.0.0.1',
         'port' => 8983,
@@ -307,10 +305,10 @@ class Endpoint extends Configurable
     {
         try {
             return $this->getCollectionBaseUri();
-        } catch (UnexpectedValueException $e) {
+        } catch (UnexpectedValueException) {
             try {
                 return $this->getCoreBaseUri();
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 throw new UnexpectedValueException('Neither collection nor core set.');
             }
         }
@@ -449,7 +447,7 @@ class Endpoint extends Configurable
      * @see setPath()
      * @see setContext()
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

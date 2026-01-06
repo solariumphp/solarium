@@ -23,6 +23,7 @@ use Solarium\Core\Event\PreCreateResult as PreCreateResultEvent;
 use Solarium\Core\Event\PreExecute as PreExecuteEvent;
 use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Plugin\PluginInterface;
+use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\Result\ResultInterface;
@@ -43,6 +44,8 @@ use Solarium\Plugin\PostBigRequest;
 use Solarium\Plugin\PrefetchIterator;
 use Solarium\QueryType\Analysis\Query\Document as AnalysisQueryDocument;
 use Solarium\QueryType\Analysis\Query\Field as AnalysisQueryField;
+use Solarium\QueryType\Analysis\Result\Document as AnalysisResultDocument;
+use Solarium\QueryType\Analysis\Result\Field as AnalysisResultField;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
 use Solarium\QueryType\Graph\Query as GraphQuery;
@@ -199,10 +202,8 @@ class Client extends Configurable implements ClientInterface
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'endpoint' => [
             'localhost' => [],
         ],
@@ -213,7 +214,7 @@ class Client extends Configurable implements ClientInterface
      *
      * These can be customized using {@link registerQueryType()}
      */
-    protected $queryTypes = [
+    protected array $queryTypes = [
         self::QUERY_SELECT => SelectQuery::class,
         self::QUERY_UPDATE => UpdateQuery::class,
         self::QUERY_PING => PingQuery::class,
@@ -239,10 +240,8 @@ class Client extends Configurable implements ClientInterface
 
     /**
      * Plugin types.
-     *
-     * @var array
      */
-    protected $pluginTypes = [
+    protected array $pluginTypes = [
         'loadbalancer' => Loadbalancer::class,
         'nowaitforresponserequest' => NoWaitForResponseRequest::class,
         'postbigrequest' => PostBigRequest::class,
@@ -257,38 +256,31 @@ class Client extends Configurable implements ClientInterface
         'minimumscorefilter' => MinimumScoreFilter::class,
     ];
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * Registered plugin instances.
      *
      * @var PluginInterface[]
      */
-    protected $pluginInstances = [];
+    protected array $pluginInstances = [];
 
     /**
      * Registered endpoints.
      *
      * @var Endpoint[]
      */
-    protected $endpoints = [];
+    protected array $endpoints = [];
 
     /**
      * Default endpoint key.
-     *
-     * @var string
      */
-    protected $defaultEndpoint;
+    protected ?string $defaultEndpoint = null;
 
     /**
      * Adapter instance.
-     *
-     * @var AdapterInterface
      */
-    protected $adapter;
+    protected AdapterInterface $adapter;
 
     /**
      * Constructor.
@@ -354,7 +346,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function addEndpoint($endpoint): self
+    public function addEndpoint(Endpoint|array $endpoint): self
     {
         if (\is_array($endpoint)) {
             $endpoint = new Endpoint($endpoint);
@@ -384,7 +376,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Add multiple endpoints.
      *
-     * @param array $endpoints
+     * @param Endpoint[]|array[] $endpoints
      *
      * @return self Provides fluent interface
      */
@@ -443,7 +435,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function removeEndpoint($endpoint): self
+    public function removeEndpoint(string|Endpoint $endpoint): self
     {
         if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -474,7 +466,7 @@ class Client extends Configurable implements ClientInterface
      *
      * This overwrites any existing endpoints
      *
-     * @param array $endpoints
+     * @param Endpoint[]|array[] $endpoints
      *
      * @return self Provides fluent interface
      */
@@ -497,7 +489,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function setDefaultEndpoint($endpoint): self
+    public function setDefaultEndpoint(string|Endpoint $endpoint): self
     {
         if (\is_object($endpoint)) {
             $endpoint = $endpoint->getKey();
@@ -718,7 +710,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @return self Provides fluent interface
      */
-    public function removePlugin($plugin): self
+    public function removePlugin(string|PluginInterface $plugin): self
     {
         if (\is_object($plugin)) {
             foreach ($this->pluginInstances as $key => $instance) {
@@ -772,13 +764,13 @@ class Client extends Configurable implements ClientInterface
      * Creates a result object.
      *
      * @param QueryInterface $query
-     * @param array|Response $response
+     * @param Response       $response
      *
-     * @throws UnexpectedValueException;
+     * @throws UnexpectedValueException
      *
      * @return ResultInterface
      */
-    public function createResult(QueryInterface $query, $response): ResultInterface
+    public function createResult(QueryInterface $query, Response $response): ResultInterface
     {
         $event = new PreCreateResultEvent($query, $response);
         $this->eventDispatcher->dispatch($event);
@@ -867,10 +859,10 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->ping($query);
      * </code>
      *
-     * @param QueryInterface|\Solarium\QueryType\Ping\Query $query
-     * @param Endpoint|string|null                          $endpoint
+     * @param QueryInterface|PingQuery $query
+     * @param Endpoint|string|null     $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Ping\Result
+     * @return ResultInterface|PingResult
      */
     public function ping(QueryInterface $query, Endpoint|string|null $endpoint = null): PingResult
     {
@@ -891,10 +883,10 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->update($update);
      * </code>
      *
-     * @param QueryInterface|\Solarium\QueryType\Update\Query\Query $query
-     * @param Endpoint|string|null                                  $endpoint
+     * @param QueryInterface|UpdateQuery $query
+     * @param Endpoint|string|null       $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Update\Result
+     * @return ResultInterface|UpdateResult
      */
     public function update(QueryInterface $query, Endpoint|string|null $endpoint = null): UpdateResult
     {
@@ -914,10 +906,10 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->select($query);
      * </code>
      *
-     * @param QueryInterface|\Solarium\QueryType\Select\Query\Query $query
-     * @param Endpoint|string|null                                  $endpoint
+     * @param QueryInterface|SelectQuery $query
+     * @param Endpoint|string|null       $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Select\Result\Result
+     * @return ResultInterface|SelectResult
      */
     public function select(QueryInterface $query, Endpoint|string|null $endpoint = null): SelectResult
     {
@@ -937,10 +929,10 @@ class Client extends Configurable implements ClientInterface
      * $result = $client->moreLikeThis($query);
      * </code>
      *
-     * @param QueryInterface|\Solarium\QueryType\MoreLikeThis\Query $query
-     * @param Endpoint|string|null                                  $endpoint
+     * @param QueryInterface|MoreLikeThisQuery $query
+     * @param Endpoint|string|null             $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\MoreLikeThis\Result
+     * @return ResultInterface|MoreLikeThisResult
      */
     public function moreLikeThis(QueryInterface $query, Endpoint|string|null $endpoint = null): MoreLikeThisResult
     {
@@ -953,10 +945,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Analysis\Query\Document|\Solarium\QueryType\Analysis\Query\Field $query
-     * @param Endpoint|string|null                                                                                $endpoint
+     * @param QueryInterface|AnalysisQueryDocument|AnalysisQueryField $query
+     * @param Endpoint|string|null                                    $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Analysis\Result\Document|\Solarium\QueryType\Analysis\Result\Field
+     * @return ResultInterface|AnalysisResultDocument|AnalysisResultField
      */
     public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
@@ -969,10 +961,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Terms\Query $query
-     * @param Endpoint|string|null                           $endpoint
+     * @param QueryInterface|TermsQuery $query
+     * @param Endpoint|string|null      $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Terms\Result
+     * @return ResultInterface|TermsResult
      */
     public function terms(QueryInterface $query, Endpoint|string|null $endpoint = null): TermsResult
     {
@@ -985,10 +977,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Spellcheck\Query $query
-     * @param Endpoint|string|null                                $endpoint
+     * @param QueryInterface|SpellcheckQuery $query
+     * @param Endpoint|string|null           $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Spellcheck\Result\Result
+     * @return ResultInterface|SpellcheckResult
      */
     public function spellcheck(QueryInterface $query, Endpoint|string|null $endpoint = null): SpellcheckResult
     {
@@ -1001,10 +993,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Suggester\Query $query
-     * @param Endpoint|string|null                               $endpoint
+     * @param QueryInterface|SuggesterQuery $query
+     * @param Endpoint|string|null          $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Suggester\Result\Result
+     * @return ResultInterface|SuggesterResult
      */
     public function suggester(QueryInterface $query, Endpoint|string|null $endpoint = null): SuggesterResult
     {
@@ -1017,10 +1009,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Extract\Query $query
-     * @param Endpoint|string|null                             $endpoint
+     * @param QueryInterface|ExtractQuery $query
+     * @param Endpoint|string|null        $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Extract\Result
+     * @return ResultInterface|ExtractResult
      */
     public function extract(QueryInterface $query, Endpoint|string|null $endpoint = null): ExtractResult
     {
@@ -1033,10 +1025,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\RealtimeGet\Query $query
-     * @param Endpoint|string|null                                 $endpoint
+     * @param QueryInterface|RealtimeGetQuery $query
+     * @param Endpoint|string|null            $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\RealtimeGet\Result
+     * @return ResultInterface|RealtimeGetResult
      */
     public function realtimeGet(QueryInterface $query, Endpoint|string|null $endpoint = null): RealtimeGetResult
     {
@@ -1049,10 +1041,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Luke\Query $query
-     * @param Endpoint|string|null                          $endpoint
+     * @param QueryInterface|LukeQuery $query
+     * @param Endpoint|string|null     $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Luke\Result\Result
+     * @return ResultInterface|LukeResult
      */
     public function luke(QueryInterface $query, Endpoint|string|null $endpoint = null): LukeResult
     {
@@ -1065,10 +1057,10 @@ class Client extends Configurable implements ClientInterface
      * This is a convenience method that forwards the query to the
      * execute method, thus allowing for an easy to use and clean API.
      *
-     * @param QueryInterface|\Solarium\QueryType\Server\CoreAdmin\Query\Query $query
-     * @param Endpoint|string|null                                            $endpoint
+     * @param QueryInterface|CoreAdminQuery $query
+     * @param Endpoint|string|null          $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Server\CoreAdmin\Result\Result
+     * @return ResultInterface|CoreAdminResult
      */
     public function coreAdmin(QueryInterface $query, Endpoint|string|null $endpoint = null): CoreAdminResult
     {
@@ -1081,10 +1073,10 @@ class Client extends Configurable implements ClientInterface
      * @internal this is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API
      *
-     * @param QueryInterface|\Solarium\QueryType\Server\Collections\Query\Query $query
-     * @param Endpoint|string|null                                              $endpoint
+     * @param QueryInterface|CollectionsQuery $query
+     * @param Endpoint|string|null            $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Server\Collections\Result\ClusterStatusResult
+     * @return ResultInterface
      */
     public function collections(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
@@ -1097,10 +1089,10 @@ class Client extends Configurable implements ClientInterface
      * @internal this is a convenience method that forwards the query to the
      *  execute method, thus allowing for an easy to use and clean API
      *
-     * @param QueryInterface|\Solarium\QueryType\Server\Configsets\Query\Query $query
-     * @param Endpoint|string|null                                             $endpoint
+     * @param QueryInterface|ConfigsetsQuery $query
+     * @param Endpoint|string|null           $endpoint
      *
-     * @return ResultInterface|\Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult
+     * @return ResultInterface
      */
     public function configsets(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
     {
@@ -1115,7 +1107,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @throws InvalidArgumentException|UnexpectedValueException
      *
-     * @return \Solarium\Core\Query\AbstractQuery|QueryInterface
+     * @return AbstractQuery|QueryInterface
      */
     public function createQuery(string $type, ?array $options = null): QueryInterface
     {
@@ -1149,7 +1141,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Select\Query\Query
+     * @return AbstractQuery|SelectQuery
      */
     public function createSelect(?array $options = null): SelectQuery
     {
@@ -1161,7 +1153,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\MoreLikeThis\Query
+     * @return AbstractQuery|MoreLikeThisQuery
      */
     public function createMoreLikeThis(?array $options = null): MoreLikeThisQuery
     {
@@ -1173,7 +1165,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Update\Query\Query
+     * @return AbstractQuery|UpdateQuery
      */
     public function createUpdate(?array $options = null): UpdateQuery
     {
@@ -1185,7 +1177,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Ping\Query
+     * @return AbstractQuery|PingQuery
      */
     public function createPing(?array $options = null): PingQuery
     {
@@ -1197,7 +1189,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Analysis\Query\Field
+     * @return AbstractQuery|AnalysisQueryField
      */
     public function createAnalysisField(?array $options = null): AnalysisQueryField
     {
@@ -1209,7 +1201,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Analysis\Query\Document
+     * @return AbstractQuery|AnalysisQueryDocument
      */
     public function createAnalysisDocument(?array $options = null): AnalysisQueryDocument
     {
@@ -1221,7 +1213,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Terms\Query
+     * @return AbstractQuery|TermsQuery
      */
     public function createTerms(?array $options = null): TermsQuery
     {
@@ -1233,7 +1225,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Spellcheck\Query
+     * @return AbstractQuery|SpellcheckQuery
      */
     public function createSpellcheck(?array $options = null): SpellcheckQuery
     {
@@ -1245,7 +1237,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Suggester\Query
+     * @return AbstractQuery|SuggesterQuery
      */
     public function createSuggester(?array $options = null): SuggesterQuery
     {
@@ -1257,7 +1249,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Extract\Query
+     * @return AbstractQuery|ExtractQuery
      */
     public function createExtract(?array $options = null): ExtractQuery
     {
@@ -1269,7 +1261,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Stream\Query
+     * @return AbstractQuery|StreamQuery
      */
     public function createStream(?array $options = null): StreamQuery
     {
@@ -1285,7 +1277,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Graph\Query
+     * @return AbstractQuery|GraphQuery
      */
     public function createGraph(?array $options = null): GraphQuery
     {
@@ -1301,7 +1293,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\RealtimeGet\Query
+     * @return AbstractQuery|RealtimeGetQuery
      */
     public function createRealtimeGet(?array $options = null): RealtimeGetQuery
     {
@@ -1313,7 +1305,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Luke\Query
+     * @return AbstractQuery|LukeQuery
      */
     public function createLuke(?array $options = null): LukeQuery
     {
@@ -1325,7 +1317,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\CoreAdmin\Query\Query
+     * @return AbstractQuery|CoreAdminQuery
      */
     public function createCoreAdmin(?array $options = null): CoreAdminQuery
     {
@@ -1337,7 +1329,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Collections\Query\Query
+     * @return AbstractQuery|CollectionsQuery
      */
     public function createCollections(?array $options = null): CollectionsQuery
     {
@@ -1349,7 +1341,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Configsets\Query\Query
+     * @return AbstractQuery|ConfigsetsQuery
      */
     public function createConfigsets(?array $options = null): ConfigsetsQuery
     {
@@ -1361,7 +1353,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\Server\Api\Query
+     * @return AbstractQuery|ApiQuery
      */
     public function createApi(?array $options = null): ApiQuery
     {
@@ -1373,7 +1365,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Resources
+     * @return AbstractQuery|ManagedResourcesQuery
      */
     public function createManagedResources(?array $options = null): ManagedResourcesQuery
     {
@@ -1385,7 +1377,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Stopwords
+     * @return AbstractQuery|ManagedStopwordsQuery
      */
     public function createManagedStopwords(?array $options = null): ManagedStopwordsQuery
     {
@@ -1397,7 +1389,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return \Solarium\Core\Query\AbstractQuery|\Solarium\QueryType\ManagedResources\Query\Synonyms
+     * @return AbstractQuery|ManagedSynonymsQuery
      */
     public function createManagedSynonyms(?array $options = null): ManagedSynonymsQuery
     {
@@ -1407,7 +1399,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Initialization hook.
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

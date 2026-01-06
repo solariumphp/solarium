@@ -14,15 +14,9 @@ namespace Solarium\QueryType\Luke\Result;
  */
 class Flag
 {
-    /**
-     * @var string
-     */
-    protected $abbreviation;
+    protected string $abbreviation;
 
-    /**
-     * @var string
-     */
-    protected $display;
+    protected string $display;
 
     /**
      * Constructor.

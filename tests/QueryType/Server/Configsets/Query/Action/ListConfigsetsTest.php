@@ -9,10 +9,7 @@ use Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult;
 
 class ListConfigsetsTest extends TestCase
 {
-    /**
-     * @var ListConfigsets
-     */
-    protected $action;
+    protected ListConfigsets $action;
 
     public function setUp(): void
     {

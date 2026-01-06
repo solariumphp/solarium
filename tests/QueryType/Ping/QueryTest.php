@@ -10,7 +10,7 @@ use Solarium\QueryType\Ping\Query;
 
 class QueryTest extends TestCase
 {
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

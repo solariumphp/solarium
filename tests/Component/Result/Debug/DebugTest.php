@@ -9,26 +9,23 @@ use Solarium\Component\Result\Debug\Timing;
 
 class DebugTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
-    protected $queryString;
+    protected string $queryString;
 
-    protected $queryParser;
+    protected string $queryParser;
 
-    protected $parsedQuery;
+    protected string $parsedQuery;
 
-    protected $otherQuery;
+    protected string $otherQuery;
 
-    protected $explain;
+    protected DocumentSet $explain;
 
-    protected $explainOther;
+    protected DocumentSet $explainOther;
 
-    protected $explainData;
+    protected array $explainData;
 
-    protected $timing;
+    protected Timing $timing;
 
     public function setUp(): void
     {

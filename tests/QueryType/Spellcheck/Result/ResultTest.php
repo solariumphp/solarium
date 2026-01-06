@@ -8,25 +8,16 @@ use Solarium\QueryType\Spellcheck\Result\Term;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var SpellcheckDummy
-     */
-    protected $result;
+    protected SpellcheckDummy $result;
 
     /**
-     * @var array
+     * @var Term[]
      */
-    protected $data;
+    protected array $data;
 
-    /**
-     * @var array
-     */
-    protected $allData;
+    protected array $allData;
 
-    /**
-     * @var string
-     */
-    protected $collation;
+    protected string $collation;
 
     public function setUp(): void
     {
@@ -98,7 +89,7 @@ class ResultTest extends TestCase
 
 class SpellcheckDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($results, $all, $collation)
     {

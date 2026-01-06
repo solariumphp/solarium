@@ -16,15 +16,9 @@ use Solarium\QueryType\Update\RequestBuilder\Json as JsonRequestBuilder;
 
 class JsonTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
-    /**
-     * @var JsonRequestBuilder
-     */
-    protected $builder;
+    protected JsonRequestBuilder $builder;
 
     public function setUp(): void
     {

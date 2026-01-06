@@ -20,8 +20,6 @@ class Events
      * This event is called after and endpoint has failed.
      *
      * Gets the endpoint and the HttpException as params
-     *
-     * @var string
      */
     public const ENDPOINT_FAILURE = EndpointFailure::class;
 
@@ -30,8 +28,6 @@ class Events
      * that is in the list of failover error codes.
      *
      * Gets the endpoint and the response as params
-     *
-     * @var string
      */
     public const STATUS_CODE_FAILURE = StatusCodeFailure::class;
 

@@ -8,15 +8,9 @@ use Solarium\QueryType\Analysis\RequestBuilder\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
-    /**
-     * @var Field
-     */
-    protected $query;
+    protected Field $query;
 
-    /**
-     * @var RequestBuilder
-     */
-    protected $builder;
+    protected RequestBuilder $builder;
 
     public function setUp(): void
     {

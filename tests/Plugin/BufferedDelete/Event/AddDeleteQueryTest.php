@@ -8,7 +8,7 @@ use Solarium\Plugin\BufferedDelete\Event\AddDeleteQuery;
 
 class AddDeleteQueryTest extends TestCase
 {
-    public function testConstructorAndGetter()
+    public function testConstructorAndGetter(): AddDeleteQuery
     {
         $event = new AddDeleteQuery(new Query('cat:abc'));
         $this->assertSame('cat:abc', $event->getQuery());
@@ -18,10 +18,8 @@ class AddDeleteQueryTest extends TestCase
 
     /**
      * @depends testConstructorAndGetter
-     *
-     * @param AddDeleteQuery $event
      */
-    public function testSetAndGetQuery($event): void
+    public function testSetAndGetQuery(AddDeleteQuery $event): void
     {
         $event->setQuery('cat:def');
         $this->assertSame('cat:def', $event->getQuery());

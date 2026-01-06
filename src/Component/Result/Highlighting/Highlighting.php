@@ -17,9 +17,9 @@ class Highlighting implements \IteratorAggregate, \Countable
     /**
      * Result array.
      *
-     * @var array
+     * @var Result[]
      */
-    protected $results;
+    protected array $results;
 
     /**
      * Constructor.

@@ -26,7 +26,7 @@ class FieldTest extends TestCase
                                         'start' => 1,
                                         'end' => 23,
                                         'position' => 4,
-                                        'positionHistory' => 'test',
+                                        'positionHistory' => [4, 3],
                                         'type' => 'test',
                                     ],
                                     [
@@ -34,7 +34,7 @@ class FieldTest extends TestCase
                                         'start' => 1,
                                         'end' => 23,
                                         'position' => 4,
-                                        'positionHistory' => 'test',
+                                        'positionHistory' => [4, 3],
                                         'type' => 'test',
                                     ],
                                 ],

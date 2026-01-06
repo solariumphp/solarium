@@ -19,15 +19,13 @@ class Add extends AbstractAdd
 {
     /**
      * Synonyms to add.
-     *
-     * @var \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms
      */
-    protected $synonyms;
+    protected ?SynonymsData $synonyms = null;
 
     /**
      * Get synonyms.
      *
-     * @return \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms|null
+     * @return SynonymsData|null
      */
     public function getSynonyms(): ?SynonymsData
     {
@@ -37,7 +35,7 @@ class Add extends AbstractAdd
     /**
      * Set synonyms.
      *
-     * @param \Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms $synonyms
+     * @param SynonymsData $synonyms
      *
      * @return self Provides fluent interface
      */

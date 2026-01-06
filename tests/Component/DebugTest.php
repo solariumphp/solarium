@@ -10,10 +10,7 @@ use Solarium\Component\ResponseParser\Debug as DebugParser;
 
 class DebugTest extends TestCase
 {
-    /**
-     * @var Debug
-     */
-    protected $debug;
+    protected Debug $debug;
 
     public function setUp(): void
     {

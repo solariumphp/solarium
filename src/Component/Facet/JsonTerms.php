@@ -82,10 +82,8 @@ class JsonTerms extends AbstractFacet implements JsonFacetInterface, FacetSetInt
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'field' => 'id',
     ];
 

@@ -3,10 +3,11 @@
 namespace Solarium\Tests\QueryType\Update;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Core\Query\Result\QueryType as Result;
 
 abstract class AbstractResultTestCase extends TestCase
 {
-    protected $result;
+    protected Result $result;
 
     public function testGetStatus(): void
     {

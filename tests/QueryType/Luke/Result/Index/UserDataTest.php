@@ -7,10 +7,7 @@ use Solarium\QueryType\Luke\Result\Index\UserData;
 
 class UserDataTest extends TestCase
 {
-    /**
-     * @var UserData
-     */
-    protected $userData;
+    protected UserData $userData;
 
     public function setUp(): void
     {

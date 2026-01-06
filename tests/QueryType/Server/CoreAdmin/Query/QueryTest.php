@@ -20,10 +20,7 @@ use Solarium\QueryType\Server\Query\RequestBuilder;
 
 class QueryTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

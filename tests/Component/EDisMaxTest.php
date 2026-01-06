@@ -8,10 +8,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class EDisMaxTest extends TestCase
 {
-    /**
-     * @var EdisMax
-     */
-    protected $eDisMax;
+    protected EdisMax $eDisMax;
 
     public function setUp(): void
     {

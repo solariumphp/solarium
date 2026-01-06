@@ -10,7 +10,7 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PreCreateResultTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreCreateResult
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();
@@ -27,10 +27,8 @@ class PreCreateResultTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreCreateResult $event
      */
-    public function testSetAndGetResult($event): void
+    public function testSetAndGetResult(PreCreateResult $event): void
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $query = $client->createSelect();

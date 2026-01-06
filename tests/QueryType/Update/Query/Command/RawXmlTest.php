@@ -9,7 +9,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class RawXmlTest extends TestCase
 {
-    protected $command;
+    protected RawXml $command;
 
     public function setUp(): void
     {

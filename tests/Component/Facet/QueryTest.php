@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class QueryTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $facet;
+    protected Query $facet;
 
     public function setUp(): void
     {

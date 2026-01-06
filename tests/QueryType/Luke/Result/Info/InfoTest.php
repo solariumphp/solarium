@@ -7,10 +7,7 @@ use Solarium\QueryType\Luke\Result\Info\Info;
 
 class InfoTest extends TestCase
 {
-    /**
-     * @var Info
-     */
-    protected $info;
+    protected Info $info;
 
     public function setUp(): void
     {

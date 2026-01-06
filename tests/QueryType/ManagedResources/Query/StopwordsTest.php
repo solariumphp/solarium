@@ -22,7 +22,7 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Stopwords as StopwordsRes
 
 class StopwordsTest extends TestCase
 {
-    protected $query;
+    protected Stopwords $query;
 
     public function setUp(): void
     {

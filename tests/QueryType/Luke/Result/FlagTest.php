@@ -7,10 +7,7 @@ use Solarium\QueryType\Luke\Result\Flag;
 
 class FlagTest extends TestCase
 {
-    /**
-     * @var Flag
-     */
-    protected $flag;
+    protected Flag $flag;
 
     public function setUp(): void
     {

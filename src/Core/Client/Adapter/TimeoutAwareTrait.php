@@ -16,10 +16,7 @@ namespace Solarium\Core\Client\Adapter;
  */
 trait TimeoutAwareTrait
 {
-    /**
-     * @var int
-     */
-    private $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
+    private int $timeout = TimeoutAwareInterface::DEFAULT_TIMEOUT;
 
     /**
      * {@inheritdoc}

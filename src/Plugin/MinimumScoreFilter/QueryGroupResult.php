@@ -16,25 +16,13 @@ use Solarium\Component\Result\Grouping\QueryGroup as StandardQueryGroupResult;
  */
 class QueryGroupResult extends StandardQueryGroupResult
 {
-    /**
-     * @var float
-     */
-    protected static $overallMaximumScore;
+    protected static float $overallMaximumScore;
 
-    /**
-     * @var string
-     */
-    protected $filterMode;
+    protected string $filterMode;
 
-    /**
-     * @var float
-     */
-    protected $filterRatio;
+    protected float $filterRatio;
 
-    /**
-     * @var bool
-     */
-    protected $filtered = false;
+    protected bool $filtered = false;
 
     /**
      * Constructor.

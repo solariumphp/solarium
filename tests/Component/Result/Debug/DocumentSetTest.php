@@ -8,12 +8,12 @@ use Solarium\Component\Result\Debug\DocumentSet;
 
 class DocumentSetTest extends TestCase
 {
-    /**
-     * @var DocumentSet
-     */
-    protected $result;
+    protected DocumentSet $result;
 
-    protected $docs;
+    /**
+     * @var Document[]
+     */
+    protected array $docs;
 
     public function setUp(): void
     {

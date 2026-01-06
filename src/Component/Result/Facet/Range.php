@@ -25,50 +25,35 @@ class Range extends Field
 {
     /**
      * Count of all records with field values lower then lower bound of the first range.
-     *
-     * @var int
      */
-    protected $before;
+    protected ?int $before;
 
     /**
      * Count of all records with field values greater then the upper bound of the last range.
-     *
-     * @var int
      */
-    protected $after;
+    protected ?int $after;
 
     /**
      * Count all records with field values between the start and end bounds of all ranges.
-     *
-     * @var int
      */
-    protected $between;
+    protected ?int $between;
 
     /**
      * The lower bound of the ranges.
-     *
-     * @var string|int
      */
-    protected $start;
+    protected string|int|null $start;
 
     /**
      * The upper bound of all ranges.
-     *
-     * @var string|int
      */
-    protected $end;
+    protected string|int|null $end;
 
     /**
      * The gap between each range.
-     *
-     * @var string|int
      */
-    protected $gap;
+    protected string|int|null $gap;
 
-    /**
-     * @var \Solarium\Component\Result\Facet\Pivot\Pivot|null
-     */
-    protected $pivot;
+    protected ?Pivot $pivot;
 
     /**
      * Constructor.
@@ -82,7 +67,7 @@ class Range extends Field
      * @param string|int|null $gap
      * @param Pivot|null      $pivot
      */
-    public function __construct(array $values, ?int $before, ?int $after, ?int $between, $start, $end, $gap, ?Pivot $pivot = null)
+    public function __construct(array $values, ?int $before, ?int $after, ?int $between, string|int|null $start, string|int|null $end, string|int|null $gap, ?Pivot $pivot = null)
     {
         parent::__construct($values);
 
@@ -171,7 +156,7 @@ class Range extends Field
     }
 
     /**
-     * @return \Solarium\Component\Result\Facet\Pivot\Pivot|null
+     * @return Pivot|null
      */
     public function getPivot(): ?Pivot
     {

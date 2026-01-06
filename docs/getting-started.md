@@ -90,13 +90,27 @@ Upgrading
 
 When upgrading from an earlier version, you should be aware of a number of pitfalls.
 
-### Pitfall when upgrading to 6.3.8
+### Pitfalls when upgrading to 7.0.0
+
+Solarium 7.0.0 added type declarations throughout the codebase for:
+- class properties
+- union types in method signatures
+- `void` return types
 
 Plugins extending from `Solarium\Core\Plugin\AbstractPlugin` must add `void` return types to the signatures for
 the following methods (when defined):
 - `initPlugin()`
 - `deinitPlugin()`
 - `initPluginType()`
+
+Any other classes extending from the codebase will run into fatal errors if they violate PHP's
+[variance](https://www.php.net/manual/en/language.oop5.variance.php) rules. Inherited properties
+must add an invariant type declaration. Inherited methods that didn't declare a return type must
+add one that's covariant. Method parameters don't need to have a type declaration, but if they
+do have one it must be contravariant.
+
+Code that calls a method with parameters of an incompatible type will result in a `TypeError` where
+they were previously coerced into a compatible type by PHP's type juggling.
 
 ### Pitfall when upgrading to 6.3.6
 

@@ -19,7 +19,7 @@ class Dictionary implements \IteratorAggregate, \Countable
      *
      * @var Term[]
      */
-    protected $terms;
+    protected array $terms;
 
     /**
      * Constructor.

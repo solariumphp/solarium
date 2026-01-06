@@ -20,10 +20,7 @@ class CurlTest extends TestCase
     use ConnectionTimeoutAwareTestTrait;
     use ProxyAwareTestTrait;
 
-    /**
-     * @var Curl
-     */
-    protected $adapter;
+    protected Curl $adapter;
 
     public function setUp(): void
     {

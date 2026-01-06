@@ -22,10 +22,8 @@ class Document extends AbstractDocument
 {
     /**
      * All fields in this document.
-     *
-     * @var array
      */
-    protected $fields;
+    protected array $fields;
 
     /**
      * Constructor.
@@ -44,11 +42,11 @@ class Document extends AbstractDocument
      * is a readonly document an exception will be thrown to prevent this.
      *
      * @param string $name
-     * @param string $value
+     * @param mixed  $value
      *
      * @throws RuntimeException
      */
-    public function __set($name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }

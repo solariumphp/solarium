@@ -16,20 +16,14 @@ use Solarium\Core\Query\DocumentInterface;
  */
 class DocInfo
 {
-    /**
-     * @var int
-     */
-    protected $docId;
+    protected int $docId;
 
     /**
      * @var DocFieldInfo[]
      */
-    protected $lucene;
+    protected array $lucene;
 
-    /**
-     * @var DocumentInterface
-     */
-    protected $solr;
+    protected DocumentInterface $solr;
 
     /**
      * Constructor.

@@ -9,10 +9,7 @@ use Solarium\QueryType\Select\Result\Document;
 
 class DocInfoTest extends TestCase
 {
-    /**
-     * @var DocInfo
-     */
-    protected $docInfo;
+    protected DocInfo $docInfo;
 
     public function setUp(): void
     {

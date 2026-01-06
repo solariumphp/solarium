@@ -20,53 +20,40 @@ class QueryGroup implements \IteratorAggregate, \Countable
 {
     /**
      * Match count.
-     *
-     * @var int
      */
-    protected $matches;
+    protected int $matches;
 
     /**
      * NumFound value.
-     *
-     * @var int
      */
-    protected $numFound;
+    protected int $numFound;
 
     /**
      * Start offset.
-     *
-     * @var int|null
      */
-    protected $start;
+    protected ?int $start;
 
     /**
      * Maximum score in group.
-     *
-     * @var float|null
      */
-    protected $maximumScore;
+    protected ?float $maximumScore;
 
     /**
      * Group documents array.
-     *
-     * @var array
      */
-    protected $documents;
+    protected array $documents;
 
-    /**
-     * @var AbstractQuery
-     */
-    protected $query;
+    protected ?AbstractQuery $query;
 
     /**
      * Constructor.
      *
-     * @param int|null      $matches
-     * @param int|null      $numFound
-     * @param int|null      $start
-     * @param float|null    $maximumScore
-     * @param array         $documents
-     * @param AbstractQuery $query
+     * @param int|null           $matches
+     * @param int|null           $numFound
+     * @param int|null           $start
+     * @param float|null         $maximumScore
+     * @param array              $documents
+     * @param AbstractQuery|null $query
      */
     public function __construct(?int $matches, ?int $numFound, ?int $start, ?float $maximumScore, array $documents, ?AbstractQuery $query = null)
     {

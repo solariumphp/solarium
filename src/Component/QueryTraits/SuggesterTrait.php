@@ -22,7 +22,7 @@ trait SuggesterTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\Suggester
+     * @return Suggester
      */
     public function getSuggester(): Suggester
     {

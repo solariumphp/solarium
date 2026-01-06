@@ -21,24 +21,18 @@ class WeightedRandomChoice
 {
     /**
      * Total weight of all choices.
-     *
-     * @var int
      */
-    protected $totalWeight = 0;
+    protected int $totalWeight = 0;
 
     /**
      * Choices total lookup array.
-     *
-     * @var array
      */
-    protected $lookup = [];
+    protected array $lookup = [];
 
     /**
      * Values lookup array.
-     *
-     * @var array
      */
-    protected $values = [];
+    protected array $values = [];
 
     /**
      * Constructor.

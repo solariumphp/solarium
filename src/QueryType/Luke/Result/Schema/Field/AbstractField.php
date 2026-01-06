@@ -17,50 +17,29 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Type;
  */
 abstract class AbstractField implements FieldInterface
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var Type
-     */
-    protected $type;
+    protected Type $type;
 
-    /**
-     * @var FlagList
-     */
-    protected $flags;
+    protected FlagList $flags;
 
-    /**
-     * @var bool|null
-     */
-    protected $required = null;
+    protected ?bool $required = null;
 
-    /**
-     * @var string|null
-     */
-    protected $default = null;
+    protected ?string $default = null;
 
-    /**
-     * @var bool|null
-     */
-    protected $uniqueKey = null;
+    protected ?bool $uniqueKey = null;
 
-    /**
-     * @var int|null
-     */
-    protected $positionIncrementGap = null;
+    protected ?int $positionIncrementGap = null;
 
     /**
      * @var CopyFieldDestInterface[]
      */
-    protected $copyDests = [];
+    protected array $copyDests = [];
 
     /**
      * @var CopyFieldSourceInterface[]
      */
-    protected $copySources = [];
+    protected array $copySources = [];
 
     /**
      * Constructor.

@@ -19,20 +19,11 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PostExecuteRequest extends Event
 {
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected Request $request;
 
-    /**
-     * @var Endpoint
-     */
-    protected $endpoint;
+    protected Endpoint $endpoint;
 
-    /**
-     * @var Response
-     */
-    protected $response;
+    protected Response $response;
 
     /**
      * Event constructor.

@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class StatusTest extends TestCase
 {
-    /**
-     * @var Status
-     */
-    protected $action;
+    protected Status $action;
 
     public function setUp(): void
     {

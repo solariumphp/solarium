@@ -26,22 +26,14 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class LoadbalancerTest extends TestCase
 {
-    /**
-     * @var Loadbalancer
-     */
-    protected $plugin;
+    protected Loadbalancer $plugin;
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
     /**
      * Query types that are blocked by default according to the documentation.
-     *
-     * @var array
      */
-    protected $expectedDefaultBlockedQueryTypes = [
+    protected array $expectedDefaultBlockedQueryTypes = [
         Client::QUERY_UPDATE,
         Client::QUERY_EXTRACT,
     ];
@@ -524,7 +516,7 @@ class LoadbalancerTest extends TestCase
         $endpointFailureListenerCalled = 0;
         $this->client->getEventDispatcher()->addListener(
             LoadbalancerEvents::ENDPOINT_FAILURE,
-            function (EndpointFailureEvent $event) use (&$endpointFailureListenerCalled) {
+            function (EndpointFailureEvent $event) use (&$endpointFailureListenerCalled): void {
                 ++$endpointFailureListenerCalled;
                 $this->assertSame('server1', $event->getEndpoint()->getKey());
                 $this->assertSame('failover exception', $event->getException()->getStatusMessage());
@@ -560,7 +552,7 @@ class LoadbalancerTest extends TestCase
         $statusCodeFailureListenerCalled = 0;
         $this->client->getEventDispatcher()->addListener(
             LoadbalancerEvents::STATUS_CODE_FAILURE,
-            function (StatusCodeFailureEvent $event) use (&$statusCodeFailureListenerCalled) {
+            function (StatusCodeFailureEvent $event) use (&$statusCodeFailureListenerCalled): void {
                 ++$statusCodeFailureListenerCalled;
                 $this->assertSame('server1', $event->getEndpoint()->getKey());
                 $this->assertSame(504, $event->getResponse()->getStatusCode());
@@ -608,7 +600,7 @@ class LoadbalancerTest extends TestCase
 
 class TestLoadbalancer extends Loadbalancer
 {
-    protected $counter = 0;
+    protected int $counter = 0;
 
     /**
      * Get options array for a randomized endpoint.
@@ -629,11 +621,11 @@ class TestLoadbalancer extends Loadbalancer
 
 class TestAdapterForFailover extends HttpAdapter
 {
-    protected $endpointFailure;
+    protected bool $endpointFailure;
 
-    protected $counter = 0;
+    protected int $counter = 0;
 
-    protected $failCount = 1;
+    protected int $failCount = 1;
 
     /**
      * Constructor.

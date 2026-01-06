@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class CreateTest extends TestCase
 {
-    /**
-     * @var Create
-     */
-    protected $action;
+    protected Create $action;
 
     public function setUp(): void
     {

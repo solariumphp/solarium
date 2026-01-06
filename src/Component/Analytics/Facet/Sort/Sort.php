@@ -26,22 +26,16 @@ class Sort extends Configurable implements \JsonSerializable
     use ObjectTrait;
 
     /**
-     * @var \Solarium\Component\Analytics\Facet\Sort\Criterion[]
+     * @var Criterion[]
      */
-    private $criteria = [];
+    private array $criteria = [];
+
+    private ?int $limit = null;
+
+    private ?int $offset = null;
 
     /**
-     * @var int|null
-     */
-    private $limit;
-
-    /**
-     * @var int|null
-     */
-    private $offset;
-
-    /**
-     * @return \Solarium\Component\Analytics\Facet\Sort\Criterion[]
+     * @return Criterion[]
      */
     public function getCriteria(): array
     {
@@ -49,9 +43,9 @@ class Sort extends Configurable implements \JsonSerializable
     }
 
     /**
-     * @param \Solarium\Component\Analytics\Facet\Sort\Criterion[] $criteria
+     * @param Criterion[] $criteria
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setCriteria(array $criteria): self
     {
@@ -63,9 +57,9 @@ class Sort extends Configurable implements \JsonSerializable
     }
 
     /**
-     * @param \Solarium\Component\Analytics\Facet\Sort\Criterion $criterion
+     * @param Criterion $criterion
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addCriterion(Criterion $criterion): self
     {
@@ -85,7 +79,7 @@ class Sort extends Configurable implements \JsonSerializable
     /**
      * @param int|null $limit
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setLimit(?int $limit): self
     {
@@ -105,7 +99,7 @@ class Sort extends Configurable implements \JsonSerializable
     /**
      * @param int|null $offset
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function setOffset(?int $offset): self
     {

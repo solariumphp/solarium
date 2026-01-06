@@ -188,7 +188,7 @@ class Curl extends Configurable implements AdapterInterface, TimeoutAwareInterfa
      *
      * @throws RuntimeException
      */
-    protected function init()
+    protected function init(): void
     {
         if (!\function_exists('curl_init')) {
             // @codeCoverageIgnoreStart

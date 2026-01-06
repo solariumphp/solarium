@@ -8,10 +8,7 @@ use Solarium\Component\FacetSet;
 
 class JsonTermsTest extends TestCase
 {
-    /**
-     * @var JsonTerms
-     */
-    protected $facet;
+    protected JsonTerms $facet;
 
     public function setUp(): void
     {

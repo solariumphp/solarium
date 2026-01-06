@@ -97,7 +97,7 @@ abstract class AbstractRange extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function setStart($start): self
+    public function setStart(string|int|float $start): self
     {
         $this->setOption('start', (string) $start);
 
@@ -121,7 +121,7 @@ abstract class AbstractRange extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function setEnd($end): self
+    public function setEnd(string|int|float $end): self
     {
         $this->setOption('end', (string) $end);
 
@@ -147,7 +147,7 @@ abstract class AbstractRange extends AbstractFacet
      *
      * @return self Provides fluent interface
      */
-    public function setGap($gap): self
+    public function setGap(string|int|float $gap): self
     {
         $this->setOption('gap', $gap);
 
@@ -199,11 +199,11 @@ abstract class AbstractRange extends AbstractFacet
      * Use one of the constants as value.
      * If you want to use multiple values supply an array or comma separated string
      *
-     * @param string|array $other
+     * @param string|string[] $other
      *
      * @return self Provides fluent interface
      */
-    public function setOther($other): self
+    public function setOther(string|array $other): self
     {
         if (\is_string($other)) {
             $other = explode(',', $other);
@@ -236,11 +236,11 @@ abstract class AbstractRange extends AbstractFacet
      * Use one of the constants as value.
      * If you want to use multiple values supply an array or comma separated string
      *
-     * @param string|array $include
+     * @param string|string[] $include
      *
      * @return self Provides fluent interface
      */
-    public function setInclude($include): self
+    public function setInclude(string|array $include): self
     {
         if (\is_string($include)) {
             $include = explode(',', $include);
@@ -268,11 +268,11 @@ abstract class AbstractRange extends AbstractFacet
     }
 
     /**
-     * @param \Solarium\Component\Facet\Pivot|array $pivot
+     * @param Pivot|array $pivot
      *
      * @return self Provides fluent interface
      */
-    public function setPivot($pivot): self
+    public function setPivot(Pivot|array $pivot): self
     {
         $this->setOption('pivot', $pivot);
 
@@ -280,9 +280,9 @@ abstract class AbstractRange extends AbstractFacet
     }
 
     /**
-     * @return \Solarium\Component\Facet\Pivot|array|null
+     * @return Pivot|array|null
      */
-    public function getPivot()
+    public function getPivot(): Pivot|array|null
     {
         return $this->getOption('pivot');
     }
@@ -293,7 +293,7 @@ abstract class AbstractRange extends AbstractFacet
      * {@internal Several options need some extra checks or setup work,
      *            for these options the setters are called.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

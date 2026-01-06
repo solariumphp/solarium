@@ -8,12 +8,12 @@ use Solarium\QueryType\Analysis\Result\ResultList;
 
 class DocumentTest extends TestCase
 {
-    /**
-     * @var DocumentDummy
-     */
-    protected $result;
+    protected DocumentDummy $result;
 
-    protected $items;
+    /**
+     * @var ResultList[]
+     */
+    protected array $items;
 
     public function setUp(): void
     {
@@ -79,7 +79,7 @@ class DocumentTest extends TestCase
 
 class DocumentDummy extends Document
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct($status, $queryTime, $items)
     {

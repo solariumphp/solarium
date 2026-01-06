@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class ReloadTest extends TestCase
 {
-    /**
-     * @var Reload
-     */
-    protected $action;
+    protected Reload $action;
 
     public function setUp(): void
     {

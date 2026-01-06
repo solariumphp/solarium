@@ -8,10 +8,7 @@ use Solarium\QueryType\Luke\Result\Index\UserData;
 
 class IndexTest extends TestCase
 {
-    /**
-     * @var Index
-     */
-    protected $index;
+    protected Index $index;
 
     public function setUp(): void
     {

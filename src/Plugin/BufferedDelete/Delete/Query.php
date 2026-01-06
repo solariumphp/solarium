@@ -18,10 +18,8 @@ class Query extends AbstractDelete
 {
     /**
      * Query to delete matching documents.
-     *
-     * @var string
      */
-    protected $query;
+    protected string $query;
 
     /**
      * Constructor.
@@ -48,7 +46,7 @@ class Query extends AbstractDelete
      *
      * @return self Provides fluent interface
      */
-    public function setQuery($query): self
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 

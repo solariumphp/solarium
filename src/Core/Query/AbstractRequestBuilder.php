@@ -20,10 +20,8 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     /**
      * Helper instance.
-     *
-     * @var Helper
      */
-    protected $helper;
+    protected ?Helper $helper = null;
 
     /**
      * Build request for a generic query.

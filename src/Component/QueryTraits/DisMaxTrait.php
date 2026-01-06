@@ -22,7 +22,7 @@ trait DisMaxTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\DisMax
+     * @return DisMax
      */
     public function getDisMax(): DisMax
     {

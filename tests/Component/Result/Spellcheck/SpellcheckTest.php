@@ -9,16 +9,19 @@ use Solarium\Component\Result\Spellcheck\Suggestion;
 
 class SpellcheckTest extends TestCase
 {
+    protected Result $result;
+
     /**
-     * @var Result
+     * @var Suggestion[]
      */
-    protected $result;
+    protected array $suggestions;
 
-    protected $suggestions;
+    /**
+     * @var Collation[]
+     */
+    protected array $collations;
 
-    protected $collations;
-
-    protected $correctlySpelled;
+    protected bool $correctlySpelled;
 
     public function setUp(): void
     {

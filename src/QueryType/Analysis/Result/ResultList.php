@@ -16,17 +16,13 @@ class ResultList implements \IteratorAggregate, \Countable
 {
     /**
      * List name.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * List items.
-     *
-     * @var array
      */
-    protected $items;
+    protected array $items;
 
     /**
      * Constructor.

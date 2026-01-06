@@ -12,10 +12,7 @@ use Solarium\QueryType\Server\Query\Action\AbstractAction;
 
 class ServerQueryTest extends TestCase
 {
-    /**
-     * @var ServerQuery
-     */
-    protected $query;
+    protected ServerQuery $query;
 
     public function setUp(): void
     {
@@ -59,10 +56,8 @@ class ServerQuery extends AbstractServerQuery
 
     /**
      * Action types.
-     *
-     * @var array
      */
-    protected $actionTypes = [
+    protected array $actionTypes = [
         self::ACTION_DUMMY => DummyAction::class,
     ];
 

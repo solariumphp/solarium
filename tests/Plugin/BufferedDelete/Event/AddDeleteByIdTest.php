@@ -8,7 +8,7 @@ use Solarium\Plugin\BufferedDelete\Event\AddDeleteById;
 
 class AddDeleteByIdTest extends TestCase
 {
-    public function testConstructorAndGetter()
+    public function testConstructorAndGetter(): AddDeleteById
     {
         $event = new AddDeleteById(new Id(123));
         $this->assertSame(123, $event->getId());
@@ -21,10 +21,8 @@ class AddDeleteByIdTest extends TestCase
 
     /**
      * @depends testConstructorAndGetter
-     *
-     * @param AddDeleteById $event
      */
-    public function testSetAndGetId($event): void
+    public function testSetAndGetId(AddDeleteById $event): void
     {
         $event->setId(456);
         $this->assertSame(456, $event->getId());

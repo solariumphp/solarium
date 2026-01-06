@@ -29,10 +29,8 @@ trait JsonFacetTrait
 
     /**
      * Facet type mapping.
-     *
-     * @var array
      */
-    protected $facetTypes = [
+    protected array $facetTypes = [
         FacetSetInterface::JSON_FACET_TERMS => 'Solarium\Component\Facet\JsonTerms',
         FacetSetInterface::JSON_FACET_QUERY => 'Solarium\Component\Facet\JsonQuery',
         FacetSetInterface::JSON_FACET_RANGE => 'Solarium\Component\Facet\JsonRange',
@@ -44,7 +42,7 @@ trait JsonFacetTrait
      *
      * @return array|string|null
      */
-    public function getDomainFilter()
+    public function getDomainFilter(): array|string|null
     {
         $domain = $this->getOption('domain');
 
@@ -161,7 +159,7 @@ trait JsonFacetTrait
      *
      * @throws InvalidArgumentException
      */
-    public function addFacet($facet): static
+    public function addFacet(FacetInterface|array $facet): static
     {
         if ($facet instanceof JsonFacetInterface) {
             $this->facetSetAddFacet($facet);
@@ -180,7 +178,7 @@ trait JsonFacetTrait
      *
      * @param string|FacetInterface $facet
      */
-    public function removeFacet($facet): static
+    public function removeFacet(string|FacetInterface $facet): static
     {
         $this->facetSetRemoveFacet($facet);
         $this->serialize();

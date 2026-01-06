@@ -50,7 +50,7 @@ class ResultTest extends AbstractResultTestCase
 
 class ExtractResultDummy extends ExtractResult
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct()
     {
@@ -67,7 +67,7 @@ class ExtractResultDummy extends ExtractResult
 
 class ExtractResultDummyPre8Point6 extends ExtractResultDummy
 {
-    protected $data = [
+    protected ?array $data = [
         'document.pdf' => 'dummy data',
         'document.pdf_metadata' => ['foo', 'bar'],
     ];
@@ -75,7 +75,7 @@ class ExtractResultDummyPre8Point6 extends ExtractResultDummy
 
 class ExtractResultDummyPost8Point6 extends ExtractResultDummy
 {
-    protected $data = [
+    protected ?array $data = [
         'file' => 'dummy data',
         'file_metadata' => ['foo', 'bar'],
     ];

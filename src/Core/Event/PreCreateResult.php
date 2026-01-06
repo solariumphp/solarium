@@ -19,20 +19,11 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PreCreateResult extends Event
 {
-    /**
-     * @var QueryInterface
-     */
-    protected $query;
+    protected QueryInterface $query;
 
-    /**
-     * @var Response
-     */
-    protected $response;
+    protected Response $response;
 
-    /**
-     * @var ResultInterface
-     */
-    protected $result;
+    protected ?ResultInterface $result = null;
 
     /**
      * Event constructor.

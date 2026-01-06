@@ -67,9 +67,9 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
     /**
      * Add multiple exclude tags.
      *
-     * @param array|string $excludes array or string with comma separated exclude tags
+     * @param string[]|string $excludes array or string with comma separated exclude tags
      */
-    public function addExcludes($excludes): static
+    public function addExcludes(array|string $excludes): static
     {
         if (\is_string($excludes)) {
             $excludes = preg_split('/(?<!\\\\),/', $excludes);
@@ -85,9 +85,9 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
      *
      * This overwrites any existing exclude tags.
      *
-     * @param array|string $excludes
+     * @param string[]|string $excludes
      */
-    public function setExcludes($excludes): static
+    public function setExcludes(array|string $excludes): static
     {
         $this->clearExcludes()->addExcludes($excludes);
 
@@ -119,7 +119,7 @@ abstract class AbstractFacet extends Configurable implements FacetInterface
     /**
      * Get the list of exclude tags.
      *
-     * @return array
+     * @return string[]
      */
     public function getExcludes(): array
     {

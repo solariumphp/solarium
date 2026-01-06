@@ -10,55 +10,42 @@
 namespace Solarium\QueryType\Server\CoreAdmin\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
+use Solarium\Exception\UnexpectedValueException;
 
 /**
  * CoreAdmin result object.
  */
 class Result extends BaseResult
 {
-    /**
-     * @var array
-     */
-    protected $status;
+    protected array $status;
 
-    /**
-     * @var array
-     */
-    protected $initFailures;
+    protected array $initFailures;
 
     /**
      * InitFailureResult collection.
      *
-     * @var InitFailureResult[]
+     * @var InitFailureResult[]|null
      */
-    protected $initFailureResults;
+    protected ?array $initFailureResults;
 
     /**
      * StatusResult collection when multiple statuses have been requested.
      *
      * @var StatusResult[]|null
      */
-    protected $statusResults;
+    protected ?array $statusResults;
 
     /**
      * Status result when the status only for one core as requested.
-     *
-     * @var StatusResult
      */
-    protected $statusResult;
+    protected ?StatusResult $statusResult;
+
+    protected bool $wasSuccessful = false;
+
+    protected string $statusMessage = 'ERROR';
 
     /**
-     * @var bool
-     */
-    protected $wasSuccessful = false;
-
-    /**
-     * @var string
-     */
-    protected $statusMessage = 'ERROR';
-
-    /**
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return bool
      */
@@ -70,7 +57,7 @@ class Result extends BaseResult
     }
 
     /**
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return string
      */
@@ -84,7 +71,7 @@ class Result extends BaseResult
     /**
      * Returns the init failure result objects.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return InitFailureResult[]|null
      */
@@ -98,7 +85,7 @@ class Result extends BaseResult
     /**
      * Returns the status result objects for all requested core statuses.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return StatusResult[]|null
      */
@@ -112,7 +99,7 @@ class Result extends BaseResult
     /**
      * Retrieves the status of the core, only available when the query was filtered to a core in the status action.
      *
-     * @throws \Solarium\Exception\UnexpectedValueException
+     * @throws UnexpectedValueException
      *
      * @return StatusResult|null
      */

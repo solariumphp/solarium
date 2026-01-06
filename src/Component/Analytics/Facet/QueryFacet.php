@@ -18,10 +18,7 @@ namespace Solarium\Component\Analytics\Facet;
  */
 class QueryFacet extends AbstractFacet
 {
-    /**
-     * @var array
-     */
-    private $queries = [];
+    private array $queries = [];
 
     /**
      * {@inheritdoc}
@@ -42,7 +39,7 @@ class QueryFacet extends AbstractFacet
     /**
      * @param array $queries
      *
-     * @return QueryFacet
+     * @return self Provides fluent interface
      */
     public function setQueries(array $queries): self
     {
@@ -57,7 +54,7 @@ class QueryFacet extends AbstractFacet
      * @param string $key
      * @param string $query
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addQuery(string $key, string $query): self
     {

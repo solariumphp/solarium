@@ -32,6 +32,7 @@ composer require solarium/solarium
 
 When upgrading from an earlier version, you should be aware of a number of pitfalls.
 
+* [Pitfalls when upgrading to 7.0.0](https://solarium.readthedocs.io/en/stable/getting-started/#pitfalls-when-upgrading-to-700)
 * [Pitfall when upgrading to 6.3.6](https://solarium.readthedocs.io/en/stable/getting-started/#pitfall-when-upgrading-to-636)
 * [Pitfall when upgrading to 6.3.2](https://solarium.readthedocs.io/en/stable/getting-started/#pitfall-when-upgrading-to-632)
 * [Pitfall when upgrading to 6.3](https://solarium.readthedocs.io/en/stable/getting-started/#pitfall-when-upgrading-to-63)

@@ -22,5 +22,5 @@ class PreCommit extends AbstractPreCommit
     /**
      * @var AbstractDelete[]
      */
-    protected $buffer;
+    protected array $buffer;
 }
