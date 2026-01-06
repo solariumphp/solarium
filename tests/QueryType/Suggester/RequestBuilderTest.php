@@ -9,15 +9,9 @@ use Solarium\QueryType\Suggester\RequestBuilder;
 
 class RequestBuilderTest extends TestCase
 {
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
-    /**
-     * @var RequestBuilder
-     */
-    protected $builder;
+    protected RequestBuilder $builder;
 
     public function setUp(): void
     {

@@ -31,10 +31,8 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
 
     /**
      * Array of fields for highlighting.
-     *
-     * @var array
      */
-    protected $fields = [];
+    protected array $fields = [];
 
     /**
      * Get component type.
@@ -74,7 +72,7 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
      *
      * @return Field|null
      */
-    public function getField($name, $autocreate = true): ?Field
+    public function getField(string $name, bool $autocreate = true): ?Field
     {
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
@@ -98,7 +96,7 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
      *
      * @return self Provides fluent interface
      */
-    public function addField($field): self
+    public function addField(string|array|Field $field): self
     {
         // autocreate object for string input
         if (\is_string($field)) {
@@ -120,12 +118,11 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
     /**
      * Add multiple fields for highlighting.
      *
-     * @param string|array $fields can be an array of object instances or a string with comma
-     *                             separated fieldnames
+     * @param string|array $fields can be an array of object instances or a string with comma separated fieldnames
      *
      * @return self Provides fluent interface
      */
-    public function addFields($fields): self
+    public function addFields(string|array $fields): self
     {
         if (\is_string($fields)) {
             $fields = explode(',', $fields);
@@ -187,12 +184,11 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
      *
      * This overwrites any existing fields
      *
-     * @param string|array $fields can be an array of object instances or a string with comma
-     *                             separated fieldnames
+     * @param string|array $fields can be an array of object instances or a string with comma separated fieldnames
      *
      * @return self Provides fluent interface
      */
-    public function setFields($fields): self
+    public function setFields(string|array $fields): self
     {
         $this->clearFields();
         $this->addFields($fields);
@@ -251,11 +247,11 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
     /**
      * Set queryFieldPattern option.
      *
-     * @param string|array $queryFieldPattern array or string with comma separated fieldnames
+     * @param string|string[] $queryFieldPattern array or string with comma separated fieldnames
      *
      * @return self Provides fluent interface
      */
-    public function setQueryFieldPattern($queryFieldPattern): self
+    public function setQueryFieldPattern(string|array $queryFieldPattern): self
     {
         if (\is_string($queryFieldPattern)) {
             $queryFieldPattern = explode(',', $queryFieldPattern);
@@ -283,7 +279,7 @@ class Highlighting extends AbstractComponent implements HighlightingInterface, Q
      * {@internal Options that set a list of fields need additional setup work
      *            because they can be an array or a comma separated string.}
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

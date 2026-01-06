@@ -206,7 +206,7 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
      *
      * @return self Provides fluent interface
      */
-    public function setShard($shard): self
+    public function setShard(string $shard): self
     {
         $this->setOption('shard', $shard);
 
@@ -242,11 +242,11 @@ class Create extends AbstractAsyncAction implements CoreActionInterface
     /**
      * Get a previously added core property.
      *
-     * @param mixed $name
+     * @param string $name
      *
      * @return string
      */
-    public function getCoreProperty($name): string
+    public function getCoreProperty(string $name): string
     {
         $option = 'property.'.$name;
 

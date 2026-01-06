@@ -9,15 +9,9 @@ use Solarium\QueryType\Select\Query\Query as SelectQuery;
 
 class HelperTest extends TestCase
 {
-    /**
-     * @var Helper
-     */
-    protected $helper;
+    protected Helper $helper;
 
-    /**
-     * @var SelectQuery
-     */
-    protected $query;
+    protected SelectQuery $query;
 
     public function setUp(): void
     {
@@ -593,11 +587,6 @@ class HelperTest extends TestCase
     {
         date_default_timezone_set('UTC'); // prevent timezone differences
 
-        $this->assertFalse(
-            $this->helper->formatDate(new \stdClass()),
-            'Expect any other object not to be accepted'
-        );
-
         $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
             $this->helper->formatDate(new \DateTime('2011-10-01')),
@@ -608,11 +597,6 @@ class HelperTest extends TestCase
     public function testFormatDateInputDateTimeImmutable(): void
     {
         date_default_timezone_set('UTC'); // prevent timezone differences
-
-        $this->assertFalse(
-            $this->helper->formatDate(new \stdClass()),
-            'Expect any other object not to be accepted'
-        );
 
         $this->assertSame(
             $this->mockFormatDateOutput(strtotime('2011-10-01')),
@@ -734,7 +718,7 @@ class HelperTest extends TestCase
         );
     }
 
-    protected function mockFormatDateOutput($timestamp): string
+    protected function mockFormatDateOutput(int $timestamp): string
     {
         $date = new \DateTime('@'.$timestamp);
 
@@ -746,6 +730,11 @@ class HelperTest extends TestCase
         $this->assertSame(
             '{!knn f=vector topK=10}[1.0, 2.0, 3.0, 4.0]',
             $this->helper->knn('vector', [1.0, 2.0, 3.0, 4.0], 10)
+        );
+
+        $this->assertSame(
+            '{!knn f=vector topK=10}[1.0, 1.5, 2.0]',
+            $this->helper->knn('vector', [1, 1.5, 2], 10)
         );
 
         $this->assertSame(

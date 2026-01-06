@@ -22,17 +22,11 @@ class PreFlush extends AbstractPreFlush
     /**
      * @var DocumentInterface[]
      */
-    protected $buffer;
+    protected array $buffer;
 
-    /**
-     * @var bool|null
-     */
-    protected $overwrite;
+    protected ?bool $overwrite;
 
-    /**
-     * @var int|null
-     */
-    protected $commitWithin;
+    protected ?int $commitWithin;
 
     /**
      * Event constructor.

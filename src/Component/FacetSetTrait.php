@@ -23,16 +23,16 @@ trait FacetSetTrait
      *
      * @var FacetInterface[]
      */
-    protected $facets = [];
+    protected array $facets = [];
 
     /**
      * Add a facet.
      *
-     * @param \Solarium\Component\Facet\FacetInterface|array $facet
+     * @param FacetInterface|array $facet
      *
      * @throws InvalidArgumentException
      */
-    public function addFacet($facet): static
+    public function addFacet(FacetInterface|array $facet): static
     {
         if (\is_array($facet)) {
             $facet = $this->createFacet($facet['type'], $facet, false);
@@ -57,7 +57,7 @@ trait FacetSetTrait
     /**
      * Add multiple facets.
      *
-     * @param array $facets
+     * @param FacetInterface[]|array[] $facets
      */
     public function addFacets(array $facets): static
     {
@@ -100,9 +100,9 @@ trait FacetSetTrait
      *
      * You can remove a facet by passing its key or the facet instance
      *
-     * @param string|\Solarium\Component\Facet\FacetInterface $facet
+     * @param string|FacetInterface $facet
      */
-    public function removeFacet($facet): static
+    public function removeFacet(string|FacetInterface $facet): static
     {
         if (\is_object($facet)) {
             $facet = $facet->getKey();
@@ -130,7 +130,7 @@ trait FacetSetTrait
      *
      * This overwrites any existing facets
      *
-     * @param array $facets
+     * @param FacetInterface[]|array[] $facets
      */
     public function setFacets(array $facets): static
     {
@@ -156,7 +156,7 @@ trait FacetSetTrait
      *
      * @throws OutOfBoundsException
      *
-     * @return \Solarium\Component\Facet\FacetInterface
+     * @return FacetInterface
      */
     public function createFacet(string $type, string|array|null $options = null, bool $add = true): FacetInterface
     {
@@ -188,7 +188,7 @@ trait FacetSetTrait
      *
      * {@internal The 'facet' option needs additional setup work.}
      */
-    protected function init()
+    protected function init(): void
     {
         if (isset($this->options['facet'])) {
             foreach ($this->options['facet'] as $key => $config) {

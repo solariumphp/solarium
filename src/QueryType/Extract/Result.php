@@ -21,17 +21,13 @@ class Result extends UpdateResult
 {
     /**
      * Retrieved file contents for extractOnly=true.
-     *
-     * @var string
      */
-    protected $file;
+    protected string $file;
 
     /**
      * Retrieved file metadata for extractOnly=true.
-     *
-     * @var array
      */
-    protected $fileMetadata;
+    protected array $fileMetadata;
 
     /**
      * Returns the retrieved file contents.

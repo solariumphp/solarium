@@ -7,10 +7,7 @@ use Solarium\Plugin\CustomizeRequest\Customization;
 
 class CustomizationTest extends TestCase
 {
-    /**
-     * @var Customization
-     */
-    protected $instance;
+    protected Customization $instance;
 
     public function setUp(): void
     {

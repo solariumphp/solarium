@@ -14,35 +14,17 @@ namespace Solarium\Component\Result\Spellcheck;
  */
 class Suggestion
 {
-    /**
-     * @var int
-     */
-    private $numFound;
+    private int $numFound;
 
-    /**
-     * @var int
-     */
-    private $startOffset;
+    private int $startOffset;
 
-    /**
-     * @var int
-     */
-    private $endOffset;
+    private int $endOffset;
 
-    /**
-     * @var int
-     */
-    private $originalFrequency;
+    private ?int $originalFrequency;
 
-    /**
-     * @var array
-     */
-    private $words;
+    private array $words;
 
-    /**
-     * @var string
-     */
-    private $originalTerm;
+    private ?string $originalTerm;
 
     /**
      * Constructor.
@@ -138,7 +120,7 @@ class Suggestion
      *
      * @return int|null
      */
-    public function getFrequency(): int
+    public function getFrequency(): ?int
     {
         $word = reset($this->words);
 

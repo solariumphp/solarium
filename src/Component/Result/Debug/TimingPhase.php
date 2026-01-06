@@ -16,24 +16,20 @@ class TimingPhase implements \IteratorAggregate, \Countable
 {
     /**
      * Phase name.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * Phase time.
-     *
-     * @var float
      */
-    protected $time;
+    protected float $time;
 
     /**
      * Timing array.
      *
-     * @var array
+     * @var float[]
      */
-    protected $timings;
+    protected array $timings;
 
     /**
      * Constructor.
@@ -42,7 +38,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
      * @param float  $time
      * @param array  $timings
      */
-    public function __construct(string $name, ?float $time, array $timings)
+    public function __construct(string $name, float $time, array $timings)
     {
         $this->name = $name;
         $this->time = $time;
@@ -74,7 +70,7 @@ class TimingPhase implements \IteratorAggregate, \Countable
     /**
      * Get timings.
      *
-     * @return array
+     * @return float[]
      */
     public function getTimings(): array
     {

@@ -7,7 +7,7 @@ use Solarium\QueryType\Server\Api\Result;
 
 class ResultTest extends TestCase
 {
-    protected $result;
+    protected ResultDummy $result;
 
     public function setUp(): void
     {
@@ -36,7 +36,7 @@ class ResultTest extends TestCase
 
 class ResultDummy extends Result
 {
-    protected $parsed = true;
+    protected bool $parsed = true;
 
     public function __construct()
     {

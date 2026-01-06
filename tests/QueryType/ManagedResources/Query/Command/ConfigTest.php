@@ -10,11 +10,9 @@ use Solarium\QueryType\ManagedResources\Query\InitArgsInterface;
 
 class ConfigTest extends TestCase
 {
-    /** @var Config */
-    protected $config;
+    protected Config $config;
 
-    /** @var InitArgsInterface */
-    protected $initArgs;
+    protected InitArgsInterface $initArgs;
 
     public function setUp(): void
     {
@@ -63,10 +61,7 @@ class ConfigTest extends TestCase
  */
 class DummyInitArgs implements InitArgsInterface
 {
-    /**
-     * @var array
-     */
-    protected $initArgs = [];
+    protected array $initArgs = [];
 
     /**
      * Constructor.

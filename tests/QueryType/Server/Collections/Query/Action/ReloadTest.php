@@ -9,10 +9,7 @@ use Solarium\QueryType\Server\Collections\Result\ReloadResult;
 
 class ReloadTest extends TestCase
 {
-    /**
-     * @var Reload
-     */
-    protected $action;
+    protected Reload $action;
 
     public function setUp(): void
     {

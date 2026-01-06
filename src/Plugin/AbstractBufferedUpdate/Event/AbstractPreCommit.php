@@ -18,25 +18,13 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 abstract class AbstractPreCommit extends Event
 {
-    /**
-     * @var array
-     */
-    protected $buffer;
+    protected array $buffer;
 
-    /**
-     * @var bool|null
-     */
-    protected $softCommit;
+    protected ?bool $softCommit;
 
-    /**
-     * @var bool|null
-     */
-    protected $waitSearcher;
+    protected ?bool $waitSearcher;
 
-    /**
-     * @var bool|null
-     */
-    protected $expungeDeletes;
+    protected ?bool $expungeDeletes;
 
     /**
      * Event constructor.

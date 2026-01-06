@@ -9,10 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class ReRankQueryTest extends TestCase
 {
-    /**
-     * @var ReRankQuery
-     */
-    protected $reRankQuery;
+    protected ReRankQuery $reRankQuery;
 
     public function setUp(): void
     {

@@ -19,7 +19,7 @@ namespace Solarium\Builder;
 interface ExpressionInterface
 {
     /**
-     * @param \Solarium\Builder\AbstractExpressionVisitor $visitor
+     * @param AbstractExpressionVisitor $visitor
      *
      * @return mixed
      */

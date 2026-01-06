@@ -125,7 +125,7 @@ class Grouping implements ComponentParserInterface
      *
      * @return object
      */
-    private function extractValueGroup(string $valueResultClass, string $documentClass, array $valueGroupResult, AbstractQuery $query)
+    private function extractValueGroup(string $valueResultClass, string $documentClass, array $valueGroupResult, AbstractQuery $query): object
     {
         $value = $valueGroupResult['groupValue'] ?? null;
         $numFound = $valueGroupResult['doclist']['numFound'] ?? null;

@@ -17,20 +17,11 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PreCreateQuery extends Event
 {
-    /**
-     * @var QueryInterface|null
-     */
-    protected $query;
+    protected ?QueryInterface $query = null;
 
-    /**
-     * @var string
-     */
-    protected $type;
+    protected string $type;
 
-    /**
-     * @var array
-     */
-    protected $options;
+    protected ?array $options;
 
     /**
      * Event constructor.

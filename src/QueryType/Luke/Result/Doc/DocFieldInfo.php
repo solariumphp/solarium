@@ -16,50 +16,23 @@ use Solarium\QueryType\Luke\Result\FlagList;
  */
 class DocFieldInfo
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string|null
-     */
-    protected $type;
+    protected ?string $type;
 
-    /**
-     * @var FlagList
-     */
-    protected $schema;
+    protected FlagList $schema;
 
-    /**
-     * @var FlagList
-     */
-    protected $flags;
+    protected FlagList $flags;
 
-    /**
-     * @var string|null
-     */
-    protected $value = null;
+    protected ?string $value = null;
 
-    /**
-     * @var string|null
-     */
-    protected $internal;
+    protected ?string $internal;
 
-    /**
-     * @var string|null
-     */
-    protected $binary;
+    protected ?string $binary;
 
-    /**
-     * @var int|null
-     */
-    protected $docFreq;
+    protected ?int $docFreq;
 
-    /**
-     * @var array|null
-     */
-    protected $termVector;
+    protected ?array $termVector;
 
     /**
      * Constructor.
@@ -140,7 +113,7 @@ class DocFieldInfo
      *
      * @return self Provides fluent interface
      */
-    public function setFlags($flags): self
+    public function setFlags(FlagList $flags): self
     {
         $this->flags = $flags;
 

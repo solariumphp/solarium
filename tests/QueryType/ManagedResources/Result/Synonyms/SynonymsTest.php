@@ -7,8 +7,7 @@ use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms;
 
 class SynonymsTest extends TestCase
 {
-    /** @var Synonyms */
-    protected $synonyms;
+    protected Synonyms $synonyms;
 
     public function setUp(): void
     {

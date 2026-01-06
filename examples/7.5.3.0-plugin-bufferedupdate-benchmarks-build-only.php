@@ -46,7 +46,7 @@ $buildTimes = [];
 
 $client->getEventDispatcher()->addListener(
     Events::PRE_EXECUTE_REQUEST,
-    function (PreExecuteRequest $event) use ($response, &$start, &$buildTimes) {
+    function (PreExecuteRequest $event) use ($response, &$start, &$buildTimes): void {
         $buildTimes[] = (hrtime(true) - $start) / 1000000;
         $event->setResponse($response);
         $start = hrtime(true);

@@ -25,9 +25,9 @@ use Solarium\Exception\RuntimeException;
 class AnalyticsExpressionVisitor extends AbstractExpressionVisitor
 {
     /**
-     * @param \Solarium\Builder\ExpressionInterface $expr
+     * @param ExpressionInterface $expr
      *
-     * @throws \Solarium\Exception\RuntimeException
+     * @throws RuntimeException
      *
      * @return mixed
      */

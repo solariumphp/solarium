@@ -9,8 +9,7 @@ use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Add;
 
 class AddTest extends TestCase
 {
-    /** @var Add */
-    protected $add;
+    protected Add $add;
 
     public function setUp(): void
     {

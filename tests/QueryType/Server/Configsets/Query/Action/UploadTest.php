@@ -9,10 +9,7 @@ use Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult;
 
 class UploadTest extends TestCase
 {
-    /**
-     * @var Upload
-     */
-    protected $action;
+    protected Upload $action;
 
     public function setUp(): void
     {

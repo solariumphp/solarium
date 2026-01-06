@@ -22,7 +22,7 @@ trait EDisMaxTrait
      *
      * This is a convenience method that maps presets to getComponent
      *
-     * @return \Solarium\Component\EdisMax
+     * @return EdisMax
      */
     public function getEDisMax(): EdisMax
     {

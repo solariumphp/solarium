@@ -39,10 +39,8 @@ class Query extends BaseQuery
 
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'handler' => 'update/extract',
         'resultclass' => Result::class,
         'documentclass' => Document::class,
@@ -52,17 +50,13 @@ class Query extends BaseQuery
 
     /**
      * Field name mappings.
-     *
-     * @var array
      */
-    protected $fieldMappings = [];
+    protected array $fieldMappings = [];
 
     /**
      * Resource name that was added to the request.
-     *
-     * @var string
      */
-    protected $resourceName;
+    protected string $resourceName;
 
     /**
      * Get type for this query.
@@ -510,7 +504,7 @@ class Query extends BaseQuery
      *
      * {@internal The 'fmap' option needs additional setup work.}
      */
-    protected function init()
+    protected function init(): void
     {
         if (isset($this->options['fmap'])) {
             $this->setFieldMappings($this->options['fmap']);

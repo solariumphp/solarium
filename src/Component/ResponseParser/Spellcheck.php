@@ -25,9 +25,9 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse result data into result objects.
      *
-     * @param \Solarium\Component\ComponentAwareQueryInterface|null $query
-     * @param \Solarium\Component\AbstractComponent|null            $spellcheck
-     * @param array                                                 $data
+     * @param ComponentAwareQueryInterface|null $query
+     * @param AbstractComponent|null            $spellcheck
+     * @param array                             $data
      *
      * @return Result|null
      */

@@ -21,10 +21,7 @@ class Fields extends Index
 {
     use InfoTrait;
 
-    /**
-     * @var ResultInterface
-     */
-    protected $result;
+    protected ResultInterface $result;
 
     /**
      * Get result data for the response.

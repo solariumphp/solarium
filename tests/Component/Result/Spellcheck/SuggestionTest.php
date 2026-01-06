@@ -7,24 +7,19 @@ use Solarium\Component\Result\Spellcheck\Suggestion;
 
 class SuggestionTest extends TestCase
 {
-    /**
-     * @var Suggestion
-     */
-    protected $result;
+    protected Suggestion $result;
 
-    protected $numFound;
+    protected int $numFound;
 
-    protected $startOffset;
+    protected int $startOffset;
 
-    protected $endOffset;
+    protected int $endOffset;
 
-    protected $originalFrequency;
+    protected int $originalFrequency;
 
-    protected $words;
+    protected array $words;
 
-    protected $frequency;
-
-    protected $originalTerm;
+    protected string $originalTerm;
 
     public function setUp(): void
     {

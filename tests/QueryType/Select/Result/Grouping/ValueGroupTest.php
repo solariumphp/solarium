@@ -7,18 +7,15 @@ use Solarium\Component\Result\Grouping\ValueGroup;
 
 class ValueGroupTest extends TestCase
 {
-    /**
-     * @var ValueGroup
-     */
-    protected $group;
+    protected ValueGroup $group;
 
-    protected $value;
+    protected string $value;
 
-    protected $numFound;
+    protected int $numFound;
 
-    protected $start;
+    protected int $start;
 
-    protected $items;
+    protected array $items;
 
     public function setUp(): void
     {

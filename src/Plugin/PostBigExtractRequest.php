@@ -30,10 +30,8 @@ class PostBigExtractRequest extends AbstractPlugin
 {
     /**
      * Default options.
-     *
-     * @var array
      */
-    protected $options = [
+    protected array $options = [
         'maxquerystringlength' => 1024,
     ];
 

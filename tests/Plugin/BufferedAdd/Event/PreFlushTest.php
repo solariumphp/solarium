@@ -7,7 +7,7 @@ use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
 class PreFlushTest extends TestCase
 {
-    public function testConstructorAndGetters()
+    public function testConstructorAndGetters(): PreFlush
     {
         $buffer = [1, 2, 3];
         $commitWithin = 567;
@@ -23,10 +23,8 @@ class PreFlushTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreFlush $event
      */
-    public function testSetAndGetBuffer($event): void
+    public function testSetAndGetBuffer(PreFlush $event): void
     {
         $buffer = [4, 5, 6];
         $event->setBuffer($buffer);
@@ -35,10 +33,8 @@ class PreFlushTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreFlush $event
      */
-    public function testSetAndGetOverwrite($event): void
+    public function testSetAndGetOverwrite(PreFlush $event): void
     {
         $event->setOverwrite(false);
         $this->assertFalse($event->getOverwrite());
@@ -46,10 +42,8 @@ class PreFlushTest extends TestCase
 
     /**
      * @depends testConstructorAndGetters
-     *
-     * @param PreFlush $event
      */
-    public function testSetAndGetCommitWithin($event): void
+    public function testSetAndGetCommitWithin(PreFlush $event): void
     {
         $commitWithin = 321;
         $event->setCommitWithin($commitWithin);

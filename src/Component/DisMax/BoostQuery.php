@@ -48,7 +48,7 @@ class BoostQuery extends Configurable implements QueryInterface
     /**
      * Returns a query helper.
      *
-     * @return \Solarium\Core\Query\Helper
+     * @return Helper
      */
     public function getHelper(): Helper
     {
@@ -58,7 +58,7 @@ class BoostQuery extends Configurable implements QueryInterface
     /**
      * Initialize options.
      */
-    protected function init()
+    protected function init(): void
     {
         foreach ($this->options as $name => $value) {
             switch ($name) {

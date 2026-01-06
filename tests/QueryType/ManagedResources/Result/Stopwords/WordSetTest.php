@@ -9,8 +9,7 @@ use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
 
 class WordSetTest extends TestCase
 {
-    /** @var WordSet */
-    protected $wordSet;
+    protected WordSet $wordSet;
 
     public function setUp(): void
     {

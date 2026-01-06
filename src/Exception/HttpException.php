@@ -28,19 +28,15 @@ class HttpException extends \RuntimeException implements RuntimeExceptionInterfa
 {
     /**
      * HTTP status message.
-     *
-     * @var string
      */
-    protected $statusMessage;
+    protected string $statusMessage;
 
     /**
      * HTTP response body.
      *
      * Usually contains a description of the error (if Solr returned one)
-     *
-     * @var string
      */
-    protected $body;
+    protected ?string $body;
 
     /**
      * Exception constructor.

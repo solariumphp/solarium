@@ -18,15 +18,9 @@ namespace Solarium\Component\Result\Analytics;
  */
 class Grouping
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var array
-     */
-    private $facets = [];
+    private array $facets = [];
 
     /**
      * @param string $name
@@ -45,10 +39,10 @@ class Grouping
     }
 
     /**
-     * @param string                                       $name
-     * @param \Solarium\Component\Result\Analytics\Facet[] $facets
+     * @param string  $name
+     * @param Facet[] $facets
      *
-     * @return $this
+     * @return self Provides fluent interface
      */
     public function addFacets(string $name, array $facets): self
     {

@@ -10,10 +10,7 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Tokenizer;
 
 abstract class AbstractAnalyzerTestCase extends TestCase
 {
-    /**
-     * @var AbstractAnalyzer
-     */
-    protected $analyzer;
+    protected AbstractAnalyzer $analyzer;
 
     abstract public function testGetClassName();
 

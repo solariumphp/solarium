@@ -18,10 +18,8 @@ trait SpellcheckTrait
 {
     /**
      * Used to further customize collation parameters.
-     *
-     * @var array
      */
-    protected $collateParams = [];
+    protected array $collateParams = [];
 
     /**
      * Set build option.
@@ -76,11 +74,11 @@ trait SpellcheckTrait
      *
      * The name of the dictionary or dictionaries to use
      *
-     * @param string|array $dictionary
+     * @param string|string[] $dictionary
      *
      * @return SpellcheckInterface Provides fluent interface
      */
-    public function setDictionary($dictionary): SpellcheckInterface
+    public function setDictionary(string|array $dictionary): SpellcheckInterface
     {
         if (\is_string($dictionary)) {
             $dictionary = [$dictionary];

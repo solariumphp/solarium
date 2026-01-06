@@ -9,10 +9,7 @@ use Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult;
 
 class CreateTest extends TestCase
 {
-    /**
-     * @var Create
-     */
-    protected $action;
+    protected Create $action;
 
     public function setUp(): void
     {

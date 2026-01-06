@@ -7,16 +7,13 @@ use Solarium\Component\Result\Debug\Detail;
 
 class DetailTest extends TestCase
 {
-    /**
-     * @var Detail
-     */
-    protected $result;
+    protected Detail $result;
 
-    protected $value;
+    protected float $value;
 
-    protected $match;
+    protected bool $match;
 
-    protected $description;
+    protected string $description;
 
     public function setUp(): void
     {

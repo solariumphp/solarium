@@ -7,14 +7,11 @@ use Solarium\Component\Result\Stats\Result;
 
 class ResultTest extends TestCase
 {
-    /**
-     * @var Result
-     */
-    protected $result;
+    protected Result $result;
 
-    protected $field;
+    protected string $field;
 
-    protected $stats;
+    protected array $stats;
 
     public function setUp(): void
     {

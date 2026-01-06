@@ -22,7 +22,7 @@ use Solarium\QueryType\ManagedResources\ResponseParser\Synonyms as SynonymsRespo
 
 class SynonymsTest extends TestCase
 {
-    protected $query;
+    protected Synonyms $query;
 
     public function setUp(): void
     {

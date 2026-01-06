@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class SwapTest extends TestCase
 {
-    /**
-     * @var Swap
-     */
-    protected $action;
+    protected Swap $action;
 
     public function setUp(): void
     {

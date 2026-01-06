@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Support\DataFixtures;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\ClientInterface;
 use Solarium\Support\DataFixtures\Executor;
@@ -12,9 +13,9 @@ use Solarium\Tests\Support\DataFixtures\Fixtures\MockFixture1;
 
 class FixtureLoaderTest extends TestCase
 {
-    private $fixturePath;
+    private string $fixturePath;
 
-    private $client;
+    private ClientInterface $client;
 
     public function setUp(): void
     {
@@ -44,8 +45,12 @@ class FixtureLoaderTest extends TestCase
         $fixtureLoader->loadFixturesFromDir($this->fixturePath, false);
     }
 
+    /**
+     * @return MockObject&Loader
+     */
     private function mockLoader()
     {
+        /** @var MockObject&Loader $loader */
         $loader = $this->createMock(Loader::class);
 
         $loader->expects($this->once())
@@ -63,8 +68,12 @@ class FixtureLoaderTest extends TestCase
         return $loader;
     }
 
-    private function mockPurger($expectPurge)
+    /**
+     * @return MockObject&Purger
+     */
+    private function mockPurger(bool $expectPurge)
     {
+        /** @var MockObject&Purger $purger */
         $purger = $this->createMock(Purger::class);
 
         $purger->expects($expectPurge ? $this->once() : $this->never())
@@ -73,14 +82,18 @@ class FixtureLoaderTest extends TestCase
         return $purger;
     }
 
+    /**
+     * @return MockObject&Executor
+     */
     private function mockExecutor()
     {
+        /** @var MockObject&Executor $executor */
         $executor = $this->createMock(Executor::class);
 
         return $executor;
     }
 
-    private function getMockFixture()
+    private function getMockFixture(): MockFixture1
     {
         return new MockFixture1();
     }

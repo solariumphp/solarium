@@ -14,20 +14,11 @@ use Solarium\Tests\Integration\TestClientFactory;
 
 class PostBigRequestTest extends TestCase
 {
-    /**
-     * @var PostBigRequest
-     */
-    protected $plugin;
+    protected PostBigRequest $plugin;
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
-    /**
-     * @var Query
-     */
-    protected $query;
+    protected Query $query;
 
     public function setUp(): void
     {

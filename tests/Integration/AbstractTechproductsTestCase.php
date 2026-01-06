@@ -25,6 +25,7 @@ use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\RequestBuilderInterface;
+use Solarium\Core\Query\Status4xxNoExceptionInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
@@ -3391,7 +3392,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(2, $result);
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -3403,7 +3404,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertCount(2, $result);
 
         $rerankedids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $rerankedids[] = $document->id;
         }
@@ -3544,7 +3545,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame(28, $result->getNumFound());
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -3651,7 +3652,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame(4, $result->getNumFound());
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -3760,7 +3761,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame(11, $result->getNumFound());
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -3840,7 +3841,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame($totalDocs, $result->getNumFound());
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -4013,7 +4014,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame(11, $result->getNumFound());
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -4082,7 +4083,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame($totalDocs, $result->getNumFound());
 
         $ids = [];
-        /** @var \Solarium\QueryType\Select\Result\Document $document */
+        /** @var Document $document */
         foreach ($result as $document) {
             $ids[] = $document->id;
         }
@@ -5550,7 +5551,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
     public function testGetBodyOnHttpError(): void
     {
-        /** @var \Solarium\Core\Query\Status4xxNoExceptionInterface $query */
+        /** @var Status4xxNoExceptionInterface $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName('english');
         $query->setTerm('foo');
@@ -5613,7 +5614,7 @@ class TermsTestQuery extends SelectQuery
 {
     use TermsTrait;
 
-    public function __construct($options = null)
+    public function __construct(?array $options = null)
     {
         parent::__construct($options);
         $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';

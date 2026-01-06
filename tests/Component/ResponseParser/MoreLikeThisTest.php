@@ -12,11 +12,11 @@ use Solarium\QueryType\Select\Result\Document;
 
 class MoreLikeThisTest extends TestCase
 {
-    protected $parser;
+    protected Parser $parser;
 
-    protected $query;
+    protected Query $query;
 
-    protected $mlt;
+    protected MoreLikeThis $mlt;
 
     public function setUp(): void
     {

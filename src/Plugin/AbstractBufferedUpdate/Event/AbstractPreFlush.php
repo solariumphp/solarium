@@ -18,10 +18,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 abstract class AbstractPreFlush extends Event
 {
-    /**
-     * @var array
-     */
-    protected $buffer;
+    protected array $buffer;
 
     /**
      * Event constructor.

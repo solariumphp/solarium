@@ -35,9 +35,9 @@ class NoWaitForResponseRequest extends AbstractPlugin
      *
      * @return self Provides fluent interface
      *
-     * @throws \Solarium\Exception\HttpException
+     * @throws HttpException
      */
-    public function preExecuteRequest($event): self
+    public function preExecuteRequest(object $event): self
     {
         // We need to accept event proxies or decorators.
         /** @var PreExecuteRequest $event */

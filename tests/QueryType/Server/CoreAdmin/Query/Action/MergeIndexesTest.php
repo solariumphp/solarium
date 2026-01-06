@@ -8,10 +8,7 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 
 class MergeIndexesTest extends TestCase
 {
-    /**
-     * @var MergeIndexes
-     */
-    protected $action;
+    protected MergeIndexes $action;
 
     public function setUp(): void
     {

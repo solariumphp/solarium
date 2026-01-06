@@ -18,18 +18,16 @@ trait RequestParamsTrait
      * Request params.
      *
      * Multivalue params are supported using a multidimensional array:
-     * 'fq' => array('cat:1','published:1')
-     *
-     * @var array
+     * 'fq' => ['cat:1', 'published:1']
      */
-    protected $params = [];
+    protected array $params = [];
 
     /**
      * Get a param value.
      *
      * @param string $key
      *
-     * @return string|array|null
+     * @return mixed|null
      */
     public function getParam(string $key)
     {

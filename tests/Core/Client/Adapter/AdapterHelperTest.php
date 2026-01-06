@@ -10,15 +10,9 @@ use Solarium\Exception\HttpException;
 
 class AdapterHelperTest extends TestCase
 {
-    /**
-     * @var Endpoint
-     */
-    protected $endpoint;
+    protected Endpoint $endpoint;
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected Request $request;
 
     public function setUp(): void
     {

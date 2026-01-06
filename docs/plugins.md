@@ -53,8 +53,7 @@ Triggered just after a commit. Has access to the commit (update query) result.
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedAdd\Event\Events;
-use Solarium\Plugin\BufferedAdd\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Query;
+use Solarium\Plugin\BufferedAdd\Event\PreFlush;
 
 htmlHeader();
 
@@ -66,7 +65,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // also register an event hook to display what is happening
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function (PreFlushEvent $event) {
+    function (PreFlush $event): void {
         echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
     }
 );
@@ -149,8 +148,7 @@ Triggered just after a commit. Has access to the commit (update query) result.
 require_once(__DIR__.'/init.php');
 
 use Solarium\Plugin\BufferedDelete\Event\Events;
-use Solarium\Plugin\BufferedDelete\Event\PreFlush as PreFlushEvent;
-use Solarium\QueryType\Update\Query\Query;
+use Solarium\Plugin\BufferedDelete\Event\PreFlush;
 
 htmlHeader();
 
@@ -162,7 +160,7 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 // also register an event hook to display what is happening
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
-    function (PreFlushEvent $event) {
+    function (PreFlush $event): void {
         echo 'Flushing buffer (' . count($event->getBuffer()) . ' deletes)<br/>';
     }
 );

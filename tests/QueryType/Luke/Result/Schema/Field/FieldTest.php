@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\QueryType\Luke\Result\Schema\Field;
 
+use Solarium\QueryType\Luke\Result\Schema\Field\AbstractField;
 use Solarium\QueryType\Luke\Result\Schema\Field\CopyFieldDestInterface;
 use Solarium\QueryType\Luke\Result\Schema\Field\CopyFieldSourceInterface;
 use Solarium\QueryType\Luke\Result\Schema\Field\Field;
@@ -9,10 +10,7 @@ use Solarium\QueryType\Luke\Result\Schema\Field\SchemaFieldInterface;
 
 class FieldTest extends AbstractFieldTestCase
 {
-    /**
-     * @var Field
-     */
-    protected $field;
+    protected AbstractField|Field $field;
 
     public function setUp(): void
     {

@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Plugin\BufferedDelete;
 
 use Solarium\Plugin\BufferedDelete\BufferedDelete;
+use Solarium\Plugin\BufferedDelete\BufferedDeleteLite;
 use Solarium\Plugin\BufferedDelete\Delete\Id as DeleteById;
 use Solarium\Plugin\BufferedDelete\Delete\Query as DeleteQuery;
 use Solarium\Plugin\BufferedDelete\Event\AddDeleteById;
@@ -12,15 +13,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BufferedDeleteTest extends BufferedDeleteLiteTest
 {
-    /**
-     * @var string
-     */
-    protected $pluginClass = BufferedDelete::class;
+    protected string $pluginClass = BufferedDelete::class;
 
-    /**
-     * @var BufferedDelete
-     */
-    protected $plugin;
+    protected BufferedDeleteLite|BufferedDelete $plugin;
 
     public function testInitPlugin(): void
     {

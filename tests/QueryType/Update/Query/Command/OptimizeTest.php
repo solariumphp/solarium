@@ -8,7 +8,7 @@ use Solarium\QueryType\Update\Query\Query;
 
 class OptimizeTest extends TestCase
 {
-    protected $command;
+    protected Optimize $command;
 
     public function setUp(): void
     {

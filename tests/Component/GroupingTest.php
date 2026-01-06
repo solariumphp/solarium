@@ -9,10 +9,7 @@ use Solarium\QueryType\Select\Query\Query;
 
 class GroupingTest extends TestCase
 {
-    /**
-     * @var Grouping
-     */
-    protected $grouping;
+    protected Grouping $grouping;
 
     public function setUp(): void
     {

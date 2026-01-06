@@ -22,15 +22,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class BufferedDeleteLiteTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $pluginClass = BufferedDeleteLite::class;
+    protected string $pluginClass = BufferedDeleteLite::class;
 
-    /**
-     * @var BufferedDeleteLite
-     */
-    protected $plugin;
+    protected BufferedDeleteLite $plugin;
 
     public function setUp(): void
     {
@@ -500,11 +494,9 @@ class BufferedDeleteLiteTest extends TestCase
     }
 
     /**
-     * @param EventDispatcherInterface|null $dispatcher
-     *
-     * @return Client&MockObject
+     * @return MockObject&Client
      */
-    protected function getClient(?EventDispatcherInterface $dispatcher = null): ClientInterface
+    protected function getClient(?EventDispatcherInterface $dispatcher = null)
     {
         if (!$dispatcher) {
             $dispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -512,7 +504,7 @@ class BufferedDeleteLiteTest extends TestCase
                 ->method('dispatch');
         }
 
-        /** @var Client&MockObject $client */
+        /** @var MockObject&Client $client */
         $client = $this->createMock(ClientInterface::class);
 
         $client->expects($this->any())

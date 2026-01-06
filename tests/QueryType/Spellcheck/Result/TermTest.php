@@ -7,30 +7,15 @@ use Solarium\QueryType\Spellcheck\Result\Term;
 
 class TermTest extends TestCase
 {
-    /**
-     * @var Term
-     */
-    protected $result;
+    protected Term $result;
 
-    /**
-     * @var int
-     */
-    protected $numFound;
+    protected int $numFound;
 
-    /**
-     * @var int
-     */
-    protected $startOffset;
+    protected int $startOffset;
 
-    /**
-     * @var int
-     */
-    protected $endOffset;
+    protected int $endOffset;
 
-    /**
-     * @var array
-     */
-    protected $suggestions;
+    protected array $suggestions;
 
     public function setUp(): void
     {
