@@ -5,8 +5,7 @@ use Solarium\Exception\HttpException;
 use Solarium\Support\Utility;
 
 try {
-
-    require(__DIR__.'/init.php');
+    require __DIR__.'/init.php';
 
     $collection_or_core_name = $config['endpoint']['localhost']['core'] = uniqid();
 
@@ -197,18 +196,18 @@ try {
 
     foreach (scandir(__DIR__) as $example) {
         if (preg_match('/^\d.*\.php/', $example)) {
-            print "\n".$example.' ';
+            echo PHP_EOL.$example.' ';
             if (in_array($example, $skipAltogether)) {
-                print 'Could not be run against the techproducts example.';
+                echo 'Could not be run against the techproducts example.';
             } elseif (in_array($example, $skipForSolrVersion)) {
                 printf('Could not be run against Solr %d.', $solrVersion);
             } elseif ('solrcloud' === $solr_mode && in_array($example, $skipForCloud)) {
-                print 'Could not be run in cloud mode.';
+                echo 'Could not be run in cloud mode.';
             } elseif (in_array($example, $skipForPHPVersion)) {
                 printf('Could not be run in PHP %s.', PHP_VERSION);
             } else {
                 ob_start();
-                require($example);
+                require $example;
                 ob_end_clean();
             }
         }
@@ -236,10 +235,10 @@ try {
         $coreAdminQuery->setAction($unloadAction);
         $client->coreAdmin($coreAdminQuery);
     }
-} catch (\Exception $e) {
-    print $e;
+} catch (Exception $e) {
+    echo $e;
     exit(1);
 }
 
-print "\n\n";
+echo PHP_EOL.PHP_EOL;
 exit(0);

@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -15,7 +16,7 @@ $facetSet = $query->getFacetSet();
 // create two facet pivot instances
 $facet = $facetSet->createFacetPivot('cat-popularity-instock');
 $facet->addFields('cat,popularity,inStock');
-$facet->setMinCount(0);
+$facet->setPivotMinCount(0);
 
 $facet = $facetSet->createFacetPivot('popularity-cat');
 $facet->addFields('popularity,cat');
@@ -41,9 +42,8 @@ foreach ($facetResult as $pivot) {
 
 htmlFooter();
 
-
 /**
- * Recursively render pivot facets
+ * Recursively render pivot facets.
  *
  * @param $pivot
  */

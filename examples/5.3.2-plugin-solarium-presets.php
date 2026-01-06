@@ -1,9 +1,10 @@
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\QueryType\Select\Query\Query as Select;
+
+require_once __DIR__.'/init.php';
 
 // This is a custom query class that could have some customized logic
 class MySelect extends Select
@@ -23,7 +24,6 @@ class QueryCustomizer extends AbstractPlugin
     }
 }
 
-
 htmlHeader();
 
 // create a client instance and register the plugin
@@ -34,13 +34,12 @@ $client->registerPlugin('querycustomizer', 'QueryCustomizer');
 $query = $client->createSelect();
 
 // check the query class, it should be our custom query class
-echo 'Query class: ' . get_class($query) . '<br/>';
+echo 'Query class: '.get_class($query).'<br/>';
 
 // execute the query and display the results
 $resultset = $client->select($query);
 echo 'NumFound: '.$resultset->getNumFound();
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     foreach ($document as $field => $value) {
@@ -48,7 +47,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

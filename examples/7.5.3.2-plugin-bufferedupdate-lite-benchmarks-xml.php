@@ -1,11 +1,11 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\QueryType\Update\Query\Query;
+
+require_once __DIR__.'/init.php';
 
 $weight = 'lite';
 $addRequestFormat = Query::REQUEST_FORMAT_XML;
 $delRequestFormat = Query::REQUEST_FORMAT_XML;
 
-require(__DIR__.'/7.5.3-plugin-bufferedupdate-benchmarks.php');
+require __DIR__.'/7.5.3-plugin-bufferedupdate-benchmarks.php';

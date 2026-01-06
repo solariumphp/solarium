@@ -16,7 +16,7 @@ The options below can be set as query option values, but also by using the set/g
 | cancancel             | bool             | null                                          | Is this a cancellable query?                                                                                                                                               |
 | queryuuid             | string           | null                                          | Custom UUID to identify a cancellable query with                                                                                                                           |
 | fields                | string           | \*,score                                      | Comma separated list of fields to fetch from Solr. There are two special values: '\*' meaning 'all fields' and 'score' to also fetch the Solr document score value.        |
-| sort                  | array            | empty array                                   | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: array('price' =&gt; 'asc')             |
+| sort                  | array            | []                                            | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: ['price' =&gt; 'asc']                  |
 | querydefaultoperator  | string           | null                                          | With a null value the default of your Solr config will be used. If you want to override this supply 'AND' or 'OR' as the value.                                            |
 | querydefaultfield     | string           | null                                          | With a null value the default of your Solr config will be used. If you want to override this supply a field name as the value.                                             |
 | responsewriter        | string           | json                                          | You can set this to 'phps' for improved response parsing performance, at the cost of a (possible) security risk. Only use 'phps' for trusted Solr instances.               |
@@ -39,7 +39,7 @@ A simple select with some params, using the API mode:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -56,7 +56,7 @@ $query->setQuery('price:[12 TO *]');
 $query->setStart(2)->setRows(20);
 
 // set fields to fetch (this overrides the default setting 'all fields')
-$query->setFields(array('id','name','price', 'score'));
+$query->setFields(['id', 'name', 'price', 'score']);
 
 // sort the results by price ascending
 $query->addSort('price', $query::SORT_ASC);
@@ -72,7 +72,6 @@ echo '<br>MaxScore: '.$resultset->getMaxScore();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -82,7 +81,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';
@@ -97,31 +96,32 @@ An example using the select query in config mode: (filterqueries and components 
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // In this case an array is used for configuration to keep the example simple.
 // You can also call setters on the query instance for each option.
-$select = array(
-    'query'         => '*:*',
-    'start'         => 2,
-    'rows'          => 20,
-    'fields'        => array('id','name','price'),
-    'sort'          => array('price' => 'asc'),
-    'filterquery' => array(
-        'maxprice' => array(
-            'query' => 'price:[1 TO 300]'
-        ),
-    ),
-    'component' => array(
-        'facetset' => array(
-            'facet' => array(
+$select = [
+    'query' => '*:*',
+    'start' => 2,
+    'rows' => 20,
+    'fields' => ['id', 'name', 'price'],
+    'sort' => ['price' => 'asc'],
+    'filterquery' => [
+        'maxprice' => [
+            'query' => 'price:[1 TO 300]',
+        ],
+    ],
+    'component' => [
+        'facetset' => [
+            'facet' => [
                 // notice this config uses an inline key value under 'local_key', instead of array key like the filterquery
-                array('type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'),
-            )
-        ),
-    ),
-);
+                ['type' => 'field', 'local_key' => 'stock', 'field' => 'inStock'],
+            ],
+        ],
+    ],
+];
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -139,16 +139,15 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet counts for field "inStock":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 

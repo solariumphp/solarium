@@ -1,14 +1,15 @@
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Core\Event\Events;
 use Solarium\Core\Event\PreExecuteRequest;
+
+require_once __DIR__.'/init.php';
 
 // this very simple plugin shows a timing for each event and display some request debug info
 class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
 {
     protected float $start;
-    protected array $output = array();
+    protected array $output = [];
 
     // This method is called when the plugin is registered with the client.
     protected function initPluginType(): void
@@ -16,38 +17,38 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         $this->start = microtime(true);
 
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(Events::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
-        $dispatcher->addListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
-        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
-        $dispatcher->addListener(Events::POST_EXECUTE_REQUEST, array($this, 'postExecuteRequest'));
-        $dispatcher->addListener(Events::PRE_CREATE_RESULT, array($this, 'preCreateResult'));
-        $dispatcher->addListener(Events::POST_CREATE_RESULT, array($this, 'postCreateResult'));
-        $dispatcher->addListener(Events::PRE_EXECUTE, array($this, 'preExecute'));
-        $dispatcher->addListener(Events::POST_EXECUTE, array($this, 'postExecute'));
-        $dispatcher->addListener(Events::PRE_CREATE_QUERY, array($this, 'preCreateQuery'));
-        $dispatcher->addListener(Events::POST_CREATE_QUERY, array($this, 'postCreateQuery'));
+        $dispatcher->addListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
+        $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        $dispatcher->addListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+        $dispatcher->addListener(Events::POST_EXECUTE_REQUEST, [$this, 'postExecuteRequest']);
+        $dispatcher->addListener(Events::PRE_CREATE_RESULT, [$this, 'preCreateResult']);
+        $dispatcher->addListener(Events::POST_CREATE_RESULT, [$this, 'postCreateResult']);
+        $dispatcher->addListener(Events::PRE_EXECUTE, [$this, 'preExecute']);
+        $dispatcher->addListener(Events::POST_EXECUTE, [$this, 'postExecute']);
+        $dispatcher->addListener(Events::PRE_CREATE_QUERY, [$this, 'preCreateQuery']);
+        $dispatcher->addListener(Events::POST_CREATE_QUERY, [$this, 'postCreateQuery']);
     }
 
     // This method is called if the plugin is removed from the client.
     public function deinitPlugin(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, array($this, 'preCreateRequest'));
-        $dispatcher->removeListener(Events::POST_CREATE_REQUEST, array($this, 'postCreateRequest'));
-        $dispatcher->removeListener(Events::PRE_EXECUTE_REQUEST, array($this, 'preExecuteRequest'));
-        $dispatcher->removeListener(Events::POST_EXECUTE_REQUEST, array($this, 'postExecuteRequest'));
-        $dispatcher->removeListener(Events::PRE_CREATE_RESULT, array($this, 'preCreateResult'));
-        $dispatcher->removeListener(Events::POST_CREATE_RESULT, array($this, 'postCreateResult'));
-        $dispatcher->removeListener(Events::PRE_EXECUTE, array($this, 'preExecute'));
-        $dispatcher->removeListener(Events::POST_EXECUTE, array($this, 'postExecute'));
-        $dispatcher->removeListener(Events::PRE_CREATE_QUERY, array($this, 'preCreateQuery'));
-        $dispatcher->removeListener(Events::POST_CREATE_QUERY, array($this, 'postCreateQuery'));
+        $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
+        $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        $dispatcher->removeListener(Events::PRE_EXECUTE_REQUEST, [$this, 'preExecuteRequest']);
+        $dispatcher->removeListener(Events::POST_EXECUTE_REQUEST, [$this, 'postExecuteRequest']);
+        $dispatcher->removeListener(Events::PRE_CREATE_RESULT, [$this, 'preCreateResult']);
+        $dispatcher->removeListener(Events::POST_CREATE_RESULT, [$this, 'postCreateResult']);
+        $dispatcher->removeListener(Events::PRE_EXECUTE, [$this, 'preExecute']);
+        $dispatcher->removeListener(Events::POST_EXECUTE, [$this, 'postExecute']);
+        $dispatcher->removeListener(Events::PRE_CREATE_QUERY, [$this, 'preCreateQuery']);
+        $dispatcher->removeListener(Events::POST_CREATE_QUERY, [$this, 'postCreateQuery']);
     }
 
     protected function timer(string $event): void
     {
         $time = round(microtime(true) - $this->start, 5);
-        $this->output[] = '['.$time.'] ' . $event;
+        $this->output[] = '['.$time.'] '.$event;
     }
 
     public function display(): void
@@ -74,7 +75,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
         // this dummy param will be visible in the debug output but will also be used in the actual Solr request
         $event->getRequest()->addParam('dummyparam', 'dummyvalue');
 
-        $this->output[] = 'Request URI: ' . $event->getRequest()->getUri();
+        $this->output[] = 'Request URI: '.$event->getRequest()->getUri();
     }
 
     public function postExecuteRequest(): void
@@ -113,7 +114,6 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
     }
 }
 
-
 htmlHeader();
 
 // create a client instance and register the plugin
@@ -127,7 +127,6 @@ $resultset = $client->select($query);
 
 echo 'NumFound: '.$resultset->getNumFound();
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     foreach ($document as $field => $value) {
@@ -135,7 +134,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

@@ -1,8 +1,9 @@
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -18,13 +19,12 @@ class MyQuery extends Select
 class MyClient extends Client
 {
     /**
-     * Querytype mappings
+     * Querytype mappings.
      */
-    protected array $queryTypes = array(
+    protected array $queryTypes = [
         self::QUERY_SELECT => MyQuery::class,
-    );
+    ];
 }
-
 
 // create a client instance
 $client = new MyClient($adapter, $eventDispatcher, $config);
@@ -33,7 +33,7 @@ $client = new MyClient($adapter, $eventDispatcher, $config);
 $query = $client->createSelect();
 
 // check the query class, it should be our custom query class
-echo 'Query class: ' . get_class($query) . '<br/>';
+echo 'Query class: '.get_class($query).'<br/>';
 
 // execute query
 $result = $client->execute($query);
@@ -43,7 +43,6 @@ echo 'NumFound: '.$result->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($result as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -53,7 +52,7 @@ foreach ($result as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

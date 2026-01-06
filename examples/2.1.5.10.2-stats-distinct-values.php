@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -22,14 +23,14 @@ $statsResult = $resultset->getStats();
 
 // display the stats results
 foreach ($statsResult as $field) {
-    echo '<h1>' . $field->getName() . '</h1>';
-    echo 'Min: ' . $field->getMin() . '<br/>';
-    echo 'Max: ' . $field->getMax() . '<br/>';
-    echo 'Number of distinct values: ' . $field->getCountDistinct() . '<br/>';
+    echo '<h1>'.$field->getName().'</h1>';
+    echo 'Min: '.$field->getMin().'<br/>';
+    echo 'Max: '.$field->getMax().'<br/>';
+    echo 'Number of distinct values: '.$field->getCountDistinct().'<br/>';
     echo 'Distinct values: <br/>';
     echo '<ul>';
     foreach ($field->getDistinctValues() as $value) {
-        echo '<li>' . $value . '</li>';
+        echo '<li>'.$value.'</li>';
     }
     echo '</ul>';
     echo '<hr/>';

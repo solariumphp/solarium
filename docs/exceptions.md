@@ -11,7 +11,8 @@ An unreachable endpoint can be emulated to run the following examples "successfu
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // simulate an unreachable endpoint
@@ -24,7 +25,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $ping = $client->createPing();
 
 // execute the ping query—it'll fail!
-$client->execute($ping);
+$client->ping($ping);
 ```
 
 
@@ -34,7 +35,7 @@ Every exception thrown by Solarium is a descendant of the PHP base class `Except
 
 ```php
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Exception $e) {
     echo 'Something went wrong:<br/><br/>';
     echo $e->getMessage();
@@ -48,7 +49,7 @@ Exceptions thrown by Solarium implement a marker interface. This empty interface
 
 ```php
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Solarium\Exception\ExceptionInterface $e) {
     echo 'Solarium ran into a problem:<br/><br/>';
     echo $e->getMessage();
@@ -65,7 +66,7 @@ An exception can be singled out by catching it separately.
 
 ```php
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Solarium\Exception\HttpException $e) {
     echo 'Solarium can\'t reach your Solr server:<br/><br/>';
     echo $e->getMessage();
@@ -79,7 +80,7 @@ The distinction can also be made inside the catch block for a generic `Exception
 
 ```php
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Exception $e) {
     echo 'Something went wrong:<br/><br/>';
     echo $e->getMessage();

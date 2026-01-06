@@ -40,7 +40,8 @@ Example
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -56,9 +57,9 @@ $resultset = $client->terms($query);
 
 // display terms
 foreach ($resultset as $field => $terms) {
-    echo '<h3>' . $field . '</h3>';
+    echo '<h3>'.$field.'</h3>';
     foreach ($terms as $term => $count) {
-        echo $term . ' (' . $count . ')<br/>';
+        echo $term.' ('.$count.')<br/>';
     }
     echo '<hr/>';
 }

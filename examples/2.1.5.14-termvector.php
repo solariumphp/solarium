@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -25,37 +26,34 @@ $resultset = $client->select($query);
 
 $termVector = $resultset->getTermVector();
 foreach ($termVector as $key => $document) {
-
     echo '<h1>'.$key.'</h1>';
 
     foreach ($document as $fieldName => $field) {
-
         echo '<h2>'.$fieldName.'</h2>';
 
         foreach ($field as $term => $termInfo) {
-
             echo '<hr/><h3>'.$term.'</h3><table>';
 
-            echo '<tr><th>Term frequency</th><td>' . $termInfo['tf'] ?? '' . '</td></tr>';
-            echo '<tr><th>Document frequency</th><td>' . $termInfo['df'] ?? '' . '</td></tr>';
-            echo '<tr><th>TF * IDF</th><td>' . $termInfo['tf-idf'] ?? '' . '</td></tr>';
+            echo '<tr><th>Term frequency</th><td>'.$termInfo['tf'] ?? ''.'</td></tr>';
+            echo '<tr><th>Document frequency</th><td>'.$termInfo['df'] ?? ''.'</td></tr>';
+            echo '<tr><th>TF * IDF</th><td>'.$termInfo['tf-idf'] ?? ''.'</td></tr>';
 
             echo '<tr><th>Positions</th><td>';
             foreach ($termInfo['positions'] ?? [] as $position) {
-                echo $position . '<br/>';
+                echo $position.'<br/>';
             }
             echo '</td></tr>';
 
             echo '<tr><th>Offsets</th><td>';
             foreach ($termInfo['offsets'] ?? [] as $offset) {
-                echo 'start: '.$offset['start'] . '<br/>';
-                echo 'end: '.$offset['end'] . '<br/>';
+                echo 'start: '.$offset['start'].'<br/>';
+                echo 'end: '.$offset['end'].'<br/>';
             }
             echo '</td></tr>';
 
             echo '<tr><th>Payloads</th><td>';
             foreach ($termInfo['payloads'] ?? [] as $payload) {
-                echo $payload . '<br/>';
+                echo $payload.'<br/>';
             }
             echo '</td></tr>';
 

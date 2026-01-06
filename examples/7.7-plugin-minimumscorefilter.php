@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -11,7 +11,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $filter = $client->getPlugin('minimumscorefilter');
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setQuery('a');
-$query->setFields(array('id'));
+$query->setFields(['id']);
 $query->setFilterRatio(.5);
 $query->setFilterMode($query::FILTER_MODE_MARK);
 
@@ -24,7 +24,6 @@ echo '<br/>MaxScore: '.$resultset->getMaxScore();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     // by setting the FILTER_MARK option we get a special method to test each document
     if ($document->markedAsLowScore()) {
         echo '<hr/><b>MARKED AS LOW SCORE</b><table>';
@@ -39,7 +38,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

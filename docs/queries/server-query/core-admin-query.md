@@ -10,7 +10,8 @@ The following example shows how your can build a CoreAdmin query that executes t
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -28,7 +29,7 @@ $response = $client->coreAdmin($coreAdminQuery);
 $statusResult = $response->getStatusResult();
 
 echo '<b>CoreAdmin status action execution:</b><br/>';
-echo 'Uptime of the core ( ' .$statusResult->getCoreName(). ' ): ' . $statusResult->getUptime();
+echo 'Uptime of the core ( '.$statusResult->getCoreName().' ): '.$statusResult->getUptime();
 
 htmlFooter();
 ```

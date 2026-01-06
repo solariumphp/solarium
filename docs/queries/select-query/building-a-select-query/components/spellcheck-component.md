@@ -34,7 +34,8 @@ Example
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -86,7 +87,7 @@ foreach ($collations as $collation) {
     echo 'Hits: '.$collation->getHits().'<br/>';
     echo 'Corrections:<br/>';
     foreach ($collation->getCorrections() as $input => $correction) {
-        echo $input . ' => ' . $correction .'<br/>';
+        echo $input.' => '.$correction.'<br/>';
     }
     echo '<hr/>';
 }

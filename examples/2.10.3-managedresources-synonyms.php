@@ -2,7 +2,8 @@
 
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -22,18 +23,18 @@ $query->setName('english');
 $result = $client->execute($query);
 
 // display list properties
-echo '<b>Case sensitive:</b> ' . ($result->isIgnoreCase() ? 'no' : 'yes') . '<br/>';
-echo '<b>Format:</b> ' . $result->getFormat() . '<br/>';
-echo '<b>Initialized on:</b> ' . $result->getInitializedOn() . '<br/>';
-echo '<b>Updated since init:</b> ' . $result->getUpdatedSinceInit() . '<br/><br/>';
+echo '<b>Case sensitive:</b> '.($result->isIgnoreCase() ? 'no' : 'yes').'<br/>';
+echo '<b>Format:</b> '.$result->getFormat().'<br/>';
+echo '<b>Initialized on:</b> '.$result->getInitializedOn().'<br/>';
+echo '<b>Updated since init:</b> '.$result->getUpdatedSinceInit().'<br/><br/>';
 
 // display synonyms
-echo '<b>Number of synonym mappings:</b> ' . count($result) . '<br/>';
+echo '<b>Number of synonym mappings:</b> '.count($result).'<br/>';
 echo '<b>Synonym mappings:</b><br/>';
 echo '<table>';
 
 foreach ($result as $synonym) {
-    echo '<tr><th>' . $synonym->getTerm() . '</th><td>' . implode(', ', $synonym->getSynonyms()) . '</td></tr>';
+    echo '<tr><th>'.$synonym->getTerm().'</th><td>'.implode(', ', $synonym->getSynonyms()).'</td></tr>';
 }
 
 echo '</table>';
@@ -55,7 +56,7 @@ foreach (['english', 'dutch'] as $name) {
     $result = $client->execute($query);
 
     // display the result
-    echo '<b>' . $name . ':</b> ' . ($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist') . '<br/>';
+    echo '<b>'.$name.':</b> '.($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist').'<br/>';
 }
 
 echo '<h2>Create list</h2>';
@@ -142,7 +143,7 @@ $result = $client->execute($query);
 
 // display synonym, there will be only one
 foreach ($result as $synonym) {
-    echo '<b>' . $synonym->getTerm() . '</b>: ' . implode(', ', $synonym->getSynonyms());
+    echo '<b>'.$synonym->getTerm().'</b>: '.implode(', ', $synonym->getSynonyms()).'<br/>';
 }
 
 echo '<h2>Check synonym mapping existence</h2>';
@@ -165,7 +166,7 @@ foreach (['tv', 'radio'] as $term) {
     $result = $client->execute($query);
 
     // display the result
-    echo '<b>' . $term . ':</b> ' . ($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist') . '<br/>';
+    echo '<b>'.$term.':</b> '.($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist').'<br/>';
 }
 
 echo '<h2>Add single synonym mapping</h2>';

@@ -8,11 +8,10 @@ Helper methods for general use
 ------------------------------
 
 -   rangeQuery($field, $from, $to, $inclusive = true)
--   qparser($name, $params = array())
--   functionCall($name, $params = array())
+-   qparser($name, $params = [])
+-   functionCall($name, $params = [])
 -   join($from, $to, $dereferenced = false)
 -   formatDate($input)
--   cacheControl($useCache, $cost)
 -   qparserTerm($field, $weight)
 
 See the API docs (linked at the bottom of this page) for more details.
@@ -35,7 +34,8 @@ Example
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -59,7 +59,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -69,7 +68,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

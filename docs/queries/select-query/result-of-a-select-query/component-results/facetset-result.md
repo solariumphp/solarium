@@ -14,7 +14,8 @@ You can also use the `Countable` interface to get the number of counts.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -39,16 +40,15 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet counts for field "inStock":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 
@@ -66,7 +66,8 @@ A facet query result is really simple. It has just one value: the count. You can
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -89,15 +90,14 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet query count
 $count = $resultset->getFacetSet()->getFacet('stock')->getValue();
-echo '<hr/>Facet query count : ' . $count;
+echo '<hr/>Facet query count : '.$count;
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 
@@ -115,7 +115,8 @@ A multiquery facet is basically a combination of multiple facet query instances.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -144,16 +145,15 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Multiquery facet counts:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $key => $count) {
-    echo $key . ' [' . $count . ']<br/>';
+    echo $key.' ['.$count.']<br/>';
 }
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 
@@ -171,7 +171,8 @@ A range facet is also similar to a facet field, but instead of field value count
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -200,16 +201,15 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet ranges:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('priceranges');
 foreach ($facet as $range => $count) {
-    echo $range . ' to ' . ($range + 100) . ' [' . $count . ']<br/>';
+    echo $range.' to '.($range + 100).' ['.$count.']<br/>';
 }
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 
