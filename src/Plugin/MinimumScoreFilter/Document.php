@@ -50,9 +50,9 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
      *
      * @return mixed
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
-        return $this->document->$name($arguments);
+        return $this->document->$name(...$arguments);
     }
 
     /**
