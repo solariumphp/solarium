@@ -5,9 +5,9 @@ Options
 
 | Name        | Type    | Default value | Description                                                                   |
 |-------------|---------|---------------|-------------------------------------------------------------------------------|
-| functions   | array   | [ ]           | One or more Variable Functions to be used throughout the rest of the request. |
-| expressions | array   | [ ]           | A list of calculations to perform over the entire result set.                 |
-| groupings   | array   | [ ]           | The list of Groupings to calculate in addition to the expressions.            |
+| functions   | array   | []            | One or more Variable Functions to be used throughout the rest of the request. |
+| expressions | array   | []            | A list of calculations to perform over the entire result set.                 |
+| groupings   | array   | []            | The list of Groupings to calculate in addition to the expressions.            |
 ||
 
 Example
@@ -16,7 +16,8 @@ Example
 ```php
 <?php
 
-require(__DIR__.'/init.php');
+require __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance

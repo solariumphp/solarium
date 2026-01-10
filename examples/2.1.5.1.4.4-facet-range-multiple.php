@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -34,24 +35,23 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet ranges under 100:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('under100');
 foreach ($facet as $range => $count) {
-    echo $range . ' to ' . ($range + 9.99) . ' [' . $count . ']<br/>';
+    echo $range.' to '.($range + 9.99).' ['.$count.']<br/>';
 }
 
 // display facet counts for second range
 echo '<hr/>Facet ranges over 50:<br/>';
 $facet = $resultset->getFacetSet()->getFacet('over50');
 foreach ($facet as $range => $count) {
-    echo $range . ' to ' . ($range + 49.99) . ' [' . $count . ']<br/>';
+    echo $range.' to '.($range + 49.99).' ['.$count.']<br/>';
 }
-echo '450.0+ [' . $facet->getAfter() . ']<br/>';
+echo '450.0+ ['.$facet->getAfter().']<br/>';
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -9,7 +9,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
-$query->setFields(array('id'));
+$query->setFields(['id']);
 
 // cursor functionality can be used for efficient deep paging (since Solr 4.7)
 $query->setCursorMark('*');
@@ -22,11 +22,11 @@ $prefetch->setPrefetch(2); // fetch 2 rows per request (for real world use this 
 $prefetch->setQuery($query);
 
 // display the total number of documents found by Solr
-echo 'NumFound: ' . count($prefetch);
+echo 'NumFound: '.count($prefetch);
 
 // show document IDs using the resultset iterator
 foreach ($prefetch as $document) {
-    echo '<hr/>ID: '. $document->id;
+    echo '<hr/>ID: '.$document->id;
 }
 
 htmlFooter();

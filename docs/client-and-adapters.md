@@ -52,7 +52,8 @@ Since Solarium 5.2 any [PSR-14](https://www.php-fig.org/psr/psr-14/) compatible 
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a Symfony EventDispatcher instance
@@ -85,7 +86,8 @@ This is the standard Solarium adapter. It supports the most features (for instan
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a cURL adapter instance
@@ -132,7 +134,8 @@ This adapter has no dependencies on other classes or any special PHP extensions 
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create an HTTP adapter instance
@@ -184,7 +187,8 @@ composer require nyholm/psr7
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a PSR-18 adapter instance

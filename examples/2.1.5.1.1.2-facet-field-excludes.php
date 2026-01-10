@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -34,14 +35,14 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet counts for field "cat"; limited to the filter "electronics":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('category');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; excluding the filter "electronics":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('unfiltered');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 htmlFooter();

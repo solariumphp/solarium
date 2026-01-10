@@ -1,18 +1,17 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-htmlHeader();
+require_once __DIR__.'/init.php';
 
+htmlHeader();
 
 // this is the custom result document class
 class MyDoc extends Solarium\QueryType\Select\Result\Document
 {
     public function getSpecialPrice(): float
     {
-        return round(($this->price * .95), 2);
+        return round($this->price * .95, 2);
     }
 }
-
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -31,14 +30,13 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
 
     // this method is added by the custom class
-    echo '<tr><th>offer price</th><td>' . $document->getSpecialPrice() . '</td></tr>';
+    echo '<tr><th>offer price</th><td>'.$document->getSpecialPrice().'</td></tr>';
 
     echo '</table>';
 }

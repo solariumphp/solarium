@@ -1,13 +1,14 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
-$query = $client->createQuery($client::QUERY_SELECT);
+$query = $client->createSelect();
 
 // Pagination example
 $resultsPerPage = 15;
@@ -19,14 +20,13 @@ $query->setRows($resultsPerPage);
 $query->setStart(($currentPage - 1) * $resultsPerPage);
 
 // this executes the query and returns the result
-$resultset = $client->execute($query);
+$resultset = $client->select($query);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -36,7 +36,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

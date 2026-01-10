@@ -1,9 +1,9 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -17,19 +17,18 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
-        echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
+        echo 'Flushing buffer ('.count($event->getBuffer()).' docs)<br/>';
     }
 );
 
 // let's insert 25 docs
-for ($i=1; $i<=25; $i++) {
-
+for ($i = 1; $i <= 25; ++$i) {
     // create a new document with dummy data and add it to the buffer
-    $data = array(
+    $data = [
         'id' => 'test_'.$i,
         'name' => 'test for buffered add',
         'price' => $i,
-    );
+    ];
     $buffer->createDocument($data);
 
     // alternatively you could create document instances yourself and use the addDocument(s) method

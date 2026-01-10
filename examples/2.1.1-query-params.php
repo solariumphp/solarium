@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -17,7 +17,7 @@ $query->setQuery('price:[12 TO *]');
 $query->setStart(2)->setRows(20);
 
 // set fields to fetch (this overrides the default setting 'all fields')
-$query->setFields(array('id','name','price', 'score'));
+$query->setFields(['id', 'name', 'price', 'score']);
 
 // sort the results by price ascending
 $query->addSort('price', $query::SORT_ASC);
@@ -33,7 +33,6 @@ echo '<br>MaxScore: '.$resultset->getMaxScore();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -43,7 +42,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

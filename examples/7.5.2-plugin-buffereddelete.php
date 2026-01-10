@@ -1,9 +1,9 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedDelete\Event\Events;
 use Solarium\Plugin\BufferedDelete\Event\PreFlush;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -17,12 +17,12 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
-        echo 'Flushing buffer (' . count($event->getBuffer()) . ' deletes)<br/>';
+        echo 'Flushing buffer ('.count($event->getBuffer()).' deletes)<br/>';
     }
 );
 
 // let's delete 25 docs
-for ($i=1; $i<=25; $i++) {
+for ($i = 1; $i <= 25; ++$i) {
     $buffer->addDeleteById($i);
 }
 

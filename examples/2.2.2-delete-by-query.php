@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -17,7 +18,7 @@ $update->addCommit();
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();

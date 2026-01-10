@@ -71,7 +71,7 @@ If your content is stored in a database, you can fetch it as [PDO Large Objects 
 ```php
 $db = new PDO(...);
 
-$select = $db->prepare("SELECT content FROM table WHERE id = ?");
+$select = $db->prepare('SELECT content FROM table WHERE id = ?');
 $select->execute($id);
 $select->bindColumn(1, $content, PDO::PARAM_LOB);
 $select->fetch(PDO::FETCH_BOUND);
@@ -105,7 +105,8 @@ Examples
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -129,8 +130,8 @@ $query->setDocument($doc);
 $result = $client->extract($query);
 
 echo '<b>Extract query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 
@@ -141,7 +142,8 @@ htmlFooter();
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -169,7 +171,7 @@ foreach ($result->getFileMetadata() as $field => $value) {
         $value = implode('<br/>', $value);
     }
 
-    echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+    echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
 }
 
 echo '</table>';
@@ -183,7 +185,8 @@ htmlFooter();
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -216,8 +219,8 @@ $query->setDocument($doc);
 $result = $client->extract($query);
 
 echo '<b>Extract query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 // don't forget to close your file pointer!
 fclose($file);
@@ -228,14 +231,15 @@ htmlFooter();
 
 ### Extract from PDO Large Objects (LOBs)
 
+**Note:** This example doesn't work in PHP < 8.1.0!  
+**Note:** This example requires the PDO_SQLITE PDO driver (enabled by default in PHP).
+
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
-htmlHeader();
+require_once __DIR__.'/init.php';
 
-echo "<h2>Note: This example doesn't work in PHP &lt; 8.1.0!</h2>";
-echo "<h2>Note: This example requires the PDO_SQLITE PDO driver (enabled by default in PHP)</h2>";
+htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -249,12 +253,12 @@ $query->setOmitHeader(false);
 
 // create a database & store content as an example
 $db = new PDO('sqlite::memory:');
-$db->exec("CREATE TABLE test (id INT, content TEXT)");
-$insert = $db->prepare("INSERT INTO test (id, content) VALUES (:id, :content)");
+$db->exec('CREATE TABLE test (id INT, content TEXT)');
+$insert = $db->prepare('INSERT INTO test (id, content) VALUES (:id, :content)');
 $insert->execute(['id' => 1, 'content' => file_get_contents(__DIR__.'/index.html')]);
 
 // get content from the database and map it as a stream
-$select = $db->prepare("SELECT content FROM test WHERE id = :id");
+$select = $db->prepare('SELECT content FROM test WHERE id = :id');
 $select->execute(['id' => 1]);
 $select->bindColumn(1, $content, PDO::PARAM_LOB);
 $select->fetch(PDO::FETCH_BOUND);
@@ -272,8 +276,8 @@ $query->setDocument($doc);
 $result = $client->extract($query);
 
 echo '<b>Extract query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 

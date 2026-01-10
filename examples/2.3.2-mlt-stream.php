@@ -1,10 +1,11 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
-echo "<h2>Note: You need to define your own /mlt handler in solrconfig.xml to run this example!</h2>";
-echo "<pre>&lt;requestHandler name=&quot;/mlt&quot; class=&quot;solr.MoreLikeThisHandler&quot; /&gt;</pre>";
+echo '<h2>Note: You need to define your own /mlt handler in solrconfig.xml to run this example!</h2>';
+echo '<pre>&lt;requestHandler name=&quot;/mlt&quot; class=&quot;solr.MoreLikeThisHandler&quot; /&gt;</pre>';
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -45,7 +46,6 @@ echo '<b>Listing of matched docs:</b>';
 
 // show MLT documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -55,7 +55,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

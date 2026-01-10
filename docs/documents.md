@@ -32,24 +32,24 @@ Solarium uses this document type as default for select queries for two reasons:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
-$query = $client->createQuery($client::QUERY_SELECT);
+$query = $client->createSelect();
 
 // this executes the query and returns the result
-$resultset = $client->execute($query);
+$resultset = $client->select($query);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -59,7 +59,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';
@@ -90,7 +90,8 @@ See the API docs for details and the example code below for examples.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -112,15 +113,15 @@ $doc2->name = 'testdoc-2';
 $doc2->price = 340;
 
 // add the documents and a commit command to the update query
-$update->addDocuments(array($doc1, $doc2));
+$update->addDocuments([$doc1, $doc2]);
 $update->addCommit();
 
 // this executes the query and returns the result
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 
@@ -145,7 +146,8 @@ Your schema has to meet certain criteria for this to work. For more info on inde
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -158,44 +160,44 @@ $update = $client->createUpdate();
 $doc1 = $update->createDocument();
 $doc1->id = 123;
 $doc1->name = 'testdoc-1';
-$doc1->childdocs = array(
-    array(
+$doc1->childdocs = [
+    [
         'id' => 1230,
         'name' => 'childdoc-1-1',
         'price' => 465,
-    ),
-    array(
+    ],
+    [
         'id' => 1231,
         'name' => 'childdoc-1-2',
         'price' => 545,
-    ),
-);
+    ],
+];
 
 // and a second one where child documents are added one by one
 $doc2 = $update->createDocument();
 $doc2->setField('id', 124);
 $doc2->setField('name', 'testdoc-2');
-$doc2->addField('childdocs', array(
+$doc2->addField('childdocs', [
     'id' => 1240,
     'name' => 'childdoc-2-1',
     'price' => 360,
-));
-$doc2->addField('childdocs', array(
+]);
+$doc2->addField('childdocs', [
     'id' => 1241,
     'name' => 'childdoc-2-2',
     'price' => 398,
-));
+]);
 
 // add the documents and a commit command to the update query
-$update->addDocuments(array($doc1, $doc2));
+$update->addDocuments([$doc1, $doc2]);
 $update->addCommit();
 
 // this executes the query and returns the result
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 ```
@@ -264,7 +266,8 @@ A document with atomic updates can be added to an update query just like any oth
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -302,8 +305,8 @@ $update->addCommit();
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 // get a select query instance
 $query = $client->createSelect();
@@ -319,11 +322,10 @@ echo '<hr/>NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 

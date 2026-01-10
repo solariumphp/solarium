@@ -1,14 +1,14 @@
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
 // create a client instance
 $client = new Client($adapter, $eventDispatcher, $config);
-
 
 // first create a base query as a query class
 class PriceQuery extends Select
@@ -24,7 +24,7 @@ class PriceQuery extends Select
         $this->setStart(2)->setRows(20);
 
         // set fields to fetch (this overrides the default setting 'all fields')
-        $this->setFields(array('id','name','price'));
+        $this->setFields(['id', 'name', 'price']);
 
         // sort the results by price ascending
         $this->addSort('price', self::SORT_ASC);
@@ -60,7 +60,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -70,7 +69,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

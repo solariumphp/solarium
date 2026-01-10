@@ -39,5 +39,6 @@ $analytics
 // which would be equal to
 $analytics
     ->addFunction('sale()', 'div(sum(a,fill_missing(b,0)),add(10.5,count(mult(a,c))))')
-; 
+;
+
 ```
