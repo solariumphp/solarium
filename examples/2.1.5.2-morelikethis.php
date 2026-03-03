@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -26,7 +27,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -36,7 +36,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table><br/><b>MLT results:</b><br/>';
@@ -48,7 +48,7 @@ foreach ($resultset as $document) {
         echo 'NumFound: '.$mltResult->getNumFound().'<br/>';
         echo 'Num. fetched: '.count($mltResult).'<br/>';
         foreach ($mltResult as $mltDoc) {
-            echo 'MLT result doc: '. $mltDoc->name . ' (id='. $mltDoc->id . ')<br/>';
+            echo 'MLT result doc: '.$mltDoc->name.' (id='.$mltDoc->id.')<br/>';
         }
         // available since Solr 8.2 if the query wasn't distributed
         if (null !== $interestingTerms = $mlt->getInterestingTerm($document->id)) {
@@ -57,7 +57,6 @@ foreach ($resultset as $document) {
     } else {
         echo 'No MLT results';
     }
-
 }
 
 htmlFooter();

@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -20,7 +21,7 @@ echo '<b>Query:</b> '.$query->getQuery().'<hr/>';
 
 // display results for each term
 foreach ($resultset as $term => $termResult) {
-    echo '<h3>' . $term . '</h3>';
+    echo '<h3>'.$term.'</h3>';
     echo 'NumFound: '.$termResult->getNumFound().'<br/>';
     echo 'StartOffset: '.$termResult->getStartOffset().'<br/>';
     echo 'EndOffset: '.$termResult->getEndOffset().'<br/>';

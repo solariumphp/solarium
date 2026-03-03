@@ -1,11 +1,11 @@
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Composer\InstalledVersions;
 use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Update\Query\Query;
+
+require_once __DIR__.'/init.php';
 
 set_time_limit(0);
 ini_set('memory_limit', -1);
@@ -34,15 +34,15 @@ if (!isset($weight) || !isset($addRequestFormat) || !isset($delRequestFormat)) {
         <pre>
         &lt;?php
 
-        require_once(__DIR__.'/init.php');
-
         use Solarium\QueryType\Update\Query\Query;
+
+        require_once __DIR__.'/init.php';
 
         $weight = '';
         $addRequestFormat = Query::REQUEST_FORMAT_JSON;
         $delRequestFormat = Query::REQUEST_FORMAT_JSON;
 
-        require(__DIR__.'/7.5.3-plugin-bufferedupdate-benchmarks.php');
+        require __DIR__.'/7.5.3-plugin-bufferedupdate-benchmarks.php';
         </pre>
         EOT;
 

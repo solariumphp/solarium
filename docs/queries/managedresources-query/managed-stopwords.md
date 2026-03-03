@@ -15,7 +15,8 @@ Examples
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -35,12 +36,12 @@ $query->setName('english');
 $result = $client->execute($query);
 
 // display list properties
-echo '<b>Case sensitive:</b> ' . ($result->isIgnoreCase() ? 'no' : 'yes') . '<br/>';
-echo '<b>Initialized on:</b> ' . $result->getInitializedOn() . '<br/>';
-echo '<b>Updated since init:</b> ' . $result->getUpdatedSinceInit() . '<br/><br/>';
+echo '<b>Case sensitive:</b> '.($result->isIgnoreCase() ? 'no' : 'yes').'<br/>';
+echo '<b>Initialized on:</b> '.$result->getInitializedOn().'<br/>';
+echo '<b>Updated since init:</b> '.$result->getUpdatedSinceInit().'<br/><br/>';
 
 // display stopwords
-echo '<b>Number of stopwords:</b> ' . count($result) . '<br/>';
+echo '<b>Number of stopwords:</b> '.count($result).'<br/>';
 echo '<b>Stopwords:</b><br/>';
 echo implode(', ', $result->getItems());
 echo '<br/>';
@@ -62,7 +63,7 @@ foreach (['english', 'dutch'] as $name) {
     $result = $client->execute($query);
 
     // display the result
-    echo '<b>' . $name . ':</b> ' . ($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist') . '<br/>';
+    echo '<b>'.$name.':</b> '.($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist').'<br/>';
 }
 
 echo '<h2>Create list</h2>';
@@ -171,7 +172,7 @@ foreach (['stopwordb', 'stopwordc'] as $term) {
     $result = $client->execute($query);
 
     // display the result
-    echo '<b>' . $term . ':</b> ' . ($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist') . '<br/>';
+    echo '<b>'.$term.':</b> '.($result->getWasSuccessful() ? 'exists' : 'doesn\'t exist').'<br/>';
 }
 
 echo '<h2>Add stopwords</h2>';

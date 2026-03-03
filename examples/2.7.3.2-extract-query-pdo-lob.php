@@ -1,11 +1,12 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 echo '<h2>Note: The <code>extraction</code> <a href="https://solr.apache.org/guide/solr/latest/configuration-guide/solr-modules.html" target="_blank">Solr Module</a> needs to be enabled to run this example!</h2>';
 echo "<h2>Note: This example doesn't work in PHP &lt; 8.1.0!</h2>";
-echo "<h2>Note: This example requires the PDO_SQLITE PDO driver (enabled by default in PHP)</h2>";
+echo '<h2>Note: This example requires the PDO_SQLITE PDO driver (enabled by default in PHP)</h2>';
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -19,12 +20,12 @@ $query->setOmitHeader(false);
 
 // create a database & store content as an example
 $db = new PDO('sqlite::memory:');
-$db->exec("CREATE TABLE test (id INT, content TEXT)");
-$insert = $db->prepare("INSERT INTO test (id, content) VALUES (:id, :content)");
+$db->exec('CREATE TABLE test (id INT, content TEXT)');
+$insert = $db->prepare('INSERT INTO test (id, content) VALUES (:id, :content)');
 $insert->execute(['id' => 1, 'content' => file_get_contents(__DIR__.'/index.html')]);
 
 // get content from the database and map it as a stream
-$select = $db->prepare("SELECT content FROM test WHERE id = :id");
+$select = $db->prepare('SELECT content FROM test WHERE id = :id');
 $select->execute(['id' => 1]);
 $select->bindColumn(1, $content, PDO::PARAM_LOB);
 $select->fetch(PDO::FETCH_BOUND);
@@ -42,7 +43,7 @@ $query->setDocument($doc);
 $result = $client->extract($query);
 
 echo '<b>Extract query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();

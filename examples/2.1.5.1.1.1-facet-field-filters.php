@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -49,42 +50,42 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet counts for field "cat":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('category');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms prefixed with "s":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('prefixed');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms containing "electronics":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('electronics');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms matching regex "electronics.+":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('electronicsAndMore');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms excluding "electronics" and "music":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('electronicsExclude');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms limited to "electronics" and "music":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('electronicsTerms');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 htmlFooter();

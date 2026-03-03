@@ -1,8 +1,9 @@
 <?php
 
-require_once(__DIR__.'/init.php');
 use Solarium\Client;
 use Solarium\QueryType\Select\Query\Query as Select;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -17,7 +18,7 @@ class ProductQuery extends Select
         // basic params
         $this->setQuery('*:*');
         $this->setStart(2)->setRows(20);
-        $this->setFields(array('id','name','price'));
+        $this->setFields(['id', 'name', 'price']);
         $this->addSort('price', self::SORT_ASC);
 
         // create a facet field instance and set options
@@ -43,7 +44,7 @@ class ProductPriceLimitedQuery extends ProductQuery
 $client = new Client($adapter, $eventDispatcher, $config);
 
 // create a query instance
-$query = new ProductPriceLimitedQuery;
+$query = new ProductPriceLimitedQuery();
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -55,16 +56,15 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet counts for field "inStock":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 

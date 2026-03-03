@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance

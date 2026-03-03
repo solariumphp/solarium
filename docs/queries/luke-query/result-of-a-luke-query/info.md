@@ -15,7 +15,8 @@ Example usage
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -33,10 +34,10 @@ echo '<h1>info</h1>';
 echo '<table>';
 echo '<tr><th>key</th><td>';
 foreach ($info->getKey() as $abbreviation => $flag) {
-    echo $abbreviation . ': ' . $flag . '<br/>';
+    echo $abbreviation.': '.$flag.'<br/>';
 }
 echo '</td></tr>';
-echo '<tr><th>NOTE</th><td>' . $info->getNote() . '</td></tr>';
+echo '<tr><th>NOTE</th><td>'.$info->getNote().'</td></tr>';
 echo '</table>';
 
 htmlFooter();

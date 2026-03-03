@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // This example shows different ways to catch exceptions thrown by Solarium.
@@ -16,7 +17,7 @@ $ping = $client->createPing();
 
 // cause an exception and catch it
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Exception $e) {
     echo 'Something went wrong:<br/><br/>';
     echo $e->getMessage();
@@ -26,7 +27,7 @@ echo '<hr/>';
 
 // distinguish exceptions thrown by Solarium
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Solarium\Exception\ExceptionInterface $e) {
     echo 'Solarium ran into a problem:<br/><br/>';
     echo $e->getMessage();
@@ -39,7 +40,7 @@ echo '<hr/>';
 
 // distinguish exceptions of particular interest
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Solarium\Exception\HttpException $e) {
     echo 'Solarium can\'t reach your Solr server:<br/><br/>';
     echo $e->getMessage();
@@ -52,7 +53,7 @@ echo '<hr/>';
 
 // distinguish after catching
 try {
-    $client->execute($ping);
+    $client->ping($ping);
 } catch (Exception $e) {
     echo 'Something went wrong:<br/><br/>';
     echo $e->getMessage();

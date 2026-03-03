@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -21,7 +22,7 @@ $client->update($update);
 
 // try to get the document using a normal select, this should return 0 results
 $query = $client->createSelect();
-$query->setQuery('id:%1%', array($id));
+$query->setQuery('id:%1%', [$id]);
 $resultset = $client->select($query);
 echo 'NumFound with standard select: '.$resultset->getNumFound().'<br/>';
 
@@ -34,9 +35,8 @@ echo 'NumFound with realtime get: '.$result->getNumFound().'<br/>';
 // Display the document
 echo '<hr/><table>';
 foreach ($result->getDocument() as $field => $value) {
-    echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+    echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
 }
 echo '</table>';
-
 
 htmlFooter();

@@ -29,7 +29,8 @@ Grouping by field:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -52,17 +53,14 @@ $resultset = $client->select($query);
 
 $groups = $resultset->getGrouping();
 foreach ($groups as $groupKey => $fieldGroup) {
-
     echo '<h1>'.$groupKey.'</h1>';
     echo 'Matches: '.$fieldGroup->getMatches().'<br/>';
     echo 'Number of groups: '.$fieldGroup->getNumberOfGroups();
 
     foreach ($fieldGroup as $valueGroup) {
-
         echo '<h2>'.(int)$valueGroup->getValue().'</h2>';
 
         foreach ($valueGroup as $document) {
-
             echo '<hr/><table>';
 
             // the documents are also iterable, to get all fields
@@ -72,7 +70,7 @@ foreach ($groups as $groupKey => $fieldGroup) {
                     $value = implode(', ', $value);
                 }
 
-                echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+                echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
             }
 
             echo '</table>';
@@ -89,7 +87,8 @@ Grouping by query:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -112,7 +111,6 @@ $resultset = $client->select($query);
 
 $groups = $resultset->getGrouping();
 foreach ($groups as $groupKey => $group) {
-
     echo '<h1>'.$groupKey.'</h1>';
 
     foreach ($group as $document) {
@@ -125,7 +123,7 @@ foreach ($groups as $groupKey => $group) {
                 $value = implode(', ', $value);
             }
 
-            echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+            echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
         }
 
         echo '</table>';

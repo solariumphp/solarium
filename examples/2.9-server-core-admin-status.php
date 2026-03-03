@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -18,12 +19,12 @@ $statusResults = $response->getStatusResults();
 $initFailures = $response->getInitFailureResults();
 
 echo '<b>CoreAdmin status action execution:</b><br/>';
-foreach($statusResults as $statusResult) {
-    echo 'Uptime of the core ( ' .$statusResult->getCoreName(). ' ): ' . $statusResult->getUptime() . '<br/>';
+foreach ($statusResults as $statusResult) {
+    echo 'Uptime of the core ( '.$statusResult->getCoreName().' ): '.$statusResult->getUptime().'<br/>';
 }
 
-foreach($initFailures as $initFailure) {
-    echo 'Init failure ( '. $initFailure->getCoreName() .' ): ' . $initFailure->getException() . '<br/>';
+foreach ($initFailures as $initFailure) {
+    echo 'Init failure ( '.$initFailure->getCoreName().' ): '.$initFailure->getException().'<br/>';
 }
 
 htmlFooter();

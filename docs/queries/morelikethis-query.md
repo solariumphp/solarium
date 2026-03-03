@@ -18,7 +18,7 @@ See the example code below.
 | start                              | int     | 0                             | Start position (offset) in the complete Solr query resultset, to paginate big resultsets.                                                                                        |
 | rows                               | int     | 10                            | Number of rows to fetch, starting from the 'start' (offset) position. It's a limit, you might get less.                                                                          |
 | fields                             | string  | \*,score                      | Comma separated list of fields to fetch from Solr. There are two special values: '\*' meaning 'all fields' and 'score' to also fetch the Solr document score value.              |
-| sort                               | array   | empty array                   | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: array('price' =&gt; 'asc')                   |
+| sort                               | array   | []                            | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: ['price' =&gt; 'asc']                        |
 | stream                             | boolean | false                         | Set to true to post query content instead of using the URL param                                                                                                                 |
 | matchinclude                       | boolean | false                         | Specifies whether or not the response should include the matched document. If set to false, the response will look like a normal select response.                                |
 | matchoffset                        | int     | 0                             | Specifies an offset into the main query search results to locate the document on which the MoreLikeThis query should operate.                                                    |
@@ -77,7 +77,7 @@ The examples below assume an MLT handler is set up at `/mlt`. Solr's example con
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -103,7 +103,8 @@ Example
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -132,7 +133,7 @@ foreach ($resultset->getMatch() as $field => $value) {
         $value = implode(', ', $value);
     }
 
-    echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+    echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
 }
 echo '</table><hr/>';
 
@@ -151,7 +152,6 @@ echo '<b>Listing of matched docs:</b>';
 
 // show MLT documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -161,7 +161,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';
@@ -186,7 +186,8 @@ This example assumes the `/mlt` handler is already set up ([see above](#setting-
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -228,7 +229,6 @@ echo '<b>Listing of matched docs:</b>';
 
 // show MLT documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -238,7 +238,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

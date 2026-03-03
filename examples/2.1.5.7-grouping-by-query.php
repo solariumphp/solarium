@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -23,7 +24,6 @@ $resultset = $client->select($query);
 
 $groups = $resultset->getGrouping();
 foreach ($groups as $groupKey => $group) {
-
     echo '<h1>'.$groupKey.'</h1>';
 
     foreach ($group as $document) {
@@ -36,7 +36,7 @@ foreach ($groups as $groupKey => $group) {
                 $value = implode(', ', $value);
             }
 
-            echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+            echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
         }
 
         echo '</table>';

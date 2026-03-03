@@ -1,6 +1,5 @@
 Solarium documentation
-=================
-
+======================
 
 Solarium is a Solr client library for PHP. It is developed with these goals in mind:
 
@@ -26,15 +25,15 @@ $facetSet = $query->getFacetSet();
 $facetSet->createFacetField('stock')->setField('inStock');
 
 $resultset = $client->select($query);
-echo 'NumFound: '.$resultset->getNumFound() . PHP_EOL;
+echo 'NumFound: '.$resultset->getNumFound().PHP_EOL;
 
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']' . PHP_EOL;
+    echo $value.' ['.$count.']'.PHP_EOL;
 }
 
 foreach ($resultset as $document) {
-    echo $document->id . PHP_EOL;
-    echo $document->name . PHP_EOL;
+    echo $document->id.PHP_EOL;
+    echo $document->name.PHP_EOL;
 }
 ```

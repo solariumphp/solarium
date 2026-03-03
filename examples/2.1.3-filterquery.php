@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -20,11 +21,10 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 
