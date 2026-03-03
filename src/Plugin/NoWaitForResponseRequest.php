@@ -77,6 +77,17 @@ class NoWaitForResponseRequest extends AbstractPlugin
         $exception = null;
         $microtime1 = microtime(true);
         try {
+            // Avoid error:
+            //   Failed to start the session because headers have already been sent by
+            //   "vendor/solarium/solarium/src/Core/Client/Adapter/Curl.php"
+            // This fireAndForget() method invokes nowaitforresponserequest type solarium client plugin.
+            // The nowaitforresponserequest type plugin
+            //   - sets "return_transfer" option to false
+            //   - sets timeout to TimeoutAwareInterface::FAST_TIMEOUT
+            // before executing Solr command.
+            // But it could cause error when solr is fast (or data is small) enought to send response before TimeoutAwareInterface::FAST_TIMEOUT.
+            // So just buffer and discard.
+            ob_start();
             $this->client->getAdapter()->execute($request, $event->getEndpoint());
         } catch (HttpException $e) {
             // We expect to run into a timeout.
@@ -94,6 +105,8 @@ class NoWaitForResponseRequest extends AbstractPlugin
             }
         } catch (\Exception $exception) {
             // Throw this exception after resetting the adapter.
+        } finally {
+            ob_end_clean();
         }
 
         if ($this->client->getAdapter() instanceof TimeoutAwareInterface) {
