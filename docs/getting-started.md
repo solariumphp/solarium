@@ -112,6 +112,11 @@ do have one it must be contravariant.
 Code that calls a method with parameters of an incompatible type will result in a `TypeError` where
 they were previously coerced into a compatible type by PHP's type juggling.
 
+Solarium 7 no longer works around [SOLR-6853](https://issues.apache.org/jira/browse/SOLR-6853) for
+managed resources queries by default. The workaround is no longer necessary for Solr 10, but also
+not forward compatible with this version. If this still affects you, set the 'useDoubleEncoding'
+option to `true` on `ManagedResources\Query\Stopwords` or `ManagedResources\Query\Synonyms`.
+
 ### Pitfall when upgrading to 6.3.6
 
 Using a config object is no longer supported. You have to convert it to an array before passing

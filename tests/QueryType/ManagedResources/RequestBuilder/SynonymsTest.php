@@ -74,11 +74,14 @@ class SynonymsTest extends TestCase
 
     public function testQueryWithTerm(): void
     {
-        $this->query->setTerm('mad');
+        $this->query->setTerm('café');
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_GET, $request->getMethod());
-        $this->assertSame('schema/analysis/synonyms/dutch/mad', $request->getHandler());
+        $this->assertSame('schema/analysis/synonyms/dutch/caf%C3%A9', $request->getHandler());
         $this->assertNull($request->getRawData());
+        $this->query->setUseDoubleEncoding(true);
+        $request = $this->builder->build($this->query);
+        $this->assertSame('schema/analysis/synonyms/dutch/caf%25C3%25A9', $request->getHandler());
     }
 
     public function testAdd(): void
@@ -175,13 +178,16 @@ class SynonymsTest extends TestCase
     public function testDelete(): void
     {
         $command = new DeleteCommand();
-        $command->setTerm('mad');
+        $command->setTerm('café');
 
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertSame(Request::METHOD_DELETE, $request->getMethod());
-        $this->assertSame('schema/analysis/synonyms/dutch/mad', $request->getHandler());
+        $this->assertSame('schema/analysis/synonyms/dutch/caf%C3%A9', $request->getHandler());
         $this->assertNull($request->getRawData());
+        $this->query->setUseDoubleEncoding(true);
+        $request = $this->builder->build($this->query);
+        $this->assertSame('schema/analysis/synonyms/dutch/caf%25C3%25A9', $request->getHandler());
     }
 
     public function testDeleteWithoutTerm(): void
@@ -247,8 +253,8 @@ class SynonymsTest extends TestCase
      * + the percent character that serves as the indicator for percent-encoded octets;
      * + the space character that mustn't be confused with embedded whitespace.
      *
-     * When talking with Solr, these characters actually need to be encoded twice to make it
-     * through the servlet, effectively encoding every octet indicator again (SOLR-6853).
+     * When talking with Solr versions prior to 10, these characters actually need to be encoded
+     * twice to make it through the servlet, effectively encoding every octet indicator again.
      *
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-2
      * @see https://issues.apache.org/jira/browse/SOLR-6853
@@ -256,13 +262,17 @@ class SynonymsTest extends TestCase
     public function testReservedCharacters(): void
     {
         $unencoded = ':/?#[]@% ';
-        $encoded = '%253A%252F%253F%2523%255B%255D%2540%2525%2520';
+        $encoded = '%3A%2F%3F%23%5B%5D%40%25%20';
+        $doubleEncoded = '%253A%252F%253F%2523%255B%255D%2540%2525%2520';
         $command = new ExistsCommand();
         $command->setTerm($unencoded);
         $this->query->setName($unencoded);
         $this->query->setCommand($command);
         $request = $this->builder->build($this->query);
         $this->assertStringEndsWith('/'.$encoded.'/'.$encoded, $request->getHandler());
+        $this->query->setUseDoubleEncoding(true);
+        $request = $this->builder->build($this->query);
+        $this->assertStringEndsWith('/'.$doubleEncoded.'/'.$doubleEncoded, $request->getHandler());
     }
 }
 
