@@ -62,8 +62,8 @@ try {
         $response = $client->coreAdmin($coreAdminQuery);
     }
 
-    // @todo Figure out why this fails on Solr 9.
-    if (9 !== $solrVersion) {
+    // @todo Figure out why this fails starting with Solr 9.
+    if (9 > $solrVersion) {
         // check if /mlt handler exists (it will in the github worklow, but not when running this script on its own)
         $query = $client->createApi([
             'version' => Request::API_V1,
@@ -88,6 +88,23 @@ try {
             ]);
             $client->execute($query);
         }
+    }
+
+    // Solr 10 no longer comes with LocalTikaExtractionBackend, the github workflow runs a remote Tika Server instead
+    if (10 <= $solrVersion) {
+        $query = $client->createApi([
+            'version' => Request::API_V1,
+            'handler' => $collection_or_core_name.'/config',
+            'method' => Request::METHOD_POST,
+            'rawdata' => json_encode([
+                'update-requesthandler' => [
+                    'name' => '/update/extract',
+                    'class' => 'solr.extraction.ExtractingRequestHandler',
+                    'tikaserver.url' => 'http://tika:9998',
+                ],
+            ]),
+        ]);
+        $client->execute($query);
     }
 
     // check if attr_* dynamic field definition exists (it was removed from the techproducts configset in Solr 9.1)
@@ -172,7 +189,7 @@ try {
     // examples that can't be run against this Solr version
     $skipForSolrVersion = [];
 
-    if (9 === $solrVersion) {
+    if (9 <= $solrVersion) {
         $skipForSolrVersion[] = '2.3.1-mlt-query.php';
         $skipForSolrVersion[] = '2.3.2-mlt-stream.php';
     }

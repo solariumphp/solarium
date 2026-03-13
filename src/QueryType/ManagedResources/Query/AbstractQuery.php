@@ -230,4 +230,32 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
      * @return InitArgsInterface
      */
     abstract public function createInitArgs(?array $initArgs = null): InitArgsInterface;
+
+    /**
+     * Percent-encode names and terms twice as a workaround for SOLR-6853?
+     *
+     * @return bool
+     */
+    public function getUseDoubleEncoding(): bool
+    {
+        return $this->getOption('useDoubleEncoding') ?? false;
+    }
+
+    /**
+     * Percent-encode names and terms twice as a workaround for SOLR-6853?
+     *
+     * Solr versions prior to 10 required reserved characters to be doubly
+     * percent-encoded. Set this to true if your Solr version is affected by
+     * {@link https://issues.apache.org/jira/browse/SOLR-6853 SOLR-6853}.
+     *
+     * @param bool $useDoubleEncoding
+     *
+     * @return self Provides fluent interface
+     */
+    public function setUseDoubleEncoding(bool $useDoubleEncoding): self
+    {
+        $this->setOption('useDoubleEncoding', $useDoubleEncoding);
+
+        return $this;
+    }
 }
