@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [7.0.0]
 ### Added
+- Solr 10 support
 - PHP 8.5 support
 - Solarium\QueryType\Extract\Query::setStreamType()
 
@@ -15,13 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\Plugin\MinimumScoreFilter\Document::__call() unpacks the $arguments array when forwarding a method call to the original document
 
 ### Changed
- - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
- - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
- - Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
- - Changed return type of some Facets methods from `self`to `static`
- - Replaced class property type hints with type declarations
- - Added union type declarations to method signatures
- - Solarium\Core\Query\Helper::formatDate() throws a `TypeError` instead of returning `false` if called with an incompatibly typed parameter
+- Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature
+- Added `void` return type to `Solarium\Core\Plugin\PluginInterface::deinitPlugin()` method signature
+- Added `void` return type to `Solarium\Core\Plugin\AbstractPlugin::initPluginType()` method signature
+- Changed return type of some Facets methods from `self` to `static`
+- Replaced class property type hints with type declarations
+- Added union type declarations to method signatures
+- Solarium\Core\Query\Helper::formatDate() throws a `TypeError` instead of returning `false` if called with an incompatibly typed parameter
+- Managed resources queries no longer work around SOLR-6853 by default. Set the 'useDoubleEncoding' option to `true` if this bug affects you.
 
 ### Removed
 - Solarium\Component\Result\Stats\FacetValue::getFacets(), always returned `null`

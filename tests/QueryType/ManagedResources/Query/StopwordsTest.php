@@ -162,4 +162,11 @@ class StopwordsTest extends TestCase
         $this->assertInstanceOf(InitArgs::class, $initArgs);
         $this->assertEquals(['ignoreCase' => true], $initArgs->getInitArgs());
     }
+
+    public function testSetAndGetUseDoubleEncoding(): void
+    {
+        $this->assertFalse($this->query->getUseDoubleEncoding());
+        $this->query->setUseDoubleEncoding(true);
+        $this->assertTrue($this->query->getUseDoubleEncoding());
+    }
 }

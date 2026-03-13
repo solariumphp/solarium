@@ -306,6 +306,24 @@ htmlFooter();
 
 ```
 
+A note on percent-encoding reserved characters
+----------------------------------------------
+
+If the name of a synonym map or a synonym itself contains characters that are not
+[unreserved characters as defined by RFC 3986](https://www.rfc-editor.org/rfc/rfc3986#section-2.3),
+they must be percent-encoded when appearing as part of a URL. Solarium handles this for you.
+
+However, if you're using a Solr version prior to Solr 10 and map names or synonyms
+that contain [reserved characters](https://datatracker.ietf.org/doc/html/rfc3986#section-2.2),
+you will be affected by [SOLR-6853](https://issues.apache.org/jira/browse/SOLR-6853). You can
+instruct Solarium to double up on the percent-encoding as a workaround.
+
+```php
+$query = $client->createManagedSynonyms(['useDoubleEncoding' => true]);
+```
+
+Keep in mind that Solr may not be able to handle some of these reserved characters regardless.
+
 A note on `HEAD` requests
 -------------------------
 

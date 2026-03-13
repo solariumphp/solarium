@@ -162,4 +162,11 @@ class SynonymsTest extends TestCase
         $this->assertInstanceOf(InitArgs::class, $initArgs);
         $this->assertEquals(['ignoreCase' => true, 'format' => 'solr'], $initArgs->getInitArgs());
     }
+
+    public function testSetAndGetUseDoubleEncoding(): void
+    {
+        $this->assertFalse($this->query->getUseDoubleEncoding());
+        $this->query->setUseDoubleEncoding(true);
+        $this->assertTrue($this->query->getUseDoubleEncoding());
+    }
 }
