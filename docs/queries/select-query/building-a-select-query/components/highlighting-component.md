@@ -95,7 +95,8 @@ Example
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -119,7 +120,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -129,7 +129,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table><br/><b>Highlighting results:</b><br/>';
@@ -138,10 +138,9 @@ foreach ($resultset as $document) {
     $highlightedDoc = $highlighting->getResult($document->id);
     if ($highlightedDoc) {
         foreach ($highlightedDoc as $field => $highlight) {
-            echo implode(' (...) ', $highlight) . '<br/>';
+            echo implode(' (...) ', $highlight).'<br/>';
         }
     }
-
 }
 
 htmlFooter();
@@ -153,7 +152,8 @@ Per-field settings:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -179,7 +179,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -189,7 +188,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table><br/><b>Highlighting results:</b><br/>';
@@ -198,10 +197,9 @@ foreach ($resultset as $document) {
     $highlightedDoc = $highlighting->getResult($document->id);
     if ($highlightedDoc) {
         foreach ($highlightedDoc as $field => $highlight) {
-            echo implode(' (...) ', $highlight) . '<br/>';
+            echo implode(' (...) ', $highlight).'<br/>';
         }
     }
-
 }
 
 htmlFooter();

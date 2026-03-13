@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -20,29 +21,27 @@ $results = $client->analyze($query);
 
 // show the results
 foreach ($results as $result) {
-
-    echo '<hr><h2>Result list: ' . $result->getName() . '</h2>';
+    echo '<hr/><h2>Result list: '.$result->getName().'</h2>';
 
     foreach ($result as $item) {
-
-        echo '<h3>Item: ' . $item->getName() . '</h3>';
+        echo '<h3>Item: '.$item->getName().'</h3>';
 
         $indexAnalysis = $item->getIndexAnalysis();
         if (!empty($indexAnalysis)) {
             echo '<h4>Index Analysis</h4>';
-            foreach ($indexAnalysis as $classes) {
 
+            foreach ($indexAnalysis as $classes) {
                 echo '<h5>'.$classes->getName().'</h5>';
 
                 foreach ($classes as $result) {
-                    echo 'Text: ' . $result->getText() . '<br/>';
-                    echo 'Raw text: ' . $result->getRawText() . '<br/>';
-                    echo 'Start: ' . $result->getStart() . '<br/>';
-                    echo 'End: ' . $result->getEnd() . '<br/>';
-                    echo 'Position: ' . $result->getPosition() . '<br/>';
-                    echo 'Position history: ' . implode(', ', $result->getPositionHistory()) . '<br/>';
-                    echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
-                    echo 'Match: ' . var_export($result->getMatch(), true) . '<br/>';
+                    echo 'Text: '.$result->getText().'<br/>';
+                    echo 'Raw text: '.$result->getRawText().'<br/>';
+                    echo 'Start: '.$result->getStart().'<br/>';
+                    echo 'End: '.$result->getEnd().'<br/>';
+                    echo 'Position: '.$result->getPosition().'<br/>';
+                    echo 'Position history: '.implode(', ', $result->getPositionHistory()).'<br/>';
+                    echo 'Type: '.htmlspecialchars($result->getType()).'<br/>';
+                    echo 'Match: '.var_export($result->getMatch(), true).'<br/>';
                     echo '-----------<br/>';
                 }
             }
@@ -51,19 +50,19 @@ foreach ($results as $result) {
         $queryAnalysis = $item->getQueryAnalysis();
         if (!empty($queryAnalysis)) {
             echo '<h4>Query Analysis</h4>';
-            foreach ($queryAnalysis as $classes) {
 
+            foreach ($queryAnalysis as $classes) {
                 echo '<h5>'.$classes->getName().'</h5>';
 
                 foreach ($classes as $result) {
-                    echo 'Text: ' . $result->getText() . '<br/>';
-                    echo 'Raw text: ' . $result->getRawText() . '<br/>';
-                    echo 'Start: ' . $result->getStart() . '<br/>';
-                    echo 'End: ' . $result->getEnd() . '<br/>';
-                    echo 'Position: ' . $result->getPosition() . '<br/>';
-                    echo 'Position history: ' . implode(', ', $result->getPositionHistory()) . '<br/>';
-                    echo 'Type: ' . htmlspecialchars($result->getType()) . '<br/>';
-                    echo 'Match: ' . var_export($result->getMatch(), true) . '<br/>';
+                    echo 'Text: '.$result->getText().'<br/>';
+                    echo 'Raw text: '.$result->getRawText().'<br/>';
+                    echo 'Start: '.$result->getStart().'<br/>';
+                    echo 'End: '.$result->getEnd().'<br/>';
+                    echo 'Position: '.$result->getPosition().'<br/>';
+                    echo 'Position history: '.implode(', ', $result->getPositionHistory()).'<br/>';
+                    echo 'Type: '.htmlspecialchars($result->getType()).'<br/>';
+                    echo 'Match: '.var_export($result->getMatch(), true).'<br/>';
                     echo '-----------<br/>';
                 }
             }

@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 echo '<h2>Note: The <code>extraction</code> <a href="https://solr.apache.org/guide/solr/latest/configuration-guide/solr-modules.html" target="_blank">Solr Module</a> needs to be enabled to run this example!</h2>';
@@ -35,8 +36,8 @@ $query->setDocument($doc);
 $result = $client->extract($query);
 
 echo '<b>Extract query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 // don't forget to close your file pointer!
 fclose($file);

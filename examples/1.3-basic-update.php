@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 if ($_POST) {
@@ -27,8 +28,8 @@ if ($_POST) {
     $result = $client->update($update);
 
     echo '<b>Update query executed</b><br/>';
-    echo 'Query status: ' . $result->getStatus(). '<br/>';
-    echo 'Query time: ' . $result->getQueryTime();
+    echo 'Query status: '.$result->getStatus().'<br/>';
+    echo 'Query time: '.$result->getQueryTime();
 
 } else {
     // if no data is posted show a form

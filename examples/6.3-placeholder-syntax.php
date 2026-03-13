@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -14,10 +15,10 @@ $input = 'ATA "133';
 
 // the placeholder syntax applies phrase escaping to the first term
 // see the manual for all supported formats
-$query->setQuery('features: %p1% AND inStock:%2%', array($input, 1));
+$query->setQuery('features: %p1% AND inStock:%2%', [$input, 1]);
 
 // show the result after replacing the placeholders with values
-echo $query->getQuery() . '<br/>';
+echo $query->getQuery().'<br/>';
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -27,7 +28,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -37,7 +37,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

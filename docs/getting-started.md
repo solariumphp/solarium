@@ -57,11 +57,12 @@ To check your installation you can do a Solarium version check with the followin
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // check Solarium version available
-echo 'Solarium library version: ' . Solarium\Client::getVersion() . ' - ';
+echo 'Solarium library version: '.Solarium\Client::getVersion().' - ';
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
@@ -74,8 +75,8 @@ try {
     $result = $client->ping($ping);
 
     echo 'Ping query successful<br/><br/>';
-    echo 'Ping status: ' . $result->getPingStatus() . '<br/>';
-    echo 'Query time: ' . $result->getQueryTime() . ' ms';
+    echo 'Ping status: '.$result->getPingStatus().'<br/>';
+    echo 'Query time: '.$result->getQueryTime().' ms';
 } catch (Exception $e) {
     echo 'Ping query failed';
 }
@@ -308,9 +309,10 @@ The `$config` array has the following contents:
 ```php
 <?php
 
-$config = array(
-    'endpoint' => array(
-        'localhost' => array(
+$config = [
+    'endpoint' => [
+        'localhost' => [
+            'scheme' => 'http',
             'host' => '127.0.0.1',
             'port' => 8983,
             'path' => '/',
@@ -319,9 +321,9 @@ $config = array(
             // 'collection' => 'techproducts',
             // Set the `hostContext` for the Solr web application if it's not the default 'solr':
             // 'context' => 'solr',
-        )
-    )
-);
+        ],
+    ],
+];
 ```
 
 ### Selecting documents
@@ -331,24 +333,24 @@ This is the basic example of executing a select query and displaying the results
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
-$query = $client->createQuery($client::QUERY_SELECT);
+$query = $client->createSelect();
 
 // this executes the query and returns the result
-$resultset = $client->execute($query);
+$resultset = $client->select($query);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -358,7 +360,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';
@@ -377,7 +379,8 @@ This example demonstrates a facet field.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -402,16 +405,15 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<hr/>Facet counts for field "inStock":<br/>';
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $value => $count) {
-    echo $value . ' [' . $count . ']<br/>';
+    echo $value.' ['.$count.']<br/>';
 }
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
-    echo '<tr><th>id</th><td>' . $document->id . '</td></tr>';
-    echo '<tr><th>name</th><td>' . $document->name . '</td></tr>';
-    echo '<tr><th>price</th><td>' . $document->price . '</td></tr>';
+    echo '<tr><th>id</th><td>'.$document->id.'</td></tr>';
+    echo '<tr><th>name</th><td>'.$document->name.'</td></tr>';
+    echo '<tr><th>price</th><td>'.$document->price.'</td></tr>';
     echo '</table>';
 }
 
@@ -426,7 +428,8 @@ Documents can be deleted with a query:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -443,8 +446,8 @@ $update->addCommit();
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 
@@ -455,7 +458,8 @@ Or by id:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -472,8 +476,8 @@ $update->addCommit();
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 
@@ -488,7 +492,8 @@ This example adds some documents to the index:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -510,15 +515,15 @@ $doc2->name = 'testdoc-2';
 $doc2->price = 340;
 
 // add the documents and a commit command to the update query
-$update->addDocuments(array($doc1, $doc2));
+$update->addDocuments([$doc1, $doc2]);
 $update->addCommit();
 
 // this executes the query and returns the result
 $result = $client->update($update);
 
 echo '<b>Update query executed</b><br/>';
-echo 'Query status: ' . $result->getStatus(). '<br/>';
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 
 htmlFooter();
 
@@ -541,8 +546,8 @@ $query = $client->createSelect();
 $query->setOmitHeader(false);
 
 $result = $client->select($query);
-echo 'Query status: ' . $result->getStatus();
-echo 'Query time: ' . $result->getQueryTime();
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
 ```
 
 

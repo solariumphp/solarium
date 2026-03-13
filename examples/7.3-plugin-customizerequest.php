@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -10,13 +10,13 @@ $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)
 $customizer->createCustomization(
-    array(
+    [
         'key' => 'auth',
         'type' => 'header',
         'name' => 'X-my-auth',
         'value' => 'mypassword',
-        'persistent' => true
-    )
+        'persistent' => true,
+    ]
 );
 
 // add a persistent GET param (using fluent interface)
@@ -39,7 +39,7 @@ $query = $client->createSelect();
 $resultset = $client->select($query);
 
 // display the total number of documents found by Solr
-echo 'NumFound: '.$resultset->getNumFound() . '<br/>';
+echo 'NumFound: '.$resultset->getNumFound().'<br/>';
 
 // execute the same query again (this time the 'id' param should no longer show up in the logs)
 $resultset = $client->select($query);

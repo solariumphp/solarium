@@ -5,7 +5,8 @@ An example of term escaping in use for a query that would fail without escaping:
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -20,7 +21,7 @@ $input = 'ATA "133';
 // in this case phrase escaping is used (most common) but you can also do term escaping, see the manual
 // also note that the same can be done using the placeholder syntax, see example 6.3
 $helper = $query->getHelper();
-$query->setQuery('features:' . $helper->escapePhrase($input));
+$query->setQuery('features:'.$helper->escapePhrase($input));
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
@@ -30,7 +31,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -40,7 +40,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';

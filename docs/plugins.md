@@ -50,10 +50,10 @@ Triggered just after a commit. Has access to the commit (update query) result.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedAdd\Event\Events;
 use Solarium\Plugin\BufferedAdd\Event\PreFlush;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -66,19 +66,18 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
-        echo 'Flushing buffer (' . count($event->getBuffer()) . ' docs)<br/>';
+        echo 'Flushing buffer ('.count($event->getBuffer()).' docs)<br/>';
     }
 );
 
 // let's insert 25 docs
-for ($i=1; $i<=25; $i++) {
-
+for ($i = 1; $i <= 25; ++$i) {
     // create a new document with dummy data and add it to the buffer
-    $data = array(
+    $data = [
         'id' => 'test_'.$i,
         'name' => 'test for buffered add',
         'price' => $i,
-    );
+    ];
     $buffer->createDocument($data);
 
     // alternatively you could create document instances yourself and use the addDocument(s) method
@@ -145,10 +144,10 @@ Triggered just after a commit. Has access to the commit (update query) result.
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
-
 use Solarium\Plugin\BufferedDelete\Event\Events;
 use Solarium\Plugin\BufferedDelete\Event\PreFlush;
+
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -161,12 +160,12 @@ $buffer->setBufferSize(10); // this is quite low, in most cases you can use a mu
 $client->getEventDispatcher()->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
-        echo 'Flushing buffer (' . count($event->getBuffer()) . ' deletes)<br/>';
+        echo 'Flushing buffer ('.count($event->getBuffer()).' deletes)<br/>';
     }
 );
 
 // let's delete 25 docs
-for ($i=1; $i<=25; $i++) {
+for ($i = 1; $i <= 25; ++$i) {
     $buffer->addDeleteById($i);
 }
 
@@ -210,7 +209,7 @@ GET params and headers by default are only applied to the next request, but opti
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -220,13 +219,13 @@ $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)
 $customizer->createCustomization(
-    array(
+    [
         'key' => 'auth',
         'type' => 'header',
         'name' => 'X-my-auth',
         'value' => 'mypassword',
-        'persistent' => true
-    )
+        'persistent' => true,
+    ]
 );
 
 // add a persistent GET param (using fluent interface)
@@ -249,7 +248,7 @@ $query = $client->createSelect();
 $resultset = $client->select($query);
 
 // display the total number of documents found by Solr
-echo 'NumFound: '.$resultset->getNumFound() . '<br/>';
+echo 'NumFound: '.$resultset->getNumFound().'<br/>';
 
 // execute the same query again (this time the 'id' param should no longer show up in the logs)
 $resultset = $client->select($query);
@@ -313,13 +312,13 @@ $event->getResponse()->getStatusMessage();
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
 // create a client instance and create endpoints
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
-$endpoint1 = $client->createEndpoint('local1'); //normally you would add endpoint specific settings...
+$endpoint1 = $client->createEndpoint('local1'); // normally you would add endpoint specific settings...
 $endpoint2 = $client->createEndpoint('local2');
 $endpoint3 = $client->createEndpoint('local3');
 
@@ -338,11 +337,11 @@ $loadbalancer->addFailoverStatusCode(504);
 $query = $client->createSelect();
 
 // execute the query multiple times, displaying the server for each execution
-for ($i = 1; $i <= 8; $i++) {
+for ($i = 1; $i <= 8; ++$i) {
     $resultset = $client->select($query);
-    echo 'Query execution #' . $i . '<br/>';
-    echo 'NumFound: ' . $resultset->getNumFound(). '<br/>';
-    echo 'Server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
+    echo 'Query execution #'.$i.'<br/>';
+    echo 'NumFound: '.$resultset->getNumFound().'<br/>';
+    echo 'Server: '.$loadbalancer->getLastEndpoint().'<hr/>';
 }
 
 // force a server for a query (normally 'local3' is extremely unlikely based on its weight)
@@ -350,20 +349,20 @@ $loadbalancer->setForcedEndpointForNextQuery('local3');
 
 $resultset = $client->select($query);
 echo 'Query execution with server forced to local3<br/>';
-echo 'NumFound: ' . $resultset->getNumFound(). '<br/>';
-echo 'Server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
+echo 'NumFound: '.$resultset->getNumFound().'<br/>';
+echo 'Server: '.$loadbalancer->getLastEndpoint().'<hr/>';
 
 // test a ping query
 $query = $client->createPing();
 $client->ping($query);
 echo 'Loadbalanced ping query, should display a loadbalancing server:<br/>';
-echo 'Ping server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
+echo 'Ping server: '.$loadbalancer->getLastEndpoint().'<hr/>';
 
 // exclude ping query from loadbalancing
 $loadbalancer->addBlockedQueryType(Solarium\Client::QUERY_PING);
 $client->ping($query);
 echo 'Non-loadbalanced ping query, should not display a loadbalancing server:<br/>';
-echo 'Ping server: ' . $loadbalancer->getLastEndpoint() .'<hr/>';
+echo 'Ping server: '.$loadbalancer->getLastEndpoint().'<hr/>';
 
 htmlFooter();
 
@@ -389,7 +388,7 @@ There are two modes of filtering, removing or just marking. In the example below
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -400,7 +399,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $filter = $client->getPlugin('minimumscorefilter');
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setQuery('a');
-$query->setFields(array('id'));
+$query->setFields(['id']);
 $query->setFilterRatio(.5);
 $query->setFilterMode($query::FILTER_MODE_MARK);
 
@@ -413,7 +412,6 @@ echo '<br/>MaxScore: '.$resultset->getMaxScore();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     // by setting the FILTER_MARK option we get a special method to test each document
     if ($document->markedAsLowScore()) {
         echo '<hr/><b>MARKED AS LOW SCORE</b><table>';
@@ -428,7 +426,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';
@@ -447,6 +445,7 @@ Long-running requests like suggest.buildAll might exceed timeouts. This plugin "
 <?php
 
 require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -491,7 +490,7 @@ This plugin makes it possible to execute multiple Solr queries at the same time,
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -506,13 +505,13 @@ $parallel = $client->getPlugin('parallelexecution');
 // If you don't have to plugin the example still works, just without the delay.
 $customizer = $client->getPlugin('customizerequest');
 $customizer->createCustomization(
-    array(
+    [
         'key' => 'delay',
         'type' => 'param',
         'name' => 'delay',
         'value' => '500',
-        'persistent' => true
-    )
+        'persistent' => true,
+    ]
 );
 
 // create two queries to execute
@@ -522,12 +521,12 @@ $queryLowPrice = $client->createSelect()->setQuery('price:[1 TO 30]');
 // first execute the queries the normal way and time it
 echo '<h1>Serial execution</h1>';
 $start = microtime(true);
-$resultInStock = $client->execute($queryInStock);
-$resultLowPrice = $client->execute($queryLowPrice);
-echo 'Execution time for normal "serial" execution of two queries: ' . round(microtime(true)-$start, 3) . ' s';
+$resultInStock = $client->select($queryInStock);
+$resultLowPrice = $client->select($queryLowPrice);
+echo 'Execution time for normal "serial" execution of two queries: '.round(microtime(true) - $start, 3).' s';
 echo '<hr/>';
-echo 'In stock: ' . $resultInStock->getNumFound() . '<br/>';
-echo 'Low price: ' . $resultLowPrice->getNumFound() . '<br/>';
+echo 'In stock: '.$resultInStock->getNumFound().'<br/>';
+echo 'Low price: '.$resultLowPrice->getNumFound().'<br/>';
 
 echo '<hr/>';
 
@@ -538,10 +537,10 @@ $start = microtime(true);
 $parallel->addQuery('instock', $queryInStock);
 $parallel->addQuery('lowprice', $queryLowPrice);
 $results = $parallel->execute();
-echo 'Execution time for parallel execution of two queries: ' . round(microtime(true)-$start, 3) . ' s';
+echo 'Execution time for parallel execution of two queries: '.round(microtime(true) - $start, 3).' s';
 echo '<hr/>';
-echo 'In stock: ' . $results['instock']->getNumFound() . '<br/>';
-echo 'Low price: ' . $results['lowprice']->getNumFound() . '<br/>';
+echo 'In stock: '.$results['instock']->getNumFound().'<br/>';
+echo 'Low price: '.$results['lowprice']->getNumFound().'<br/>';
 
 htmlFooter();
 
@@ -568,7 +567,7 @@ The plugin only uses the length of the querystring to determine the switch to a 
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -591,7 +590,6 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {
-
     echo '<hr/><table>';
 
     // the documents are also iterable, to get all fields
@@ -601,7 +599,7 @@ foreach ($resultset as $document) {
             $value = implode(', ', $value);
         }
 
-        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+        echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
     }
 
     echo '</table>';
@@ -686,7 +684,7 @@ $prefetch->setPrefetch($num)->setQuery($query);
 ```php
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
 
 htmlHeader();
 
@@ -695,7 +693,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect();
-$query->setFields(array('id'));
+$query->setFields(['id']);
 
 // cursor functionality can be used for efficient deep paging (since Solr 4.7)
 $query->setCursorMark('*');
@@ -708,11 +706,11 @@ $prefetch->setPrefetch(2); // fetch 2 rows per request (for real world use this 
 $prefetch->setQuery($query);
 
 // display the total number of documents found by Solr
-echo 'NumFound: ' . count($prefetch);
+echo 'NumFound: '.count($prefetch);
 
 // show document IDs using the resultset iterator
 foreach ($prefetch as $document) {
-    echo '<hr/>ID: '. $document->id;
+    echo '<hr/>ID: '.$document->id;
 }
 
 htmlFooter();
@@ -827,6 +825,7 @@ The plugin only uses the length of the querystring to determine the parameters r
 <?php
 
 require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance

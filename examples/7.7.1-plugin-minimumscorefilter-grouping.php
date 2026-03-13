@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 // create a client instance
@@ -10,7 +11,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $filter = $client->getPlugin('minimumscorefilter');
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setRows(50);
-$query->setFields(array('id','name','score'));
+$query->setFields(['id', 'name', 'score']);
 $query->setQuery('memory');
 $query->setFilterRatio(.8);
 $query->setFilterMode($query::FILTER_MODE_MARK);
@@ -28,29 +29,25 @@ $resultset = $client->select($query);
 
 $groups = $resultset->getGrouping();
 foreach ($groups as $groupKey => $fieldGroup) {
-
     echo '<h1>'.$groupKey.'</h1>';
     echo 'Matches: '.$fieldGroup->getMatches().'<br/>';
     echo 'Number of groups: '.$fieldGroup->getNumberOfGroups();
 
     foreach ($fieldGroup as $valueGroup) {
-
         $value = $valueGroup->getValue();
         echo '<h2>'.(null !== $value ? (int) $value : 'NULL').'</h2>';
 
         foreach ($valueGroup as $document) {
-
             echo '<hr/><table>';
 
             // the documents are also iterable, to get all fields
             foreach ($document as $field => $value) {
-
                 // this converts multivalue fields to a comma-separated string
                 if (is_array($value)) {
                     $value = implode(', ', $value);
                 }
 
-                echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+                echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
             }
 
             echo '</table>';

@@ -1,6 +1,7 @@
 <?php
 
-require_once(__DIR__.'/init.php');
+require_once __DIR__.'/init.php';
+
 htmlHeader();
 
 echo '<h2>Note: The <code>extraction</code> <a href="https://solr.apache.org/guide/solr/latest/configuration-guide/solr-modules.html" target="_blank">Solr Module</a> needs to be enabled to run this example!</h2>';
@@ -30,7 +31,7 @@ foreach ($result->getFileMetadata() as $field => $value) {
         $value = implode('<br/>', $value);
     }
 
-    echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+    echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
 }
 
 echo '</table>';

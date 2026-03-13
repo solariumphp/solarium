@@ -60,7 +60,7 @@ $lukeQuery = $client->createLuke();
 $lukeQuery->setShow($lukeQuery::SHOW_ALL);
 
 // omitting index flags for each field can speed up Luke requests
-//$lukeQuery->setIncludeIndexFieldFlags(false);
+// $lukeQuery->setIncludeIndexFieldFlags(false);
 
 $result = $client->luke($lukeQuery);
 
@@ -86,10 +86,10 @@ $lukeQuery = $client->createLuke();
 $lukeQuery->setFields('text,cat,price_c');
 
 // you can also get detailed information for all fields
-//$lukeQuery->setFields('*');
+// $lukeQuery->setFields('*');
 
 // omitting index flags for each field can speed up Luke requests
-//$lukeQuery->setIncludeIndexFieldFlags(false);
+// $lukeQuery->setIncludeIndexFieldFlags(false);
 
 // set the number of top terms for each field (Solr's default is 10)
 $lukeQuery->setNumTerms(5);
@@ -136,7 +136,7 @@ $lukeQuery->setShow($lukeQuery::SHOW_DOC);
 $lukeQuery->setId('9885A004');
 
 // alternatively, you can use a Lucene documentID
-//$lukeQuery->setDocId(27);
+// $lukeQuery->setDocId(27);
 
 $result = $client->luke($lukeQuery);
 
