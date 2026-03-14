@@ -387,6 +387,10 @@ class FacetSetTest extends TestCase
         $facet = $this->facetSet->createFacet($type, $options);
 
         // check class mapping
+        $this->assertInstanceOf(
+            Field::class,
+            $facet
+        );
         $this->assertSame(
             $type,
             $facet->getType()

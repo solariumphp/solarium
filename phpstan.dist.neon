@@ -1,5 +1,8 @@
 parameters:
-    level: 1
+    level: 2
     paths:
         - src
         - tests
+    universalObjectCratesClasses:
+        - Solarium\Core\Query\DocumentInterface
+        - Solarium\Core\Query\Result\QueryType

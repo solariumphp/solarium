@@ -2,14 +2,21 @@
 
 namespace Solarium\Tests\Plugin\MinimumScoreFilter;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Solarium\Component\Grouping;
 use Solarium\Plugin\MinimumScoreFilter\Query;
 use Solarium\Plugin\MinimumScoreFilter\QueryGroupResult;
 use Solarium\Plugin\MinimumScoreFilter\ValueGroupResult;
+use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\Tests\QueryType\Select\Query\AbstractQueryTestCase;
 
 class QueryTest extends AbstractQueryTestCase
 {
+    /**
+     * @var Query
+     */
+    protected SelectQuery $query;
+
     public function setUp(): void
     {
         $this->query = new Query();
@@ -72,7 +79,7 @@ class QueryTest extends AbstractQueryTestCase
 
     public function testGetComponentsWithGrouping(): void
     {
-        /** @var Grouping&MockObject $mock */
+        /** @var MockObject&Grouping $mock */
         $mock = $this->getMockBuilder(Grouping::class)
             ->onlyMethods(['setOption'])
             ->getMock();

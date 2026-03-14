@@ -16,7 +16,9 @@ use Solarium\QueryType\Select\Result\Document as SelectDocument;
 /**
  * Minimum score filter query result document.
  *
- * Decorates the original document with a filter indicator
+ * Decorates the original document with a filter indicator.
+ *
+ * @mixin SelectDocument
  */
 class Document implements DocumentInterface, \IteratorAggregate, \Countable, \ArrayAccess, \JsonSerializable
 {

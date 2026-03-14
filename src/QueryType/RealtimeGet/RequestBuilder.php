@@ -21,11 +21,11 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a ping query.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @return Request
      */
-    public function build(QueryInterface|Query $query): Request
+    public function build(QueryInterface $query): Request
     {
         $request = parent::build($query);
         $request->setMethod(Request::METHOD_GET);

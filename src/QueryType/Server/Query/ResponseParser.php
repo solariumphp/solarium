@@ -9,20 +9,19 @@
 
 namespace Solarium\QueryType\Server\Query;
 
-use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
+use Solarium\Core\Query\AbstractResponseParser;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\Core\Query\Result\ResultInterface;
-use Solarium\QueryType\Server\Collections\Result\AbstractResult;
 
 /**
  * Parse Collections API response data.
  */
-class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
+class ResponseParser extends AbstractResponseParser implements ResponseParserInterface
 {
     /**
      * Parse response data.
      *
-     * @param AbstractResult $result
+     * @param ResultInterface $result
      *
      * @return array
      */

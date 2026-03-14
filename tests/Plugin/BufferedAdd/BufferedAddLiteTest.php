@@ -329,7 +329,7 @@ class BufferedAddLiteTest extends TestCase
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
         $doc3 = new Document(['id' => '789', 'name' => 'test 3']);
 
-        /** @var Query|MockObject $mockUpdate */
+        /** @var MockObject&Query $mockUpdate */
         $mockUpdate = $this->getMockBuilder(Query::class)
             ->onlyMethods(['add'])
             ->getMock();
@@ -365,7 +365,7 @@ class BufferedAddLiteTest extends TestCase
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
         $doc3 = new Document(['id' => '789', 'name' => 'test 3']);
 
-        /** @var Query|MockObject $mockUpdate */
+        /** @var MockObject&Query $mockUpdate */
         $mockUpdate = $this->getMockBuilder(Query::class)
             ->onlyMethods(['add', 'addCommit'])
             ->getMock();
@@ -418,7 +418,7 @@ class BufferedAddLiteTest extends TestCase
         $doc1 = new Document(['id' => '123', 'name' => 'test 1']);
         $doc2 = new Document(['id' => '456', 'name' => 'test 2']);
 
-        /** @var Query|MockObject $mockUpdate */
+        /** @var MockObject&Query $mockUpdate */
         $mockUpdate = $this->getMockBuilder(Query::class)
             ->onlyMethods(['add', 'addCommit'])
             ->getMock();

@@ -28,11 +28,17 @@ use Solarium\Component\Result\Analytics\Result;
 class Analytics implements ComponentParserInterface
 {
     /**
-     * {@inheritdoc}
+     * Parse result data into result objects.
+     *
+     * @param ComponentAwareQueryInterface         $query
+     * @param AbstractComponent&AnalyticsComponent $component
+     * @param array                                $data
+     *
+     * @return Result|null
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $component, array $data): ?Result
     {
-        if (false === isset($data['analytics_response']) || null === $component) {
+        if (!isset($data['analytics_response'])) {
             return null;
         }
 
@@ -40,7 +46,6 @@ class Analytics implements ComponentParserInterface
         $result = new Result();
         $results = [];
 
-        /** @var AnalyticsComponent $component */
         foreach ($component->getExpressions() as $name => $expression) {
             if (false === isset($response['results'][$name])) {
                 continue;

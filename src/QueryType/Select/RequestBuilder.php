@@ -22,7 +22,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a select query.
      *
-     * @param QueryInterface|SelectQuery $query
+     * @param QueryInterface&SelectQuery $query
      *
      * @return Request
      */

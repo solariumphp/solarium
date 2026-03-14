@@ -29,7 +29,7 @@ class Xml extends AbstractRequestBuilder
     /**
      * Build request for an update query.
      *
-     * @param QueryInterface|UpdateQuery $query
+     * @param QueryInterface&UpdateQuery $query
      *
      * @return Request
      */
@@ -100,8 +100,10 @@ class Xml extends AbstractRequestBuilder
         $xml .= $this->attrib('commitWithin', $command->getCommitWithin());
         $xml .= '>';
 
+        /** @var Document $doc */
         foreach ($command->getDocuments() as $doc) {
             $xml .= '<doc';
+            // @phpstan-ignore method.deprecated (we're calling a deprecated method on purpose)
             $xml .= $this->attrib('boost', $doc->getBoost());
             $xml .= '>';
 

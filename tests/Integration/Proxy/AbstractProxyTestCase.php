@@ -4,7 +4,9 @@ namespace Solarium\Tests\Integration\Proxy;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Client;
+use Solarium\Core\Client\Adapter\ProxyAwareInterface;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Server\Api\Result;
 
 /**
  * Abstract test for connecting through a proxy.
@@ -48,6 +50,12 @@ abstract class AbstractProxyTestCase extends TestCase
 
     public function assertPreConditions(): void
     {
+        $this->assertInstanceOf(
+            ProxyAwareInterface::class,
+            self::$client->getAdapter(),
+            'Client adapter must implement ProxyAwareInterface!'
+        );
+
         $this->assertNotNull(
             self::$client->getAdapter()->getProxy(),
             'Proxy test must set a proxy on the Client adapter!'
@@ -62,6 +70,7 @@ abstract class AbstractProxyTestCase extends TestCase
         ]);
         $result = self::$client->execute($query);
 
+        $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->getWasSuccessful());
     }
 }

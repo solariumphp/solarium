@@ -533,7 +533,9 @@ class ClientTest extends TestCase
         };
 
         $this->client->registerPlugin('testplugin', $observer);
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_CREATE_REQUEST,
             [$observer, 'preCreateRequest']
         );
@@ -564,7 +566,9 @@ class ClientTest extends TestCase
         };
 
         $this->client->registerPlugin('testplugin', $observer);
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::POST_CREATE_REQUEST,
             [$observer, 'postCreateRequest']
         );
@@ -586,7 +590,9 @@ class ClientTest extends TestCase
         }
 
         $test = $this;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_CREATE_REQUEST,
             function (PreCreateRequestEvent $event) use ($test, $expectedRequest, $expectedEvent): void {
                 $test->assertEquals($expectedEvent, $event);
@@ -633,7 +639,9 @@ class ClientTest extends TestCase
         };
 
         $this->client->registerPlugin('testplugin', $observer);
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_CREATE_RESULT,
             [$observer, 'preCreateResult']
         );
@@ -665,7 +673,9 @@ class ClientTest extends TestCase
         };
 
         $this->client->registerPlugin('testplugin', $observer);
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::POST_CREATE_RESULT,
             [$observer, 'postCreateResult']
         );
@@ -686,7 +696,9 @@ class ClientTest extends TestCase
         $expectedResult = new Result($query, $response);
 
         $test = $this;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_CREATE_RESULT,
             function (PreCreateResultEvent $event) use ($test, $expectedResult, $expectedEvent): void {
                 $test->assertEquals($expectedEvent, $event);
@@ -778,7 +790,9 @@ class ClientTest extends TestCase
             }
         };
 
-        $mock->getEventDispatcher()->addListener(Events::PRE_EXECUTE, [$observer, 'preExecute']);
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $mock->getEventDispatcher();
+        $dispatcher->addListener(Events::PRE_EXECUTE, [$observer, 'preExecute']);
 
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setName(Events::PRE_EXECUTE);
@@ -824,7 +838,9 @@ class ClientTest extends TestCase
             }
         };
 
-        $mock->getEventDispatcher()->addListener(Events::POST_EXECUTE, [$observer, 'postExecute']);
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $mock->getEventDispatcher();
+        $dispatcher->addListener(Events::POST_EXECUTE, [$observer, 'postExecute']);
 
         if (method_exists($expectedEvent, 'setDispatcher')) {
             $expectedEvent->setName(Events::POST_EXECUTE);
@@ -847,7 +863,9 @@ class ClientTest extends TestCase
         }
 
         $test = $this;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_EXECUTE,
             function (PreExecuteEvent $event) use ($test, $expectedResult, $expectedEvent): void {
                 $test->assertEquals($expectedEvent, $event);
@@ -916,7 +934,9 @@ class ClientTest extends TestCase
             }
         };
 
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_EXECUTE_REQUEST,
             [$observer, 'preExecuteRequest']
         );
@@ -956,7 +976,9 @@ class ClientTest extends TestCase
             }
         };
 
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::POST_EXECUTE_REQUEST,
             [$observer, 'postExecuteRequest']
         );
@@ -977,7 +999,9 @@ class ClientTest extends TestCase
         }
 
         $test = $this;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_EXECUTE_REQUEST,
             function (PreExecuteRequestEvent $event) use ($test, $response, $expectedEvent): void {
                 $test->assertEquals($expectedEvent, $event);
@@ -1283,7 +1307,9 @@ class ClientTest extends TestCase
             }
         };
 
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_CREATE_QUERY,
             [$observer, 'preCreateQuery']
         );
@@ -1305,7 +1331,9 @@ class ClientTest extends TestCase
         }
 
         $test = $this;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_CREATE_QUERY,
             function (PreCreateQueryEvent $event) use ($test, $expectedQuery, $expectedEvent): void {
                 $test->assertEquals($expectedEvent, $event);
@@ -1343,7 +1371,9 @@ class ClientTest extends TestCase
             }
         };
 
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::POST_CREATE_QUERY,
             [$observer, 'postCreateQuery']
         );

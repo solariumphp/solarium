@@ -9,10 +9,12 @@
 
 namespace Solarium\Component\Result\Spellcheck;
 
+use Solarium\Component\Result\ComponentResultInterface;
+
 /**
  * Select component spellcheck result.
  */
-class Result implements \IteratorAggregate, \Countable
+class Result implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Suggestions array.

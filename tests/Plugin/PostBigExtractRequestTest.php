@@ -18,6 +18,7 @@ use Solarium\Core\Event\PostCreateRequest;
 use Solarium\Plugin\PostBigExtractRequest;
 use Solarium\QueryType\Extract\Query;
 use Solarium\Tests\Integration\TestClientFactory;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class PostBigExtractRequestTest extends TestCase
 {
@@ -39,6 +40,8 @@ class PostBigExtractRequestTest extends TestCase
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('postbigextractrequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertInstanceOf(PostBigExtractRequest::class, $plugin);
 
@@ -53,7 +56,7 @@ class PostBigExtractRequestTest extends TestCase
 
         $this->assertSame(
             $expectedListeners,
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
 
         return $client;
@@ -65,10 +68,12 @@ class PostBigExtractRequestTest extends TestCase
     public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('postbigextractrequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertSame(
             [],
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
     }
 

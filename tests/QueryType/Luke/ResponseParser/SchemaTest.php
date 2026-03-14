@@ -496,15 +496,18 @@ class SchemaTest extends TestCase
         $this->assertSame($schema->getType('type_untokenized'), $schema->getField('flags_a')->getType());
 
         $this->assertSame($schema->getField('copy_to'), $schema->getField('copy_from')->getCopyDests()[0]);
+        $this->assertInstanceOf(DynamicBasedField::class, $schema->getField('copy_from')->getCopyDests()[1]);
         $this->assertSame($schema->getDynamicField('*_copy_to'), $schema->getField('copy_from')->getCopyDests()[1]->getDynamicBase());
 
         $this->assertSame($schema->getField('copy_from'), $schema->getField('copy_to')->getCopySources()[0]);
+        $this->assertInstanceOf(DynamicBasedField::class, $schema->getField('copy_to')->getCopySources()[1]);
         $this->assertSame($schema->getDynamicField('*_copy_from'), $schema->getField('copy_to')->getCopySources()[1]->getDynamicBase());
         $this->assertSame($schema->getDynamicField('*_copy_from'), $schema->getField('copy_to')->getCopySources()[2]);
 
         $this->assertSame($schema->getType('type_tokenized'), $schema->getDynamicField('*_pos_inc_gap')->getType());
 
         $this->assertSame($schema->getField('copy_to'), $schema->getDynamicField('*_copy_from')->getCopyDests()[0]);
+        $this->assertInstanceOf(DynamicBasedField::class, $schema->getDynamicField('*_copy_from')->getCopyDests()[1]);
         $this->assertSame($schema->getDynamicField('*_copy_to'), $schema->getDynamicField('*_copy_from')->getCopyDests()[1]->getDynamicBase());
         $this->assertSame($schema->getDynamicField('*_copy_to'), $schema->getDynamicField('*_copy_from')->getCopyDests()[2]);
 

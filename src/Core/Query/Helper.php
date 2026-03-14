@@ -139,22 +139,25 @@ class Helper
      * The trailing "Z" designates UTC time and is mandatory.
      *
      * Besides an integer timestamp, a date string, or an instance of
-     * DateTime/DateTimeImmutable, boolean false is also accepted as input.
+     * DateTime or DateTimeImmutable, boolean false is also accepted as input.
      * This allows you to use the return value of strtotime() directly
      * without checking its return value for boolean false first.
      *
      * @see https://solr.apache.org/guide/working-with-dates.html#date-formatting
      *
-     * @param int|string|\DateTimeInterface|false $input Accepted formats: timestamp, date string, DateTime or DateTimeImmutable
+     * @param int|string|\DateTime|\DateTimeImmutable|false $input
      *
      * @return string|false false is returned in case of invalid input
      */
-    public function formatDate(int|string|\DateTimeInterface|false $input): string|false
+    public function formatDate(int|string|\DateTime|\DateTimeImmutable|false $input): string|false
     {
         switch (true) {
-            case $input instanceof \DateTimeInterface:
-                // input of DateTime or DateTimeImmutable object
+            case $input instanceof \DateTime:
+                // don't work on the original object, DateTime::setTimezone() will modify it
                 $input = clone $input;
+                break;
+            case $input instanceof \DateTimeImmutable:
+                // no action needed, DateTimeImmutable::setTimezone() will return a new object
                 break;
             case \is_string($input):
             case is_numeric($input):
@@ -164,7 +167,7 @@ class Helper
                     $input = strtotime($input);
                 }
 
-                // now try converting the timestamp to a datetime instance, on failure return false
+                // now try converting the timestamp to a DateTime instance, on failure return false
                 try {
                     $input = new \DateTime('@'.$input);
                 } catch (\Exception) {

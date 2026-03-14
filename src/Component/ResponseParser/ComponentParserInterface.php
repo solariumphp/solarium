@@ -11,6 +11,7 @@ namespace Solarium\Component\ResponseParser;
 
 use Solarium\Component\AbstractComponent;
 use Solarium\Component\ComponentAwareQueryInterface;
+use Solarium\Component\Result\ComponentResultInterface;
 
 /**
  * ComponentParserInterface.
@@ -24,7 +25,7 @@ interface ComponentParserInterface
      * @param AbstractComponent            $component
      * @param array                        $data
      *
-     * @return object|null
+     * @return ComponentResultInterface|null
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data);
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $component, array $data): ?ComponentResultInterface;
 }

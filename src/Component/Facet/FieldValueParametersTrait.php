@@ -105,9 +105,7 @@ trait FieldValueParametersTrait
     /**
      * Set the facet sort type.
      *
-     * Use one of the SORT_* constants as the value.
-     *
-     * @param string $sort
+     * @param self::SORT_* $sort
      */
     public function setSort(string $sort): static
     {
@@ -217,9 +215,7 @@ trait FieldValueParametersTrait
     /**
      * Set the facet method.
      *
-     * Use one of the METHOD_* constants as value.
-     *
-     * @param string $method
+     * @param self::METHOD_* $method
      */
     public function setMethod(string $method): static
     {

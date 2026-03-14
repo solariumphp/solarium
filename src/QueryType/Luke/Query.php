@@ -117,7 +117,7 @@ class Query extends BaseQuery
      *
      * This class should implement the document interface.
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -133,7 +133,7 @@ class Query extends BaseQuery
      *
      * The value is a classname, not an instance.
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getDocumentClass(): ?string
     {
@@ -142,8 +142,6 @@ class Query extends BaseQuery
 
     /**
      * Set the data about the index to include in the response.
-     *
-     * Use one of the SHOW_* constants as value.
      *
      * {@see SHOW_ALL} returns all fields plus the index details. This is also the
      * default behaviour if no 'show' and no 'id' or 'docId' is set.
@@ -157,7 +155,7 @@ class Query extends BaseQuery
      * It works in conjunction with {@see setId()} or {@see setDocId()}. This is
      * also the default behaviour if 'show' isn't set and an 'id' or 'docId' is set.
      *
-     * @param string $show
+     * @param self::SHOW_* $show
      *
      * @return self Provides fluent interface
      */

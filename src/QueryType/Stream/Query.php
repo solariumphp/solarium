@@ -88,7 +88,7 @@ class Query extends AbstractQuery
      *
      * This class should implement the document interface
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -104,7 +104,7 @@ class Query extends AbstractQuery
      *
      * The value is a classname, not an instance
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getDocumentClass(): ?string
     {

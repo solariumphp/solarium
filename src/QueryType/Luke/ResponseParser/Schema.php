@@ -19,7 +19,6 @@ use Solarium\QueryType\Luke\Result\Schema\Field\Field;
 use Solarium\QueryType\Luke\Result\Schema\Field\WildcardField;
 use Solarium\QueryType\Luke\Result\Schema\Schema as SchemaResult;
 use Solarium\QueryType\Luke\Result\Schema\Similarity;
-use Solarium\QueryType\Luke\Result\Schema\Type\AbstractAnalyzer;
 use Solarium\QueryType\Luke\Result\Schema\Type\CharFilter;
 use Solarium\QueryType\Luke\Result\Schema\Type\Filter;
 use Solarium\QueryType\Luke\Result\Schema\Type\IndexAnalyzer;
@@ -164,7 +163,7 @@ class Schema extends Index
      *
      * @return IndexAnalyzer|QueryAnalyzer
      */
-    protected function parseAnalyzer(array $analyzerData, string $analyzerClass): AbstractAnalyzer
+    protected function parseAnalyzer(array $analyzerData, string $analyzerClass): IndexAnalyzer|QueryAnalyzer
     {
         $analyzer = new $analyzerClass($analyzerData['className']);
 
@@ -245,11 +244,13 @@ class Schema extends Index
                     $field->addCopyDest($fields[$copyDest]);
                 } else {
                     if (!isset($dynamicBasedFields[$copyDest])) {
-                        $dynamicBasedField = $dynamicFields[$this->findDynamicField($copyDest, array_keys($dynamicFields))]->createField($copyDest);
-                        $dynamicBasedFields[$copyDest] = $dynamicBasedField;
+                        /** @var DynamicField $dynamicField */
+                        $dynamicField = $dynamicFields[$this->findDynamicField($copyDest, array_keys($dynamicFields))];
+                        $dynamicBasedFields[$copyDest] = $dynamicField->createField($copyDest);
                     }
-                    $dynamicBasedFields[$copyDest]->addCopySource($fieldsToLink[$name]);
-                    $field->addCopyDest($dynamicBasedFields[$copyDest]);
+                    $dynamicBasedField = &$dynamicBasedFields[$copyDest];
+                    $dynamicBasedField->addCopySource($fieldsToLink[$name]);
+                    $field->addCopyDest($dynamicBasedField);
                 }
             }
 
@@ -259,21 +260,23 @@ class Schema extends Index
                         $field->addCopySource($dynamicFields[$copySource]);
                     } else {
                         if (!isset($wildcardFields[$copySource])) {
-                            $wildcardField = new WildcardField($copySource);
-                            $wildcardFields[$copySource] = $wildcardField;
+                            $wildcardFields[$copySource] = new WildcardField($copySource);
                         }
-                        $wildcardFields[$copySource]->addCopyDest($fieldsToLink[$name]);
-                        $field->addCopySource($wildcardFields[$copySource]);
+                        $wildcardField = $wildcardFields[$copySource];
+                        $wildcardField->addCopyDest($fieldsToLink[$name]);
+                        $field->addCopySource($wildcardField);
                     }
                 } elseif (isset($fields[$copySource])) {
                     $field->addCopySource($fields[$copySource]);
                 } else {
                     if (!isset($dynamicBasedFields[$copySource])) {
-                        $dynamicBasedField = $dynamicFields[$this->findDynamicField($copySource, array_keys($dynamicFields))]->createField($copySource);
-                        $dynamicBasedFields[$copySource] = $dynamicBasedField;
+                        /** @var DynamicField $dynamicField */
+                        $dynamicField = $dynamicFields[$this->findDynamicField($copySource, array_keys($dynamicFields))];
+                        $dynamicBasedFields[$copySource] = $dynamicField->createField($copySource);
                     }
-                    $dynamicBasedFields[$copySource]->addCopyDest($fieldsToLink[$name]);
-                    $field->addCopySource($dynamicBasedFields[$copySource]);
+                    $dynamicBasedField = &$dynamicBasedFields[$copySource];
+                    $dynamicBasedField->addCopyDest($fieldsToLink[$name]);
+                    $field->addCopySource($dynamicBasedField);
                 }
             }
         }

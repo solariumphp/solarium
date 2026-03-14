@@ -21,7 +21,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a ping query.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @return Request
      */

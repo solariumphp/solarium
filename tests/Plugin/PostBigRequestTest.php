@@ -11,6 +11,7 @@ use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Plugin\PostBigRequest;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\Tests\Integration\TestClientFactory;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class PostBigRequestTest extends TestCase
 {
@@ -32,6 +33,8 @@ class PostBigRequestTest extends TestCase
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('postbigrequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertInstanceOf(PostBigRequest::class, $plugin);
 
@@ -46,7 +49,7 @@ class PostBigRequestTest extends TestCase
 
         $this->assertSame(
             $expectedListeners,
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
 
         return $client;
@@ -58,10 +61,12 @@ class PostBigRequestTest extends TestCase
     public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('postbigrequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertSame(
             [],
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
     }
 

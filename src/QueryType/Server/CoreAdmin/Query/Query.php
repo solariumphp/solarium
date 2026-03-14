@@ -24,7 +24,6 @@ use Solarium\QueryType\Server\CoreAdmin\Query\Action\Status;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Swap;
 use Solarium\QueryType\Server\CoreAdmin\Query\Action\Unload;
 use Solarium\QueryType\Server\CoreAdmin\ResponseParser;
-use Solarium\QueryType\Server\Query\Action\ActionInterface;
 use Solarium\QueryType\Server\Query\RequestBuilder;
 
 /**
@@ -140,7 +139,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Create|ActionInterface
+     * @return Create
      */
     public function createCreate(array $options = []): Create
     {
@@ -150,7 +149,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return MergeIndexes|ActionInterface
+     * @return MergeIndexes
      */
     public function createMergeIndexes(array $options = []): MergeIndexes
     {
@@ -160,7 +159,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Reload|ActionInterface
+     * @return Reload
      */
     public function createReload(array $options = []): Reload
     {
@@ -170,7 +169,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Rename|ActionInterface
+     * @return Rename
      */
     public function createRename(array $options = []): Rename
     {
@@ -180,7 +179,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return RequestRecovery|ActionInterface
+     * @return RequestRecovery
      */
     public function createRequestRecovery(array $options = []): RequestRecovery
     {
@@ -190,7 +189,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return RequestStatus|ActionInterface
+     * @return RequestStatus
      */
     public function createRequestStatus(array $options = []): RequestStatus
     {
@@ -200,7 +199,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Split|ActionInterface
+     * @return Split
      */
     public function createSplit(array $options = []): Split
     {
@@ -210,7 +209,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Status|ActionInterface
+     * @return Status
      */
     public function createStatus(array $options = []): Status
     {
@@ -220,7 +219,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Swap|ActionInterface
+     * @return Swap
      */
     public function createSwap(array $options = []): Swap
     {
@@ -230,7 +229,7 @@ class Query extends AbstractServerQuery
     /**
      * @param array $options
      *
-     * @return Unload|ActionInterface
+     * @return Unload
      */
     public function createUnload(array $options = []): Unload
     {

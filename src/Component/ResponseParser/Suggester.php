@@ -12,6 +12,7 @@ namespace Solarium\Component\ResponseParser;
 use Solarium\Component\AbstractComponent;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Suggester\Result;
+use Solarium\Component\Suggester as SuggesterComponent;
 use Solarium\Core\Query\AbstractResponseParser;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
@@ -24,31 +25,31 @@ class Suggester extends AbstractResponseParser implements ComponentParserInterfa
     /**
      * Parse result data into result objects.
      *
-     * @param ComponentAwareQueryInterface|null $query
-     * @param AbstractComponent|null            $suggester
-     * @param array                             $data
+     * @param ComponentAwareQueryInterface         $query
+     * @param AbstractComponent&SuggesterComponent $suggester
+     * @param array                                $data
      *
      * @return Result|null
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $suggester, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $suggester, array $data): ?Result
     {
+        if (!isset($data['suggest']) || !\is_array($data['suggest'])) {
+            return null;
+        }
+
         $dictionaries = [];
         $allSuggestions = [];
 
-        if (isset($data['suggest']) && \is_array($data['suggest'])) {
-            foreach ($data['suggest'] as $dictionary => $dictionaryResults) {
-                $terms = [];
-                foreach ($dictionaryResults as $term => $termData) {
-                    $allSuggestions[] = $this->createTerm($termData);
-                    $terms[$term] = $this->createTerm($termData);
-                }
-                $dictionaries[$dictionary] = $this->createDictionary($terms);
+        foreach ($data['suggest'] as $dictionary => $dictionaryResults) {
+            $terms = [];
+            foreach ($dictionaryResults as $term => $termData) {
+                $allSuggestions[] = $this->createTerm($termData);
+                $terms[$term] = $this->createTerm($termData);
             }
-
-            return new Result($dictionaries, $allSuggestions);
+            $dictionaries[$dictionary] = $this->createDictionary($terms);
         }
 
-        return null;
+        return new Result($dictionaries, $allSuggestions);
     }
 
     /**

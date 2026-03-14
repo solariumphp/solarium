@@ -7,13 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Solarium\Component\Result\Facet;
-
-use Solarium\Component\Result\ComponentResultInterface;
+namespace Solarium\Component\Result;
 
 /**
- * Facet result interface.
+ * Component result interface.
  */
-interface FacetResultInterface extends ComponentResultInterface
+interface ComponentResultInterface
 {
 }

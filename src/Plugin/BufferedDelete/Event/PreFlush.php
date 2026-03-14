@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Solarium\Plugin\BufferedDelete\Event;
 
 use Solarium\Plugin\AbstractBufferedUpdate\Event\AbstractPreFlush;
-use Solarium\Plugin\BufferedDelete\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\DeleteInterface;
 
 /**
  * PreFlush event, see {@see Events} for details.
@@ -20,7 +20,7 @@ use Solarium\Plugin\BufferedDelete\AbstractDelete;
 class PreFlush extends AbstractPreFlush
 {
     /**
-     * @var AbstractDelete[]
+     * @var DeleteInterface[]
      */
     protected array $buffer;
 }

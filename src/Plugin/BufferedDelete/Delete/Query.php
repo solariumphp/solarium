@@ -9,12 +9,12 @@
 
 namespace Solarium\Plugin\BufferedDelete\Delete;
 
-use Solarium\Plugin\BufferedDelete\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\DeleteInterface;
 
 /**
  * Wrapper class for a query to delete matching documents.
  */
-class Query extends AbstractDelete
+class Query implements DeleteInterface
 {
     /**
      * Query to delete matching documents.
@@ -32,11 +32,13 @@ class Query extends AbstractDelete
     }
 
     /**
-     * {@inheritdoc}
+     * Get delete type.
+     *
+     * @return self::TYPE_QUERY
      */
     public function getType(): string
     {
-        return AbstractDelete::TYPE_QUERY;
+        return DeleteInterface::TYPE_QUERY;
     }
 
     /**

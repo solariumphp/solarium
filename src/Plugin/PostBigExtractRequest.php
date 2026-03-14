@@ -125,7 +125,9 @@ class PostBigExtractRequest extends AbstractPlugin
     protected function initPluginType(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+            $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        }
     }
 
     /**
@@ -136,6 +138,8 @@ class PostBigExtractRequest extends AbstractPlugin
     public function deinitPlugin(): void
     {
         $dispatcher = $this->client->getEventDispatcher();
-        $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        if (is_subclass_of($dispatcher, '\Symfony\Component\EventDispatcher\EventDispatcherInterface')) {
+            $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
+        }
     }
 }

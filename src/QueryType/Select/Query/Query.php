@@ -202,7 +202,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * This class should implement the document interface
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -218,7 +218,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * The value is a classname, not an instance
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getDocumentClass(): ?string
     {
@@ -228,9 +228,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Set default query operator.
      *
-     * Use one of the constants as value
-     *
-     * @param string $operator
+     * @param self::QUERY_OPERATOR_* $operator
      *
      * @return self Provides fluent interface
      */
@@ -464,8 +462,8 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Add a sort.
      *
-     * @param string $sort
-     * @param string $order
+     * @param string       $sort
+     * @param self::SORT_* $order
      *
      * @return self Provides fluent interface
      */
@@ -481,7 +479,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * The input array must contain sort items as keys and the order as values.
      *
-     * @param array $sorts
+     * @param array<string, self::SORT_*> $sorts
      *
      * @return self Provides fluent interface
      */
@@ -525,7 +523,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Get a list of the sorts.
      *
-     * @return array
+     * @return array<string, self::SORT_*>
      */
     public function getSorts(): array
     {
@@ -537,7 +535,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      *
      * This overwrites any existing sorts
      *
-     * @param array $sorts
+     * @param array<string, self::SORT_*> $sorts
      *
      * @return self Provides fluent interface
      */

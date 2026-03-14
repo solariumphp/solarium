@@ -84,7 +84,7 @@ class CurlTest extends TestCase
         $request = new Request();
         $endpoint = new Endpoint();
 
-        /** @var Curl&MockObject $mock */
+        /** @var MockObject&Curl $mock */
         $mock = $this->getMockBuilder(Curl::class)
             ->onlyMethods(['getData'])
             ->getMock();
@@ -134,13 +134,16 @@ class CurlTest extends TestCase
         ];
     }
 
-    public function testCreateHandleForPostRequestWithFileUpload(): void
+    /**
+     * @dataProvider methodWithFileUploadProvider
+     */
+    public function testCreateHandleWithFileUpload(string $method): void
     {
         $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
         file_put_contents($tmpfname, 'Test file contents');
 
         $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
+        $request->setMethod($method);
         $request->setFileUpload($tmpfname);
         $request->setIsServerRequest(true);
         $endpoint = new Endpoint();
@@ -148,6 +151,14 @@ class CurlTest extends TestCase
         $handle = $this->adapter->createHandle($request, $endpoint);
 
         $this->assertInstanceOf(\CurlHandle::class, $handle);
+    }
+
+    public static function methodWithFileUploadProvider(): array
+    {
+        return [
+            [Request::METHOD_POST],
+            [Request::METHOD_PUT],
+        ];
     }
 
     public function testCreateHandleWithCustomRequestHeaders(): void

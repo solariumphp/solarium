@@ -21,7 +21,7 @@ class RequestBuilder extends SelectRequestBuilder
     /**
      * Build request for a MoreLikeThis query.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @return Request
      */

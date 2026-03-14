@@ -4,6 +4,7 @@ namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Suggester as Parser;
+use Solarium\Component\Suggester;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 use Solarium\QueryType\Suggester\Result\Term;
@@ -14,10 +15,13 @@ class SuggesterTest extends TestCase
 
     protected Query $query;
 
+    protected Suggester $suggester;
+
     public function setUp(): void
     {
-        $this->query = new Query();
         $this->parser = new Parser();
+        $this->query = new Query();
+        $this->suggester = $this->query->getSuggester();
     }
 
     /**
@@ -27,7 +31,7 @@ class SuggesterTest extends TestCase
      */
     public function testParse($data): void
     {
-        $result = $this->parser->parse($this->query, null, $data);
+        $result = $this->parser->parse($this->query, $this->suggester, $data);
 
         $expected = new Dictionary([
             'foo' => new Term(2, [['term' => 'foo'], ['term' => 'foobar']]),
@@ -99,7 +103,7 @@ class SuggesterTest extends TestCase
 
     public function testParseNoData(): void
     {
-        $result = $this->parser->parse($this->query, null, []);
+        $result = $this->parser->parse($this->query, $this->suggester, []);
 
         $this->assertNull($result);
     }

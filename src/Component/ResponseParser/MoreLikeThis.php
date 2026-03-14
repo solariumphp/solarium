@@ -15,7 +15,6 @@ use Solarium\Component\MoreLikeThis as MoreLikeThisComponent;
 use Solarium\Component\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisResult;
 use Solarium\Component\Result\MoreLikeThis\Result;
 use Solarium\Core\Query\AbstractResponseParser;
-use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Analysis\Query\AbstractQuery;
 
 /**
@@ -26,55 +25,52 @@ class MoreLikeThis extends AbstractResponseParser implements ComponentParserInte
     /**
      * Parse result data into result objects.
      *
-     * @param AbstractQuery         $query
-     * @param MoreLikeThisComponent $moreLikeThis
-     * @param array                 $data
-     *
-     * @throws InvalidArgumentException
+     * @param ComponentAwareQueryInterface&AbstractQuery $query
+     * @param AbstractComponent&MoreLikeThisComponent    $moreLikeThis
+     * @param array                                      $data
      *
      * @return MoreLikeThisResult
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $moreLikeThis, array $data): MoreLikeThisResult
     {
+        if (!isset($data['moreLikeThis'])) {
+            return new MoreLikeThisResult([], []);
+        }
+
         $results = [];
         $interestingTerms = [];
 
-        if (isset($data['moreLikeThis'])) {
-            if (!$query) {
-                throw new InvalidArgumentException('A valid query object needs to be provided.');
-            }
-            $documentClass = $query->getOption('documentclass');
-            $searchResults = $data['moreLikeThis'];
+        $documentClass = $query->getOption('documentclass');
+        $searchResults = $data['moreLikeThis'];
 
-            // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr
-            // Cloud. In that case the "map" format is returned which doesn't need to be converted. But we don't
-            // use it in general because it has limitations for some components.
-            if (isset($searchResults[0]) && $query && $query::WT_JSON === $query->getResponseWriter()) {
-                // We have a "flat" json result.
-                $searchResults = $this->convertToKeyValueArray($searchResults);
-            }
+        // There seems to be a bug in Solr that json.nl=flat is ignored in a distributed search on Solr
+        // Cloud. In that case the "map" format is returned which doesn't need to be converted. But we don't
+        // use it in general because it has limitations for some components.
+        if (isset($searchResults[0]) && $query && $query::WT_JSON === $query->getResponseWriter()) {
+            // We have a "flat" json result.
+            $searchResults = $this->convertToKeyValueArray($searchResults);
+        }
 
-            foreach ($searchResults as $key => $result) {
-                // create document instances
-                $docs = [];
-                foreach ($result['docs'] as $fields) {
-                    $docs[] = new $documentClass($fields);
-                }
-
-                $results[$key] = new Result(
-                    $result['numFound'],
-                    isset($result['maxScore']) ? $result['maxScore'] : null,
-                    $docs
-                );
+        foreach ($searchResults as $key => $result) {
+            // create document instances
+            $docs = [];
+            foreach ($result['docs'] as $fields) {
+                $docs[] = new $documentClass($fields);
             }
 
-            if ('none' === $moreLikeThis->getInterestingTerms()) {
-                $interestingTerms = null;
-            } elseif (isset($data['interestingTerms'])) {
-                // We don't need to convertToKeyValueArray. Solr's MoreLikeThisComponent uses a SimpleOrderedMap
-                // for representing interesting terms. A SimpleOrdereMap is always returned using the "map" format.
-                $interestingTerms = $data['interestingTerms'];
-            }
+            $results[$key] = new Result(
+                $result['numFound'],
+                isset($result['maxScore']) ? $result['maxScore'] : null,
+                $docs
+            );
+        }
+
+        if ('none' === $moreLikeThis->getInterestingTerms()) {
+            $interestingTerms = null;
+        } elseif (isset($data['interestingTerms'])) {
+            // We don't need to convertToKeyValueArray. Solr's MoreLikeThisComponent uses a SimpleOrderedMap
+            // for representing interesting terms. A SimpleOrdereMap is always returned using the "map" format.
+            $interestingTerms = $data['interestingTerms'];
         }
 
         return new MoreLikeThisResult($results, $interestingTerms);

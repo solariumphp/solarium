@@ -27,7 +27,7 @@ class Json extends AbstractRequestBuilder
     /**
      * Build request for an update query.
      *
-     * @param QueryInterface|UpdateQuery $query
+     * @param QueryInterface&UpdateQuery $query
      *
      * @throws RuntimeException
      *

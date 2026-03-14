@@ -21,7 +21,7 @@ class RequestBuilder extends AbstractRequestBuilder
     /**
      * Build request for a Luke query.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @return Request
      */

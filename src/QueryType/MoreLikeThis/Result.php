@@ -63,6 +63,7 @@ class Result extends SelectResult
      */
     public function getInterestingTerms(): ?array
     {
+        /** @var Query $query */
         $query = $this->getQuery();
         if ('none' === $query->getInterestingTerms()) {
             throw new UnexpectedValueException('interestingterms is none');
@@ -83,6 +84,7 @@ class Result extends SelectResult
      */
     public function getMatch(): ?ReadOnlyDocument
     {
+        /** @var Query $query */
         $query = $this->getQuery();
         if (true !== $query->getMatchInclude()) {
             throw new UnexpectedValueException('matchinclude was disabled in the MLT query');

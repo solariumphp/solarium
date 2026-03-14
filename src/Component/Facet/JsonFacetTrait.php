@@ -172,6 +172,28 @@ trait JsonFacetTrait
     }
 
     /**
+     * Get a facet.
+     *
+     * @param string $key
+     *
+     * @return JsonFacetInterface|null
+     */
+    public function getFacet(string $key): ?JsonFacetInterface
+    {
+        return $this->facets[$key] ?? null;
+    }
+
+    /**
+     * Get all facets.
+     *
+     * @return JsonFacetInterface[]
+     */
+    public function getFacets(): array
+    {
+        return $this->facets;
+    }
+
+    /**
      * Remove a single facet.
      *
      * You can remove a facet by passing its key or the facet instance

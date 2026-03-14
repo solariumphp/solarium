@@ -9,10 +9,12 @@
 
 namespace Solarium\Component\Result\Terms;
 
+use Solarium\Component\Result\ComponentResultInterface;
+
 /**
  * Component terms result.
  */
-class Result implements \IteratorAggregate, \Countable
+class Result implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Terms results.

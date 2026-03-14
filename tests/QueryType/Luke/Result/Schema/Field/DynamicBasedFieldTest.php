@@ -11,7 +11,10 @@ use Solarium\QueryType\Luke\Result\Schema\Field\SchemaFieldInterface;
 
 class DynamicBasedFieldTest extends AbstractFieldTestCase
 {
-    protected AbstractField|DynamicBasedField $field;
+    /**
+     * @var DynamicBasedField
+     */
+    protected AbstractField $field;
 
     public function setUp(): void
     {

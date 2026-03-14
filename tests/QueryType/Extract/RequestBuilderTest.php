@@ -7,6 +7,7 @@ use Solarium\Core\Client\Request;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\Extract\Query;
 use Solarium\QueryType\Extract\RequestBuilder;
+use Solarium\QueryType\Update\Query\Document;
 
 class RequestBuilderTest extends TestCase
 {
@@ -213,7 +214,9 @@ class RequestBuilderTest extends TestCase
 
     public function testDocumentWithBoostThrowsException(): void
     {
+        /** @var Document $document */
         $document = $this->query->createDocument();
+        // @phpstan-ignore method.deprecated (we're calling a deprecated method on purpose)
         $document->setBoost(4);
         $this->query->setDocument($document);
 

@@ -393,7 +393,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * Overwrites any existing types
      *
-     * @param array $types Use an array with the constants defined in Solarium\Client as values
+     * @param array<Client::QUERY_*|string> $types An array of Client::QUERY_* and/or self-registered types
      *
      * @return self Provides fluent interface
      */
@@ -408,7 +408,7 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Add a querytype to block from loadbalancing.
      *
-     * @param string $type Use one of the constants defined in Solarium\Client
+     * @param Client::QUERY_*|string $type A Client::QUERY_* or self-registered type
      *
      * @return self Provides fluent interface
      */
@@ -426,7 +426,7 @@ class Loadbalancer extends AbstractPlugin
      *
      * Appended to any existing types
      *
-     * @param array $types Use an array with the constants defined in Solarium\Client as values
+     * @param array<Client::QUERY_*|string> $types An array of Client::QUERY_* and/or self-registered types
      *
      * @return self Provides fluent interface
      */
@@ -442,7 +442,7 @@ class Loadbalancer extends AbstractPlugin
     /**
      * Remove a single querytype from the block list.
      *
-     * @param string $type
+     * @param Client::QUERY_*|string $type A Client::QUERY_* or self-registered type
      *
      * @return self Provides fluent interface
      */

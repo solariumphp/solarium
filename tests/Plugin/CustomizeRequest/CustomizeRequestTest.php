@@ -13,6 +13,7 @@ use Solarium\Plugin\CustomizeRequest\Customization;
 use Solarium\Plugin\CustomizeRequest\CustomizeRequest;
 use Solarium\QueryType\Ping\Query;
 use Solarium\Tests\Integration\TestClientFactory;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class CustomizeRequestTest extends TestCase
 {
@@ -69,6 +70,8 @@ class CustomizeRequestTest extends TestCase
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('customizerequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertInstanceOf(CustomizeRequest::class, $plugin);
 
@@ -83,7 +86,7 @@ class CustomizeRequestTest extends TestCase
 
         $this->assertSame(
             $expectedListeners,
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
 
         return $client;
@@ -95,10 +98,12 @@ class CustomizeRequestTest extends TestCase
     public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('customizerequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertSame(
             [],
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
     }
 

@@ -3,6 +3,12 @@
 namespace Solarium\Tests\Integration;
 
 use Solarium\Core\Client\State\ClusterState;
+use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
+use Solarium\QueryType\Server\Collections\Result\CreateResult;
+use Solarium\QueryType\Server\Collections\Result\DeleteResult;
+use Solarium\QueryType\Server\Collections\Result\ReloadResult;
+use Solarium\QueryType\Server\Configsets\Result\ConfigsetsResult;
+use Solarium\QueryType\Server\Configsets\Result\ListConfigsetsResult;
 
 /**
  * Abstract base class.
@@ -76,6 +82,7 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
         $action = $configsetsQuery->createList();
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
+        $this->assertInstanceOf(ListConfigsetsResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
 
         $this->assertContains('_default', $result->getConfigSets());
@@ -86,11 +93,13 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
         $action->setName('copy_of_techproducts')->setBaseConfigSet('techproducts');
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
+        $this->assertInstanceOf(ConfigsetsResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
 
         $action = $configsetsQuery->createList();
         $configsetsQuery->setAction($action);
         $result = self::$client->configsets($configsetsQuery);
+        $this->assertInstanceOf(ListConfigsetsResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertContains('_default', $result->getConfigSets());
         $this->assertContains('techproducts', $result->getConfigSets());
@@ -106,12 +115,14 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
         $action->setNumShards(1);
         $collectionsQuery->setAction($action);
         $result = self::$client->collections($collectionsQuery);
+        $this->assertInstanceOf(CreateResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
 
         $action = $collectionsQuery->createDelete();
         $action->setName('test');
         $collectionsQuery->setAction($action);
         $result = self::$client->collections($collectionsQuery);
+        $this->assertInstanceOf(DeleteResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
     }
 
@@ -123,6 +134,7 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
         $action->setName(self::$name);
         $collectionsQuery->setAction($action);
         $result = self::$client->collections($collectionsQuery);
+        $this->assertInstanceOf(ReloadResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
     }
 
@@ -133,6 +145,7 @@ abstract class AbstractCloudTestCase extends AbstractTechproductsTestCase
         $action = $collectionsQuery->createClusterStatus();
         $collectionsQuery->setAction($action);
         $result = self::$client->collections($collectionsQuery);
+        $this->assertInstanceOf(ClusterStatusResult::class, $result);
         $this->assertTrue($result->getWasSuccessful());
         $clusterState = $result->getClusterState();
         $this->assertInstanceOf(ClusterState::class, $clusterState);

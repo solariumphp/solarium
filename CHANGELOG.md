@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added union type declarations to method signatures
 - Solarium\Core\Query\Helper::formatDate() throws a `TypeError` instead of returning `false` if called with an incompatibly typed parameter
 - Managed resources queries no longer work around SOLR-6853 by default. Set the 'useDoubleEncoding' option to `true` if this bug affects you.
+- Solarium codebase is now analysed at PHPStan level 2
 
 ### Removed
 - Solarium\Component\Result\Stats\FacetValue::getFacets(), always returned `null`

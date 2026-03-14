@@ -16,7 +16,6 @@ use Solarium\Component\Result\Stats\Result as ResultStatsResult;
 use Solarium\Component\Result\Stats\Stats as ResultStats;
 use Solarium\Component\Stats\Stats as StatsComponent;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
-use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\Select\Query\Query;
 
 /**
@@ -29,42 +28,39 @@ class Stats extends ResponseParserAbstract implements ComponentParserInterface
     /**
      * Parse result data into result objects.
      *
-     * @param Query          $query
-     * @param StatsComponent $statsComponent
-     * @param array          $data
-     *
-     * @throws InvalidArgumentException
+     * @param ComponentAwareQueryInterface&Query $query
+     * @param AbstractComponent&StatsComponent   $statsComponent
+     * @param array                              $data
      *
      * @return ResultStats
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $statsComponent, array $data): ResultStats
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $statsComponent, array $data): ResultStats
     {
-        if (!$query) {
-            throw new InvalidArgumentException('A valid query object needs to be provided.');
+        if (!isset($data['stats']['stats_fields'])) {
+            return new ResultStats([]);
         }
 
         $results = [];
-        if (isset($data['stats']['stats_fields'])) {
-            $statResults = $data['stats']['stats_fields'];
-            foreach ($statResults as $field => $stats) {
-                if (isset($stats['facets'])) {
-                    foreach ($stats['facets'] as $facetField => $values) {
-                        foreach ($values as $value => $valueStats) {
-                            if ($query::WT_JSON === $query->getResponseWriter()) {
-                                $valueStats = $this->normalizeParsedJsonStats($valueStats);
-                            }
 
-                            $stats['facets'][$facetField][$value] = new ResultStatsFacetValue($value, $valueStats);
+        $statResults = $data['stats']['stats_fields'];
+        foreach ($statResults as $field => $stats) {
+            if (isset($stats['facets'])) {
+                foreach ($stats['facets'] as $facetField => $values) {
+                    foreach ($values as $value => $valueStats) {
+                        if ($query::WT_JSON === $query->getResponseWriter()) {
+                            $valueStats = $this->normalizeParsedJsonStats($valueStats);
                         }
+
+                        $stats['facets'][$facetField][$value] = new ResultStatsFacetValue($value, $valueStats);
                     }
                 }
-
-                if ($query::WT_JSON === $query->getResponseWriter()) {
-                    $stats = $this->normalizeParsedJsonStats($stats);
-                }
-
-                $results[$field] = new ResultStatsResult($field, $stats);
             }
+
+            if ($query::WT_JSON === $query->getResponseWriter()) {
+                $stats = $this->normalizeParsedJsonStats($stats);
+            }
+
+            $results[$field] = new ResultStatsResult($field, $stats);
         }
 
         return new ResultStats($results);

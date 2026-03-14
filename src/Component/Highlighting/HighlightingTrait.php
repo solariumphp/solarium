@@ -43,9 +43,7 @@ trait HighlightingTrait
     /**
      * Set highlighter method.
      *
-     * Use one of the METHOD_* constants as value.
-     *
-     * @param string $method
+     * @param self::METHOD_* $method
      *
      * @return self Provides fluent interface
      */
@@ -225,9 +223,7 @@ trait HighlightingTrait
     /**
      * Set encoder option.
      *
-     * Use one of the ENCODER_* constants as value.
-     *
-     * @param string $encoder
+     * @param self::ENCODER_* $encoder
      *
      * @return self Provides fluent interface
      */
@@ -277,15 +273,13 @@ trait HighlightingTrait
     /**
      * Set offsetSource option.
      *
-     * Use one of the OFFSETSOURCE_* constants as value.
-     *
-     * @param string $source
+     * @param self::OFFSETSOURCE_* $offsetSource
      *
      * @return self Provides fluent interface
      */
-    public function setOffsetSource(string $source): self
+    public function setOffsetSource(string $offsetSource): self
     {
-        $this->setOption('offsetsource', $source);
+        $this->setOption('offsetsource', $offsetSource);
 
         return $this;
     }
@@ -305,13 +299,13 @@ trait HighlightingTrait
      *
      * Influences where the first highlighted text in a passage is positioned.
      *
-     * @param float $ratio
+     * @param float $fragAlignRatio
      *
      * @return self Provides fluent interface
      */
-    public function setFragAlignRatio(float $ratio): self
+    public function setFragAlignRatio(float $fragAlignRatio): self
     {
-        $this->setOption('fragalignratio', $ratio);
+        $this->setOption('fragalignratio', $fragAlignRatio);
 
         return $this;
     }
@@ -551,9 +545,7 @@ trait HighlightingTrait
     /**
      * Set breakIterator boundary scanner type option.
      *
-     * Use one of the BOUNDARYSCANNER_TYPE_* constants as value.
-     *
-     * @param string $type
+     * @param self::BOUNDARYSCANNER_TYPE_* $type
      *
      * @return self Provides fluent interface
      */
@@ -779,9 +771,7 @@ trait HighlightingTrait
     /**
      * Set formatter option.
      *
-     * Use one of the FORMATTER_* constants as value.
-     *
-     * @param string $formatter
+     * @param self::FORMATTER_* $formatter
      *
      * @return self Provides fluent interface
      */
@@ -861,9 +851,7 @@ trait HighlightingTrait
     /**
      * Set fragmenter option.
      *
-     * Use one of the FRAGMENTER_* constants as value.
-     *
-     * @param string $fragmenter
+     * @param self::FRAGMENTER_* $fragmenter
      *
      * @return self Provides fluent interface
      */
@@ -1007,9 +995,7 @@ trait HighlightingTrait
     /**
      * Set fragListBuilder option.
      *
-     * Use one of the FRAGLISTBUILDER_* constants as value.
-     *
-     * @param string $builder
+     * @param self::FRAGLISTBUILDER_* $builder
      *
      * @return self Provides fluent interface
      */
@@ -1033,9 +1019,7 @@ trait HighlightingTrait
     /**
      * Set fragmentsBuilder option.
      *
-     * Use one of the FRAGMENTSBUILDER_* constants or the name of your own fragments builder as value.
-     *
-     * @param string $builder
+     * @param self::FRAGMENTSBUILDER_* $builder
      *
      * @return self Provides fluent interface
      */
@@ -1059,9 +1043,7 @@ trait HighlightingTrait
     /**
      * Set boundaryScanner option.
      *
-     * Use one of the BOUNDARYSCANNER_* constants as value.
-     *
-     * @param string $scanner
+     * @param self::BOUNDARYSCANNER_* $scanner
      *
      * @return self Provides fluent interface
      */

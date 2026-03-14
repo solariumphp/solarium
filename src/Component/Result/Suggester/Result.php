@@ -9,12 +9,13 @@
 
 namespace Solarium\Component\Result\Suggester;
 
+use Solarium\Component\Result\ComponentResultInterface;
 use Solarium\QueryType\Suggester\Result\Dictionary;
 
 /**
  * Component suggester result.
  */
-class Result implements \IteratorAggregate, \Countable
+class Result implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Suggester results.

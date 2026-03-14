@@ -9,6 +9,7 @@ use Solarium\Builder\AbstractExpressionVisitor;
 use Solarium\Builder\Analytics\AnalyticsExpressionVisitor;
 use Solarium\Builder\Analytics\FunctionBuilder;
 use Solarium\Builder\ExpressionInterface;
+use Solarium\Component\Analytics\Analytics as AnalyticsComponent;
 use Solarium\Exception\RuntimeException;
 
 /**
@@ -616,6 +617,40 @@ class FunctionBuilderTest extends TestCase
             ->where(FunctionBuilder::expr()->concatSeparated('foo', 'bar'));
 
         $this->assertSame('concat_sep(foo,bar)', (string) $builder->getFunction());
+    }
+
+    /**
+     * Test the example in docs/queries/query-helper/function-builder.md.
+     *
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     */
+    public function testExample(): void
+    {
+        $analytics = new AnalyticsComponent();
+
+        $expr = FunctionBuilder::expr();
+        $builder = FunctionBuilder::create()
+            ->where($expr->div(
+                $expr->sum(
+                    'a',
+                    $expr->fillMissing('b', 0)
+                ),
+                $expr->add(
+                    10.5,
+                    $expr->count(
+                        $expr->mult('a', 'c')
+                    )
+                )
+            ))
+        ;
+
+        $analytics
+            ->addFunction('sale()', (string) $builder->getFunction())
+        ;
+
+        $this->assertSame([
+            'sale()' => 'div(sum(a,fill_missing(b,0)),add(10.5,count(mult(a,c))))',
+        ], $analytics->getFunctions());
     }
 }
 

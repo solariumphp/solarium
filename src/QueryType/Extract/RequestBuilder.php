@@ -23,7 +23,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build the request.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @throws RuntimeException
      *
@@ -52,7 +52,7 @@ class RequestBuilder extends BaseRequestBuilder
         /** @var Document $doc */
         $doc = $query->getDocument();
         if (null !== $doc) {
-            // @phpstan-ignore-next-line we're calling a deprecated method on purpose
+            // @phpstan-ignore method.deprecated (we're calling a deprecated method on purpose)
             if (null !== $doc->getBoost()) {
                 throw new RuntimeException('Extract does not support document-level boosts, use field boosts instead.');
             }

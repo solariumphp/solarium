@@ -22,7 +22,7 @@ class MoreLikeThisTest extends TestCase
     {
         $this->parser = new Parser();
         $this->query = new Query();
-        $this->mlt = new MoreLikeThis();
+        $this->mlt = $this->query->getMoreLikeThis();
     }
 
     public function testParse(): void
