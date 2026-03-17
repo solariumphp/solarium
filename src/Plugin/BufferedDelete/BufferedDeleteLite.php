@@ -190,11 +190,11 @@ class BufferedDeleteLite extends AbstractBufferedUpdate
 
             switch ($delete->getType()) {
                 case DeleteInterface::TYPE_ID:
-                    /** @var DeleteById $delete */
+                    assert($delete instanceof DeleteById);
                     $command->addId($delete->getId());
                     break;
                 case DeleteInterface::TYPE_QUERY:
-                    /** @var DeleteQuery $delete */
+                    assert($delete instanceof DeleteQuery);
                     $command->addQuery($delete->getQuery());
                     break;
                 default:

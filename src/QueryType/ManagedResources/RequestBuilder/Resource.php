@@ -85,7 +85,8 @@ class Resource extends AbstractRequestBuilder
 
         switch ($command->getType()) {
             case BaseQuery::COMMAND_ADD:
-                /** @var Add $command */
+                assert($command instanceof Add);
+
                 if (null === $rawData = $command->getRawData()) {
                     throw new RuntimeException('Missing data for ADD command.');
                 }
@@ -93,7 +94,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_CONFIG:
-                /** @var Config $command */
+                assert($command instanceof Config);
+
                 if (null === $rawData = $command->getRawData()) {
                     throw new RuntimeException('Missing initArgs for CONFIG command.');
                 }
@@ -101,7 +103,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_CREATE:
-                /** @var Create $command */
+                assert($command instanceof Create);
+
                 if (null === $rawData = $command->getRawData()) {
                     throw new RuntimeException('Missing class for CREATE command.');
                 }
@@ -109,7 +112,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_DELETE:
-                /** @var Delete $command */
+                assert($command instanceof Delete);
+
                 if (null === $term = $command->getTerm()) {
                     throw new RuntimeException('Missing term for DELETE command.');
                 }
@@ -122,7 +126,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setHandler($request->getHandler().'/'.$term);
                 break;
             case BaseQuery::COMMAND_EXISTS:
-                /** @var Exists $command */
+                assert($command instanceof Exists);
+
                 if (null !== $term = $command->getTerm()) {
                     $term = rawurlencode($term);
                     if ($query->getUseDoubleEncoding()) {
@@ -134,7 +139,8 @@ class Resource extends AbstractRequestBuilder
 
                 break;
             case BaseQuery::COMMAND_REMOVE:
-                /** @var Remove $command */
+                assert($command instanceof Remove);
+
                 break;
             default:
                 throw new RuntimeException(sprintf('Unsupported command type: %s', $command->getType()));

@@ -8,7 +8,6 @@ finder:
 
 disabled:
     - no_superfluous_phpdoc_tags_symfony
-    - phpdoc_to_comment
 
 enabled:
     - phpdoc_add_missing_param_annotation

@@ -89,7 +89,8 @@ class Cbor extends AbstractRequestBuilder
 
         foreach ($query->getCommands() as $command) {
             if (UpdateQuery::COMMAND_ADD === $command->getType()) {
-                /** @var Add $command */
+                assert($command instanceof Add);
+
                 $this->addDocuments($command->getDocuments(), $cbor);
 
                 if (null !== $overwrite = $command->getOverwrite()) {

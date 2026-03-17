@@ -85,7 +85,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
                     foreach ($facets as $k => $facet) {
                         $facetObject = $facetSet->$method($k);
                         if ('facet_pivot' === $key) {
-                            /** @var QueryFacetPivot $facetObject */
+                            assert($facetObject instanceof QueryFacetPivot);
                             $facetObject->setFields($k);
                         }
                     }
