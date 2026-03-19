@@ -132,8 +132,7 @@ class Grouping extends Configurable implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'expressions' => $this->expressions,

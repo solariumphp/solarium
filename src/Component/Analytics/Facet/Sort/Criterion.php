@@ -112,8 +112,7 @@ class Criterion extends Configurable implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'type' => $this->type,

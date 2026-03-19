@@ -70,8 +70,7 @@ class PivotFacet extends AbstractFacet
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'type' => $this->getType(),
