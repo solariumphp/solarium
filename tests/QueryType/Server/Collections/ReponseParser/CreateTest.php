@@ -41,7 +41,7 @@ class CreateTest extends TestCase
 
         $this->assertSame(1693, $result->getQueryTime());
         $this->assertSame($data, $result->getCreateStatus());
-        // @phpstan-ignore-next-line Will no longer override QueryType::getStatus() in Solarium 8.
+        // @phpstan-ignore method.deprecated (will no longer override QueryType::getStatus() in Solarium 8)
         $this->assertSame($data, $result->getStatus());
     }
 }
