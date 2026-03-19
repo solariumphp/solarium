@@ -7,12 +7,14 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Highlighting\Highlighting;
 use Solarium\Component\QueryTraits\GroupingTrait;
 use Solarium\Component\QueryTraits\TermsTrait;
-use Solarium\Component\Result\Facet\Pivot\PivotItem;
+use Solarium\Component\Result\Facet\Field as FieldFacet;
+use Solarium\Component\Result\Facet\Pivot\Pivot as PivotFacet;
 use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\Result as GroupingResult;
 use Solarium\Component\Result\Grouping\ValueGroup;
 use Solarium\Component\Result\Terms\Result as TermsResult;
+use Solarium\Component\Terms;
 use Solarium\Client;
 use Solarium\Core\Client\Adapter\ConnectionTimeoutAwareInterface;
 use Solarium\Core\Client\Adapter\Curl;
@@ -20,11 +22,12 @@ use Solarium\Core\Client\Adapter\TimeoutAwareInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Event\Events;
+use Solarium\Core\Event\PreExecute as PreExecuteEvent;
+use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Query\AbstractDocument;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\Helper;
 use Solarium\Core\Query\RequestBuilderInterface;
-use Solarium\Core\Query\Status4xxNoExceptionInterface;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
@@ -45,6 +48,7 @@ use Solarium\Plugin\Loadbalancer\Event\EndpointFailure as LoadbalancerEndpointFa
 use Solarium\Plugin\Loadbalancer\Event\Events as LoadbalancerEvents;
 use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter;
+use Solarium\Plugin\MinimumScoreFilter\Query as MinimumScoreFilterQuery;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
 use Solarium\Plugin\PrefetchIterator;
 use Solarium\Plugin\PostBigExtractRequest;
@@ -53,18 +57,41 @@ use Solarium\QueryType\Luke\Result\Doc\DocFieldInfo as LukeDocFieldInfo;
 use Solarium\QueryType\Luke\Result\Doc\DocInfo as LukeDocInfo;
 use Solarium\QueryType\Luke\Result\Fields\FieldInfo as LukeFieldInfo;
 use Solarium\QueryType\Luke\Result\Index\Index as LukeIndexResult;
+use Solarium\QueryType\Luke\Result\Schema\Field\CopyFieldDestInterface;
+use Solarium\QueryType\Luke\Result\Schema\Field\DynamicBasedField;
 use Solarium\QueryType\Luke\Result\Schema\Schema as LukeSchemaResult;
+use Solarium\QueryType\ManagedResources\Query\Command\Config as StopwordsConfig;
+use Solarium\QueryType\ManagedResources\Query\Command\Config as SynonymsConfig;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete as StopwordsDelete;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete as SynonymsDelete;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists as StopwordsExists;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists as SynonymsExists;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove as StopwordsRemove;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove as SynonymsRemove;
+use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Add as StopwordsAdd;
+use Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create as StopwordsCreate;
+use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add as SynonymsAdd;
+use Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create as SynonymsCreate;
 use Solarium\QueryType\ManagedResources\Query\Synonyms\Synonyms;
+use Solarium\QueryType\ManagedResources\Result\Command as ManagedResourcesCommandResult;
 use Solarium\QueryType\ManagedResources\Result\Resources\Resource as ResourceResultItem;
+use Solarium\QueryType\ManagedResources\Result\Resources\ResourceList as ResourceResult;
+use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet as StopwordsResult;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings as SynonymsResult;
 use Solarium\QueryType\ManagedResources\Result\Synonyms\Synonyms as SynonymsResultItem;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result as SelectResult;
+use Solarium\QueryType\Server\Api\Result as ApiResult;
+use Solarium\QueryType\Update\Query\Command\Add;
+use Solarium\QueryType\Update\Query\Command\Commit;
+use Solarium\QueryType\Update\Query\Document as UpdateDocument;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\QueryType\Update\RequestBuilder\Xml as XmlUpdateRequestBuilder;
 use Solarium\Support\Utility;
 use Solarium\Tests\Integration\Plugin\EventTimer;
 use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use TRegx\PhpUnit\DataProviders\DataProvider;
 
 abstract class AbstractTechproductsTestCase extends TestCase
@@ -172,6 +199,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             if (9 <= self::$solrVersion) {
                 $update = self::$client->createUpdate();
 
+                /** @var UpdateDocument $utf8test */
                 $utf8test = $update->createDocument();
                 $utf8test->setField('id', 'UTF8TEST');
                 $utf8test->setField('manu', 'Apache Software Foundation');
@@ -363,6 +391,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
         $update->setResponseWriter($responseWriter);
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-escapes');
         $doc->setField('name', 'Solarium Test Escapes');
@@ -414,6 +443,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
         $update->setResponseWriter($responseWriter);
         $update->setRequestFormat($requestFormat);
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-phrase');
         $doc->setField('name', 'Solarium Test Phrase Query');
@@ -473,7 +503,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             'space: the final frontier',
             "'single-quote",
             '"double-quote',
-            'escaped backslash \\',
+            'escaped backslash \\\\',
             'right-curly-bracket}',
             // \ in and of itself and {! don't need escaping
             'unescaped-backslash-\\',
@@ -483,6 +513,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
         $update->setResponseWriter($responseWriter);
         $update->setRequestFormat($requestFormat);
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-localparamvalue-escapes');
         $doc->setField('name', 'Solarium Test Local Param Value Escapes');
@@ -511,10 +542,12 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $result = self::$client->select($select);
 
         foreach ($categories as $cat) {
+            /** @var FieldFacet $facet */
             $facet = $result->getFacetSet()->getFacet($cat);
             $this->assertEquals([$cat => 1], $facet->getValues());
         }
 
+        /** @var FieldFacet $facet */
         $facet = $result->getFacetSet()->getFacet('electronics');
         $this->assertEquals(['electronics and computer1' => 1], $facet->getValues());
 
@@ -787,8 +820,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $stats->createField('{!tag=piv1 min=true max=true mean=true}popularity');
 
         $result = self::$client->select($select);
-        /** @var PivotItem $pivotItem */
-        $pivotItem = $result->getFacetSet()->getFacet('piv1')->getPivot()[0];
+        /** @var PivotFacet $pivotFacet */
+        $pivotFacet = $result->getFacetSet()->getFacet('piv1');
+        $pivotItem = $pivotFacet->getPivot()[0];
         $pivotStats = $pivotItem->getStats();
         $this->assertCount(2, $pivotStats->getResults());
 
@@ -1003,6 +1037,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $doc = $docIterator->current();
         $this->assertSame('VS1GB400C3', $doc->getFields()['id']);
 
+        /** @var GroupingTestQuery $select */
         $select = self::$client->createQuery('grouping');
         $select->setQuery('memory');
         $select->setFields('id,price');
@@ -1029,6 +1064,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             'price' => 74.99,
         ], $doc);
 
+        /** @var QueryGroup $queryGroup */
         $queryGroup = $groupingComponentResult->getGroup('price:[100 TO *]');
         $this->assertSame(5, $queryGroup->getMatches());
         $this->assertSame(3, $queryGroup->getNumFound());
@@ -1459,7 +1495,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         if ($adapter instanceof TimeoutAwareInterface) {
             $this->assertSame($timeout, $adapter->getTimeout());
             if ($adapter instanceof Curl) {
-                $this->assertTrue(self::$client->getAdapter()->getOption('return_transfer'));
+                $this->assertTrue($adapter->getOption('return_transfer'));
             }
         }
     }
@@ -1501,6 +1537,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     {
         self::$client->registerQueryType('test', TermsTestQuery::class);
         $select = self::$client->createQuery('test');
+        $this->assertInstanceOf(TermsTestQuery::class, $select);
         $select->setResponseWriter($responseWriter);
 
         // Setting distrib to true in a non cloud setup causes exceptions.
@@ -1667,12 +1704,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
         $update->setResponseWriter($responseWriter);
+        /** @var UpdateDocument $doc1 */
         $doc1 = $update->createDocument();
         $doc1->setField('id', 'solarium-test-1');
         $doc1->setField('name', 'Solarium Test 1');
         $doc1->setField('cat', 'solarium-test');
         $doc1->setField('price', 3.14);
         $doc1->setField('content', ['foo', 'bar']);
+        /** @var UpdateDocument $doc2 */
         $doc2 = $update->createDocument();
         $doc2->setField('id', 'solarium-test-2');
         $doc2->setField('name', 'Solarium Test 2');
@@ -1748,6 +1787,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $update = self::$client->createUpdate();
             $update->setRequestFormat($requestFormat);
             $update->setResponseWriter($responseWriter);
+            /** @var UpdateDocument $doc1 */
             $doc1 = $update->createDocument();
             $doc1->setField('id', 'solarium-test-1');
             $doc1->setField('name', 'Solarium Test 1');
@@ -1892,6 +1932,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
 
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test');
         $doc->setField('name', 'Solarium Test');
@@ -1912,6 +1953,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // set
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-set');
@@ -1933,6 +1975,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // add & inc
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-add');
@@ -1955,6 +1998,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // add multiple values (non-distinct)
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', ['modifier-add', 'modifier-add-another']);
@@ -1977,6 +2021,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // add-distinct
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-add');
@@ -2001,6 +2046,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // add-distinct with multiple values can add duplicates in Solr 7 cloud mode (SOLR-14550)
         if (7 === self::$solrVersion && $this instanceof AbstractCloudTestCase) {
             // we still have to emulate a successful atomic update for the remainder of this test to pass
+            /** @var UpdateDocument $doc */
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-test');
             $doc->setField('cat', 'modifier-add-distinct');
@@ -2010,6 +2056,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             self::$client->update($update);
         } else {
             // add-distinct multiple values
+            /** @var UpdateDocument $doc */
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-test');
             $doc->setField('cat', ['modifier-add', 'modifier-add-another', 'modifier-add-distinct']);
@@ -2034,6 +2081,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // remove & negative inc
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', 'modifier-set');
@@ -2058,6 +2106,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // remove multiple values
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', ['modifier-add', 'modifier-add-another']);
@@ -2078,6 +2127,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // removeregex
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', '^.+-add$');
@@ -2097,6 +2147,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // set to empty list
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', []);
@@ -2113,6 +2164,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // add to missing field
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', ['solarium-test']);
@@ -2132,6 +2184,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ], $result->getIterator()->current());
 
         // set to null
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setKey('id', 'solarium-test');
         $doc->setField('cat', [null]);
@@ -2206,6 +2259,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         $update = self::$client->createUpdate();
         $update->setRequestFormat($requestFormat);
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument($data);
         $update->addDocument($doc);
         $update->addCommit(true, true);
@@ -2471,6 +2525,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                     'weight' => 4.0,
                 ],
             ];
+            /** @var UpdateDocument $doc */
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-parent');
             $doc->setField('cat', 'updated-1');
@@ -2518,6 +2573,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                     'cat' => ['solarium-nested-document', 'child', 'added'],
                     'weight' => 5.0,
                 ];
+                /** @var UpdateDocument $doc */
                 $doc = $update->createDocument();
                 $doc->setKey('id', 'solarium-parent');
                 $doc->setField('cat', 'updated-2');
@@ -2576,6 +2632,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'weight' => 7.0,
                     ],
                 ];
+                /** @var UpdateDocument $doc */
                 $doc = $update->createDocument();
                 $doc->setKey('id', 'solarium-parent');
                 $doc->setField('cat', 'updated-3');
@@ -2649,6 +2706,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                             'weight' => 5.4,
                         ],
                     ];
+                    /** @var UpdateDocument $doc */
                     $doc = $update->createDocument();
                     $doc->setKey('id', 'solarium-parent');
                     $doc->setField('cat', 'updated-4');
@@ -2714,6 +2772,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'cat' => ['solarium-nested-document', 'child', 'added'],
                         'weight' => 5.0,
                     ];
+                    /** @var UpdateDocument $doc */
                     $doc = $update->createDocument();
                     $doc->setKey('id', 'solarium-parent');
                     $doc->setField('cat', 'updated-5');
@@ -2774,6 +2833,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 } else {
                     // atomic update tests are designed to cancel each other out for any Solr version
                     // but the remainder of the test assumes 'cat' has been updated every time
+                    /** @var UpdateDocument $doc */
                     $doc = $update->createDocument();
                     $doc->setKey('id', 'solarium-parent');
                     $doc->setField('cat', ['updated-4', 'updated-5']);
@@ -2786,6 +2846,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 $removeChild = [
                     'id' => 'solarium-child-3',
                 ];
+                /** @var UpdateDocument $doc */
                 $doc = $update->createDocument();
                 $doc->setKey('id', 'solarium-parent');
                 $doc->setField('cat', 'updated-6');
@@ -2848,6 +2909,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                         'id' => 'solarium-child-7',
                     ],
                 ];
+                /** @var UpdateDocument $doc */
                 $doc = $update->createDocument();
                 $doc->setKey('id', 'solarium-parent');
                 $doc->setField('cat', 'updated-7');
@@ -2897,6 +2959,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                     'cat' => ['solarium-nested-document', 'child', 'updated-8'],
                     'weight' => 0.8,
                 ];
+                /** @var UpdateDocument $doc */
                 $doc = $update->createDocument();
                 $doc->setKey('id', 'solarium-parent');
                 $doc->setField('cat', 'updated-8');
@@ -2935,6 +2998,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 ], $iterator->current());
 
                 // atomic update: remove a single child document from a pseudo-field
+                /** @var UpdateDocument $doc */
                 $doc = $update->createDocument();
                 $doc->setKey('id', 'solarium-parent');
                 $doc->setField('cat', 'updated-9');
@@ -2969,6 +3033,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
 
             // atomic update: removing all child documents from a pseudo-field
+            /** @var UpdateDocument $doc */
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-parent');
             $doc->setField('cat', 'updated-10');
@@ -3208,6 +3273,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // add
         $update = self::$client->createUpdate();
         $update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+        /** @var UpdateDocument $doc1 */
         $doc1 = $update->createDocument();
         $doc1->setField('id', 'solarium-cbor-test-1');
         $doc1->setField('name', 'Sølåríùm CBOR Tëst 1');
@@ -3216,6 +3282,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $doc1->setField('popularity', 5);
         $doc1->setField('inStock', true);
         $doc1->setField('content', ['foo', 'bar']);
+        /** @var UpdateDocument $doc2 */
         $doc2 = $update->createDocument();
         $doc2->setField('id', 'solarium-cbor-test-2');
         $doc2->setField('name', 'Sølåríùm CBOR Tëst 2');
@@ -3261,6 +3328,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         try {
             $update = self::$client->createUpdate();
             $update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+            /** @var UpdateDocument $doc */
             $doc = $update->createDocument();
             $doc->setKey('id', 'solarium-cbor-test-1');
             $doc->setField('popularity', -1);
@@ -3317,6 +3385,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         ];
         $update = self::$client->createUpdate();
         $update->setRequestFormat($update::REQUEST_FORMAT_CBOR);
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument($data);
         $update->addDocument($doc);
         $update->addParam('commit', true);
@@ -3431,10 +3500,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
 
         // can't be null at this point because phpstan analyses the ADD_DOCUMENT listener with this value even though it's never executed with it
+        /** @var UpdateDocument $document */
         $document = $update->createDocument();
         $weight = 0;
 
-        self::$client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+
+        $dispatcher->addListener(
             BufferedAddEvents::ADD_DOCUMENT,
             $addDocument = function (BufferedAddAddDocumentEvent $event) use (&$document, &$weight) {
                 $this->assertSame($document, $event->getDocument());
@@ -3442,7 +3515,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
         );
 
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             BufferedAddEvents::PRE_FLUSH,
             $preFlush = function (BufferedAddPreFlushEvent $event) use ($bufferSize, &$document, &$weight) {
                 static $i = 0;
@@ -3461,22 +3534,25 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
         );
 
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             BufferedAddEvents::POST_FLUSH,
             $postFlush = function (BufferedAddPostFlushEvent $event) use ($bufferSize) {
                 $result = $event->getResult();
                 $this->assertSame(0, $result->getStatus());
 
                 $query = $result->getQuery();
+                $this->assertInstanceOf(UpdateQuery::class, $query);
+
                 $commands = $query->getCommands();
                 $this->assertCount(1, $commands);
+                $this->assertInstanceOf(Add::class, $commands[0]);
                 $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
                 // we added 1 document to the full buffer in PRE_FLUSH
                 $this->assertCount($bufferSize + 1, $commands[0]->getDocuments());
             }
         );
 
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             BufferedAddEvents::PRE_COMMIT,
             $preCommit = function (BufferedAddPreCommitEvent $event) use ($bufferSize, $totalDocs, &$document, &$weight) {
                 static $i = 0;
@@ -3495,16 +3571,20 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
         );
 
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             BufferedAddEvents::POST_COMMIT,
             $postCommit = function (BufferedAddPostCommitEvent $event) use ($bufferSize, $totalDocs) {
                 $result = $event->getResult();
                 $this->assertSame(0, $result->getStatus());
 
                 $query = $result->getQuery();
+                $this->assertInstanceOf(UpdateQuery::class, $query);
+
                 $commands = $query->getCommands();
                 $this->assertCount(2, $commands);
+                $this->assertInstanceOf(Add::class, $commands[0]);
                 $this->assertSame(UpdateQuery::COMMAND_ADD, $commands[0]->getType());
+                $this->assertInstanceOf(Commit::class, $commands[1]);
                 $this->assertSame(UpdateQuery::COMMAND_COMMIT, $commands[1]->getType());
                 // we added 1 document to the remaining buffer in PRE_COMMIT
                 $this->assertCount(($totalDocs % $bufferSize) + 1, $commands[0]->getDocuments());
@@ -3578,11 +3658,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
             ], $ids);
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::ADD_DOCUMENT, $addDocument);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_FLUSH, $preFlush);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_FLUSH, $postFlush);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_COMMIT, $preCommit);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_COMMIT, $postCommit);
+        $dispatcher->removeListener(BufferedAddEvents::ADD_DOCUMENT, $addDocument);
+        $dispatcher->removeListener(BufferedAddEvents::PRE_FLUSH, $preFlush);
+        $dispatcher->removeListener(BufferedAddEvents::POST_FLUSH, $postFlush);
+        $dispatcher->removeListener(BufferedAddEvents::PRE_COMMIT, $preCommit);
+        $dispatcher->removeListener(BufferedAddEvents::POST_COMMIT, $postCommit);
         self::$client->removePlugin('bufferedadd');
     }
 
@@ -3606,7 +3686,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $id = '';
         $query = '';
 
-        self::$client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+
+        $dispatcher->addListener(
             BufferedDeleteEvents::ADD_DELETE_BY_ID,
             $addDeleteById = function (BufferedDeleteAddDeleteByIdEvent $event) use (&$id) {
                 $this->assertSame($id, $event->getId());
@@ -3615,7 +3698,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
             }
         );
 
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             BufferedDeleteEvents::ADD_DELETE_QUERY,
             $addDeleteQuery = function (BufferedDeleteAddDeleteQueryEvent $event) use (&$query) {
                 $this->assertSame($query, $event->getQuery());
@@ -3661,8 +3744,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
             ], $ids);
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $addDeleteById);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $addDeleteQuery);
+        $dispatcher->removeListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $addDeleteById);
+        $dispatcher->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $addDeleteQuery);
         $buffer->addDeleteQuery('cat:solarium-bufferedadd');
         $buffer->commit(null, true, true);
         self::$client->removePlugin('buffereddelete');
@@ -3688,14 +3771,19 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         $weight = 0;
 
-        self::$client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+
+        $dispatcher->addListener(
             BufferedAddEvents::ADD_DOCUMENT,
             $addDocument = function (BufferedAddAddDocumentEvent $event) use (&$weight) {
-                $event->getDocument()->setField('weight', ++$weight);
+                $doc = $event->getDocument();
+                $this->assertInstanceOf(UpdateDocument::class, $doc);
+                $doc->setField('weight', ++$weight);
             }
         );
 
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             BufferedDeleteEvents::ADD_DELETE_QUERY,
             $addDeleteQuery = function (BufferedDeleteAddDeleteQueryEvent $event) {
                 // other documents in techproducts must never be deleted by this test
@@ -3777,8 +3865,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
             ], $ids);
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::ADD_DOCUMENT, $addDocument);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $addDeleteQuery);
+        $dispatcher->removeListener(BufferedAddEvents::ADD_DOCUMENT, $addDocument);
+        $dispatcher->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $addDeleteQuery);
         $delBuffer->addDeleteQuery('cat:solarium-bufferedadd');
         $delBuffer->commit(null, true, true);
         self::$client->removePlugin('bufferedadd');
@@ -3805,11 +3893,13 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->fail(sprintf('BufferedAddLite isn\'t supposed to trigger %s', \get_class($event)));
         };
 
-        self::$client->getEventDispatcher()->addListener(BufferedAddEvents::ADD_DOCUMENT, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedAddEvents::PRE_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedAddEvents::POST_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedAddEvents::PRE_COMMIT, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedAddEvents::POST_COMMIT, $failListener);
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+        $dispatcher->addListener(BufferedAddEvents::ADD_DOCUMENT, $failListener);
+        $dispatcher->addListener(BufferedAddEvents::PRE_FLUSH, $failListener);
+        $dispatcher->addListener(BufferedAddEvents::POST_FLUSH, $failListener);
+        $dispatcher->addListener(BufferedAddEvents::PRE_COMMIT, $failListener);
+        $dispatcher->addListener(BufferedAddEvents::POST_COMMIT, $failListener);
 
         /** @var BufferedAddLite $buffer */
         $buffer = self::$client->getPlugin('bufferedaddlite');
@@ -3871,11 +3961,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
             ], $ids);
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::ADD_DOCUMENT, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::PRE_COMMIT, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedAddEvents::POST_COMMIT, $failListener);
+        $dispatcher->removeListener(BufferedAddEvents::ADD_DOCUMENT, $failListener);
+        $dispatcher->removeListener(BufferedAddEvents::PRE_FLUSH, $failListener);
+        $dispatcher->removeListener(BufferedAddEvents::POST_FLUSH, $failListener);
+        $dispatcher->removeListener(BufferedAddEvents::PRE_COMMIT, $failListener);
+        $dispatcher->removeListener(BufferedAddEvents::POST_COMMIT, $failListener);
         self::$client->removePlugin('bufferedaddlite');
 
         return $totalDocs;
@@ -3900,12 +3990,14 @@ abstract class AbstractTechproductsTestCase extends TestCase
             $this->fail(sprintf('BufferedDeleteLite isn\'t supposed to trigger %s', \get_class($event)));
         };
 
-        self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::PRE_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::POST_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
-        self::$client->getEventDispatcher()->addListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+        $dispatcher->addListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $failListener);
+        $dispatcher->addListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $failListener);
+        $dispatcher->addListener(BufferedDeleteEvents::PRE_FLUSH, $failListener);
+        $dispatcher->addListener(BufferedDeleteEvents::POST_FLUSH, $failListener);
+        $dispatcher->addListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
+        $dispatcher->addListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
 
         /** @var BufferedDeleteLite $buffer */
         $buffer = self::$client->getPlugin('buffereddeletelite');
@@ -3926,12 +4018,12 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame(0, $result->getNumFound());
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::PRE_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::POST_FLUSH, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
-        self::$client->getEventDispatcher()->removeListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
+        $dispatcher->removeListener(BufferedDeleteEvents::ADD_DELETE_BY_ID, $failListener);
+        $dispatcher->removeListener(BufferedDeleteEvents::ADD_DELETE_QUERY, $failListener);
+        $dispatcher->removeListener(BufferedDeleteEvents::PRE_FLUSH, $failListener);
+        $dispatcher->removeListener(BufferedDeleteEvents::POST_FLUSH, $failListener);
+        $dispatcher->removeListener(BufferedDeleteEvents::PRE_COMMIT, $failListener);
+        $dispatcher->removeListener(BufferedDeleteEvents::POST_COMMIT, $failListener);
         self::$client->removePlugin('buffereddeletelite');
     }
 
@@ -4050,6 +4142,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $bufferSize = 10;
         $totalDocs = 25;
 
+        /** @var BufferedAddLite $buffer */
         $buffer = self::$client->getPlugin('bufferedaddlite');
         $buffer->setRequestFormat(UpdateQuery::REQUEST_FORMAT_CBOR);
         $buffer->setBufferSize($bufferSize);
@@ -4137,7 +4230,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $loadbalancer->setForcedEndpointForNextQuery('invalid');
 
         $invalidEndpointListenerCalled = 0;
-        self::$client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+        $dispatcher->addListener(
             LoadbalancerEvents::ENDPOINT_FAILURE,
             $invalidEndpointListener = function (LoadbalancerEndpointFailureEvent $event) use (&$invalidEndpoint, &$invalidEndpointListenerCalled) {
                 ++$invalidEndpointListenerCalled;
@@ -4153,7 +4248,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertSame('localhost', $loadbalancer->getLastEndpoint());
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(LoadbalancerEvents::ENDPOINT_FAILURE, $invalidEndpointListener);
+        $dispatcher->removeListener(LoadbalancerEvents::ENDPOINT_FAILURE, $invalidEndpointListener);
         self::$client->removePlugin('loadbalancer');
         self::$client->removeEndpoint('invalid');
     }
@@ -4168,6 +4263,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
         /** @var MinimumScoreFilter $filter */
         $filter = self::$client->getPlugin('minimumscorefilter');
         $query = self::$client->createQuery($filter::QUERY_TYPE);
+
+        $this->assertInstanceOf(MinimumScoreFilterQuery::class, $query);
+
         $query->setResponseWriter($responseWriter);
         $query->setQuery('*:*');
 
@@ -4255,9 +4353,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $serverResult = self::$client->execute($serverQuery);
 
         // events should be dispatched as usual
-        self::$client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = self::$client->getEventDispatcher();
+        $dispatcher->addListener(
             Events::PRE_EXECUTE,
-            $overrideResult = function (Event $event) use ($resultOverrideResult) {
+            $overrideResult = function (PreExecuteEvent $event) use ($resultOverrideResult) {
                 $query = $event->getQuery();
                 // if this test fails, the listener will remain active and would cause errors for other QueryTypes
                 if ($query instanceof SelectQuery && 'id:parallel-1' === $query->getQuery()) {
@@ -4265,9 +4365,9 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 }
             }
         );
-        self::$client->getEventDispatcher()->addListener(
+        $dispatcher->addListener(
             Events::PRE_EXECUTE_REQUEST,
-            $overrideResponse = function (Event $event) use ($responseOverrideResponse) {
+            $overrideResponse = function (PreExecuteRequestEvent $event) use ($responseOverrideResponse) {
                 if ('id:parallel-2' === $event->getRequest()->getParam('q')) {
                     $event->setResponse($responseOverrideResponse);
                 }
@@ -4315,8 +4415,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertEquals($serverResult, $results['server']);
 
         // cleanup
-        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE, $overrideResult);
-        self::$client->getEventDispatcher()->removeListener(Events::PRE_EXECUTE_REQUEST, $overrideResponse);
+        $dispatcher->removeListener(Events::PRE_EXECUTE, $overrideResult);
+        $dispatcher->removeListener(Events::PRE_EXECUTE_REQUEST, $overrideResponse);
         self::$client->removePlugin('parallelexecution');
         self::$client->removePlugin('postbigrequest');
         self::$client->removeEndpoint('invalid');
@@ -4940,6 +5040,8 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $price = $schema->getField('price');
         $price_c = $price->getCopyDests()[0];
         $_c = $schema->getDynamicField('*_c');
+        $this->assertInstanceOf(CopyFieldDestInterface::class, $price_c);
+        $this->assertInstanceOf(DynamicBasedField::class, $price_c);
         $this->assertContains($price, $price_c->getCopySources());
         $this->assertSame($_c, $price_c->getDynamicBase());
 
@@ -5031,6 +5133,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
                 'version' => Request::API_V2,
                 'handler' => 'node/_introspect',
             ]);
+            /** @var ApiResult $response */
             $response = self::$client->execute($query);
             $this->assertSame('This response format is experimental.  It is likely to change in the future.', $response->getWarning());
         } else {
@@ -5053,6 +5156,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         // input encoding: UTF-8 (default)
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setField('id', 'solarium-test-1');
         $doc->setField('name', 'Sølåríùm Tëst 1');
@@ -5089,6 +5193,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $update = self::$client->createUpdate();
         $update->setRequestFormat(UpdateQuery::REQUEST_FORMAT_XML);
         $update->setInputEncoding('ISO-8859-1');
+        /** @var UpdateDocument $doc */
         $doc = $update->createDocument();
         $doc->setField('id', iconv('UTF-8', 'ISO-8859-1', 'solarium-test-2'));
         $doc->setField('name', iconv('UTF-8', 'ISO-8859-1', 'Sølåríùm Tëst 2'));
@@ -5167,22 +5272,28 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $term = '\'tis';
 
         // Check that stopword list exists
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Add stopwords
+        /** @var StopwordsAdd $add */
         $add = $query->createCommand($query::COMMAND_ADD);
         $add->setStopwords([$term]);
         $query->setCommand($add);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword exists
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
@@ -5190,33 +5301,40 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $query->removeCommand();
 
         // List stopwords
+        /** @var StopwordsResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertContains($term, $result->getItems());
 
         // List added stopword only
         $query->setTerm($term);
+        /** @var StopwordsResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertSame([$term], $result->getItems());
 
         // Delete added stopword
+        /** @var StopwordsDelete $delete */
         $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword is gone
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // List no longer added stopword
         $query->setTerm($term);
         $query->removeCommand();
+        /** @var StopwordsResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
         $this->assertSame([], $result->getItems());
@@ -5237,72 +5355,91 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $query->setName($name.uniqid());
 
         // Check that stopword list doesn't exist
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // Create a new stopword list
+        /** @var StopwordsCreate $create */
         $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Configure the new list to be case sensitive
         $initArgs = $query->createInitArgs();
         $initArgs->setIgnoreCase(false);
+        /** @var StopwordsConfig $config */
         $config = $query->createCommand($query::COMMAND_CONFIG);
         $config->setInitArgs($initArgs);
         $query->setCommand($config);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that stopword list was created
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check the configuration
         $query->removeCommand();
+        /** @var StopwordsResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertFalse($result->isIgnoreCase());
 
         // Check that we can add to it
+        /** @var StopwordsAdd $add */
         $add = $query->createCommand($query::COMMAND_ADD);
         $add->setStopwords([$term]);
         $query->setCommand($add);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword exists in its original lowercase form
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added stopword DOESN'T exist in uppercase form
         $exists->setTerm(strtoupper($term));
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // Remove the stopword list
+        /** @var StopwordsRemove $remove */
         $remove = $query->createCommand($query::COMMAND_REMOVE);
         $query->setCommand($remove);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that stopword list is gone
+        /** @var StopwordsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // Check that list can no longer be listed
         $query->removeCommand();
+        /** @var StopwordsResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
         $this->assertSame([], $result->getItems());
@@ -5316,25 +5453,31 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $synonymList = ['bar', 'pub'];
 
         // Check that synonym map exists
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Add synonym mapping
+        /** @var SynonymsAdd $add */
         $add = $query->createCommand($query::COMMAND_ADD);
         $synonyms = new Synonyms();
         $synonyms->setTerm($term);
         $synonyms->setSynonyms($synonymList);
         $add->setSynonyms($synonyms);
         $query->setCommand($add);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added synonym mapping exsists
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
@@ -5342,6 +5485,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $query->removeCommand();
 
         // List synonyms
+        /** @var SynonymsResult $result */
         $result = self::$client->execute($query);
         $items = $result->getItems();
         $this->assertTrue($result->getWasSuccessful());
@@ -5359,6 +5503,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
         // List added synonym mapping only
         $query->setTerm($term);
+        /** @var SynonymsResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertEquals(
@@ -5367,22 +5512,27 @@ abstract class AbstractTechproductsTestCase extends TestCase
         );
 
         // Delete added synonym mapping
+        /** @var SynonymsDelete $delete */
         $delete = $query->createCommand($query::COMMAND_DELETE);
         $delete->setTerm($term);
         $query->setCommand($delete);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that added synonym mapping is gone
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // List no longer added synonym mapping
         $query->setTerm($term);
         $query->removeCommand();
+        /** @var SynonymsResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
         $this->assertSame([], $result->getItems());
@@ -5403,14 +5553,18 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $query->setName($name.uniqid());
 
         // Check that synonym map doesn't exist
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // Create a new synonym map
+        /** @var SynonymsCreate $create */
         $create = $query->createCommand($query::COMMAND_CREATE);
         $query->setCommand($create);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
@@ -5418,62 +5572,77 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $initArgs = $query->createInitArgs();
         $initArgs->setIgnoreCase(false);
         $initArgs->setFormat($initArgs::FORMAT_SOLR);
+        /** @var SynonymsConfig $config */
         $config = $query->createCommand($query::COMMAND_CONFIG);
         $config->setInitArgs($initArgs);
         $query->setCommand($config);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym map was created
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check the configuration
         $query->removeCommand();
+        /** @var SynonymsResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
         $this->assertFalse($result->isIgnoreCase());
         $this->assertEquals($initArgs::FORMAT_SOLR, $result->getFormat());
 
         // Check that we can add to it
+        /** @var SynonymsAdd $add */
         $add = $query->createCommand($query::COMMAND_ADD);
         $synonyms = new Synonyms();
         $synonyms->setTerm($term);
         $synonyms->setSynonyms(['managed_synonym', 'synonym_test']);
         $add->setSynonyms($synonyms);
         $query->setCommand($add);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym exists in its original lowercase form
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $exists->setTerm($term);
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym DOESN'T exist in uppercase form
         $exists->setTerm(strtoupper($term));
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // Remove the synonym map
+        /** @var SynonymsRemove $remove */
         $remove = $query->createCommand($query::COMMAND_REMOVE);
         $query->setCommand($remove);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertTrue($result->getWasSuccessful());
 
         // Check that synonym map is gone
+        /** @var SynonymsExists $exists */
         $exists = $query->createCommand($query::COMMAND_EXISTS, $this->getManagedResourcesExistsCommandOptions());
         $query->setCommand($exists);
+        /** @var ManagedResourcesCommandResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
 
         // Check that map can no longer be listed
         $query->removeCommand();
+        /** @var SynonymsResult $result */
         $result = self::$client->execute($query);
         $this->assertFalse($result->getWasSuccessful());
         $this->assertSame([], $result->getItems());
@@ -5482,6 +5651,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     public function testManagedResources(): void
     {
         $query = self::$client->createManagedResources();
+        /** @var ResourceResult $result */
         $result = self::$client->execute($query);
         $items = $result->getItems();
 
@@ -5515,11 +5685,11 @@ abstract class AbstractTechproductsTestCase extends TestCase
 
     public function testGetBodyOnHttpError(): void
     {
-        /** @var Status4xxNoExceptionInterface $query */
         $query = self::$client->createManagedSynonyms();
         $query->setName('english');
         $query->setTerm('foo');
 
+        /** @var SynonymsResult $result */
         $result = self::$client->execute($query);
 
         $this->assertFalse($result->getWasSuccessful());
@@ -5581,7 +5751,7 @@ class TermsTestQuery extends SelectQuery
     public function __construct(?array $options = null)
     {
         parent::__construct($options);
-        $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = 'Solarium\Component\Terms';
+        $this->componentTypes[ComponentAwareQueryInterface::COMPONENT_TERMS] = Terms::class;
         // Unfortunately the terms request Handler is the only one containing a terms component.
         $this->setHandler('terms');
     }

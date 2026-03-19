@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Integration\Proxy;
 
+use Solarium\Core\Client\Adapter\ProxyAwareInterface;
 use Solarium\Tests\Integration\TestClientFactory;
 
 /**
@@ -19,6 +20,7 @@ class HttpTest extends AbstractProxyTestCase
 
     protected static function setProxy(): void
     {
+        self::assertInstanceOf(ProxyAwareInterface::class, self::$client->getAdapter());
         self::$client->getAdapter()->setProxy(sprintf('%s:%d', self::$proxy_server, self::$proxy_port));
     }
 }

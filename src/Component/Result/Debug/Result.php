@@ -9,10 +9,12 @@
 
 namespace Solarium\Component\Result\Debug;
 
+use Solarium\Component\Result\ComponentResultInterface;
+
 /**
  * Select component debug result.
  */
-class Result implements \IteratorAggregate, \Countable
+class Result implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * QueryString.

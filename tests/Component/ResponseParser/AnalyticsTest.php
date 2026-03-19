@@ -8,10 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Component\Analytics\Analytics;
 use Solarium\Component\Analytics\Facet\AbstractFacet;
 use Solarium\Component\Analytics\Grouping;
-use Solarium\Component\ResponseParser\Analytics as ResponseParser;
+use Solarium\Component\ResponseParser\Analytics as Parser;
 use Solarium\Component\Result\Analytics\Expression;
 use Solarium\Component\Result\Analytics\Grouping as ResultGrouping;
 use Solarium\Component\Result\Analytics\Result as AnalyticsResult;
+use Solarium\QueryType\Select\Query\Query;
 
 /**
  * Analytics Test.
@@ -20,6 +21,16 @@ use Solarium\Component\Result\Analytics\Result as AnalyticsResult;
  */
 class AnalyticsTest extends TestCase
 {
+    protected Parser $parser;
+
+    protected Query $query;
+
+    public function setUp(): void
+    {
+        $this->parser = new Parser();
+        $this->query = new Query();
+    }
+
     public function testParseData(): void
     {
         $grouping = new Grouping([
@@ -99,8 +110,7 @@ class AnalyticsTest extends TestCase
             ],
         ];
 
-        $parser = new ResponseParser();
-        $result = $parser->parse(null, $component, $data);
+        $result = $this->parser->parse($this->query, $component, $data);
 
         $this->assertSameSize($result->getResults(), $result);
         $this->assertSameSize($result->getIterator(), $result);
@@ -130,26 +140,16 @@ class AnalyticsTest extends TestCase
         $this->assertCount(1, $facets[0]->getChildren()[0]->getChildren());
     }
 
-    public function testNullResponse(): void
+    public function testParseNoData(): void
     {
         $component = new Analytics();
         $component
             ->addExpression('max_sale', 'max(sale())')
             ->addExpression('med_sale', 'median(sale())');
 
-        $data = [
-            'analytics_response' => [
-                'results' => [
-                    'max_sale' => 50.0,
-                    'med_sale' => 31.0,
-                ],
-            ],
-        ];
+        $result = $this->parser->parse($this->query, $component, []);
 
-        $parser = new ResponseParser();
-
-        $this->assertNull($parser->parse(null, $component, []));
-        $this->assertNull($parser->parse(null, null, $data));
+        $this->assertNull($result);
     }
 
     public function testNotReturnedExpressionsAndFacets(): void
@@ -219,8 +219,7 @@ class AnalyticsTest extends TestCase
             ],
         ];
 
-        $parser = new ResponseParser();
-        $result = $parser->parse(null, $component, $data);
+        $result = $this->parser->parse($this->query, $component, $data);
 
         $this->assertNull($result->getResult('min_sale'));
         $this->assertNull($result->getGrouping('foo'));

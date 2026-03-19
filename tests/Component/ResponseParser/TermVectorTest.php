@@ -3,14 +3,13 @@
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\TermVector;
 use Solarium\Component\ResponseParser\TermVector as Parser;
 use Solarium\Component\Result\TermVector\Document;
 use Solarium\Component\Result\TermVector\Field;
 use Solarium\Component\Result\TermVector\Result;
 use Solarium\Component\Result\TermVector\Term;
 use Solarium\Component\Result\TermVector\Warnings;
-use Solarium\Exception\InvalidArgumentException;
+use Solarium\Component\TermVector;
 use Solarium\QueryType\Select\Query\Query;
 
 class TermVectorTest extends TestCase
@@ -25,7 +24,7 @@ class TermVectorTest extends TestCase
     {
         $this->parser = new Parser();
         $this->query = new Query();
-        $this->tv = new TermVector();
+        $this->tv = $this->query->getTermVector();
     }
 
     /**
@@ -562,12 +561,5 @@ class TermVectorTest extends TestCase
         $result = $this->parser->parse($this->query, $this->tv, []);
 
         $this->assertNull($result);
-    }
-
-    public function testParseNoQuery(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('A valid query object needs to be provided.');
-        $this->parser->parse(null, $this->tv, []);
     }
 }

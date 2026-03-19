@@ -23,7 +23,7 @@ class RequestBuilder extends ServerRequestBuilder
     /**
      * Build request for an API query.
      *
-     * @param QueryInterface|ConfigsetsQuery $query
+     * @param QueryInterface&ConfigsetsQuery $query
      *
      * @return Request
      */

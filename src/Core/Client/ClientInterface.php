@@ -350,7 +350,7 @@ interface ClientInterface
      * @param QueryInterface|PingQuery $query
      * @param Endpoint|string|null     $endpoint
      *
-     * @return ResultInterface|PingResult
+     * @return PingResult
      */
     public function ping(QueryInterface $query, Endpoint|string|null $endpoint = null): PingResult;
 
@@ -374,7 +374,7 @@ interface ClientInterface
      * @param QueryInterface|UpdateQuery $query
      * @param Endpoint|string|null       $endpoint
      *
-     * @return ResultInterface|UpdateResult
+     * @return UpdateResult
      */
     public function update(QueryInterface $query, Endpoint|string|null $endpoint = null): UpdateResult;
 
@@ -397,7 +397,7 @@ interface ClientInterface
      * @param QueryInterface|SelectQuery $query
      * @param Endpoint|string|null       $endpoint
      *
-     * @return ResultInterface|SelectResult
+     * @return SelectResult
      */
     public function select(QueryInterface $query, Endpoint|string|null $endpoint = null): SelectResult;
 
@@ -420,7 +420,7 @@ interface ClientInterface
      * @param QueryInterface|MoreLikeThisQuery $query
      * @param Endpoint|string|null             $endpoint
      *
-     * @return ResultInterface|MoreLikeThisResult
+     * @return MoreLikeThisResult
      */
     public function moreLikeThis(QueryInterface $query, Endpoint|string|null $endpoint = null): MoreLikeThisResult;
 
@@ -433,9 +433,9 @@ interface ClientInterface
      * @param QueryInterface|AnalysisQueryDocument|AnalysisQueryField $query
      * @param Endpoint|string|null                                    $endpoint
      *
-     * @return ResultInterface|AnalysisResultDocument|AnalysisResultField
+     * @return AnalysisResultDocument|AnalysisResultField
      */
-    public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface;
+    public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): AnalysisResultDocument|AnalysisResultField;
 
     /**
      * Execute a terms query.
@@ -446,7 +446,7 @@ interface ClientInterface
      * @param QueryInterface|TermsQuery $query
      * @param Endpoint|string|null      $endpoint
      *
-     * @return ResultInterface|TermsResult
+     * @return TermsResult
      */
     public function terms(QueryInterface $query, Endpoint|string|null $endpoint = null): TermsResult;
 
@@ -459,7 +459,7 @@ interface ClientInterface
      * @param QueryInterface|SpellcheckQuery $query
      * @param Endpoint|string|null           $endpoint
      *
-     * @return ResultInterface|SpellcheckResult
+     * @return SpellcheckResult
      */
     public function spellcheck(QueryInterface $query, Endpoint|string|null $endpoint = null): SpellcheckResult;
 
@@ -472,7 +472,7 @@ interface ClientInterface
      * @param QueryInterface|SuggesterQuery $query
      * @param Endpoint|string|null          $endpoint
      *
-     * @return ResultInterface|SuggesterResult
+     * @return SuggesterResult
      */
     public function suggester(QueryInterface $query, Endpoint|string|null $endpoint = null): SuggesterResult;
 
@@ -485,7 +485,7 @@ interface ClientInterface
      * @param QueryInterface|ExtractQuery $query
      * @param Endpoint|string|null        $endpoint
      *
-     * @return ResultInterface|ExtractResult
+     * @return ExtractResult
      */
     public function extract(QueryInterface $query, Endpoint|string|null $endpoint = null): ExtractResult;
 
@@ -498,7 +498,7 @@ interface ClientInterface
      * @param QueryInterface|RealtimeGetQuery $query
      * @param Endpoint|string|null            $endpoint
      *
-     * @return ResultInterface|RealtimeGetResult
+     * @return RealtimeGetResult
      */
     public function realtimeGet(QueryInterface $query, Endpoint|string|null $endpoint = null): RealtimeGetResult;
 
@@ -511,7 +511,7 @@ interface ClientInterface
      * @param QueryInterface|LukeQuery $query
      * @param Endpoint|string|null     $endpoint
      *
-     * @return ResultInterface|LukeResult
+     * @return LukeResult
      */
     public function luke(QueryInterface $query, Endpoint|string|null $endpoint = null): LukeResult;
 
@@ -524,7 +524,7 @@ interface ClientInterface
      * @param QueryInterface|CoreAdminQuery $query
      * @param Endpoint|string|null          $endpoint
      *
-     * @return ResultInterface|CoreAdminResult
+     * @return CoreAdminResult
      */
     public function coreAdmin(QueryInterface $query, Endpoint|string|null $endpoint = null): CoreAdminResult;
 

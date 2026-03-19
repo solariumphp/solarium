@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Component\Debug;
 use Solarium\Component\DisMax;
 use Solarium\Component\DistributedSearch;
+use Solarium\Component\Facet\Field as FieldFacet;
+use Solarium\Component\Facet\Query as QueryFacet;
 use Solarium\Component\FacetSet;
 use Solarium\Component\Grouping;
 use Solarium\Component\Highlighting\Highlighting;
@@ -17,6 +19,8 @@ use Solarium\Exception\DomainException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
 use Solarium\QueryType\MoreLikeThis\Query;
+use Solarium\QueryType\MoreLikeThis\RequestBuilder;
+use Solarium\QueryType\MoreLikeThis\ResponseParser;
 use Solarium\QueryType\Select\Query\FilterQuery;
 
 class QueryTest extends TestCase
@@ -35,12 +39,12 @@ class QueryTest extends TestCase
 
     public function testGetResponseParser(): void
     {
-        $this->assertInstanceOf('Solarium\QueryType\MoreLikeThis\ResponseParser', $this->query->getResponseParser());
+        $this->assertInstanceOf(ResponseParser::class, $this->query->getResponseParser());
     }
 
     public function testGetRequestBuilder(): void
     {
-        $this->assertInstanceOf('Solarium\QueryType\MoreLikeThis\RequestBuilder', $this->query->getRequestBuilder());
+        $this->assertInstanceOf(RequestBuilder::class, $this->query->getRequestBuilder());
     }
 
     public function testSetAndGetStart(): void
@@ -241,7 +245,7 @@ class QueryTest extends TestCase
     {
         $key = 'fq1';
 
-        $fq = $this->query->createFilterQuery($key, true);
+        $fq = $this->query->createFilterQuery($key);
         $fq->setQuery('category:1');
 
         $this->assertSame(
@@ -448,9 +452,17 @@ class QueryTest extends TestCase
         $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
 
         $facets = $query->getFacetSet()->getFacets();
+        $this->assertInstanceOf(
+            FieldFacet::class,
+            $facets['categories']
+        );
         $this->assertSame(
             'category',
             $facets['categories']->getField()
+        );
+        $this->assertInstanceOf(
+            QueryFacet::class,
+            $facets['category13']
         );
         $this->assertSame(
             'category:13',
@@ -570,7 +582,7 @@ class QueryTest extends TestCase
         $components = $this->query->getComponentTypes();
         $components['mykey'] = 'mycomponent';
 
-        $this->query->registerComponentType('mykey', 'mycomponent', 'mybuilder', 'myparser');
+        $this->query->registerComponentType('mykey', 'mycomponent');
 
         $this->assertSame(
             $components,

@@ -10,8 +10,8 @@ use Solarium\Core\Client\Endpoint;
 use Solarium\Exception\DomainException;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
-use Solarium\Plugin\BufferedDelete\AbstractDelete;
 use Solarium\Plugin\BufferedDelete\BufferedDeleteLite;
+use Solarium\Plugin\BufferedDelete\DeleteInterface;
 use Solarium\Plugin\BufferedDelete\Delete\Id as DeleteById;
 use Solarium\Plugin\BufferedDelete\Delete\Query as DeleteQuery;
 use Solarium\QueryType\Update\Query\Command\Delete as DeleteCommand;
@@ -341,7 +341,7 @@ class BufferedDeleteLiteTest extends TestCase
      */
     public function testFlush(string $requestFormat): void
     {
-        /** @var Query|MockObject $mockUpdate */
+        /** @var MockObject&Query $mockUpdate */
         $mockUpdate = $this->getMockBuilder(Query::class)
             ->onlyMethods(['add'])
             ->getMock();
@@ -384,7 +384,7 @@ class BufferedDeleteLiteTest extends TestCase
      */
     public function testCommit(string $requestFormat): void
     {
-        /** @var Query|MockObject $mockUpdate */
+        /** @var MockObject&Query $mockUpdate */
         $mockUpdate = $this->getMockBuilder(Query::class)
             ->onlyMethods(['add', 'addCommit'])
             ->getMock();
@@ -419,7 +419,7 @@ class BufferedDeleteLiteTest extends TestCase
      */
     public function testCommitWithOptionalValues(string $requestFormat): void
     {
-        /** @var Query|MockObject $mockUpdate */
+        /** @var MockObject&Query $mockUpdate */
         $mockUpdate = $this->getMockBuilder(Query::class)
             ->onlyMethods(['add', 'addCommit'])
             ->getMock();
@@ -523,7 +523,7 @@ class BufferedDeleteDummy extends BufferedDeleteLite
     }
 }
 
-class DeleteDummy extends AbstractDelete
+class DeleteDummy implements DeleteInterface
 {
     public function getType(): string
     {

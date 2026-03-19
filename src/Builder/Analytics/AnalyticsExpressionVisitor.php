@@ -42,6 +42,10 @@ class AnalyticsExpressionVisitor extends AbstractExpressionVisitor
 
     /**
      * {@inheritdoc}
+     *
+     * @param ExpressionInterface&FunctionInterface $expression
+     *
+     * @return mixed
      */
     public function walkExpression(ExpressionInterface $expression)
     {

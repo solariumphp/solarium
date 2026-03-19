@@ -2,12 +2,18 @@
 
 namespace Solarium\Tests\QueryType\Extract;
 
+use Solarium\Core\Query\Result\QueryType as Result;
 use Solarium\QueryType\Extract\Query as ExtractQuery;
 use Solarium\QueryType\Extract\Result as ExtractResult;
 use Solarium\Tests\QueryType\Update\AbstractResultTestCase;
 
 class ResultTest extends AbstractResultTestCase
 {
+    /**
+     * @var ExtractResult
+     */
+    protected Result $result;
+
     public function setUp(): void
     {
         $this->result = new ExtractResultDummy();

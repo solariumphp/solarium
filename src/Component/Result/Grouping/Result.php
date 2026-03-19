@@ -9,12 +9,14 @@
 
 namespace Solarium\Component\Result\Grouping;
 
+use Solarium\Component\Result\ComponentResultInterface;
+
 /**
  * Select component grouping result.
  *
  * @since 2.1.0
  */
-class Result implements \IteratorAggregate, \Countable
+class Result implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Group results array.

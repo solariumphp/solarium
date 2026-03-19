@@ -2,8 +2,10 @@
 
 namespace Solarium\Tests\Integration\Proxy;
 
+use Solarium\Core\Client\Adapter\ProxyAwareInterface;
 use Solarium\Core\Client\Request;
 use Solarium\Plugin\ParallelExecution\ParallelExecution;
+use Solarium\QueryType\Server\Api\Result;
 use Solarium\Tests\Integration\TestClientFactory;
 
 /**
@@ -21,6 +23,7 @@ class CurlTest extends AbstractProxyTestCase
 
     protected static function setProxy(): void
     {
+        self::assertInstanceOf(ProxyAwareInterface::class, self::$client->getAdapter());
         self::$client->getAdapter()->setProxy(sprintf('%s:%d', self::$proxy_server, self::$proxy_port));
     }
 
@@ -41,7 +44,9 @@ class CurlTest extends AbstractProxyTestCase
         $parallel->addQuery('query2', $query2);
         $results = $parallel->execute();
 
+        $this->assertInstanceOf(Result::class, $results['query1']);
         $this->assertTrue($results['query1']->getWasSuccessful());
+        $this->assertInstanceOf(Result::class, $results['query2']);
         $this->assertTrue($results['query2']->getWasSuccessful());
 
         self::$client->removePlugin('parallelexecution');

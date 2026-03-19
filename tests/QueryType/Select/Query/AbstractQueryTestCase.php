@@ -7,6 +7,8 @@ use Solarium\Component\Analytics\Analytics;
 use Solarium\Component\Debug;
 use Solarium\Component\DisMax;
 use Solarium\Component\DistributedSearch;
+use Solarium\Component\Facet\Field as FieldFacet;
+use Solarium\Component\Facet\Query as QueryFacet;
 use Solarium\Component\FacetSet;
 use Solarium\Component\Grouping;
 use Solarium\Component\Highlighting\Highlighting;
@@ -479,9 +481,17 @@ abstract class AbstractQueryTestCase extends TestCase
         $this->assertSame('online:true', $query->getFilterQuery('online')->getQuery());
 
         $facets = $query->getFacetSet()->getFacets();
+        $this->assertInstanceOf(
+            FieldFacet::class,
+            $facets['categories']
+        );
         $this->assertSame(
             'category',
             $facets['categories']->getField()
+        );
+        $this->assertInstanceOf(
+            QueryFacet::class,
+            $facets['category13']
         );
         $this->assertSame(
             'category:13',

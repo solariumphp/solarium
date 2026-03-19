@@ -171,7 +171,7 @@ class JsonTerms extends AbstractFacet implements JsonFacetInterface, FacetSetInt
      *
      * @see https://solr.apache.org/guide/json-facet-api.html#sorting-facets-by-nested-functions
      *
-     * @param string $sort
+     * @param self::SORT_*|string $sort
      */
     public function setSort(string $sort): static
     {
@@ -385,9 +385,7 @@ class JsonTerms extends AbstractFacet implements JsonFacetInterface, FacetSetInt
     /**
      * Set the facet algorithm to use.
      *
-     * Use one of the METHOD_* constants as value.
-     *
-     * @param string $method
+     * @param self::METHOD_* $method
      */
     public function setMethod(string $method): static
     {

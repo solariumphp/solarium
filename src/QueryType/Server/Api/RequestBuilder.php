@@ -22,7 +22,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a API query.
      *
-     * @param QueryInterface|ApiQuery $query
+     * @param QueryInterface&ApiQuery $query
      *
      * @return Request
      */

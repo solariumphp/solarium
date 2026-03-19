@@ -3,7 +3,7 @@
 namespace Solarium\Tests\Plugin\BufferedDelete\Delete;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Plugin\BufferedDelete\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\DeleteInterface;
 use Solarium\Plugin\BufferedDelete\Delete\Id;
 
 class IdTest extends TestCase
@@ -20,8 +20,8 @@ class IdTest extends TestCase
 
     public function testGetType(): void
     {
-        $this->assertSame(AbstractDelete::TYPE_ID, $this->intId->getType());
-        $this->assertSame(AbstractDelete::TYPE_ID, $this->stringId->getType());
+        $this->assertSame(DeleteInterface::TYPE_ID, $this->intId->getType());
+        $this->assertSame(DeleteInterface::TYPE_ID, $this->stringId->getType());
     }
 
     public function testGetId(): void

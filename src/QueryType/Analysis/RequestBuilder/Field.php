@@ -21,7 +21,7 @@ class Field extends RequestBuilder
     /**
      * Build request for an analysis field query.
      *
-     * @param QueryInterface|QueryField $query
+     * @param QueryInterface&QueryField $query
      *
      * @return Request
      */

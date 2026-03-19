@@ -21,7 +21,7 @@ class RequestBuilder implements RequestBuilderInterface
     /**
      * Build request for a stream query.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @return Request
      */

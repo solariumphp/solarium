@@ -4,7 +4,7 @@ namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Stats as Parser;
-use Solarium\Exception\InvalidArgumentException;
+use Solarium\Component\Stats\Stats;
 use Solarium\QueryType\Select\Query\Query;
 
 class StatsTest extends TestCase
@@ -13,10 +13,13 @@ class StatsTest extends TestCase
 
     protected Query $query;
 
+    protected Stats $stats;
+
     public function setUp(): void
     {
         $this->parser = new Parser();
         $this->query = new Query();
+        $this->stats = $this->query->getStats();
     }
 
     public function testParse(): void
@@ -59,7 +62,7 @@ class StatsTest extends TestCase
             ],
         ];
 
-        $result = $this->parser->parse($this->query, null, $data);
+        $result = $this->parser->parse($this->query, $this->stats, $data);
 
         $this->assertEquals(3.0, $result->getResult('fieldA')->getMin());
         $this->assertEquals(4.0, $result->getResult('fieldB')->getMin());
@@ -87,14 +90,8 @@ class StatsTest extends TestCase
 
     public function testParseNoData(): void
     {
-        $result = $this->parser->parse($this->query, null, []);
-        $this->assertCount(0, $result);
-    }
+        $result = $this->parser->parse($this->query, $this->stats, []);
 
-    public function testParseNoQuery(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('A valid query object needs to be provided.');
-        $this->parser->parse(null, null, []);
+        $this->assertCount(0, $result);
     }
 }

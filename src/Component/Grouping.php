@@ -513,7 +513,7 @@ class Grouping extends AbstractComponent
     /**
      * Set the query group result class.
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -529,7 +529,7 @@ class Grouping extends AbstractComponent
      *
      * The value is a classname, not an instance
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getResultQueryGroupClass(): ?string
     {
@@ -539,7 +539,7 @@ class Grouping extends AbstractComponent
     /**
      * Set the value group result class.
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -555,7 +555,7 @@ class Grouping extends AbstractComponent
      *
      * The value is a classname, not an instance
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getResultValueGroupClass(): ?string
     {

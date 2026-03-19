@@ -120,9 +120,7 @@ class Pivot extends AbstractFacet
     /**
      * Set the facet sort type.
      *
-     * Use one of the SORT_* constants as the value.
-     *
-     * @param string $sort
+     * @param self::SORT_* $sort
      */
     public function setSort(string $sort): static
     {

@@ -14,6 +14,7 @@ use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Result\Spellcheck\Collation;
 use Solarium\Component\Result\Spellcheck\Result;
 use Solarium\Component\Result\Spellcheck\Suggestion;
+use Solarium\Component\Spellcheck as SpellcheckComponent;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser as ResponseParserAbstract;
 
@@ -25,72 +26,72 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     /**
      * Parse result data into result objects.
      *
-     * @param ComponentAwareQueryInterface|null $query
-     * @param AbstractComponent|null            $spellcheck
-     * @param array                             $data
+     * @param ComponentAwareQueryInterface&AbstractQuery $query
+     * @param AbstractComponent&SpellCheckComponent      $spellcheck
+     * @param array                                      $data
      *
      * @return Result|null
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $spellcheck, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $spellcheck, array $data): ?Result
     {
-        if (isset($data['spellcheck'])) {
-            $suggestions = [];
-            $collations = [];
-            $correctlySpelled = false;
-
-            if (isset($data['spellcheck']['suggestions']) &&
-                \is_array($data['spellcheck']['suggestions']) &&
-                \count($data['spellcheck']['suggestions']) > 0
-            ) {
-                $spellcheckResults = $data['spellcheck']['suggestions'];
-                if ($query && $query::WT_JSON === $query->getResponseWriter()) {
-                    $spellcheckResults = $this->convertToKeyValueArray($spellcheckResults);
-                }
-
-                foreach ($spellcheckResults as $key => $value) {
-                    switch ($key) {
-                        case 'correctlySpelled':
-                            $correctlySpelled = $value;
-                            break;
-                        case 'collation':
-                            $collations = $this->parseCollation($query, $value);
-                            break;
-                        default:
-                            if (\array_key_exists(0, $value)) {
-                                foreach ($value as $currentValue) {
-                                    $suggestions[] = $this->parseSuggestion($currentValue, $key);
-                                }
-                            } else {
-                                $suggestions[] = $this->parseSuggestion($value, $key);
-                            }
-                    }
-                }
-            }
-
-            /*
-             * https://issues.apache.org/jira/browse/SOLR-3029
-             * Solr5 has moved collations and correctlySpelled
-             * directly under spellcheck.
-             */
-            if (isset($data['spellcheck']['collations']) &&
-                \is_array($data['spellcheck']['collations'])
-            ) {
-                $collations = [$collations];
-                foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
-                    $collations[] = $this->parseCollation($query, $collationResult);
-                }
-                $collations = array_merge(...$collations);
-            }
-
-            if (isset($data['spellcheck']['correctlySpelled'])
-            ) {
-                $correctlySpelled = $data['spellcheck']['correctlySpelled'];
-            }
-
-            return new Result($suggestions, $collations, $correctlySpelled);
+        if (!isset($data['spellcheck'])) {
+            return null;
         }
 
-        return null;
+        $suggestions = [];
+        $collations = [];
+        $correctlySpelled = false;
+
+        if (isset($data['spellcheck']['suggestions']) &&
+            \is_array($data['spellcheck']['suggestions']) &&
+            \count($data['spellcheck']['suggestions']) > 0
+        ) {
+            $spellcheckResults = $data['spellcheck']['suggestions'];
+            if ($query && $query::WT_JSON === $query->getResponseWriter()) {
+                $spellcheckResults = $this->convertToKeyValueArray($spellcheckResults);
+            }
+
+            foreach ($spellcheckResults as $key => $value) {
+                switch ($key) {
+                    case 'correctlySpelled':
+                        $correctlySpelled = $value;
+                        break;
+                    case 'collation':
+                        $collations = $this->parseCollation($query, $value);
+                        break;
+                    default:
+                        if (\array_key_exists(0, $value)) {
+                            foreach ($value as $currentValue) {
+                                $suggestions[] = $this->parseSuggestion($currentValue, $key);
+                            }
+                        } else {
+                            $suggestions[] = $this->parseSuggestion($value, $key);
+                        }
+                }
+            }
+        }
+
+        /*
+         * https://issues.apache.org/jira/browse/SOLR-3029
+         * Solr5 has moved collations and correctlySpelled
+         * directly under spellcheck.
+         */
+        if (isset($data['spellcheck']['collations']) &&
+            \is_array($data['spellcheck']['collations'])
+        ) {
+            $collations = [$collations];
+            foreach ($this->convertToKeyValueArray($data['spellcheck']['collations']) as $collationResult) {
+                $collations[] = $this->parseCollation($query, $collationResult);
+            }
+            $collations = array_merge(...$collations);
+        }
+
+        if (isset($data['spellcheck']['correctlySpelled'])
+        ) {
+            $correctlySpelled = $data['spellcheck']['correctlySpelled'];
+        }
+
+        return new Result($suggestions, $collations, $correctlySpelled);
     }
 
     /**

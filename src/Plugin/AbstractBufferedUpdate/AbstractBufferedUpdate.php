@@ -65,9 +65,7 @@ abstract class AbstractBufferedUpdate extends AbstractPlugin
     /**
      * Set the request format for the updates.
      *
-     * Use one of the UpdateQuery::REQUEST_FORMAT_* constants as value.
-     *
-     * @param string $requestFormat
+     * @param UpdateQuery::REQUEST_FORMAT_* $requestFormat
      *
      * @throws InvalidArgumentException
      *

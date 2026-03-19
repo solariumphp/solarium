@@ -3,7 +3,7 @@
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Component\Grouping as Component;
+use Solarium\Component\Grouping;
 use Solarium\Component\ResponseParser\Grouping as Parser;
 use Solarium\Component\Result\Grouping\FieldGroup;
 use Solarium\Component\Result\Grouping\QueryGroup;
@@ -16,7 +16,7 @@ class GroupingTest extends TestCase
 
     protected Query $query;
 
-    protected Component $grouping;
+    protected Grouping $grouping;
 
     protected Result $result;
 
@@ -160,6 +160,7 @@ class GroupingTest extends TestCase
     public function testParseNoData(): void
     {
         $result = $this->parser->parse($this->query, $this->grouping, []);
+
         $this->assertEquals([], $result->getGroups());
     }
 
@@ -236,7 +237,7 @@ class GroupingTest extends TestCase
             ],
         ];
 
-        $this->grouping->setFormat(Component::FORMAT_SIMPLE);
+        $this->grouping->setFormat(Grouping::FORMAT_SIMPLE);
 
         $result = $this->parser->parse($this->query, $this->grouping, $data);
 

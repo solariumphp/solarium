@@ -57,8 +57,10 @@ class ParallelExecutionTest extends TestCase
         $client->setAdapter($adapter);
         $client->registerPlugin('parallelexecution', $this->plugin);
 
-        $this->assertSame(15, $client->getAdapter()->getTimeOut());
-        $this->assertSame(5, $client->getAdapter()->getConnectionTimeOut());
+        /** @var TimeoutAndConnectionTimeoutAwareAdapter $adapter */
+        $adapter = $client->getAdapter();
+        $this->assertSame(15, $adapter->getTimeOut());
+        $this->assertSame(5, $adapter->getConnectionTimeOut());
     }
 
     public function testAddAndGetQueries(): void

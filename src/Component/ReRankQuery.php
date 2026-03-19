@@ -182,9 +182,7 @@ class ReRankQuery extends AbstractComponent implements QueryInterface
     /**
      * Set reRankOperator value.
      *
-     * Use one of the OPERATOR_* constants as value.
-     *
-     * @param string $value
+     * @param self::OPERATOR_* $value
      *
      * @return self Provides fluent interface
      */

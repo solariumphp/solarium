@@ -13,7 +13,10 @@ use Solarium\QueryType\Luke\Result\Schema\Type\Type;
 
 class DynamicFieldTest extends AbstractFieldTestCase
 {
-    protected AbstractField|DynamicField $field;
+    /**
+     * @var DynamicField
+     */
+    protected AbstractField $field;
 
     public function setUp(): void
     {

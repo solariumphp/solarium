@@ -3,7 +3,7 @@
 namespace Solarium\Tests\Plugin\BufferedDelete\Delete;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Plugin\BufferedDelete\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\DeleteInterface;
 use Solarium\Plugin\BufferedDelete\Delete\Query;
 
 class QueryTest extends TestCase
@@ -17,7 +17,7 @@ class QueryTest extends TestCase
 
     public function testGetType(): void
     {
-        $this->assertSame(AbstractDelete::TYPE_QUERY, $this->query->getType());
+        $this->assertSame(DeleteInterface::TYPE_QUERY, $this->query->getType());
     }
 
     public function testGetQuery(): void

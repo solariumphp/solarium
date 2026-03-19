@@ -9,10 +9,12 @@
 
 namespace Solarium\Component\Result\Stats;
 
+use Solarium\Component\Result\ComponentResultInterface;
+
 /**
  * Select component stats result.
  */
-class Stats implements \IteratorAggregate, \Countable
+class Stats implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Result array.

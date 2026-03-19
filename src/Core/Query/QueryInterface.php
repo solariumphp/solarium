@@ -62,7 +62,7 @@ interface QueryInterface extends ConfigurableInterface
      *
      * Also you need to make sure this class implements the ResultInterface.
      *
-     * @param string $classname
+     * @param class-string $classname
      *
      * @return self Provides fluent interface
      */
@@ -71,7 +71,7 @@ interface QueryInterface extends ConfigurableInterface
     /**
      * Get resultclass option.
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getResultClass(): ?string;
 

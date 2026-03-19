@@ -9,12 +9,13 @@
 
 namespace Solarium\Component\Result\MoreLikeThis;
 
+use Solarium\Component\Result\ComponentResultInterface;
 use Solarium\Exception\UnexpectedValueException;
 
 /**
  * Select component morelikethis result.
  */
-class MoreLikeThis implements \IteratorAggregate, \Countable
+class MoreLikeThis implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * Result array.

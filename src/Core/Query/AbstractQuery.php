@@ -67,7 +67,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      * Also you need to make sure it extends the orginal result class of the
      * query or has an identical API.
      *
-     * @param string $classname
+     * @param class-string $classname
      *
      * @return self Provides fluent interface
      */
@@ -81,7 +81,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Get resultclass option.
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getResultClass(): ?string
     {

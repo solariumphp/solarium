@@ -19,7 +19,6 @@ use Solarium\Component\Result\TermVector\Warnings;
 use Solarium\Component\TermVector as TermVectorComponent;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\AbstractResponseParser;
-use Solarium\Exception\InvalidArgumentException;
 
 /**
  * Parse Term Vector response data.
@@ -29,63 +28,59 @@ class TermVector extends AbstractResponseParser implements ComponentParserInterf
     /**
      * Parse result data into result objects.
      *
-     * @param AbstractQuery       $query
-     * @param TermVectorComponent $component
-     * @param array               $data
+     * @param ComponentAwareQueryInterface&AbstractQuery $query
+     * @param AbstractComponent&TermVectorComponent      $component
+     * @param array                                      $data
      *
      * @return Result|null
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $component, array $data): ?Result
     {
-        if (!$query) {
-            throw new InvalidArgumentException('A valid query object needs to be provided.');
+        if (!isset($data['termVectors'])) {
+            return null;
         }
 
         $responseWriter = $query->getResponseWriter();
 
-        if (isset($data['termVectors'])) {
-            $warnings = null;
-            $documents = [];
+        $warnings = null;
+        $documents = [];
 
-            // if there are warnings they're always the first item in the result data
-            if ($query::WT_JSON === $responseWriter) {
-                if ('warnings' === $data['termVectors'][0]
-                    && null !== $warnings = $this->parseWarnings($this->convertToKeyValueArray($data['termVectors'][1]))
-                ) {
-                    array_shift($data['termVectors']);
-                    array_shift($data['termVectors']);
-                }
-            } else {
-                if ('warnings' === array_key_first($data['termVectors'])
-                    && null !== $warnings = $this->parseWarnings($data['termVectors']['warnings'])
-                ) {
-                    unset($data['termVectors']['warnings']);
-                }
+        // if there are warnings they're always the first item in the result data
+        if ($query::WT_JSON === $responseWriter) {
+            if ('warnings' === $data['termVectors'][0]
+                && null !== $warnings = $this->parseWarnings($this->convertToKeyValueArray($data['termVectors'][1]))
+            ) {
+                array_shift($data['termVectors']);
+                array_shift($data['termVectors']);
             }
-
-            if ($query::WT_JSON === $responseWriter) {
-                $data['termVectors'] = $this->convertToKeyValueArray($data['termVectors']);
+        } else {
+            if ('warnings' === array_key_first($data['termVectors'])
+                && null !== $warnings = $this->parseWarnings($data['termVectors']['warnings'])
+            ) {
+                unset($data['termVectors']['warnings']);
             }
-
-            foreach ($data['termVectors'] as $key => $document) {
-                $parsedDocument = $this->parseDocument($responseWriter, $document);
-
-                if (null !== $warnings && $query::WT_PHPS === $responseWriter) {
-                    $uniqueKey = $parsedDocument->getUniqueKey();
-
-                    if (null !== $uniqueKey && $key !== $uniqueKey) {
-                        // key was mangled by Solr's ResponseWriter to avoid repeats in the output
-                        $key = $uniqueKey;
-                    }
-                }
-
-                $documents[$key] = $parsedDocument;
-            }
-
-            return new Result($documents, $warnings);
         }
 
-        return null;
+        if ($query::WT_JSON === $responseWriter) {
+            $data['termVectors'] = $this->convertToKeyValueArray($data['termVectors']);
+        }
+
+        foreach ($data['termVectors'] as $key => $document) {
+            $parsedDocument = $this->parseDocument($responseWriter, $document);
+
+            if (null !== $warnings && $query::WT_PHPS === $responseWriter) {
+                $uniqueKey = $parsedDocument->getUniqueKey();
+
+                if (null !== $uniqueKey && $key !== $uniqueKey) {
+                    // key was mangled by Solr's ResponseWriter to avoid repeats in the output
+                    $key = $uniqueKey;
+                }
+            }
+
+            $documents[$key] = $parsedDocument;
+        }
+
+        return new Result($documents, $warnings);
     }
 
     /**

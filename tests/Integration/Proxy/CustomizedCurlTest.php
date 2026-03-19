@@ -3,6 +3,7 @@
 namespace Solarium\Tests\Integration\Proxy;
 
 use Solarium\Core\Client\Adapter\Curl;
+use Solarium\Core\Client\Adapter\ProxyAwareInterface;
 use Solarium\Core\Client\Endpoint;
 use Solarium\Core\Client\Request;
 use Solarium\Tests\Integration\TestClientFactory;
@@ -23,6 +24,7 @@ class CustomizedCurlTest extends CurlTest
 
     protected static function setProxy(): void
     {
+        self::assertInstanceOf(ProxyAwareInterface::class, self::$client->getAdapter());
         self::$client->getAdapter()->setProxy(['server' => self::$proxy_server, 'port' => self::$proxy_port]);
     }
 }

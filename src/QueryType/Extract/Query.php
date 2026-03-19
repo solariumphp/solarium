@@ -378,7 +378,7 @@ class Query extends BaseQuery
      *
      * This class should implement the document interface
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -394,7 +394,7 @@ class Query extends BaseQuery
      *
      * The value is a classname, not an instance
      *
-     * @return string|null
+     * @return class-string|null
      */
     public function getDocumentClass(): ?string
     {
@@ -430,7 +430,7 @@ class Query extends BaseQuery
      *
      * This parameter is valid only if 'extractonly' is set to true.
      *
-     * @param string $format Use one of the EXTRACT_FORMAT_* constants
+     * @param self::EXTRACT_FORMAT_* $format
      *
      * @return self Provides fluent interface
      *

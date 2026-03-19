@@ -22,7 +22,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for an analysis query.
      *
-     * @param QueryInterface|AbstractAnalysisQuery $query
+     * @param QueryInterface&AbstractAnalysisQuery $query
      *
      * @return Request
      */

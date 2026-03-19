@@ -38,7 +38,7 @@ class DeleteTest extends TestCase
 
         $this->assertSame(579, $result->getQueryTime());
         $this->assertSame($data, $result->getDeleteStatus());
-        // @phpstan-ignore-next-line Will no longer override QueryType::getStatus() in Solarium 8.
+        // @phpstan-ignore method.deprecated (will no longer override QueryType::getStatus() in Solarium 8)
         $this->assertSame($data, $result->getStatus());
     }
 }

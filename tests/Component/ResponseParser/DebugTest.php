@@ -3,16 +3,24 @@
 namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
+use Solarium\Component\Debug;
 use Solarium\Component\ResponseParser\Debug as Parser;
 use Solarium\Component\Result\Debug\Detail;
+use Solarium\QueryType\Select\Query\Query;
 
 class DebugTest extends TestCase
 {
     protected Parser $parser;
 
+    protected Query $query;
+
+    protected Debug $debug;
+
     public function setUp(): void
     {
         $this->parser = new Parser();
+        $this->query = new Query();
+        $this->debug = $this->query->getDebug();
     }
 
     public function testParse(): void
@@ -87,7 +95,8 @@ class DebugTest extends TestCase
             ],
         ];
 
-        $result = $this->parser->parse(null, null, $data);
+        $result = $this->parser->parse($this->query, $this->debug, $data);
+
         $this->assertEquals('dummy-qs', $result->getQueryString());
         $this->assertEquals('dummy-pq', $result->getParsedQuery());
         $this->assertEquals('dummy-qp', $result->getQueryParser());
@@ -146,7 +155,8 @@ class DebugTest extends TestCase
             ],
         ];
 
-        $result = $this->parser->parse(null, null, $data);
+        $result = $this->parser->parse($this->query, $this->debug, $data);
+
         $this->assertEquals('dummy-qs', $result->getQueryString());
         $this->assertEquals('dummy-pq', $result->getParsedQuery());
         $this->assertEquals('dummy-qp', $result->getQueryParser());
@@ -158,7 +168,8 @@ class DebugTest extends TestCase
 
     public function testParseNoData(): void
     {
-        $result = $this->parser->parse(null, null, []);
+        $result = $this->parser->parse($this->query, $this->debug, []);
+
         $this->assertNull($result);
     }
 }

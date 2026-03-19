@@ -22,7 +22,7 @@ class RequestBuilder extends BaseRequestBuilder
     /**
      * Build request for a Spellcheck query.
      *
-     * @param QueryInterface|Query $query
+     * @param QueryInterface&Query $query
      *
      * @return Request
      */

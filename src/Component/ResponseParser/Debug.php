@@ -28,67 +28,67 @@ class Debug implements ComponentParserInterface
      * Parse result data into result objects.
      *
      * @param ComponentAwareQueryInterface     $query
-     * @param DebugComponent|AbstractComponent $component
+     * @param AbstractComponent&DebugComponent $component
      * @param array                            $data
      *
      * @return Result|null
      */
-    public function parse(?ComponentAwareQueryInterface $query, ?AbstractComponent $component, array $data): ?Result
+    public function parse(ComponentAwareQueryInterface $query, AbstractComponent $component, array $data): ?Result
     {
-        $result = null;
-
-        if (isset($data['debug'])) {
-            $debug = $data['debug'];
-
-            // get basic values from data
-            $queryString = $debug['querystring'] ?? '';
-            $parsedQuery = $debug['parsedquery'] ?? '';
-            $queryParser = $debug['QParser'] ?? '';
-            $otherQuery = $debug['otherQuery'] ?? '';
-
-            // parse explain data
-            if (isset($debug['explain']) && \is_array($debug['explain'])) {
-                $explain = $this->parseDocumentSet($debug['explain']);
-            } else {
-                $explain = new DocumentSet([]);
-            }
-
-            // parse explainOther data
-            if (isset($debug['explainOther']) && \is_array($debug['explainOther'])) {
-                $explainOther = $this->parseDocumentSet($debug['explainOther']);
-            } else {
-                $explainOther = new DocumentSet([]);
-            }
-
-            // parse timing data
-            $timing = null;
-            if (isset($debug['timing']) && \is_array($debug['timing'])) {
-                $time = null;
-                $timingPhases = [];
-                foreach ($debug['timing'] as $key => $timingData) {
-                    switch ($key) {
-                        case 'time':
-                            $time = $timingData;
-                            break;
-                        case \is_array($timingData):
-                            $timingPhases[$key] = $this->parseTimingPhase($key, $timingData);
-                            break;
-                    }
-                }
-                $timing = new Timing($time, $timingPhases);
-            }
-
-            // create result object
-            $result = new Result(
-                $queryString,
-                $parsedQuery,
-                $queryParser,
-                $otherQuery,
-                $explain,
-                $explainOther,
-                $timing
-            );
+        if (!isset($data['debug'])) {
+            return null;
         }
+
+        $debug = $data['debug'];
+
+        // get basic values from data
+        $queryString = $debug['querystring'] ?? '';
+        $parsedQuery = $debug['parsedquery'] ?? '';
+        $queryParser = $debug['QParser'] ?? '';
+        $otherQuery = $debug['otherQuery'] ?? '';
+
+        // parse explain data
+        if (isset($debug['explain']) && \is_array($debug['explain'])) {
+            $explain = $this->parseDocumentSet($debug['explain']);
+        } else {
+            $explain = new DocumentSet([]);
+        }
+
+        // parse explainOther data
+        if (isset($debug['explainOther']) && \is_array($debug['explainOther'])) {
+            $explainOther = $this->parseDocumentSet($debug['explainOther']);
+        } else {
+            $explainOther = new DocumentSet([]);
+        }
+
+        // parse timing data
+        $timing = null;
+        if (isset($debug['timing']) && \is_array($debug['timing'])) {
+            $time = null;
+            $timingPhases = [];
+            foreach ($debug['timing'] as $key => $timingData) {
+                switch ($key) {
+                    case 'time':
+                        $time = $timingData;
+                        break;
+                    case \is_array($timingData):
+                        $timingPhases[$key] = $this->parseTimingPhase($key, $timingData);
+                        break;
+                }
+            }
+            $timing = new Timing($time, $timingPhases);
+        }
+
+        // create result object
+        $result = new Result(
+            $queryString,
+            $parsedQuery,
+            $queryParser,
+            $otherQuery,
+            $explain,
+            $explainOther,
+            $timing
+        );
 
         return $result;
     }

@@ -23,6 +23,7 @@ use Solarium\Plugin\Loadbalancer\Loadbalancer;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 use Solarium\Tests\Integration\TestClientFactory;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class LoadbalancerTest extends TestCase
 {
@@ -96,6 +97,8 @@ class LoadbalancerTest extends TestCase
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('loadbalancer');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertInstanceOf(Loadbalancer::class, $plugin);
 
@@ -116,7 +119,7 @@ class LoadbalancerTest extends TestCase
 
         $this->assertSame(
             $expectedListeners,
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
 
         return $client;
@@ -128,10 +131,12 @@ class LoadbalancerTest extends TestCase
     public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('loadbalancer');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertSame(
             [],
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
     }
 
@@ -514,7 +519,9 @@ class LoadbalancerTest extends TestCase
         $this->plugin->setFailoverEnabled(true);
 
         $endpointFailureListenerCalled = 0;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $this->client->getEventDispatcher();
+        $eventDispatcher->addListener(
             LoadbalancerEvents::ENDPOINT_FAILURE,
             function (EndpointFailureEvent $event) use (&$endpointFailureListenerCalled): void {
                 ++$endpointFailureListenerCalled;
@@ -550,7 +557,9 @@ class LoadbalancerTest extends TestCase
         $this->plugin->addFailoverStatusCode(504);
 
         $statusCodeFailureListenerCalled = 0;
-        $this->client->getEventDispatcher()->addListener(
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $this->client->getEventDispatcher();
+        $eventDispatcher->addListener(
             LoadbalancerEvents::STATUS_CODE_FAILURE,
             function (StatusCodeFailureEvent $event) use (&$statusCodeFailureListenerCalled): void {
                 ++$statusCodeFailureListenerCalled;

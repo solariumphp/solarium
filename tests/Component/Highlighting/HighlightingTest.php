@@ -10,7 +10,10 @@ use Solarium\QueryType\Select\Query\Query;
 
 class HighlightingTest extends AbstractHighlightingTestCase
 {
-    protected HighlightingInterface|Highlighting $hlt;
+    /**
+     * @var Highlighting
+     */
+    protected HighlightingInterface $hlt;
 
     public function setUp(): void
     {

@@ -138,9 +138,7 @@ class Query extends BaseQuery
     /**
      * Set the request format for this query.
      *
-     * Use one of the REQUEST_FORMAT_* constants as value.
-     *
-     * @param string $requestFormat
+     * @param self::REQUEST_FORMAT_* $requestFormat
      *
      * @throws InvalidArgumentException
      *
@@ -194,8 +192,8 @@ class Query extends BaseQuery
     /**
      * Create a command instance.
      *
-     * @param string     $type
-     * @param array|null $options
+     * @param self::COMMAND_* $type
+     * @param array|null      $options
      *
      * @throws InvalidArgumentException
      *
@@ -533,7 +531,7 @@ class Query extends BaseQuery
      *
      * This class should implement the document interface
      *
-     * @param string $value classname
+     * @param class-string $value classname
      *
      * @return self Provides fluent interface
      */
@@ -549,7 +547,7 @@ class Query extends BaseQuery
      *
      * The value is a classname, not an instance.
      *
-     * @return string
+     * @return class-string
      */
     public function getDocumentClass(): string
     {

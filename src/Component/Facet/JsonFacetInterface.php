@@ -14,7 +14,7 @@ namespace Solarium\Component\Facet;
  *
  * @see https://solr.apache.org/guide/json-facet-api.html
  */
-interface JsonFacetInterface
+interface JsonFacetInterface extends FacetInterface
 {
     /**
      * Serializes nested facets as option "facet" and returns that array structure.

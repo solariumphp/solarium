@@ -4,6 +4,7 @@ namespace Solarium\Tests\Component\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ResponseParser\Spellcheck as Parser;
+use Solarium\Component\Spellcheck;
 use Solarium\QueryType\Select\Query\Query;
 
 class SpellcheckTest extends TestCase
@@ -12,10 +13,13 @@ class SpellcheckTest extends TestCase
 
     protected Query $query;
 
+    protected Spellcheck $spellcheck;
+
     public function setUp(): void
     {
-        $this->query = new Query();
         $this->parser = new Parser();
+        $this->query = new Query();
+        $this->spellcheck = $this->query->getSpellcheck();
     }
 
     /**
@@ -25,7 +29,7 @@ class SpellcheckTest extends TestCase
      */
     public function testParseExtended($data): void
     {
-        $result = $this->parser->parse($this->query, null, $data);
+        $result = $this->parser->parse($this->query, $this->spellcheck, $data);
 
         $suggestions = $result->getSuggestions();
         $this->assertFalse($result->getCorrectlySpelled());
@@ -220,7 +224,7 @@ class SpellcheckTest extends TestCase
      */
     public function testParse($data): void
     {
-        $result = $this->parser->parse($this->query, null, $data);
+        $result = $this->parser->parse($this->query, $this->spellcheck, $data);
 
         $suggestions = $result->getSuggestions();
         $this->assertFalse($result->getCorrectlySpelled());
@@ -319,7 +323,7 @@ class SpellcheckTest extends TestCase
      */
     public function testParseSingleCollation($data): void
     {
-        $result = $this->parser->parse($this->query, null, $data);
+        $result = $this->parser->parse($this->query, $this->spellcheck, $data);
         $collations = $result->getCollations();
         $this->assertEquals('dell ultrasharp', $collations[0]->getQuery());
 
@@ -414,7 +418,7 @@ class SpellcheckTest extends TestCase
 
     public function testParseNoData(): void
     {
-        $result = $this->parser->parse($this->query, null, []);
+        $result = $this->parser->parse($this->query, $this->spellcheck, []);
 
         $this->assertNull($result);
     }

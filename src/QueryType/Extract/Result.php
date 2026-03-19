@@ -72,9 +72,12 @@ class Result extends UpdateResult
         parent::getData();
 
         if (true === $this->query->getOption('extractonly')) {
+            /** @var Query $query */
+            $query = $this->query;
+
             // Solr versions before 8.6 used the file name as key within the response. Solr 8.6 uses the general key 'file'.
             // To be compatible to any version we reference the file data by both the specific and the general key.
-            $filename = $this->query->getResourceName();
+            $filename = $query->getResourceName();
 
             if (!isset($this->data[$filename]) && isset($this->data['file'])) {
                 $this->data[$filename] = &$this->data['file'];

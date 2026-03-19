@@ -5,6 +5,7 @@ namespace Solarium\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use Solarium\Client;
 use Solarium\Core\Client\Request;
+use Solarium\QueryType\Server\Api\Result;
 
 /**
  * Test connection reuse with PSR-18 adapter.
@@ -76,6 +77,8 @@ class ConnectionReuseTest extends TestCase
             'version' => Request::API_V2,
             'handler' => self::$isNewLoggingApi ? 'node/logging/levels' : 'node/logging',
         ]);
+
+        /** @var Result $result */
         $result = self::$client->execute($query);
         $connectionLogger = array_values(array_filter(
             $result->getData()['loggers'],
@@ -101,6 +104,8 @@ class ConnectionReuseTest extends TestCase
                     ],
                 ]
             ));
+
+            /** @var Result $result */
             $result = self::$client->execute($query);
 
             if (!$result->getWasSuccessful()) {
@@ -112,6 +117,8 @@ class ConnectionReuseTest extends TestCase
                 'handler' => 'node/logging',
             ]);
             $query->addParam('set', 'org.eclipse.jetty.io.AbstractConnection:DEBUG');
+
+            /** @var Result $result */
             $result = self::$client->execute($query);
 
             if (!$result->getWasSuccessful()) {
@@ -125,6 +132,8 @@ class ConnectionReuseTest extends TestCase
             'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
         ]);
         $query->addParam('since', self::$since);
+
+        /** @var Result $result */
         $result = self::$client->execute($query);
         self::$origThreshold = $result->getData()['info']['threshold'] ?? 'WARN';
 
@@ -141,6 +150,8 @@ class ConnectionReuseTest extends TestCase
                     'level' => 'DEBUG',
                 ]
             ));
+
+            /** @var Result $result */
             $result = self::$client->execute($query);
 
             if (!$result->getWasSuccessful()) {
@@ -153,6 +164,8 @@ class ConnectionReuseTest extends TestCase
             ]);
             $query->addParam('since', self::$since);
             $query->addParam('threshold', 'DEBUG');
+
+            /** @var Result $result */
             $result = self::$client->execute($query);
 
             if (!$result->getWasSuccessful()) {
@@ -166,6 +179,8 @@ class ConnectionReuseTest extends TestCase
             'handler' => self::$isNewLoggingApi ? 'node/logging/messages' : 'node/logging',
         ]);
         $query->addParam('since', self::$since);
+
+        /** @var Result $result */
         $result = self::$client->execute($query);
         self::$since = $result->getData()['info']['last'];
     }

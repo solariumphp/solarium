@@ -25,7 +25,6 @@ use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
 use Solarium\Core\Plugin\PluginInterface;
 use Solarium\Core\Query\AbstractQuery;
 use Solarium\Core\Query\QueryInterface;
-use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\OutOfBoundsException;
@@ -748,10 +747,6 @@ class Client extends Configurable implements ClientInterface
         }
 
         $requestBuilder = $query->getRequestBuilder();
-        if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
-            throw new UnexpectedValueException(sprintf('No requestbuilder returned by query type: %s', $query->getType()));
-        }
-
         $request = $requestBuilder->build($query);
 
         $event = new PostCreateRequestEvent($query, $request);
@@ -862,7 +857,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|PingQuery $query
      * @param Endpoint|string|null     $endpoint
      *
-     * @return ResultInterface|PingResult
+     * @return PingResult
      */
     public function ping(QueryInterface $query, Endpoint|string|null $endpoint = null): PingResult
     {
@@ -886,7 +881,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|UpdateQuery $query
      * @param Endpoint|string|null       $endpoint
      *
-     * @return ResultInterface|UpdateResult
+     * @return UpdateResult
      */
     public function update(QueryInterface $query, Endpoint|string|null $endpoint = null): UpdateResult
     {
@@ -909,7 +904,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|SelectQuery $query
      * @param Endpoint|string|null       $endpoint
      *
-     * @return ResultInterface|SelectResult
+     * @return SelectResult
      */
     public function select(QueryInterface $query, Endpoint|string|null $endpoint = null): SelectResult
     {
@@ -932,7 +927,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|MoreLikeThisQuery $query
      * @param Endpoint|string|null             $endpoint
      *
-     * @return ResultInterface|MoreLikeThisResult
+     * @return MoreLikeThisResult
      */
     public function moreLikeThis(QueryInterface $query, Endpoint|string|null $endpoint = null): MoreLikeThisResult
     {
@@ -948,9 +943,9 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|AnalysisQueryDocument|AnalysisQueryField $query
      * @param Endpoint|string|null                                    $endpoint
      *
-     * @return ResultInterface|AnalysisResultDocument|AnalysisResultField
+     * @return AnalysisResultDocument|AnalysisResultField
      */
-    public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface
+    public function analyze(QueryInterface $query, Endpoint|string|null $endpoint = null): AnalysisResultDocument|AnalysisResultField
     {
         return $this->execute($query, $endpoint);
     }
@@ -964,7 +959,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|TermsQuery $query
      * @param Endpoint|string|null      $endpoint
      *
-     * @return ResultInterface|TermsResult
+     * @return TermsResult
      */
     public function terms(QueryInterface $query, Endpoint|string|null $endpoint = null): TermsResult
     {
@@ -980,7 +975,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|SpellcheckQuery $query
      * @param Endpoint|string|null           $endpoint
      *
-     * @return ResultInterface|SpellcheckResult
+     * @return SpellcheckResult
      */
     public function spellcheck(QueryInterface $query, Endpoint|string|null $endpoint = null): SpellcheckResult
     {
@@ -996,7 +991,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|SuggesterQuery $query
      * @param Endpoint|string|null          $endpoint
      *
-     * @return ResultInterface|SuggesterResult
+     * @return SuggesterResult
      */
     public function suggester(QueryInterface $query, Endpoint|string|null $endpoint = null): SuggesterResult
     {
@@ -1012,7 +1007,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|ExtractQuery $query
      * @param Endpoint|string|null        $endpoint
      *
-     * @return ResultInterface|ExtractResult
+     * @return ExtractResult
      */
     public function extract(QueryInterface $query, Endpoint|string|null $endpoint = null): ExtractResult
     {
@@ -1028,7 +1023,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|RealtimeGetQuery $query
      * @param Endpoint|string|null            $endpoint
      *
-     * @return ResultInterface|RealtimeGetResult
+     * @return RealtimeGetResult
      */
     public function realtimeGet(QueryInterface $query, Endpoint|string|null $endpoint = null): RealtimeGetResult
     {
@@ -1044,7 +1039,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|LukeQuery $query
      * @param Endpoint|string|null     $endpoint
      *
-     * @return ResultInterface|LukeResult
+     * @return LukeResult
      */
     public function luke(QueryInterface $query, Endpoint|string|null $endpoint = null): LukeResult
     {
@@ -1060,7 +1055,7 @@ class Client extends Configurable implements ClientInterface
      * @param QueryInterface|CoreAdminQuery $query
      * @param Endpoint|string|null          $endpoint
      *
-     * @return ResultInterface|CoreAdminResult
+     * @return CoreAdminResult
      */
     public function coreAdmin(QueryInterface $query, Endpoint|string|null $endpoint = null): CoreAdminResult
     {
@@ -1141,7 +1136,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|SelectQuery
+     * @return SelectQuery
      */
     public function createSelect(?array $options = null): SelectQuery
     {
@@ -1153,7 +1148,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|MoreLikeThisQuery
+     * @return MoreLikeThisQuery
      */
     public function createMoreLikeThis(?array $options = null): MoreLikeThisQuery
     {
@@ -1165,7 +1160,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|UpdateQuery
+     * @return UpdateQuery
      */
     public function createUpdate(?array $options = null): UpdateQuery
     {
@@ -1177,7 +1172,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|PingQuery
+     * @return PingQuery
      */
     public function createPing(?array $options = null): PingQuery
     {
@@ -1189,7 +1184,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|AnalysisQueryField
+     * @return AnalysisQueryField
      */
     public function createAnalysisField(?array $options = null): AnalysisQueryField
     {
@@ -1201,7 +1196,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|AnalysisQueryDocument
+     * @return AnalysisQueryDocument
      */
     public function createAnalysisDocument(?array $options = null): AnalysisQueryDocument
     {
@@ -1213,7 +1208,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|TermsQuery
+     * @return TermsQuery
      */
     public function createTerms(?array $options = null): TermsQuery
     {
@@ -1225,7 +1220,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|SpellcheckQuery
+     * @return SpellcheckQuery
      */
     public function createSpellcheck(?array $options = null): SpellcheckQuery
     {
@@ -1237,7 +1232,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|SuggesterQuery
+     * @return SuggesterQuery
      */
     public function createSuggester(?array $options = null): SuggesterQuery
     {
@@ -1249,7 +1244,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|ExtractQuery
+     * @return ExtractQuery
      */
     public function createExtract(?array $options = null): ExtractQuery
     {
@@ -1261,7 +1256,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|StreamQuery
+     * @return StreamQuery
      */
     public function createStream(?array $options = null): StreamQuery
     {
@@ -1277,7 +1272,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|GraphQuery
+     * @return GraphQuery
      */
     public function createGraph(?array $options = null): GraphQuery
     {
@@ -1293,7 +1288,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|RealtimeGetQuery
+     * @return RealtimeGetQuery
      */
     public function createRealtimeGet(?array $options = null): RealtimeGetQuery
     {
@@ -1305,7 +1300,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|LukeQuery
+     * @return LukeQuery
      */
     public function createLuke(?array $options = null): LukeQuery
     {
@@ -1317,7 +1312,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|CoreAdminQuery
+     * @return CoreAdminQuery
      */
     public function createCoreAdmin(?array $options = null): CoreAdminQuery
     {
@@ -1329,7 +1324,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|CollectionsQuery
+     * @return CollectionsQuery
      */
     public function createCollections(?array $options = null): CollectionsQuery
     {
@@ -1341,7 +1336,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|ConfigsetsQuery
+     * @return ConfigsetsQuery
      */
     public function createConfigsets(?array $options = null): ConfigsetsQuery
     {
@@ -1353,7 +1348,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|ApiQuery
+     * @return ApiQuery
      */
     public function createApi(?array $options = null): ApiQuery
     {
@@ -1365,7 +1360,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|ManagedResourcesQuery
+     * @return ManagedResourcesQuery
      */
     public function createManagedResources(?array $options = null): ManagedResourcesQuery
     {
@@ -1377,7 +1372,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|ManagedStopwordsQuery
+     * @return ManagedStopwordsQuery
      */
     public function createManagedStopwords(?array $options = null): ManagedStopwordsQuery
     {
@@ -1389,7 +1384,7 @@ class Client extends Configurable implements ClientInterface
      *
      * @param array|null $options
      *
-     * @return AbstractQuery|ManagedSynonymsQuery
+     * @return ManagedSynonymsQuery
      */
     public function createManagedSynonyms(?array $options = null): ManagedSynonymsQuery
     {

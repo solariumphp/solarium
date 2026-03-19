@@ -11,12 +11,14 @@ declare(strict_types=1);
 
 namespace Solarium\Component\Result\Analytics;
 
+use Solarium\Component\Result\ComponentResultInterface;
+
 /**
  * Analytics result.
  *
  * @author wicliff <wicliff.wolda@gmail.com>
  */
-class Result implements \IteratorAggregate, \Countable
+class Result implements ComponentResultInterface, \IteratorAggregate, \Countable
 {
     /**
      * @var Expression[]

@@ -78,9 +78,7 @@ class InitArgs implements InitArgsInterface
     /**
      * Set format.
      *
-     * Use one of the FORMAT_* constants as the value
-     *
-     * @param string $format
+     * @param self::FORMAT_* $format
      *
      * @throws UnexpectedValueException
      *

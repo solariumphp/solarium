@@ -10,9 +10,9 @@
 namespace Solarium\Plugin\BufferedDelete;
 
 /**
- * Delete base class.
+ * Delete interface.
  */
-abstract class AbstractDelete
+interface DeleteInterface
 {
     /**
      * Delete by id.
@@ -27,9 +27,9 @@ abstract class AbstractDelete
     /**
      * Get delete type.
      *
-     * @return string
+     * @return self::TYPE_*
      */
-    abstract public function getType(): string;
+    public function getType(): string;
 
-    abstract public function __toString(): string;
+    public function __toString(): string;
 }

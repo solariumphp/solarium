@@ -7,7 +7,10 @@ use Solarium\Component\Highlighting\HighlightingInterface;
 
 class FieldTest extends AbstractHighlightingTestCase
 {
-    protected HighlightingInterface|Field $hlt;
+    /**
+     * @var Field
+     */
+    protected HighlightingInterface $hlt;
 
     public function setUp(): void
     {

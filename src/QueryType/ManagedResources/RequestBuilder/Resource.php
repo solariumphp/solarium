@@ -14,6 +14,12 @@ use Solarium\Core\Query\AbstractRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Exception\RuntimeException;
 use Solarium\QueryType\ManagedResources\Query\AbstractQuery as BaseQuery;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractAdd as Add;
+use Solarium\QueryType\ManagedResources\Query\Command\AbstractCreate as Create;
+use Solarium\QueryType\ManagedResources\Query\Command\Config;
+use Solarium\QueryType\ManagedResources\Query\Command\Delete;
+use Solarium\QueryType\ManagedResources\Query\Command\Exists;
+use Solarium\QueryType\ManagedResources\Query\Command\Remove;
 
 /**
  * Resource.
@@ -23,7 +29,7 @@ class Resource extends AbstractRequestBuilder
     /**
      * Build request for a resource query.
      *
-     * @param QueryInterface|BaseQuery $query
+     * @param QueryInterface&BaseQuery $query
      *
      * @throws RuntimeException
      *
@@ -64,7 +70,7 @@ class Resource extends AbstractRequestBuilder
     }
 
     /**
-     * @param QueryInterface|BaseQuery $query
+     * @param QueryInterface&BaseQuery $query
      * @param Request                  $request
      *
      * @throws RuntimeException
@@ -79,6 +85,8 @@ class Resource extends AbstractRequestBuilder
 
         switch ($command->getType()) {
             case BaseQuery::COMMAND_ADD:
+                assert($command instanceof Add);
+
                 if (null === $rawData = $command->getRawData()) {
                     throw new RuntimeException('Missing data for ADD command.');
                 }
@@ -86,6 +94,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_CONFIG:
+                assert($command instanceof Config);
+
                 if (null === $rawData = $command->getRawData()) {
                     throw new RuntimeException('Missing initArgs for CONFIG command.');
                 }
@@ -93,6 +103,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_CREATE:
+                assert($command instanceof Create);
+
                 if (null === $rawData = $command->getRawData()) {
                     throw new RuntimeException('Missing class for CREATE command.');
                 }
@@ -100,6 +112,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setRawData($rawData);
                 break;
             case BaseQuery::COMMAND_DELETE:
+                assert($command instanceof Delete);
+
                 if (null === $term = $command->getTerm()) {
                     throw new RuntimeException('Missing term for DELETE command.');
                 }
@@ -112,6 +126,8 @@ class Resource extends AbstractRequestBuilder
                 $request->setHandler($request->getHandler().'/'.$term);
                 break;
             case BaseQuery::COMMAND_EXISTS:
+                assert($command instanceof Exists);
+
                 if (null !== $term = $command->getTerm()) {
                     $term = rawurlencode($term);
                     if ($query->getUseDoubleEncoding()) {
@@ -123,6 +139,8 @@ class Resource extends AbstractRequestBuilder
 
                 break;
             case BaseQuery::COMMAND_REMOVE:
+                assert($command instanceof Remove);
+
                 break;
             default:
                 throw new RuntimeException(sprintf('Unsupported command type: %s', $command->getType()));

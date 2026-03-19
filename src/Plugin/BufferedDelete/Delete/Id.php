@@ -9,12 +9,12 @@
 
 namespace Solarium\Plugin\BufferedDelete\Delete;
 
-use Solarium\Plugin\BufferedDelete\AbstractDelete;
+use Solarium\Plugin\BufferedDelete\DeleteInterface;
 
 /**
  * Wrapper class for the id of a document to delete.
  */
-class Id extends AbstractDelete
+class Id implements DeleteInterface
 {
     /**
      * Document id to delete.
@@ -32,11 +32,13 @@ class Id extends AbstractDelete
     }
 
     /**
-     * {@inheritdoc}
+     * Get delete type.
+     *
+     * @return self::TYPE_ID
      */
     public function getType(): string
     {
-        return AbstractDelete::TYPE_ID;
+        return DeleteInterface::TYPE_ID;
     }
 
     /**

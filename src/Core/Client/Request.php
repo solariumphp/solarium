@@ -160,9 +160,7 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set request method.
      *
-     * Use one of the METHOD_* constants as value.
-     *
-     * @param string $method
+     * @param self::METHOD_* $method
      *
      * @return self Provides fluent interface
      */
@@ -186,12 +184,10 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set request Content-Type.
      *
-     * Use one of the CONTENT_TYPE_* constants as value.
-     *
      * Content-Type parameters can be passed in $params or set with {@see setContentTypeParams()}.
      *
-     * @param string|null $contentType
-     * @param array|null  $params
+     * @param self::CONTENT_TYPE_*|null $contentType
+     * @param array|null                $params
      *
      * @return self Provides fluent interface
      */
@@ -506,9 +502,7 @@ class Request extends Configurable implements RequestParamsInterface
     /**
      * Set Solr API version.
      *
-     * Use one of the API_* constants as value.
-     *
-     * @param string $api
+     * @param self::API_* $api
      *
      * @return self Provides fluent interface
      */

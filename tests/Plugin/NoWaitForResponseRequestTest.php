@@ -16,6 +16,7 @@ use Solarium\Exception\HttpException;
 use Solarium\Plugin\NoWaitForResponseRequest;
 use Solarium\QueryType\Suggester\Query;
 use Solarium\Tests\Integration\TestClientFactory;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class NoWaitForResponseRequestTest extends TestCase
 {
@@ -36,6 +37,8 @@ class NoWaitForResponseRequestTest extends TestCase
     {
         $client = TestClientFactory::createWithCurlAdapter();
         $plugin = $client->getPlugin('nowaitforresponserequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertInstanceOf(NoWaitForResponseRequest::class, $plugin);
 
@@ -50,7 +53,7 @@ class NoWaitForResponseRequestTest extends TestCase
 
         $this->assertSame(
             $expectedListeners,
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
 
         return $client;
@@ -62,10 +65,12 @@ class NoWaitForResponseRequestTest extends TestCase
     public function testDeinitPlugin(Client $client): void
     {
         $client->removePlugin('nowaitforresponserequest');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $client->getEventDispatcher();
 
         $this->assertSame(
             [],
-            $client->getEventDispatcher()->getListeners()
+            $eventDispatcher->getListeners()
         );
     }
 
@@ -88,8 +93,10 @@ class NoWaitForResponseRequestTest extends TestCase
 
         // The client should be configured with defaults again, after these
         // settings changed within the event subscriber.
-        $this->assertSame(TimeoutAwareInterface::DEFAULT_TIMEOUT, $this->client->getAdapter()->getTimeout());
-        $this->assertTrue($this->client->getAdapter()->getOption('return_transfer'));
+        /** @var Curl $adapter */
+        $adapter = $this->client->getAdapter();
+        $this->assertSame(TimeoutAwareInterface::DEFAULT_TIMEOUT, $adapter->getTimeout());
+        $this->assertTrue($adapter->getOption('return_transfer'));
     }
 
     public function testSetFastTimeout(): void

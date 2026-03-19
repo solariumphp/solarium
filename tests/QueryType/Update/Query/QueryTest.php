@@ -6,7 +6,11 @@ use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\Exception\RuntimeException;
+use Solarium\QueryType\Update\Query\Command\Add;
 use Solarium\QueryType\Update\Query\Command\Commit;
+use Solarium\QueryType\Update\Query\Command\Delete;
+use Solarium\QueryType\Update\Query\Command\Optimize;
+use Solarium\QueryType\Update\Query\Command\RawXml;
 use Solarium\QueryType\Update\Query\Command\Rollback;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
@@ -113,6 +117,10 @@ class QueryTest extends TestCase
         );
 
         $delete = $commands['key1'];
+        $this->assertInstanceOf(
+            Delete::class,
+            $delete
+        );
         $this->assertSame(
             [1, 2],
             $delete->getIds()
@@ -123,6 +131,10 @@ class QueryTest extends TestCase
         );
 
         $commit = $commands['key2'];
+        $this->assertInstanceOf(
+            Commit::class,
+            $commit
+        );
         $this->assertTrue(
             $commit->getSoftCommit()
         );
@@ -134,6 +146,10 @@ class QueryTest extends TestCase
         );
 
         $optimize = $commands['key3'];
+        $this->assertInstanceOf(
+            Optimize::class,
+            $optimize
+        );
         $this->assertTrue(
             $optimize->getSoftCommit()
         );
@@ -266,6 +282,11 @@ class QueryTest extends TestCase
         $this->query->addDeleteQuery('*:*');
         $commands = $this->query->getCommands();
 
+        $this->assertInstanceOf(
+            Delete::class,
+            $commands[0]
+        );
+
         $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
@@ -281,6 +302,11 @@ class QueryTest extends TestCase
     {
         $this->query->addDeleteQuery('id:%1%', [678]);
         $commands = $this->query->getCommands();
+
+        $this->assertInstanceOf(
+            Delete::class,
+            $commands[0]
+        );
 
         $this->assertSame(
             Query::COMMAND_DELETE,
@@ -298,6 +324,11 @@ class QueryTest extends TestCase
         $this->query->addDeleteQueries(['id:1', 'id:2']);
         $commands = $this->query->getCommands();
 
+        $this->assertInstanceOf(
+            Delete::class,
+            $commands[0]
+        );
+
         $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
@@ -314,6 +345,11 @@ class QueryTest extends TestCase
         $this->query->addDeleteById(1);
         $commands = $this->query->getCommands();
 
+        $this->assertInstanceOf(
+            Delete::class,
+            $commands[0]
+        );
+
         $this->assertSame(
             Query::COMMAND_DELETE,
             $commands[0]->getType()
@@ -329,6 +365,11 @@ class QueryTest extends TestCase
     {
         $this->query->addDeleteByIds([1, 2]);
         $commands = $this->query->getCommands();
+
+        $this->assertInstanceOf(
+            Delete::class,
+            $commands[0]
+        );
 
         $this->assertSame(
             Query::COMMAND_DELETE,
@@ -348,6 +389,11 @@ class QueryTest extends TestCase
         $this->query->addDocument($doc);
         $commands = $this->query->getCommands();
 
+        $this->assertInstanceOf(
+            Add::class,
+            $commands[0]
+        );
+
         $this->assertSame(
             Query::COMMAND_ADD,
             $commands[0]->getType()
@@ -366,6 +412,11 @@ class QueryTest extends TestCase
 
         $this->query->addDocuments([$doc1, $doc2], true, 100);
         $commands = $this->query->getCommands();
+
+        $this->assertInstanceOf(
+            Add::class,
+            $commands[0]
+        );
 
         $this->assertSame(
             Query::COMMAND_ADD,
@@ -392,6 +443,11 @@ class QueryTest extends TestCase
         $this->query->addCommit(true, false, true);
         $commands = $this->query->getCommands();
 
+        $this->assertInstanceOf(
+            Commit::class,
+            $commands[0]
+        );
+
         $this->assertSame(
             Query::COMMAND_COMMIT,
             $commands[0]->getType()
@@ -414,6 +470,11 @@ class QueryTest extends TestCase
     {
         $this->query->addOptimize(true, false, 10);
         $commands = $this->query->getCommands();
+
+        $this->assertInstanceOf(
+            Optimize::class,
+            $commands[0]
+        );
 
         $this->assertSame(
             Query::COMMAND_OPTIMIZE,
@@ -439,6 +500,11 @@ class QueryTest extends TestCase
         $this->query->addRawXmlCommand('<add><doc><field name="id">1</field></doc></add>');
         $commands = $this->query->getCommands();
 
+        $this->assertInstanceOf(
+            RawXml::class,
+            $commands[0]
+        );
+
         $this->assertSame(
             Query::COMMAND_RAWXML,
             $commands[0]->getType()
@@ -454,6 +520,11 @@ class QueryTest extends TestCase
     {
         $this->query->addRawXmlCommands(['<add><doc><field name="id">1</field></doc></add>', '<add><doc><field name="id">2</field></doc></add>']);
         $commands = $this->query->getCommands();
+
+        $this->assertInstanceOf(
+            RawXml::class,
+            $commands[0]
+        );
 
         $this->assertSame(
             Query::COMMAND_RAWXML,
@@ -473,6 +544,11 @@ class QueryTest extends TestCase
 
         $this->query->addRawXmlFile($tmpfname);
         $commands = $this->query->getCommands();
+
+        $this->assertInstanceOf(
+            RawXml::class,
+            $commands[0]
+        );
 
         $this->assertSame(
             Query::COMMAND_RAWXML,
@@ -527,10 +603,10 @@ class QueryTest extends TestCase
 
     public function testCreateDocumentWithCustomClass(): void
     {
-        $this->query->setDocumentClass(__NAMESPACE__.'\\MyCustomDoc');
+        $this->query->setDocumentClass(MyCustomDoc::class);
 
         $doc = $this->query->createDocument();
-        $this->assertInstanceOf(__NAMESPACE__.'\\MyCustomDoc', $doc);
+        $this->assertInstanceOf(MyCustomDoc::class, $doc);
     }
 
     public function testCreateDocumentWithFieldsAndBoostsAndModifiers(): void
@@ -539,6 +615,7 @@ class QueryTest extends TestCase
         $boosts = ['name' => 2.7];
         $modifiers = ['name' => 'set'];
 
+        /** @var Document $doc */
         $doc = $this->query->createDocument($fields, $boosts, $modifiers);
         $doc->setKey('id');
 

@@ -5,6 +5,7 @@ namespace Solarium\Tests\Integration\Plugin;
 use Solarium\Core\Event\Events;
 use Solarium\Core\Plugin\AbstractPlugin;
 use Solarium\Plugin\ParallelExecution\Event\Events as ParallelExecutionEvents;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -31,6 +32,7 @@ class EventTimer extends AbstractPlugin
      */
     protected function initPluginType(): void
     {
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->addListener(Events::PRE_CREATE_REQUEST, $this->events['preCrReq'] = function () { $this->log('preCreateRequest'); });
         $dispatcher->addListener(Events::POST_CREATE_REQUEST, $this->events['postCrReq'] = function () { $this->log('postCreateRequest'); });
@@ -55,6 +57,7 @@ class EventTimer extends AbstractPlugin
      */
     public function deinitPlugin(): void
     {
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, $this->events['preCrReq']);
         $dispatcher->removeListener(Events::POST_CREATE_REQUEST, $this->events['postCrReq']);
