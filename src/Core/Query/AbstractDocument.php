@@ -133,9 +133,6 @@ abstract class AbstractDocument implements DocumentInterface, \IteratorAggregate
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed
      */
-    #[\ReturnTypeWillChange]
-    abstract public function jsonSerialize();
+    abstract public function jsonSerialize(): mixed;
 }

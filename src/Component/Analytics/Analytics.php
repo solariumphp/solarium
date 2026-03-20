@@ -180,8 +180,7 @@ class Analytics extends AbstractComponent implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'functions' => $this->functions,

@@ -186,8 +186,7 @@ class Document implements DocumentInterface, \IteratorAggregate, \Countable, \Ar
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->document;
     }

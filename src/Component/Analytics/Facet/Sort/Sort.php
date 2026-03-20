@@ -111,8 +111,7 @@ class Sort extends Configurable implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'limit' => $this->limit,
