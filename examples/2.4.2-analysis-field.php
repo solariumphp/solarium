@@ -11,7 +11,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createAnalysisField();
 
 $query->setShowMatch(true);
-$query->setFieldName('cat,title');
+$query->setFieldName('cat,name');
 $query->setFieldType('text_general');
 $query->setFieldValue('Apple 60 GB iPod with Video Playback Black');
 $query->setQuery('ipod');

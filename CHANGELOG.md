@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\QueryType\Server\CoreAdmin\Result\Result::getResponse() always returns a Solarium\Core\Client\Response object, even if the response data contains a field named `"response"`
 - Solarium\QueryType\Server\CoreAdmin\Result\Result::$response publicly exposes the `"response"` field from the response data
 - Solarium\Plugin\MinimumScoreFilter\Document::__call() unpacks the $arguments array when forwarding a method call to the original document
+- Solarium\QueryType\Analysis\Query\Document::setQuery() and setShowMatch() options are added to the request query string
+- Solarium\QueryType\Analysis\Query\Document can handle documents with multivalued fields
 
 ### Changed
 - Added `void` return type to `Solarium\Core\Plugin\PluginInterface::initPlugin()` method signature

@@ -22,8 +22,13 @@ class DocumentTest extends TestCase
 
     public function testBuild(): void
     {
+        $this->query->setQuery('foobar')
+                    ->setShowMatch(true);
+
         $request = $this->builder->build($this->query);
 
+        $this->assertSame('foobar', $request->getParam('analysis.query'));
+        $this->assertSame('true', $request->getParam('analysis.showmatch'));
         $this->assertSame(Request::METHOD_POST, $request->getMethod());
         $this->assertSame(Request::CONTENT_TYPE_APPLICATION_XML, $request->getContentType());
         $this->assertSame($this->builder->getRawData($this->query), $request->getRawData());

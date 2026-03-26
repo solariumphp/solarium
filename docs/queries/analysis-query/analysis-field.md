@@ -21,7 +21,7 @@ See the example code below.
 Executing an analysis fieldquery
 --------------------------------
 
-Use the `analyze` method of the client to execute the query object. See the example code below.
+Use the `analyze()` method of the client to execute the query object. See the example code below.
 
 Result of an analysis field query
 ---------------------------------
@@ -45,7 +45,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createAnalysisField();
 
 $query->setShowMatch(true);
-$query->setFieldName('cat,title');
+$query->setFieldName('cat,name');
 $query->setFieldType('text_general');
 $query->setFieldValue('Apple 60 GB iPod with Video Playback Black');
 $query->setQuery('ipod');
