@@ -4,7 +4,8 @@ namespace Solarium\Tests\QueryType\Analysis\ResponseParser;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Query\Result\Result;
-use Solarium\QueryType\Analysis\ResponseParser\Document;
+use Solarium\QueryType\Analysis\Query\Document as Query;
+use Solarium\QueryType\Analysis\ResponseParser\Document as DocumentParser;
 
 class DocumentTest extends TestCase
 {
@@ -12,8 +13,40 @@ class DocumentTest extends TestCase
     {
         $data = [
             'analysis' => [
-                'key1' => ['data1'],
-                'key2' => ['data2'],
+                'MA147LL' => [
+                    'id' => [
+                        'query' => [
+                            'org.apache.solr.schema.FieldType$DefaultAnalyzer$1',
+                            [
+                                [
+                                    'text' => 'foobar',
+                                    'start' => 0,
+                                    'end' => 6,
+                                    'type' => 'word',
+                                    'position' => 1,
+                                    'positionHistory' => [1],
+                                    'match' => false,
+                                ],
+                            ],
+                        ],
+                        'index' => [
+                            'MA147LL' => [
+                                'org.apache.solr.schema.FieldType$DefaultAnalyzer$2',
+                                [
+                                    [
+                                        'text' => 'MA147LL',
+                                        'start' => 0,
+                                        'end' => 7,
+                                        'type' => 'word',
+                                        'position' => 1,
+                                        'positionHistory' => [1],
+                                        'match' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'responseHeader' => [
                 'status' => 1,
@@ -21,21 +54,41 @@ class DocumentTest extends TestCase
             ],
         ];
 
+        $query = new Query();
+        $query->setResponseWriter($query::WT_JSON);
+
         $resultStub = $this->createMock(Result::class);
-        $resultStub->expects($this->once())
-             ->method('getData')
-             ->willReturn($data);
+        $resultStub->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+        $resultStub->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
 
-        $parserStub = $this->getMockBuilder(Document::class)
-            ->onlyMethods(['parseTypes'])
-            ->getMock();
-        $parserStub->expects($this->exactly(2))
-             ->method('parseTypes')
-             ->willReturn(['dummy']);
+        $parser = new DocumentParser();
+        $result = $parser->parse($resultStub);
 
-        $result = $parserStub->parse($resultStub);
+        $this->assertCount(1, $result['items']);
 
-        $this->assertSameSize($data['analysis'], $result['items']);
-        $this->assertSame('key2', $result['items'][1]->getName());
+        $doc = $result['items'][0];
+        $this->assertSame('MA147LL', $doc->getName());
+
+        $fields = $doc->getItems();
+        $this->assertCount(1, $fields);
+        $this->assertSame('id', $fields[0]->getName());
+
+        $queryAnalysis = $fields[0]->getQueryAnalysis();
+        $this->assertCount(1, $queryAnalysis->getItems());
+        $this->assertSame('org.apache.solr.schema.FieldType$DefaultAnalyzer$1', $queryAnalysis->getItems()[0]->getName());
+        $this->assertCount(1, $queryAnalysis->getItems()[0]->getItems());
+        $this->assertSame('foobar', $queryAnalysis->getItems()[0]->getItems()[0]->getText());
+        $this->assertFalse($queryAnalysis->getItems()[0]->getItems()[0]->getMatch());
+
+        $indexAnalysis = $fields[0]->getIndexAnalysis();
+        $this->assertCount(1, $indexAnalysis->getItems());
+        $this->assertSame('org.apache.solr.schema.FieldType$DefaultAnalyzer$2', $indexAnalysis->getItems()[0]->getName());
+        $this->assertCount(1, $indexAnalysis->getItems()[0]->getItems());
+        $this->assertSame('MA147LL', $indexAnalysis->getItems()[0]->getItems()[0]->getText());
+        $this->assertTrue($indexAnalysis->getItems()[0]->getItems()[0]->getMatch());
     }
 }

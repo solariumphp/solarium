@@ -76,36 +76,26 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
         foreach ($data as $fieldKey => $fieldData) {
             $types = [];
             foreach ($fieldData as $typeKey => $typeData) {
-                if ($query::WT_JSON === $query->getResponseWriter()) {
-                    // fix for extra level for key fields
-                    if (1 === \count($typeData)) {
-                        $typeData = current($typeData);
-                    }
-                    $typeData = $this->convertToKeyValueArray($typeData);
-                }
-
                 $classes = [];
-                foreach ($typeData as $class => $analysis) {
-                    if (\is_string($analysis)) {
-                        $item = new Item(
-                            [
-                                'text' => $analysis,
-                                'start' => null,
-                                'end' => null,
-                                'position' => null,
-                                'positionHistory' => null,
-                                'type' => null,
-                            ]
-                        );
+                if ('query' === $typeKey || array_is_list($typeData)) {
+                    // document 'query' data or field 'index' data
+                    if ($query::WT_JSON === $query->getResponseWriter()) {
+                        $typeData = $this->convertToKeyValueArray($typeData);
+                    }
 
-                        $classes[] = new ResultList($class, [$item]);
-                    } else {
-                        $items = [];
-                        foreach ($analysis as $itemData) {
-                            $items[] = new Item($itemData);
+                    foreach ($typeData as $class => $analysis) {
+                        $classes[] = $this->createResultList($class, $analysis);
+                    }
+                } else {
+                    // document 'index' data
+                    if ($query::WT_JSON === $query->getResponseWriter()) {
+                        $typeData = array_map([$this, 'convertToKeyValueArray'], $typeData);
+                    }
+
+                    foreach ($typeData as $valueData) {
+                        foreach ($valueData as $class => $analysis) {
+                            $classes[] = $this->createResultList($class, $analysis);
                         }
-
-                        $classes[] = new ResultList($class, $items);
                     }
                 }
 
@@ -116,5 +106,37 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
         }
 
         return $results;
+    }
+
+    /**
+     * Create the result list for a single query or field value.
+     *
+     * @param string       $class
+     * @param string|array $analysis
+     *
+     * @return ResultList
+     */
+    protected function createResultList(string $class, string|array $analysis): ResultList
+    {
+        $items = [];
+
+        if (\is_string($analysis)) {
+            $items[] = new Item(
+                [
+                    'text' => $analysis,
+                    'start' => null,
+                    'end' => null,
+                    'position' => null,
+                    'positionHistory' => null,
+                    'type' => null,
+                ]
+            );
+        } else {
+            foreach ($analysis as $itemData) {
+                $items[] = new Item($itemData);
+            }
+        }
+
+        return new ResultList($class, $items);
     }
 }

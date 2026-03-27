@@ -1,4 +1,4 @@
-A analysis query is can be used to see how documents and/or fields are analysed step-by-step. Both at search and at index time. This way you see in detail how your Solr schema is effecting the indexing and searching of data.
+An analysis query can be used to see how documents and/or fields are analysed step-by-step. Both at search and at index time. This way you see in detail how your Solr schema is affecting the indexing and searching of data.
 
 There are two types of analysis:
 

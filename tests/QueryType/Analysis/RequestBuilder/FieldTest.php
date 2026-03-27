@@ -23,15 +23,20 @@ class FieldTest extends TestCase
         $fieldValue = 'myvalue';
         $fieldName = 'myfield';
         $fieldType = 'text';
+        $query = 'foobar';
 
         $this->query->setFieldValue($fieldValue)
-                     ->setFieldName($fieldName)
-                     ->setFieldType($fieldType);
+                    ->setFieldName($fieldName)
+                    ->setFieldType($fieldType)
+                    ->setQuery($query)
+                    ->setShowMatch(true);
 
         $request = $this->builder->build($this->query);
 
         $this->assertSame($fieldValue, $request->getParam('analysis.fieldvalue'));
         $this->assertSame($fieldName, $request->getParam('analysis.fieldname'));
         $this->assertSame($fieldType, $request->getParam('analysis.fieldtype'));
+        $this->assertSame($query, $request->getParam('analysis.query'));
+        $this->assertSame('true', $request->getParam('analysis.showmatch'));
     }
 }

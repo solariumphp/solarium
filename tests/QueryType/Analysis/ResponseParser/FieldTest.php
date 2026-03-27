@@ -13,30 +13,56 @@ class FieldTest extends TestCase
     {
         $data = [
             'analysis' => [
-                'doc1' => [
-                    'field1' => [
-                        'type1' => [
+                'field_types' => [
+                    'type1' => [
+                        'index' => [
+                            'analysisClass',
+                            'string value',
+                            'org.apache.solr.analysis.PatternReplaceCharFilter',
                             [
-                                'org.apache.solr.analysis.PatternReplaceCharFilter',
-                                'string value',
-                                'analysisClass',
                                 [
-                                    [
-                                        'text' => 'test',
-                                        'start' => 1,
-                                        'end' => 23,
-                                        'position' => 4,
-                                        'positionHistory' => [4, 3],
-                                        'type' => 'test',
-                                    ],
-                                    [
-                                        'text' => 'test2',
-                                        'start' => 1,
-                                        'end' => 23,
-                                        'position' => 4,
-                                        'positionHistory' => [4, 3],
-                                        'type' => 'test',
-                                    ],
+                                    'text' => 'test',
+                                    'start' => 1,
+                                    'end' => 23,
+                                    'position' => 4,
+                                    'positionHistory' => [4, 3],
+                                    'type' => 'test',
+                                ],
+                                [
+                                    'text' => 'test2',
+                                    'start' => 1,
+                                    'end' => 23,
+                                    'position' => 4,
+                                    'positionHistory' => [4, 3],
+                                    'type' => 'test',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'field_names' => [
+                    'field1' => [
+                        'query' => [
+                            'org.apache.lucene.analysis.standard.StandardTokenizer',
+                            [
+                                [
+                                    'text' => 'TEST',
+                                    'start' => 1,
+                                    'end' => 23,
+                                    'position' => 1,
+                                    'positionHistory' => [1],
+                                    'type' => 'test',
+                                ],
+                            ],
+                            'org.apache.lucene.analysis.core.LowerCaseFilter',
+                            [
+                                [
+                                    'text' => 'test',
+                                    'start' => 1,
+                                    'end' => 23,
+                                    'position' => 1,
+                                    'positionHistory' => [1, 1],
+                                    'type' => 'test',
                                 ],
                             ],
                         ],
@@ -49,25 +75,52 @@ class FieldTest extends TestCase
             ],
         ];
 
+        $query = new Query();
+        $query->setResponseWriter($query::WT_JSON);
+
         $resultStub = $this->createMock(Result::class);
-        $resultStub->expects($this->once())
-             ->method('getData')
-             ->willReturn($data);
-        $resultStub->expects($this->once())
-                     ->method('getQuery')
-                     ->willReturn(new Query());
+        $resultStub->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+        $resultStub->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
 
         $parser = new FieldParser();
         $result = $parser->parse($resultStub);
 
-        $docs = $result['items'][0]->getItems();
-        $fields = $docs[0]->getItems();
-        $types = $fields[0]->getItems();
-        $class1items = $types[0]->getItems();
-        $class2items = $types[1]->getItems();
+        $this->assertCount(2, $result['items']);
 
-        $this->assertSame('string value', $class1items[0]->getText());
-        $this->assertSame('test2', $class2items[1]->getText());
+        $fieldTypes = $result['items'][0];
+        $this->assertSame('field_types', $fieldTypes->getName());
+        $this->assertCount(1, $fieldTypes->getItems());
+        $this->assertSame('type1', $fieldTypes->getItems()[0]->getName());
+
+        $indexAnalysis = $fieldTypes->getItems()[0]->getIndexAnalysis();
+        $this->assertCount(2, $indexAnalysis->getItems());
+        $this->assertSame('analysisClass', $indexAnalysis->getItems()[0]->getName());
+        $this->assertCount(1, $indexAnalysis->getItems()[0]->getItems());
+        $this->assertSame('string value', $indexAnalysis->getItems()[0]->getItems()[0]->getText());
+        $this->assertSame('org.apache.solr.analysis.PatternReplaceCharFilter', $indexAnalysis->getItems()[1]->getName());
+        $this->assertCount(2, $indexAnalysis->getItems()[1]->getItems());
+        $this->assertSame('test', $indexAnalysis->getItems()[1]->getItems()[0]->getText());
+        $this->assertSame('test2', $indexAnalysis->getItems()[1]->getItems()[1]->getText());
+
+        $fieldNames = $result['items'][1];
+        $this->assertSame('field_names', $fieldNames->getName());
+        $this->assertCount(1, $fieldNames->getItems());
+        $this->assertSame('field1', $fieldNames->getItems()[0]->getName());
+
+        $queryAnalysis = $fieldNames->getItems()[0]->getQueryAnalysis();
+        $this->assertCount(2, $queryAnalysis->getItems());
+        $this->assertSame('org.apache.lucene.analysis.standard.StandardTokenizer', $queryAnalysis->getItems()[0]->getName());
+        $this->assertCount(1, $queryAnalysis->getItems()[0]->getItems());
+        $this->assertSame('TEST', $queryAnalysis->getItems()[0]->getItems()[0]->getText());
+        $this->assertSame([1], $queryAnalysis->getItems()[0]->getItems()[0]->getPositionHistory());
+        $this->assertSame('org.apache.lucene.analysis.core.LowerCaseFilter', $queryAnalysis->getItems()[1]->getName());
+        $this->assertCount(1, $queryAnalysis->getItems()[1]->getItems());
+        $this->assertSame('test', $queryAnalysis->getItems()[1]->getItems()[0]->getText());
+        $this->assertSame([1, 1], $queryAnalysis->getItems()[1]->getItems()[0]->getPositionHistory());
     }
 
     public function testParseNoData(): void

@@ -10,14 +10,13 @@
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
 use Solarium\Core\Client\Request;
-use Solarium\Core\Query\AbstractRequestBuilder as BaseRequestBuilder;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\QueryType\Analysis\Query\Document as QueryDocument;
 
 /**
  * Build a document analysis request.
  */
-class Document extends BaseRequestBuilder
+class Document extends RequestBuilder
 {
     /**
      * Build request for an analysis document query.

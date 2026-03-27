@@ -49,16 +49,17 @@ $doc = new Solarium\QueryType\Update\Query\Document(
         'id' => 'MA147LL',
         'name' => 'Apple 60 GB iPod with Video Playback Black',
         'manu' => 'Apple Computer Inc.',
-        'cat' => 'electronics',
-        'cat' => 'music',
-        'features' => 'iTunes, Podcasts, Audiobooks',
-        'features' => 'Stores up to 15,000 songs, 25,000 photos, or 150 hours of video',
-        'features' => '2.5-inch, 320x240 color TFT LCD display with LED backlight',
-        'features' => 'Up to 20 hours of battery life',
-        'features' => 'Plays AAC, MP3, WAV, AIFF, Audible, Apple Lossless, H.264 video',
-        'features' => 'Notes, Calendar, Phone book, Hold button, Date display, Photo wallet, Built-in games, '.
-            'JPEG photo playback, Upgradeable firmware, USB 2.0 compatibility, Playback speed control, '.
-            'Rechargeable capability, Battery level indication',
+        'cat' => ['electronics', 'music'],
+        'features' => [
+            'iTunes, Podcasts, Audiobooks',
+            'Stores up to 15,000 songs, 25,000 photos, or 150 hours of video',
+            '2.5-inch, 320x240 color TFT LCD display with LED backlight',
+            'Up to 20 hours of battery life',
+            'Plays AAC, MP3, WAV, AIFF, Audible, Apple Lossless, H.264 video',
+            'Notes, Calendar, Phone book, Hold button, Date display, Photo wallet, Built-in games, '.
+                'JPEG photo playback, Upgradeable firmware, USB 2.0 compatibility, Playback speed control, '.
+                'Rechargeable capability, Battery level indication',
+        ],
         'includes' => 'earbud headphones, USB cable',
         'weight' => 5.5,
         'price' => 399.00,
