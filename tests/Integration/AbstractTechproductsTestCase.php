@@ -228,11 +228,17 @@ abstract class AbstractTechproductsTestCase extends TestCase
      */
     public static function responseWriterProvider(): array
     {
-        return [
+        $responseWriters = [
             [AbstractQuery::WT_JSON],
-            // no longer supported in Solr 10
-            // [AbstractQuery::WT_PHPS],
         ];
+
+        // PHPUnit evaluates this before self::$solrVersion is set
+        if (10 > (int) getenv('SOLR_VERSION')) {
+            // @phpstan-ignore classConstant.deprecated (Will be removed in Solarium 8)
+            $responseWriters[] = [AbstractQuery::WT_PHPS];
+        }
+
+        return $responseWriters;
     }
 
     /**

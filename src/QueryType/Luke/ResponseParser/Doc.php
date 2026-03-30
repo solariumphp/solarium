@@ -42,6 +42,7 @@ class Doc extends Index
 
         $query = $result->getQuery();
 
+        // @phpstan-ignore classConstant.deprecated (Will be removed in Solarium 8)
         if ($query::WT_PHPS === $query->getResponseWriter()) {
             // workaround for https://github.com/apache/solr/pull/2114
             $response = $result->getResponse();

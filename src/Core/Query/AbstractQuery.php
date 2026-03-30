@@ -21,6 +21,9 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
 
     public const WT_JSON = 'json';
 
+    /**
+     * @deprecated Will be removed in Solarium 8
+     */
     public const WT_PHPS = 'phps';
 
     /**
@@ -177,13 +180,13 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Set responsewriter option.
      *
-     * @param string $value
+     * @param self::WT_*|string $responseWriter
      *
      * @return self Provides fluent interface
      */
-    public function setResponseWriter(string $value): self
+    public function setResponseWriter(string $responseWriter): self
     {
-        $this->setOption('responsewriter', $value);
+        $this->setOption('responsewriter', $responseWriter);
 
         return $this;
     }
@@ -197,16 +200,13 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      * setting the responsewriter to 'phps' (serialized php). This can give a performance advantage,
      * especially with big resultsets.
      *
-     * @return string
+     * @return self::WT_*|string
      */
     public function getResponseWriter(): string
     {
         $responseWriter = $this->getOption('responsewriter');
-        if (null === $responseWriter) {
-            $responseWriter = self::WT_JSON;
-        }
 
-        return $responseWriter;
+        return $responseWriter ?? self::WT_JSON;
     }
 
     /**
@@ -313,5 +313,28 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     public function getInputEncoding(): ?string
     {
         return $this->getOption('ie');
+    }
+
+    public function setOption(string $name, $value): Configurable
+    {
+        // @phpstan-ignore classConstant.deprecated (Will be removed in Solarium 8)
+        if ('responsewriter' === $name && self::WT_PHPS === $value) {
+            trigger_error('Support for parsing "phps" responses is deprecated in Solarium 7 and will be removed in Solarium 8.', \E_USER_DEPRECATED);
+        }
+
+        return parent::setOption($name, $value);
+    }
+
+    /**
+     * Initialization hook.
+     *
+     * {@internal Check for deprecated 'phps' response writer.}
+     */
+    protected function init(): void
+    {
+        // @phpstan-ignore classConstant.deprecated (Will be removed in Solarium 8)
+        if (isset($this->options['responsewriter']) && self::WT_PHPS === $this->options['responsewriter']) {
+            trigger_error('Support for parsing "phps" responses is deprecated in Solarium 7 and will be removed in Solarium 8.', \E_USER_DEPRECATED);
+        }
     }
 }

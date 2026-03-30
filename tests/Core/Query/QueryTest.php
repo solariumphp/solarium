@@ -10,6 +10,11 @@ use Solarium\Core\Query\ResponseParserInterface;
 
 class QueryTest extends TestCase
 {
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testSetAndGetHandler(): void
     {
         $query = new TestQuery();
@@ -82,8 +87,51 @@ class QueryTest extends TestCase
     public function testSetAndGetResponseWriter(): void
     {
         $query = new TestQuery();
+        $query->setResponseWriter('test');
+        $this->assertSame('test', $query->getResponseWriter());
+    }
+
+    public function testSetResponseWriterPhpsThrowsDeprecation(): void
+    {
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $query = new TestQuery();
+        $this->expectExceptionCode(\E_USER_DEPRECATED);
         $query->setResponseWriter('phps');
-        $this->assertSame('phps', $query->getResponseWriter());
+    }
+
+    public function testSetResponseWriterPhpsConstructorThrowsDeprecation(): void
+    {
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $this->expectExceptionCode(\E_USER_DEPRECATED);
+        $query = new TestQuery(['responsewriter' => 'phps']);
+    }
+
+    public function testSetResponseWriterPhpsConfigModeThrowsDeprecation(): void
+    {
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $query = new TestQuery();
+        $this->expectExceptionCode(\E_USER_DEPRECATED);
+        $query->setOptions(['responsewriter' => 'phps']);
+    }
+
+    public function testSetResponseWriterPhpsOptionThrowsDeprecation(): void
+    {
+        set_error_handler(static function (int $errno, string $errstr): never {
+            throw new \Exception($errstr, $errno);
+        }, \E_USER_DEPRECATED);
+
+        $query = new TestQuery();
+        $this->expectExceptionCode(\E_USER_DEPRECATED);
+        $query->setOption('responsewriter', 'phps');
     }
 
     public function testSetAndGetNow(): void

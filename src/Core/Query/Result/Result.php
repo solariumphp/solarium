@@ -104,6 +104,7 @@ class Result implements ResultInterface, \JsonSerializable
     {
         if (null === $this->data) {
             switch ($this->query->getResponseWriter()) {
+                // @phpstan-ignore classConstant.deprecated (Will be removed in Solarium 8)
                 case AbstractQuery::WT_PHPS:
                     $data = unserialize($this->response->getBody(), ['allowed_classes' => false]);
 

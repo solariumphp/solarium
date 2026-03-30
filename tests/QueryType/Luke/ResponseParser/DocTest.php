@@ -61,6 +61,8 @@ class DocTest extends TestCase
 
     /**
      * @depends testParseJson
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParsePhps(DocInfo $doc): void
     {
@@ -73,7 +75,7 @@ class DocTest extends TestCase
         );
 
         $query = new Query();
-        $query->setResponseWriter($query::WT_PHPS);
+        @$query->setResponseWriter($query::WT_PHPS);
         $query->setShow(Query::SHOW_DOC);
         $query->setDocId(1701);
 

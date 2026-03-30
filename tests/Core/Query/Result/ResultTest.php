@@ -3,20 +3,16 @@
 namespace Solarium\Tests\Core\Query\Result;
 
 use PHPUnit\Framework\TestCase;
-use Solarium\Core\Client\Client;
 use Solarium\Core\Client\Response;
 use Solarium\Core\Query\Result\Result;
 use Solarium\Exception\HttpException;
 use Solarium\Exception\RuntimeException;
 use Solarium\Exception\UnexpectedValueException;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
-use Solarium\Tests\Integration\TestClientFactory;
 
 class ResultTest extends TestCase
 {
     protected Result $result;
-
-    protected Client $client;
 
     protected SelectQuery $query;
 
@@ -28,7 +24,6 @@ class ResultTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = TestClientFactory::createWithCurlAdapter();
         $this->query = new SelectQuery();
         $this->headers = ['HTTP/1.0 304 Not Modified'];
         $this->data = '{"responseHeader":{"status":0,"QTime":1,"params":{"wt":"json","q":"xyz"}},'.
@@ -36,6 +31,11 @@ class ResultTest extends TestCase
         $this->response = new Response($this->data, $this->headers);
 
         $this->result = new Result($this->query, $this->response);
+    }
+
+    public function tearDown(): void
+    {
+        restore_error_handler();
     }
 
     public function testResultWithErrorResponse(): void
@@ -79,13 +79,16 @@ class ResultTest extends TestCase
         $this->assertEquals($data, $this->result->getData());
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 8
+     */
     public function testGetDataWithPhps(): void
     {
         $phpsData = 'a:2:{s:14:"responseHeader";a:3:{s:6:"status";i:0;s:5:"QTime";i:0;s:6:"params";'.
             'a:6:{s:6:"indent";s:2:"on";s:5:"start";s:1:"0";s:1:"q";s:3:"*:*";s:2:"wt";s:4:"phps";s:7:"version";'.
             's:3:"2.2";s:4:"rows";s:1:"0";}}s:8:"response";a:3:{s:8:"numFound";i:57;s:5:"start";i:0;s:4:"docs";'.
             'a:0:{}}}';
-        $this->query->setResponseWriter('phps');
+        @$this->query->setResponseWriter('phps');
         $resultData = [
             'responseHeader' => [
                 'status' => 0,
@@ -129,13 +132,16 @@ class ResultTest extends TestCase
         $this->result->getData();
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 8
+     */
     public function testGetInvalidPhpsData(): void
     {
         set_error_handler(static function (int $errno, string $errstr): void {
             // ignore E_NOTICE or E_WARNING from unserialize() to check that we throw an exception
         }, version_compare(PHP_VERSION, '8.3.0', '>=') ? \E_WARNING : \E_NOTICE);
 
-        $this->query->setResponseWriter($this->query::WT_PHPS);
+        @$this->query->setResponseWriter($this->query::WT_PHPS);
 
         $data = 'invalid';
         $this->response = new Response($data, $this->headers);
@@ -143,8 +149,6 @@ class ResultTest extends TestCase
 
         $this->expectException(UnexpectedValueException::class);
         $this->result->getData();
-
-        restore_error_handler();
     }
 
     public function testJsonSerialize(): void

@@ -19,6 +19,11 @@ class WarningsTest extends TestCase
         $this->warnings = new Warnings($noTermVectors, $noPositions, $noOffsets, $noPayloads);
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetNoTermVectors(): void
     {
         $this->assertSame(['fieldA', 'fieldB'], $this->warnings->getNoTermVectors());
@@ -84,8 +89,6 @@ class WarningsTest extends TestCase
 
         $this->expectExceptionMessage('Undefined property');
         $this->warnings->offsetGet('unknown');
-
-        restore_error_handler();
     }
 
     public function testOffsetSetImmutable(): void

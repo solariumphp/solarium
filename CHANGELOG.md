@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solarium\Core\Query\AbstractQuery::setTimeAllowed() and getTimeAllowed(), moved to Solarium\QueryType\Select\Query\Query
 - Solarium\Core\Query\Helper::cacheControl(), use Solarium\QueryType\Select\Query\FilterQuery::setCache() and setCost() instead
 
+### Deprecated
+- Solarium\Core\Query\AbstractQuery::setResponseWriter('phps'), rely on the default 'json' response writer instead
+
 
 ## [6.4.1]
 ### Added

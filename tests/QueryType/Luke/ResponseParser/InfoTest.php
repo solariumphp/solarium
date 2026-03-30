@@ -47,6 +47,8 @@ class InfoTest extends TestCase
 
     /**
      * @depends testParseJson
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParsePhps(Info $info): void
     {
@@ -61,7 +63,7 @@ class InfoTest extends TestCase
         ];
 
         $query = new Query();
-        $query->setResponseWriter(Query::WT_PHPS);
+        @$query->setResponseWriter(Query::WT_PHPS);
 
         $resultStub = $this->createMock(Result::class);
         $resultStub->expects($this->any())

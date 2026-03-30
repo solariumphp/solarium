@@ -15,18 +15,30 @@ class UtilityTest extends TestCase
         $this->fixtures = realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Integration'.DIRECTORY_SEPARATOR.'Fixtures');
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetXmlEncodingNoFile(): void
+    {
+        set_error_handler(static function (int $errno, string $errstr) {
+            // ignore warning so we can test the return value
+        }, \E_WARNING);
+
+        $this->assertNull(
+            Utility::getXmlEncoding('nosuchfile')
+        );
+    }
+
+    public function testGetXmlEncodingNoFileThrowsException(): void
     {
         set_error_handler(static function (int $errno, string $errstr): never {
             throw new \Exception($errstr, $errno);
         }, \E_WARNING);
 
         $this->expectExceptionMessage('No such file or directory');
-        $this->assertNull(
-            Utility::getXmlEncoding('nosuchfile')
-        );
-
-        restore_error_handler();
+        Utility::getXmlEncoding('nosuchfile');
     }
 
     public function testGetXmlEncodingWithoutUtf8BomWithoutXmlDeclaration(): void

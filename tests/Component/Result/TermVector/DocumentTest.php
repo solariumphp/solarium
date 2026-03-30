@@ -25,6 +25,11 @@ class DocumentTest extends TestCase
         $this->document = new Document('key', $this->fields);
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetUniqueKey(): void
     {
         $this->assertSame('key', $this->document->getUniqueKey());
@@ -93,8 +98,6 @@ class DocumentTest extends TestCase
 
         $this->expectExceptionMessage('Undefined array key "unknown"');
         $this->document->offsetGet('unknown');
-
-        restore_error_handler();
     }
 
     public function testOffsetSetImmutable(): void
