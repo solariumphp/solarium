@@ -7,15 +7,15 @@ See the example code below.
 
 **Available options:**
 
-| Name          | Type    | Default value                 | Description                                                                                                                                   |
-|---------------|---------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| handler       | string  | select                        | Name of the Solr request handler to use, without leading or trailing slashes                                                                  |
-| resultclass   | string  | Solarium\_Result\_Select      | Classname for result. If you set a custom classname make sure the class is readily available (or through autoloading)                         |
-| documentclass | string  | Solarium\_Document\_ReadWrite | Classname for documents in the resultset. If you set a custom classname make sure the class is readily available (or through autoloading)     |
-| omitheader    | boolean | true                          | Disable Solr headers (saves some overhead, as the values aren't actually used in most cases)                                                  |
-| extractonly   | boolean | false                         | If true, returns the extracted content from Tika without indexing the document                                                                |
-| extractformat | string  | null                          | Controls the serialization format of the extracted content. By default 'xml', the other option is 'text'. Only valid if 'extractonly' is true |
-| stream.type   | string  | null                          | Explicitly specify a MIME type for Tika                                                                                                       |
+| Name          | Type    | Default value                                | Description                                                                                                                                   |
+|---------------|---------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| handler       | string  | select                                       | Name of the Solr request handler to use, without leading or trailing slashes                                                                  |
+| resultclass   | string  | Solarium\\QueryType\\Extract\\Result         | Classname for result. If you set a custom classname make sure the class is readily available (or through autoloading)                         |
+| documentclass | string  | Solarium\\QueryType\\Update\\Query\\Document | Classname for documents in the resultset. If you set a custom classname make sure the class is readily available (or through autoloading)     |
+| omitheader    | boolean | true                                         | Disable Solr headers (saves some overhead, as the values aren't actually used in most cases)                                                  |
+| extractonly   | boolean | false                                        | If true, returns the extracted content from Tika without indexing the document                                                                |
+| extractformat | string  | null                                         | Controls the serialization format of the extracted content. By default 'xml', the other option is 'text'. Only valid if 'extractonly' is true |
+| stream.type   | string  | null                                         | Explicitly specify a MIME type for Tika                                                                                                       |
 ||
 
 Executing an extract query

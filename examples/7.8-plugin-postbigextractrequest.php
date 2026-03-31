@@ -6,6 +6,7 @@ htmlHeader();
 
 // create a client instance
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\PostBigExtractRequest $postBigExtractRequest */
 $postBigExtractRequest = $client->getPlugin('postbigextractrequest');
 // set the maximum length to a value appropriate for your servlet container
 $postBigExtractRequest->setMaxQueryStringLength(1024);

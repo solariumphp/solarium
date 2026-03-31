@@ -26,6 +26,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet intervals:<br/>';
+/** @var Solarium\Component\Result\Facet\Interval $facet */
 $facet = $resultset->getFacetSet()->getFacet('price');
 foreach ($facet as $interval => $count) {
     echo $interval.' ['.$count.']<br/>';

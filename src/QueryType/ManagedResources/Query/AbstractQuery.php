@@ -9,6 +9,7 @@
 
 namespace Solarium\QueryType\ManagedResources\Query;
 
+use Solarium\Core\Client\Client;
 use Solarium\Core\Query\AbstractQuery as BaseQuery;
 use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
@@ -54,6 +55,8 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
 
     /**
      * Command types.
+     *
+     * @var array<self::COMMAND_*, class-string>
      */
     protected array $commandTypes;
 
@@ -69,6 +72,8 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
 
     /**
      * Default result class if no command is set.
+     *
+     * @var class-string
      */
     protected string $defaultResultClass;
 
@@ -80,7 +85,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Get query type.
      *
-     * @return string
+     * @return Client::QUERY_MANAGED_*
      */
     abstract public function getType(): string;
 

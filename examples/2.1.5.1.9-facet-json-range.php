@@ -1,7 +1,6 @@
 <?php
 
 use Solarium\Component\Facet\JsonRange;
-use Solarium\Component\Result\Facet\JsonRange as ResultFacetJsonRange;
 
 require_once __DIR__.'/init.php';
 
@@ -40,14 +39,12 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet ranges:<br/>';
+/** @var Solarium\Component\Result\Facet\JsonRange $facet */
 $facet = $resultset->getFacetSet()->getFacet('priceranges');
 
-// Note: use instanceof Solarium\Component\Result\Facet\JsonRange to differentiate from standard field facets.
-if ($facet instanceof ResultFacetJsonRange) {
-    echo 'Before ['.$facet->getBefore().']<br />';
-    echo 'After ['.$facet->getAfter().']<br />';
-    echo 'Between ['.$facet->getBetween().']<br />';
-}
+echo 'Before ['.$facet->getBefore().']<br />';
+echo 'After ['.$facet->getAfter().']<br />';
+echo 'Between ['.$facet->getBetween().']<br />';
 
 foreach ($facet as $bucket) {
     echo $bucket->getValue().' to '.($bucket->getValue() + 100).' ['.$bucket->getCount().']<br/>';

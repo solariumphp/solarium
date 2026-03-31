@@ -9,12 +9,15 @@ htmlHeader();
 
 // create a client instance and autoload the buffered delete plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\BufferedDelete\BufferedDelete $buffer */ // or BufferedDeleteLite
 $buffer = $client->getPlugin('buffereddelete'); // or 'buffereddeletelite'
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
 // this only works with 'buffereddelete', 'buffereddeletelite' doesn't trigger events
-$client->getEventDispatcher()->addListener(
+/** @var Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher */
+$eventDispatcher = $client->getEventDispatcher();
+$eventDispatcher->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
         echo 'Flushing buffer ('.count($event->getBuffer()).' deletes)<br/>';

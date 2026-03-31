@@ -8,7 +8,9 @@ htmlHeader();
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // enable the plugin and get a query instance
+/** @var Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter $filter */
 $filter = $client->getPlugin('minimumscorefilter');
+/** @var Solarium\Plugin\MinimumScoreFilter\Query $query */
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setQuery('a');
 $query->setFields(['id']);
@@ -16,6 +18,7 @@ $query->setFilterRatio(.5);
 $query->setFilterMode($query::FILTER_MODE_MARK);
 
 // this executes the query and returns the result
+/** @var Solarium\Plugin\MinimumScoreFilter\Result $resultset */
 $resultset = $client->execute($query);
 
 // display the total number of documents found by Solr and the maximum score
@@ -23,6 +26,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<br/>MaxScore: '.$resultset->getMaxScore();
 
 // show documents using the resultset iterator
+/** @var Solarium\Plugin\MinimumScoreFilter\Document $document */
 foreach ($resultset as $document) {
     // by setting the FILTER_MARK option we get a special method to test each document
     if ($document->markedAsLowScore()) {

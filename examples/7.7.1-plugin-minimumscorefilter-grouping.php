@@ -8,7 +8,9 @@ htmlHeader();
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // enable the filter plugin and get a query instance
+/** @var Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter $filter */
 $filter = $client->getPlugin('minimumscorefilter');
+/** @var Solarium\Plugin\MinimumScoreFilter\Query $query */
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setRows(50);
 $query->setFields(['id', 'name', 'score']);

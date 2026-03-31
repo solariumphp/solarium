@@ -43,6 +43,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet ranges; limited to the filter "budget":<br/>';
+/** @var Solarium\Component\Result\Facet\Range $facet */
 $facet = $resultset->getFacetSet()->getFacet('priceranges');
 foreach ($facet as $range => $count) {
     echo $range.' to '.($range + 100).' ['.$count.']<br/>';
@@ -50,6 +51,7 @@ foreach ($facet as $range => $count) {
 
 // display facet counts
 echo '<hr/>Facet ranges; excluding the filter "budget":<br/>';
+/** @var Solarium\Component\Result\Facet\Range $facet */
 $facet = $resultset->getFacetSet()->getFacet('allpriceranges');
 foreach ($facet as $range => $count) {
     echo $range.' to '.($range + 100).' ['.$count.']<br/>';

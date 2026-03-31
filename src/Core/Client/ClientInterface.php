@@ -194,8 +194,8 @@ interface ClientInterface
      * This requires the availability of the classes through autoloading or a manual
      * require before calling this method.
      *
-     * @param string $type
-     * @param string $queryClass
+     * @param string       $type
+     * @param class-string $queryClass
      *
      * @return self Provides fluent interface
      */
@@ -213,7 +213,7 @@ interface ClientInterface
     /**
      * Get all registered query types.
      *
-     * @return array
+     * @return array<string, class-string>
      */
     public function getQueryTypes(): array;
 
@@ -240,15 +240,15 @@ interface ClientInterface
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     * @param string                 $key
-     * @param string|PluginInterface $plugin
-     * @param array                  $options
+     * @param string                       $key
+     * @param class-string|PluginInterface $plugin
+     * @param array                        $options
      *
      * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugin(string $key, $plugin, array $options = []): self;
+    public function registerPlugin(string $key, string|PluginInterface $plugin, array $options = []): self;
 
     /**
      * Register multiple plugins.

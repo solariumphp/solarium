@@ -144,7 +144,9 @@ echo '</table>';
 echo '<h2>solr</h2>';
 
 echo '<table>';
-foreach ($docInfo->getSolr() as $field => $value) {
+/** @var Solarium\QueryType\Select\Result\Document $document */
+$document = $docInfo->getSolr();
+foreach ($document as $field => $value) {
     if (is_array($value)) {
         $value = implode(', ', $value);
     }

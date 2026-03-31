@@ -39,6 +39,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet counts for field "inStock":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';

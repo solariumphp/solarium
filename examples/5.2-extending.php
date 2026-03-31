@@ -36,7 +36,7 @@ $query = $client->createSelect();
 echo 'Query class: '.get_class($query).'<br/>';
 
 // execute query
-$result = $client->execute($query);
+$result = $client->select($query);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$result->getNumFound();

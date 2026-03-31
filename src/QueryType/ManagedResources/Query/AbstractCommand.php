@@ -19,7 +19,7 @@ abstract class AbstractCommand extends Configurable
     /**
      * Returns command type, for use in adapters.
      *
-     * @return string
+     * @return AbstractQuery::COMMAND_*
      */
     abstract public function getType(): string;
 

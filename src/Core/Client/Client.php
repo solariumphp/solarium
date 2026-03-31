@@ -212,6 +212,8 @@ class Client extends Configurable implements ClientInterface
      * Querytype mappings.
      *
      * These can be customized using {@link registerQueryType()}
+     *
+     * @var array<string, class-string>
      */
     protected array $queryTypes = [
         self::QUERY_SELECT => SelectQuery::class,
@@ -239,6 +241,8 @@ class Client extends Configurable implements ClientInterface
 
     /**
      * Plugin types.
+     *
+     * @var array<string, class-string>
      */
     protected array $pluginTypes = [
         'loadbalancer' => Loadbalancer::class,
@@ -534,8 +538,8 @@ class Client extends Configurable implements ClientInterface
      * This requires the availability of the classes through autoloading or a manual
      * require before calling this method.
      *
-     * @param string $type
-     * @param string $queryClass
+     * @param string       $type
+     * @param class-string $queryClass
      *
      * @return self Provides fluent interface
      */
@@ -573,7 +577,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Get all registered query types.
      *
-     * @return array
+     * @return array<string, class-string>
      */
     public function getQueryTypes(): array
     {
@@ -611,15 +615,15 @@ class Client extends Configurable implements ClientInterface
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     * @param string                 $key
-     * @param string|PluginInterface $plugin
-     * @param array                  $options
+     * @param string                       $key
+     * @param class-string|PluginInterface $plugin
+     * @param array                        $options
      *
      * @throws InvalidArgumentException
      *
      * @return self Provides fluent interface
      */
-    public function registerPlugin(string $key, $plugin, array $options = []): self
+    public function registerPlugin(string $key, string|PluginInterface $plugin, array $options = []): self
     {
         if (\is_string($plugin)) {
             $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');

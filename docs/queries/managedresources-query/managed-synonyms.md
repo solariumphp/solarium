@@ -7,6 +7,26 @@ For more info see <https://solr.apache.org/guide/managed-resources.html>.
 The default operation of a query is reading a synonym list or a single synonym mapping in a list.
 Other operations require an explicit command be set on the query.
 
+When you create a command, you get an object that extends `AbstractCommand`. Due to the way command creation works the return type isn't more specific than that.
+If you run into "method not found" errors with your static analyzer, or want to enable autocompletion in your IDE, you can add a type annotation to narrow it down. E.g.:
+
+```php
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add $addCommand */
+$addCommand = $query->createCommand($query::COMMAND_ADD);
+```
+
+The specific class of the result is only known at runtime because it depends on whether or not a command was set on the query. This too can be narrowed with a type annotation.
+
+```php
+// without a command set on the query
+/** @var Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings $result */
+$result = $client->execute($query);
+
+// with a command set on the query
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
+$result = $client->execute($query);
+```
+
 Changes are not applied to the active Solr components until the core or collection is reloaded.
 
 Examples
@@ -35,6 +55,7 @@ $query = $client->createManagedSynonyms();
 $query->setName('english');
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings $result */
 $result = $client->execute($query);
 
 // display list properties
@@ -68,6 +89,7 @@ foreach (['english', 'dutch'] as $name) {
     $query->setName($name);
 
     // execute the query and return the result
+    /** @var Solarium\QueryType\ManagedResources\Result\Command $result */
     $result = $client->execute($query);
 
     // display the result
@@ -83,10 +105,12 @@ $query = $client->createManagedSynonyms();
 $query->setName('dutch');
 
 // create a "create" command and set it on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Create $createCommand */
 $createCommand = $query->createCommand($query::COMMAND_CREATE);
 $query->setCommand($createCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -108,11 +132,13 @@ $initArgs->setIgnoreCase(false);
 $initArgs->setFormat($initArgs::FORMAT_SOLR);
 
 // create a "config" command, set init args on the command and set the command on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Config $configCommand */
 $configCommand = $query->createCommand($query::COMMAND_CONFIG);
 $configCommand->setInitArgs($initArgs);
 $query->setCommand($configCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -129,10 +155,12 @@ $query = $client->createManagedSynonyms();
 $query->setName('dutch');
 
 // create a "remove" command and set it on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Remove $removeCommand */
 $removeCommand = $query->createCommand($query::COMMAND_REMOVE);
 $query->setCommand($removeCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -154,6 +182,7 @@ $query->setName('english');
 $query->setTerm('gb');
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings $result */
 $result = $client->execute($query);
 
 // display synonym, there will be only one
@@ -170,6 +199,7 @@ $query = $client->createManagedSynonyms();
 $query->setName('english');
 
 // create an "exists" command
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Exists $existsCommand */
 $existsCommand = $query->createCommand($query::COMMAND_EXISTS);
 
 foreach (['tv', 'radio'] as $term) {
@@ -178,6 +208,7 @@ foreach (['tv', 'radio'] as $term) {
     $query->setCommand($existsCommand);
 
     // execute the query and return the result
+    /** @var Solarium\QueryType\ManagedResources\Result\Command $result */
     $result = $client->execute($query);
 
     // display the result
@@ -198,11 +229,13 @@ $synonyms->setTerm('mad');
 $synonyms->setSynonyms(['angry', 'upset']);
 
 // create an "add" command, set synonym mapping on the command, and set the command on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add $addCommand */
 $addCommand = $query->createCommand($query::COMMAND_ADD);
 $addCommand->setSynonyms($synonyms);
 $query->setCommand($addCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -219,11 +252,13 @@ $query = $client->createManagedSynonyms();
 $query->setName('english');
 
 // create a "delete" command, set the term on the command, and set the command on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Delete $deleteCommand */
 $deleteCommand = $query->createCommand($query::COMMAND_DELETE);
 $deleteCommand->setTerm('mad');
 $query->setCommand($deleteCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -244,11 +279,13 @@ $synonyms = new Synonyms();
 $synonyms->setSynonyms(['funny', 'entertaining', 'whimiscal', 'jocular']);
 
 // create an "add" command, set synonym mapping on the command, and set the command on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Synonyms\Add $addCommand */
 $addCommand = $query->createCommand($query::COMMAND_ADD);
 $addCommand->setSynonyms($synonyms);
 $query->setCommand($addCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -265,6 +302,7 @@ $query = $client->createManagedSynonyms();
 $query->setName('english');
 
 // create a "delete" command
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Delete $deleteCommand */
 $deleteCommand = $query->createCommand($query::COMMAND_DELETE);
 
 // unlike adding, deleting has to be done term per term
@@ -274,6 +312,7 @@ foreach (['funny', 'entertaining', 'whimiscal', 'jocular'] as $term) {
     $query->setCommand($deleteCommand);
 
     // execute the query and return the result
+    /** @var Solarium\QueryType\ManagedResources\Result\Command $result */
     $result = $client->execute($query);
 
     // display the result

@@ -6,6 +6,7 @@ htmlHeader();
 
 // create a client instance and autoload the customize request plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\CustomizeRequest\CustomizeRequest $customizer */
 $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)

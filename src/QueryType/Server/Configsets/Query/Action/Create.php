@@ -87,7 +87,7 @@ class Create extends AbstractAction
     /**
      * Returns the namespace and class of the result class for the action.
      *
-     * @return string
+     * @return class-string
      */
     public function getResultClass(): string
     {

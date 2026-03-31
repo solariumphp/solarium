@@ -7,11 +7,11 @@ See the example code below.
 
 **Available options:**
 
-| Name          | Type   | Default value                 | Description                                                                                                                               |
-|---------------|--------|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| handler       | string | select                        | Name of the Solr request handler to use, without leading or trailing slashes                                                              |
-| resultclass   | string | Solarium\_Result\_Select      | Classname for result. If you set a custom classname make sure the class is readily available (or through autoloading)                     |
-| documentclass | string | Solarium\_Document\_ReadWrite | Classname for documents in the resultset. If you set a custom classname make sure the class is readily available (or through autoloading) |
+| Name          | Type   | Default value                                 | Description                                                                                                                               |
+|---------------|--------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| handler       | string | select                                        | Name of the Solr request handler to use, without leading or trailing slashes                                                              |
+| resultclass   | string | Solarium\\QueryType\\Select\\Result\\Result   | Classname for result. If you set a custom classname make sure the class is readily available (or through autoloading)                     |
+| documentclass | string | Solarium\\QueryType\\Select\\Result\\Document | Classname for documents in the resultset. If you set a custom classname make sure the class is readily available (or through autoloading) |
 ||
 
 Executing a RealtimeGet query
@@ -66,7 +66,9 @@ echo 'NumFound with realtime get: '.$result->getNumFound().'<br/>';
 
 // Display the document
 echo '<hr/><table>';
-foreach ($result->getDocument() as $field => $value) {
+/** @var Solarium\QueryType\Select\Result\Document $document */
+$document = $result->getDocument();
+foreach ($document as $field => $value) {
     echo '<tr><th>'.$field.'</th><td>'.$value.'</td></tr>';
 }
 echo '</table>';

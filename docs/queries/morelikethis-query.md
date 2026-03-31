@@ -9,31 +9,31 @@ See the example code below.
 
 **Available options:**
 
-| Name                               | Type    | Default value                 | Description                                                                                                                                                                      |
-|------------------------------------|---------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| handler                            | string  | select                        | Name of the Solr request handler to use, without leading or trailing slashes                                                                                                     |
-| resultclass                        | string  | Solarium\_Result\_Select      | Classname for result. If you set a custom classname make sure the class is readily available (or through autoloading)                                                            |
-| documentclass                      | string  | Solarium\_Document\_ReadWrite | Classname for documents in the resultset. If you set a custom classname make sure the class is readily available (or through autoloading)                                        |
-| query                              | string  | \*:\*                         | Query to execute                                                                                                                                                                 |
-| start                              | int     | 0                             | Start position (offset) in the complete Solr query resultset, to paginate big resultsets.                                                                                        |
-| rows                               | int     | 10                            | Number of rows to fetch, starting from the 'start' (offset) position. It's a limit, you might get less.                                                                          |
-| fields                             | string  | \*,score                      | Comma separated list of fields to fetch from Solr. There are two special values: '\*' meaning 'all fields' and 'score' to also fetch the Solr document score value.              |
-| sort                               | array   | []                            | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: ['price' =&gt; 'asc']                        |
-| stream                             | boolean | false                         | Set to true to post query content instead of using the URL param                                                                                                                 |
-| matchinclude                       | boolean | false                         | Specifies whether or not the response should include the matched document. If set to false, the response will look like a normal select response.                                |
-| matchoffset                        | int     | 0                             | Specifies an offset into the main query search results to locate the document on which the MoreLikeThis query should operate.                                                    |
-| interestingTerms                   | string  | none                          | Controls how the handler presents the "interesting" terms. Must be one of: none, list, details.                                                                                  |
-| mltfields                          | string  | null                          | The fields to use for similarity. NOTE: if possible, these should have a stored TermVector. Separate multiple fields with commas.                                                |
-| minimumtermfrequency               | int     | null                          | Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.                                                                                      |
-| mimimumdocumentfrequency           | int     | null                          | Minimum Document Frequency - the frequency at which words will be ignored which do not occur in at least this many docs.                                                         |
-| maximumdocumentfrequency           | int     | null                          | Maximum Document Frequency - the frequency at which words will be ignored which occur in more than this many docs.                                                               |
-| maximumdocumentfrequencypercentage | int     | null                          | Maximum Document Frequency Percentage - a relative ratio at which words will be ignored which occur in more than this percentage of the docs in the index.                       |
-| minimumwordlength                  | int     | null                          | Minimum word length below which words will be ignored.                                                                                                                           |
-| maximumwordlength                  | int     | null                          | Maximum word length above which words will be ignored.                                                                                                                           |
-| maximumqueryterms                  | int     | null                          | Maximum number of query terms that will be included in any generated query.                                                                                                      |
-| maximumnumberoftokens              | int     | null                          | Maximum number of tokens to parse in each example doc field that is not stored with TermVector support.                                                                          |
-| boost                              | boolean | null                          | If true the query will be boosted by the interesting term relevance.                                                                                                             |
-| queryfields                        | string  | null                          | Query fields and their boosts using the same format as that used in DisMaxQParserPlugin. These fields must also be specified in mltfields. Separate multiple fields with commas. |
+| Name                               | Type    | Default value                                 | Description                                                                                                                                                                      |
+|------------------------------------|---------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| handler                            | string  | select                                        | Name of the Solr request handler to use, without leading or trailing slashes                                                                                                     |
+| resultclass                        | string  | Solarium\\QueryType\\Select\\Result\\Select   | Classname for result. If you set a custom classname make sure the class is readily available (or through autoloading)                                                            |
+| documentclass                      | string  | Solarium\\QueryType\\Select\\Result\\Document | Classname for documents in the resultset. If you set a custom classname make sure the class is readily available (or through autoloading)                                        |
+| query                              | string  | \*:\*                                         | Query to execute                                                                                                                                                                 |
+| start                              | int     | 0                                             | Start position (offset) in the complete Solr query resultset, to paginate big resultsets.                                                                                        |
+| rows                               | int     | 10                                            | Number of rows to fetch, starting from the 'start' (offset) position. It's a limit, you might get less.                                                                          |
+| fields                             | string  | \*,score                                      | Comma separated list of fields to fetch from Solr. There are two special values: '\*' meaning 'all fields' and 'score' to also fetch the Solr document score value.              |
+| sort                               | array   | []                                            | Array with sort field as key and sort order as values. Multiple entries possible, they are used in the order of the array. Example: ['price' =&gt; 'asc']                        |
+| stream                             | boolean | false                                         | Set to true to post query content instead of using the URL param                                                                                                                 |
+| matchinclude                       | boolean | false                                         | Specifies whether or not the response should include the matched document. If set to false, the response will look like a normal select response.                                |
+| matchoffset                        | int     | 0                                             | Specifies an offset into the main query search results to locate the document on which the MoreLikeThis query should operate.                                                    |
+| interestingTerms                   | string  | none                                          | Controls how the handler presents the "interesting" terms. Must be one of: none, list, details.                                                                                  |
+| mltfields                          | string  | null                                          | The fields to use for similarity. NOTE: if possible, these should have a stored TermVector. Separate multiple fields with commas.                                                |
+| minimumtermfrequency               | int     | null                                          | Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.                                                                                      |
+| mimimumdocumentfrequency           | int     | null                                          | Minimum Document Frequency - the frequency at which words will be ignored which do not occur in at least this many docs.                                                         |
+| maximumdocumentfrequency           | int     | null                                          | Maximum Document Frequency - the frequency at which words will be ignored which occur in more than this many docs.                                                               |
+| maximumdocumentfrequencypercentage | int     | null                                          | Maximum Document Frequency Percentage - a relative ratio at which words will be ignored which occur in more than this percentage of the docs in the index.                       |
+| minimumwordlength                  | int     | null                                          | Minimum word length below which words will be ignored.                                                                                                                           |
+| maximumwordlength                  | int     | null                                          | Maximum word length above which words will be ignored.                                                                                                                           |
+| maximumqueryterms                  | int     | null                                          | Maximum number of query terms that will be included in any generated query.                                                                                                      |
+| maximumnumberoftokens              | int     | null                                          | Maximum number of tokens to parse in each example doc field that is not stored with TermVector support.                                                                          |
+| boost                              | boolean | null                                          | If true the query will be boosted by the interesting term relevance.                                                                                                             |
+| queryfields                        | string  | null                                          | Query fields and their boosts using the same format as that used in DisMaxQParserPlugin. These fields must also be specified in mltfields. Separate multiple fields with commas. |
 ||
 
 Executing a MLT query
@@ -114,14 +114,20 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createMoreLikethis();
 
 // query a document you want similar documents for
-$query->setQuery('id:SP2514N')
-    ->setMltFields('manu,cat')
+$query->setQuery('id:SP2514N');
+
+// you can set regular query options
+$query->createFilterQuery('stock')->setQuery('inStock:true');
+
+// set MLT options on the query
+$query->setMltFields('manu,cat')
     ->setMinimumDocumentFrequency(1)
     ->setMinimumTermFrequency(1)
     ->setInterestingTerms('details')
-    ->setBoost(true)
-    ->setMatchInclude(true)
-    ->createFilterQuery('stock')->setQuery('inStock:true');
+    ->setBoost(true);
+
+// the response includes the document matched by the query unless you set this to false
+$query->setMatchInclude(true);
 
 // this executes the query and returns the result
 $resultset = $client->moreLikeThis($query);

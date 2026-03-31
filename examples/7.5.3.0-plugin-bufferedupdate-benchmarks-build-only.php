@@ -35,6 +35,7 @@ $withMemoryUsage = function_exists('memory_reset_peak_usage');
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // autoload the buffered add plugin
+/** @var Solarium\Plugin\BufferedAdd\BufferedAddLite $addBuffer */
 $addBuffer = $client->getPlugin('bufferedaddlite');
 
 // return a dummy response instead of executing the query
@@ -44,7 +45,9 @@ $response = new Response('', ['HTTP/1.0 200 OK']);
 $start = 0;
 $buildTimes = [];
 
-$client->getEventDispatcher()->addListener(
+/** @var Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher */
+$eventDispatcher = $client->getEventDispatcher();
+$eventDispatcher->addListener(
     Events::PRE_EXECUTE_REQUEST,
     function (PreExecuteRequest $event) use ($response, &$start, &$buildTimes): void {
         $buildTimes[] = (hrtime(true) - $start) / 1000000;

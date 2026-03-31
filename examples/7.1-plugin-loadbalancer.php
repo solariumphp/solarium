@@ -17,6 +17,7 @@ $endpoint3 = $client->createEndpoint('local3');
 $endpoint3->setCore($core); // normally you would add endpoint specific settings...
 
 // get loadbalancer plugin instance and add endpoints
+/** @var Solarium\Plugin\Loadbalancer\Loadbalancer $loadbalancer */
 $loadbalancer = $client->getPlugin('loadbalancer');
 $loadbalancer->addEndpoint($endpoint1, 100);
 $loadbalancer->addEndpoint($endpoint2, 100);

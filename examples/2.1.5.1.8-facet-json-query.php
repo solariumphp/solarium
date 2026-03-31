@@ -26,12 +26,13 @@ $resultset = $client->select($query);
 echo 'NumFound: '.$resultset->getNumFound();
 
 // JsonQuery returns a FacetSet, not Buckets like a JsonTerms facet
+/** @var Solarium\Component\Result\FacetSet $stock_query */
 $stock_query = $resultset->getFacetSet()->getFacet('stock_query');
 
 // A JsonQuery triggers an implicit "count" aggregation for the result of the query which is accessible just like a Facet within the FacetSet.
-$count = $stock_query->getFacet('count')->getValue();
-
-echo '<hr/>Facet "inStock" count : '.$count;
+/** @var Solarium\Component\Result\Facet\Aggregation $facet */
+$facet = $stock_query->getFacet('count');
+echo '<hr/>Facet "inStock" count : '.$facet->getValue();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {

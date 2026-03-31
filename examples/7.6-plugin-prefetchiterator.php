@@ -17,6 +17,7 @@ $query->setCursorMark('*');
 $query->addSort('id', $query::SORT_ASC);
 
 // get a plugin instance and apply settings
+/** @var Solarium\Plugin\PrefetchIterator $prefetch */
 $prefetch = $client->getPlugin('prefetchiterator');
 $prefetch->setPrefetch(2); // fetch 2 rows per request (for real world use this can be way higher)
 $prefetch->setQuery($query);

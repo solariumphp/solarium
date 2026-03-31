@@ -9,12 +9,15 @@ htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\BufferedAdd\BufferedAdd $buffer */ // or BufferedAddLite
 $buffer = $client->getPlugin('bufferedadd'); // or 'bufferedaddlite'
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
 // this only works with 'bufferedadd', 'bufferedaddlite' doesn't trigger events
-$client->getEventDispatcher()->addListener(
+/** @var Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher */
+$eventDispatcher = $client->getEventDispatcher();
+$eventDispatcher->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
         echo 'Flushing buffer ('.count($event->getBuffer()).' docs)<br/>';

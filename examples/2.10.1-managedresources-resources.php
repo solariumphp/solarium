@@ -11,6 +11,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $managedResourcesQuery = $client->createManagedResources();
 
 // this executes the query and returns the result
+/** @var Solarium\QueryType\ManagedResources\Result\Resources\ResourceList $result */
 $result = $client->execute($managedResourcesQuery);
 
 // display resources
