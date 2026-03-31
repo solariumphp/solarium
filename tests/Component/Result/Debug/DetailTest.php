@@ -28,6 +28,11 @@ class DetailTest extends TestCase
         );
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetValue(): void
     {
         $this->assertEquals($this->value, $this->result->getValue());
@@ -115,8 +120,6 @@ class DetailTest extends TestCase
 
         $this->expectExceptionMessage('Undefined property');
         $this->result->offsetGet('unknown');
-
-        restore_error_handler();
     }
 
     public function testOffsetSetImmutable(): void

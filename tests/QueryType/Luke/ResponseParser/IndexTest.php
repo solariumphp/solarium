@@ -48,6 +48,8 @@ class IndexTest extends TestCase
 
     /**
      * @depends testParseJson
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParsePhps(Index $index): void
     {
@@ -60,7 +62,7 @@ class IndexTest extends TestCase
         ];
 
         $query = new Query();
-        $query->setResponseWriter($query::WT_PHPS);
+        @$query->setResponseWriter($query::WT_PHPS);
         $query->setShow(Query::SHOW_INDEX);
 
         $resultStub = $this->createMock(Result::class);

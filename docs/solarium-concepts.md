@@ -244,12 +244,18 @@ So while it is still possible to create class instances manually, it is advisabl
 
 If you want to customize Solarium please read the [docs on customizing](customizing-solarium.md) first. While you can simply extend classes that's in most cases not the best way to go.
 
-### Response parser format
+### Response writer format
 
-Solarium supports two Solr responsewriters: json and phps. The ‘phps’ responsewriter returns data as serialized PHP. This can be more efficient to decode than json, especially for large responses. For a benchmark see [this blogpost](https://dzone.com/articles/benchmarks-php-solr-response) (but be sure to test for your own use-case).
+Solarium currently supports two Solr responsewriters: `json` and `phps`. The `phps` responsewriter returns data as serialized PHP. This can be more efficient to decode than JSON, especially for large responses. For a benchmark see [this blogpost](https://dzone.com/articles/benchmarks-php-solr-response) (but be sure to test for your own use-case).
 
 However this comes at the cost of a possible security risk in PHP deserialization. As long as you use a trusted Solr server this should be no issue, but to be safe the default is still JSON.
 
-You can switch to the phps responseparser by setting a query option:
+You can switch to the `phps` responseparser by setting a query option:
 
-`$query = $client->createSelect(['responsewriter' => 'phps']);`
+```php
+$query = $client->createSelect(['responsewriter' => 'phps']);
+```
+
+The `phps` responsewriter has been removed in Solr 10. Therefore its use has been deprecated in Solarium 7 and it will no longer be supported in Solarium 8.
+
+Other responsewriters aren't supported. You can still use Solarium to issue a request for a different response format as long as you don't expect it to also parse that response. The section on [partial usage](customizing-solarium.md#partial-usage) has an example where CSV output is requested through Solarium and further handled in user code.

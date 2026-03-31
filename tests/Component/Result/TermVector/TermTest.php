@@ -22,6 +22,11 @@ class TermTest extends TestCase
         $this->term = new Term($term, $tf, $positions, $offsets, $payloads, $df, $tfIdf);
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetTerm(): void
     {
         $this->assertSame('term1', $this->term->getTerm());
@@ -108,8 +113,6 @@ class TermTest extends TestCase
 
         $this->expectExceptionMessage('Undefined property');
         $this->term->offsetGet('unknown');
-
-        restore_error_handler();
     }
 
     public function testOffsetSetImmutable(): void

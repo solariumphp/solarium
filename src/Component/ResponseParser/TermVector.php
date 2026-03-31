@@ -68,6 +68,7 @@ class TermVector extends AbstractResponseParser implements ComponentParserInterf
         foreach ($data['termVectors'] as $key => $document) {
             $parsedDocument = $this->parseDocument($responseWriter, $document);
 
+            // @phpstan-ignore classConstant.deprecated (Will be removed in Solarium 8)
             if (null !== $warnings && $query::WT_PHPS === $responseWriter) {
                 $uniqueKey = $parsedDocument->getUniqueKey();
 

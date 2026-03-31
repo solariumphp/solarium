@@ -15,6 +15,11 @@ class RangeTest extends TestCase
         $this->facet = new Range();
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testConfigMode(): void
     {
         $options = [
@@ -57,8 +62,6 @@ class RangeTest extends TestCase
         $this->facet->setOptions($options);
 
         $this->assertSame(['e1\,e2', 'e3'], $this->facet->getExcludes());
-
-        restore_error_handler();
     }
 
     public function testConfigModeWithExcludeThrowsDeprecation(): void
@@ -73,8 +76,6 @@ class RangeTest extends TestCase
 
         $this->expectExceptionCode(\E_USER_DEPRECATED);
         $this->facet->setOptions($options);
-
-        restore_error_handler();
     }
 
     public function testGetType(): void

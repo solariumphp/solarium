@@ -30,6 +30,11 @@ class ResultTest extends TestCase
         $this->result = new Result($this->documents, $this->warnings);
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetDocuments(): void
     {
         $this->assertSame($this->documents, $this->result->getDocuments());
@@ -95,8 +100,6 @@ class ResultTest extends TestCase
 
         $this->expectExceptionMessage('Undefined array key "unknown"');
         $this->result->offsetGet('unknown');
-
-        restore_error_handler();
     }
 
     public function testOffsetSetImmutable(): void

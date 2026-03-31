@@ -55,6 +55,8 @@ class FieldsTest extends TestCase
 
     /**
      * @depends testParseJson
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParsePhps(array $fields): void
     {
@@ -69,7 +71,7 @@ class FieldsTest extends TestCase
         ];
 
         $query = new Query();
-        $query->setResponseWriter(Query::WT_PHPS);
+        @$query->setResponseWriter(Query::WT_PHPS);
         $query->setShow(Query::SHOW_ALL);
         $query->setFields('*');
 

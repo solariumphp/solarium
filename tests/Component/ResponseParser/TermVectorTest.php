@@ -151,6 +151,8 @@ class TermVectorTest extends TestCase
 
     /**
      * @dataProvider expectedResultProvider
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParseWtPhps(Result $expectedResult): void
     {
@@ -225,7 +227,7 @@ class TermVectorTest extends TestCase
             ],
         ];
 
-        $this->query->setResponseWriter($this->query::WT_PHPS);
+        @$this->query->setResponseWriter($this->query::WT_PHPS);
 
         $result = $this->parser->parse($this->query, $this->tv, $data);
 
@@ -335,6 +337,8 @@ class TermVectorTest extends TestCase
 
     /**
      * @dataProvider expectedResultAmbiguousKeysProvider
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParseAmbiguousKeysWtPhps(Result $expectedResult): void
     {
@@ -350,7 +354,7 @@ class TermVectorTest extends TestCase
             ],
         ];
 
-        $this->query->setResponseWriter($this->query::WT_PHPS);
+        @$this->query->setResponseWriter($this->query::WT_PHPS);
 
         $result = $this->parser->parse($this->query, $this->tv, $data);
 
@@ -428,6 +432,8 @@ class TermVectorTest extends TestCase
 
     /**
      * @dataProvider expectedResultDoubleKeysProvider
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParseDoubleKeysWtPhps(Result $expectedResult): void
     {
@@ -449,7 +455,7 @@ class TermVectorTest extends TestCase
             ],
         ];
 
-        $this->query->setResponseWriter($this->query::WT_PHPS);
+        @$this->query->setResponseWriter($this->query::WT_PHPS);
 
         $result = $this->parser->parse($this->query, $this->tv, $data);
 
@@ -519,6 +525,8 @@ class TermVectorTest extends TestCase
 
     /**
      * @dataProvider expectedResultNoDocumentsProvider
+     *
+     * @deprecated Will be removed in Solarium 8
      */
     public function testParseNoDocumentsWtPhps(Result $expectedResult): void
     {
@@ -532,7 +540,7 @@ class TermVectorTest extends TestCase
             ],
         ];
 
-        $this->query->setResponseWriter($this->query::WT_PHPS);
+        @$this->query->setResponseWriter($this->query::WT_PHPS);
 
         $result = $this->parser->parse($this->query, $this->tv, $data);
 

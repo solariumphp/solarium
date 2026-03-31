@@ -85,6 +85,9 @@ jobs:
                 composer update
                 sed -i "s/'dev-.*'/'76.5.4'/g" vendor/composer/installed.php
 
+            - name: Set environment variable
+              run: echo "SOLR_VERSION=${{ matrix.solr }}" >> $GITHUB_ENV
+
             - name: Run tests
               run: |
                 vendor/bin/phpstan --memory-limit=1G

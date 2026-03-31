@@ -25,6 +25,11 @@ class FieldTest extends TestCase
         $this->field = new Field('fieldA', $this->terms);
     }
 
+    public function tearDown(): void
+    {
+        restore_error_handler();
+    }
+
     public function testGetName(): void
     {
         $this->assertSame('fieldA', $this->field->getName());
@@ -86,8 +91,6 @@ class FieldTest extends TestCase
 
         $this->expectExceptionMessage('Undefined array key "unknown"');
         $this->field->offsetGet('unknown');
-
-        restore_error_handler();
     }
 
     public function testOffsetSetImmutable(): void
