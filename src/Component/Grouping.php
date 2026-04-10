@@ -489,7 +489,7 @@ class Grouping extends AbstractComponent
      * If simple, the grouped documents are presented in a single flat list.
      * The start and rows parameters refer to numbers of documents instead of numbers of groups.
      *
-     * @param string $value
+     * @param self::FORMAT_* $value
      *
      * @return self Provides fluent interface
      */
@@ -503,7 +503,7 @@ class Grouping extends AbstractComponent
     /**
      * Get format option.
      *
-     * @return string|null
+     * @return self::FORMAT_*|null
      */
     public function getFormat(): ?string
     {

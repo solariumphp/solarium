@@ -17,6 +17,8 @@ use Solarium\Core\Query\Status4xxNoExceptionInterface;
 use Solarium\Exception\InvalidArgumentException;
 use Solarium\QueryType\ManagedResources\RequestBuilder\Resource as RequestBuilder;
 use Solarium\QueryType\ManagedResources\Result\Command as CommandResult;
+use Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet;
+use Solarium\QueryType\ManagedResources\Result\Synonyms\SynonymMappings;
 
 /**
  * Query base class.
@@ -56,7 +58,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Command types.
      *
-     * @var array<self::COMMAND_*, class-string>
+     * @var array<self::COMMAND_*, class-string<AbstractCommand>>
      */
     protected array $commandTypes;
 
@@ -73,7 +75,7 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Default result class if no command is set.
      *
-     * @var class-string
+     * @var class-string<WordSet|SynonymMappings>
      */
     protected string $defaultResultClass;
 

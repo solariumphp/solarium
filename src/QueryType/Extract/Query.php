@@ -378,7 +378,7 @@ class Query extends BaseQuery
      *
      * This class should implement the document interface
      *
-     * @param class-string $value classname
+     * @param class-string<DocumentInterface> $value classname
      *
      * @return self Provides fluent interface
      */
@@ -394,7 +394,7 @@ class Query extends BaseQuery
      *
      * The value is a classname, not an instance
      *
-     * @return class-string|null
+     * @return class-string<DocumentInterface>|null
      */
     public function getDocumentClass(): ?string
     {

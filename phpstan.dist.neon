@@ -14,4 +14,3 @@ parameters:
             - Variable $config might not be defined.
             - Variable $adapter might not be defined.
             - Variable $eventDispatcher might not be defined.
-

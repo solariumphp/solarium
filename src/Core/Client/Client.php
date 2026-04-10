@@ -213,7 +213,7 @@ class Client extends Configurable implements ClientInterface
      *
      * These can be customized using {@link registerQueryType()}
      *
-     * @var array<string, class-string>
+     * @var array<string, class-string<QueryInterface>>
      */
     protected array $queryTypes = [
         self::QUERY_SELECT => SelectQuery::class,
@@ -242,7 +242,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Plugin types.
      *
-     * @var array<string, class-string>
+     * @var array<string, class-string<PluginInterface>>
      */
     protected array $pluginTypes = [
         'loadbalancer' => Loadbalancer::class,
@@ -538,8 +538,8 @@ class Client extends Configurable implements ClientInterface
      * This requires the availability of the classes through autoloading or a manual
      * require before calling this method.
      *
-     * @param string       $type
-     * @param class-string $queryClass
+     * @param string                       $type
+     * @param class-string<QueryInterface> $queryClass
      *
      * @return self Provides fluent interface
      */
@@ -577,7 +577,7 @@ class Client extends Configurable implements ClientInterface
     /**
      * Get all registered query types.
      *
-     * @return array<string, class-string>
+     * @return array<string, class-string<QueryInterface>>
      */
     public function getQueryTypes(): array
     {
@@ -615,9 +615,9 @@ class Client extends Configurable implements ClientInterface
      * This requires the availability of the class through autoloading
      * or a manual require.
      *
-     * @param string                       $key
-     * @param class-string|PluginInterface $plugin
-     * @param array                        $options
+     * @param string                                        $key
+     * @param class-string<PluginInterface>|PluginInterface $plugin
+     * @param array                                         $options
      *
      * @throws InvalidArgumentException
      *

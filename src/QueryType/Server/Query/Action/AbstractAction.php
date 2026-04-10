@@ -27,7 +27,7 @@ abstract class AbstractAction extends Configurable implements ActionInterface
     /**
      * Returns the result class.
      *
-     * @return class-string
+     * @return class-string<Result>
      */
     public function getResultClass(): string
     {
