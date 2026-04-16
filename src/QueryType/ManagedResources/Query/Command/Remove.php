@@ -21,7 +21,7 @@ class Remove extends AbstractCommand
     /**
      * Returns command type, for use in adapters.
      *
-     * @return string
+     * @return Query::COMMAND_REMOVE
      */
     public function getType(): string
     {
@@ -31,7 +31,7 @@ class Remove extends AbstractCommand
     /**
      * Returns request method.
      *
-     * @return string
+     * @return Request::METHOD_DELETE
      */
     public function getRequestMethod(): string
     {

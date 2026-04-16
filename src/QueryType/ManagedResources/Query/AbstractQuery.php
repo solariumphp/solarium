@@ -171,8 +171,8 @@ abstract class AbstractQuery extends BaseQuery implements Status4xxNoExceptionIn
     /**
      * Create a command instance.
      *
-     * @param string     $type
-     * @param array|null $options
+     * @param self::COMMAND_* $type
+     * @param array|null      $options
      *
      * @throws InvalidArgumentException
      *

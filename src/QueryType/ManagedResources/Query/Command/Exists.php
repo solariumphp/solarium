@@ -33,7 +33,7 @@ class Exists extends AbstractCommand
     /**
      * Returns command type, for use in adapters.
      *
-     * @return string
+     * @return Query::COMMAND_EXISTS
      */
     public function getType(): string
     {
@@ -43,7 +43,7 @@ class Exists extends AbstractCommand
     /**
      * Returns request method.
      *
-     * @return string
+     * @return Request::METHOD_HEAD|Request::METHOD_GET
      */
     public function getRequestMethod(): string
     {

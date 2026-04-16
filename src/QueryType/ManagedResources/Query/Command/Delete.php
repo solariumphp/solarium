@@ -26,7 +26,7 @@ class Delete extends AbstractCommand
     /**
      * Returns command type, for use in adapters.
      *
-     * @return string
+     * @return Query::COMMAND_DELETE
      */
     public function getType(): string
     {
@@ -36,7 +36,7 @@ class Delete extends AbstractCommand
     /**
      * Returns request method.
      *
-     * @return string
+     * @return Request::METHOD_DELETE
      */
     public function getRequestMethod(): string
     {
