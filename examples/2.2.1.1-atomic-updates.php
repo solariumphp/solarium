@@ -11,21 +11,24 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $update = $client->createUpdate();
 
 // create a new document
+/** @var Solarium\QueryType\Update\Query\Document $doc1 */
 $doc1 = $update->createDocument();
 $doc1->id = 123;
 $doc1->name = 'testdoc';
 $doc1->price = 364;
 
-// add the document and a commit command to the update query
+// add the document to the update query
 $update->addDocument($doc1);
 
 // now we can set a field to another value without reindexing the entire document
+/** @var Solarium\QueryType\Update\Query\Document $doc2 */
 $doc2 = $update->createDocument();
 $doc2->setKey('id', 123);
 $doc2->setField('name', 'Test document');
 $doc2->setFieldModifier('name', $doc2::MODIFIER_SET);
 
 // or increment a numeric value by a specific amount
+/** @var Solarium\QueryType\Update\Query\Document $doc3 */
 $doc3 = $update->createDocument();
 $doc3->setKey('id', 123);
 $doc3->setField('price', 10);

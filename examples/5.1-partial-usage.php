@@ -18,7 +18,7 @@ $query = $client->createSelect();
 // manually create a request for the query
 $request = $client->createRequest($query);
 
-// you can now use the request object for getting an uri (e.g. to use in your own code)
+// you can now use the request object for getting an URI (e.g. to use in your own code)
 // or you could modify the request object
 echo 'Request URI: '.$request->getUri().'<br/>';
 
@@ -27,6 +27,9 @@ $response = $client->executeRequest($request);
 
 // and finally you can convert the response into a result
 $result = $client->createResult($query, $response);
+
+// the result has the same type as with $result = $client->select($query)
+assert($result instanceof Solarium\QueryType\Select\Result\Result);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$result->getNumFound();

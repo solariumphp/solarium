@@ -282,7 +282,7 @@ $doc1->id = 123;
 $doc1->name = 'testdoc';
 $doc1->price = 364;
 
-// add the document and a commit command to the update query
+// add the document to the update query
 $update->addDocument($doc1);
 
 // now we can set a field to another value without reindexing the entire document

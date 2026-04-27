@@ -9,6 +9,7 @@
 
 namespace Solarium\QueryType\ManagedResources\Query;
 
+use Solarium\Core\Client\Request;
 use Solarium\Core\Configurable;
 
 /**
@@ -19,14 +20,14 @@ abstract class AbstractCommand extends Configurable
     /**
      * Returns command type, for use in adapters.
      *
-     * @return string
+     * @return AbstractQuery::COMMAND_*
      */
     abstract public function getType(): string;
 
     /**
      * Returns request method.
      *
-     * @return string
+     * @return Request::METHOD_*
      */
     abstract public function getRequestMethod(): string;
 }

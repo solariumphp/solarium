@@ -32,6 +32,8 @@ class Synonyms extends AbstractQuery
 {
     /**
      * Default result class if no command is set.
+     *
+     * @var class-string<SynonymMappings>
      */
     protected string $defaultResultClass = SynonymMappings::class;
 
@@ -46,6 +48,8 @@ class Synonyms extends AbstractQuery
 
     /**
      * Command types.
+     *
+     * @var array<self::COMMAND_*, class-string<AbstractCommand>>
      */
     protected array $commandTypes = [
         self::COMMAND_ADD => Add::class,
@@ -59,7 +63,7 @@ class Synonyms extends AbstractQuery
     /**
      * Get query type.
      *
-     * @return string
+     * @return Client::QUERY_MANAGED_SYNONYMS
      */
     public function getType(): string
     {
@@ -97,7 +101,7 @@ class Synonyms extends AbstractQuery
      *
      * @return InitArgs
      */
-    public function createInitArgs(?array $initArgs = null): InitArgsInterface
+    public function createInitArgs(?array $initArgs = null): InitArgs
     {
         return new InitArgs($initArgs);
     }

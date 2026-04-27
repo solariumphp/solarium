@@ -46,7 +46,7 @@ $query = $client->createSelect();
 // manually create a request for the query
 $request = $client->createRequest($query);
 
-// you can now use the request object for getting an uri (e.g. to use in your own code)
+// you can now use the request object for getting an URI (e.g. to use in your own code)
 // or you could modify the request object
 echo 'Request URI: '.$request->getUri().'<br/>';
 
@@ -55,6 +55,9 @@ $response = $client->executeRequest($request);
 
 // and finally you can convert the response into a result
 $result = $client->createResult($query, $response);
+
+// the result has the same type as with $result = $client->select($query)
+assert($result instanceof Solarium\QueryType\Select\Result\Result);
 
 // display the total number of documents found by Solr
 echo 'NumFound: '.$result->getNumFound();
@@ -157,6 +160,13 @@ The Solarium plugin has several features:
 By combining these options you can achieve almost any type of customization with a plugin.
 
 Solarium can use any PSR-14 compatible event dispatcher for events. The included examples use the [Symfony EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html).
+Static analyzers can't tell this from the return type of `getEventDispatcher()`. A type annotation solves "method not found" errors and
+enables your IDE to autocomplete these method names.
+
+```php
+/** @var Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
+$dispatcher = $this->client->getEventDispatcher();
+```
 
 This example shows all available events and how to use the events to create a very basic debugger:
 
@@ -179,6 +189,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
     {
         $this->start = microtime(true);
 
+        /** @var Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->addListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
         $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
@@ -195,6 +206,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
     // This method is called if the plugin is removed from the client.
     public function deinitPlugin(): void
     {
+        /** @var Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
         $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);

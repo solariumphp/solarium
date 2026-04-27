@@ -23,8 +23,9 @@ $resultset = $client->select($query);
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet query count
-$count = $resultset->getFacetSet()->getFacet('stock')->getValue();
-echo '<hr/>Facet query count : '.$count;
+/** @var Solarium\Component\Result\Facet\Query $facet */
+$facet = $resultset->getFacetSet()->getFacet('stock');
+echo '<hr/>Facet query count : '.$facet->getValue();
 
 // show documents using the resultset iterator
 foreach ($resultset as $document) {

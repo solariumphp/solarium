@@ -32,11 +32,11 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat":<br/>';
+/** @var Solarium\Component\Result\Facet\Buckets $facet */
 $facet = $resultset->getFacetSet()->getFacet('categories');
 echo 'NumBuckets: '.$facet->getNumBuckets().' (total possible number of buckets, only available when \'numBuckets\'=>true in JsonTerms)<br/>';
 echo 'count(): '.$facet->count().' (number of buckets returned)<br/>';
 
-// Note: use instanceof Solarium\Component\Result\Facet\Buckets to differentiate from standard field facets.
 foreach ($facet as $bucket) {
     echo $bucket->getValue().' ['.$bucket->getCount().']<br/>';
 }

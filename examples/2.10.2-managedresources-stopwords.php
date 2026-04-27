@@ -18,6 +18,7 @@ $query = $client->createManagedStopwords();
 $query->setName('english');
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet $result */
 $result = $client->execute($query);
 
 // display list properties
@@ -45,6 +46,7 @@ foreach (['english', 'dutch'] as $name) {
     $query->setName($name);
 
     // execute the query and return the result
+    /** @var Solarium\QueryType\ManagedResources\Result\Command $result */
     $result = $client->execute($query);
 
     // display the result
@@ -60,10 +62,12 @@ $query = $client->createManagedStopwords();
 $query->setName('dutch');
 
 // create a "create" command and set it on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Create $createCommand */
 $createCommand = $query->createCommand($query::COMMAND_CREATE);
 $query->setCommand($createCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -84,11 +88,13 @@ $initArgs = $query->createInitArgs();
 $initArgs->setIgnoreCase(false);
 
 // create a "config" command, set init args on the command and set the command on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Config $configCommand */
 $configCommand = $query->createCommand($query::COMMAND_CONFIG);
 $configCommand->setInitArgs($initArgs);
 $query->setCommand($configCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -105,10 +111,12 @@ $query = $client->createManagedStopwords();
 $query->setName('dutch');
 
 // create a "remove" command and set it on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Remove $removeCommand */
 $removeCommand = $query->createCommand($query::COMMAND_REMOVE);
 $query->setCommand($removeCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -130,6 +138,7 @@ $query->setName('english');
 $query->setTerm('StopwordA');
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Stopwords\WordSet $result */
 $result = $client->execute($query);
 
 // display stopword, there will be only one
@@ -146,6 +155,7 @@ $query = $client->createManagedStopwords();
 $query->setName('english');
 
 // create an "exists" command
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Exists $existsCommand */
 $existsCommand = $query->createCommand($query::COMMAND_EXISTS);
 
 foreach (['stopwordb', 'stopwordc'] as $term) {
@@ -154,6 +164,7 @@ foreach (['stopwordb', 'stopwordc'] as $term) {
     $query->setCommand($existsCommand);
 
     // execute the query and return the result
+    /** @var Solarium\QueryType\ManagedResources\Result\Command $result */
     $result = $client->execute($query);
 
     // display the result
@@ -169,11 +180,13 @@ $query = $client->createManagedStopwords();
 $query->setName('english');
 
 // create an "add" command, set stopwords on the command, and set the command on the query
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Stopwords\Add $addCommand */
 $addCommand = $query->createCommand($query::COMMAND_ADD);
 $addCommand->setStopwords(['foo', 'bar']);
 $query->setCommand($addCommand);
 
 // execute the query and return the result
+/** @var Solarium\QueryType\ManagedResources\Result\Command $result */
 $result = $client->execute($query);
 
 // display the result
@@ -190,6 +203,7 @@ $query = $client->createManagedStopwords();
 $query->setName('english');
 
 // create a "delete" command
+/** @var Solarium\QueryType\ManagedResources\Query\Command\Delete $deleteCommand */
 $deleteCommand = $query->createCommand($query::COMMAND_DELETE);
 
 // unlike adding, deleting has to be done term per term
@@ -199,6 +213,7 @@ foreach (['foo', 'bar'] as $term) {
     $query->setCommand($deleteCommand);
 
     // execute the query and return the result
+    /** @var Solarium\QueryType\ManagedResources\Result\Command $result */
     $result = $client->execute($query);
 
     // display the result

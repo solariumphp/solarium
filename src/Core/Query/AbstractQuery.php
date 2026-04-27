@@ -11,6 +11,7 @@ namespace Solarium\Core\Query;
 
 use Solarium\Core\Configurable;
 use Solarium\Core\Query\LocalParameters\LocalParametersTrait;
+use Solarium\Core\Query\Result\ResultInterface;
 
 /**
  * Base class for all query types, not intended for direct usage.
@@ -70,7 +71,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
      * Also you need to make sure it extends the orginal result class of the
      * query or has an identical API.
      *
-     * @param class-string $classname
+     * @param class-string<ResultInterface> $classname
      *
      * @return self Provides fluent interface
      */
@@ -84,7 +85,7 @@ abstract class AbstractQuery extends Configurable implements QueryInterface
     /**
      * Get resultclass option.
      *
-     * @return class-string|null
+     * @return class-string<ResultInterface>|null
      */
     public function getResultClass(): ?string
     {

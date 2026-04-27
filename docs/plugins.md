@@ -3,6 +3,13 @@ Plugins
 
 Solarium offers a plugin system to allow for easy extension by users. But plugins are also used by Solarium itself to keep optional features from bloating the main code base. In this section the standard plugins are documented.
 
+When you autoload a plugin from a client instance, you get an object that implements `PluginInterface`. Due to the way this autoloading works the return type isn't more specific than that.
+If you run into "method not found" errors with your static analyzer, or want to enable autocompletion in your IDE, you can add a type annotation to narrow it down. E.g.:
+
+```php
+/** @var Solarium\Plugin\BufferedAdd\BufferedAdd $buffer */
+$buffer = $client->getPlugin('bufferedadd');
+```
 
 BufferedAdd plugin
 ------------------
@@ -59,11 +66,14 @@ htmlHeader();
 
 // create a client instance and autoload the buffered add plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\BufferedAdd\BufferedAdd $buffer */
 $buffer = $client->getPlugin('bufferedadd');
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
-$client->getEventDispatcher()->addListener(
+/** @var Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher */
+$eventDispatcher = $client->getEventDispatcher();
+$eventDispatcher->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
         echo 'Flushing buffer ('.count($event->getBuffer()).' docs)<br/>';
@@ -99,6 +109,7 @@ BufferedAddLite plugin
 A slightly faster version of `BufferedAdd` that doesn't trigger events.
 
 ```php
+/** @var Solarium\Plugin\BufferedAdd\BufferedAddLite $buffer */
 $buffer = $client->getPlugin('bufferedaddlite');
 ```
 
@@ -153,11 +164,14 @@ htmlHeader();
 
 // create a client instance and autoload the buffered delete plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\BufferedDelete\BufferedDelete $buffer */
 $buffer = $client->getPlugin('buffereddelete');
 $buffer->setBufferSize(10); // this is quite low, in most cases you can use a much higher value
 
 // also register an event hook to display what is happening
-$client->getEventDispatcher()->addListener(
+/** @var Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher */
+$eventDispatcher = $client->getEventDispatcher();
+$eventDispatcher->addListener(
     Events::PRE_FLUSH,
     function (PreFlush $event): void {
         echo 'Flushing buffer ('.count($event->getBuffer()).' deletes)<br/>';
@@ -189,6 +203,7 @@ BufferedDeleteLite plugin
 A slightly faster version of `BufferedDelete` that doesn't trigger events.
 
 ```php
+/** @var Solarium\Plugin\BufferedDelete\BufferedDeleteLite $buffer */
 $buffer = $client->getPlugin('buffereddeletelite');
 ```
 
@@ -215,6 +230,7 @@ htmlHeader();
 
 // create a client instance and autoload the customize request plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\CustomizeRequest\CustomizeRequest $customizer */
 $customizer = $client->getPlugin('customizerequest');
 
 // add a persistent HTTP header (using array input values)
@@ -275,6 +291,7 @@ All blocked query types (`Update` and `Extract` by default) are excluded from lo
 If you want to load balance a blocked query type anyway (e.g. when extracting without indexing), you can unblock it.
 
 ```php
+/** @var Solarium\Plugin\Loadbalancer\Loadbalancer $loadbalancer */
 $loadbalancer = $client->getPlugin('loadbalancer');
 $loadbalancer->removeBlockedQueryType($client::QUERY_EXTRACT);
 ```
@@ -323,6 +340,7 @@ $endpoint2 = $client->createEndpoint('local2');
 $endpoint3 = $client->createEndpoint('local3');
 
 // get loadbalancer plugin instance and add endpoints
+/** @var Solarium\Plugin\Loadbalancer\Loadbalancer $loadbalancer */
 $loadbalancer = $client->getPlugin('loadbalancer');
 $loadbalancer->addEndpoint($endpoint1, 100);
 $loadbalancer->addEndpoint($endpoint2, 100);
@@ -396,7 +414,9 @@ htmlHeader();
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // enable the plugin and get a query instance
+/** @var Solarium\Plugin\MinimumScoreFilter\MinimumScoreFilter $filter */
 $filter = $client->getPlugin('minimumscorefilter');
+/** @var Solarium\Plugin\MinimumScoreFilter\Query $query */
 $query = $client->createQuery($filter::QUERY_TYPE);
 $query->setQuery('a');
 $query->setFields(['id']);
@@ -404,6 +424,7 @@ $query->setFilterRatio(.5);
 $query->setFilterMode($query::FILTER_MODE_MARK);
 
 // this executes the query and returns the result
+/** @var Solarium\Plugin\MinimumScoreFilter\Result $resultset */
 $resultset = $client->execute($query);
 
 // display the total number of documents found by Solr and the maximum score
@@ -411,6 +432,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 echo '<br/>MaxScore: '.$resultset->getMaxScore();
 
 // show documents using the resultset iterator
+/** @var Solarium\Plugin\MinimumScoreFilter\Document $document */
 foreach ($resultset as $document) {
     // by setting the FILTER_MARK option we get a special method to test each document
     if ($document->markedAsLowScore()) {
@@ -496,6 +518,7 @@ htmlHeader();
 
 // create a client instance and autoload the customize request plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\ParallelExecution\ParallelExecution $parallel */
 $parallel = $client->getPlugin('parallelexecution');
 
 // Add a delay param to better show the effect, as an example Solr install with
@@ -503,6 +526,7 @@ $parallel = $client->getPlugin('parallelexecution');
 // This param only works with the correct Solr plugin, see
 // https://web.archive.org/web/20170904162800/http://www.raspberry.nl/2012/01/04/solr-delay-component/
 // If you don't have to plugin the example still works, just without the delay.
+/** @var Solarium\Plugin\CustomizeRequest\CustomizeRequest $customizer */
 $customizer = $client->getPlugin('customizerequest');
 $customizer->createCustomization(
     [
@@ -539,8 +563,20 @@ $parallel->addQuery('lowprice', $queryLowPrice);
 $results = $parallel->execute();
 echo 'Execution time for parallel execution of two queries: '.round(microtime(true) - $start, 3).' s';
 echo '<hr/>';
-echo 'In stock: '.$results['instock']->getNumFound().'<br/>';
-echo 'Low price: '.$results['lowprice']->getNumFound().'<br/>';
+// On failure an HttpException is returned instead of thrown so as not to interrupt the other queries.
+// Instead of catching them you have to check the type of each item in the results array.
+if ($results['instock'] instanceof Solarium\Exception\HttpException) {
+    echo 'Something went wrong with the "instock" query:<br/>';
+    echo $results['instock']->getMessage();
+} else {
+    echo 'In stock: '.$results['instock']->getNumFound().'<br/>';
+}
+if ($results['lowprice'] instanceof Solarium\Exception\HttpException) {
+    echo 'Something went wrong with the "lowprice" query:<br/>';
+    echo $results['lowprice']->getMessage();
+} else {
+    echo 'Low price: '.$results['lowprice']->getNumFound().'<br/>';
+}
 
 htmlFooter();
 
@@ -607,6 +643,63 @@ foreach ($resultset as $document) {
 
 htmlFooter();
 
+```
+
+PostBigExtractRequest plugin
+----------------------------
+
+If you use complex Solr extract queries with lots of literals to define your custom metadata the total length of your querystring can exceed the default limits of servlet containers. One solution is to alter your servlet container configuration to raise this limit. But if this is not possible or desired this plugin is another way to solve the problem.
+
+This plugin can automatically move all parameters from querystring to the multipart body content of the request if the querystring exceeds a length limit.
+
+For instance, in Jetty the default `headerBufferSize` is 4 KiB. Tomcat 10 has a similar setting `maxHttpHeaderSize`, 8 KiB by default. This limit applies to all the combined headers of a request, so it’s not just the querystring. In comparison, the default for POST data in Tomcat (`maxPostSize`) is 2 MiB. Jetty uses a `maxFormContentSize` setting with a lower default value of 200 kB, but still way higher than the header limit and well above the length of even the most complex queries.
+
+The plugin only uses the length of the querystring to determine the parameters relocation. Other headers are not included in the length calculation so your limit should be somewhat lower than the limit of the servlet container to allow for room for other headers. This was done to keep the length calculation simple and fast because the exact headers used can vary for the various client adapters available in Solarium. You can alter the `maxquerystringlength` by using a config setting or the API. Only `Extract` queries are affected, other types of queries are not altered.
+
+### Example usage
+
+```php
+<?php
+
+require_once __DIR__.'/init.php';
+
+htmlHeader();
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\PostBigExtractRequest $postBigExtractRequest */
+$postBigExtractRequest = $client->getPlugin('postbigextractrequest');
+// set the maximum length to a value appropriate for your servlet container
+$postBigExtractRequest->setMaxQueryStringLength(1024);
+
+// get an extract query instance and add settings
+$query = $client->createExtract();
+$query->setInputEncoding('UTF-8');
+$query->addFieldMapping('content', 'text');
+$query->setUprefix('attr_');
+$query->setFile(__DIR__.'/index.html');
+$query->setCommit(true);
+$query->setOmitHeader(false);
+
+// add document
+$doc = $query->createDocument();
+$doc->id = 'extract-test';
+$doc->some = 'more fields';
+// create a very long list of literals
+for ($i = 1; $i <= 500; ++$i) {
+    $field_name = "field_{$i}";
+    $doc->$field_name = "value $i";
+}
+$query->setDocument($doc);
+
+// this executes the query and returns the result
+$result = $client->extract($query);
+
+echo '<b>Extract query executed</b><br/>';
+echo 'Query status: '.$result->getStatus().'<br/>';
+echo 'Query time: '.$result->getQueryTime();
+
+htmlFooter();
 ```
 
 PrefetchIterator plugin
@@ -701,6 +794,7 @@ $query->setCursorMark('*');
 $query->addSort('id', $query::SORT_ASC);
 
 // get a plugin instance and apply settings
+/** @var Solarium\Plugin\PrefetchIterator $prefetch */
 $prefetch = $client->getPlugin('prefetchiterator');
 $prefetch->setPrefetch(2); // fetch 2 rows per request (for real world use this can be way higher)
 $prefetch->setQuery($query);
@@ -807,59 +901,3 @@ We avoid calling `valid()` on the first iteration of the inner loop by using `do
 position on the outer `while`. Using an inner `while` instead is functionally equivalent, but calling `valid()` twice in
 succession would cause the same documents to be fetched twice from Solr (although still processed once by the script) on common
 multiples of the chunk size and prefetch size.
-
-PostBigExtractRequest plugin
----------------------
-
-If you use complex Solr extract queries with lots of literals to define your custom metadata the total length of your querystring can exceed the default limits of servlet containers. One solution is to alter your servlet container configuration to raise this limit. But if this is not possible or desired this plugin is another way to solve the problem.
-
-This plugin can automatically move all parameters from querystring to the multipart body content of the request if the querystring exceeds a length limit.
-
-For instance, in Jetty the default ‘headerBufferSize’ is 4KiB. Tomcat 10 has a similar setting ‘maxHttpHeaderSize’, 8KiB by default. This limit applies to all the combined headers of a request, so it’s not just the querystring. In comparison, the default for POST data in tomcat (‘maxPostSize’) is 2MiB. Jetty uses a ‘maxFormContentSize’ setting with a lower default value of 200kB, but still way higher than the header limit and well above the length of even the most complex queries.
-
-The plugin only uses the length of the querystring to determine the parameters relocation. Other headers are not included in the length calculation so your limit should be somewhat lower than the limit of the servlet container to allow for room for other headers. This was done to keep the length calculation simple and fast because the exact headers used can vary for the various client adapters available in Solarium. You can alter the `maxquerystringlength` by using a config setting or the API. Only `Extract` queries are affected, other types of queries are not altered.
-
-### Example usage
-
-```php
-<?php
-
-require_once __DIR__.'/init.php';
-
-htmlHeader();
-
-// create a client instance
-$client = new Solarium\Client($adapter, $eventDispatcher, $config);
-$postBigExtractRequest = $client->getPlugin('postbigextractrequest');
-// set the maximum length to a value appropriate for your servlet container
-$postBigExtractRequest->setMaxQueryStringLength(1024);
-
-// get an extract query instance and add settings
-$query = $client->createExtract();
-$query->setInputEncoding('UTF-8');
-$query->addFieldMapping('content', 'text');
-$query->setUprefix('attr_');
-$query->setFile(__DIR__.'/index.html');
-$query->setCommit(true);
-$query->setOmitHeader(false);
-
-// add document
-$doc = $query->createDocument();
-$doc->id = 'extract-test';
-$doc->some = 'more fields';
-// create a very long list of literals
-for ($i = 1; $i <= 500; ++$i) {
-    $field_name = "field_{$i}";
-    $doc->$field_name = "value $i";
-}
-$query->setDocument($doc);
-
-// this executes the query and returns the result
-$result = $client->extract($query);
-
-echo '<b>Extract query executed</b><br/>';
-echo 'Query status: '.$result->getStatus().'<br/>';
-echo 'Query time: '.$result->getQueryTime();
-
-htmlFooter();
-```

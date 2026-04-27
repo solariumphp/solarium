@@ -11,6 +11,7 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $update = $client->createUpdate();
 
 // create a document and set nested child documents
+/** @var Solarium\QueryType\Update\Query\Document $doc1 */
 $doc1 = $update->createDocument();
 $doc1->id = 123;
 $doc1->name = 'testdoc-1';
@@ -28,6 +29,7 @@ $doc1->childdocs = [
 ];
 
 // and a second one where child documents are added one by one
+/** @var Solarium\QueryType\Update\Query\Document $doc2 */
 $doc2 = $update->createDocument();
 $doc2->setField('id', 124);
 $doc2->setField('name', 'testdoc-2');

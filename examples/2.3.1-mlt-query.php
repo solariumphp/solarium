@@ -14,14 +14,20 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createMoreLikethis();
 
 // query a document you want similar documents for
-$query->setQuery('id:SP2514N')
-    ->setMltFields('manu,cat')
+$query->setQuery('id:SP2514N');
+
+// you can set regular query options
+$query->createFilterQuery('stock')->setQuery('inStock:true');
+
+// set MLT options on the query
+$query->setMltFields('manu,cat')
     ->setMinimumDocumentFrequency(1)
     ->setMinimumTermFrequency(1)
     ->setInterestingTerms('details')
-    ->setBoost(true)
-    ->setMatchInclude(true)
-    ->createFilterQuery('stock')->setQuery('inStock:true');
+    ->setBoost(true);
+
+// the response includes the document matched by the query unless you set this to false
+$query->setMatchInclude(true);
 
 // this executes the query and returns the result
 $resultset = $client->moreLikeThis($query);

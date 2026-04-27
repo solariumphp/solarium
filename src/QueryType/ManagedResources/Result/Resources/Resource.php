@@ -105,7 +105,7 @@ class Resource
     /*
      * Returns the type: 'stopwords', 'synonyms' or '' if unknown.
      *
-     * @return string
+     * @return self::TYPE_*|''
      */
     public function getType(): string
     {

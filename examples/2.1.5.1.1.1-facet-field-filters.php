@@ -48,6 +48,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('category');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';
@@ -55,6 +56,7 @@ foreach ($facet as $value => $count) {
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms prefixed with "s":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('prefixed');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';
@@ -62,6 +64,7 @@ foreach ($facet as $value => $count) {
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms containing "electronics":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('electronics');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';
@@ -69,6 +72,7 @@ foreach ($facet as $value => $count) {
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms matching regex "electronics.+":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('electronicsAndMore');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';
@@ -76,6 +80,7 @@ foreach ($facet as $value => $count) {
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms excluding "electronics" and "music":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('electronicsExclude');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';
@@ -83,6 +88,7 @@ foreach ($facet as $value => $count) {
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; terms limited to "electronics" and "music":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('electronicsTerms');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';

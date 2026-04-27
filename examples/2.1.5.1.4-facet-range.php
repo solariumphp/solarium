@@ -28,6 +28,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet ranges:<br/>';
+/** @var Solarium\Component\Result\Facet\Range $facet */
 $facet = $resultset->getFacetSet()->getFacet('priceranges');
 foreach ($facet as $range => $count) {
     echo $range.' to '.($range + 100).' ['.$count.']<br/>';

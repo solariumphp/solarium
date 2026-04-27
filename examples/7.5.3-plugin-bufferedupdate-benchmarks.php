@@ -86,7 +86,9 @@ $query = $client->createApi([
 $client->execute($query);
 
 // autoload the buffered add and delete plugins
+/** @var Solarium\Plugin\BufferedAdd\BufferedAddLite $addBuffer */
 $addBuffer = $client->getPlugin($addPlugin = 'bufferedadd'.$weight);
+/** @var Solarium\Plugin\BufferedDelete\BufferedDeleteLite $delBuffer */
 $delBuffer = $client->getPlugin($delPlugin = 'buffereddelete'.$weight);
 
 $addBuffer->setRequestFormat($addRequestFormat);

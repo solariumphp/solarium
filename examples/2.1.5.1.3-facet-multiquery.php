@@ -28,6 +28,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Multiquery facet counts:<br/>';
+/** @var Solarium\Component\Result\Facet\MultiQuery $facet */
 $facet = $resultset->getFacetSet()->getFacet('stock');
 foreach ($facet as $key => $count) {
     echo $key.' ['.$count.']<br/>';

@@ -6,6 +6,7 @@ htmlHeader();
 
 // create a client instance and autoload the customize request plugin
 $client = new Solarium\Client($adapter, $eventDispatcher, $config);
+/** @var Solarium\Plugin\ParallelExecution\ParallelExecution $parallel */
 $parallel = $client->getPlugin('parallelexecution');
 
 // Add a delay param to better show the effect, as an example Solr install with
@@ -13,6 +14,7 @@ $parallel = $client->getPlugin('parallelexecution');
 // This param only works with the correct Solr plugin, see
 // https://web.archive.org/web/20170904162800/http://www.raspberry.nl/2012/01/04/solr-delay-component/
 // If you don't have to plugin the example still works, just without the delay.
+/** @var Solarium\Plugin\CustomizeRequest\CustomizeRequest $customizer */
 $customizer = $client->getPlugin('customizerequest');
 $customizer->createCustomization(
     [
@@ -49,8 +51,22 @@ $parallel->addQuery('lowprice', $queryLowPrice);
 $results = $parallel->execute();
 echo 'Execution time for parallel execution of two queries: '.round(microtime(true) - $start, 3).' s';
 echo '<hr/>';
-echo 'In stock: '.$results['instock']->getNumFound().'<br/>';
-echo 'Low price: '.$results['lowprice']->getNumFound().'<br/>';
+// On failure an HttpException is returned instead of thrown so as not to interrupt the other queries.
+// Instead of catching them you have to check the type of each item in the results array.
+if ($results['instock'] instanceof Solarium\Exception\HttpException) {
+    echo 'Something went wrong with the "instock" query:<br/>';
+    echo $results['instock']->getMessage();
+} else {
+    /** @var Solarium\QueryType\Select\Result\Result $results['instock'] */
+    echo 'In stock: '.$results['instock']->getNumFound().'<br/>';
+}
+if ($results['lowprice'] instanceof Solarium\Exception\HttpException) {
+    echo 'Something went wrong with the "lowprice" query:<br/>';
+    echo $results['lowprice']->getMessage();
+} else {
+    /** @var Solarium\QueryType\Select\Result\Result $results['lowprice'] */
+    echo 'Low price: '.$results['lowprice']->getNumFound().'<br/>';
+}
 
 htmlFooter();
 

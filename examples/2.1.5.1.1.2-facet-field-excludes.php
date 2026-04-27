@@ -33,6 +33,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; limited to the filter "electronics":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('category');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';
@@ -40,6 +41,7 @@ foreach ($facet as $value => $count) {
 
 // display facet counts
 echo '<hr/>Facet counts for field "cat"; excluding the filter "electronics":<br/>';
+/** @var Solarium\Component\Result\Facet\Field $facet */
 $facet = $resultset->getFacetSet()->getFacet('unfiltered');
 foreach ($facet as $value => $count) {
     echo $value.' ['.$count.']<br/>';

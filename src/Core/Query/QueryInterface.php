@@ -10,6 +10,7 @@
 namespace Solarium\Core\Query;
 
 use Solarium\Core\ConfigurableInterface;
+use Solarium\Core\Query\Result\ResultInterface;
 
 /**
  * Query interface.
@@ -62,7 +63,7 @@ interface QueryInterface extends ConfigurableInterface
      *
      * Also you need to make sure this class implements the ResultInterface.
      *
-     * @param class-string $classname
+     * @param class-string<ResultInterface> $classname
      *
      * @return self Provides fluent interface
      */
@@ -71,7 +72,7 @@ interface QueryInterface extends ConfigurableInterface
     /**
      * Get resultclass option.
      *
-     * @return class-string|null
+     * @return class-string<ResultInterface>|null
      */
     public function getResultClass(): ?string;
 

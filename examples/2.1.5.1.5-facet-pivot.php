@@ -28,12 +28,14 @@ $resultset = $client->select($query);
 echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet results
+/** @var Solarium\Component\Result\Facet\Pivot\Pivot $facetResult */
 $facetResult = $resultset->getFacetSet()->getFacet('cat-popularity-instock');
 echo '<h3>cat &raquo; popularity &raquo; instock</h3>';
 foreach ($facetResult as $pivot) {
     displayPivotFacet($pivot);
 }
 
+/** @var Solarium\Component\Result\Facet\Pivot\Pivot $facetResult */
 $facetResult = $resultset->getFacetSet()->getFacet('popularity-cat');
 echo '<h3>popularity &raquo; cat</h3>';
 foreach ($facetResult as $pivot) {
@@ -45,9 +47,9 @@ htmlFooter();
 /**
  * Recursively render pivot facets.
  *
- * @param $pivot
+ * @param Solarium\Component\Result\Facet\Pivot\PivotItem $pivot
  */
-function displayPivotFacet($pivot): void
+function displayPivotFacet(Solarium\Component\Result\Facet\Pivot\PivotItem $pivot): void
 {
     echo '<ul>';
     echo '<li>Field: '.$pivot->getField().'</li>';

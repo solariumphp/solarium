@@ -16,6 +16,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
     {
         $this->start = microtime(true);
 
+        /** @var Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->addListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
         $dispatcher->addListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);
@@ -32,6 +33,7 @@ class BasicDebug extends Solarium\Core\Plugin\AbstractPlugin
     // This method is called if the plugin is removed from the client.
     public function deinitPlugin(): void
     {
+        /** @var Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
         $dispatcher = $this->client->getEventDispatcher();
         $dispatcher->removeListener(Events::PRE_CREATE_REQUEST, [$this, 'preCreateRequest']);
         $dispatcher->removeListener(Events::POST_CREATE_REQUEST, [$this, 'postCreateRequest']);

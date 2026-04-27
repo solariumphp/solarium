@@ -9,11 +9,12 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 
 // get a select query instance
 $query = $client->createSelect()
-    // The /spell handler is used for demonstrating the spellcheck component.
-    // You'll probably want to hook it into the request handler that handles your normal queries.
-    ->setHandler('spell')
     ->setQuery('memori')
     ->setRows(0);
+
+// The /spell handler is used for demonstrating the spellcheck component.
+// You'll probably want to hook it into the request handler that handles your normal queries.
+$query->setHandler('spell');
 
 // add spellcheck settings
 $spellcheck = $query->getSpellcheck()

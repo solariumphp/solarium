@@ -102,7 +102,7 @@ class ParallelExecution extends AbstractPlugin
      *
      * @throws RuntimeException
      *
-     * @return (Result|HttpException)[]
+     * @return array<string, Result|HttpException>
      */
     public function execute(): array
     {

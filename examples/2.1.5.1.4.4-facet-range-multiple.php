@@ -33,6 +33,7 @@ echo 'NumFound: '.$resultset->getNumFound();
 
 // display facet counts for first range
 echo '<hr/>Facet ranges under 100:<br/>';
+/** @var Solarium\Component\Result\Facet\Range $facet */
 $facet = $resultset->getFacetSet()->getFacet('under100');
 foreach ($facet as $range => $count) {
     echo $range.' to '.($range + 9.99).' ['.$count.']<br/>';
@@ -40,6 +41,7 @@ foreach ($facet as $range => $count) {
 
 // display facet counts for second range
 echo '<hr/>Facet ranges over 50:<br/>';
+/** @var Solarium\Component\Result\Facet\Range $facet */
 $facet = $resultset->getFacetSet()->getFacet('over50');
 foreach ($facet as $range => $count) {
     echo $range.' to '.($range + 49.99).' ['.$count.']<br/>';
