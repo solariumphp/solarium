@@ -45,7 +45,7 @@ foreach ($statsResult as $field) {
     echo 'Count: '.$field->getCount().'<br/>';
     echo 'Missing: '.$field->getMissing().'<br/>';
     echo 'SumOfSquares: '.$field->getSumOfSquares().'<br/>';
-    echo 'Mean: '.$field->getMean().'<br/>';
+    echo 'Mean: '.(is_nan($field->getMean()) ? 'NaN' : $field->getMean()).'<br/>';
     echo 'Stddev: '.$field->getStddev().'<br/>';
 
     echo '<h2>Field facets</h2>';
@@ -59,7 +59,7 @@ foreach ($statsResult as $field) {
             echo 'Count: '.$facetStats->getCount().'<br/>';
             echo 'Missing: '.$facetStats->getMissing().'<br/>';
             echo 'SumOfSquares: '.$facetStats->getSumOfSquares().'<br/>';
-            echo 'Mean: '.$facetStats->getMean().'<br/>';
+            echo 'Mean: '.(is_nan($facetStats->getMean()) ? 'NaN' : $facetStats->getMean()).'<br/>';
             echo 'Stddev: '.$facetStats->getStddev().'<br/>';
         }
     }
