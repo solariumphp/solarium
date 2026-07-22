@@ -43,7 +43,13 @@ class Grouping implements ComponentParserInterface
         $documentClass = $query->getOption('documentclass');
 
         // check grouping fields as well as the grouping function (either can be used in the query)
-        foreach (array_merge($grouping->getFields(), [$grouping->getFunction()]) as $field) {
+        $fields = $grouping->getFields();
+
+        if (null !== $function = $grouping->getFunction()) {
+            $fields[] = $function;
+        }
+
+        foreach ($fields as $field) {
             if (!isset($data['grouped'][$field])) {
                 continue;
             }

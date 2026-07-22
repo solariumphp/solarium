@@ -195,6 +195,7 @@ try {
 
     // examples that can't be run in cloud mode
     $skipForCloud = [
+        '2.1.5.6-grouping-by-function.php',
         '2.1.5.7-grouping-by-query.php',
         '2.2.5-rollback.php',
         '2.10.2-managedresources-stopwords.php',

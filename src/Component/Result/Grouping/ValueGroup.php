@@ -12,16 +12,16 @@ namespace Solarium\Component\Result\Grouping;
 use Solarium\Core\Query\AbstractQuery;
 
 /**
- * Select component grouping field value group result.
+ * Select component grouping field or function value group result.
  *
  * @since 2.1.0
  */
 class ValueGroup implements \IteratorAggregate, \Countable
 {
     /**
-     * Field value.
+     * Field or function value.
      */
-    protected ?string $value;
+    protected string|float|int|bool|null $value;
 
     /**
      * NumFound.
@@ -48,14 +48,14 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param string|null        $value
-     * @param int|null           $numFound
-     * @param int|null           $start
-     * @param array              $documents
-     * @param float|null         $maxScore
-     * @param AbstractQuery|null $query
+     * @param string|float|int|bool|null $value
+     * @param int|null                   $numFound
+     * @param int|null                   $start
+     * @param array                      $documents
+     * @param float|null                 $maxScore
+     * @param AbstractQuery|null         $query
      */
-    public function __construct(?string $value, ?int $numFound, ?int $start, array $documents, ?float $maxScore = null, ?AbstractQuery $query = null)
+    public function __construct(string|float|int|bool|null $value, ?int $numFound, ?int $start, array $documents, ?float $maxScore = null, ?AbstractQuery $query = null)
     {
         $this->value = $value;
         $this->numFound = $numFound;
@@ -68,9 +68,9 @@ class ValueGroup implements \IteratorAggregate, \Countable
     /**
      * Get value.
      *
-     * @return string|null
+     * @return string|float|int|bool|null
      */
-    public function getValue(): ?string
+    public function getValue(): string|float|int|bool|null
     {
         return $this->value;
     }

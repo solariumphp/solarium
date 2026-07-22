@@ -11,26 +11,23 @@ $client = new Solarium\Client($adapter, $eventDispatcher, $config);
 $query = $client->createSelect();
 $query->setRows(50);
 
-// get grouping component and set a field to group by
+// get grouping component and set a function to group by
 $groupComponent = $query->getGrouping();
-$groupComponent->addField('inStock');
+$groupComponent->setFunction('exists(features)');
 // maximum number of items per group
 $groupComponent->setLimit(3);
-// get a group count
-$groupComponent->setNumberOfGroups(true);
 
 // this executes the query and returns the result
 $resultset = $client->select($query);
 
 $groups = $resultset->getGrouping();
-foreach ($groups as $groupKey => $fieldGroup) {
+foreach ($groups as $groupKey => $functionGroup) {
     echo '<h1>'.$groupKey.'</h1>';
-    echo 'Matches: '.$fieldGroup->getMatches().'<br/>';
-    echo 'Number of groups: '.$fieldGroup->getNumberOfGroups();
+    echo 'Matches: '.$functionGroup->getMatches().'<br/>';
 
-    foreach ($fieldGroup as $valueGroup) {
+    foreach ($functionGroup as $valueGroup) {
         $value = $valueGroup->getValue();
-        echo '<h2>'.(null !== $value ? ($value ? 'true' : 'false') : 'NULL').'</h2>';
+        echo '<h2>'.($value ? 'true' : 'false').'</h2>';
 
         foreach ($valueGroup as $document) {
             echo '<hr/><table>';
