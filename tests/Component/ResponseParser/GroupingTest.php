@@ -26,6 +26,8 @@ class GroupingTest extends TestCase
         $this->query = new Query();
         $this->grouping = $this->query->getGrouping();
         $this->grouping->addField('fieldA');
+        $this->grouping->addField('fieldB');
+        $this->grouping->addField('fieldC');
         $this->grouping->setFunction('functionF');
         $this->grouping->addQuery('cat:1');
 
@@ -42,6 +44,68 @@ class GroupingTest extends TestCase
                                 'start' => 0,
                                 'docs' => [
                                     ['id' => 1, 'name' => 'test'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'fieldB' => [
+                    'matches' => 25,
+                    'ngroups' => 2,
+                    'groups' => [
+                        [
+                            'groupValue' => 3.14,
+                            'doclist' => [
+                                'numFound' => 1,
+                                'start' => 0,
+                                'docs' => [
+                                    ['id' => 2, 'name' => 'float test'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'groupValue' => 42,
+                            'doclist' => [
+                                'numFound' => 1,
+                                'start' => 0,
+                                'docs' => [
+                                    ['id' => 3, 'name' => 'int test'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'fieldC' => [
+                    'matches' => 25,
+                    'ngroups' => 3,
+                    'groups' => [
+                        [
+                            'groupValue' => true,
+                            'doclist' => [
+                                'numFound' => 1,
+                                'start' => 0,
+                                'docs' => [
+                                    ['id' => 1, 'name' => 'true test'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'groupValue' => false,
+                            'doclist' => [
+                                'numFound' => 1,
+                                'start' => 0,
+                                'docs' => [
+                                    ['id' => 2, 'name' => 'false test'],
+                                ],
+                            ],
+                        ],
+                        [
+                            'groupValue' => null,
+                            'doclist' => [
+                                'numFound' => 1,
+                                'start' => 0,
+                                'docs' => [
+                                    ['id' => 3, 'name' => 'null test'],
                                 ],
                             ],
                         ],
@@ -84,7 +148,7 @@ class GroupingTest extends TestCase
 
     public function testGroupParsing(): void
     {
-        $this->assertCount(3, $this->result->getGroups());
+        $this->assertCount(5, $this->result->getGroups());
 
         $fieldGroup = $this->result->getGroup('fieldA');
         $queryGroup = $this->result->getGroup('cat:1');
@@ -105,12 +169,29 @@ class GroupingTest extends TestCase
         $this->assertCount(1, $valueGroups);
 
         $valueGroup = $valueGroups[0];
+        $this->assertEquals('test value', $valueGroup->getValue());
         $this->assertEquals(13, $valueGroup->getNumFound());
         $this->assertEquals(0, $valueGroup->getStart());
         $this->assertNull($valueGroup->getMaximumScore());
 
         $docs = $valueGroup->getDocuments();
         $this->assertEquals('test', $docs[0]->name);
+
+        $fieldGroup = $this->result->getGroup('fieldB');
+        $valueGroups = $fieldGroup->getValueGroups();
+
+        $this->assertCount(2, $valueGroups);
+        $this->assertEquals(3.14, $valueGroups[0]->getValue());
+        $this->assertIsInt($valueGroups[1]->getValue());
+        $this->assertEquals(42, $valueGroups[1]->getValue());
+
+        $fieldGroup = $this->result->getGroup('fieldC');
+        $valueGroups = $fieldGroup->getValueGroups();
+
+        $this->assertCount(3, $valueGroups);
+        $this->assertTrue($valueGroups[0]->getValue());
+        $this->assertFalse($valueGroups[1]->getValue());
+        $this->assertNull($valueGroups[2]->getValue());
     }
 
     public function testQueryGroupParsing(): void
@@ -211,6 +292,7 @@ class GroupingTest extends TestCase
         $this->assertCount(1, $valueGroups);
 
         $valueGroup = $valueGroups[0];
+        $this->assertTrue($valueGroup->getValue());
         $this->assertEquals(5, $valueGroup->getNumFound());
         $this->assertEquals(0, $valueGroup->getStart());
         $this->assertEquals(0.97027725, $valueGroup->getMaximumScore());
@@ -249,6 +331,7 @@ class GroupingTest extends TestCase
         $this->assertCount(1, $valueGroups);
 
         $valueGroup = $valueGroups[0];
+        $this->assertNull($valueGroup->getValue());
         $this->assertEquals(13, $valueGroup->getNumFound());
 
         $docs = $valueGroup->getDocuments();

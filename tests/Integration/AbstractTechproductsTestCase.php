@@ -985,7 +985,10 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $select->setFields('id');
         $select->addSort('manu_exact', SelectQuery::SORT_ASC);
         $grouping = $select->getGrouping();
-        $grouping->setFields('manu_exact');
+        $grouping->addField('manu_exact');
+        $grouping->addField('price');
+        $grouping->addField('popularity');
+        $grouping->addField('inStock');
         $grouping->setSort('price asc');
         $result = self::$client->select($select);
         /** @var GroupingResult $groupingComponentResult */
@@ -1043,8 +1046,65 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $doc = $docIterator->current();
         $this->assertSame('VS1GB400C3', $doc->getFields()['id']);
 
+        $fieldGroup = $groupingComponentResult->getGroup('price');
+        $valueGroup = $fieldGroup->getValueGroups()[0];
+        $this->assertNull($valueGroup->getValue());
+        $valueGroup = $fieldGroup->getValueGroups()[1];
+        $this->assertSame(479.95, $valueGroup->getValue());
+
+        $fieldGroup = $groupingComponentResult->getGroup('popularity');
+        $valueGroup = $fieldGroup->getValueGroups()[0];
+        $this->assertSame(0, $valueGroup->getValue());
+
+        $fieldGroup = $groupingComponentResult->getGroup('inStock');
+        $valueGroup = $fieldGroup->getValueGroups()[0];
+        $this->assertTrue($valueGroup->getValue());
+        $valueGroup = $fieldGroup->getValueGroups()[1];
+        $this->assertFalse($valueGroup->getValue());
+
+        // Grouping by function is not supported in distributed searches
+        // https://solr.apache.org/guide/solr/latest/query-guide/result-grouping.html#distributed-result-grouping-caveats
+        if ($this instanceof AbstractServerTestCase) {
+            /** @var GroupingTestQuery $select */
+            $select = self::$client->createQuery('grouping');
+            $select->setResponseWriter($responseWriter);
+            $select->setQuery('memory');
+            $select->setFields('id');
+            $select->addSort('id', SelectQuery::SORT_ASC);
+            $grouping = $select->getGrouping();
+            $grouping->setFunction('exists(features)');
+            $result = self::$client->select($select);
+            /** @var GroupingResult $groupingComponentResult */
+            $groupingComponentResult = $result->getComponent(ComponentAwareQueryInterface::COMPONENT_GROUPING);
+
+            /** @var FieldGroup $fieldGroup */
+            $fieldGroup = $groupingComponentResult->getGroup('exists(features)');
+            $this->assertCount(2, $fieldGroup);
+            $groupIterator = $fieldGroup->getIterator();
+
+            /** @var ValueGroup $valueGroup */
+            $valueGroup = $groupIterator->current();
+            $this->assertSame(4, $valueGroup->getNumFound());
+            $this->assertSame(0, $valueGroup->getStart());
+            $this->assertTrue($valueGroup->getValue());
+            $docIterator = $valueGroup->getIterator();
+            /** @var Document $doc */
+            $doc = $docIterator->current();
+            $this->assertSame('0579B002', $doc->getFields()['id']);
+
+            $groupIterator->next();
+            $valueGroup = $groupIterator->current();
+            $this->assertSame(1, $valueGroup->getNumFound());
+            $this->assertSame(0, $valueGroup->getStart());
+            $this->assertFalse($valueGroup->getValue());
+            $docIterator = $valueGroup->getIterator();
+            $doc = $docIterator->current();
+            $this->assertSame('VS1GB400C3', $doc->getFields()['id']);
+        }
+
         /** @var GroupingTestQuery $select */
         $select = self::$client->createQuery('grouping');
+        $select->setResponseWriter($responseWriter);
         $select->setQuery('memory');
         $select->setFields('id,price');
         $grouping = $select->getGrouping();

@@ -446,7 +446,7 @@ class Grouping extends AbstractComponent
     }
 
     /**
-     * Get truncate option.
+     * Get function option.
      *
      * @return string|null
      */
