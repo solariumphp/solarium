@@ -94,12 +94,14 @@ When upgrading from an earlier version, you should be aware of a number of pitfa
 ### Pitfalls when upgrading to 7.0.0
 
 Solarium 7.0.0 added type declarations throughout the codebase for:
+
 - class properties
 - union types in method signatures
 - `void` return types
 
 Plugins extending from `Solarium\Core\Plugin\AbstractPlugin` must add `void` return types to the signatures for
 the following methods (when defined):
+
 - `initPlugin()`
 - `deinitPlugin()`
 - `initPluginType()`
