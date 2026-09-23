@@ -4,9 +4,9 @@ namespace Solarium\Tests\QueryType\Ping;
 
 use PHPUnit\Framework\TestCase;
 use Solarium\Core\Client\Client;
+use Solarium\QueryType\Ping\Query;
 use Solarium\QueryType\Ping\RequestBuilder;
 use Solarium\QueryType\Ping\ResponseParser;
-use Solarium\QueryType\Ping\Query;
 
 class QueryTest extends TestCase
 {

@@ -10,6 +10,7 @@
 namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
+use Solarium\Support\Utility;
 
 /**
  * Facet interval.
@@ -60,12 +61,7 @@ class Interval extends AbstractFacet
      */
     public function setSet(string|array $set): static
     {
-        if (\is_string($set)) {
-            $set = explode(',', $set);
-            $set = array_map('trim', $set);
-        }
-
-        $this->setOption('set', $set);
+        $this->setOption('set', Utility::stringOrArrayToArray($set));
 
         return $this;
     }
@@ -73,16 +69,11 @@ class Interval extends AbstractFacet
     /**
      * Get set counts.
      *
-     * @return array
+     * @return string[]
      */
     public function getSet(): array
     {
-        $set = $this->getOption('set');
-        if (null === $set) {
-            $set = [];
-        }
-
-        return $set;
+        return $this->getOption('set') ?? [];
     }
 
     /**

@@ -16,6 +16,7 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\Support\Utility;
 
 /**
  * Get query.
@@ -62,7 +63,7 @@ class Query extends BaseQuery
     }
 
     /**
-     * The ping query has no response parser so we return a null value.
+     * Get a response parser for this query.
      *
      * @return ResponseParser
      */
@@ -94,10 +95,7 @@ class Query extends BaseQuery
      */
     public function addIds(string|array $ids): self
     {
-        if (\is_string($ids)) {
-            $ids = explode(',', $ids);
-            $ids = array_map('trim', $ids);
-        }
+        $ids = Utility::stringOrArrayToArray($ids);
 
         foreach ($ids as $id) {
             $this->addId($id);
@@ -137,7 +135,7 @@ class Query extends BaseQuery
     /**
      * Get the list of ids.
      *
-     * @return array
+     * @return string[]
      */
     public function getIds(): array
     {

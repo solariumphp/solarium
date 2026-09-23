@@ -15,6 +15,7 @@ use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\Grouping as ResponseParser;
 use Solarium\Component\Result\Grouping\QueryGroup;
 use Solarium\Component\Result\Grouping\ValueGroup;
+use Solarium\Support\Utility;
 
 /**
  * Grouping component.
@@ -118,10 +119,7 @@ class Grouping extends AbstractComponent
      */
     public function addFields(string|array $fields): self
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
+        $fields = Utility::stringOrArrayToArray($fields);
 
         $this->fields = array_merge($this->fields, $fields);
 
@@ -131,7 +129,7 @@ class Grouping extends AbstractComponent
     /**
      * Get all fields.
      *
-     * @return array
+     * @return string[]
      */
     public function getFields(): array
     {

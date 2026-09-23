@@ -11,6 +11,7 @@ namespace Solarium\Component\ComponentTraits;
 
 use Solarium\Component\MoreLikeThisInterface;
 use Solarium\Exception\DomainException;
+use Solarium\Support\Utility;
 
 /**
  * MoreLikeThis Query Trait.
@@ -297,12 +298,7 @@ trait MoreLikeThisTrait
      */
     public function setQueryFields(string|array $queryFields): MoreLikeThisInterface
     {
-        if (\is_string($queryFields)) {
-            $queryFields = explode(',', $queryFields);
-            $queryFields = array_map('trim', $queryFields);
-        }
-
-        $this->setOption('queryfields', $queryFields);
+        $this->setOption('queryfields', Utility::stringOrArrayToArray($queryFields));
 
         return $this;
     }
@@ -310,16 +306,11 @@ trait MoreLikeThisTrait
     /**
      * Get queryfields option.
      *
-     * @return array
+     * @return string[]
      */
     public function getQueryFields(): array
     {
-        $queryfields = $this->getOption('queryfields');
-        if (null === $queryfields) {
-            $queryfields = [];
-        }
-
-        return $queryfields;
+        return $this->getOption('queryfields') ?? [];
     }
 
     /**

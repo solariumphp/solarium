@@ -9,6 +9,8 @@
 
 namespace Solarium\Component\Stats;
 
+use Solarium\Support\Utility;
+
 /**
  * Facets part of Stats component.
  */
@@ -42,10 +44,7 @@ trait FacetsTrait
      */
     public function addFacets(string|array $facets): self
     {
-        if (\is_string($facets)) {
-            $facets = explode(',', $facets);
-            $facets = array_map('trim', $facets);
-        }
+        $facets = Utility::stringOrArrayToArray($facets);
 
         foreach ($facets as $facet) {
             $this->addFacet($facet);
@@ -85,7 +84,7 @@ trait FacetsTrait
     /**
      * Get the list of facets.
      *
-     * @return array
+     * @return string[]
      */
     public function getFacets(): array
     {

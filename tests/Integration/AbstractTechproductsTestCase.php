@@ -2,6 +2,7 @@
 
 namespace Solarium\Tests\Integration;
 
+use Butschster\Prometheus\Ast\SchemaNode;
 use PHPUnit\Framework\TestCase;
 use Solarium\Component\ComponentAwareQueryInterface;
 use Solarium\Component\Highlighting\Highlighting;
@@ -5166,6 +5167,48 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $resultShowDocDocId = self::$client->luke($luke);
 
         $this->assertEquals($doc, $resultShowDocDocId->getDoc());
+    }
+
+    /**
+     * Test the ability to execute Metrics queries.
+     *
+     * The main purpose of this test is to check that we can parse a response
+     * from all Solr versions that are supported by Solarium.
+     */
+    public function testMetrics(): void
+    {
+        $query = self::$client->createMetrics();
+
+        if (9 <= self::$solrVersion) {
+            // Prometheus response format is set by Solarium by default because it's
+            // the default in Solr 10 but has to be set explicitly in Solr 9
+
+            $result = self::$client->metrics($query);
+
+            $this->assertIsString($result->getData()['metrics']);
+            $this->assertInstanceOf(SchemaNode::class, $result->getMetricSet());
+        }
+
+        if (10 <= self::$solrVersion) {
+            // OpenMetrics response format is available since Solr 10
+            $query->setResponseWriter($query::WT_OPENMETRICS);
+
+            $result = self::$client->metrics($query);
+
+            $this->assertIsString($result->getData()['metrics']);
+            $this->assertInstanceOf(SchemaNode::class, $result->getMetricSet());
+            // EOF signals that the response is complete
+            $this->assertTrue($result->getMetricSet()->eof);
+        }
+
+        if (9 >= self::$solrVersion) {
+            // JSON response format is available up to Solr 9
+            $query->setResponseWriter($query::WT_JSON);
+
+            $result = self::$client->metrics($query);
+
+            $this->assertIsArray($result->getData()['metrics']);
+        }
     }
 
     public function testV2Api(): void

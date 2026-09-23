@@ -188,6 +188,14 @@ try {
     // examples that can't be run against this Solr version
     $skipForSolrVersion = [];
 
+    if (9 > $solrVersion) {
+        $skipForSolrVersion[] = '2.12.1-metrics-query.php';
+    }
+
+    if (9 < $solrVersion) {
+        $skipForSolrVersion[] = '2.12.2-metrics-query-json.php';
+    }
+
     if (9 <= $solrVersion) {
         $skipForSolrVersion[] = '2.3.1-mlt-query.php';
         $skipForSolrVersion[] = '2.3.2-mlt-stream.php';
