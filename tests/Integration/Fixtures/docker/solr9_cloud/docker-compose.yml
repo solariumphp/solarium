@@ -93,6 +93,13 @@ services:
     networks:
       - solr
 
+  tika:
+    image: apache/tika:3.2.3.0
+    ports:
+      - 9998:9998
+    networks:
+      - solr
+
   proxy:
     image: ubuntu/squid
     ports:

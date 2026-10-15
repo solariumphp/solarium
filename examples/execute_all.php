@@ -89,8 +89,8 @@ try {
         }
     }
 
-    // Solr 10 no longer comes with LocalTikaExtractionBackend, the github workflow runs a remote Tika Server instead
-    if (10 <= $solrVersion) {
+    // Solr 9 and 10 no longer come with LocalTikaExtractionBackend, the github workflow runs a remote Tika Server instead
+    if (9 <= $solrVersion) {
         $query = $client->createApi([
             'version' => Request::API_V1,
             'handler' => $collection_or_core_name.'/config',
@@ -203,6 +203,14 @@ try {
         '2.11.4-luke-query-doc.php',
         '7.1-plugin-loadbalancer.php',
     ];
+
+    // @todo Update Luke response parser for changes in SOLR-8127
+    if (9 === $solrVersion) {
+        $skipForCloud[] = '2.11.1-luke-query-index.php';
+        $skipForCloud[] = '2.11.2-luke-query-all-fields.php';
+        $skipForCloud[] = '2.11.2.1-luke-query-field-details.php';
+        $skipForCloud[] = '2.11.3-luke-query-schema.php';
+    }
 
     // examples that can't be run in this PHP version
     $skipForPHPVersion = [];

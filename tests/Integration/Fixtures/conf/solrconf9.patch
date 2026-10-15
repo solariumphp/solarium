@@ -2,7 +2,16 @@ diff --git a/solr/server/solr/configsets/sample_techproducts_configs/conf/solrco
 index 17d07d3c23c..d130a823f00 100644
 --- a/solr/server/solr/configsets/sample_techproducts_configs/conf/solrconfig.xml
 +++ b/solr/server/solr/configsets/sample_techproducts_configs/conf/solrconfig.xml
-@@ -703,6 +703,39 @@
+@@ -689,7 +689,6 @@
+                   startup="lazy"
+                   class="solr.extraction.ExtractingRequestHandler" >
+-    <!-- Assuming user has started a Tika Server locally -->
+-    <str name="tikaserver.url">http://localhost:9998</str>
++    <str name="tikaserver.url">http://tika:9998</str>
+
+     <lst name="defaults">
+       <str name="lowernames">true</str>
+@@ -713,6 +713,39 @@
      <int name="xsltCacheLifetimeSeconds">5</int>
    </requestHandler>
  
