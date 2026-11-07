@@ -59,12 +59,12 @@ jobs:
                 ref: branch_9_11
                 path: lucene-solr
 
-            - name: Checkout solr 10.0
+            - name: Checkout solr 10.1
               if: matrix.solr == 10
               uses: actions/checkout@v6
               with:
                 repository: apache/solr
-                ref: branch_10_0
+                ref: branch_10_1
                 path: lucene-solr
 
             - name: Start Solr ${{ matrix.solr }} in ${{ matrix.mode }} mode
