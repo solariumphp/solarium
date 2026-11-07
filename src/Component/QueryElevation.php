@@ -11,6 +11,7 @@ namespace Solarium\Component;
 
 use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\QueryElevation as RequestBuilder;
+use Solarium\Support\Utility;
 
 /**
  * QueryElevation component.
@@ -76,10 +77,7 @@ class QueryElevation extends AbstractComponent
      */
     public function addTransformers(string|array $transformers): self
     {
-        if (\is_string($transformers)) {
-            $transformers = explode(',', $transformers);
-            $transformers = array_map('trim', $transformers);
-        }
+        $transformers = Utility::stringOrArrayToArray($transformers);
 
         foreach ($transformers as $transformer) {
             $this->addTransformer($transformer);
@@ -278,12 +276,7 @@ class QueryElevation extends AbstractComponent
      */
     public function setElevateIds(string|array $ids): self
     {
-        if (\is_string($ids)) {
-            $ids = explode(',', $ids);
-            $ids = array_map('trim', $ids);
-        }
-
-        $this->setOption('elevateIds', $ids);
+        $this->setOption('elevateIds', Utility::stringOrArrayToArray($ids));
 
         return $this;
     }
@@ -291,7 +284,7 @@ class QueryElevation extends AbstractComponent
     /**
      * Get elevated document ids.
      *
-     * @return array|null
+     * @return string[]|null
      */
     public function getElevateIds(): ?array
     {
@@ -307,12 +300,7 @@ class QueryElevation extends AbstractComponent
      */
     public function setExcludeIds(string|array $ids): self
     {
-        if (\is_string($ids)) {
-            $ids = explode(',', $ids);
-            $ids = array_map('trim', $ids);
-        }
-
-        $this->setOption('excludeIds', $ids);
+        $this->setOption('excludeIds', Utility::stringOrArrayToArray($ids));
 
         return $this;
     }
@@ -320,7 +308,7 @@ class QueryElevation extends AbstractComponent
     /**
      * Get excluded document ids.
      *
-     * @return array|null
+     * @return string[]|null
      */
     public function getExcludeIds(): ?array
     {
@@ -336,12 +324,7 @@ class QueryElevation extends AbstractComponent
      */
     public function setExcludeTags(string|array $tags): self
     {
-        if (\is_string($tags)) {
-            $tags = explode(',', $tags);
-            $tags = array_map('trim', $tags);
-        }
-
-        $this->setOption('excludeTags', $tags);
+        $this->setOption('excludeTags', Utility::stringOrArrayToArray($tags));
 
         return $this;
     }
@@ -349,7 +332,7 @@ class QueryElevation extends AbstractComponent
     /**
      * Get tags of filter queries to exclude for elevated documents.
      *
-     * @return array|null
+     * @return string[]|null
      */
     public function getExcludeTags(): ?array
     {
@@ -360,7 +343,7 @@ class QueryElevation extends AbstractComponent
      * Initialize options.
      *
      * {@internal Options that influence transformers need additional setup work.
-     *            Options that set a list of ids need additional setup work
+     *            Options that set a list of ids or tags need additional setup work
      *            because they can be an array or a comma separated string.}
      */
     protected function init(): void

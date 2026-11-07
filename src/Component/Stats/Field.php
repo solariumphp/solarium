@@ -10,6 +10,7 @@
 namespace Solarium\Component\Stats;
 
 use Solarium\Core\Configurable;
+use Solarium\Support\Utility;
 
 /**
  * Stats component field class.
@@ -70,10 +71,7 @@ class Field extends Configurable
      */
     public function addPivots(string|array $pivots): self
     {
-        if (\is_string($pivots)) {
-            $pivots = explode(',', $pivots);
-            $pivots = array_map('trim', $pivots);
-        }
+        $pivots = Utility::stringOrArrayToArray($pivots);
 
         foreach ($pivots as $facet) {
             $this->addPivot($facet);
@@ -113,7 +111,7 @@ class Field extends Configurable
     /**
      * Get the list of pivot facets.
      *
-     * @return array
+     * @return string[]
      */
     public function getPivots(): array
     {

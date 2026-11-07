@@ -66,6 +66,8 @@ use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result as CoreAdminResult;
+use Solarium\QueryType\Server\Metrics\Query as MetricsQuery;
+use Solarium\QueryType\Server\Metrics\Result as MetricsResult;
 use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
 use Solarium\QueryType\Spellcheck\Result\Result as SpellcheckResult;
 use Solarium\QueryType\Stream\Query as StreamQuery;
@@ -180,6 +182,11 @@ class Client extends Configurable implements ClientInterface
     const QUERY_CONFIGSETS = 'configsets';
 
     /**
+     * Querytype metrics.
+     */
+    const QUERY_METRICS = 'metrics';
+
+    /**
      * Querytype API.
      */
     const QUERY_API = 'api';
@@ -233,6 +240,7 @@ class Client extends Configurable implements ClientInterface
         self::QUERY_CORE_ADMIN => CoreAdminQuery::class,
         self::QUERY_COLLECTIONS => CollectionsQuery::class,
         self::QUERY_CONFIGSETS => ConfigsetsQuery::class,
+        self::QUERY_METRICS => MetricsQuery::class,
         self::QUERY_API => ApiQuery::class,
         self::QUERY_MANAGED_RESOURCES => ManagedResourcesQuery::class,
         self::QUERY_MANAGED_STOPWORDS => ManagedStopwordsQuery::class,
@@ -1099,6 +1107,22 @@ class Client extends Configurable implements ClientInterface
     }
 
     /**
+     * Execute a Metrics query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|MetricsQuery $query
+     * @param Endpoint|string|null        $endpoint
+     *
+     * @return MetricsResult
+     */
+    public function metrics(QueryInterface $query, Endpoint|string|null $endpoint = null): MetricsResult
+    {
+        return $this->execute($query, $endpoint);
+    }
+
+    /**
      * Create a query instance.
      *
      * @param string     $type
@@ -1345,6 +1369,18 @@ class Client extends Configurable implements ClientInterface
     public function createConfigsets(?array $options = null): ConfigsetsQuery
     {
         return $this->createQuery(self::QUERY_CONFIGSETS, $options);
+    }
+
+    /**
+     * Create a Metrics query instance.
+     *
+     * @param array|null $options
+     *
+     * @return MetricsQuery
+     */
+    public function createMetrics(?array $options = null): MetricsQuery
+    {
+        return $this->createQuery(self::QUERY_METRICS, $options);
     }
 
     /**

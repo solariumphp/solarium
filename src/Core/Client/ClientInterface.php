@@ -43,6 +43,8 @@ use Solarium\QueryType\Server\Collections\Query\Query as CollectionsQuery;
 use Solarium\QueryType\Server\Configsets\Query\Query as ConfigsetsQuery;
 use Solarium\QueryType\Server\CoreAdmin\Query\Query as CoreAdminQuery;
 use Solarium\QueryType\Server\CoreAdmin\Result\Result as CoreAdminResult;
+use Solarium\QueryType\Server\Metrics\Query as MetricsQuery;
+use Solarium\QueryType\Server\Metrics\Result as MetricsResult;
 use Solarium\QueryType\Spellcheck\Query as SpellcheckQuery;
 use Solarium\QueryType\Spellcheck\Result\Result as SpellcheckResult;
 use Solarium\QueryType\Stream\Query as StreamQuery;
@@ -555,6 +557,19 @@ interface ClientInterface
     public function configsets(QueryInterface $query, Endpoint|string|null $endpoint = null): ResultInterface;
 
     /**
+     * Execute a Metrics query.
+     *
+     * @internal this is a convenience method that forwards the query to the
+     *  execute method, thus allowing for an easy to use and clean API
+     *
+     * @param QueryInterface|MetricsQuery $query
+     * @param Endpoint|string|null        $endpoint
+     *
+     * @return MetricsResult
+     */
+    public function metrics(QueryInterface $query, Endpoint|string|null $endpoint = null): MetricsResult;
+
+    /**
      * Create a query instance.
      *
      * @param string     $type
@@ -718,6 +733,15 @@ interface ClientInterface
      * @return ConfigsetsQuery
      */
     public function createConfigsets(?array $options = null): ConfigsetsQuery;
+
+    /**
+     * Create a Metrics query instance.
+     *
+     * @param array|null $options
+     *
+     * @return MetricsQuery
+     */
+    public function createMetrics(?array $options = null): MetricsQuery;
 
     /**
      * Create an API query instance.

@@ -59,6 +59,7 @@ nav:
       - 'queries/update-query/the-result-of-an-update-query.md'
       - 'queries/update-query/best-practices-for-updates.md'
     - 'queries/extract-query.md'
+    - 'queries/metrics-query.md'
     - 'queries/morelikethis-query.md'
     - 'queries/ping-query.md'
     - 'queries/realtimeget-query.md'

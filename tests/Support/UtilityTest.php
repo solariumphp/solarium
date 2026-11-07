@@ -20,6 +20,26 @@ class UtilityTest extends TestCase
         restore_error_handler();
     }
 
+    /**
+     * @testWith ["one", ["one"]]
+     *           ["one,two", ["one", "two"]]
+     *           ["one, two", ["one", "two"]]
+     *           ["one ,two", ["one", "two"]]
+     *           [" one,two ", ["one", "two"]]
+     *           [" one , two ", ["one", "two"]]
+     *           ["one two,three", ["one two", "three"]]
+     *           [["one", "two"], ["one", "two"]]
+     *           [["one", "two,three"], ["one", "two,three"]]
+     *           [[" one", "two ", " three "], [" one", "two ", " three "]]
+     */
+    public function testStringOrArrayToArray(string|array $value, array $expected): void
+    {
+        $this->assertSame(
+            $expected,
+            Utility::stringOrArrayToArray($value)
+        );
+    }
+
     public function testGetXmlEncodingNoFile(): void
     {
         set_error_handler(static function (int $errno, string $errstr) {

@@ -56,6 +56,7 @@ use Solarium\QueryType\Select\RequestBuilder;
 use Solarium\QueryType\Select\ResponseParser;
 use Solarium\QueryType\Select\Result\Document;
 use Solarium\QueryType\Select\Result\Result;
+use Solarium\Support\Utility;
 
 /**
  * Select Query.
@@ -393,10 +394,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
      */
     public function addFields(string|array $fields): self
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
+        $fields = Utility::stringOrArrayToArray($fields);
 
         foreach ($fields as $field) {
             $this->addField($field);
@@ -436,7 +434,7 @@ class Query extends AbstractQuery implements ComponentAwareQueryInterface, Query
     /**
      * Get the list of fields.
      *
-     * @return array
+     * @return string[]
      */
     public function getFields(): array
     {

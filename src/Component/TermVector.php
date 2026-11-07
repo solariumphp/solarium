@@ -13,6 +13,7 @@ use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\TermVector as RequestBuilder;
 use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\TermVector as ResponseParser;
+use Solarium\Support\Utility;
 
 /**
  * Term Vector component.
@@ -62,18 +63,13 @@ class TermVector extends AbstractComponent
      */
     public function setDocIds(string|array $docIds): self
     {
-        if (\is_string($docIds)) {
-            $docIds = explode(',', $docIds);
-            $docIds = array_map('trim', $docIds);
-        }
-
-        return $this->setOption('docids', $docIds);
+        return $this->setOption('docids', Utility::stringOrArrayToArray($docIds));
     }
 
     /**
      * Get the Lucene document ID(s) to return term vectors for.
      *
-     * @return array
+     * @return string[]
      */
     public function getDocIds(): array
     {
@@ -91,18 +87,13 @@ class TermVector extends AbstractComponent
      */
     public function setFields(string|array $fields): self
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
-
-        return $this->setOption('fields', $fields);
+        return $this->setOption('fields', Utility::stringOrArrayToArray($fields));
     }
 
     /**
      * Get the field name(s) to return term vectors for.
      *
-     * @return array
+     * @return string[]
      */
     public function getFields(): array
     {
