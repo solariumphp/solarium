@@ -5173,7 +5173,7 @@ abstract class AbstractTechproductsTestCase extends TestCase
     /**
      * Test the ability to execute Luke queries in distributed mode.
      *
-     * This test verifies that the ResponseParse can parse per-shard details
+     * This test verifies that the ResponseParser can parse per-shard details
      * when setting shards.info=true in SolrCloud.
      *
      * @dataProvider responseWriterProvider
