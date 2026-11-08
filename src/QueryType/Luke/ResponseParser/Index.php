@@ -15,6 +15,7 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Luke\Result\Index\Index as IndexResult;
 use Solarium\QueryType\Luke\Result\Index\UserData;
 use Solarium\QueryType\Luke\Result\Result;
+use Solarium\QueryType\Luke\Result\Shards\Shard as ShardResult;
 
 /**
  * Parse Luke index response data.
@@ -37,6 +38,12 @@ class Index extends AbstractResponseParser implements ResponseParserInterface
         $data['docResult'] = null;
         $data['fieldsResult'] = null;
         $data['infoResult'] = null;
+        $data['shardsResult'] = null;
+
+        // available when shards.info=true in distributed mode since Solr 9.11 / 10.1 (SOLR-8127)
+        if (isset($data['shards'])) {
+            $data['shardsResult'] = $this->parseShards($data['shards']);
+        }
 
         return $data;
     }
@@ -53,26 +60,53 @@ class Index extends AbstractResponseParser implements ResponseParserInterface
         $index->setNumDocs($indexData['numDocs']);
         $index->setMaxDoc($indexData['maxDoc']);
         $index->setDeletedDocs($indexData['deletedDocs']);
+        $index->setSegmentCount($indexData['segmentCount']);
+
         // indexHeapUsageBytes was removed in SOLR-15341 for Solr 9
         $index->setIndexHeapUsageBytes($indexData['indexHeapUsageBytes'] ?? null);
-        $index->setVersion($indexData['version']);
-        $index->setSegmentCount($indexData['segmentCount']);
-        $index->setCurrent($indexData['current']);
-        $index->setHasDeletions($indexData['hasDeletions']);
-        $index->setDirectory($indexData['directory']);
-        $index->setSegmentsFile($indexData['segmentsFile']);
-        $index->setSegmentsFileSizeInBytes($indexData['segmentsFileSizeInBytes']);
 
-        // userData is empty if there haven't been any commits yet
-        $userData = new UserData();
-        $userData->setCommitCommandVer($indexData['userData']['commitCommandVer'] ?? null);
-        $userData->setCommitTimeMSec($indexData['userData']['commitTimeMSec'] ?? null);
-        $index->setUserData($userData);
+        // all other fields aren't present in the aggregated metrics in distributed mode since Solr 9.11 / 10.1 (SOLR-8127)
+        $index->setVersion($indexData['version'] ?? null);
+        $index->setCurrent($indexData['current'] ?? null);
+        $index->setHasDeletions($indexData['hasDeletions'] ?? null);
+        $index->setDirectory($indexData['directory'] ?? null);
+        $index->setSegmentsFile($indexData['segmentsFile'] ?? null);
+        $index->setSegmentsFileSizeInBytes($indexData['segmentsFileSizeInBytes'] ?? null);
+
+        if (isset($indexData['userData'])) {
+            // userData is empty if there haven't been any commits yet
+            $userData = new UserData();
+            $userData->setCommitCommandVer($indexData['userData']['commitCommandVer'] ?? null);
+            $userData->setCommitTimeMSec($indexData['userData']['commitTimeMSec'] ?? null);
+            $index->setUserData($userData);
+        } else {
+            $index->setUserData(null);
+        }
 
         // lastModified is calculated from commitTimeMSec (in Solr) and will be empty too before the first commit
         $lastModified = isset($indexData['lastModified']) ? new \DateTime($indexData['lastModified']) : null;
         $index->setLastModified($lastModified);
 
         return $index;
+    }
+
+    /**
+     * @param array $shardsData
+     *
+     * @return array<string, ShardResult>
+     */
+    protected function parseShards(array $shardsData): array
+    {
+        $shards = [];
+
+        foreach ($shardsData as $address => $details) {
+            $shard = new ShardResult($address);
+
+            $shard->setIndex($this->parseIndex($details['index']));
+
+            $shards[$address] = $shard;
+        }
+
+        return $shards;
     }
 }

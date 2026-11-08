@@ -22,21 +22,21 @@ class Index
 
     protected ?int $indexHeapUsageBytes;
 
-    protected int $version;
+    protected ?int $version;
 
     protected int $segmentCount;
 
-    protected bool $current;
+    protected ?bool $current;
 
-    protected bool $hasDeletions;
+    protected ?bool $hasDeletions;
 
-    protected string $directory;
+    protected ?string $directory;
 
-    protected string $segmentsFile;
+    protected ?string $segmentsFile;
 
-    protected int $segmentsFileSizeInBytes;
+    protected ?int $segmentsFileSizeInBytes;
 
-    protected UserData $userData;
+    protected ?UserData $userData;
 
     protected ?\DateTime $lastModified;
 
@@ -121,19 +121,19 @@ class Index
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getVersion(): int
+    public function getVersion(): ?int
     {
         return $this->version;
     }
 
     /**
-     * @param int $version
+     * @param int|null $version
      *
      * @return self Provides fluent interface
      */
-    public function setVersion(int $version): self
+    public function setVersion(?int $version): self
     {
         $this->version = $version;
 
@@ -161,19 +161,19 @@ class Index
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getCurrent(): bool
+    public function getCurrent(): ?bool
     {
         return $this->current;
     }
 
     /**
-     * @param bool $current
+     * @param bool|null $current
      *
      * @return self Provides fluent interface
      */
-    public function setCurrent(bool $current): self
+    public function setCurrent(?bool $current): self
     {
         $this->current = $current;
 
@@ -181,27 +181,27 @@ class Index
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isCurrent(): bool
+    public function isCurrent(): ?bool
     {
         return $this->current;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getHasDeletions(): bool
+    public function getHasDeletions(): ?bool
     {
         return $this->hasDeletions;
     }
 
     /**
-     * @param bool $hasDeletions
+     * @param bool|null $hasDeletions
      *
      * @return self Provides fluent interface
      */
-    public function setHasDeletions(bool $hasDeletions): self
+    public function setHasDeletions(?bool $hasDeletions): self
     {
         $this->hasDeletions = $hasDeletions;
 
@@ -209,27 +209,27 @@ class Index
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function hasDeletions(): bool
+    public function hasDeletions(): ?bool
     {
         return $this->hasDeletions;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDirectory(): string
+    public function getDirectory(): ?string
     {
         return $this->directory;
     }
 
     /**
-     * @param string $directory
+     * @param string|null $directory
      *
      * @return self Provides fluent interface
      */
-    public function setDirectory(string $directory): self
+    public function setDirectory(?string $directory): self
     {
         $this->directory = $directory;
 
@@ -237,19 +237,19 @@ class Index
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSegmentsFile(): string
+    public function getSegmentsFile(): ?string
     {
         return $this->segmentsFile;
     }
 
     /**
-     * @param string $segmentsFile
+     * @param string|null $segmentsFile
      *
      * @return self Provides fluent interface
      */
-    public function setSegmentsFile(string $segmentsFile): self
+    public function setSegmentsFile(?string $segmentsFile): self
     {
         $this->segmentsFile = $segmentsFile;
 
@@ -257,19 +257,19 @@ class Index
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getSegmentsFileSizeInBytes(): int
+    public function getSegmentsFileSizeInBytes(): ?int
     {
         return $this->segmentsFileSizeInBytes;
     }
 
     /**
-     * @param int $segmentsFileSizeInBytes
+     * @param int|null $segmentsFileSizeInBytes
      *
      * @return self Provides fluent interface
      */
-    public function setSegmentsFileSizeInBytes(int $segmentsFileSizeInBytes): self
+    public function setSegmentsFileSizeInBytes(?int $segmentsFileSizeInBytes): self
     {
         $this->segmentsFileSizeInBytes = $segmentsFileSizeInBytes;
 
@@ -277,19 +277,19 @@ class Index
     }
 
     /**
-     * @return UserData
+     * @return UserData|null
      */
-    public function getUserData(): UserData
+    public function getUserData(): ?UserData
     {
         return $this->userData;
     }
 
     /**
-     * @param UserData $userData
+     * @param UserData|null $userData
      *
      * @return self Provides fluent interface
      */
-    public function setUserData(UserData $userData): self
+    public function setUserData(?UserData $userData): self
     {
         $this->userData = $userData;
 
