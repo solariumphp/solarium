@@ -13,6 +13,7 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Luke\Result\Fields\FieldInfo;
 use Solarium\QueryType\Luke\Result\FlagList;
 use Solarium\QueryType\Luke\Result\Result;
+use Solarium\QueryType\Luke\Result\Shards\Shard as ShardResult;
 
 /**
  * Parse Luke fields response data.
@@ -56,8 +57,8 @@ class Fields extends Index
         foreach ($fieldsData as $name => $info) {
             $field = new FieldInfo($name);
 
-            $field->setType($info['type']);
-            $field->setSchema(new FlagList($info['schema'], $this->key));
+            $field->setType($info['type'] ?? null);
+            $field->setSchema(isset($info['schema']) ? new FlagList($info['schema'], $this->key) : null);
             $field->setDynamicBase($info['dynamicBase'] ?? null);
 
             // index isn't set if field isn't indexed or if includeIndexFieldFlags=false was set on the query
@@ -95,5 +96,24 @@ class Fields extends Index
         }
 
         return $fields;
+    }
+
+    /**
+     * @param array $shardsData
+     *
+     * @return array<string, ShardResult>
+     */
+    protected function parseShards(array $shardsData): array
+    {
+        $shards = parent::parseShards($shardsData);
+
+        foreach ($shards as $address => $shard) {
+            // 'fields' is omitted in the response if none of the requested fields exist on the shard
+            if (isset($shardsData[$address]['fields'])) {
+                $shard->setFields($this->parseFields($shardsData[$address]['fields']));
+            }
+        }
+
+        return $shards;
     }
 }

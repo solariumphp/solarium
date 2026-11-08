@@ -54,6 +54,7 @@ class SchemaTest extends TestCase
         $this->assertNull($result['docResult']);
         $this->assertNull($result['fieldsResult']);
         $this->assertInstanceOf(Info::class, $result['infoResult']);
+        $this->assertNull($result['shardsResult']);
 
         return $result['schemaResult'];
     }
@@ -92,6 +93,7 @@ class SchemaTest extends TestCase
         $this->assertNull($result['docResult']);
         $this->assertNull($result['fieldsResult']);
         $this->assertInstanceOf(Info::class, $result['infoResult']);
+        $this->assertNull($result['shardsResult']);
     }
 
     /**

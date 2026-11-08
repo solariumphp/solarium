@@ -15,6 +15,7 @@ use Solarium\QueryType\Luke\Result\Fields\FieldInfo;
 use Solarium\QueryType\Luke\Result\Index\Index;
 use Solarium\QueryType\Luke\Result\Info\Info;
 use Solarium\QueryType\Luke\Result\Schema\Schema;
+use Solarium\QueryType\Luke\Result\Shards\Shard;
 
 /**
  * Luke query result.
@@ -31,6 +32,8 @@ class Result extends BaseResult
 
     protected array $info;
 
+    protected array $shards;
+
     protected Index $indexResult;
 
     protected ?Schema $schemaResult;
@@ -43,6 +46,11 @@ class Result extends BaseResult
     protected ?array $fieldsResult;
 
     protected ?Info $infoResult;
+
+    /**
+     * @var array<string, Shard>|null
+     */
+    protected ?array $shardsResult;
 
     /**
      * @return Index
@@ -92,5 +100,15 @@ class Result extends BaseResult
         $this->parseResponse();
 
         return $this->infoResult;
+    }
+
+    /**
+     * @return array<string, Shard>|null
+     */
+    public function getShards(): ?array
+    {
+        $this->parseResponse();
+
+        return $this->shardsResult;
     }
 }
