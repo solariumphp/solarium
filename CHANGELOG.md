@@ -5,8 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Solarium\QueryType\Luke\Query::setShards() to distribute across shards in user-managed clusters
+- Solarium\QueryType\Luke\Query::setShardsInfo() to set `shards.info` on the query
+- Solarium\QueryType\Luke\Result\Result::getShards() to get the per-shard details
+
 ### Changed
 - Solarium\Component\Result\Grouping\ValueGroup::getValue() returns `string|float|int|bool|null` according to field type or function return type instead of always coercing to `?string`
+- Solarium\QueryType\Luke\Result\Index\Index::isCurrent() and hasDeletions() return `?bool` instead of `bool` to accomodate distributed mode
 
 
 ## [7.0.0]

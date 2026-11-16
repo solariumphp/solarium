@@ -204,14 +204,6 @@ try {
         '7.1-plugin-loadbalancer.php',
     ];
 
-    // @todo Update Luke response parser for changes in SOLR-8127
-    if (9 <= $solrVersion) {
-        $skipForCloud[] = '2.11.1-luke-query-index.php';
-        $skipForCloud[] = '2.11.2-luke-query-all-fields.php';
-        $skipForCloud[] = '2.11.2.1-luke-query-field-details.php';
-        $skipForCloud[] = '2.11.3-luke-query-schema.php';
-    }
-
     // examples that can't be run in this PHP version
     $skipForPHPVersion = [];
 

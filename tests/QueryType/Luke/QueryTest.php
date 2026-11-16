@@ -33,6 +33,9 @@ class QueryTest extends TestCase
             'fields' => ['field1', 'field2'],
             'numTerms' => 5,
             'includeIndexFieldFlags' => true,
+            'shards' => ['shard1', 'shard2'],
+            'shards.info' => true,
+            'distrib' => false,
         ];
         $this->query->setOptions($options);
 
@@ -82,6 +85,19 @@ class QueryTest extends TestCase
 
         $this->assertTrue(
             $this->query->getIncludeIndexFieldFlags()
+        );
+
+        $this->assertSame(
+            $options['shards'],
+            $this->query->getShards()
+        );
+
+        $this->assertTrue(
+            $this->query->getShardsInfo()
+        );
+
+        $this->assertFalse(
+            $this->query->getDistrib()
         );
     }
 
@@ -279,5 +295,34 @@ class QueryTest extends TestCase
     {
         $this->query->setIncludeIndexFieldFlags(false);
         $this->assertFalse($this->query->getIncludeIndexFieldFlags());
+    }
+
+    public function testSetAndGetShardsAsArray(): void
+    {
+        $this->query->setShards(['shard1', 'shard2']);
+        $this->assertSame(['shard1', 'shard2'], $this->query->getShards());
+    }
+
+    public function testSetAndGetShardsAsString(): void
+    {
+        $this->query->setShards('shard1,shard2,shard3');
+        $this->assertSame(['shard1', 'shard2', 'shard3'], $this->query->getShards());
+    }
+
+    public function testGetUnsetShards(): void
+    {
+        $this->assertSame([], $this->query->getShards());
+    }
+
+    public function testSetAndGetShardsInfo(): void
+    {
+        $this->query->setShardsInfo(false);
+        $this->assertFalse($this->query->getShardsInfo());
+    }
+
+    public function testSetAndGetDistrib(): void
+    {
+        $this->query->setDistrib(true);
+        $this->assertTrue($this->query->getDistrib());
     }
 }

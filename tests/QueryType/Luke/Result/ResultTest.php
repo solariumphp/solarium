@@ -11,6 +11,7 @@ use Solarium\QueryType\Luke\Result\Index\Index;
 use Solarium\QueryType\Luke\Result\Info\Info;
 use Solarium\QueryType\Luke\Result\Result;
 use Solarium\QueryType\Luke\Result\Schema\Schema;
+use Solarium\QueryType\Luke\Result\Shards\Shard;
 use Solarium\Tests\QueryType\Luke\ResponseParser\DocDataTrait;
 use Solarium\Tests\QueryType\Luke\ResponseParser\FieldsDataTrait;
 use Solarium\Tests\QueryType\Luke\ResponseParser\IndexDataTrait;
@@ -48,6 +49,7 @@ class ResultTest extends TestCase
         $this->assertNull($result->getDoc());
         $this->assertContainsOnlyInstancesOf(FieldInfo::class, $result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithShowIndex(): void
@@ -71,6 +73,42 @@ class ResultTest extends TestCase
         $this->assertNull($result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertNull($result->getInfo());
+        $this->assertNull($result->getShards());
+    }
+
+    public function testWithShowIndexWithShardsInfo(): void
+    {
+        $query = new Query();
+        $query->setShow(Query::SHOW_INDEX);
+        $query->setShardsInfo(true);
+
+        $data = [
+            'responseHeader' => [
+                'status' => 0,
+                'QTime' => 3,
+            ],
+            'index' => [
+                'numDocs' => 15,
+                'maxDoc' => 20,
+                'deletedDocs' => 5,
+                'segmentCount' => 1,
+            ],
+            'shards' => [
+                'localhost:8983/solr/shard1' => [
+                    'index' => $this->getIndexData(),
+                ],
+            ],
+        ];
+
+        $response = new Response(json_encode($data), ['HTTP/1.1 200 OK']);
+        $result = new Result($query, $response);
+
+        $this->assertInstanceOf(Index::class, $result->getIndex());
+        $this->assertNull($result->getSchema());
+        $this->assertNull($result->getDoc());
+        $this->assertNull($result->getFields());
+        $this->assertNull($result->getInfo());
+        $this->assertContainsOnlyInstancesOf(Shard::class, $result->getShards());
     }
 
     public function testWithShowSchema(): void
@@ -96,6 +134,7 @@ class ResultTest extends TestCase
         $this->assertNull($result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithShowDocWithoutIdOrDocId(): void
@@ -121,6 +160,7 @@ class ResultTest extends TestCase
         $this->assertNull($result->getDoc());
         $this->assertContainsOnlyInstancesOf(FieldInfo::class, $result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithShowDocWithId(): void
@@ -147,6 +187,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(DocInfo::class, $result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithShowDocWithDocId(): void
@@ -173,6 +214,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(DocInfo::class, $result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithoutShowWithoutIdOrDocId(): void
@@ -197,6 +239,7 @@ class ResultTest extends TestCase
         $this->assertNull($result->getDoc());
         $this->assertContainsOnlyInstancesOf(FieldInfo::class, $result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithoutShowDocWithId(): void
@@ -222,6 +265,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(DocInfo::class, $result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithoutShowDocWithDocId(): void
@@ -247,6 +291,7 @@ class ResultTest extends TestCase
         $this->assertInstanceOf(DocInfo::class, $result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertInstanceOf(Info::class, $result->getInfo());
+        $this->assertNull($result->getShards());
     }
 
     public function testWithUnknownShow(): void
@@ -278,5 +323,6 @@ class ResultTest extends TestCase
         $this->assertNull($result->getDoc());
         $this->assertNull($result->getFields());
         $this->assertNull($result->getInfo());
+        $this->assertNull($result->getShards());
     }
 }

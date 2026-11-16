@@ -31,6 +31,7 @@ class RequestBuilder extends AbstractRequestBuilder
 
         // add luke params to request
         $fields = $query->getFields();
+        $shards = $query->getShards();
 
         $request->addParam('show', $query->getShow());
         $request->addParam('id', $query->getId());
@@ -38,6 +39,8 @@ class RequestBuilder extends AbstractRequestBuilder
         $request->addParam('fl', 0 === \count($fields) ? null : implode(',', $fields));
         $request->addParam('numTerms', $query->getNumTerms());
         $request->addParam('includeIndexFieldFlags', $query->getIncludeIndexFieldFlags());
+        $request->addParam('shards', 0 === \count($shards) ? null : implode(',', $shards));
+        $request->addParam('shards.info', $query->getShardsInfo());
 
         return $request;
     }

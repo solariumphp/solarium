@@ -16,6 +16,9 @@ Building a Luke query
 | fields                 | string | null                                          | Fields to get details for. Separate multiple fields with commas. Use `'*'` to include all fields.                                        |
 | numTerms               | int    | null                                          | The number of top terms for each field.                                                                                                  |
 | includeIndexFieldFlags | bool   | null                                          | Whether to return index flags for each field. Fetching index flags can slow down Luke requests.                                          |
+| shards                 | string | null                                          | Shards to distribute across. Separate multiple shards with commas. Shards are identified by explicit shard URLs.                         |
+| shards.info            | bool   | null                                          | Whether per-shard info should be included in the result for Solr versions that support distributed mode.                                 |
+| distrib                | bool   | null                                          | Can be set to `false` to query individual shards for Solr versions that support distributed mode.                                        |
 | documentclass          | string | Solarium\\QueryType\\Select\\Result\\Document | Classname for a document in the result. If you set a custom classname make sure the class is readily available (or through autoloading). |
 ||
 
@@ -34,7 +37,11 @@ to get [document](#document) details, `show` can be omitted.
 
 Return the high-level details about the index.
 
-There are no additional options for this show style.
+Starting with Solr 9.11 and Solr 10.1, Luke requests are distributed in SolrCloud.
+In this case the index result will contain aggregated metrics across all shards.
+`shards` can be set to explicit shard URLs to distribute across in user-managed clusters.
+`shards.info` can be set to `true` to include [per-shard details](#per-shard-details).
+`distrib` can be set to `false` to inspect only the receiving shard's index.
 
 This information is included in all Luke results and can be retrieved with `$result->getIndex()`.
 
@@ -76,6 +83,9 @@ Return detailed information about specified fields. Use with caution especially 
 `numTerms` can be set to the number of top terms to return for each field.
 
 `includeIndexFieldFlags` can be set to `false` to disable fetching and returning index flags.
+
+Starting with Solr 9.11 and Solr 10.1, `shards.info` can be set to `true` to include
+[field details per shard](#per-shard-details).
 
 This information can be retrieved with `$result->getFields()`.
 
@@ -184,6 +194,10 @@ always offer a boolean answer to the question "*is this …?*" or "*does this ha
 If the distinction between an explicit `false` and an omitted property matters, you can
 use the getter. As for all omittable properties, it will return `null` instead.
 
+There's an exception to this rule for an index result in distributed mode. An isser or hasser
+on this result can return `null` because the omission of a boolean field in the aggregated
+metrics can't be interpreted as necessarily meaning `false`.
+
 #### Examples
 
 - `current` → `isCurrent()` & `getCurrent()`
@@ -244,3 +258,14 @@ retrieved with `$result->getInfo()`.
 #### Example usage
 
 A full [Info](result-of-a-luke-query/info.md) example is available.
+
+### Per-shard details
+
+If `shards.info` was set to `true` in distributed mode, full index info per shard is
+included in the result. If field details were requested, per-field detailed statistics
+for each shard are included as well. These details can be retrieved with
+`$result->getShards()`.
+
+#### Example usage
+
+A full [Shards](result-of-a-luke-query/shards.md) example is available.

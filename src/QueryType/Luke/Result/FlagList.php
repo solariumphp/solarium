@@ -61,7 +61,7 @@ class FlagList implements \ArrayAccess, \Countable, \Iterator
     /**
      * @return bool
      */
-    public function isIndexed(): ?bool
+    public function isIndexed(): bool
     {
         return \in_array('I', $this->lookup);
     }

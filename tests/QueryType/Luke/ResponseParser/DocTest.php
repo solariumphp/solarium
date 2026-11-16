@@ -55,6 +55,7 @@ class DocTest extends TestCase
         $this->assertInstanceOf(DocInfo::class, $data['docResult']);
         $this->assertNull($data['fieldsResult']);
         $this->assertInstanceOf(Info::class, $data['infoResult']);
+        $this->assertNull($data['shardsResult']);
 
         return $data['docResult'];
     }
@@ -90,6 +91,7 @@ class DocTest extends TestCase
         $this->assertEquals($doc, $data['docResult']);
         $this->assertNull($data['fieldsResult']);
         $this->assertInstanceOf(Info::class, $data['infoResult']);
+        $this->assertNull($data['shardsResult']);
     }
 
     /**

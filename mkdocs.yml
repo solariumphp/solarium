@@ -77,6 +77,7 @@ nav:
         - 'queries/luke-query/result-of-a-luke-query/schema.md'
         - 'queries/luke-query/result-of-a-luke-query/document.md'
         - 'queries/luke-query/result-of-a-luke-query/info.md'
+        - 'queries/luke-query/result-of-a-luke-query/shards.md'
     - 'Managed Resources':
       - 'queries/managedresources-query/managed-resources.md'
       - 'queries/managedresources-query/managed-stopwords.md'

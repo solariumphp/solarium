@@ -5170,6 +5170,78 @@ abstract class AbstractTechproductsTestCase extends TestCase
         $this->assertEquals($doc, $resultShowDocDocId->getDoc());
     }
 
+    /**
+     * Test the ability to execute Luke queries in distributed mode.
+     *
+     * This test verifies that the ResponseParser can parse per-shard details
+     * when setting shards.info=true in SolrCloud.
+     *
+     * @dataProvider responseWriterProvider
+     *
+     * @group skip_for_solr_server
+     */
+    public function testLukeDistributedMode(string $responseWriter): void
+    {
+        // distributed Luke queries were added in Solr 9.11 and 10.1, pass tacitly for older versions
+        if (9 > self::$solrVersion) {
+            $this->expectNotToPerformAssertions();
+
+            return;
+        }
+
+        $luke = self::$client->createLuke();
+        $luke->setResponseWriter($responseWriter);
+        $luke->setShardsInfo(true);
+
+        $luke->setShow(LukeQuery::SHOW_INDEX);
+        $resultShowIndex = self::$client->luke($luke);
+
+        $index = $resultShowIndex->getIndex();
+        $this->assertNull($index->getVersion());
+
+        $shards = $resultShowIndex->getShards();
+        $this->assertNotNull($shards);
+        $this->assertCount(3, $shards);
+
+        foreach ($shards as $address => $shard) {
+            $this->assertSame($address, $shard->getAddress());
+            $this->assertNotNull($shard->getIndex()->getVersion());
+            $this->assertNull($shard->getFields());
+        }
+
+        $luke->setShow(LukeQuery::SHOW_ALL);
+        $luke->setFields('id,cat');
+        $resultShowAllFields = self::$client->luke($luke);
+
+        $shards = $resultShowAllFields->getShards();
+        $this->assertNotNull($shards);
+
+        // collect fields across shards, they don't necessarily exists on every shard
+        $fields = [];
+
+        foreach ($shards as $shard) {
+            // a shard can even have no documents at all containing any of the requested fields
+            if (null !== $shardFields = $shard->getFields()) {
+                $fields += $shardFields;
+            }
+        }
+
+        $this->assertCount(2, $fields);
+        $this->assertArrayHasKey('id', $fields);
+        $this->assertSame('id', $fields['id']->getName());
+        $this->assertArrayHasKey('cat', $fields);
+        $this->assertSame('cat', $fields['cat']->getName());
+
+        $luke->setShards($shard->getAddress());
+        $resultForExplicitShard = self::$client->luke($luke);
+
+        $shards = $resultForExplicitShard->getShards();
+        $this->assertNotNull($shards);
+        $this->assertCount(1, $shards);
+        $this->assertArrayHasKey($shard->getAddress(), $shards);
+        $this->assertEquals($shard, $shards[$shard->getAddress()]);
+    }
+
     public function testV2Api(): void
     {
         if (7 <= self::$solrVersion) {

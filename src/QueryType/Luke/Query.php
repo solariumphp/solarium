@@ -309,6 +309,61 @@ class Query extends BaseQuery
     }
 
     /**
+     * Set the shards to distribute across.
+     *
+     * Separate multiple shards with commas if you use string input.
+     *
+     * @param string|string[] $shards
+     *
+     * @return self Provides fluent interface
+     */
+    public function setShards(string|array $shards): self
+    {
+        if (\is_string($shards)) {
+            $shards = explode(',', $shards);
+            $shards = array_map('trim', $shards);
+        }
+
+        $this->setOption('shards', $shards);
+
+        return $this;
+    }
+
+    /**
+     * Get the shards to distribute across.
+     *
+     * @return array
+     */
+    public function getShards(): array
+    {
+        return $this->getOption('shards') ?? [];
+    }
+
+    /**
+     * Set whether per-shard info should be included in the result.
+     *
+     * @param bool $shardsInfo
+     *
+     * @return self Provides fluent interface
+     */
+    public function setShardsInfo(bool $shardsInfo): self
+    {
+        $this->setOption('shards.info', $shardsInfo);
+
+        return $this;
+    }
+
+    /**
+     * Get whether per-shard info should be included in the result.
+     *
+     * @return bool|null
+     */
+    public function getShardsInfo(): ?bool
+    {
+        return $this->getOption('shards.info');
+    }
+
+    /**
      * Initialize options.
      */
     protected function init(): void
@@ -317,6 +372,9 @@ class Query extends BaseQuery
             switch ($name) {
                 case 'fields':
                     $this->setFields($value);
+                    break;
+                case 'shards':
+                    $this->setShards($value);
                     break;
             }
         }

@@ -20,7 +20,7 @@ class FieldInfo
 
     protected ?string $type;
 
-    protected FlagList $schema;
+    protected ?FlagList $schema = null;
 
     protected ?string $dynamicBase = null;
 
@@ -79,19 +79,19 @@ class FieldInfo
     /**
      * Returns schema flags.
      *
-     * @return FlagList
+     * @return FlagList|null
      */
-    public function getSchema(): FlagList
+    public function getSchema(): ?FlagList
     {
         return $this->schema;
     }
 
     /**
-     * @param FlagList $schema
+     * @param FlagList|null $schema
      *
      * @return self Provides fluent interface
      */
-    public function setSchema(FlagList $schema): self
+    public function setSchema(?FlagList $schema): self
     {
         $this->schema = $schema;
 

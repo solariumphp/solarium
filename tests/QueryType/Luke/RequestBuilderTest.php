@@ -27,17 +27,23 @@ class RequestBuilderTest extends TestCase
         $this->query->setFields(['id', 'name']);
         $this->query->setNumTerms(15);
         $this->query->setIncludeIndexFieldFlags(false);
+        $this->query->setShards(['shard1', 'shard2']);
+        $this->query->setShardsInfo(true);
+        $this->query->setDistrib(false);
 
         $request = $this->builder->build($this->query);
 
         $this->assertEquals(
             [
+                'distrib' => 'false',
                 'show' => 'doc',
                 'id' => 'abc',
                 'docId' => 123,
                 'fl' => 'id,name',
                 'numTerms' => 15,
                 'includeIndexFieldFlags' => 'false',
+                'shards' => 'shard1,shard2',
+                'shards.info' => 'true',
                 'wt' => 'json',
                 'omitHeader' => 'true',
                 'json.nl' => 'flat',
