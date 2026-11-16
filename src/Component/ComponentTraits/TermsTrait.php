@@ -9,6 +9,8 @@
 
 namespace Solarium\Component\ComponentTraits;
 
+use Solarium\Support\Utility;
+
 /**
  * Terms component.
  *
@@ -30,12 +32,7 @@ trait TermsTrait
      */
     public function setFields(string|array $value): self
     {
-        if (\is_string($value)) {
-            $value = explode(',', $value);
-            $value = array_map('trim', $value);
-        }
-
-        return $this->setOption('fields', $value);
+        return $this->setOption('fields', Utility::stringOrArrayToArray($value));
     }
 
     /**
@@ -190,33 +187,23 @@ trait TermsTrait
      *
      * Use a comma-separated string or array for multiple entries
      *
-     * @param string|string[] $value
+     * @param string|string[] $flags
      *
      * @return self Provides fluent interface
      */
-    public function setRegexFlags(string|array $value): self
+    public function setRegexFlags(string|array $flags): self
     {
-        if (\is_string($value)) {
-            $value = explode(',', $value);
-            $value = array_map('trim', $value);
-        }
-
-        return $this->setOption('regexflags', $value);
+        return $this->setOption('regexflags', Utility::stringOrArrayToArray($flags));
     }
 
     /**
      * Get regex flags.
      *
-     * @return array
+     * @return string[]
      */
     public function getRegexFlags(): array
     {
-        $value = $this->getOption('regexflags');
-        if (null === $value) {
-            $value = [];
-        }
-
-        return $value;
+        return $this->getOption('regexflags') ?? [];
     }
 
     /**

@@ -16,6 +16,7 @@ use Solarium\Core\Query\RequestBuilderInterface;
 use Solarium\Core\Query\ResponseParserInterface;
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\Support\Utility;
 
 /**
  * MoreLikeThis Query.
@@ -122,12 +123,7 @@ class Query extends SelectQuery implements MoreLikeThisInterface
      */
     public function setMltFields(string|array $fields): self
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
-
-        $this->setOption('mltfields', $fields);
+        $this->setOption('mltfields', Utility::stringOrArrayToArray($fields));
 
         return $this;
     }
@@ -135,16 +131,11 @@ class Query extends SelectQuery implements MoreLikeThisInterface
     /**
      * Get MLT fields option.
      *
-     * @return array
+     * @return string[]
      */
     public function getMltFields(): array
     {
-        $value = $this->getOption('mltfields');
-        if (null === $value) {
-            $value = [];
-        }
-
-        return $value;
+        return $this->getOption('mltfields') ?? [];
     }
 
     /**

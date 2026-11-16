@@ -11,6 +11,7 @@ namespace Solarium\Component\Facet;
 
 use Solarium\Component\FacetSetInterface;
 use Solarium\Exception\OutOfBoundsException;
+use Solarium\Support\Utility;
 
 /**
  * Facet pivot.
@@ -190,7 +191,6 @@ class Pivot extends AbstractFacet
      */
     public function addField(string $field): static
     {
-        $field = trim($field);
         $this->fields[$field] = true;
 
         return $this;
@@ -203,9 +203,7 @@ class Pivot extends AbstractFacet
      */
     public function addFields(string|array $fields): static
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-        }
+        $fields = Utility::stringOrArrayToArray($fields);
 
         foreach ($fields as $field) {
             $this->addField($field);
@@ -241,7 +239,7 @@ class Pivot extends AbstractFacet
     /**
      * Get the list of fields.
      *
-     * @return array
+     * @return string[]
      */
     public function getFields(): array
     {
@@ -289,9 +287,7 @@ class Pivot extends AbstractFacet
      */
     public function addStats(string|array $stats): static
     {
-        if (false === \is_array($stats)) {
-            $stats = array_map('trim', explode(',', $stats));
-        }
+        $stats = Utility::stringOrArrayToArray($stats);
 
         $this
             ->getLocalParameters()

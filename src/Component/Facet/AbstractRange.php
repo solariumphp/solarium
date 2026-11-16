@@ -9,6 +9,8 @@
 
 namespace Solarium\Component\Facet;
 
+use Solarium\Support\Utility;
+
 /**
  * Facet range.
  *
@@ -205,12 +207,7 @@ abstract class AbstractRange extends AbstractFacet
      */
     public function setOther(string|array $other): self
     {
-        if (\is_string($other)) {
-            $other = explode(',', $other);
-            $other = array_map('trim', $other);
-        }
-
-        $this->setOption('other', $other);
+        $this->setOption('other', Utility::stringOrArrayToArray($other));
 
         return $this;
     }
@@ -242,12 +239,7 @@ abstract class AbstractRange extends AbstractFacet
      */
     public function setInclude(string|array $include): self
     {
-        if (\is_string($include)) {
-            $include = explode(',', $include);
-            $include = array_map('trim', $include);
-        }
-
-        $this->setOption('include', $include);
+        $this->setOption('include', Utility::stringOrArrayToArray($include));
 
         return $this;
     }
@@ -255,16 +247,11 @@ abstract class AbstractRange extends AbstractFacet
     /**
      * Get include option.
      *
-     * @return array
+     * @return string[]
      */
     public function getInclude(): array
     {
-        $include = $this->getOption('include');
-        if (null === $include) {
-            $include = [];
-        }
-
-        return $include;
+        return $this->getOption('include') ?? [];
     }
 
     /**

@@ -20,6 +20,7 @@ use Solarium\QueryType\Luke\ResponseParser\Fields as FieldsResponseParser;
 use Solarium\QueryType\Luke\ResponseParser\Schema as SchemaResponseParser;
 use Solarium\QueryType\Luke\Result\Result;
 use Solarium\QueryType\Select\Result\Document;
+use Solarium\Support\Utility;
 
 /**
  * Luke query.
@@ -240,12 +241,7 @@ class Query extends BaseQuery
      */
     public function setFields(string|array $fields): self
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
-
-        $this->setOption('fields', $fields);
+        $this->setOption('fields', Utility::stringOrArrayToArray($fields));
 
         return $this;
     }
@@ -253,7 +249,7 @@ class Query extends BaseQuery
     /**
      * Get the set of fields to limit the returned values to.
      *
-     * @return array
+     * @return string[]
      */
     public function getFields(): array
     {
@@ -319,12 +315,7 @@ class Query extends BaseQuery
      */
     public function setShards(string|array $shards): self
     {
-        if (\is_string($shards)) {
-            $shards = explode(',', $shards);
-            $shards = array_map('trim', $shards);
-        }
-
-        $this->setOption('shards', $shards);
+        $this->setOption('shards', Utility::stringOrArrayToArray($shards));
 
         return $this;
     }
@@ -332,7 +323,7 @@ class Query extends BaseQuery
     /**
      * Get the shards to distribute across.
      *
-     * @return array
+     * @return string[]
      */
     public function getShards(): array
     {
