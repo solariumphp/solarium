@@ -100,67 +100,67 @@ class PostBigExtractRequestTest extends TestCase
         $event = new PostCreateRequest($this->query, $requestOutput);
         $this->plugin->setMaxQueryStringLength(1)->postCreateRequest($event);
 
-        $expectedRawDataRegex = <<<'REGEX'
-~^--([[:xdigit:]]{32})\r\n
-Content-Disposition:\ form-data;\ name="omitHeader"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-true\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="wt"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-json\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="json\.nl"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-flat\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="extractOnly"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-false\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_1"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-Field\ 1\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_2"\r\n
-\r\n
-0\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_3"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-Field\ 3\ a\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_3"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-Field\ 3\ b\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_4"\r\n
-\r\n
-1\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_4"\r\n
-\r\n
-2\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="resource\.name"\r\n
-Content-Type:\ text/plain;charset=UTF-8\r\n
-\r\n
-(tst.+?)\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="file";\ filename="\2"\r\n
-Content-Type:\ application/octet-stream\r\n
-\r\n
-Test\ file\ contents\r\n
---\1--\r\n
-$~xD
-REGEX;
+        $expectedRawDataRegex = sprintf(<<<'REGEX'
+            ~^--%1$s\r\n
+            Content-Disposition:\ form-data;\ name="omitHeader"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            true\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="wt"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            json\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="json\.nl"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            flat\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="extractOnly"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            false\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_1"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            Field\ 1\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_2"\r\n
+            \r\n
+            0\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_3"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            Field\ 3\ a\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_3"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            Field\ 3\ b\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_4"\r\n
+            \r\n
+            1\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_4"\r\n
+            \r\n
+            2\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="resource\.name"\r\n
+            Content-Type:\ text/plain;charset=UTF-8\r\n
+            \r\n
+            %2$s\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="file";\ filename="%2$s"\r\n
+            Content-Type:\ application/octet-stream\r\n
+            \r\n
+            Test\ file\ contents\r\n
+            --%1$s--\r\n
+            $~xD
+            REGEX, preg_quote($requestOutput->getBoundary(), '~'), preg_quote(basename($tmpfname), '~'));
 
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
         $this->assertSame('', $requestOutput->getQueryString());
@@ -186,54 +186,54 @@ REGEX;
         $event = new PostCreateRequest($this->query, $requestOutput);
         $this->plugin->setMaxQueryStringLength(1)->postCreateRequest($event);
 
-        $expectedRawDataRegex = <<<'REGEX'
-~^--([[:xdigit:]]{32})\r\n
-Content-Disposition:\ form-data;\ name="omitHeader"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-true\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="ie"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-ascii\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="wt"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-json\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="json\.nl"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-flat\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="extractOnly"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-false\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_1"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-Field\ 1\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="literal\.field_2"\r\n
-\r\n
-0\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="resource\.name"\r\n
-Content-Type:\ text/plain;charset=ascii\r\n
-\r\n
-(tst.+?)\r\n
---\1\r\n
-Content-Disposition:\ form-data;\ name="file";\ filename="\2"\r\n
-Content-Type:\ application/octet-stream\r\n
-\r\n
-Test\ file\ contents\r\n
---\1--\r\n
-$~xD
-REGEX;
+        $expectedRawDataRegex = sprintf(<<<'REGEX'
+            ~^--%1$s\r\n
+            Content-Disposition:\ form-data;\ name="omitHeader"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            true\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="ie"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            ascii\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="wt"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            json\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="json\.nl"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            flat\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="extractOnly"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            false\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_1"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            Field\ 1\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="literal\.field_2"\r\n
+            \r\n
+            0\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="resource\.name"\r\n
+            Content-Type:\ text/plain;charset=ascii\r\n
+            \r\n
+            %2$s\r\n
+            --%1$s\r\n
+            Content-Disposition:\ form-data;\ name="file";\ filename="%2$s"\r\n
+            Content-Type:\ application/octet-stream\r\n
+            \r\n
+            Test\ file\ contents\r\n
+            --%1$s--\r\n
+            $~xD
+            REGEX, preg_quote($requestOutput->getBoundary(), '~'), preg_quote(basename($tmpfname), '~'));
 
         $this->assertSame(Request::METHOD_POST, $requestOutput->getMethod());
         $this->assertSame('', $requestOutput->getQueryString());

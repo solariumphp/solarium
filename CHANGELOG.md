@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- PHP 8.6 support
 - Solarium\QueryType\Luke\Query::setShards() to distribute across shards in user-managed clusters
 - Solarium\QueryType\Luke\Query::setShardsInfo() to set `shards.info` on the query
 - Solarium\QueryType\Luke\Result\Result::getShards() to get the per-shard details
@@ -13,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Solarium\Component\Result\Grouping\ValueGroup::getValue() returns `string|float|int|bool|null` according to field type or function return type instead of always coercing to `?string`
 - Solarium\QueryType\Luke\Result\Index\Index::isCurrent() and hasDeletions() return `?bool` instead of `bool` to accomodate distributed mode
+
+### Deprecated
+- Solarium\Core\Client\Request::getHash(), use getBoundary() instead when building the body of a multipart request
 
 
 ## [7.0.0]

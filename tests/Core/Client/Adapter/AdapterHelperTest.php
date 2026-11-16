@@ -77,15 +77,15 @@ class AdapterHelperTest extends TestCase
         $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
         file_put_contents($tmpfname, 'Test file contents');
 
-        $expectedBodyRegex = <<<'REGEX'
-~^--([[:xdigit:]]{32})\r\n
-Content-Disposition:\ form-data;\ name="file";\ filename="tst.+?"\r\n
-Content-Type:\ application/octet-stream\r\n
-\r\n
-Test\ file\ contents\r\n
---\1--\r\n
-$~xD
-REGEX;
+        $expectedBodyRegex = sprintf(<<<'REGEX'
+            ~^--%1$s\r\n
+            Content-Disposition:\ form-data;\ name="file";\ filename="%2$s"\r\n
+            Content-Type:\ application/octet-stream\r\n
+            \r\n
+            Test\ file\ contents\r\n
+            --%1$s--\r\n
+            $~xD
+            REGEX, preg_quote($this->request->getBoundary(), '~'), preg_quote(basename($tmpfname), '~'));
 
         $this->request->setMethod(Request::METHOD_POST);
         $this->request->setFileUpload($tmpfname);
@@ -100,15 +100,15 @@ REGEX;
         $file = fopen('php://memory', 'w+');
         fwrite($file, 'Test resource contents');
 
-        $expectedBodyRegex = <<<'REGEX'
-~^--([[:xdigit:]]{32})\r\n
-Content-Disposition:\ form-data;\ name="file";\ filename="memory"\r\n
-Content-Type:\ application/octet-stream\r\n
-\r\n
-Test\ resource\ contents\r\n
---\1--\r\n
-$~xD
-REGEX;
+        $expectedBodyRegex = sprintf(<<<'REGEX'
+            ~^--%1$s\r\n
+            Content-Disposition:\ form-data;\ name="file";\ filename="memory"\r\n
+            Content-Type:\ application/octet-stream\r\n
+            \r\n
+            Test\ resource\ contents\r\n
+            --%1$s--\r\n
+            $~xD
+            REGEX, preg_quote($this->request->getBoundary(), '~'));
 
         $this->request->setMethod(Request::METHOD_POST);
         $this->request->setFileUpload($file);

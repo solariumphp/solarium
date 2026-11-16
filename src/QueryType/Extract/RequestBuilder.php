@@ -98,7 +98,7 @@ class RequestBuilder extends BaseRequestBuilder
             $request->setFileUpload($file);
             $request->addParam('resource.name', $resourceName);
             $request->setMethod(Request::METHOD_POST);
-            $request->setContentType(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, ['boundary' => $request->getHash()]);
+            $request->setContentType(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, ['boundary' => $request->getBoundary()]);
         } else {
             throw new RuntimeException(sprintf('Extract query file path/url invalid or not available: %s', $file));
         }

@@ -84,7 +84,7 @@ class PostBigExtractRequest extends AbstractPlugin
                             } else {
                                 $additionalBodyHeader = '';
                             }
-                            $body .= "--{$request->getHash()}\r\n";
+                            $body .= "--{$request->getBoundary()}\r\n";
                             $body .= "Content-Disposition: form-data; name=\"{$key}\"";
                             $body .= $additionalBodyHeader;
                             $body .= "\r\n\r\n";
@@ -97,7 +97,7 @@ class PostBigExtractRequest extends AbstractPlugin
                         } else {
                             $additionalBodyHeader = '';
                         }
-                        $body .= "--{$request->getHash()}\r\n";
+                        $body .= "--{$request->getBoundary()}\r\n";
                         $body .= "Content-Disposition: form-data; name=\"{$key}\"";
                         $body .= $additionalBodyHeader;
                         $body .= "\r\n\r\n";
