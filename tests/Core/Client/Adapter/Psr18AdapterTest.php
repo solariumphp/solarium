@@ -4,6 +4,7 @@ namespace Solarium\Tests\Core\Client\Adapter;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -15,10 +16,28 @@ use Solarium\Exception\HttpException;
 
 class Psr18AdapterTest extends TestCase
 {
+    protected MockObject&ClientInterface $client;
+
+    protected Psr17Factory $psr17Factory;
+
+    protected Psr18Adapter $adapter;
+
+    protected Request $request;
+
+    protected Endpoint $endpoint;
+
+    public function setUp(): void
+    {
+        $this->client = $this->createMock(ClientInterface::class);
+        $this->psr17Factory = new Psr17Factory();
+        $this->adapter = new Psr18Adapter($this->client, $this->psr17Factory, $this->psr17Factory);
+        $this->request = new Request();
+        $this->endpoint = new Endpoint();
+    }
+
     public function testExecuteBasicGetRequest(): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) {
                 $this->assertSame('http://127.0.0.1:8983/solr/', (string) $request->getUri());
@@ -34,16 +53,12 @@ class Psr18AdapterTest extends TestCase
             ->willReturn(new Response(201, ['X-Response-Header' => 'something'], 'some nice body'))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+        $this->request->setMethod(Request::METHOD_GET);
+        $this->request->addHeader('X-Request-Header: some value');
+        $this->request->addHeader('X-Request-Header: and another one');
+        $this->request->setIsServerRequest(true);
 
-        $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->addHeader('X-Request-Header: some value');
-        $request->addHeader('X-Request-Header: and another one');
-        $request->setIsServerRequest(true);
-
-        $response = $adapter->execute($request, new Endpoint());
+        $response = $this->adapter->execute($this->request, $this->endpoint);
         $this->assertSame(201, $response->getStatusCode());
         $this->assertSame([
             'HTTP/1.1 201 Created',
@@ -54,8 +69,7 @@ class Psr18AdapterTest extends TestCase
 
     public function testExecutePostRequestWithBody(): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) {
                 $this->assertSame(Request::METHOD_POST, $request->getMethod());
@@ -70,17 +84,13 @@ class Psr18AdapterTest extends TestCase
             ->willReturn(new Response(400, [], 'some nice body'))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+        $this->request->setMethod(Request::METHOD_POST);
+        $this->request->setContentType(Request::CONTENT_TYPE_APPLICATION_XML);
+        $this->request->addParam('ie', 'us-ascii', true);
+        $this->request->setRawData('some data');
+        $this->request->setIsServerRequest(true);
 
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_XML);
-        $request->addParam('ie', 'us-ascii', true);
-        $request->setRawData('some data');
-        $request->setIsServerRequest(true);
-
-        $response = $adapter->execute($request, new Endpoint());
+        $response = $this->adapter->execute($this->request, $this->endpoint);
         $this->assertSame(400, $response->getStatusCode());
         $this->assertSame('some nice body', $response->getBody());
     }
@@ -90,18 +100,17 @@ class Psr18AdapterTest extends TestCase
         $tmpfname = tempnam(sys_get_temp_dir(), 'tst');
         file_put_contents($tmpfname, 'Test file contents');
 
-        $expectedBodyRegex = <<<'REGEX'
-~^--([[:xdigit:]]{32})\r\n
-Content-Disposition:\ form-data;\ name="file";\ filename="tst.+?"\r\n
-Content-Type:\ application/octet-stream\r\n
-\r\n
-Test\ file\ contents\r\n
---\1--\r\n
-$~xD
-REGEX;
+        $expectedBodyRegex = sprintf(<<<'REGEX'
+            ~^--%1$s\r\n
+            Content-Disposition:\ form-data;\ name="file";\ filename="%2$s"\r\n
+            Content-Type:\ application/octet-stream\r\n
+            \r\n
+            Test\ file\ contents\r\n
+            --%1$s--\r\n
+            $~xD
+            REGEX, preg_quote($this->request->getBoundary(), '~'), preg_quote(basename($tmpfname), '~'));
 
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) use ($expectedBodyRegex) {
                 $this->assertSame(Request::METHOD_POST, $request->getMethod());
@@ -115,23 +124,18 @@ REGEX;
             ->willReturn(new Response(400, [], 'some nice body'))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+        $this->request->setMethod(Request::METHOD_POST);
+        $this->request->setFileUpload($tmpfname);
+        $this->request->setIsServerRequest(true);
 
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        $request->setFileUpload($tmpfname);
-        $request->setIsServerRequest(true);
-
-        $response = $adapter->execute($request, new Endpoint());
+        $response = $this->adapter->execute($this->request, $this->endpoint);
         $this->assertSame(400, $response->getStatusCode());
         $this->assertSame('some nice body', $response->getBody());
     }
 
     public function testExecutePutRequest(): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) {
                 $this->assertSame(Request::METHOD_PUT, $request->getMethod());
@@ -146,16 +150,12 @@ REGEX;
             ->willReturn(new Response(400, [], 'some nice body'))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+        $this->request->setMethod(Request::METHOD_PUT);
+        $this->request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
+        $this->request->setRawData('some data');
+        $this->request->setIsServerRequest(true);
 
-        $request = new Request();
-        $request->setMethod(Request::METHOD_PUT);
-        $request->setContentType(Request::CONTENT_TYPE_APPLICATION_JSON);
-        $request->setRawData('some data');
-        $request->setIsServerRequest(true);
-
-        $response = $adapter->execute($request, new Endpoint());
+        $response = $this->adapter->execute($this->request, $this->endpoint);
         $this->assertSame(400, $response->getStatusCode());
         $this->assertSame('some nice body', $response->getBody());
     }
@@ -166,8 +166,7 @@ REGEX;
      */
     public function testExecuteRequestWithHttpBasicAuthentication(bool $useRequestAuth): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) {
                 $this->assertSame([
@@ -181,29 +180,22 @@ REGEX;
             ->willReturn(new Response(200))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
-
-        $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->addHeader('Content-Type: application/xml');
-        $request->setIsServerRequest(true);
-
-        $endpoint = new Endpoint();
+        $this->request->setMethod(Request::METHOD_GET);
+        $this->request->addHeader('Content-Type: application/xml');
+        $this->request->setIsServerRequest(true);
 
         if ($useRequestAuth) {
-            $endpoint->setAuthentication('foo', 'bar');
+            $this->request->setAuthentication('foo', 'bar');
         } else {
-            $request->setAuthentication('foo', 'bar');
+            $this->endpoint->setAuthentication('foo', 'bar');
         }
 
-        $adapter->execute($request, $endpoint);
+        $this->adapter->execute($this->request, $this->endpoint);
     }
 
     public function testExecuteRequestWithAuthorizationToken(): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) {
                 $this->assertSame([
@@ -217,19 +209,13 @@ REGEX;
             ->willReturn(new Response(200))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
+        $this->request->setMethod(Request::METHOD_GET);
+        $this->request->addHeader('Content-Type: application/xml');
+        $this->request->setIsServerRequest(true);
 
-        $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->addHeader('Content-Type: application/xml');
-        $request->setIsServerRequest(true);
+        $this->endpoint->setAuthorizationToken('Token', 'foobar');
 
-        $endpoint = new Endpoint();
-
-        $endpoint->setAuthorizationToken('Token', 'foobar');
-
-        $adapter->execute($request, $endpoint);
+        $this->adapter->execute($this->request, $this->endpoint);
     }
 
     /**
@@ -238,8 +224,7 @@ REGEX;
      */
     public function testExecuteRequestWithHttpBasicAuthenticationMoreImportantThanAuthorizationToken(bool $useRequestAuth): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->with($this->callback(function (RequestInterface $request) {
                 $this->assertSame([
@@ -253,45 +238,34 @@ REGEX;
             ->willReturn(new Response(200))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
-
-        $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->addHeader('Content-Type: application/xml');
-        $request->setIsServerRequest(true);
-
-        $endpoint = new Endpoint();
+        $this->request->setMethod(Request::METHOD_GET);
+        $this->request->addHeader('Content-Type: application/xml');
+        $this->request->setIsServerRequest(true);
 
         if ($useRequestAuth) {
-            $endpoint->setAuthentication('foo', 'bar');
+            $this->request->setAuthentication('foo', 'bar');
         } else {
-            $request->setAuthentication('foo', 'bar');
+            $this->endpoint->setAuthentication('foo', 'bar');
         }
 
-        $endpoint->setAuthorizationToken('Token', 'foobar');
+        $this->endpoint->setAuthorizationToken('Token', 'foobar');
 
-        $adapter->execute($request, $endpoint);
+        $this->adapter->execute($this->request, $this->endpoint);
     }
 
     public function testExecuteWithClientException(): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $client->expects($this->once())
+        $this->client->expects($this->once())
             ->method('sendRequest')
             ->willThrowException(new DummyClientException('Something went wrong.'))
         ;
 
-        $psr17Factory = new Psr17Factory();
-        $adapter = new Psr18Adapter($client, $psr17Factory, $psr17Factory);
-
-        $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->setIsServerRequest(true);
+        $this->request->setMethod(Request::METHOD_GET);
+        $this->request->setIsServerRequest(true);
 
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Something went wrong.');
-        $adapter->execute($request, new Endpoint());
+        $this->adapter->execute($this->request, $this->endpoint);
     }
 }
 

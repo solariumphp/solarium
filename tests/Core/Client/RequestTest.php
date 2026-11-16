@@ -117,25 +117,25 @@ class RequestTest extends TestCase
         $this->request->setOptions($options);
 
         $request = <<<EOF
-Solarium\Core\Client\Request::__toString
-method: POST
-header: Array
-(
-    [0] => X-myHeader1: value1
-    [1] => X-myHeader2: value2
-    [2] => Content-Type: example/test; param1=value1; param2=value2
-)
-authentication: Array
-(
-    [username] => testuser
-    [password] => testpass
-)
-resource: /myHandler?param1=1&param2=test+content
-resource urldecoded: /myHandler?param1=1&param2=test content
-raw data: post data
-file upload: %s
-
-EOF;
+            Solarium\Core\Client\Request::__toString
+            method: POST
+            header: Array
+            (
+                [0] => X-myHeader1: value1
+                [1] => X-myHeader2: value2
+                [2] => Content-Type: example/test; param1=value1; param2=value2
+            )
+            authentication: Array
+            (
+                [username] => testuser
+                [password] => testpass
+            )
+            resource: /myHandler?param1=1&param2=test+content
+            resource urldecoded: /myHandler?param1=1&param2=test content
+            raw data: post data
+            file upload: %s
+            
+            EOF;
 
         $this->assertSame(sprintf($request, __FILE__), (string) $this->request);
     }
@@ -589,6 +589,9 @@ EOF;
         );
     }
 
+    /**
+     * @deprecated Will be removed in Solarium 8
+     */
     public function testGetHash(): void
     {
         $hash1 = $this->request->getHash();
@@ -597,6 +600,22 @@ EOF;
         $this->assertNotEquals(
             $hash2,
             $hash1
+        );
+    }
+
+    public function testGetBoundary(): void
+    {
+        $boundary1 = $this->request->getBoundary();
+        $boundary2 = (new Request())->getBoundary();
+
+        $this->assertSame(
+            $boundary1,
+            $this->request->getBoundary()
+        );
+
+        $this->assertNotEquals(
+            $boundary2,
+            $boundary1
         );
     }
 

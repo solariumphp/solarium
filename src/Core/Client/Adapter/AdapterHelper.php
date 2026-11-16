@@ -64,7 +64,7 @@ class AdapterHelper
             $baseName = basename($file);
         }
 
-        $body = "--{$request->getHash()}\r\n";
+        $body = "--{$request->getBoundary()}\r\n";
         $body .= 'Content-Disposition: form-data; name="file"; filename="'.$baseName.'"';
         $body .= "\r\nContent-Type: ".Request::CONTENT_TYPE_APPLICATION_OCTET_STREAM."\r\n\r\n";
 
@@ -75,7 +75,7 @@ class AdapterHelper
             $body .= file_get_contents($file);
         }
 
-        $body .= "\r\n--{$request->getHash()}--\r\n";
+        $body .= "\r\n--{$request->getBoundary()}--\r\n";
 
         return $body;
     }

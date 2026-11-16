@@ -229,7 +229,7 @@ class RequestBuilderTest extends TestCase
         $request = $this->builder->build($this->query);
 
         $this->assertSame(Request::CONTENT_TYPE_MULTIPART_FORM_DATA, $request->getContentType());
-        $this->assertSame(['boundary' => $request->getHash()], $request->getContentTypeParams());
+        $this->assertSame(['boundary' => $request->getBoundary()], $request->getContentTypeParams());
     }
 
     public function testDocumentDateTimeField(): void

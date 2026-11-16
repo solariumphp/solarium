@@ -105,6 +105,11 @@ class Request extends Configurable implements RequestParamsInterface
     protected array $headers = [];
 
     /**
+     * Boundary marker.
+     */
+    protected string $boundary;
+
+    /**
      * Raw POST data.
      */
     protected ?string $rawData = null;
@@ -524,11 +529,25 @@ class Request extends Configurable implements RequestParamsInterface
     }
 
     /**
-     * @return string
+     * @return non-empty-string
+     *
+     * @deprecated Will be removed in Solarium 8. Use {@see getBoundary()} instead.
      */
     public function getHash(): string
     {
-        return spl_object_hash($this);
+        return $this->getBoundary();
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function getBoundary(): string
+    {
+        if (!isset($this->boundary)) {
+            $this->boundary = uniqid();
+        }
+
+        return $this->boundary;
     }
 
     /**
