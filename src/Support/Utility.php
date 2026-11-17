@@ -17,6 +17,27 @@ use Solarium\Exception\UnexpectedValueException;
 class Utility
 {
     /**
+     * Takes an array or a comma separated string and returns it as an array.
+     *
+     * This method trims whitespace when splitting a string: 'one,two', 'one, two',
+     * ' one,two ' all result in ['one', 'two']. Pass ['one', ' two'] or [' one', 'two ']
+     * instead if this isn't desired.
+     *
+     * @param string|string[] $value
+     *
+     * @return string[]
+     */
+    public static function stringOrArrayToArray(string|array $value): array
+    {
+        if (\is_string($value)) {
+            $value = explode(',', $value);
+            $value = array_map('trim', $value);
+        }
+
+        return $value;
+    }
+
+    /**
      * Extracts the encoding from the XML declaration of a file if present.
      *
      * @param string $file

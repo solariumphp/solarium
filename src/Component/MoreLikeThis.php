@@ -14,6 +14,7 @@ use Solarium\Component\RequestBuilder\ComponentRequestBuilderInterface;
 use Solarium\Component\RequestBuilder\MoreLikeThis as RequestBuilder;
 use Solarium\Component\ResponseParser\ComponentParserInterface;
 use Solarium\Component\ResponseParser\MoreLikeThis as ResponseParser;
+use Solarium\Support\Utility;
 
 /**
  * MoreLikeThis component.
@@ -70,12 +71,7 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
      */
     public function setFields(string|array $fields): self
     {
-        if (\is_string($fields)) {
-            $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
-        }
-
-        $this->setOption('fields', $fields);
+        $this->setOption('fields', Utility::stringOrArrayToArray($fields));
 
         return $this;
     }
@@ -83,16 +79,11 @@ class MoreLikeThis extends AbstractComponent implements MoreLikeThisInterface
     /**
      * Get fields option.
      *
-     * @return array
+     * @return string[]
      */
     public function getFields(): array
     {
-        $fields = $this->getOption('fields');
-        if (null === $fields) {
-            $fields = [];
-        }
-
-        return $fields;
+        return $this->getOption('fields') ?? [];
     }
 
     /**
